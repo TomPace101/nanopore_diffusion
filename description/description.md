@@ -27,9 +27,11 @@ The geometry and geometric variables are shown below.
 
 ![Side view of body-centered geometry](body-side.pdf){ height=50% }
 
-_**[[TODO: side view]]**_
+_**[[TODO: body-centered side view is incomplete]]**_
 
-_**[[TODO: face-centered geometry]]**_
+_**[[TODO: consider combining views into one image horizontally]]**_
+
+_**[[TODO: face-centered geometry, both views]]**_
 
 ## Diffusion Equation
 
