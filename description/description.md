@@ -6,7 +6,7 @@ geometry: left=0.75in, right=0.5in, top=0.5in, bottom=0.5in
 ---
 <!---
 This markdown file is intended to be converted to pdf through pandoc with
-pandoc -o description.pdf description.md
+pandoc --number-sections -o description.pdf description.md
 -->
 
 # Background
@@ -23,7 +23,7 @@ The symmetry of the geometry is used.
 
 The geometry and geometric variables are shown below.
 
-**TODO**
+_**[[TODO]]**_
 
 ## Diffusion Equation
 
@@ -35,4 +35,4 @@ The geometry and geometric variables are shown below.
 
 The effective diffusion constant is found through ...
 
-**TODO**
+_**[[TODO]]**_
