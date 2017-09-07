@@ -23,7 +23,11 @@ The symmetry of the geometry is used.
 
 The geometry and geometric variables are shown below.
 
-_**[[TODO]]**_
+![Top view of body-centered geometry](rectangular-top.pdf){ height=50% }
+
+_**[[TODO: side view]]**_
+
+_**[[TODO: face-centered geometry]]**_
 
 ## Diffusion Equation
 
