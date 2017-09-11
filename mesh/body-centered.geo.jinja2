@@ -3,7 +3,15 @@
 //gmsh thisfile.geo -
 
 //This is a jinja2 template
-{# TODO: describe input variables here #}
+{# Required input variables:
+    mcar = characteristic length for mesh refinement
+    Lx = unit cell x-length
+    Ly = unit cell y-length
+    R = pore radius
+    H = bulk distance above and below pore included in model
+    tm = pore length
+  No optional input variables.
+  #}
 
 //Mesh density control
 mcar={{ mcar }};
