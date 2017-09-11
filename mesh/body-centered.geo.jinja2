@@ -41,7 +41,7 @@ Z4=2*H+tm;
                  '113', '213', '313', '333', '133', '123',
                  '114',        '314', '334', '134'] -%}
 {% for ptnum in ptlist -%}
-p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},mcar}
+p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},mcar};
 {% endfor %}
 
 //Lines
@@ -52,6 +52,14 @@ p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnu
 
 //Surface Loops
 
-//Volume
+//Volume Entities
 
 //Mesh
+
+//Blank lines
+//because gmsh gets confused without them
+
+
+
+
+
