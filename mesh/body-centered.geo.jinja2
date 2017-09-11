@@ -2,15 +2,18 @@
 //usage:
 //gmsh thisfile.geo -
 
+//This is a jinja2 template
+{# TODO: describe input variables here #}
+
 //Mesh density control
-mcar=1.0;
+mcar={{ mcar }};
 
 //Geometric inputs
-Lx=1.0;
-Ly=1.0;
-R=0.25;
-H=5.0;
-tm=10;
+Lx={{ Lx }};
+Ly={{ Ly }};
+R={{ R }};
+H={{ H }};
+tm={{ tm }};
 
 //Point ordinates
 X1=0;
@@ -25,4 +28,22 @@ Z3=H+tm;
 Z4=2*H+tm;
 
 //Points
-p111=newp; Point(p111)={X1,Y1,Z1,mcar}
+{% set ptlist = ['111',        '311', '331', '131',
+                 '112', '212', '312', '332', '132', '122',
+                 '113', '213', '313', '333', '133', '123',
+                 '114',        '314', '334', '134'] -%}
+{% for ptnum in ptlist -%}
+p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},mcar}
+{% endfor %}
+
+//Lines
+
+//Line Loops
+
+//Surfaces
+
+//Surface Loops
+
+//Volume
+
+//Mesh
