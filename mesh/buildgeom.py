@@ -38,11 +38,41 @@ t_input['ptstrs']=[str(x) for x in geom.ptlist]
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
 # - mapping of line and circle names to list of points
+def add_entity(tup, tdict, looplist, nameprefix):
+  """Create lines/circles needed for line loops, unless they already exist.
+  Inputs:
+    tup = line/circle tuple of point numbers (as integers) (lines have 2 points, circles have 3)
+    tdict = dictionary storing the line/circle tuples
+    looplist = list of lines/circles in this line loop
+    nameprefix = 'c' for circle, 'l' for line
+  No return value.
+  Side effects:
+    tdict and looplist are modified in place, to include the generated (or found) lines/circles"""
+  #Reversed tuple
+  rtup = tuple(reversed(tup))
+  found=False
+  #Search through all lines/circles already created, for one with same set of points, in forward or reverse order
+  for n, pts in tdict.items():
+    if pts==tup:
+      found=True
+      looplist.append(n)
+      break
+    elif pts==rtup:
+      found=True
+      looplist.append('-'+n)
+      break
+  #Create new line/circle if not found
+  if not found:
+    nametmpl='_'.join('%d' for i in range(len(tup)))
+    name=nameprefix+nametmpl%tup
+    tdict[name]=tup
+    looplist.append(name)
+  return
+
+#Create dictionaries of lines, circles, and line loops
 loops={}
 lines={}
 circles={}
-lnum=1
-cnum=1
 for surfnum, pttup in geom.geomtable.items():
   loops[surfnum]=[]
   startpt=pttup[0]
@@ -50,49 +80,15 @@ for surfnum, pttup in geom.geomtable.items():
   while indx < len(pttup):
     if pttup[indx]=='center':
       indx += 2
-      cpoint=pttup[indx-1]
-      endpt=pttup[indx]
-      ctup=(startpt,cpoint,endpt)
-      rctup=(endpt,cpoint,startpt) #Reverse order
-      #Already exists?
-      found=False
-      for cn, cpts in circles.items():
-        if cpts==ctup:
-          found=True
-          loops[surfnum].append(cn)
-          break
-        elif cpts==rctup:
-          found=True
-          loops[surfnum].append('-'+cn)
-          break
-      if not found:
-        cname='c%d_%d_%d'%ctup
-        circles[cname]=ctup
-        loops[surfnum].append(cname)
-        cnum += 1
+      ctup=(startpt,pttup[indx-1],pttup[indx])
+      add_entity(ctup,circles,loops[surfnum],'c')
     else:
-      endpt=pttup[indx]
-      ltup=(startpt,endpt)
-      rltup=(endpt,startpt) #Reverse order
-      #Already exists?
-      found=False
-      for ln, lpts in lines.items():
-        if lpts==ltup:
-          found=True
-          loops[surfnum].append(ln)
-          break
-        elif lpts==rltup:
-          found=True
-          loops[surfnum].append('-'+ln)
-          break
-      if not found:
-        lname='l%d_%d'%ltup
-        lines[lname]=ltup
-        loops[surfnum].append(lname)
-        lnum += 1
+      ltup=(startpt,pttup[indx])
+      add_entity(ltup,lines,loops[surfnum],'c')
     #Next point
     startpt=pttup[indx]
     indx += 1
+
 #Provide mappings to template
 linemap=dict([(n,', '.join(['p%d'%p for p in pts])) for n,pts in lines.items()])
 t_input['lines']=linemap
@@ -100,10 +96,12 @@ circmap=dict([(n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items(
 t_input['circles']=circmap
 loopmap=dict([(n,', '.join([x for x in ents])) for n,ents in loops.items()])
 t_input['loops']=loopmap
+
 #Apply surface types
 surftypes=dict([(x,'Ruled' if x in geom.nonplanar else 'Plane') for x in geom.geomtable.keys()])
 t_input['surftypes']=surftypes
-#Apply reversal to selected surfaces
+
+#Apply reversal to selected surfaces for surface loops
 surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
 t_input['looplist']=', '.join([str(x) for x in surfnums])
 
