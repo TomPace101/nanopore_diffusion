@@ -7,7 +7,7 @@ from jinja2 import Template
 ## TODO: read parameters in from command line, or yaml file
 
 #Just dummy parameters for now
-params={'mcar':0.01, 'Lx':1.5, 'Ly':1.0, 'R':0.75, 'H':1.0, 'tm':2.0}
+params={'mcar':0.1, 'Lx':1.5, 'Ly':1.0, 'R':0.75, 'H':1.0, 'tm':2.0}
 
 #Hardcoded file paths
 ## TODO: de-hardcode
@@ -40,6 +40,8 @@ geomtable = {1:(111, 311, 331, 131, 111),
              11:(212, 'center', 112, 122, 123, 'center', 113, 213, 212)}
 #Surfaces to reverse for surface loops
 revsurfs=[]
+#Nonplanar surfaces ('Ruled Surface' in gmsh 2, 'Surface' in gmsh)
+nonplanar=[11]
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
@@ -106,6 +108,9 @@ circmap=dict([(n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items(
 params['circles']=circmap
 loopmap=dict([(n,', '.join([x for x in ents])) for n,ents in loops.items()])
 params['loops']=loopmap
+#Apply surface types
+surftypes=dict([(x,'Ruled' if x in nonplanar else 'Plane') for x in geomtable.keys()])
+params['surftypes']=surftypes
 #Apply reversal to selected surfaces
 surfnums=[-x if x in revsurfs else x for x in geomtable.keys()]
 params['looplist']=', '.join([str(x) for x in surfnums])

@@ -57,14 +57,15 @@ Line Loop({{ lpnum }})={ {{- lents -}} };
 {% endfor %}
 
 //Surfaces
-{% for lpnum in loops.keys() %}
-Plane Surface({{ lpnum }})={ {{- lpnum -}} };
+{% for lpnum, stype in surftypes.items() %}
+{{ stype }} Surface({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
 
 //Surface Loops
 Surface Loop(1)={ {{- looplist -}} };
 
-//Volume Entities
+//Volumes
+Volume(1)={1};
 
 //Mesh
 
