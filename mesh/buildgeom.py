@@ -19,7 +19,7 @@ with open(tmplfile,'r') as fp:
     tmpldat=fp.read()
 
 #Render template
-tmplobj=Template(tmpldat)
+tmplobj=Template(tmpldat, trim_blocks=True)
 outdat = tmplobj.render(params)
 
 #Output result
