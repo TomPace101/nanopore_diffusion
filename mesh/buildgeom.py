@@ -56,23 +56,54 @@ for surfnum, pttup in geomtable.items():
       indx += 2
       cpoint=pttup[indx-1]
       endpt=pttup[indx]
-      circles[cnum]=(startpt,cpoint,endpt)
-      loops[surfnum].append('c%d'%cnum)
-      cnum += 1
+      ctup=(startpt,cpoint,endpt)
+      rctup=(endpt,cpoint,startpt) #Reverse order
+      #Already exists?
+      found=False
+      for cn, cpts in circles.items():
+        if cpts==ctup:
+          found=True
+          loops[surfnum].append(cn)
+          break
+        elif cpts==rctup:
+          found=True
+          loops[surfnum].append('-'+cn)
+          break
+      if not found:
+        cname='c%d_%d_%d'%ctup
+        circles[cname]=ctup
+        loops[surfnum].append(cname)
+        cnum += 1
     else:
       endpt=pttup[indx]
-      lines[lnum]=(startpt,endpt)
-      loops[surfnum].append('l%d'%lnum)
-      lnum += 1
+      ltup=(startpt,endpt)
+      rltup=(endpt,startpt) #Reverse order
+      #Already exists?
+      found=False
+      for ln, lpts in lines.items():
+        if lpts==ltup:
+          found=True
+          loops[surfnum].append(ln)
+          break
+        elif lpts==rltup:
+          found=True
+          loops[surfnum].append('-'+ln)
+          break
+      if not found:
+        lname='l%d_%d'%ltup
+        lines[lname]=ltup
+        loops[surfnum].append(lname)
+        lnum += 1
     #Next point
     startpt=pttup[indx]
     indx += 1
 #Provide mappings to template
-linemap=dict([('l%d'%n,', '.join(['p%d'%p for p in pts])) for n,pts in lines.items()])
+linemap=dict([(n,', '.join(['p%d'%p for p in pts])) for n,pts in lines.items()])
 params['lines']=linemap
-circmap=dict([('c%d'%n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items()])
+circmap=dict([(n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items()])
 params['circles']=circmap
-
+loopmap=dict([(n,', '.join([x for x in ents])) for n,ents in loops.items()])
+params['loops']=loopmap
 
 #Read template
 with open(tmplfile,'r') as fp:

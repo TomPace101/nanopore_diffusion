@@ -48,10 +48,13 @@ p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnu
 
 //Circles
 {% for cname, cptstr in circles.items() %}
-{{ cname }}=newl; Circle({{ cname }})={ {{- cptstr -}} }
+{{ cname }}=newl; Circle({{ cname }})={ {{- cptstr -}} };
 {% endfor %}
 
 //Line Loops
+{% for lpnum, lents in loops.items() %}
+Line Loop({{ lpnum }})={ {{- lents -}} };
+{% endfor %}
 
 //Surfaces
 
