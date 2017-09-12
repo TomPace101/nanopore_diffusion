@@ -38,6 +38,8 @@ geomtable = {1:(111, 311, 331, 131, 111),
              9:(333, 133, 134, 334, 333),
              10:(313, 333, 334, 314, 313),
              11:(212, 'center', 112, 122, 123, 'center', 113, 213, 212)}
+#Surfaces to reverse for surface loops
+revsurfs=[]
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
@@ -104,6 +106,9 @@ circmap=dict([(n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items(
 params['circles']=circmap
 loopmap=dict([(n,', '.join([x for x in ents])) for n,ents in loops.items()])
 params['loops']=loopmap
+#Apply reversal to selected surfaces
+surfnums=[-x if x in revsurfs else x for x in geomtable.keys()]
+params['looplist']=', '.join([str(x) for x in surfnums])
 
 #Read template
 with open(tmplfile,'r') as fp:
