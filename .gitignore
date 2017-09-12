@@ -1,3 +1,4 @@
 notebooks
 *.pdf
 mesh/*.geo
+mesh/*.msh

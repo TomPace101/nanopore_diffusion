@@ -13,6 +13,8 @@ params={'mcar':0.1, 'Lx':1.5, 'Ly':1.0, 'R':0.75, 'H':1.0, 'tm':2.0}
 ## TODO: de-hardcode
 tmplfile='body-centered.geo.jinja2'
 outfile='body-centered.geo'
+mshfile='body-centered.msh'
+params['mshfile']=mshfile
 
 #Hardcoded geometry information
 ## TODO: de-hardcode (should be associated with jinja2 file)
