@@ -1,49 +1,39 @@
 #Process the jinja2 template into one (or more) gmsh .geo file(s)
 #Usage:
-#python buildgeom.py
+#python buildgeom.py geomdef paramdef
+#for more details, see
+#python buildgeom.py -h
+
+import argparse
+import os.path as osp
 
 from jinja2 import Template
+import yaml
 
-## TODO: read parameters in from command line, or yaml file
+#Process command-line arguments
+parser = argparse.ArgumentParser(description='Create gmsh .geo file')
+parser.add_argument('geomdef', help="geometry definition yaml file, which provides the template data needed by the template")
+parser.add_argument('paramdef', help="parameter defnition yaml file, which assigns values to select parameters in the template")
+cmdline=parser.parse_args()
+assert osp.isfile(cmdline.geomdef), "Geometry definition file does not exist: %s"%cmdline.geomdef
+assert osp.isfile(cmdline.paramdef), "Parameter definition file does not exist: %s"%cmdline.paramdef
 
-#Just dummy parameters for now
-params={'mcar':0.1, 'Lx':1.5, 'Ly':1.0, 'R':0.75, 'H':1.0, 'tm':2.0}
+#Read in the two yaml files
+with open(cmdline.geomdef,'r') as fp:
+  dat=fp.read()
+  geomdef=yaml.load(dat)
+with open(cmdline.paramdef,'r') as fp:
+  dat=fp.read()
+  paramdef=yaml.load(dat)
 
-#Hardcoded file paths
-## TODO: de-hardcode
-tmplfile='body-centered.geo.jinja2'
-outfile='body-centered.geo'
-mshfile='body-centered.msh'
-params['mshfile']=mshfile
+#Namepsace the geometry definition for convenience
+geom=argparse.Namespace(**geomdef)
 
-#Hardcoded geometry information
-## TODO: de-hardcode (should be associated with jinja2 file)
-#Point list
-ptlist = [111,      311, 331, 131,
-          112, 212, 312, 332, 132, 122,
-          113, 213, 313, 333, 133, 123,
-          114,      314, 334, 134]
-#Point list, as strings, is needed by template
-params['ptstrs']=[str(x) for x in ptlist]
-#Mapping of surfaces to points
-#In the following table of values, each tuple is a line loop that will be turned into a surface.
-#Circles can be included by including 'center' followed by the center point.
-#The preceeding and next points are the circle start and end points, respectively.
-geomtable = {1:(111, 311, 331, 131, 111),
-             2:(212, 312, 332, 132, 122, 'center', 112, 212),
-             3:(213, 313, 333, 133, 123, 'center', 113, 213),
-             4:(114, 314, 334, 134, 114),
-             5:(111, 311, 312, 212, 213, 313, 314, 114, 111),
-             6:(111, 131, 132, 122, 123, 133, 134, 114, 111),
-             7:(331, 131, 132, 332, 331),
-             8:(311, 331, 332, 312, 311),
-             9:(333, 133, 134, 334, 333),
-             10:(313, 333, 334, 314, 313),
-             11:(212, 'center', 112, 122, 123, 'center', 113, 213, 212)}
-#Surfaces to reverse for surface loops
-revsurfs=[]
-#Nonplanar surfaces ('Ruled Surface' in gmsh 2, 'Surface' in gmsh)
-nonplanar=[11]
+#Put needed parameters into template input
+t_input={}
+t_input.update(paramdef)
+t_input['mshfile']=geom.mshfile
+t_input['ptstrs']=[str(x) for x in geom.ptlist]
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
@@ -53,7 +43,7 @@ lines={}
 circles={}
 lnum=1
 cnum=1
-for surfnum, pttup in geomtable.items():
+for surfnum, pttup in geom.geomtable.items():
   loops[surfnum]=[]
   startpt=pttup[0]
   indx=1
@@ -105,26 +95,26 @@ for surfnum, pttup in geomtable.items():
     indx += 1
 #Provide mappings to template
 linemap=dict([(n,', '.join(['p%d'%p for p in pts])) for n,pts in lines.items()])
-params['lines']=linemap
+t_input['lines']=linemap
 circmap=dict([(n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items()])
-params['circles']=circmap
+t_input['circles']=circmap
 loopmap=dict([(n,', '.join([x for x in ents])) for n,ents in loops.items()])
-params['loops']=loopmap
+t_input['loops']=loopmap
 #Apply surface types
-surftypes=dict([(x,'Ruled' if x in nonplanar else 'Plane') for x in geomtable.keys()])
-params['surftypes']=surftypes
+surftypes=dict([(x,'Ruled' if x in geom.nonplanar else 'Plane') for x in geom.geomtable.keys()])
+t_input['surftypes']=surftypes
 #Apply reversal to selected surfaces
-surfnums=[-x if x in revsurfs else x for x in geomtable.keys()]
-params['looplist']=', '.join([str(x) for x in surfnums])
+surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
+t_input['looplist']=', '.join([str(x) for x in surfnums])
 
 #Read template
-with open(tmplfile,'r') as fp:
+with open(geom.tmplfile,'r') as fp:
     tmpldat=fp.read()
 
 #Render template
 tmplobj=Template(tmpldat, trim_blocks=True)
-outdat = tmplobj.render(params)
+outdat = tmplobj.render(t_input)
 
 #Output result
-with open(outfile,'w') as fp:
+with open(geom.outfile,'w') as fp:
     fp.write(outdat)
