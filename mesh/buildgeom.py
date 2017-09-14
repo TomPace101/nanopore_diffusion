@@ -10,30 +10,6 @@ import os.path as osp
 from jinja2 import Template
 import yaml
 
-#Process command-line arguments
-parser = argparse.ArgumentParser(description='Create gmsh .geo file')
-parser.add_argument('geomdef', help="geometry definition yaml file, which provides the template data needed by the template")
-parser.add_argument('paramdef', help="parameter defnition yaml file, which assigns values to select parameters in the template")
-cmdline=parser.parse_args()
-assert osp.isfile(cmdline.geomdef), "Geometry definition file does not exist: %s"%cmdline.geomdef
-assert osp.isfile(cmdline.paramdef), "Parameter definition file does not exist: %s"%cmdline.paramdef
-
-#Read in the two yaml files
-with open(cmdline.geomdef,'r') as fp:
-  dat=fp.read()
-  geomdef=yaml.load(dat)
-with open(cmdline.paramdef,'r') as fp:
-  dat=fp.read()
-  paramdef=yaml.load(dat)
-
-#Namepsace the geometry definition for convenience
-geom=argparse.Namespace(**geomdef)
-
-#Put needed parameters into template input
-t_input={}
-t_input.update(paramdef)
-t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])
-
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
 # - mapping of line and circle names to list of points
@@ -68,50 +44,94 @@ def add_entity(tup, tdict, looplist, nameprefix):
     looplist.append(name)
   return
 
-#Create dictionaries of lines, circles, and line loops
-loops={}
-lines={}
-circles={}
-for surfnum, pttup in geom.geomtable.items():
-  loops[surfnum]=[]
-  startpt=pttup[0]
-  indx=1
-  while indx < len(pttup):
-    if pttup[indx]=='center':
-      indx += 2
-      ctup=(startpt,pttup[indx-1],pttup[indx])
-      add_entity(ctup,circles,loops[surfnum],'c')
-    else:
-      ltup=(startpt,pttup[indx])
-      add_entity(ltup,lines,loops[surfnum],'c')
-    #Next point
-    startpt=pttup[indx]
-    indx += 1
+def write_one_geo(geomdef, paramdef):
+  """Generate a single geo file based on a geometry defintion dictionary and parameter dictionary
+  Inputs:
+    geomdef = geometry definition dictionary, which must contain:
+      tmplfile: geometry template file
+      ptdict: dictionary of points and their corresponding mesh density parameter name
+      geomtable: mapping of surfaces to points
+      revsurfs: list of surfaces needing orientation reversal
+      nonplanar: list of surfaces that are not planar surfaces
+    paramdef = parameter defintion dictionary, which must contain:
+      outfile: the .geo file to write
+      mshfile: the .msh file for gmsh to create
+      and all the other parameters needed by the geometry template file
+  No return value. The .geo file is written."""
+  #Namepsace the geometry definition for convenience
+  geom=argparse.Namespace(**geomdef)
 
-#Provide mappings to template
-linemap=dict([(n,', '.join(['p%d'%p for p in pts])) for n,pts in lines.items()])
-t_input['lines']=linemap
-circmap=dict([(n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items()])
-t_input['circles']=circmap
-loopmap=dict([(n,', '.join([x for x in ents])) for n,ents in loops.items()])
-t_input['loops']=loopmap
+  #Put needed parameters into template input
+  t_input={}
+  t_input.update(paramdef)
+  t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])
 
-#Apply surface types
-surftypes=dict([(x,'Ruled' if x in geom.nonplanar else 'Plane') for x in geom.geomtable.keys()])
-t_input['surftypes']=surftypes
+  #Create dictionaries of lines, circles, and line loops
+  loops={}
+  lines={}
+  circles={}
+  for surfnum, pttup in geom.geomtable.items():
+    loops[surfnum]=[]
+    startpt=pttup[0]
+    indx=1
+    while indx < len(pttup):
+      if pttup[indx]=='center':
+        indx += 2
+        ctup=(startpt,pttup[indx-1],pttup[indx])
+        add_entity(ctup,circles,loops[surfnum],'c')
+      else:
+        ltup=(startpt,pttup[indx])
+        add_entity(ltup,lines,loops[surfnum],'c')
+      #Next point
+      startpt=pttup[indx]
+      indx += 1
 
-#Apply reversal to selected surfaces for surface loops
-surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
-t_input['looplist']=', '.join([str(x) for x in surfnums])
+  #Provide mappings to template
+  linemap=dict([(n,', '.join(['p%d'%p for p in pts])) for n,pts in lines.items()])
+  t_input['lines']=linemap
+  circmap=dict([(n,', '.join(['p%d'%p for p in pts])) for n, pts in circles.items()])
+  t_input['circles']=circmap
+  loopmap=dict([(n,', '.join([x for x in ents])) for n,ents in loops.items()])
+  t_input['loops']=loopmap
 
-#Read template
-with open(geom.tmplfile,'r') as fp:
+  #Apply surface types
+  surftypes=dict([(x,'Ruled' if x in geom.nonplanar else 'Plane') for x in geom.geomtable.keys()])
+  t_input['surftypes']=surftypes
+
+  #Apply reversal to selected surfaces for surface loops
+  surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
+  t_input['looplist']=', '.join([str(x) for x in surfnums])
+
+  #Read template
+  with open(geom.tmplfile,'r') as fp:
     tmpldat=fp.read()
 
-#Render template
-tmplobj=Template(tmpldat, trim_blocks=True)
-outdat = tmplobj.render(t_input)
+  #Render template
+  tmplobj=Template(tmpldat, trim_blocks=True)
+  outdat = tmplobj.render(t_input)
 
-#Output result
-with open(paramdef['outfile'],'w') as fp:
+  #Output result
+  with open(paramdef['outfile'],'w') as fp:
     fp.write(outdat)
+  return
+
+#Support command-line arguments
+if __name__ == '__main__':
+  #Process command-line arguments
+  parser = argparse.ArgumentParser(description='Create gmsh .geo file')
+  parser.add_argument('geomdef', help="geometry definition yaml file, which provides the template data needed by the template")
+  parser.add_argument('paramdef', help="parameter defnition yaml file, which assigns values to select parameters in the template")
+  cmdline=parser.parse_args()
+  assert osp.isfile(cmdline.geomdef), "Geometry definition file does not exist: %s"%cmdline.geomdef
+  assert osp.isfile(cmdline.paramdef), "Parameter definition file does not exist: %s"%cmdline.paramdef
+
+  #Read in the two yaml files
+  with open(cmdline.geomdef,'r') as fp:
+    dat=fp.read()
+    geomdef=yaml.load(dat)
+  with open(cmdline.paramdef,'r') as fp:
+    dat=fp.read()
+    paramdef=yaml.load(dat)
+
+  #Create the file
+  write_one_geo(geomdef, paramdef)
