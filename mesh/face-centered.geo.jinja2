@@ -1,8 +1,6 @@
-//Generate mesh for body-centered pore.
-//usage:
-//gmsh thisfile.geo -
+{% extends "common.geo.jinja2" %}
+{# parameter definitions section for body-centered geometry #}
 
-//This is a jinja2 template
 {# Required input variables:
     mcar = characteristic length for mesh refinement
     Lx = unit cell x-length
@@ -14,6 +12,7 @@
   Use trim_blocks=True.
   #}
 
+{% block paramdefs %}
 //Mesh density control
 mcarh={{ mscale }}*{{ mcarh }};
 mcarl={{ mscale }}*{{ mcarl }};
@@ -38,48 +37,4 @@ Z1=0;
 Z2=H;
 Z3=H+tm;
 Z4=2*H+tm;
-
-//Points
-{% for ptnum,meshvar in ptstrs.items() %}
-p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},{{ meshvar }}};
-{% endfor %}
-
-//Lines
-{% for lname, lptstr in lines.items() %}
-{{ lname }}=newl; Line({{ lname }})={ {{- lptstr -}} };
-{% endfor %}
-
-//Circles
-{% for cname, cptstr in circles.items() %}
-{{ cname }}=newl; Circle({{ cname }})={ {{- cptstr -}} };
-{% endfor %}
-
-//Line Loops
-{% for lpnum, lents in loops.items() %}
-Line Loop({{ lpnum }})={ {{- lents -}} };
-{% endfor %}
-
-//Surfaces
-{% for lpnum, stype in surftypes.items() %}
-{{ stype }} Surface({{ lpnum }})={ {{- lpnum -}} };
-{% endfor %}
-
-//Surface Loops
-Surface Loop(1)={ {{- looplist -}} };
-
-//Volumes
-Volume(1)={1};
-
-//Mesh
-Mesh 3;
-
-//Save result
-Save "{{ mshfile }}";
-
-//Blank lines
-//because gmsh gets confused without them
-
-
-
-
-
+{% endblock %}

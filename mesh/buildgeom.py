@@ -9,7 +9,7 @@
 import argparse
 import os.path as osp
 
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 import yaml
 
 #From mapping of surfaces to points, generate:
@@ -104,13 +104,12 @@ def write_one_geo(geomdef, paramdef):
   surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
   t_input['looplist']=', '.join([str(x) for x in surfnums])
 
-  #Read template
-  with open(geom.tmplfile,'r') as fp:
-    tmpldat=fp.read()
+  #Load template
+  env=Environment(loader=FileSystemLoader('.'), trim_blocks=True)
+  tmpl=env.get_template(geom.tmplfile)
 
   #Render template
-  tmplobj=Template(tmpldat, trim_blocks=True)
-  outdat = tmplobj.render(t_input)
+  outdat = tmpl.render(t_input)
 
   #Output result
   with open(paramdef['outfile'],'w') as fp:

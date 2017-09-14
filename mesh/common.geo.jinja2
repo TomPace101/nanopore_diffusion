@@ -1,0 +1,53 @@
+//Generate mesh for body-centered pore.
+//usage:
+//gmsh thisfile.geo
+{# This file is a jinja2 template for a gmsh .geo file.
+  Use trim_blocks=True.
+  #}
+
+{% block paramdefs %}{% endblock %}
+
+//Points
+{% for ptnum,meshvar in ptstrs.items() %}
+p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},{{ meshvar }}};
+{% endfor %}
+
+//Lines
+{% for lname, lptstr in lines.items() %}
+{{ lname }}=newl; Line({{ lname }})={ {{- lptstr -}} };
+{% endfor %}
+
+//Circles
+{% for cname, cptstr in circles.items() %}
+{{ cname }}=newl; Circle({{ cname }})={ {{- cptstr -}} };
+{% endfor %}
+
+//Line Loops
+{% for lpnum, lents in loops.items() %}
+Line Loop({{ lpnum }})={ {{- lents -}} };
+{% endfor %}
+
+//Surfaces
+{% for lpnum, stype in surftypes.items() %}
+{{ stype }} Surface({{ lpnum }})={ {{- lpnum -}} };
+{% endfor %}
+
+//Surface Loops
+Surface Loop(1)={ {{- looplist -}} };
+
+//Volumes
+Volume(1)={1};
+
+//Mesh
+Mesh 3;
+
+//Save result
+Save "{{ mshfile }}";
+
+//Blank lines
+//because gmsh gets confused without them
+
+
+
+
+
