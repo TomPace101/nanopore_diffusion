@@ -23,9 +23,9 @@ The symmetry of the geometry is used.
 
 The geometry and geometric variables are shown below.
 
-![Top view of body-centered geometry](body-top.pdf){ height=50% }
+![Top view of body-centered geometry](./fig_pdf/body-top.pdf){ height=50% }
 
-![Side view of body-centered geometry](body-side.pdf){ height=50% }
+![Side view of body-centered geometry](./fig_pdf/body-side.pdf){ height=50% }
 
 _**[[TODO: body-centered side view is incomplete]]**_
 
