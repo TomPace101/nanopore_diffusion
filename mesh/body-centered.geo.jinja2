@@ -15,7 +15,8 @@
   #}
 
 //Mesh density control
-mcar={{ mcar }};
+mcarh={{ mcarh }};
+mcarl={{ mcarl }};
 
 //Geometric inputs
 Lx={{ Lx }};
@@ -37,8 +38,8 @@ Z3=H+tm;
 Z4=2*H+tm;
 
 //Points
-{% for ptnum in ptstrs %}
-p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},mcar};
+{% for ptnum,meshvar in ptstrs.items() %}
+p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},{{ meshvar }}};
 {% endfor %}
 
 //Lines

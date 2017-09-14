@@ -2,11 +2,12 @@
 
 tmplfile: body-centered.geo.jinja2
 
-#Point list
-ptlist: [111,      311, 331, 131, 
-         112, 212, 312, 332, 132, 122, 
-         113, 213, 313, 333, 133, 123, 
-         114,      314, 334, 134]
+#Dictionary of points and their corresponding mesh density variable
+#(mcarh for high-density regions, mcarl for low-density regions)
+ptdict: {111: mcarl,             311: mcarl, 331: mcarl, 131: mcarl, 
+         112: mcarh, 212: mcarh, 312: mcarh, 332: mcarh, 132: mcarh, 122: mcarh, 
+         113: mcarh, 213: mcarh, 313: mcarh, 333: mcarh, 133: mcarh, 123: mcarh, 
+         114: mcarl,             314: mcarl, 334: mcarl, 134: mcarl}
 
 #Mapping of surfaces to points
 #In the following table of values, each tuple is a line loop that will be turned into a surface.

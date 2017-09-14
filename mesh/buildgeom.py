@@ -32,7 +32,7 @@ geom=argparse.Namespace(**geomdef)
 #Put needed parameters into template input
 t_input={}
 t_input.update(paramdef)
-t_input['ptstrs']=[str(x) for x in geom.ptlist]
+t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
