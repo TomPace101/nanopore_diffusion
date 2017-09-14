@@ -32,7 +32,6 @@ geom=argparse.Namespace(**geomdef)
 #Put needed parameters into template input
 t_input={}
 t_input.update(paramdef)
-t_input['mshfile']=geom.mshfile
 t_input['ptstrs']=[str(x) for x in geom.ptlist]
 
 #From mapping of surfaces to points, generate:
@@ -114,5 +113,5 @@ tmplobj=Template(tmpldat, trim_blocks=True)
 outdat = tmplobj.render(t_input)
 
 #Output result
-with open(geom.outfile,'w') as fp:
+with open(paramdef['outfile'],'w') as fp:
     fp.write(outdat)
