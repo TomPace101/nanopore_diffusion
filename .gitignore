@@ -4,3 +4,4 @@ notebooks
 mesh/*.geo
 mesh/*.msh
 mesh/params.yaml
+.doit.db.*
