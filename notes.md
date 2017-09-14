@@ -26,9 +26,11 @@ _ACTION_ doit automation (make geo, make msh, make xml)
 Is there a logical way to store created msh/xml files for later retrieval if everything is the same?
 doit seems to be the way to do this.
 It could associate a dictionary of the parameters, including a hash of the relevant template(s), with each stored file.
-Or maybe that's separate things: the file depends on the template(s) used to generate it,
+Or maybe those are separate things: the file depends on the template(s) used to generate it,
 but the dictionary of parameters otherwise just selects the particular file.
 So the mapping needed is from a set of parameters (probably a named tuple) to a filename.
+But if doit is going to check for changes to dependencies, it has to know the mapping to filenames.
+So that mapping can be in buildgeom, but only if used as a module, not a script.
 
 There's a larger issue here of the geo and msh filenames being part of the parameter dictionary.
 Should that be a separate thing, somehow?
