@@ -4,6 +4,8 @@
 #for more details, see
 #python buildgeom.py -h
 
+## TODO: validation of geometric inputs (different formulas for different geometries)
+
 import argparse
 import os.path as osp
 
