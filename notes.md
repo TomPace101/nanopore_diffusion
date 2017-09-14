@@ -22,6 +22,17 @@ Then, continue developing document.
 # Mesh
 _ACTION_ doit automation (make geo, make msh, make xml)
 
+## Storage
+Is there a logical way to store created msh/xml files for later retrieval if everything is the same?
+doit seems to be the way to do this.
+It could associate a dictionary of the parameters, including a hash of the relevant template(s), with each stored file.
+Or maybe that's separate things: the file depends on the template(s) used to generate it,
+but the dictionary of parameters otherwise just selects the particular file.
+So the mapping needed is from a set of parameters (probably a named tuple) to a filename.
+
+There's a larger issue here of the geo and msh filenames being part of the parameter dictionary.
+Should that be a separate thing, somehow?
+
 ## XML
 http://mypages.iit.edu/~asriva13/?page_id=586
 see also smolhomog code, which I think does it too.
