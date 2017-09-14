@@ -10,7 +10,7 @@ _ACTION_ compile TODO lines from all code files
 - then, code an outline of the solution
 - use doit to break into steps, with output files as the connecting pieces
 - borrow from the old code where applicable
-- do the standard diffusion equation first, them smoluchowski
+- do the standard diffusion equation first, then smoluchowski
 - maybe then do a charged solute but a fixed potential, then do the applied charge BCs.
 - start with a contiguous domain (a single hole) first,
 - then try to do a unit cell
