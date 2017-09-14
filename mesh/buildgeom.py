@@ -46,22 +46,11 @@ def add_entity(tup, tdict, looplist, nameprefix):
     looplist.append(name)
   return
 
-def write_one_geo(geomdef, paramdef):
-  """Generate a single geo file based on a geometry defintion dictionary and parameter dictionary
-  Inputs:
-    geomdef = geometry definition dictionary, which must contain:
-      tmplfile: geometry template file
-      ptdict: dictionary of points and their corresponding mesh density parameter name
-      geomtable: mapping of surfaces to points
-      revsurfs: list of surfaces needing orientation reversal
-      nonplanar: list of surfaces that are not planar surfaces
-    paramdef = parameter defintion dictionary, which must contain:
-      outfile: the .geo file to write
-      mshfile: the .msh file for gmsh to create
-      and all the other parameters needed by the geometry template file
-  No return value. The .geo file is written."""
-  #Namepsace the geometry definition for convenience
-  geom=argparse.Namespace(**geomdef)
+def prepare_template_input(geom, paramdef):
+  """Prepare the input dictionary for a template.
+  Inputs: see write_one_geo, except that geom is a namespace rather than a dictionary
+  Returns:
+    t_input = the input dictionary for the template specified in geomdef"""
 
   #Put needed parameters into template input
   t_input={}
@@ -103,6 +92,29 @@ def write_one_geo(geomdef, paramdef):
   #Apply reversal to selected surfaces for surface loops
   surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
   t_input['looplist']=', '.join([str(x) for x in surfnums])
+  
+  return t_input
+
+def write_one_geo(geomdef, paramdef):
+  """Generate a single geo file based on a geometry defintion dictionary and parameter dictionary
+  Inputs:
+    geomdef = geometry definition dictionary, which must contain:
+      tmplfile: geometry template file
+      ptdict: dictionary of points and their corresponding mesh density parameter name
+      geomtable: mapping of surfaces to points
+      revsurfs: list of surfaces needing orientation reversal
+      nonplanar: list of surfaces that are not planar surfaces
+    paramdef = parameter defintion dictionary, which must contain:
+      outfile: the .geo file to write
+      mshfile: the .msh file for gmsh to create
+      and all the other parameters needed by the geometry template file
+  No return value. The .geo file is written."""
+
+  #Namepsace the geometry definition for convenience
+  geom=argparse.Namespace(**geomdef)
+
+  #Get the input dictionary for the template
+  t_input = prepare_template_input(geom, paramdef)
 
   #Load template
   env=Environment(loader=FileSystemLoader('.'), trim_blocks=True)
