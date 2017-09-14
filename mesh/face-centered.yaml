@@ -1,6 +1,6 @@
 #Define properties specific to the body-centered geometry template
 
-tmplfile: body-centered.geo.jinja2
+tmplfile: face-centered.geo.jinja2
 
 #Dictionary of points and their corresponding mesh density variable
 #(mcarh for high-density regions, mcarl for low-density regions)
