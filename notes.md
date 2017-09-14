@@ -16,7 +16,7 @@ _ACTION_ compile TODO lines from all code files
 - then try to do a unit cell
 
 # Problem Description
-_ACTION_ create doit file
+_ACTION_ put figure svg->pdf step in doit file
 Then, continue developing document.
 
 # Mesh
