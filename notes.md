@@ -1,6 +1,5 @@
 Current Goal: x=free volume fraction, y=Deff/Dbulk
 
-_ACTION_ set up doit for rebuilding the image pdfs and description pdf (see log 2017-09-07)
 _ACTION_ look up Fickian diffusion equation in Auriault.
 _ACTION_ look at overleaf shared by Pete
 _ACTION_ compile TODO lines from all code files
