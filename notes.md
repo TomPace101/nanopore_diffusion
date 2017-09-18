@@ -5,16 +5,6 @@ _ACTION_ look up Fickian diffusion equation in Auriault.
 _ACTION_ look at overleaf shared by Pete
 _ACTION_ compile TODO lines from all code files
 
-# Steps
-- first, write down the problem
-- then, code an outline of the solution
-- use doit to break into steps, with output files as the connecting pieces
-- borrow from the old code where applicable
-- do the standard diffusion equation first, then smoluchowski
-- maybe then do a charged solute but a fixed potential, then do the applied charge BCs.
-- start with a contiguous domain (a single hole) first,
-- then try to do a unit cell
-
 # Problem Description
 _ACTION_ put figure svg->pdf step in doit file
 Then, continue developing document.
@@ -48,3 +38,13 @@ see also smolhomog code, which I think does it too.
 # Boundary Conditions
 
 # Diffusion Equation
+
+# Steps
+- first, write down the problem
+- then, code an outline of the solution
+- use doit to break into steps, with output files as the connecting pieces
+- borrow from the old code where applicable
+- do the standard diffusion equation first, then smoluchowski
+- maybe then do a charged solute but a fixed potential, then do the applied charge BCs.
+- start with a contiguous domain (a single hole) first,
+- then try to do a unit cell
