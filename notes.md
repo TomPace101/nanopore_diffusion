@@ -8,7 +8,7 @@ _ACTION_ compile TODO lines from all code files
 continue developing document.
 
 # Mesh
-_ACTION_ doit automation (make geo, make msh, make xml)
+The doit file current has some bugs. See TODO list in there.
 
 ## Storage
 Is there a logical way to store created msh/xml files for later retrieval if everything is the same?
