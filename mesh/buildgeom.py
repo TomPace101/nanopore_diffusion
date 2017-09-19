@@ -50,7 +50,7 @@ def add_entity(tup, tdict, looplist, nameprefix):
     looplist.append(name)
   return
 
-def prepare_template_input(geom, paramdef, mshfile):
+def prepare_template_input(geom, paramdef):
   """Prepare the input dictionary for a template.
   Inputs: see write_one_geo, except that geom is a namespace rather than a dictionary, and outfile is not required
   Returns:
@@ -59,7 +59,6 @@ def prepare_template_input(geom, paramdef, mshfile):
   #Put needed parameters into template input
   t_input={}
   t_input.update(paramdef)
-  t_input['mshfile']=mshfile
   t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])
 
   #Create dictionaries of lines, circles, and line loops
@@ -100,7 +99,7 @@ def prepare_template_input(geom, paramdef, mshfile):
   
   return t_input
 
-def write_one_geo(geomdef, paramdef, geofile, mshfile):
+def write_one_geo(geomdef, paramdef, geofile):
   """Generate a single geo file based on a geometry defintion dictionary and parameter dictionary
   Inputs:
     geomdef = geometry definition dictionary, which must contain:
@@ -114,14 +113,13 @@ def write_one_geo(geomdef, paramdef, geofile, mshfile):
       mshfile: the .msh file for gmsh to create
       and all the other parameters needed by the geometry template file
     geofile = path to output .geo file, as string
-    mshfile = path to .msh file to be created by gmsh, as string
   No return value. The .geo file is written."""
 
   #Namepsace the geometry definition for convenience
   geom=argparse.Namespace(**geomdef)
 
   #Get the input dictionary for the template
-  t_input = prepare_template_input(geom, paramdef, mshfile)
+  t_input = prepare_template_input(geom, paramdef)
 
   #Load template
   env=Environment(loader=FileSystemLoader('.'), trim_blocks=True)
@@ -142,7 +140,6 @@ if __name__ == '__main__':
   parser.add_argument('geomdef', help="geometry definition yaml file, which provides the template data needed by the template")
   parser.add_argument('paramdef', help="parameter defnition yaml file, which assigns values to select parameters in the template")
   parser.add_argument('geofile', help="name of output file (should end in .geo)")
-  parser.add_argument('mshfile', help="name of msh file (should end in .msh)")
   cmdline=parser.parse_args()
   assert osp.isfile(cmdline.geomdef), "Geometry definition file does not exist: %s"%cmdline.geomdef
   assert osp.isfile(cmdline.paramdef), "Parameter definition file does not exist: %s"%cmdline.paramdef
@@ -152,4 +149,4 @@ if __name__ == '__main__':
   paramdef=useful.readyaml(cmdline.paramdef)
   
   #Create the file
-  write_one_geo(geomdef, paramdef, cmdline.geofile, cmdline.mshfile)
+  write_one_geo(geomdef, paramdef, cmdline.geofile)
