@@ -3,6 +3,10 @@
 #-the config_changed approach isn't working for task_make_geo: it always reruns
 #-the tasks are all defined before any are executed, so a new .geo file created won't be noticed.
 #   you end up having to run doit 3 times to get everything updated
+#-See "things that should probably come from somewhere else" below
+#-related to these issues, we need a way to generate and name parametric variations automatically.
+#   that means not reading the parameters from a single file like we do know
+#   at the same time, I do want to have that option available.
 
 #Standard library
 import os

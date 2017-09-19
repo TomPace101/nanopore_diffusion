@@ -1,4 +1,5 @@
 __pycache__
+.doit.db.*
 notebooks
 *.pdf
 mesh/*.geo
@@ -7,6 +8,5 @@ mesh/*.msh
 mesh/msh/*.msh
 mesh/*.xml
 mesh/xml/*.xml
-mesh/params.yaml
 mesh/gmsh_out/*
-.doit.db.*
+mesh/params.yaml
