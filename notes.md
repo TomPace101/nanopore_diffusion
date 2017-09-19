@@ -5,8 +5,7 @@ _ACTION_ look at overleaf shared by Pete
 _ACTION_ compile TODO lines from all code files
 
 # Problem Description
-_ACTION_ put figure svg->pdf step in doit file
-Then, continue developing document.
+continue developing document.
 
 # Mesh
 _ACTION_ doit automation (make geo, make msh, make xml)
@@ -23,10 +22,6 @@ So that mapping can be in buildgeom, but only if used as a module, not a script.
 
 There's a larger issue here of the geo and msh filenames being part of the parameter dictionary.
 Should that be a separate thing, somehow?
-
-## XML
-http://mypages.iit.edu/~asriva13/?page_id=586
-see also smolhomog code, which I think does it too.
 
 ## Parametric variations
 - a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
