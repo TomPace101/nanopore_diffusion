@@ -8,7 +8,7 @@ _ACTION_ compile TODO lines from all code files
 continue developing document.
 
 # Mesh
-The doit file current has some bugs. See TODO list in there.
+The doit file currently has some bugs. See TODO list in there.
 
 ## Storage
 Is there a logical way to store created msh/xml files for later retrieval if everything is the same?
@@ -19,9 +19,6 @@ but the dictionary of parameters otherwise just selects the particular file.
 So the mapping needed is from a set of parameters (probably a named tuple) to a filename.
 But if doit is going to check for changes to dependencies, it has to know the mapping to filenames.
 So that mapping can be in buildgeom, but only if used as a module, not a script.
-
-There's a larger issue here of the geo and msh filenames being part of the parameter dictionary.
-Should that be a separate thing, somehow?
 
 ## Parametric variations
 - a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
