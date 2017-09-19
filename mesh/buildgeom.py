@@ -12,6 +12,8 @@ import os.path as osp
 from jinja2 import Environment, FileSystemLoader
 import yaml
 
+import useful
+
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
 # - mapping of line and circle names to list of points
@@ -139,12 +141,8 @@ if __name__ == '__main__':
   assert osp.isfile(cmdline.paramdef), "Parameter definition file does not exist: %s"%cmdline.paramdef
 
   #Read in the two yaml files
-  with open(cmdline.geomdef,'r') as fp:
-    dat=fp.read()
-    geomdef=yaml.load(dat)
-  with open(cmdline.paramdef,'r') as fp:
-    dat=fp.read()
-    paramdef=yaml.load(dat)
+  geomdef=useful.readyaml(cmdline.geomdef)
+  paramdef=useful.readyaml(cmdline.paramdef)
 
   #Create the file
   write_one_geo(geomdef, paramdef)
