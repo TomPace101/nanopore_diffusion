@@ -3,5 +3,6 @@ notebooks
 *.pdf
 mesh/*.geo
 mesh/*.msh
+mesh/*.xml
 mesh/params.yaml
 .doit.db.*
