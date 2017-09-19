@@ -1,6 +1,5 @@
 
 #TODO
-#-the config_changed approach isn't working for task_make_geo: it always reruns
 #-the tasks are all defined before any are executed, so a new .geo file created won't be noticed.
 #   you end up having to run doit 3 times to get everything updated
 #-See "things that should probably come from somewhere else" below
@@ -43,9 +42,10 @@ def task_make_geo():
     geomyaml='%s-centered.yaml'%v
     geomdef=useful.readyaml(geomyaml)
     geofile=osp.join(geofolder,'%s-%s.geo'%(stemname,v))
+    configdict={**paramdef, **geomdef} #python 3.5 and above only; for older versions do copy then update
     tdef={'name':'%s-%s'%(stemname,v),
           'file_dep':['buildgeom.py'],
-          'uptodate':[config_changed(paramdef), config_changed(geomdef)],
+          'uptodate':[config_changed(configdict)],
           'targets':[geofile],
           'actions':[(buildgeom.write_one_geo,(geomdef,paramdef,geofile))]}
     yield tdef
