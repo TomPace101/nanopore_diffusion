@@ -6,12 +6,14 @@
 
 ## TODO: validation of geometric inputs (different formulas for different geometries)
 
+#Standard library
 import argparse
 import os.path as osp
 
+#Site packages
 from jinja2 import Environment, FileSystemLoader
-import yaml
 
+#Local
 import useful
 
 #From mapping of surfaces to points, generate:
@@ -48,15 +50,16 @@ def add_entity(tup, tdict, looplist, nameprefix):
     looplist.append(name)
   return
 
-def prepare_template_input(geom, paramdef):
+def prepare_template_input(geom, paramdef, mshfile):
   """Prepare the input dictionary for a template.
-  Inputs: see write_one_geo, except that geom is a namespace rather than a dictionary
+  Inputs: see write_one_geo, except that geom is a namespace rather than a dictionary, and outfile is not required
   Returns:
     t_input = the input dictionary for the template specified in geomdef"""
 
   #Put needed parameters into template input
   t_input={}
   t_input.update(paramdef)
+  t_input['mshfile']=mshfile
   t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])
 
   #Create dictionaries of lines, circles, and line loops
@@ -97,7 +100,7 @@ def prepare_template_input(geom, paramdef):
   
   return t_input
 
-def write_one_geo(geomdef, paramdef):
+def write_one_geo(geomdef, paramdef, geofile, mshfile):
   """Generate a single geo file based on a geometry defintion dictionary and parameter dictionary
   Inputs:
     geomdef = geometry definition dictionary, which must contain:
@@ -110,13 +113,15 @@ def write_one_geo(geomdef, paramdef):
       outfile: the .geo file to write
       mshfile: the .msh file for gmsh to create
       and all the other parameters needed by the geometry template file
+    geofile = path to output .geo file, as string
+    mshfile = path to .msh file to be created by gmsh, as string
   No return value. The .geo file is written."""
 
   #Namepsace the geometry definition for convenience
   geom=argparse.Namespace(**geomdef)
 
   #Get the input dictionary for the template
-  t_input = prepare_template_input(geom, paramdef)
+  t_input = prepare_template_input(geom, paramdef, mshfile)
 
   #Load template
   env=Environment(loader=FileSystemLoader('.'), trim_blocks=True)
@@ -126,7 +131,7 @@ def write_one_geo(geomdef, paramdef):
   outdat = tmpl.render(t_input)
 
   #Output result
-  with open(paramdef['outfile'],'w') as fp:
+  with open(geofile,'w') as fp:
     fp.write(outdat)
   return
 
@@ -136,6 +141,8 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Create gmsh .geo file')
   parser.add_argument('geomdef', help="geometry definition yaml file, which provides the template data needed by the template")
   parser.add_argument('paramdef', help="parameter defnition yaml file, which assigns values to select parameters in the template")
+  parser.add_argument('geofile', help="name of output file (should end in .geo)")
+  parser.add_argument('mshfile', help="name of msh file (should end in .msh)")
   cmdline=parser.parse_args()
   assert osp.isfile(cmdline.geomdef), "Geometry definition file does not exist: %s"%cmdline.geomdef
   assert osp.isfile(cmdline.paramdef), "Parameter definition file does not exist: %s"%cmdline.paramdef
@@ -143,6 +150,6 @@ if __name__ == '__main__':
   #Read in the two yaml files
   geomdef=useful.readyaml(cmdline.geomdef)
   paramdef=useful.readyaml(cmdline.paramdef)
-
+  
   #Create the file
-  write_one_geo(geomdef, paramdef)
+  write_one_geo(geomdef, paramdef, cmdline.geofile, cmdline.mshfile)

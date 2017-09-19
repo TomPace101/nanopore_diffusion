@@ -2,7 +2,10 @@ __pycache__
 notebooks
 *.pdf
 mesh/*.geo
+mesh/geo/*.geo
 mesh/*.msh
+mesh/msh/*.msh
 mesh/*.xml
+mesh/xml/*.xml
 mesh/params.yaml
 .doit.db.*
