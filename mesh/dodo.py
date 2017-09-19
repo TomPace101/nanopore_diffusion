@@ -44,7 +44,7 @@ def task_make_geo():
     geofile=osp.join(geofolder,'%s-%s.geo'%(stemname,v))
     configdict={**paramdef, **geomdef} #python 3.5 and above only; for older versions do copy then update
     tdef={'name':'%s-%s'%(stemname,v),
-          'file_dep':['buildgeom.py'],
+          'file_dep':['buildgeom.py',geomdef['tmplfile'],'common.geo.jinja2'],
           'uptodate':[config_changed(configdict)],
           'targets':[geofile],
           'actions':[(buildgeom.write_one_geo,(geomdef,paramdef,geofile))]}

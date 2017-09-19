@@ -30,6 +30,7 @@ Line Loop({{ lpnum }})={ {{- lents -}} };
 //Surfaces
 {% for lpnum, stype in surftypes.items() %}
 {{ stype }} Surface({{ lpnum }})={ {{- lpnum -}} };
+Physical Surface({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
 
 //Surface Loops
@@ -37,6 +38,7 @@ Surface Loop(1)={ {{- looplist -}} };
 
 //Volumes
 Volume(1)={1};
+Physical Volume(1)={1};
 
 //Mesh
 Mesh 3;
