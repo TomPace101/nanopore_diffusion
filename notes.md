@@ -4,11 +4,19 @@ _ACTION_ look up Fickian diffusion equation in Auriault.
 _ACTION_ look at overleaf shared by Pete
 _ACTION_ compile TODO lines from all code files
 
+# Figure
+- need to compute effective diffusion constant
+
+# Post-processing
+How can I generate plots?
+https://fenicsproject.org/qa/11876/extract-solution-at-a-set-of-nodes
+
 # Problem Description
 continue developing document.
 
 # Mesh
 The doit file currently has some bugs. See TODO list in there.
+
 
 ## Storage
 Is there a logical way to store created msh/xml files for later retrieval if everything is the same?
@@ -25,10 +33,6 @@ So that mapping can be in buildgeom, but only if used as a module, not a script.
 - the length of the pore, although again we'll probably stick to physical measurements
 - the bulk space above and below the pore (far enough away to not affect results)
 - mesh refinement study, of course
-
-# Boundary Conditions
-
-# Diffusion Equation
 
 # Steps
 - first, write down the problem
