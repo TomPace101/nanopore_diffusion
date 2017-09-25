@@ -17,6 +17,7 @@ continue developing document.
 # Mesh
 The doit file currently has some bugs. See TODO list in there.
 
+_EVENTUALLY_ post the jinja2 templates and related code to labscripts
 
 ## Storage
 Is there a logical way to store created msh/xml files for later retrieval if everything is the same?
