@@ -11,18 +11,20 @@ pandoc --number-sections -o description.pdf description.md
 
 # Background
 
-We seek the effective diffusion constant for a nanoporous membrane.
-The pore geometry is variable, as is the diffusion equation.
+We study a silica membrane containing nanoscopic circular pores arranged in a two-dimensional lattice.
+We desire to understand the rate of transport of different ions through the nanopores,
+quantified in terms of an effective diffusion constant.
+The pore geometry is variable, as is the diffusion equation governing transport.
 
-# Given
-
-## Geometry
+# System Geometry
 We study both a body-centered rectangular lattice of pores,
 as well as a face-centered lattice of pores.
 The unit cell geometry has two planes of symmetry.
 This symmetry is used to reduce the model to only one quarter of the unit cell.
 
 The geometry and geometric variables are shown below.
+
+**[[TODO: get figure numbers for reference in text]]**
 
 ![Top view of body-centered geometry](./fig_pdf/body-top.pdf){ height=50% }
 
@@ -46,14 +48,12 @@ _**[[TODO: consider combining views into one image horizontally]]**_
 
 _**[[TODO: face-centered geometry, both views]]**_
 
-## Diffusion Equation
+# Diffusion Equation
 
-### Unhomogenized Standard Diffusion Equation
+## Unhomogenized Standard Diffusion Equation
 
-### Homogenized Standard Diffusion Equation
+## Homogenized Standard Diffusion Equation
 
-# Objective
 
-The effective diffusion constant is found through ...
 
 _**[[TODO]]**_
