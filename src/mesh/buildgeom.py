@@ -9,11 +9,13 @@
 #Standard library
 import argparse
 import os.path as osp
+import sys
 
 #Site packages
 from jinja2 import Environment, FileSystemLoader
 
 #Local
+sys.path.append(osp.abspath('..'))
 import useful
 
 #From mapping of surfaces to points, generate:

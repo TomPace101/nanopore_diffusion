@@ -9,4 +9,4 @@ src/mesh/msh/*.msh
 src/mesh/*.xml
 src/mesh/xml/*.xml
 src/mesh/gmsh_out/*
-src/mesh/params.yaml
+src/control.yaml

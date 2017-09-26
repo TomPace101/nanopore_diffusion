@@ -19,9 +19,57 @@ continue developing document.
 # Mesh
 _ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline.
 
-The doit file currently has some bugs. See TODO list in there.
-
 _EVENTUALLY_ post the jinja2 templates and related code to labscripts
+
+# Doit
+Given the discussion above in Storage, how do we implement this in doit?
+We want to be able to give it just a single parameter dictionary, including basename, and have it run that.
+Sounds like a job for a yaml input file.
+Potentially the top-level parameter file just points to mesh and solver parameter input files.
+
+If I want the basename to be auto-generated, I just leave it blank.
+
+What if I want a slew of runs, such as parametric variations?
+Yaml files allow multiple "documents", separated by three dashes.
+(In python, use yaml.load_all, which returns a generator, which you probably want inside a list comprehension)
+
+What if I want to auto-generate the parameters in a for-loop?
+Then write code to generate all the necessary dictionaries,
+then save that out to yaml.
+
+Single parameter file, or separate mesh file from solver file?
+Single means more duplication, but less complexity.
+Single file it is, then.
+It is called "control.yaml"
+I made it a symbolic link to another yaml file in the params folder.
+Each document in control must have its own basename.
+
+What about this master lookup table, then?
+Do we really need that, now?
+The control yaml specifies the parameters and the basename,
+or the basename is consistently (ie repeatably) calculated if not provided.
+All the master table helps do is avoid parametric duplicates with different basenames.
+
+Note that for now, the basenames are not yet calculated.
+
+# Parametric variations
+- a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
+- the length of the pore, although again we'll probably stick to physical measurements
+- the bulk space above and below the pore (far enough away to not affect results)
+- mesh refinement study, of course
+
+--------------------------------------------------------------------------------
+# Non-active items only below this point
+
+# Steps
+- first, write down the problem
+- then, code an outline of the solution
+- use doit to break into steps, with output files as the connecting pieces
+- borrow from the old code where applicable
+- do the standard diffusion equation first, then smoluchowski
+- maybe then do a charged solute but a fixed potential, then do the applied charge BCs.
+- start with a contiguous domain (a single hole) first,
+- then try to do a unit cell
 
 # Storage
 Is there a logical way to store created msh/xml files for later retrieval if everything is the same?
@@ -64,19 +112,3 @@ https://github.com/jjmontesl/codenamize
 
 Note that the same master table can be used as a store of single-parameter results, such as diffusion constants.
 
-
-# Parametric variations
-- a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
-- the length of the pore, although again we'll probably stick to physical measurements
-- the bulk space above and below the pore (far enough away to not affect results)
-- mesh refinement study, of course
-
-# Steps
-- first, write down the problem
-- then, code an outline of the solution
-- use doit to break into steps, with output files as the connecting pieces
-- borrow from the old code where applicable
-- do the standard diffusion equation first, then smoluchowski
-- maybe then do a charged solute but a fixed potential, then do the applied charge BCs.
-- start with a contiguous domain (a single hole) first,
-- then try to do a unit cell
