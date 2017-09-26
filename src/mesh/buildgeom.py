@@ -124,7 +124,7 @@ def write_one_geo(geomdef, paramdef, geofile):
   t_input = prepare_template_input(geom, paramdef)
 
   #Load template
-  env=Environment(loader=FileSystemLoader('.'), trim_blocks=True)
+  env=Environment(loader=FileSystemLoader(['.','./mesh']), trim_blocks=True)
   tmpl=env.get_template(geom.tmplfile)
 
   #Render template

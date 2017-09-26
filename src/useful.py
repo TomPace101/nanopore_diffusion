@@ -32,5 +32,5 @@ def writeyaml(obj,fpath):
 #Dictionary to named tuple
 
 def dict_to_nt(d,typename):
-  tuptype=nametuple(typename,[k for k in d.keys()])
+  tuptype=namedtuple(typename,[k for k in d.keys()])
   return tuptype(**d)
