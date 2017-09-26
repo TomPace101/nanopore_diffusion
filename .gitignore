@@ -10,3 +10,4 @@ src/mesh/*.xml
 src/mesh/xml/*.xml
 src/mesh/gmsh_out/*
 src/control.yaml
+solutions
