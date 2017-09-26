@@ -8,6 +8,8 @@ _ACTION_ compile TODO lines from all code files
 - need to compute effective diffusion constant
 
 # Post-processing
+_ACTION_ Talk with Ryan about immersed surfaces for post-processing
+
 How can I generate plots?
 https://fenicsproject.org/qa/11876/extract-solution-at-a-set-of-nodes
 
@@ -15,6 +17,8 @@ https://fenicsproject.org/qa/11876/extract-solution-at-a-set-of-nodes
 continue developing document.
 
 # Mesh
+_ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline.
+
 The doit file currently has some bugs. See TODO list in there.
 
 _EVENTUALLY_ post the jinja2 templates and related code to labscripts
