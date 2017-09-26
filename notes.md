@@ -8,9 +8,13 @@ _ACTION_ compile TODO lines from all code files
 - need to compute effective diffusion constant
 
 # Post-processing
-_ACTION_ Talk with Ryan about immersed surfaces for post-processing
+Calculate the diffusion constant.
+J=D delta_c/delta_x => D = J delta_x/delta_c
 
-How can I generate plots?
+To get J, you must integrate.
+"assemble(dot(grad(c),n),ds(#))"
+
+How can I generate plots along a line?
 https://fenicsproject.org/qa/11876/extract-solution-at-a-set-of-nodes
 
 # Problem Description
@@ -48,7 +52,8 @@ What about this master lookup table, then?
 Do we really need that, now?
 The control yaml specifies the parameters and the basename,
 or the basename is consistently (ie repeatably) calculated if not provided.
-All the master table helps do is avoid parametric duplicates with different basenames.
+All the master table helps do is avoid parametric duplicates with different basenames,
+and hash collisions. That could be important, though.
 
 Note that for now, the basenames are not yet calculated.
 
