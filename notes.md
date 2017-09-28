@@ -24,7 +24,8 @@ continue developing document.
 It has its own TODO list, but there is more than that.
 
 # Mesh
-_ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline.
+_ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
+_ACTION_ check for compatibility of gmsh version (eg Ruled Surface vs Surface)
 _ACTION_ add validation of geometric inputs
 
 _EVENTUALLY_ post the jinja2 templates and related code to labscripts
