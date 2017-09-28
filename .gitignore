@@ -3,11 +3,11 @@ __pycache__
 notebooks
 *.pdf
 src/mesh/*.geo
-src/mesh/geo/*.geo
+src/mesh/geo/*
 src/mesh/*.msh
-src/mesh/msh/*.msh
+src/mesh/msh/*
 src/mesh/*.xml
-src/mesh/xml/*.xml
+src/mesh/xml/*
 src/mesh/gmsh_out/*
 src/control.yaml
 solutions
