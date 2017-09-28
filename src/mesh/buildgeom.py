@@ -95,10 +95,9 @@ def prepare_template_input(geom, paramdef):
   surftypes=dict([(x,'Ruled' if x in geom.nonplanar else 'Plane') for x in geom.geomtable.keys()])
   t_input['surftypes']=surftypes
 
-  #Apply reversal to selected surfaces for surface loops
-  surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
-  t_input['looplist']=', '.join([str(x) for x in surfnums if x not in geom.internalsurfs])
-  
+  #Dictionary of surface loops (and volumes)
+  t_input['surfloops']=dict([(n, ', '.join(['%d'%x for x in surfs])) for n,surfs in geom.surfloops.items()])
+
   return t_input
 
 def write_one_geo(geomdef, paramdef, geofile):
@@ -108,6 +107,7 @@ def write_one_geo(geomdef, paramdef, geofile):
       tmplfile: geometry template file
       ptdict: dictionary of points and their corresponding mesh density parameter name
       geomtable: mapping of surfaces to points
+      internalsurfs: list of surfaces to exclude from surface loops
       revsurfs: list of surfaces needing orientation reversal
       nonplanar: list of surfaces that are not planar surfaces
     paramdef = parameter defintion dictionary, which must contain:

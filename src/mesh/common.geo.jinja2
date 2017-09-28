@@ -34,11 +34,15 @@ Physical Surface({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
 
 //Surface Loops
-Surface Loop(1)={ {{- looplist -}} };
+{% for lpnum, sents in surfloops.items() %}
+Surface Loop({{ lpnum }})={ {{- sents -}} };
+{% endfor %}
 
 //Volumes
-Volume(1)={1};
-Physical Volume(1)={1};
+{% for lpnum in surfloops.keys() %}
+Volume({{ lpnum }})={ {{- lpnum -}} };
+Physical Volume({{ lpnum }})={ {{- lpnum -}} };
+{% endfor %}
 
 //Mesh
 Mesh 3;
