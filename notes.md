@@ -7,21 +7,17 @@ _ACTION_ compile TODO lines from all code files
 - need to compute effective diffusion constant
 
 # Post-processing
-_EFFORT_ Calculate the diffusion constant.
-J=D delta_c/delta_x => D = J delta_x/delta_c
-
-To get J, you must integrate.
-"assemble(dot(grad(c),n),ds(#))"
-
-How can I generate plots along a line?
-https://fenicsproject.org/qa/11876/extract-solution-at-a-set-of-nodes
-
 _EFFORT_ Function to extract data for 1D plot
 - needs to return two 1D arrays (independent and dependent variables)
 - could give it coordinate axis, limits, and number of points
 - but more generally, could give it two points, and a number of points
 - in some cases you may want to put this in a loop, to run multiple lines and plot them on the same set of axes
 - could also want different components of a vector on the same set of axes
+- need to restrict to points that are actually inside the mesh or on the boundary?
+
+A similar thing would be nice for 2D slices.
+But here, masking points outside the mesh would be even more important.
+This can be done with `tree=mesh.bounding_box_tree()` and `tree.collides(Point(...))`.
 
 # Problem Description
 continue developing document.
