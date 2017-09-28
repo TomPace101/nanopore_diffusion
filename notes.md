@@ -1,14 +1,13 @@
 Current Goal: x=free volume fraction, y=Deff/Dbulk
 
 _ACTION_ look up Fickian diffusion equation in Auriault.
-_ACTION_ look at overleaf shared by Pete
 _ACTION_ compile TODO lines from all code files
 
 # Figure
 - need to compute effective diffusion constant
 
 # Post-processing
-Calculate the diffusion constant.
+_EFFORT_ Calculate the diffusion constant.
 J=D delta_c/delta_x => D = J delta_x/delta_c
 
 To get J, you must integrate.
@@ -17,11 +16,20 @@ To get J, you must integrate.
 How can I generate plots along a line?
 https://fenicsproject.org/qa/11876/extract-solution-at-a-set-of-nodes
 
+_EFFORT_ Function to extract data for 1D plot
+- needs to return two 1D arrays (independent and dependent variables)
+- could give it coordinate axis, limits, and number of points
+- but more generally, could give it two points, and a number of points
+- in some cases you may want to put this in a loop, to run multiple lines and plot them on the same set of axes
+- could also want different components of a vector on the same set of axes
+
 # Problem Description
 continue developing document.
+It has its own TODO list, but there is more than that.
 
 # Mesh
 _ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline.
+_ACTION_ add validation of geometric inputs
 
 _EVENTUALLY_ post the jinja2 templates and related code to labscripts
 
