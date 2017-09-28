@@ -97,7 +97,7 @@ def prepare_template_input(geom, paramdef):
 
   #Apply reversal to selected surfaces for surface loops
   surfnums=[-x if x in geom.revsurfs else x for x in geom.geomtable.keys()]
-  t_input['looplist']=', '.join([str(x) for x in surfnums])
+  t_input['looplist']=', '.join([str(x) for x in surfnums if x not in geom.internalsurfs])
   
   return t_input
 

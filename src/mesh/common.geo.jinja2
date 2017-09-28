@@ -27,7 +27,7 @@ p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnu
 Line Loop({{ lpnum }})={ {{- lents -}} };
 {% endfor %}
 
-//Surfaces
+//Surfaces (each is a physical surface)
 {% for lpnum, stype in surftypes.items() %}
 {{ stype }} Surface({{ lpnum }})={ {{- lpnum -}} };
 Physical Surface({{ lpnum }})={ {{- lpnum -}} };
