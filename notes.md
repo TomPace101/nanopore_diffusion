@@ -1,10 +1,11 @@
-Current Goal: x=free volume fraction, y=Deff/Dbulk
-
-_ACTION_ look up Fickian diffusion equation in Auriault.
-_ACTION_ compile TODO lines from all code files
 
 # Figure
+Current Goal: x=free volume fraction, y=Deff/Dbulk
 - need to compute effective diffusion constant
+
+# Simulation
+- **PRIORITY** automation to compute effective diffusion constant, generate desired figures
+- _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot
@@ -23,6 +24,10 @@ More difficult, but also very helpful, would be finding the actual boundary poin
 How could we do that?
 Here is a package that *might* work:
 https://github.com/mikaem/fenicstools/wiki
+
+Another idea would be to get the points from paraview.
+Maybe it can get points on a cut-plane.
+In any case, this is pretty low-priority right now.
 
 # Problem Description
 
