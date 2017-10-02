@@ -19,9 +19,26 @@ A similar thing would be nice for 2D slices.
 But here, masking points outside the mesh would be even more important.
 This can be done with `tree=mesh.bounding_box_tree()` and `tree.collides(Point(...))`.
 
+More difficult, but also very helpful, would be finding the actual boundary points themselves.
+How could we do that?
+Here is a package that *might* work:
+https://github.com/mikaem/fenicstools/wiki
+
 # Problem Description
+
+This document is getting sufficiently complicated,
+we may just want to consider switching to latex.
+One easy way to do this would be to have pandoc export the latex for you.
+
 continue developing document.
 It has its own TODO list, but there is more than that.
+
+For the part where we have figures of the geometry,
+it would be nice if these could be auto-generated from the lattice yaml file.
+That way, if I add internal surfaces, the drawings could auto-update.
+
+Of course, right now the yaml file doesn't contain the physical dimensions.
+
 
 # Mesh
 _ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
@@ -29,38 +46,6 @@ _ACTION_ check for compatibility of gmsh version (eg Ruled Surface vs Surface)
 _ACTION_ add validation of geometric inputs
 
 _EVENTUALLY_ post the jinja2 templates and related code to labscripts
-
-# Doit
-Given the discussion above in Storage, how do we implement this in doit?
-We want to be able to give it just a single parameter dictionary, including basename, and have it run that.
-Sounds like a job for a yaml input file.
-Potentially the top-level parameter file just points to mesh and solver parameter input files.
-
-If I want the basename to be auto-generated, I just leave it blank.
-
-What if I want a slew of runs, such as parametric variations?
-Yaml files allow multiple "documents", separated by three dashes.
-(In python, use yaml.load_all, which returns a generator, which you probably want inside a list comprehension)
-
-What if I want to auto-generate the parameters in a for-loop?
-Then write code to generate all the necessary dictionaries,
-then save that out to yaml.
-
-Single parameter file, or separate mesh file from solver file?
-Single means more duplication, but less complexity.
-Single file it is, then.
-It is called "control.yaml"
-I made it a symbolic link to another yaml file in the params folder.
-Each document in control must have its own basename.
-
-What about this master lookup table, then?
-Do we really need that, now?
-The control yaml specifies the parameters and the basename,
-or the basename is consistently (ie repeatably) calculated if not provided.
-All the master table helps do is avoid parametric duplicates with different basenames,
-and hash collisions. That could be important, though.
-
-Note that for now, the basenames are not yet calculated.
 
 # Parametric variations
 - a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
@@ -121,4 +106,40 @@ Or, if you don't provide a basename, one will be auto-generated using a hash of 
 https://github.com/jjmontesl/codenamize
 
 Note that the same master table can be used as a store of single-parameter results, such as diffusion constants.
+
+The final resolution of this was that the basename is provided in the control.yaml file.
+It is not auto-generated.
+
+# Doit
+Given the discussion above in Storage, how do we implement this in doit?
+We want to be able to give it just a single parameter dictionary, including basename, and have it run that.
+Sounds like a job for a yaml input file.
+Potentially the top-level parameter file just points to mesh and solver parameter input files.
+
+If I want the basename to be auto-generated, I just leave it blank.
+
+What if I want a slew of runs, such as parametric variations?
+Yaml files allow multiple "documents", separated by three dashes.
+(In python, use yaml.load_all, which returns a generator, which you probably want inside a list comprehension)
+
+What if I want to auto-generate the parameters in a for-loop?
+Then write code to generate all the necessary dictionaries,
+then save that out to yaml.
+
+Single parameter file, or separate mesh file from solver file?
+Single means more duplication, but less complexity.
+Single file it is, then.
+It is called "control.yaml"
+I made it a symbolic link to another yaml file in the params folder.
+Each document in control must have its own basename.
+
+What about this master lookup table, then?
+Do we really need that, now?
+The control yaml specifies the parameters and the basename,
+or the basename is consistently (ie repeatably) calculated if not provided.
+All the master table helps do is avoid parametric duplicates with different basenames,
+and hash collisions. That could be important, though.
+
+Note that for now, the basenames are not calculated.
+And I'm not seeing a good reason for them to be at the moment.
 
