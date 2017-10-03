@@ -28,6 +28,7 @@ We study a silica membrane containing nanoscopic circular pores arranged in a tw
 We desire to understand the rate of transport of different ions through the nanopores,
 quantified in terms of an effective diffusion constant.
 The pore geometry is variable, as is the diffusion equation governing transport.
+The diffusion equation is solved using \texttt{FEniCS}.
 
 %-------------------------------------------------------------------------------
 \section{System Geometry}\label{sec:geometry}
@@ -69,6 +70,11 @@ H & = & \text{Distance from membrane surface to model boundary}
 %-------------------------------------------------------------------------------
 \section{Mesh Generation}\label{sec:meshgen}
 
+\texttt{gmsh} is used to generate the finite element mesh.
+The mesh is generated from solid geometry defined by its boundary surfaces.
+These surfaces, in turn, are defined by their boundaries,
+which are defined using points.
+
 \textbf{TODO: gmsh geometry (point numbers, etc)}
 
 %-------------------------------------------------------------------------------
@@ -78,20 +84,20 @@ To compute the equivalent diffusion constant, the problem is treated as a one-di
 That is, we consider diffusion in the direction across the membrane.
 The total flux across the membrane will be related to the effective diffusion constant by:
 
-$$J = D \frac{\Delta c}{\Delta x}$$
+$$J = D_{eff} \frac{\Delta c}{\Delta x}$$
 
 where:
 
 $\begin{array}{rcl}
 J & = & \text{integral of flux over the pore, e.g. moles per unit time} \\
-D & = & \text{unknown effective diffusion constant} \\
+D_{eff} & = & \text{unknown effective diffusion constant} \\
 \Delta c & = & \text{change in concentration} \\
 \Delta x & = & \text{distance over which concentration changes}
 \end{array}$
 
-Re-arranging this equation to solve for the unknown $D$, we have:
+Re-arranging this equation to solve for the unknown $D_{eff}$, we have:
 
-$$D = J \frac{\Delta x}{\Delta c}$$
+$$D_{eff} = J \frac{\Delta x}{\Delta c}$$
 
 The integrated flux, $J$ is calculated from the model by integrating
 the ion flux over a surface parallel to the membrane surface.
@@ -101,7 +107,7 @@ when integrating over the upgradient or downgradient boundary of the model.
 
 Specifically, the integrated flux is calculated as:
 
-$$J = \int dA \left(\hat{n} \cdot \vec{\nabla} c \right)$$
+$$J = \int dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
 
 where $\hat{n}$ is the directed normal to the surface,
 and $c$ is the concentration field found by solving the model.
@@ -111,7 +117,7 @@ the concentration result at two points located symmetrically on opposite sides o
 The difference in concentration between these two points is $\Delta c$,
 and the distance between them is $\Delta x$.
 
-Slightly different results for the value fo $D$ could be attained by selecting different
+Slightly different results for the value of $D_{eff}$ could be attained by selecting different
 pairs of symmetrically located points.
 For consistency, the results here are taken with these two points located
 along the centerline of the pore, at both faces of the membrane.
@@ -122,7 +128,88 @@ along the centerline of the pore, at both faces of the membrane.
 
 \subsection{Unhomogenized Fickian Diffusion Equation}\label{subsec:unhom_fick}
 
+For particle flux defined as 
 
+$$\vec{j} = - D \vec{\nabla} c$$
+
+The Fickian diffusion equation can be written:
+$$\frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}$$
+
+where:
+
+$\begin{array}{rcl}
+c & = & c(x,y,z) = \text{the particle concentration field (number of particles per unit volume)} \\
+t & = & \text{time} \\
+\vec{j} & = & \vec{j}(x,y,z) = \text{the particle flux field (number of particles per unit area per unit time)} \\
+D & = & \text{the implicit diffusion constant of the solvent (unit area per unit time)}
+\end{array}$
+
+For constant $D$, this can be written as
+
+$$\frac{\partial c}{\partial t} = D \nabla^2 c$$
+
+We seek the solution at equilibrium, defined by
+$\frac{\partial c}{\partial t} = 0$ at all points in the problem domain.
+Thus, we seek to solve
+
+$$D \nabla^2 c = 0$$
+
+subject to boundary conditions.
+
+Assuming $D$ is any nonzero constant, this is clearly the same as
+
+$$ \nabla^2 c = 0$$
+
+For solution in \texttt{FEniCS}, a weak form of this equation is required.
+Multiplying by a test function $v$ and integrating over the problem domain,
+
+$$\int_{\Omega} \left(\nabla^2 c \right) v \,d^3x = 0$$
+
+Using the product rule
+$$\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) =
+v \left(\vec{\nabla} \cdot \vec{\nabla} c \right) + \vec{\nabla}c \cdot \vec{\nabla}v =
+v \left(\nabla^2 c \right) + \vec{\nabla}c \cdot \vec{\nabla}v$$
+$$\left(\nabla^2 c \right) v =
+\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) - \vec{\nabla}c \cdot \vec{\nabla}v$$
+
+to integrate by parts, the equation becomes
+$$ \int_{\Omega} \left(\nabla^2 c \right) v \,d^3x =
+\int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} c \right) \,d^3x
+- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =0$$
+
+Applying the divergence theorem (Gauss's theorem):
+$$\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds
+- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x = 0$$
+
+$$\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =
+\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds$$
+
+In this case, we have both Dirichlet and von Neumann boundary conditions:
+there are some boundary surfaces where the concentration is known,
+and others where the particle flux is known.
+Specifically, known concentrations are applied at both the top and bottom of the model,
+and the particle flux must be zero for all other boundary surfaces.
+Defining $\Gamma_D$ as the Dirichlet boundary surfaces,
+and $\Gamma_N$ as the von Neumann boundary surfaces, we obtain
+
+$$\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =
+\int_{\Gamma_D} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds
++\int_{\Gamma_N} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds$$
+
+For the Dirichlet boundary surfaces (where the concentration is known),
+the test function $v$ must be equal to zero,
+as the variation of the unknown function must be zero at points where the function is known.
+
+Furthermore, a flux of zero requires that the derivative of the concentration in a direction
+normal to the boundary surface is zero.
+That is, $\hat{n} \cdot \vec{\nabla} c = 0$ at all points on the von Neumann boundaries.
+
+Therefore, the governing equation is simply
+$$\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x = 0$$
+
+In terms of \texttt{FEniCS}, this means that the bilinear form is
+$a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x$,
+and the linear form is constant, zero.
 
 \subsection{Homogenized Fickian Diffusion Equation}\label{subsec:hom_fick}
 
