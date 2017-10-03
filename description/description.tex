@@ -3,7 +3,7 @@
 
 \documentclass{article}
 
-\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage[letterpaper, margin=0.5in, footskip=2ex]{geometry}
 \usepackage{graphicx} % Required to insert images
 \usepackage{float} % For placing figures EXACTLY where I say
 \usepackage{epstopdf}
@@ -70,6 +70,52 @@ H & = & \text{Distance from membrane surface to model boundary}
 \section{Mesh Generation}\label{sec:meshgen}
 
 \textbf{TODO: gmsh geometry (point numbers, etc)}
+
+%-------------------------------------------------------------------------------
+\section{Diffusion Constant}\label{sec:D}
+
+To compute the equivalent diffusion constant, the problem is treated as a one-dimensional diffusion problem.
+That is, we consider diffusion in the direction across the membrane.
+The total flux across the membrane will be related to the effective diffusion constant by:
+
+$$J = D \frac{\Delta c}{\Delta x}$$
+
+where:
+
+$\begin{array}{rcl}
+J & = & \text{integral of flux over the pore, e.g. moles per unit time} \\
+D & = & \text{unknown effective diffusion constant} \\
+\Delta c & = & \text{change in concentration} \\
+\Delta x & = & \text{distance over which concentration changes}
+\end{array}$
+
+Re-arranging this equation to solve for the unknown $D$, we have:
+
+$$D = J \frac{\Delta x}{\Delta c}$$
+
+The integrated flux, $J$ is calculated from the model by integrating
+the ion flux over a surface parallel to the membrane surface.
+The result should be the same for any such surface capturing the full extents of the model.
+That is, the integrated flux should be the same when integrating over the pore as
+when integrating over the upgradient or downgradient boundary of the model.
+
+Specifically, the integrated flux is calculated as:
+
+$$J = \int dA \left(\hat{n} \cdot \vec{\nabla} c \right)$$
+
+where $\hat{n}$ is the directed normal to the surface,
+and $c$ is the concentration field found by solving the model.
+
+The values of $\Delta c$ and $\Delta x$ are calculated by extracting
+the concentration result at two points located symmetrically on opposite sides of the membrane.
+The difference in concentration between these two points is $\Delta c$,
+and the distance between them is $\Delta x$.
+
+Slightly different results for the value fo $D$ could be attained by selecting different
+pairs of symmetrically located points.
+For consistency, the results here are taken with these two points located
+along the centerline of the pore, at both faces of the membrane.
+
 
 %-------------------------------------------------------------------------------
 \section{Diffusion Equation}\label{sec:equation}
