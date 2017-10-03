@@ -350,7 +350,7 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.59951172"
+     inkscape:zoom="1.6956752"
      inkscape:cx="466.87662"
      inkscape:cy="251.99972"
      inkscape:document-units="in"
@@ -530,20 +530,20 @@
          sodipodi:role="line">line of symmetry</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.26458335;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker5495);marker-end:url(#marker5499)"
-       d="m 69.849996,233.5113 12.700001,0"
+       d="m 70.016433,195.56378 12.700001,0"
        id="path5493"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.0555563px;line-height:100%;font-family:Laksaman;-inkscape-font-specification:'Laksaman, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="75.998413"
-       y="233.00734"
+       x="76.331284"
+       y="195.22626"
        id="text5503"
        sodipodi:linespacing="100%"><tspan
          sodipodi:role="line"
          id="tspan5505"
-         x="75.998413"
-         y="233.00734">R</tspan></text>
+         x="76.331284"
+         y="195.22626">R</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.26458336;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;marker-start:url(#marker5511);marker-end:url(#marker5515)"
        d="m 203.20003,220.79998 0,12.7"
