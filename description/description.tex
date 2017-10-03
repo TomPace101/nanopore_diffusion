@@ -5,9 +5,12 @@
 
 \usepackage[letterpaper, margin=0.5in]{geometry}
 \usepackage{graphicx} % Required to insert images
+\usepackage{float} % For placing figures EXACTLY where I say
 \usepackage{epstopdf}
 \usepackage{listings} % Required for insertion of code
 \usepackage{amssymb,amsmath}
+
+\graphicspath{ {fig_pdf/} } %If additional directories are needed, place them in additional sets of inner braces e.g {fig_pdf/}{fig_svg/}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1ex}
@@ -19,7 +22,7 @@
 \maketitle
 
 %-------------------------------------------------------------------------------
-\section{Background}
+\section{Background}\label{sec:background}
 
 We study a silica membrane containing nanoscopic circular pores arranged in a two-dimensional lattice.
 We desire to understand the rate of transport of different ions through the nanopores,
@@ -27,28 +30,30 @@ quantified in terms of an effective diffusion constant.
 The pore geometry is variable, as is the diffusion equation governing transport.
 
 %-------------------------------------------------------------------------------
-\section{System Geometry}
+\section{System Geometry}\label{sec:geometry}
 
 We study both a body-centered rectangular lattice of pores,
 as well as a face-centered lattice of pores.
 The unit cell geometry has two planes of symmetry.
 This symmetry is used to reduce the model to only one quarter of the unit cell.
 
-The geometry and geometric variables are shown below.
+The geometry is shown in Figures \ref{fig:body-top} and \ref{fig:body-side}.
 
-\textbf{TODO: get figure numbers for reference in text}
-
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
-\includegraphics[height=0.50000\textwidth]{./fig_pdf/body-top.pdf}
+\includegraphics[width=0.50000\textwidth]{body-top.pdf}
 \caption{Top view of body-centered geometry}
+\label{fig:body-top}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
-\includegraphics[height=0.50000\textwidth]{./fig_pdf/body-side.pdf}
+\includegraphics[height=0.50000\textwidth]{body-side.pdf}
 \caption{Side view of body-centered geometry}
+\label{fig:body-side}
 \end{figure}
+
+The geometric variables are:
 
 $\begin{array}{rcl}
 Sx & = & 2 Lx =\text{Unit cell x-dimension} \\
@@ -69,11 +74,11 @@ H & = & \text{Distance from membrane surface to model boundary}
 \textbf{TODO: face-centered geometry, both views}
 
 %-------------------------------------------------------------------------------
-\section{Diffusion Equation}
+\section{Diffusion Equation}\label{sec:equation}
 
-\subsection{Unhomogenized Standard Diffusion Equation}
+\subsection{Unhomogenized Fickian Diffusion Equation}\label{subsec:unhom_fick}
 
-\subsection{Homogenized Standard Diffusion Equation}
+\subsection{Homogenized Fickian Diffusion Equation}\label{subsec:hom_fick}
 
 
 

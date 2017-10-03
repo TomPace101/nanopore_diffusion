@@ -23,9 +23,11 @@ fig_inputs=stem_to_file(figstems,svgdir,'svg')
 fig_outputs=stem_to_file(figstems,pdfdir,'pdf')
 
 def task_gen_report():
-  infile='description.tex'
-  outfile='description.pdf'
-  return {'actions': ['pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)],
+  stemname='description'
+  infile=stemname+'.tex'
+  outfile=stemname+'.pdf'
+  cmdstr='pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)
+  return {'actions': [cmdstr, cmdstr], #need to do it twice to get figure references correct.
           'file_dep': [infile]+fig_outputs,
           'targets': [outfile]}
 
