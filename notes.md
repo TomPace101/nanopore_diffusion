@@ -31,10 +31,6 @@ In any case, this is pretty low-priority right now.
 
 # Problem Description
 
-This document is getting sufficiently complicated,
-we may just want to consider switching to latex.
-One easy way to do this would be to have pandoc export the latex for you.
-
 continue developing document.
 It has its own TODO list, but there is more than that.
 

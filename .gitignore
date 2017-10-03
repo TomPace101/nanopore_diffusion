@@ -11,3 +11,6 @@ src/mesh/xml/*
 src/mesh/gmsh_out/*
 src/control.yaml
 solutions
+*.aux
+*.log
+latex.out

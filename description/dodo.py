@@ -23,9 +23,9 @@ fig_inputs=stem_to_file(figstems,svgdir,'svg')
 fig_outputs=stem_to_file(figstems,pdfdir,'pdf')
 
 def task_gen_report():
-  infile='description.md'
+  infile='description.tex'
   outfile='description.pdf'
-  return {'actions': ['pandoc --number-sections -o %s %s'%(outfile,infile)],
+  return {'actions': ['pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)],
           'file_dep': [infile]+fig_outputs,
           'targets': [outfile]}
 
