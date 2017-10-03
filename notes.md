@@ -4,8 +4,28 @@ Current Goal: x=free volume fraction, y=Deff/Dbulk
 - need to compute effective diffusion constant
 
 # Simulation
-- **PRIORITY** automation to compute effective diffusion constant, generate desired figures
-- _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
+**PRIORITY** calculate flux integrals, and then effective diffusion constants
+_THEN_ we need to run for face-centered geometry as well.
+
+Where should the boundary condition parameters be stored?
+They should be separate from the mesh parameters,
+because we could run the same mesh with many different boundary conditions.
+Or maybe they should be the same, and I just programmatically generate multiple yaml documents.
+
+_THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
+
+# Separate solution and post-processing
+
+We don't want to re-run the whole model just to change a plot.
+So we need to separate out the plot data.
+It can be extracted when you generate the solution.
+But we need a way to store it an organize it,
+so it can get to the plot that needs it.
+
+Where should we store the effective diffusion constants?
+This brings back the idea of a need for a master table of results.
+
+
 
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot
@@ -27,6 +47,9 @@ https://github.com/mikaem/fenicstools/wiki
 
 Another idea would be to get the points from paraview.
 Maybe it can get points on a cut-plane.
+Or, maybe gmsh can do it. You only need the mesh, not the solution.
+(See http://onelab.info/pipermail/gmsh/2008/003822.html:
+it seems you can export plots in raw text.)
 In any case, this is pretty low-priority right now.
 
 # Problem Description

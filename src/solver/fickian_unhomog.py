@@ -60,7 +60,7 @@ def SolveMesh(basename,params):
   
   #Neumann boundary conditions
   #they are all zero in this case
-  ds = Measure("ds",domain=mesh,subdomain_data=boundaries) ##TODO: specify which surfaces are Neumann?
+  ds = Measure("ds",domain=mesh,subdomain_data=surfaces) ##TODO: specify which surfaces are Neumann?
 
   #Define variational problem
   c=TrialFunction(V)
@@ -83,17 +83,21 @@ def SolveMesh(basename,params):
 
   #Flux integral over surface
   ##TODO
-  
+
+  #Effective Diffusion Constant
+  ##TODO
+
   #Data for plots
   ##TODO
 
   #Pickle
-  pobj={}
-  ll=locals()
-  for var in ['basename','params','mesh','surfaces','volumes','c','V','V_vec']:
-    pobj[var]=ll[var]
-  with open(pklfile,'wb') as fp:
-    pickle.dump(pobj,fp,pickle_protocol)
+  #Nice try, but "can't pickle SwigPyOjbect objects"
+  # pobj={}
+  # ll=locals()
+  # for var in ['basename','params','mesh','surfaces','volumes','c','V','V_vec']:
+  #   pobj[var]=ll[var]
+  # with open(pklfile,'wb') as fp:
+  #   pickle.dump(pobj,fp,pickle_protocol)
 
   #Done
   return
