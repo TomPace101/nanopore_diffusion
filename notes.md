@@ -12,6 +12,8 @@ They should be separate from the mesh parameters,
 because we could run the same mesh with many different boundary conditions.
 Or maybe they should be the same, and I just programmatically generate multiple yaml documents.
 
+I think some sort of master table is going to be the only way, probably.
+
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Separate solution and post-processing
@@ -24,7 +26,6 @@ so it can get to the plot that needs it.
 
 Where should we store the effective diffusion constants?
 This brings back the idea of a need for a master table of results.
-
 
 
 # Post-processing
