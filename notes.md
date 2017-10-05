@@ -10,13 +10,68 @@ _THEN_ we need to run for face-centered geometry as well.
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Separate solution and post-processing
-The organization of input parameters and output results.
 
 We don't want to re-run the whole model just to change a plot.
 So we need to separate out the plot data.
 It can be extracted when you generate the solution.
 But we need a way to store it an organize it,
 so it can get to the plot that needs it.
+(See Organization of input parameters and output results)
+
+Then, we need to be able to generate plots based on that stored data.
+Pickle format?
+
+# Post-processing
+_EFFORT_ Function to extract data for 1D plot
+- needs to return two 1D arrays (independent and dependent variables)
+- could give it coordinate axis, limits, and number of points
+- but more generally, could give it two points, and a number of points
+- in some cases you may want to put this in a loop, to run multiple lines and plot them on the same set of axes
+- could also want different components of a vector on the same set of axes
+- need to restrict to points that are actually inside the mesh or on the boundary?
+
+A similar thing would be nice for 2D slices.
+But here, masking points outside the mesh would be even more important.
+This can be done with `tree=mesh.bounding_box_tree()` and `tree.collides(Point(...))`.
+
+More difficult, but also very helpful, would be finding the actual boundary points themselves.
+How could we do that?
+Here is a package that *might* work:
+https://github.com/mikaem/fenicstools/wiki
+
+Another idea would be to get the points from paraview.
+Maybe it can get points on a cut-plane.
+Or, maybe gmsh can do it. You only need the mesh, not the solution.
+(See http://onelab.info/pipermail/gmsh/2008/003822.html:
+it seems you can export plots in raw text.)
+In any case, this is pretty low-priority right now.
+
+# Problem Description
+
+continue developing document.
+It has its own TODO list, but there is more than that.
+
+For the part where we have figures of the geometry,
+it would be nice if these could be auto-generated from the lattice yaml file.
+That way, if I add internal surfaces, the drawings could auto-update.
+
+Of course, right now the yaml file doesn't contain the physical dimensions.
+
+
+# Mesh
+_ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
+_ACTION_ check for compatibility of gmsh version (eg Ruled Surface vs Surface)
+_ACTION_ add validation of geometric inputs
+
+_EVENTUALLY_ post the jinja2 templates and related code to labscripts
+
+# Parametric variations
+- a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
+- the length of the pore, although again we'll probably stick to physical measurements
+- the bulk space above and below the pore (far enough away to not affect results)
+- mesh refinement study, of course
+
+# Organization of input parameters and output results.
 
 Where should we store the effective diffusion constants?
 This brings back the idea of a need for a master table of results.
@@ -79,56 +134,6 @@ This gives us the following structure under `params`:
 - control (each file can have multiple entries)
 
 I like this better, at the moment.
-
-# Post-processing
-_EFFORT_ Function to extract data for 1D plot
-- needs to return two 1D arrays (independent and dependent variables)
-- could give it coordinate axis, limits, and number of points
-- but more generally, could give it two points, and a number of points
-- in some cases you may want to put this in a loop, to run multiple lines and plot them on the same set of axes
-- could also want different components of a vector on the same set of axes
-- need to restrict to points that are actually inside the mesh or on the boundary?
-
-A similar thing would be nice for 2D slices.
-But here, masking points outside the mesh would be even more important.
-This can be done with `tree=mesh.bounding_box_tree()` and `tree.collides(Point(...))`.
-
-More difficult, but also very helpful, would be finding the actual boundary points themselves.
-How could we do that?
-Here is a package that *might* work:
-https://github.com/mikaem/fenicstools/wiki
-
-Another idea would be to get the points from paraview.
-Maybe it can get points on a cut-plane.
-Or, maybe gmsh can do it. You only need the mesh, not the solution.
-(See http://onelab.info/pipermail/gmsh/2008/003822.html:
-it seems you can export plots in raw text.)
-In any case, this is pretty low-priority right now.
-
-# Problem Description
-
-continue developing document.
-It has its own TODO list, but there is more than that.
-
-For the part where we have figures of the geometry,
-it would be nice if these could be auto-generated from the lattice yaml file.
-That way, if I add internal surfaces, the drawings could auto-update.
-
-Of course, right now the yaml file doesn't contain the physical dimensions.
-
-
-# Mesh
-_ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
-_ACTION_ check for compatibility of gmsh version (eg Ruled Surface vs Surface)
-_ACTION_ add validation of geometric inputs
-
-_EVENTUALLY_ post the jinja2 templates and related code to labscripts
-
-# Parametric variations
-- a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
-- the length of the pore, although again we'll probably stick to physical measurements
-- the bulk space above and below the pore (far enough away to not affect results)
-- mesh refinement study, of course
 
 --------------------------------------------------------------------------------
 # Non-active items only below this point
