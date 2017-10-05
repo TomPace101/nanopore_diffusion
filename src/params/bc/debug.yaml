@@ -5,6 +5,8 @@
 
 #Boundary conditions definition
 #bcname: name of boundary conditions parameter set
+#meshname: name of mesh to use
+#equation: name of equation to solve
 #topsurf: physical surface number of top surface
 #basesurf: physical surface number of base surface
 #topval: concentration value specified at top surface
@@ -12,6 +14,7 @@
 ---
 bcname: debug
 meshname: debug
+equation: fickian_unhomog
 topsurf: 4
 basesurf: 1
 topval: 5.0
