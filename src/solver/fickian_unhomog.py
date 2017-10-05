@@ -10,6 +10,7 @@ import sys
 
 #Site packages
 from fenics import *
+import numpy as np
 
 #Local
 sys.path.append(osp.abspath('..'))
@@ -36,6 +37,10 @@ def SolveMesh(params):
       baseval = concentration value at base surface
   No return value.
   Output files are created."""
+
+  #Read mesh parameters
+  meshparams_dict=useful.readyaml(osp.join(params_mesh_folder,params.meshname+'.yaml'))
+  meshparams=argparse.Namespace(**meshparams_dict)
 
   #Output location(s)
   outdir=osp.join(solndir,params.meshname)
@@ -90,14 +95,23 @@ def SolveMesh(params):
   totflux=assemble(dot(j,n(params.fluxsign))*dsi(params.fluxsurf))
 
   #Effective Diffusion Constant
-  ##TODO
-  c_samples=[c(0,0,zv) for zv in params.z_samples]
-  delta_x=params.z_samples[1]-params.z_samples[0]
+  c_samples=[c(0,0,zv) for zv in [meshparams.H, meshparams.H + meshparams.tm]]
   delta_c=c_samples[1]-c_samples[0]
-  Deff=float(totflux*delta_x/delta_c)
+  Deff=float(totflux*meshparams.tm/delta_c)
 
   #Data for plots
-  ##TODO
+  #Hard-coded centerline plot for now
+  zr=np.arange(0, 2*meshparams.H + meshparams.tm, params.sample_spacing)
+  zlist=[]
+  clist=[]
+  for z in zr:
+    zlist.append(z)
+    tup=(0,0,z)
+    clist.append(c(*tup))
+  zarr=np.array(zlist)
+  carr=np.array(clist)
+  plotobj={'zarr':zarr, 'carr':carr}
+  useful.writeyaml(plotobj,osp.join(outdir,'plotdata_CL_c.yaml'))
 
   #Pickle
   #Nice try, but "can't pickle SwigPyOjbect objects"
