@@ -138,6 +138,10 @@ def process_mesh_params(params):
   """Turn a mesh control parameters object into the arguments needed for write_one_geo and doit file dependencies
   Inputs:
     params = an object (such as a Namespace) with at least the following attributes:
+    meshname = stem name for the .geo, .msh and .xml files (this script only generates the .geo file)
+    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml),
+      this file is specific to the jinja2 template used to generate the .geo file
+    and all the geometric parameters needed by the jinja2 template to generate the .geo file.
   Returns:
     geomyaml = geometry definition yaml file path, as string
     geomdef = geometry definition dictionary
@@ -152,11 +156,7 @@ if __name__ == '__main__':
   #Process command-line arguments
   mesh_params_docstring="""parameter definition file for the mesh
   This is a potentially multi-doc yaml file, where each document specifies one mesh to generate.
-  The parameters must be (at a minimum):
-    meshname = stem name for the .geo, .msh and .xml files (this script only generates the .geo file)
-    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml),
-      this file is specific to the jinja2 template used to generate the .geo file
-    and all the geometric parameters needed by the jinja2 template to generate the .geo file."""
+  The required attributes are as specified in the argument of process_mesh_params"""
   parser = argparse.ArgumentParser(description='Create gmsh .geo file(s)')
   parser.add_argument('mesh_params_yaml', help=mesh_params_docstring)
   cmdline=parser.parse_args()
