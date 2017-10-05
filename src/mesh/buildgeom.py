@@ -110,10 +110,7 @@ def write_one_geo(geomdef, paramdef, geofile):
       internalsurfs: list of surfaces to exclude from surface loops
       revsurfs: list of surfaces needing orientation reversal
       nonplanar: list of surfaces that are not planar surfaces
-    paramdef = parameter defintion dictionary, which must contain:
-      outfile: the .geo file to write
-      mshfile: the .msh file for gmsh to create
-      and all the other parameters needed by the geometry template file
+    paramdef = parameter defintion dictionary, which must contain all parameters needed by the geometry template file
     geofile = path to output .geo file, as string
   No return value. The .geo file is written."""
 
