@@ -46,7 +46,7 @@ def SolveMesh(params):
   meshparams=argparse.Namespace(**meshparams_dict)
 
   #Output location(s)
-  outdir=osp.join(solndir,params.meshname)
+  outdir=osp.join(solnfolder,params.meshname)
   if not osp.isdir(outdir):
     os.mkdir(outdir)
   pklfile=osp.join(outdir,'results.pkl')

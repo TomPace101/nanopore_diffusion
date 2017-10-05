@@ -19,4 +19,4 @@ outfolder=osp.join(meshfolder,'gmsh_out')
 solverfolder=osp.join(srcfolder,'solver')
 
 #solutions
-solndir=osp.join(srcfolder,'solutions')
+solnfolder=osp.join(srcfolder,'solutions')
