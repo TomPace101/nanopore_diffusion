@@ -23,7 +23,7 @@ def create_geo(params):
   geomdef=useful.readyaml(geomyaml) #geometry definition dictionary
   geofile=osp.join(geofolder,params.meshname+'.geo') #.geo file
   filedeps=[osp.join(topfolder,x) for x in ['buildgeom.py',geomyaml,geomdef['tmplfile'],'common.geo.jinja2'] ]
-  tdef = {'name':params.meshname,
+  tdef = {'name':geofile,
           'file_dep':filedeps,
           'uptodate':[config_changed(paramdef)],
           'targets':[geofile],
@@ -35,7 +35,7 @@ def create_msh(params):
   geofile=osp.join(geofolder,'%s.geo'%stem)
   mshfile=osp.join(mshfolder,'%s.msh'%stem)
   outfile=osp.join(outfolder,'%s.txt'%stem)
-  tdef = {'name':stem,
+  tdef = {'name':mshfile,
           'file_dep':[geofile],
           'targets':[mshfile],
           'actions':['gmsh -0 -o %s %s >%s'%(mshfile,geofile,outfile)]}
@@ -45,7 +45,7 @@ def create_xml(params):
   stem=params.meshname
   mshfile=osp.join(mshfolder,'%s.msh'%stem)
   xmlfile=osp.join(xmlfolder,'%s.xml'%stem)
-  tdef = {'name':stem,
+  tdef = {'name':xmlfile,
           'file_dep':[mshfile],
           'targets':[xmlfile],
           'actions':['dolfin-convert %s %s'%(mshfile,xmlfile)]}

@@ -9,6 +9,17 @@ _THEN_ we need to run for face-centered geometry as well.
 
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
+
+# Python imports
+The way I'm importing modules from everywhere is pretty ugly.
+What if I put an `__init__.py` file in `src`?
+Would that allow relative imports to work?
+
+Relative imports work even without it,
+as long as you refer to something at a lower level.
+The trouble is when python is started in mesh (ie to run buildgeom.py),
+and wants to import something from a directory above that (ie useful.py)
+
 # Separate solution and post-processing
 
 We don't want to re-run the whole model just to change a plot.

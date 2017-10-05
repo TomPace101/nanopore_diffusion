@@ -26,21 +26,21 @@ import tasks_mesh
 #Read the yaml document
 runs=useful.readyaml_multidoc('control.yaml')
 
+#Get list of all meshes to generate
+meshes_byname={}
+for rd in runs:
+  meshyaml=rd['meshparams']
+  meshdict_list=useful.readyaml_multidoc(meshyaml)
+  for meshdict in meshdict_list:
+    if meshdict is not None:
+      meshobj=Namespace(**meshdict)
+      meshes_byname[meshdict['meshname']]=meshobj
+meshruns=[m for m in meshes_byname.values()]
+
 #Mesh tasks
-def task_make_geo():
-  for paramdef in runs:
-    if paramdef is not None:
-      pobj=Namespace(**paramdef)
-      yield tasks_mesh.create_geo(pobj)
+def task_make_mesh():
+  for params in meshruns:
+    yield tasks_mesh.create_geo(params)
+    yield tasks_mesh.create_msh(params)
+    yield tasks_mesh.create_xml(params)
 
-def task_make_msh():
-  for paramdef in runs:
-    if paramdef is not None:
-      pobj=Namespace(**paramdef)
-      yield tasks_mesh.create_msh(pobj)
-
-def task_make_xml():
-  for paramdef in runs:
-    if paramdef is not None:
-      pobj=Namespace(**paramdef)
-      yield tasks_mesh.create_xml(pobj)

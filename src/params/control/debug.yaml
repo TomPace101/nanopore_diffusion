@@ -1,0 +1,8 @@
+%YAML 1.2
+#Parameter input file
+#Each document is a separate case run
+#Blank (bare) documents are skipped
+---
+meshparams: params/mesh/debug.yaml
+bcparams: params/bc/debug.yaml
+master: debug
