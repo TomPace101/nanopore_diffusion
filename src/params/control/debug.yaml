@@ -9,5 +9,5 @@
 #master: name of master table for results
 ---
 meshparams: params/mesh/debug.yaml
-bcparams: params/bc/debug.yaml
+modelparams: params/model/debug.yaml
 master: debug

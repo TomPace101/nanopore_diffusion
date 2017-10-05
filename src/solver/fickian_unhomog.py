@@ -35,6 +35,9 @@ def SolveMesh(params):
       basesurf = physical surface number for base surface
       topval = concentration value at top surface
       baseval = concentration value at base surface
+      fluxsurf: physical surface number for flux measurement
+      fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
+      sample_spacing: distance between sampled points for line plots
   No return value.
   Output files are created."""
 

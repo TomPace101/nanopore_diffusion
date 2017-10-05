@@ -68,7 +68,7 @@ def task_make_mesh():
 #Solver tasks
 def task_solve():
   #Get list of all models to solve
-  bcruns=consolidate(runs,'bcparams','bcname','boundary condition')
+  modelruns=consolidate(runs,'modelparams','modelname','model')
   #Set up tasks for each model
-  for params in bcruns:
+  for params in modelruns:
     yield tasks_solver.dosolve(params)

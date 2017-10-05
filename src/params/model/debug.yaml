@@ -15,7 +15,7 @@
 #fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
 #sample_spacing: distance between sampled points for line plots
 ---
-bcname: debug
+modelname: debug
 meshname: debug
 equation: fickian_unhomog
 topsurf: 4

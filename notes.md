@@ -122,10 +122,12 @@ for parameters that control the solution in a given solving function.
 That's different though, than specifying which equation.
 The bcs apply only to a particular equation, but issues like solver settings aren't specific to a bc set.
 So the bc neeeds to specify an equation, but nothing else about the solver. For now.
+There are other things that are related,
+so I'm renaming this from "bc" to "model"
 
 This way, `control.yaml` designates:
 - the mesh parameters file; all meshes therein are generated
-- the bc parameters file; each entry designates mesh, equation, and bc parameters
+- the model parameters file; each entry designates mesh, equation, and bc parameters
 - the master table to use for results
 - which post-processing scripts to run? (this will become more clear later on)
 

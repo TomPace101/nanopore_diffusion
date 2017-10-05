@@ -19,7 +19,7 @@ def dosolve(params):
   outdir=osp.join(solndir,params.meshname)
   outfiles=['conc.pvd','flux.pvd']
   outpaths=[osp.join(outdir,f) for f in outfiles]
-  tdef = {'name':params.bcname,
+  tdef = {'name':params.modelname,
           'file_dep':[osp.join(solverfolder,'fickian_unhomog.py')]+xmlfiles,
           'uptodate':[config_changed(params.__dict__)],
           'targets':outpaths,
