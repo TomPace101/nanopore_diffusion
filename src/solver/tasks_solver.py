@@ -16,7 +16,7 @@ from . import fickian_unhomog
 def dosolve(params):
   assert params.equation=='fickian_unhomog', "Only one equation implemented for now." #TODO: support other equations
   xmlfiles = [x for x in fickian_unhomog.List_Mesh_Input_Files(params)] #TODO: this will need to change when we support other equations
-  outdir=osp.join(solndir,params.meshname)
+  outdir=osp.join(solnfolder,params.meshname)
   outfiles=['conc.pvd','flux.pvd']
   outpaths=[osp.join(outdir,f) for f in outfiles]
   tdef = {'name':params.modelname,
