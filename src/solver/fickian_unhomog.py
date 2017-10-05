@@ -130,6 +130,8 @@ def SolveMesh(params):
   #Results yaml
   volfrac = np.pi*meshparams.R**2/(4*meshparams.Lx*meshparams.Ly)
   robj={'totflux':totflux, 'Deff':Deff, 'free_volume_frac':volfrac}
+  robj.update(meshparams.__dict__)
+  robj.update(params.__dict__)
   useful.writeyaml(robj,osp.join(outdir,'results.yaml'))
 
   #Done
