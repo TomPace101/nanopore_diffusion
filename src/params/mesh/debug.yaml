@@ -3,7 +3,7 @@
 #Each document is a separate case run
 #Blank (bare) documents are skipped
 ---
-basename: debug
+meshname: debug
 lattice: body-cen2
 mscale: 1.0
 mcarh: 1.0

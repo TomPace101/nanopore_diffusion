@@ -10,6 +10,7 @@
 #This can be a symlink to a yaml file in the params folder.
 
 #Standard library
+from argparse import Namespace
 import os
 import os.path as osp
 import sys
@@ -29,14 +30,17 @@ runs=useful.readyaml_multidoc('control.yaml')
 def task_make_geo():
   for paramdef in runs:
     if paramdef is not None:
-      yield tasks_mesh.create_geo(paramdef)
+      pobj=Namespace(**paramdef)
+      yield tasks_mesh.create_geo(pobj)
 
 def task_make_msh():
   for paramdef in runs:
     if paramdef is not None:
-      yield tasks_mesh.create_msh(paramdef)
+      pobj=Namespace(**paramdef)
+      yield tasks_mesh.create_msh(pobj)
 
 def task_make_xml():
   for paramdef in runs:
     if paramdef is not None:
-      yield tasks_mesh.create_xml(paramdef)
+      pobj=Namespace(**paramdef)
+      yield tasks_mesh.create_xml(pobj)

@@ -17,22 +17,21 @@ mshfolder=osp.join(topfolder,'msh')
 xmlfolder=osp.join(topfolder,'xml')
 outfolder=osp.join(topfolder,'gmsh_out')
 
-def create_geo(paramdef):
-  params=useful.dict_to_nt(paramdef,'paramtype') #For convenience
+def create_geo(params):
+  paramdef=params.__dict__ #Ugly, but sometimes we need the dictionary version instead of an object
   geomyaml=osp.join(topfolder,params.lattice+'.yaml') #geometry definition yaml file
   geomdef=useful.readyaml(geomyaml) #geometry definition dictionary
-  geofile=osp.join(geofolder,params.basename+'.geo') #.geo file
-  configdict={**paramdef, **geomdef} #python 3.5 and above only; for older versions do copy then update
-  filedeps=[osp.join(topfolder,x) for x in ['buildgeom.py',geomdef['tmplfile'],'common.geo.jinja2'] ]
-  tdef = {'name':params.basename,
+  geofile=osp.join(geofolder,params.meshname+'.geo') #.geo file
+  filedeps=[osp.join(topfolder,x) for x in ['buildgeom.py',geomyaml,geomdef['tmplfile'],'common.geo.jinja2'] ]
+  tdef = {'name':params.meshname,
           'file_dep':filedeps,
-          'uptodate':[config_changed(configdict)],
+          'uptodate':[config_changed(paramdef)],
           'targets':[geofile],
           'actions':[(buildgeom.write_one_geo,(geomdef,paramdef,geofile))]}
   return tdef
 
-def create_msh(paramdef):
-  stem=paramdef['basename']
+def create_msh(params):
+  stem=params.meshname
   geofile=osp.join(geofolder,'%s.geo'%stem)
   mshfile=osp.join(mshfolder,'%s.msh'%stem)
   outfile=osp.join(outfolder,'%s.txt'%stem)
@@ -42,8 +41,8 @@ def create_msh(paramdef):
           'actions':['gmsh -0 -o %s %s >%s'%(mshfile,geofile,outfile)]}
   return tdef
 
-def create_xml(paramdef):
-  stem=paramdef['basename']
+def create_xml(params):
+  stem=params.meshname
   mshfile=osp.join(mshfolder,'%s.msh'%stem)
   xmlfile=osp.join(xmlfolder,'%s.xml'%stem)
   tdef = {'name':stem,

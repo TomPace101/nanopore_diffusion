@@ -32,5 +32,6 @@ def writeyaml(obj,fpath):
 #Dictionary to named tuple
 
 def dict_to_nt(d,typename):
+  "You should use argparse.Namespace instead of this"
   tuptype=namedtuple(typename,[k for k in d.keys()])
   return tuptype(**d)

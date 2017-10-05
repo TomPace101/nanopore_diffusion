@@ -134,6 +134,8 @@ def write_one_geo(geomdef, paramdef, geofile):
 
 #Support command-line arguments
 if __name__ == '__main__':
+  #TODO: this isn't very useful now, since we store parameter definitions in a multi-doc yaml file
+  #In order to fix it, it needs to be able to locate the various files using the meshname
   #Process command-line arguments
   parser = argparse.ArgumentParser(description='Create gmsh .geo file')
   parser.add_argument('geomdef', help="geometry definition yaml file, which provides the template data needed by the template")
