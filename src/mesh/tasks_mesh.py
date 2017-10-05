@@ -10,13 +10,13 @@ from doit.tools import config_changed
 #Local
 sys.path.append('..')
 import useful
+from folderstructure import *
 from . import buildgeom
-from .folderstructure import *
 
 def create_geo(params):
   paramdef=params.__dict__ #Ugly, but sometimes we need the dictionary version instead of an object
   geomyaml, geomdef, geofile = buildgeom.process_mesh_params(params)
-  filedeps=[osp.join(topfolder,x) for x in ['buildgeom.py',geomyaml,geomdef['tmplfile'],'common.geo.jinja2'] ]
+  filedeps=[osp.join(meshfolder,x) for x in ['buildgeom.py',geomyaml,geomdef['tmplfile'],'common.geo.jinja2'] ]
   tdef = {'name':geofile,
           'file_dep':filedeps,
           'uptodate':[config_changed(paramdef)],

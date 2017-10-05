@@ -17,7 +17,6 @@ from jinja2 import Environment, FileSystemLoader
 #Local
 sys.path.append(osp.abspath('..'))
 import useful
-sys.path.append(osp.split(__file__)[0])
 from folderstructure import *
 
 #From mapping of surfaces to points, generate:
@@ -146,7 +145,7 @@ def process_mesh_params(params):
     geomyaml = geometry definition yaml file path, as string
     geomdef = geometry definition dictionary
     geofile = output .geo file path, as string"""
-  geomyaml=osp.join(topfolder,params.lattice+'.yaml') #geometry definition yaml file
+  geomyaml=osp.join(meshfolder,params.lattice+'.yaml') #geometry definition yaml file
   geomdef=useful.readyaml(geomyaml) #geometry definition dictionary
   geofile=osp.join(geofolder,params.meshname+'.geo') #.geo file
   return geomyaml, geomdef, geofile

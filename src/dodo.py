@@ -20,6 +20,7 @@ import sys
 #Local
 import useful
 from mesh import tasks_mesh
+from solver import tasks_solver
 
 #Read the yaml document
 runs=useful.readyaml_multidoc('control.yaml')
@@ -33,11 +34,26 @@ for rd in runs:
   for meshdict in meshdict_list:
     if meshdict is not None:
       meshobj=Namespace(**meshdict)
-      meshname=meshdict['meshname']
+      meshname=meshobj.meshname
       assert meshname not in meshes_byname, "Duplicate mesh name: %s in both %s and %s"%(meshname,yaml_from_meshname[meshname],meshyaml)
       yaml_from_meshname[meshname]=meshyaml
       meshes_byname[meshname]=meshobj
 meshruns=[m for m in meshes_byname.values()]
+
+#Get list of all models to solve
+bcs_byname={}
+yaml_from_bcname={}
+for rd in runs:
+  bcyaml=rd['bcparams']
+  bcdict_list=useful.readyaml_multidoc(bcyaml)
+  for bcdict in bcdict_list:
+    if bcdict is not None:
+      bcobj=Namespace(**bcdict)
+      bcname=bcobj.bcname
+      assert bcname not in bcs_byname, "Duplicate boundary condition name: %s in both %s and %s"%(bcname,yaml_from_bcname[bcname],bcyaml)
+      yaml_from_bcname[bcname]=bcyaml
+      bcs_byname[bcname]=bcobj
+bcruns=[bc for bc in bcs_byname.values()]
 
 #Mesh tasks
 def task_make_mesh():
@@ -46,3 +62,7 @@ def task_make_mesh():
     yield tasks_mesh.create_msh(params)
     yield tasks_mesh.create_xml(params)
 
+#Solver tasks
+def task_solve():
+  for params in bcruns:
+    yield tasks_solver.dosolve(params)
