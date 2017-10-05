@@ -11,6 +11,9 @@
 #basesurf: physical surface number of base surface
 #topval: concentration value specified at top surface
 #baseval: concentration value specified at base surface
+#fluxsurf: physical surface number for flux measurement
+#fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
+#z_samples: sequence of two z-values for points on the centerline to use for D_eff calculation
 ---
 bcname: debug
 meshname: debug
@@ -19,3 +22,6 @@ topsurf: 4
 basesurf: 1
 topval: 5.0
 baseval: 1.0
+fluxsurf: 12
+fluxsign: '-'
+z_samples: [50, 125]

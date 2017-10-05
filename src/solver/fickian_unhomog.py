@@ -85,10 +85,16 @@ def SolveMesh(params):
   vtk_j << j
 
   #Flux integral over surface
-  ##TODO
+  n=FacetNormal(mesh)
+  dsi=Measure('interior_facet',domain=mesh,subdomain_data=surfaces)
+  totflux=assemble(dot(j,n(params.fluxsign))*dsi(params.fluxsurf))
 
   #Effective Diffusion Constant
   ##TODO
+  c_samples=[c(0,0,zv) for zv in params.z_samples]
+  delta_x=params.z_samples[1]-params.z_samples[0]
+  delta_c=c_samples[1]-c_samples[0]
+  Deff=float(totflux*delta_x/delta_c)
 
   #Data for plots
   ##TODO
@@ -101,6 +107,10 @@ def SolveMesh(params):
   #   pobj[var]=ll[var]
   # with open(pklfile,'wb') as fp:
   #   pickle.dump(pobj,fp,pickle_protocol)
+  
+  #Results yaml
+  robj={'totflux':totflux, 'Deff':Deff}
+  useful.writeyaml(robj,osp.join(outdir,'results.yaml'))
 
   #Done
   return
