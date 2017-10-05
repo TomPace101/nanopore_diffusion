@@ -18,10 +18,8 @@ import sys
 #Site packages
 
 #Local
-sys.path.append(osp.abspath('.'))
 import useful
-sys.path.append(osp.abspath('./mesh'))
-import tasks_mesh
+from mesh import tasks_mesh
 
 #Read the yaml document
 runs=useful.readyaml_multidoc('control.yaml')
