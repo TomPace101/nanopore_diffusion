@@ -25,38 +25,44 @@ from solver import tasks_solver
 #Read the yaml document
 runs=useful.readyaml_multidoc('control.yaml')
 
-#Get list of all meshes to generate
-meshes_byname={}
-yaml_from_meshname={}
-for rd in runs:
-  meshyaml=rd['meshparams']
-  meshdict_list=useful.readyaml_multidoc(meshyaml)
-  for meshdict in meshdict_list:
-    if meshdict is not None:
-      meshobj=Namespace(**meshdict)
-      meshname=meshobj.meshname
-      assert meshname not in meshes_byname, "Duplicate mesh name: %s in both %s and %s"%(meshname,yaml_from_meshname[meshname],meshyaml)
-      yaml_from_meshname[meshname]=meshyaml
-      meshes_byname[meshname]=meshobj
-meshruns=[m for m in meshes_byname.values()]
-
-#Get list of all models to solve
-bcs_byname={}
-yaml_from_bcname={}
-for rd in runs:
-  bcyaml=rd['bcparams']
-  bcdict_list=useful.readyaml_multidoc(bcyaml)
-  for bcdict in bcdict_list:
-    if bcdict is not None:
-      bcobj=Namespace(**bcdict)
-      bcname=bcobj.bcname
-      assert bcname not in bcs_byname, "Duplicate boundary condition name: %s in both %s and %s"%(bcname,yaml_from_bcname[bcname],bcyaml)
-      yaml_from_bcname[bcname]=bcyaml
-      bcs_byname[bcname]=bcobj
-bcruns=[bc for bc in bcs_byname.values()]
+def consolidate(runs,yamlname,entryname,typename='entry'):
+  """Get list of all things of a certain type from the dictionary entries in control.yaml
+  This is kind of complicated; the docstring is longer than the code.
+  Explanation:
+    control.yaml contains multiple yaml documents, each of which contains parameters with other yaml documents as their values
+    You specify which yaml document you want to consolidate with argument 'yamlname',
+    which must be the name of a parameter in control.yaml.
+    The yaml files thus specified also contain multiple documents.
+    Each such document is here called an "entry".
+    Argument 'entryname' specifies which of the entry's parameters specifies its name.
+    Argument 'typename' specifies the type of thing each entry actually is.
+  Inputs:
+    runs = dictionary entries (yaml documents) from control.yaml
+    yamlname = parameter name in the dictionaries providing the base name for the relevant yaml files
+    entryname = parameter name in the entries themselves providing their names (because each yaml file can have more than one)
+    typename = type of things to list (optional, used only to output more helpful error messages)
+  Returns:
+    entrylist = list of parameter objects of the given type"""
+  entries_byname={}
+  yaml_from_name={}
+  for rd in runs:
+    yamlfile=rd[yamlname]
+    entry_list=useful.readyaml_multidoc(yamlfile)
+    for entry in entry_list:
+      if entry is not None:
+        obj=Namespace(**entry)
+        objname=entry[entryname]
+        assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(typename,objname,yaml_from_name[objname],yamlfile)
+        yaml_from_name[objname]=yamlfile
+        entries_byname[objname]=obj
+  entrylist=[x for x in entries_byname.values()]
+  return entrylist
 
 #Mesh tasks
 def task_make_mesh():
+  #Get list of all meshes to generate
+  meshruns=consolidate(runs,'meshparams','meshname','mesh')
+  #Set up tasks for each mesh
   for params in meshruns:
     yield tasks_mesh.create_geo(params)
     yield tasks_mesh.create_msh(params)
@@ -64,5 +70,8 @@ def task_make_mesh():
 
 #Solver tasks
 def task_solve():
+  #Get list of all models to solve
+  bcruns=consolidate(runs,'bcparams','bcname','boundary condition')
+  #Set up tasks for each model
   for params in bcruns:
     yield tasks_solver.dosolve(params)
