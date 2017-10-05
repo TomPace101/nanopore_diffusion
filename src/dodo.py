@@ -1,8 +1,5 @@
 #Doit file for model runs
 
-#TODO
-#This still seems too complicated.
-
 #Discussion
 #This file is intended to automate the process from mesh generation, through running the solver, through post-processing.
 #As such, it relies on scripts specific to each of those to generate the necessary tasks.
