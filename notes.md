@@ -7,16 +7,10 @@ Current Goal: x=free volume fraction, y=Deff/Dbulk
 **PRIORITY** calculate flux integrals, and then effective diffusion constants
 _THEN_ we need to run for face-centered geometry as well.
 
-Where should the boundary condition parameters be stored?
-They should be separate from the mesh parameters,
-because we could run the same mesh with many different boundary conditions.
-Or maybe they should be the same, and I just programmatically generate multiple yaml documents.
-
-I think some sort of master table is going to be the only way, probably.
-
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Separate solution and post-processing
+The organization of input parameters and output results.
 
 We don't want to re-run the whole model just to change a plot.
 So we need to separate out the plot data.
@@ -27,6 +21,64 @@ so it can get to the plot that needs it.
 Where should we store the effective diffusion constants?
 This brings back the idea of a need for a master table of results.
 
+Where should the boundary condition parameters be stored?
+They should be separate from the mesh parameters,
+because we could run the same mesh with many different boundary conditions.
+Or maybe they should be the same, and I just programmatically generate multiple yaml documents.
+
+I think some sort of master table is going to be the only way, probably.
+This can work like I did it before:
+Each individual run generates an output yaml file with the data to be loaded into the master table.
+Then, a separate script compiles all those tickets into the master table.
+This master table name should be specified in the `control.yaml` file.
+
+So maybe `control.yaml` should designate the following:
+- which set of mesh parameters
+- which set of boundary conditions
+- which master table
+
+If you want to name these various parameter sets,
+then they don't go in individual files.
+Alternatively, you can use the filename,
+but then there can only be one parameter set per file.
+That might work better with doit:
+you can check the file for changes, as opposed to having to do a config dictionary.
+(Because you only get one dictionary, so that makes using those trickier.)
+This would mean the basename of each parameter set is provided by its filename.
+Somehow, this must be added to the parameter dictionary itself.
+
+This gives us the following file structure under `params`:
+- mesh
+  - body (with files for each set)
+  - face (with files for each set)
+- bc
+  - (eventually, this will depend on the equation and the problem variables, could be lots under here)
+- control (with files, each file potentially having multiple runs)
+
+What is an alternative to this?
+We could keep the mesh generation stuff the same as it is now.
+You select a mesh parameters file, and all meshes therein are generated.
+Then, you select a boundary conditions parameters file, which also has multiple sets.
+Each set indicates which mesh it is intended to apply to.
+And which solver. (Or at least, which equation.)
+Towards that end, we may eventually need a solver parameters file as well,
+for parameters that control the solution in a given solving function.
+That's different though, than specifying which equation.
+The bcs apply only to a particular equation, but issues like solver settings aren't specific to a bc set.
+So the bc neeeds to specify an equation, but nothing else about the solver. For now.
+
+This way, `control.yaml` designates:
+- the mesh parameters file; all meshes therein are generated
+- the bc parameters file; each entry designates mesh, equation, and bc parameters
+- the master table to use for results
+- which post-processing scripts to run? (this will become more clear later on)
+
+This gives us the following structure under `params`:
+- mesh (each file can have multiple entries)
+- bc (each file can have multiple entries)
+- control (each file can have multiple entries)
+
+I like this better, at the moment.
 
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot
