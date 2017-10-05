@@ -1,11 +1,20 @@
 
 # Figure
+_EFFORT_
 Current Goal: x=free volume fraction, y=Deff/Dbulk
-- need to compute effective diffusion constant
+
+We need to run the analysis at different values of R,
+collect their result values,
+and then make the plot.
+
+So, a script to auto-generate parameter files would be helpful,
+and we need the collection script.
 
 # Simulation
-**PRIORITY** calculate flux integrals, and then effective diffusion constants
-_THEN_ we need to run for face-centered geometry as well.
+_EFFORT_ we need to run for face-centered geometry as well
+This requires adding the interior surface to this mesh,
+which means redoing its geometry.
+Is there a better way?
 
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 

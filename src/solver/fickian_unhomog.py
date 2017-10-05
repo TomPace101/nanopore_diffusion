@@ -20,12 +20,14 @@ from folderstructure import *
 #Constants
 pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
 
+#TODO: this function should move to a more general file, once one exists
 def List_Mesh_Input_Files(params):
   mesh_xml=osp.join(xmlfolder,params.meshname+'.xml')
   surface_xml=osp.join(xmlfolder,params.meshname+'_facet_region.xml')
   volume_xml=osp.join(xmlfolder,params.meshname+'_physical_region.xml')
   return mesh_xml, surface_xml, volume_xml
 
+#TODO: there are probably parts of this that should be refactored into functions in a more general file, once one exists
 def SolveMesh(params):
   """Solve the unhomogenized Fickian diffusion equation on the indicated mesh.
   Arguments:
@@ -126,7 +128,8 @@ def SolveMesh(params):
   #   pickle.dump(pobj,fp,pickle_protocol)
   
   #Results yaml
-  robj={'totflux':totflux, 'Deff':Deff}
+  volfrac = np.pi*meshparams.R**2/(4*meshparams.Lx*meshparams.Ly)
+  robj={'totflux':totflux, 'Deff':Deff, 'free_volume_frac':volfrac}
   useful.writeyaml(robj,osp.join(outdir,'results.yaml'))
 
   #Done
