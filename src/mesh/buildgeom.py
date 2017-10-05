@@ -17,6 +17,8 @@ from jinja2 import Environment, FileSystemLoader
 #Local
 sys.path.append(osp.abspath('..'))
 import useful
+sys.path.append(osp.split(__file__)[0])
+from folderstructure import *
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
@@ -132,22 +134,40 @@ def write_one_geo(geomdef, paramdef, geofile):
     fp.write(outdat)
   return
 
+def process_mesh_params(params):
+  """Turn a mesh control parameters object into the arguments needed for write_one_geo and doit file dependencies
+  Inputs:
+    params = an object (such as a Namespace) with at least the following attributes:
+  Returns:
+    geomyaml = geometry definition yaml file path, as string
+    geomdef = geometry definition dictionary
+    geofile = output .geo file path, as string"""
+  geomyaml=osp.join(topfolder,params.lattice+'.yaml') #geometry definition yaml file
+  geomdef=useful.readyaml(geomyaml) #geometry definition dictionary
+  geofile=osp.join(geofolder,params.meshname+'.geo') #.geo file
+  return geomyaml, geomdef, geofile
+
 #Support command-line arguments
 if __name__ == '__main__':
-  #TODO: this isn't very useful now, since we store parameter definitions in a multi-doc yaml file
-  #In order to fix it, it needs to be able to locate the various files using the meshname
   #Process command-line arguments
-  parser = argparse.ArgumentParser(description='Create gmsh .geo file')
-  parser.add_argument('geomdef', help="geometry definition yaml file, which provides the template data needed by the template")
-  parser.add_argument('paramdef', help="parameter defnition yaml file, which assigns values to select parameters in the template")
-  parser.add_argument('geofile', help="name of output file (should end in .geo)")
+  mesh_params_docstring="""parameter definition file for the mesh
+  This is a potentially multi-doc yaml file, where each document specifies one mesh to generate.
+  The parameters must be (at a minimum):
+    meshname = stem name for the .geo, .msh and .xml files (this script only generates the .geo file)
+    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml),
+      this file is specific to the jinja2 template used to generate the .geo file
+    and all the geometric parameters needed by the jinja2 template to generate the .geo file."""
+  parser = argparse.ArgumentParser(description='Create gmsh .geo file(s)')
+  parser.add_argument('mesh_params_yaml', help=mesh_params_docstring)
   cmdline=parser.parse_args()
-  assert osp.isfile(cmdline.geomdef), "Geometry definition file does not exist: %s"%cmdline.geomdef
-  assert osp.isfile(cmdline.paramdef), "Parameter definition file does not exist: %s"%cmdline.paramdef
+  assert osp.isfile(cmdline.mesh_params_yaml), "Mesh parameter definition file does not exist: %s"%cmdline.mesh_params_yaml
 
-  #Read in the two yaml files
-  geomdef=useful.readyaml(cmdline.geomdef)
-  paramdef=useful.readyaml(cmdline.paramdef)
+  #Read in the yaml file
+  meshruns=useful.readyaml_multidoc(cmdline.mesh_params_yaml)
   
-  #Create the file
-  write_one_geo(geomdef, paramdef, cmdline.geofile)
+  #Generate each requested .geo file
+  for run in meshruns:
+    params=argparse.Namespace(**run)
+    geomyaml, geomdef, geofile = process_mesh_params(params)
+    print(geofile)
+    write_one_geo(geomdef, run, geofile)

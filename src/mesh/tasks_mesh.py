@@ -11,19 +11,11 @@ from doit.tools import config_changed
 sys.path.append('..')
 import useful
 from . import buildgeom
-
-#Folders
-topfolder=osp.abspath('mesh')
-geofolder=osp.join(topfolder,'geo')
-mshfolder=osp.join(topfolder,'msh')
-xmlfolder=osp.join(topfolder,'xml')
-outfolder=osp.join(topfolder,'gmsh_out')
+from .folderstructure import *
 
 def create_geo(params):
   paramdef=params.__dict__ #Ugly, but sometimes we need the dictionary version instead of an object
-  geomyaml=osp.join(topfolder,params.lattice+'.yaml') #geometry definition yaml file
-  geomdef=useful.readyaml(geomyaml) #geometry definition dictionary
-  geofile=osp.join(geofolder,params.meshname+'.geo') #.geo file
+  geomyaml, geomdef, geofile = buildgeom.process_mesh_params(params)
   filedeps=[osp.join(topfolder,x) for x in ['buildgeom.py',geomyaml,geomdef['tmplfile'],'common.geo.jinja2'] ]
   tdef = {'name':geofile,
           'file_dep':filedeps,
