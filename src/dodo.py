@@ -26,13 +26,17 @@ runs=useful.readyaml_multidoc('control.yaml')
 
 #Get list of all meshes to generate
 meshes_byname={}
+yaml_from_meshname={}
 for rd in runs:
   meshyaml=rd['meshparams']
   meshdict_list=useful.readyaml_multidoc(meshyaml)
   for meshdict in meshdict_list:
     if meshdict is not None:
       meshobj=Namespace(**meshdict)
-      meshes_byname[meshdict['meshname']]=meshobj
+      meshname=meshdict['meshname']
+      assert meshname not in meshes_byname, "Duplicate mesh name: %s in both %s and %s"%(meshname,yaml_from_meshname[meshname],meshyaml)
+      yaml_from_meshname[meshname]=meshyaml
+      meshes_byname[meshname]=meshobj
 meshruns=[m for m in meshes_byname.values()]
 
 #Mesh tasks
