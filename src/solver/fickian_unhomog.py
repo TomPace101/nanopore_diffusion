@@ -20,11 +20,11 @@ xmldir=osp.abspath('../mesh/xml')
 solndir=osp.abspath('../solutions')
 pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
 
-def SolveMesh(basename,params):
+def SolveMesh(params):
   """Solve the unhomogenized Fickian diffusion equation on the indicated mesh.
   Arguments:
-    basename = base name used for mesh, as string
     params = Namespace containing necessary parameter values:
+      meshname = base name used for mesh, as string
       topsurf = physical surface number for top surface
       basesurf = physical surface number for base surface
       topval = concentration value at top surface
@@ -33,15 +33,15 @@ def SolveMesh(basename,params):
   Output files are created."""
 
   #Output location(s)
-  outdir=osp.join(solndir,basename)
+  outdir=osp.join(solndir,params.meshname)
   if not osp.isdir(outdir):
     os.mkdir(outdir)
   pklfile=osp.join(outdir,'results.pkl')
 
   #Mesh input files
-  mesh_xml=osp.join(xmldir,basename+'.xml')
-  surface_xml=osp.join(xmldir,basename+'_facet_region.xml')
-  volume_xml=osp.join(xmldir,basename+'_physical_region.xml')
+  mesh_xml=osp.join(xmldir,params.meshname+'.xml')
+  surface_xml=osp.join(xmldir,params.meshname+'_facet_region.xml')
+  volume_xml=osp.join(xmldir,params.meshname+'_physical_region.xml')
 
   #Load mesh and meshfunctions
   mesh=Mesh(mesh_xml)
@@ -94,7 +94,7 @@ def SolveMesh(basename,params):
   #Nice try, but "can't pickle SwigPyOjbect objects"
   # pobj={}
   # ll=locals()
-  # for var in ['basename','params','mesh','surfaces','volumes','c','V','V_vec']:
+  # for var in ['params.meshname','params','mesh','surfaces','volumes','c','V','V_vec']:
   #   pobj[var]=ll[var]
   # with open(pklfile,'wb') as fp:
   #   pickle.dump(pobj,fp,pickle_protocol)
@@ -106,13 +106,15 @@ def SolveMesh(basename,params):
 if __name__ == '__main__':
   #Process command-line arguments
   parser = argparse.ArgumentParser(description='Solve the unhomogenized fickian diffusion equation with fenics')
-  parser.add_argument('basename', help="base name of mesh file")
-  parser.add_argument('paramfile', help="path to input parameters file")
+  parser.add_argument('bc_params_yaml', help='path to boundary conditions parameter yaml file')
   cmdline=parser.parse_args()
+  assert osp.isfile(cmdline.bc_params_yaml), "Boundary conditions parameter definition file does not exist: %s"%cmdline.bc_params_yaml
 
-  #Read in the yaml file(s)
-  paramsdict=useful.readyaml(cmdline.paramfile)
-  params=argparse.Namespace(**paramsdict)
+  #Read in the yaml file
+  solruns=useful.readyaml_multidoc(cmdline.bc_params_yaml)
+  
+  #Run each requested analysis
+  for run in solruns:
+    params=argparse.Namespace(**run)
+    SolveMesh(params)
 
-  #Create the file
-  SolveMesh(cmdline.basename,params)

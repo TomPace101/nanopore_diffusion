@@ -11,6 +11,7 @@
 #baseval: concentration value specified at base surface
 ---
 bcname: debug
+meshname: debug
 topsurf: 4
 basesurf: 1
 topval: 5.0
