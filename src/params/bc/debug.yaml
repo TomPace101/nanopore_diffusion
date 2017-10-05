@@ -2,6 +2,13 @@
 #Parameter input file
 #Each document is a separate case run
 #Blank (bare) documents are skipped
+
+#Boundary conditions definition
+#bcname: name of boundary conditions parameter set
+#topsurf: physical surface number of top surface
+#basesurf: physical surface number of base surface
+#topval: concentration value specified at top surface
+#baseval: concentration value specified at base surface
 ---
 bcname: debug
 topsurf: 4
