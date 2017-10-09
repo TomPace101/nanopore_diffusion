@@ -84,22 +84,40 @@ which are defined using points.
 
 To compute the equivalent diffusion constant, the problem is treated as a one-dimensional diffusion problem.
 That is, we consider diffusion in the direction across the membrane.
-The total flux across the membrane will be related to the effective diffusion constant by:
+The Fickian diffusion equation (see Section \ref{subsec:unhom_fick}) in one dimension is
 
-$$J = D_{eff} \frac{\Delta c}{\Delta x}$$
+$$j = D_{\text{bulk}} \frac{dc}{dx}$$
 
 where:
 
 $\begin{array}{rcl}
-J & = & \text{integral of flux over the pore, e.g. moles per unit time} \\
-D_{eff} & = & \text{unknown effective diffusion constant} \\
+x & = & \text{position within the one-dimensional domain} \\
+j & = & j(x) = \text{flux at any point, in units of number of particles per unit area per unit time} \\
+D_{\text{bulk}} & = & \text{diffusion constant of the medium, in units of area per unit time} \\
+c & = & c(x) = \text{concentration at any point, in units of number of particles per unit volume} \\
+\frac{dc}{dx} & = & \text{first spatial derivative of concentration}
+\end{array}$
+
+The three-dimensional problem is converted to an equivalent one-dimensional problem
+by integrating over the area of the unit cell, in the two directions perpendicular to
+the one-dimensional diffusion problem.
+The total flux across the membrane will be related to the effective diffusion constant by:
+
+$$\frac{J}{A} = D_{\text{eff}} \frac{\Delta c}{\Delta x}$$
+
+where:
+
+$\begin{array}{rcl}
+J & = & \text{integral of flux over the pore, in units of number of particles per unit time} \\
+A & = & \text{area of unit cell} \\
+D_{\text{eff}} & = & \text{unknown effective diffusion constant} \\
 \Delta c & = & \text{change in concentration} \\
 \Delta x & = & \text{distance over which concentration changes}
 \end{array}$
 
-Re-arranging this equation to solve for the unknown $D_{eff}$, we have:
+Re-arranging this equation to solve for the unknown $D_{\text{eff}}$, we have:
 
-$$D_{eff} = J \frac{\Delta x}{\Delta c}$$
+$$D_{\text{eff}} = \frac{J}{A} \frac{\Delta x}{\Delta c}$$
 
 The integrated flux, $J$ is calculated from the model by integrating
 the ion flux over a surface parallel to the membrane surface.
@@ -113,13 +131,16 @@ $$J = \int dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
 
 where $\hat{n}$ is the directed normal to the surface,
 and $c$ is the concentration field found by solving the model.
+The integral is taken over the portion of the pore included in the model,
+which is not the entire pore area due to the use of the planes of symmetry.
+Accordingly, the corresponding value of $A = Lx Ly$.
 
 The values of $\Delta c$ and $\Delta x$ are calculated by extracting
 the concentration result at two points located symmetrically on opposite sides of the membrane.
 The difference in concentration between these two points is $\Delta c$,
 and the distance between them is $\Delta x$.
 
-Slightly different results for the value of $D_{eff}$ could be attained by selecting different
+Slightly different results for the value of $D_{\text{eff}}$ could be attained by selecting different
 pairs of symmetrically located points.
 For consistency, the results here are taken with these two points located
 along the centerline of the pore, at both faces of the membrane.
@@ -135,7 +156,7 @@ along the centerline of the pore, at both faces of the membrane.
 
 For particle flux defined as 
 
-$$\vec{j} = - D \vec{\nabla} c$$
+$$\vec{j} = - D_{\text{bulk}} \vec{\nabla} c$$
 
 The Fickian diffusion equation can be written:
 $$\frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}$$
@@ -149,19 +170,19 @@ t & = & \text{time} \\
 D & = & \text{the implicit diffusion constant of the solvent (unit area per unit time)}
 \end{array}$
 
-For constant $D$, this can be written as
+For constant $D_{\text{bulk}}$, this can be written as
 
-$$\frac{\partial c}{\partial t} = D \nabla^2 c$$
+$$\frac{\partial c}{\partial t} = D_{\text{bulk}} \nabla^2 c$$
 
 We seek the solution at equilibrium, defined by
 $\frac{\partial c}{\partial t} = 0$ at all points in the problem domain.
 Thus, we seek to solve
 
-$$D \nabla^2 c = 0$$
+$$D_{\text{bulk}} \nabla^2 c = 0$$
 
 subject to boundary conditions.
 
-Assuming $D$ is any nonzero constant, this is clearly the same as
+Assuming $D_{\text{bulk}}$ is any nonzero constant, this is clearly the same as
 
 $$ \nabla^2 c = 0$$
 

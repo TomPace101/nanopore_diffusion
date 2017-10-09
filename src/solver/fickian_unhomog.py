@@ -100,9 +100,10 @@ def SolveMesh(params):
   totflux=assemble(dot(j,n(params.fluxsign))*dsi(params.fluxsurf))
 
   #Effective Diffusion Constant
+  cell_area = meshparams.Lx * meshparams.Ly
   c_samples=[c(0,0,zv) for zv in [meshparams.H, meshparams.H + meshparams.tm]]
   delta_c=c_samples[1]-c_samples[0]
-  Deff=float(totflux*meshparams.tm/delta_c)
+  Deff=float(totflux/cell_area*meshparams.tm/delta_c)
 
   #Data for plots
   #Hard-coded centerline plot for now
