@@ -1,9 +1,12 @@
 
 #Standard library
-from collections import namedtuple
+import pickle
 
 #Site packages
 import yaml
+
+#Constants
+pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
 
 #-------------------------------------------------------------------------------
 #Standard work with yaml files
@@ -29,9 +32,16 @@ def writeyaml(obj,fpath):
   return
 
 #-------------------------------------------------------------------------------
-#Dictionary to named tuple
+#Standard work with pickle files
 
-def dict_to_nt(d,typename):
-  "You should use argparse.Namespace instead of this"
-  tuptype=namedtuple(typename,[k for k in d.keys()])
-  return tuptype(**d)
+def readpickle(fpath):
+  "read object from pickle file"
+  with open(fpath, 'rb') as fp:
+    obj=pickle.load(fp)
+  return obj
+
+def writepickle(obj,fpath):
+  "write object to pickle file, overwriting"
+  with open(fpath, 'wb') as fp:
+    pickle.dump(obj,fp,pickle_protocol)
+  return

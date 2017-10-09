@@ -5,7 +5,6 @@
 import argparse
 import os
 import os.path as osp
-import pickle
 import sys
 
 #Site packages
@@ -16,9 +15,6 @@ import numpy as np
 sys.path.append(osp.abspath('..'))
 import useful
 from folderstructure import *
-
-#Constants
-pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
 
 #TODO: this function should move to a more general file, once one exists
 def List_Mesh_Input_Files(params):
@@ -125,8 +121,7 @@ def SolveMesh(params):
   # ll=locals()
   # for var in ['params.meshname','params','mesh','surfaces','volumes','c','V','V_vec']:
   #   pobj[var]=ll[var]
-  # with open(pklfile,'wb') as fp:
-  #   pickle.dump(pobj,fp,pickle_protocol)
+  # useful.writepickle(pobj,pklfile)
   
   #Results yaml
   volfrac = np.pi*meshparams.R**2/(4*meshparams.Lx*meshparams.Ly)
