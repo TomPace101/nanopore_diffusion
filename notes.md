@@ -1,4 +1,15 @@
 
+Otherwise empty directories (eg directories containing only untracked files)
+will have a '.keep' file to force git to include the (nearly) empty directory itself.
+
+_ACTION_ figure out a way to track the solutions directory itself, but not any of its subdirectories.
+Or, maybe we should just ignore particular files within solutions, but not others.
+For example, maybe we want to track results.yaml .
+
+_ACTION_ switch plot data from yaml to pickle
+
+_ACTION_ README files for bitbucket.
+
 # Figure
 _EFFORT_
 Current Goal: x=free volume fraction, y=Deff/Dbulk
