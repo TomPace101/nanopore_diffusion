@@ -1,0 +1,4 @@
+{Deff: 0.06407252227548571, H: 50, Lx: 10, Ly: 7.5, R: 2.5, basesurf: 1, baseval: 1.0,
+  equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12, free_volume_frac: 0.06544984694978737,
+  lattice: body-cen2, mcarh: 1.0, mcarl: 5.0, meshname: debug, modelname: debug, mscale: 1.0,
+  sample_spacing: 0.1, tm: 75, topsurf: 4, topval: 5.0, totflux: 0.227633336246188}
