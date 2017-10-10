@@ -2,6 +2,9 @@
 _ACTION_ Refactoring to use `folderstructre.py` to eliminate more use of sys.path
 _ACTION_ Refactoring to use ParameterSet more generally (mesh generation, solver parameters)
 
+_EFFORT_ mesh refinement study
+_EFFORT_ study of required H value
+
 # Figure
 _EFFORT_
 Current Goal: x=free volume fraction, y=Deff/Dbulk

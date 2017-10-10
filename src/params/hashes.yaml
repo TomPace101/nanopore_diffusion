@@ -1,0 +1,5 @@
+#Human readable hashes of text descriptions used for parameter sets
+#hash: description
+#The human readable hashes are generated from `codenamize(description,1,6)`
+
+brainy-media: Figure of D_eff vs \phi

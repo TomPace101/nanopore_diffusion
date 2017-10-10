@@ -72,6 +72,7 @@ class ParameterSet:
         This will be a single-document yaml file, containing a dictionary (potentially of other dictionaries).
         The file will be overwritten if it already exists.
     No return value."""
+    #TODO: consider writing docstring as comments in yaml file
     writeyaml(self.__dict,fpath)
     return
   @classmethod

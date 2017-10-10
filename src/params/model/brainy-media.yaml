@@ -1,0 +1,708 @@
+{basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_001, modelname: brainy-media_model_001, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_001, modelname: brainy-media_model_002, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_002, modelname: brainy-media_model_003, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_002, modelname: brainy-media_model_004, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_003, modelname: brainy-media_model_005, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_003, modelname: brainy-media_model_006, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_004, modelname: brainy-media_model_007, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_004, modelname: brainy-media_model_008, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_005, modelname: brainy-media_model_009, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_005, modelname: brainy-media_model_010, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_006, modelname: brainy-media_model_011, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_006, modelname: brainy-media_model_012, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_007, modelname: brainy-media_model_013, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_007, modelname: brainy-media_model_014, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_008, modelname: brainy-media_model_015, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_008, modelname: brainy-media_model_016, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_009, modelname: brainy-media_model_017, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_009, modelname: brainy-media_model_018, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_010, modelname: brainy-media_model_019, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_010, modelname: brainy-media_model_020, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_011, modelname: brainy-media_model_021, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_011, modelname: brainy-media_model_022, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_012, modelname: brainy-media_model_023, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_012, modelname: brainy-media_model_024, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_013, modelname: brainy-media_model_025, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_013, modelname: brainy-media_model_026, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_014, modelname: brainy-media_model_027, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_014, modelname: brainy-media_model_028, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_015, modelname: brainy-media_model_029, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_015, modelname: brainy-media_model_030, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_016, modelname: brainy-media_model_031, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_016, modelname: brainy-media_model_032, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_017, modelname: brainy-media_model_033, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_017, modelname: brainy-media_model_034, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_018, modelname: brainy-media_model_035, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_018, modelname: brainy-media_model_036, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_019, modelname: brainy-media_model_037, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_019, modelname: brainy-media_model_038, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_020, modelname: brainy-media_model_039, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_020, modelname: brainy-media_model_040, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_021, modelname: brainy-media_model_041, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_021, modelname: brainy-media_model_042, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_022, modelname: brainy-media_model_043, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_022, modelname: brainy-media_model_044, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_023, modelname: brainy-media_model_045, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_023, modelname: brainy-media_model_046, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_024, modelname: brainy-media_model_047, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_024, modelname: brainy-media_model_048, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_025, modelname: brainy-media_model_049, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_025, modelname: brainy-media_model_050, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_026, modelname: brainy-media_model_051, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_026, modelname: brainy-media_model_052, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_027, modelname: brainy-media_model_053, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_027, modelname: brainy-media_model_054, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_028, modelname: brainy-media_model_055, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_028, modelname: brainy-media_model_056, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_029, modelname: brainy-media_model_057, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_029, modelname: brainy-media_model_058, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_030, modelname: brainy-media_model_059, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_030, modelname: brainy-media_model_060, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_031, modelname: brainy-media_model_061, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_031, modelname: brainy-media_model_062, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_032, modelname: brainy-media_model_063, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_032, modelname: brainy-media_model_064, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_033, modelname: brainy-media_model_065, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_033, modelname: brainy-media_model_066, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_034, modelname: brainy-media_model_067, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_034, modelname: brainy-media_model_068, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_035, modelname: brainy-media_model_069, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_035, modelname: brainy-media_model_070, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_036, modelname: brainy-media_model_071, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_036, modelname: brainy-media_model_072, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_037, modelname: brainy-media_model_073, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_037, modelname: brainy-media_model_074, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_038, modelname: brainy-media_model_075, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_038, modelname: brainy-media_model_076, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_039, modelname: brainy-media_model_077, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_039, modelname: brainy-media_model_078, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_040, modelname: brainy-media_model_079, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_040, modelname: brainy-media_model_080, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_041, modelname: brainy-media_model_081, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_041, modelname: brainy-media_model_082, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_042, modelname: brainy-media_model_083, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_042, modelname: brainy-media_model_084, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_043, modelname: brainy-media_model_085, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_043, modelname: brainy-media_model_086, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_044, modelname: brainy-media_model_087, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_044, modelname: brainy-media_model_088, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_045, modelname: brainy-media_model_089, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_045, modelname: brainy-media_model_090, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_046, modelname: brainy-media_model_091, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_046, modelname: brainy-media_model_092, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_047, modelname: brainy-media_model_093, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_047, modelname: brainy-media_model_094, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_048, modelname: brainy-media_model_095, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_048, modelname: brainy-media_model_096, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_049, modelname: brainy-media_model_097, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_049, modelname: brainy-media_model_098, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_050, modelname: brainy-media_model_099, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_050, modelname: brainy-media_model_100, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_051, modelname: brainy-media_model_101, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_051, modelname: brainy-media_model_102, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_052, modelname: brainy-media_model_103, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_052, modelname: brainy-media_model_104, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_053, modelname: brainy-media_model_105, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_053, modelname: brainy-media_model_106, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_054, modelname: brainy-media_model_107, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_054, modelname: brainy-media_model_108, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_055, modelname: brainy-media_model_109, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_055, modelname: brainy-media_model_110, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_056, modelname: brainy-media_model_111, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_056, modelname: brainy-media_model_112, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_057, modelname: brainy-media_model_113, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_057, modelname: brainy-media_model_114, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_058, modelname: brainy-media_model_115, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_058, modelname: brainy-media_model_116, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_059, modelname: brainy-media_model_117, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_059, modelname: brainy-media_model_118, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_060, modelname: brainy-media_model_119, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_060, modelname: brainy-media_model_120, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_061, modelname: brainy-media_model_121, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_061, modelname: brainy-media_model_122, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_062, modelname: brainy-media_model_123, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_062, modelname: brainy-media_model_124, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_063, modelname: brainy-media_model_125, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_063, modelname: brainy-media_model_126, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_064, modelname: brainy-media_model_127, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_064, modelname: brainy-media_model_128, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_065, modelname: brainy-media_model_129, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_065, modelname: brainy-media_model_130, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_066, modelname: brainy-media_model_131, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_066, modelname: brainy-media_model_132, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_067, modelname: brainy-media_model_133, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_067, modelname: brainy-media_model_134, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_068, modelname: brainy-media_model_135, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_068, modelname: brainy-media_model_136, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_069, modelname: brainy-media_model_137, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_069, modelname: brainy-media_model_138, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_070, modelname: brainy-media_model_139, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_070, modelname: brainy-media_model_140, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_071, modelname: brainy-media_model_141, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_071, modelname: brainy-media_model_142, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_072, modelname: brainy-media_model_143, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_072, modelname: brainy-media_model_144, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_073, modelname: brainy-media_model_145, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_073, modelname: brainy-media_model_146, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_074, modelname: brainy-media_model_147, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_074, modelname: brainy-media_model_148, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_075, modelname: brainy-media_model_149, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_075, modelname: brainy-media_model_150, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_076, modelname: brainy-media_model_151, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_076, modelname: brainy-media_model_152, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_077, modelname: brainy-media_model_153, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_077, modelname: brainy-media_model_154, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_078, modelname: brainy-media_model_155, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_078, modelname: brainy-media_model_156, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_079, modelname: brainy-media_model_157, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_079, modelname: brainy-media_model_158, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_080, modelname: brainy-media_model_159, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_080, modelname: brainy-media_model_160, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_081, modelname: brainy-media_model_161, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_081, modelname: brainy-media_model_162, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_082, modelname: brainy-media_model_163, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_082, modelname: brainy-media_model_164, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_083, modelname: brainy-media_model_165, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_083, modelname: brainy-media_model_166, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_084, modelname: brainy-media_model_167, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_084, modelname: brainy-media_model_168, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_085, modelname: brainy-media_model_169, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_085, modelname: brainy-media_model_170, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_086, modelname: brainy-media_model_171, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_086, modelname: brainy-media_model_172, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_087, modelname: brainy-media_model_173, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_087, modelname: brainy-media_model_174, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_088, modelname: brainy-media_model_175, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_088, modelname: brainy-media_model_176, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_089, modelname: brainy-media_model_177, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_089, modelname: brainy-media_model_178, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_090, modelname: brainy-media_model_179, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_090, modelname: brainy-media_model_180, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_091, modelname: brainy-media_model_181, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_091, modelname: brainy-media_model_182, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_092, modelname: brainy-media_model_183, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_092, modelname: brainy-media_model_184, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_093, modelname: brainy-media_model_185, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_093, modelname: brainy-media_model_186, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_094, modelname: brainy-media_model_187, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_094, modelname: brainy-media_model_188, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_095, modelname: brainy-media_model_189, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_095, modelname: brainy-media_model_190, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_096, modelname: brainy-media_model_191, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_096, modelname: brainy-media_model_192, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_097, modelname: brainy-media_model_193, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_097, modelname: brainy-media_model_194, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_098, modelname: brainy-media_model_195, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_098, modelname: brainy-media_model_196, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_099, modelname: brainy-media_model_197, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_099, modelname: brainy-media_model_198, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_100, modelname: brainy-media_model_199, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_100, modelname: brainy-media_model_200, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_101, modelname: brainy-media_model_201, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_101, modelname: brainy-media_model_202, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_102, modelname: brainy-media_model_203, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_102, modelname: brainy-media_model_204, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_103, modelname: brainy-media_model_205, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_103, modelname: brainy-media_model_206, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_104, modelname: brainy-media_model_207, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_104, modelname: brainy-media_model_208, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_105, modelname: brainy-media_model_209, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_105, modelname: brainy-media_model_210, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_106, modelname: brainy-media_model_211, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_106, modelname: brainy-media_model_212, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_107, modelname: brainy-media_model_213, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_107, modelname: brainy-media_model_214, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_108, modelname: brainy-media_model_215, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_108, modelname: brainy-media_model_216, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_109, modelname: brainy-media_model_217, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_109, modelname: brainy-media_model_218, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_110, modelname: brainy-media_model_219, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_110, modelname: brainy-media_model_220, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_111, modelname: brainy-media_model_221, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_111, modelname: brainy-media_model_222, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_112, modelname: brainy-media_model_223, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_112, modelname: brainy-media_model_224, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_113, modelname: brainy-media_model_225, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_113, modelname: brainy-media_model_226, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_114, modelname: brainy-media_model_227, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_114, modelname: brainy-media_model_228, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_115, modelname: brainy-media_model_229, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_115, modelname: brainy-media_model_230, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_116, modelname: brainy-media_model_231, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_116, modelname: brainy-media_model_232, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_117, modelname: brainy-media_model_233, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_117, modelname: brainy-media_model_234, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_118, modelname: brainy-media_model_235, sample_spacing: 0.1,
+  topsurf: 4, topval: 5.0}
+--- {basesurf: 1, baseval: 1.0, equation: fickian_unhomog, fluxsign: '-', fluxsurf: 12,
+  meshname: brainy-media_mesh_118, modelname: brainy-media_model_236, sample_spacing: 0.1,
+  topsurf: 4, topval: 10.0}
