@@ -2,13 +2,10 @@ __pycache__
 .doit.db.*
 notebooks
 *.pdf
-src/mesh/*.geo
-src/mesh/geo/*
-src/mesh/*.msh
-src/mesh/msh/*
-src/mesh/*.xml
-src/mesh/xml/*
-src/mesh/gmsh_out/*
+src/mesh/geo/*.geo
+src/mesh/msh/*.msh
+src/mesh/xml/*.xml
+src/mesh/gmsh_out/*.txt
 src/control.yaml
 *.pvd
 *.vtu
