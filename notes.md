@@ -1,4 +1,6 @@
 
+_ACTION_ git again: we really do want to track the solutions directory itself, but its subdirectories are all auto-generated. Don't track results.
+
 _ACTION_ Refactoring to use `folderstructre.py` to eliminate more use of sys.path
 _ACTION_ Refactoring to use ParameterSet more generally (mesh generation, solver parameters)
   _AND_ at the same time, it would be nice if the solver was passed the mesh parameters object itself
