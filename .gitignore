@@ -10,7 +10,7 @@ src/control.yaml
 *.pvd
 *.vtu
 *.pkl
-src/solutions/brainy-media_*
+src/solutions/*/
 *.aux
 *.log
 latex.out

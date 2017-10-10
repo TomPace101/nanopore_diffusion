@@ -24,6 +24,9 @@ solverfolder=osp.join(srcfolder,'solver')
 #solutions
 solnfolder=osp.join(srcfolder,'solutions')
 
+#postproc
+postprocfolder=osp.join(srcfolder,'postproc')
+
 #add python code folders to path
 sys.path.append(srcfolder)
 sys.path.append(meshfolder)

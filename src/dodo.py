@@ -16,8 +16,9 @@ import sys
 
 #Local
 import useful
-from mesh import tasks_mesh
-from solver import tasks_solver
+import tasks_mesh
+import tasks_solver
+import tasks_postproc
 
 #Read the yaml document
 runs=useful.readyaml_multidoc('control.yaml')
@@ -76,3 +77,10 @@ def task_solve():
   #Set up tasks for each model
   for params in modelruns:
     yield tasks_solver.dosolve(params)
+    
+#Result collection tasks
+def task_collect():
+  #Get list of all results to collect
+  for rd in runs:
+    yield tasks_postproc.collection(rd)
+
