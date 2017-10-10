@@ -31,4 +31,5 @@ postprocfolder=osp.join(srcfolder,'postproc')
 sys.path.append(srcfolder)
 sys.path.append(meshfolder)
 sys.path.append(solverfolder)
+sys.path.append(postprocfolder)
 

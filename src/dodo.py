@@ -15,6 +15,7 @@ import sys
 #Site packages
 
 #Local
+from folderstructure import *
 import useful
 import tasks_mesh
 import tasks_solver

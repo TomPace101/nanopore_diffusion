@@ -9,9 +9,9 @@ from doit.tools import config_changed
 
 #Local
 sys.path.append('..')
-import useful
 from folderstructure import *
-from . import buildgeom
+import useful
+import buildgeom
 
 def create_geo(params):
   paramdef=params.__dict__ #Ugly, but sometimes we need the dictionary version instead of an object
