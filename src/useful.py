@@ -51,7 +51,10 @@ def writepickle(obj,fpath):
 
 class ParameterSet:
   """A base class for defining sets of related parameters.
-  Each subclass should use __slots__ to define its parameters."""
+  Each subclass should use __slots__ to define its parameters.
+  This is not intended as a method for storing complicated objects;
+  all attributes should have values that are numbers, strings, sequences, or dictionaries
+  whose items follow the same rules."""
   def __init__(self,**kwd):
     self.__dict__.update(kwd)
   @classmethod
