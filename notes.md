@@ -2,8 +2,6 @@
 Otherwise empty directories (eg directories containing only untracked files)
 will have a '.keep' file to force git to include the (nearly) empty directory itself.
 
-_ACTION_ switch plot data from yaml to pickle
-
 _ACTION_ README files for bitbucket.
 
 # Figure
