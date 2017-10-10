@@ -12,16 +12,11 @@ from fenics import *
 import numpy as np
 
 #Local
+import general
 sys.path.append(osp.abspath('..'))
 import useful
+import plotdata
 from folderstructure import *
-
-#TODO: this function should move to a more general file, once one exists
-def List_Mesh_Input_Files(params):
-  mesh_xml=osp.join(xmlfolder,params.meshname+'.xml')
-  surface_xml=osp.join(xmlfolder,params.meshname+'_facet_region.xml')
-  volume_xml=osp.join(xmlfolder,params.meshname+'_physical_region.xml')
-  return mesh_xml, surface_xml, volume_xml
 
 #TODO: there are probably parts of this that should be refactored into functions in a more general file, once one exists
 def SolveMesh(params):
@@ -50,7 +45,7 @@ def SolveMesh(params):
   pklfile=osp.join(outdir,'results.pkl')
 
   #Mesh input files
-  mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(params)
+  mesh_xml, surface_xml, volume_xml = general.List_Mesh_Input_Files(params)
 
   #Load mesh and meshfunctions
   mesh=Mesh(mesh_xml)
@@ -112,8 +107,9 @@ def SolveMesh(params):
     clist.append(c(*tup))
   zarr=np.array(zlist)
   carr=np.array(clist)
-  plotobj={'zarr':zarr, 'carr':carr}
-  useful.writeyaml(plotobj,osp.join(outdir,'plotdata_CL_c.yaml'))
+  pd=plotdata.PlotData(xvals=zarr,yvals=carr,label='concentration along centerline')
+  pklfile=osp.join(outdir,'plotdata_CL_c.pkl')
+  pd.to_pickle(pklfile)
 
   #Pickle
   #Nice try, but "can't pickle SwigPyOjbect objects"

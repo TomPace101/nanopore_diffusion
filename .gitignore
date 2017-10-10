@@ -12,6 +12,7 @@ src/mesh/gmsh_out/*
 src/control.yaml
 *.pvd
 *.vtu
+*.pkl
 *.aux
 *.log
 latex.out
