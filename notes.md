@@ -17,8 +17,9 @@ _ACTION_ a way to clean up meshes and solutions that are no longer desired
 _EFFORT_ mesh refinement study
 _EFFORT_ study of required H value
 
+_EFFORT_ doctests?
+
 # Figure
-_EFFORT_
 Current Goal: x=free volume fraction, y=Deff/Dbulk
 
 We need to run the analysis at different values of R,
