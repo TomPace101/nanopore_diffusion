@@ -22,6 +22,8 @@ def SolveMesh(params):
   """Solve the unhomogenized Fickian diffusion equation on the indicated mesh.
   Arguments:
     params = Namespace containing necessary parameter values:
+      modelname = base name used for model, as string
+      meshparams = name of mesh parameters file, as string
       meshname = base name used for mesh, as string
       topsurf = physical surface number for top surface
       basesurf = physical surface number for base surface
@@ -34,11 +36,15 @@ def SolveMesh(params):
   Output files are created."""
 
   #Read mesh parameters
-  meshparams_dict=useful.readyaml(osp.join(params_mesh_folder,params.meshname+'.yaml'))
-  meshparams=argparse.Namespace(**meshparams_dict)
+  #TODO: it would be better if we didn't have to search through the whole file
+  meshparamsfile=osp.join(srcfolder,params.meshparams) #TODO: it would be better if the paths was relative to params/mesh instead
+  for meshobj in useful.readyaml_multidoc(meshparamsfile):
+    if meshobj['meshname']==params.meshname:
+      break
+  meshparams=argparse.Namespace(**meshobj)
 
   #Output location(s)
-  outdir=osp.join(solnfolder,params.meshname)
+  outdir=osp.join(solnfolder,params.modelname)
   if not osp.isdir(outdir):
     os.mkdir(outdir)
   pklfile=osp.join(outdir,'results.pkl')

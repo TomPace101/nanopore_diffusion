@@ -22,7 +22,7 @@ from solver import tasks_solver
 #Read the yaml document
 runs=useful.readyaml_multidoc('control.yaml')
 
-def consolidate(runs,yamlname,entryname,typename='entry'):
+def consolidate(runs,yamlname,entryname,typename='entry',otherprops=None):
   """Get list of all things of a certain type from the dictionary entries in control.yaml
   This is kind of complicated; the docstring is longer than the code.
   Explanation:
@@ -38,6 +38,7 @@ def consolidate(runs,yamlname,entryname,typename='entry'):
     yamlname = parameter name in the dictionaries providing the base name for the relevant yaml files
     entryname = parameter name in the entries themselves providing their names (because each yaml file can have more than one)
     typename = type of things to list (optional, used only to output more helpful error messages)
+    otherprops = name of any other properties from runs to be copied directly into each entry, as a sequence of property names (optional)
   Returns:
     entrylist = list of parameter objects of the given type"""
   entries_byname={}
@@ -47,6 +48,9 @@ def consolidate(runs,yamlname,entryname,typename='entry'):
     entry_list=useful.readyaml_multidoc(yamlfile)
     for entry in entry_list:
       if entry is not None:
+        if otherprops is not None:
+          for k in otherprops:
+            entry[k]=rd[k]
         obj=Namespace(**entry)
         objname=entry[entryname]
         assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(typename,objname,yaml_from_name[objname],yamlfile)
@@ -68,7 +72,7 @@ def task_make_mesh():
 #Solver tasks
 def task_solve():
   #Get list of all models to solve
-  modelruns=consolidate(runs,'modelparams','modelname','model')
+  modelruns=consolidate(runs,'modelparams','modelname','model',['meshparams'])
   #Set up tasks for each model
   for params in modelruns:
     yield tasks_solver.dosolve(params)
