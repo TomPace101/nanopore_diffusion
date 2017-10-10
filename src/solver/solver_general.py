@@ -7,9 +7,8 @@ import sys
 #Site packages
 
 #Local
-sys.path.append(osp.abspath('..'))
-import useful
 from folderstructure import *
+import useful
 
 def List_Mesh_Input_Files(params):
   mesh_xml=osp.join(xmlfolder,params.meshname+'.xml')

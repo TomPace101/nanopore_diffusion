@@ -12,8 +12,7 @@ from fenics import *
 import numpy as np
 
 #Local
-import general
-sys.path.append(osp.abspath('..'))
+import solver_general
 import useful
 import plotdata
 from folderstructure import *
@@ -45,7 +44,7 @@ def SolveMesh(params):
   pklfile=osp.join(outdir,'results.pkl')
 
   #Mesh input files
-  mesh_xml, surface_xml, volume_xml = general.List_Mesh_Input_Files(params)
+  mesh_xml, surface_xml, volume_xml = solver_general.List_Mesh_Input_Files(params)
 
   #Load mesh and meshfunctions
   mesh=Mesh(mesh_xml)
@@ -107,7 +106,7 @@ def SolveMesh(params):
     clist.append(c(*tup))
   zarr=np.array(zlist)
   carr=np.array(clist)
-  pd=plotdata.PlotData(xvals=zarr,yvals=carr,label='concentration along centerline')
+  pd=plotdata.PlotSeries(xvals=zarr,yvals=carr,label='concentration along centerline')
   pklfile=osp.join(outdir,'plotdata_CL_c.pkl')
   pd.to_pickle(pklfile)
 

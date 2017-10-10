@@ -53,7 +53,7 @@ class ParameterSet:
   """A base class for defining sets of related parameters.
   Each subclass should use __slots__ to define its parameters."""
   def __init__(self,**kwd):
-    self.__dict__.udpate(kwd)
+    self.__dict__.update(kwd)
   @classmethod
   def from_yaml(cls,fpath):
     """Read ParameterSet from a yaml file.

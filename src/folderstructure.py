@@ -1,4 +1,7 @@
+
+#Standard library
 import os.path as osp
+import sys
 
 srcfolder=osp.split(__file__)[0]
 
@@ -20,3 +23,9 @@ solverfolder=osp.join(srcfolder,'solver')
 
 #solutions
 solnfolder=osp.join(srcfolder,'solutions')
+
+#add python code folders to path
+sys.path.append(srcfolder)
+sys.path.append(meshfolder)
+sys.path.append(solverfolder)
+
