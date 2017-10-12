@@ -3,8 +3,8 @@ __pycache__
 .doit.db.*
 notebooks
 
-#Symlinks
-src/control.yaml
+#Symlinks to control parameter sets
+src/*.yaml
 
 #Generated mesh files
 src/mesh/geo/*.geo
