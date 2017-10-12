@@ -19,7 +19,7 @@ def create_geo(params):
             osp.join(geomdef_folder,geomyaml),
             osp.join(geotemplates_folder,geomdef.tmplfile),
             osp.join(geotemplates_folder,'common.geo.jinja2')]
-  tdef = {'name':geofile,
+  tdef = {'name':params.meshname+'.geo',
           'file_dep':filedeps,
           'uptodate':[config_changed(params.to_dict())],
           'targets':[geofile],

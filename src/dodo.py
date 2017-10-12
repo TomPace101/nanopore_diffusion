@@ -84,8 +84,8 @@ def task_solve():
     yield tasks_solver.dosolve(modelparams,meshparams)
     
 #Result collection tasks
-def task_collect():
+def ignored_task_collect(): ##TODO: re-enable once working
   #Get list of all results to collect
-  for rd in runs:
-    yield tasks_postproc.collection(rd)
+  for r in runs:
+    yield tasks_postproc.collection(r)
 

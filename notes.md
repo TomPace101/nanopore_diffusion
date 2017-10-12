@@ -1,10 +1,13 @@
 
-Refactoring to use ParameterSet more generally.
 Current needs of review:
 
+- collect_results.py
+- tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
 
 _TODO_ the control.yaml files are pretty redundant now: all three entries are the same
+
+_TODO_ formalize data extraction requests as sequence of requests with specified types and arguments
 
 _ACTION_ use osp.relpath for task names (solver and mesh)
 

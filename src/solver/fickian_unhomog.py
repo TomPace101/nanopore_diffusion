@@ -55,7 +55,7 @@ def SolveMesh(modelparams, meshparams):
   #Dirichlet boundary conditions
   bcs=[]
   bcvals=argparse.Namespace(**modelparams.boundaryconditions)
-  dpairs=[(bcvaks.basesurf,bcvals.baseval), (bcvals.topsurf,bcvals.topval)] #Physical surface and Dirichlet value pairs
+  dpairs=[(bcvals.basesurf,bcvals.baseval), (bcvals.topsurf,bcvals.topval)] #Physical surface and Dirichlet value pairs
   for psurf,val in dpairs:
     bcs.append(DirichletBC(V,val,surfaces,psurf))
   
@@ -98,7 +98,7 @@ def SolveMesh(modelparams, meshparams):
 
   #Data for plots
   #Hard-coded centerline plot for now
-  zr=np.arange(0, 2*meshparams.H + meshparams.tm, params.sample_spacing)
+  zr=np.arange(0, 2*meshparams.H + meshparams.tm, extraction.sample_spacing)
   zlist=[]
   clist=[]
   for z in zr:
@@ -107,7 +107,9 @@ def SolveMesh(modelparams, meshparams):
     clist.append(c(*tup))
   zarr=np.array(zlist)
   carr=np.array(clist)
-  pd=plotdata.PlotSeries(xvals=zarr,yvals=carr,label='concentration along centerline')
+  meta=dict([(k,getattr(meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
+  meta.update(bcvals.__dict__)
+  pd=plotdata.PlotSeries(xvals=zarr,yvals=carr,label='concentration along centerline',metadata=meta)
   pklfile=osp.join(outdir,'plotdata_CL_c.pkl')
   pd.to_pickle(pklfile)
 

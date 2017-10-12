@@ -118,5 +118,5 @@ class ParameterSet:
     Note that changes to this dictionary will not affect the object.
     No arguments.
     Returns the dictionary."""
-    return dict([(k,getattr(self,k)) for k in self.__slots__])
+    return dict([(k,getattr(self,k,None)) for k in self.__slots__])
   ##TODO: read and write from ini file
