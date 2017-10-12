@@ -8,6 +8,8 @@ Source code and problem description document for FEM solution of diffusion throu
 The FEM analysis is conducted using `FEniCS` (https://fenicsproject.org/),
 using the python programming language (https://www.python.org/).
 
+Meshes for the FEM analysis are generated using `gmsh` (http://gmsh.info/).
+
 The FEM analysis and the generation of the problem description document
 have been automated using a python package known as `doit` (http://pydoit.org/).
 
@@ -19,21 +21,23 @@ The problem description document requires the following software:
 - `pdflatex` (available with most distributions of `LaTeX`, https://www.latex-project.org/)
 - python package `doit`, as described above.
 
+This is a `git` repository (https://git-scm.com/).
+
 # Files and Folders
 
 Otherwise empty directories (eg directories containing only untracked files or subdirectories)
-will have a '.keep' file to force git to include the directory itself.
+will have a '.keep' file to force `git` to include the directory itself.
 
 - README.md: this document
 - notes.md: random notes, thoughts, todo lists, and development plans
 - description: problem description document
-    - fig_svg: inkscape drawings for figures
+    - fig_svg: `inkscape` drawings for figures
     - fig_pdf: figures converted to pdf format
 - src: code for FEM analysis
-    - mesh: code and data for mesh generation using gmsh
-        - geo: storage place for gmsh .geo files
-        - gmsh_out: storage place for gmsh terminal output
-        - msh: storage place for gmsh .msh files
+    - mesh: code and data for mesh generation using `gmsh`
+        - geo: storage place for `gmsh` .geo files
+        - gmsh_out: storage place for `gmsh` terminal output
+        - msh: storage place for `gmsh` .msh files
         - xml: storage place for xml files readable by `FEniCS`
     - params: storage place for parameter sets
         - control: storage place for run definition parameters

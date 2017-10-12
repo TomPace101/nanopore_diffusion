@@ -12,6 +12,8 @@ _ACTION_ why must control parameters provide path including 'params/...'? (ficki
 
 _ACTION_ a way to clean up meshes and solutions that are no longer desired
 
+_TODO_ syn project (with all results files) to shared.
+
 _EFFORT_ mesh refinement study
 _EFFORT_ study of required H value
 
