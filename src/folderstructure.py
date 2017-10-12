@@ -13,6 +13,8 @@ params_control_folder=osp.join(paramsfolder,'control')
 
 #mesh
 meshfolder=osp.join(srcfolder,'mesh')
+geomdef_folder=osp.join(meshfolder,'geomdef')
+geotemplates_folder=osp.join(meshfolder,'templates')
 geofolder=osp.join(meshfolder,'geo')
 mshfolder=osp.join(meshfolder,'msh')
 xmlfolder=osp.join(meshfolder,'xml')
