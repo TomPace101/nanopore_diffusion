@@ -1,5 +1,6 @@
 #Human readable hashes of text descriptions used for parameter sets
 #hash: description
 #The human readable hashes are generated from `codenamize(description,1,6)`
+#Where needed, longer descriptions are provided in the comments in this file.
 
 brainy-media: Figure of D_eff vs \phi
