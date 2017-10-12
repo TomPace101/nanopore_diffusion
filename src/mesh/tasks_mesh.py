@@ -30,8 +30,8 @@ def create_msh(params):
   stem=params.meshname
   geofile=osp.join(geofolder,'%s.geo'%stem)
   mshfile=osp.join(mshfolder,'%s.msh'%stem)
-  outfile=osp.join(outfolder,'%s.txt'%stem)
-  tdef = {'name':mshfile,
+  outfile=osp.join(gmsh_outfolder,'%s.txt'%stem)
+  tdef = {'name':stem+'.msh',
           'file_dep':[geofile],
           'targets':[mshfile],
           'actions':['gmsh -0 -o %s %s >%s'%(mshfile,geofile,outfile)]}
@@ -41,7 +41,7 @@ def create_xml(params):
   stem=params.meshname
   mshfile=osp.join(mshfolder,'%s.msh'%stem)
   xmlfile=osp.join(xmlfolder,'%s.xml'%stem)
-  tdef = {'name':xmlfile,
+  tdef = {'name':stem+'.xml',
           'file_dep':[mshfile],
           'targets':[xmlfile],
           'actions':['dolfin-convert %s %s'%(mshfile,xmlfile)]}

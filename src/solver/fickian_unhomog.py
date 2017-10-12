@@ -18,39 +18,30 @@ import useful
 import plotdata
 
 #TODO: there are probably parts of this that should be refactored into functions in a more general file, once one exists
-def SolveMesh(params):
+def SolveMesh(modelparams, meshparams):
   """Solve the unhomogenized Fickian diffusion equation on the indicated mesh.
   Arguments:
-    params = Namespace containing necessary parameter values:
-      modelname = base name used for model, as string
-      meshparams = name of mesh parameters file, as string
-      meshname = base name used for mesh, as string
-      topsurf = physical surface number for top surface
-      basesurf = physical surface number for base surface
-      topval = concentration value at top surface
-      baseval = concentration value at base surface
-      fluxsurf: physical surface number for flux measurement
-      fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
-      sample_spacing: distance between sampled points for line plots
+    modelparams = solver_general.ModelParameters instance
+      boundaryconditions:
+        topsurf = physical surface number for top surface
+        basesurf = physical surface number for base surface
+        topval = concentration value at top surface
+        baseval = concentration value at base surface
+      dataextraction:
+        fluxsurf: physical surface number for flux measurement
+        fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
+        sample_spacing: distance between sampled points for line plots
+    meshparams = buildgeom.MeshParameters instance
   No return value.
   Output files are created."""
 
-  #Read mesh parameters
-  #TODO: it would be better if we didn't have to search through the whole file
-  meshparamsfile=osp.join(srcfolder,params.meshparams) #TODO: it would be better if the paths was relative to params/mesh instead
-  for meshobj in useful.readyaml_multidoc(meshparamsfile):
-    if meshobj['meshname']==params.meshname:
-      break
-  meshparams=argparse.Namespace(**meshobj)
-
   #Output location(s)
-  outdir=osp.join(solnfolder,params.modelname)
+  outdir=osp.join(solnfolder,modelparams.modelname)
   if not osp.isdir(outdir):
     os.mkdir(outdir)
-  pklfile=osp.join(outdir,'results.pkl')
 
   #Mesh input files
-  mesh_xml, surface_xml, volume_xml = solver_general.List_Mesh_Input_Files(params)
+  mesh_xml, surface_xml, volume_xml = solver_general.List_Mesh_Input_Files(modelparams.meshname)
 
   #Load mesh and meshfunctions
   mesh=Mesh(mesh_xml)
@@ -63,7 +54,8 @@ def SolveMesh(params):
 
   #Dirichlet boundary conditions
   bcs=[]
-  dpairs=[(params.basesurf,params.baseval), (params.topsurf,params.topval)] #Physical surface and Dirichlet value pairs
+  bcvals=argparse.Namespace(**modelparams.boundaryconditions)
+  dpairs=[(bcvaks.basesurf,bcvals.baseval), (bcvals.topsurf,bcvals.topval)] #Physical surface and Dirichlet value pairs
   for psurf,val in dpairs:
     bcs.append(DirichletBC(V,val,surfaces,psurf))
   
@@ -90,10 +82,13 @@ def SolveMesh(params):
   vtk_j=File(osp.join(outdir,'flux.pvd'))
   vtk_j << j
 
+  #Data extraction
+  extraction=argparse.Namespace(**modelparams.dataextraction)
+
   #Flux integral over surface
   n=FacetNormal(mesh)
   dsi=Measure('interior_facet',domain=mesh,subdomain_data=surfaces)
-  totflux=assemble(dot(j,n(params.fluxsign))*dsi(params.fluxsurf))
+  totflux=assemble(dot(j,n(extraction.fluxsign))*dsi(extraction.fluxsurf))
 
   #Effective Diffusion Constant
   cell_area = meshparams.Lx * meshparams.Ly
@@ -120,15 +115,15 @@ def SolveMesh(params):
   #Nice try, but "can't pickle SwigPyOjbect objects"
   # pobj={}
   # ll=locals()
-  # for var in ['params.meshname','params','mesh','surfaces','volumes','c','V','V_vec']:
+  # for var in ['modelparams','mesh','surfaces','volumes','c','V','V_vec']:
   #   pobj[var]=ll[var]
   # useful.writepickle(pobj,pklfile)
   
   #Results yaml
   volfrac = np.pi*meshparams.R**2/(4*meshparams.Lx*meshparams.Ly)
   robj={'totflux':totflux, 'Deff':Deff, 'free_volume_frac':volfrac}
-  robj.update(meshparams.__dict__)
-  robj.update(params.__dict__)
+  robj.update(meshparams.to_dict())
+  robj.update(modelparams.to_dict())
   useful.writeyaml(robj,osp.join(outdir,'results.yaml'))
 
   #Done
@@ -136,6 +131,7 @@ def SolveMesh(params):
 
 #Support command-line arguments
 if __name__ == '__main__':
+  ##TODO: this needs to be updated
   #Process command-line arguments
   parser = argparse.ArgumentParser(description='Solve the unhomogenized fickian diffusion equation with fenics')
   parser.add_argument('bc_params_yaml', help='path to boundary conditions parameter yaml file')

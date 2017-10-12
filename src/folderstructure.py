@@ -18,7 +18,7 @@ geotemplates_folder=osp.join(meshfolder,'templates')
 geofolder=osp.join(meshfolder,'geo')
 mshfolder=osp.join(meshfolder,'msh')
 xmlfolder=osp.join(meshfolder,'xml')
-outfolder=osp.join(meshfolder,'gmsh_out')
+gmsh_outfolder=osp.join(meshfolder,'gmsh_out')
 
 #solver
 solverfolder=osp.join(srcfolder,'solver')

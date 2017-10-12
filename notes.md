@@ -2,11 +2,9 @@
 Refactoring to use ParameterSet more generally.
 Current needs of review:
 
-- fickian_unhomog.py
-    - it would be nice if the solver was passed the mesh parameters object itself
 - gen_brainy_media.py
 
-_ACTION_ why must control parameters provide path including 'params/...'? (fickian_unhomog was changed to allow this)
+_TODO_ the control.yaml files are pretty redundant now: all three entries are the same
 
 _ACTION_ use osp.relpath for task names (solver and mesh)
 

@@ -10,7 +10,7 @@ import sys
 from folderstructure import *
 import useful
 
-class SolverParams(useful.ParameterSet):
+class ModelParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store generic solver parameters
   Attributes:
     modelname = stem name for output files
@@ -21,9 +21,9 @@ class SolverParams(useful.ParameterSet):
     dataextraction = parameters for data to extract from the solution"""
   __slots__=('modelname','meshname','equation','boundaryconditions','dataextraction')
 
-def List_Mesh_Input_Files(params):
-  mesh_xml=osp.join(xmlfolder,params.meshname+'.xml')
-  surface_xml=osp.join(xmlfolder,params.meshname+'_facet_region.xml')
-  volume_xml=osp.join(xmlfolder,params.meshname+'_physical_region.xml')
+def List_Mesh_Input_Files(meshname):
+  mesh_xml=osp.join(xmlfolder,meshname+'.xml')
+  surface_xml=osp.join(xmlfolder,meshname+'_facet_region.xml')
+  volume_xml=osp.join(xmlfolder,meshname+'_physical_region.xml')
   return mesh_xml, surface_xml, volume_xml
 

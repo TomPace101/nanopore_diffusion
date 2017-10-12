@@ -30,61 +30,58 @@ class AnalysisRunSet(useful.ParameterSet):
     master = """
   __slots__=('meshparams','modelparams','master')
 
-#Read in the sequence of analysis runs
-runs=AnalysisRunSet.all_from_yaml('control.yaml')
-
-def consolidate(runs,yamlname,entrytype,entryname,otherprops=None):
-  """Get list of all things of a certain type from all the AnalysisRunSet objects
+def consolidate(runs,yamlfolder,yamlname,entrytype,nameattribute):
+  """Get all things of a certain type from all the AnalysisRunSet objects
   Explanation:
     control.yaml contains multiple AnalysisRunSet objects, many of which specify other yaml files,
     which in turn contain multiple objects of various types.
-    This function reads all of the yaml files for a certain type of object.
-    You specify which attribute of the AnalysisRunSet objects to consolidate with the argument 'yamlname'.
-    Each object in each of these yaml files is here called an entry.
-    Argument 'entryname' specifies which of the entry's attributes specifies its name.
-    Argument 'entrytype' specifies the type of object each entry actually is (i.e. its class).
+    This function reads all of the yaml files for a certain type of object,
+    and consolidates those objects into one dictionary.
   Inputs:
-    runs = iterator over AnalysisRunSet objects
+    runs = iterable over AnalysisRunSet objects
+    yamlfolder = path to folder containing yaml files referenced by yamlname, as string
     yamlname = attribute name in AnalysisRunSet providing the base name for the relevant yaml files
-    entrytype = class to be used for each entry
-    entryname = attribute name in the entries themselves providing their names
-    otherprops = name of any other AnalysisRunSet attributes to be copied directly into each entry, as a sequence of attribute names (optional)
+    entrytype = class to be used for each object
+    nameattribute = attribute name in the entries themselves providing their names
+      These names are the keys in the output dictionary.
   Returns:
-    entrylist = list of parameter objects of the given type"""
+    entries_byname = dictionary mapping an entry's name to the entry itself
+    yaml_from_name = dictionary mapping an entry's name to the yaml file it came from"""
   entries_byname={}
   yaml_from_name={}
   for rd in runs:
-    yamlfile=getattr(rd,yamlname)
-    entry_iter=entrytype.all_from_yaml(yamlfile)
+    yamlfile=getattr(rd,yamlname)+'.yaml'
+    yamlfpath=osp.join(yamlfolder,yamlfile)
+    entry_iter=entrytype.all_from_yaml(yamlfpath)
     for entry in entry_iter:
       if entry is not None:
-        if otherprops is not None:
-          for k in otherprops:
-            setattr(entry,k,getattr(rd,k))
-        objname=getattr(entry,entryname)
+        objname=getattr(entry,nameattribute)
         assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(entrytype.__name__,objname,yaml_from_name[objname],yamlfile)
-        yaml_from_name[objname]=yamlfile
+        yaml_from_name[objname]=yamlfpath
         entries_byname[objname]=entry
-  entrylist=[x for x in entries_byname.values()]
-  return entrylist
+  return entries_byname, yaml_from_name
+
+#Read in the sequence of analysis runs
+runs=[r for r in AnalysisRunSet.all_from_yaml('control.yaml')]
+
+#Get all the meshes and models
+allmeshes,meshfiles=consolidate(runs,params_mesh_folder,'meshparams',buildgeom.MeshParameters,'meshname')
+allmodels,modelfiles=consolidate(runs,params_model_folder,'modelparams',solver_general.ModelParameters,'modelname')
 
 #Mesh tasks
 def task_make_mesh():
-  #Get list of all meshes to generate
-  meshruns=consolidate(runs,'meshparams',buildgeom.MeshParameters,'meshname')
   #Set up tasks for each mesh
-  for params in meshruns:
+  for params in allmeshes.values():
     yield tasks_mesh.create_geo(params)
     yield tasks_mesh.create_msh(params)
     yield tasks_mesh.create_xml(params)
 
 #Solver tasks
 def task_solve():
-  #Get list of all models to solve
-  modelruns=consolidate(runs,'modelparams',solver_general.SolverParams,'modelname',['meshparams'])
   #Set up tasks for each model
-  for params in modelruns:
-    yield tasks_solver.dosolve(params)
+  for modelparams in allmodels.values():
+    meshparams=allmeshes[modelparams.meshname]
+    yield tasks_solver.dosolve(modelparams,meshparams)
     
 #Result collection tasks
 def task_collect():

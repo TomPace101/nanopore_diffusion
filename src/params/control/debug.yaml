@@ -4,10 +4,10 @@
 #Blank (bare) documents are skipped
 
 #Run definition
-#meshparams: path (relative to `src`) for mesh parameters definition file
-#bcparams: path (relative to `src`) for boundary condition parameters definition file
+#meshparams: base name for mesh parameters definition file
+#bcparams: base name for boundary condition parameters definition file
 #master: name of master table for results
 ---
-meshparams: params/mesh/debug.yaml
-modelparams: params/model/debug.yaml
+meshparams: debug
+modelparams: debug
 master: debug
