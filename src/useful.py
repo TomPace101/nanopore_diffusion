@@ -55,7 +55,7 @@ class ParameterSet:
   This is not intended as a method for storing complicated objects;
   all attributes should have values that are numbers, strings, sequences, or dictionaries
   whose items follow the same rules."""
-  __slots__=[] #Without this, a __dict__ object will be created even though subclasses use __slots__
+  __slots__=tuple() #Without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwd):
     ##self.__dict__.update(kwd) #This doesn't seem work well with __slots__
     for k,v in kwd.items():

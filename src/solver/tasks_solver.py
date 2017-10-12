@@ -13,8 +13,10 @@ import useful
 import solver_general
 import fickian_unhomog
 
+solverfuncs={'fickian_unhomog':fickian_unhomog.SolveMesh}
+
 def dosolve(params):
-  assert params.equation=='fickian_unhomog', "Only one equation implemented for now." #TODO: support other equations
+  assert params.equation in solverfuncs, "Unrecognized equation: %s"%params.equation
   xmlfiles = [x for x in solver_general.List_Mesh_Input_Files(params)]
   outdir=osp.join(solnfolder,params.modelname)
   outfiles=['conc.pvd','flux.pvd']

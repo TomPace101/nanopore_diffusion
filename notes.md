@@ -1,18 +1,23 @@
 
-_ACTION_ Refactoring to use `folderstructure.py` to eliminate more use of sys.path
-_ACTION_ Refactoring to use ParameterSet more generally (mesh generation, solver parameters)
-  _AND_ at the same time, it would be nice if the solver was passed the mesh parameters object itself
+Refactoring to use ParameterSet more generally.
+Current needs of review:
+
+- fickian_unhomog.py
+    - it would be nice if the solver was passed the mesh parameters object itself
+- gen_brainy_media.py
+
+_ACTION_ why must control parameters provide path including 'params/...'? (fickian_unhomog was changed to allow this)
 
 _ACTION_ use osp.relpath for task names (solver and mesh)
+
+_ACTION_ mesh output folders need to be together in another folder
 
 _ACTION_ find a way to mirror to holly and/or dlx
 _ACTION_ use hash or other basename as a top directory?  maybe not.
 
-_ACTION_ why must control parameters provide path including 'params/...'? (fickian_unhomog was changed to allow this)
-
 _ACTION_ a way to clean up meshes and solutions that are no longer desired
 
-_TODO_ syn project (with all results files) to shared.
+_TODO_ sync project (with all results files) to shared.
 
 _EFFORT_ mesh refinement study
 _EFFORT_ study of required H value

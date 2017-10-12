@@ -3,25 +3,29 @@
 #Each document is a separate case run
 #Blank (bare) documents are skipped
 
-#Boundary conditions definition
-#bcname: name of boundary conditions parameter set
+#Model definition
+#modelname: name of model parameter set
 #meshname: name of mesh to use
 #equation: name of equation to solve
-#topsurf: physical surface number of top surface
-#basesurf: physical surface number of base surface
-#topval: concentration value specified at top surface
-#baseval: concentration value specified at base surface
-#fluxsurf: physical surface number for flux measurement
-#fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
-#sample_spacing: distance between sampled points for line plots
+#boundaryconditions:
+# topsurf: physical surface number of top surface
+# basesurf: physical surface number of base surface
+# topval: concentration value specified at top surface
+# baseval: concentration value specified at base surface
+#dataextraction:
+# fluxsurf: physical surface number for flux measurement
+# fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
+# sample_spacing: distance between sampled points for line plots
 ---
 modelname: debug
 meshname: debug
 equation: fickian_unhomog
-topsurf: 4
-basesurf: 1
-topval: 5.0
-baseval: 1.0
-fluxsurf: 12
-fluxsign: '-'
-sample_spacing: 0.1
+boundaryconditions:
+  topsurf: 4
+  basesurf: 1
+  topval: 5.0
+  baseval: 1.0
+dataextraction:
+  fluxsurf: 12
+  fluxsign: '-'
+  sample_spacing: 0.1

@@ -20,42 +20,51 @@ import useful
 import tasks_mesh
 import tasks_solver
 import tasks_postproc
+import buildgeom
+import solver_general
 
-#Read the yaml document
-runs=useful.readyaml_multidoc('control.yaml')
+class AnalysisRunSet(useful.ParameterSet):
+  """Subclass of useful.ParameterSet to store the data for completing a set of analysis runs
+  Attributes:
+    meshparams = yaml file containing buildgeom.MeshParameters documents
+    modelparams = yaml file containing 
+    master = """
+  __slots__=('meshparams','modelparams','master')
 
-def consolidate(runs,yamlname,entryname,typename='entry',otherprops=None):
-  """Get list of all things of a certain type from the dictionary entries in control.yaml
-  This is kind of complicated; the docstring is longer than the code.
+#Read in the sequence of analysis runs
+runs=AnalysisRunSet.all_from_yaml('control.yaml')
+
+def consolidate(runs,yamlname,entryname,entrytype,otherprops=None):
+  """Get list of all things of a certain type from all the AnalysisRunSet objects
   Explanation:
     control.yaml contains multiple yaml documents, each of which contains parameters with other yaml documents as their values
     You specify which yaml document you want to consolidate with argument 'yamlname',
-    which must be the name of a parameter in control.yaml.
+    which must be the name of an AnalysisRunSet attribute.
     The yaml files thus specified also contain multiple documents.
     Each such document is here called an "entry".
-    Argument 'entryname' specifies which of the entry's parameters specifies its name.
-    Argument 'typename' specifies the type of thing each entry actually is.
+    Argument 'entryname' specifies which of the entry's attributes specifies its name.
+    Argument entrytype specifies the type of thing each entry actually is.
   Inputs:
-    runs = dictionary entries (yaml documents) from control.yaml
-    yamlname = parameter name in the dictionaries providing the base name for the relevant yaml files
-    entryname = parameter name in the entries themselves providing their names (because each yaml file can have more than one)
-    typename = type of things to list (optional, used only to output more helpful error messages)
-    otherprops = name of any other properties from runs to be copied directly into each entry, as a sequence of property names (optional)
+    runs = iterator over AnalysisRunSet objects
+    yamlname = attribute name in AnalysisRunSet providing the base name for the relevant yaml files
+    entryname = attribute name in the entries themselves providing their names (because each yaml file can have more than one)
+    entrytype = class to be used for each entry
+    otherprops = name of any other properties from runs to be copied directly into each entry, as a sequence of attribute names (optional)
   Returns:
     entrylist = list of parameter objects of the given type"""
   entries_byname={}
   yaml_from_name={}
   for rd in runs:
     yamlfile=rd[yamlname]
-    entry_list=useful.readyaml_multidoc(yamlfile)
-    for entry in entry_list:
+    entry_iter=entrytype.all_from_yaml(yamlfile)
+    for entry in entry_iter:
       if entry is not None:
         if otherprops is not None:
           for k in otherprops:
-            entry[k]=rd[k]
+            setattr(entry,k,getattr(rd,k)
         obj=Namespace(**entry)
         objname=entry[entryname]
-        assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(typename,objname,yaml_from_name[objname],yamlfile)
+        assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(entrytype.__name__,objname,yaml_from_name[objname],yamlfile)
         yaml_from_name[objname]=yamlfile
         entries_byname[objname]=obj
   entrylist=[x for x in entries_byname.values()]
@@ -64,7 +73,7 @@ def consolidate(runs,yamlname,entryname,typename='entry',otherprops=None):
 #Mesh tasks
 def task_make_mesh():
   #Get list of all meshes to generate
-  meshruns=consolidate(runs,'meshparams','meshname','mesh')
+  meshruns=consolidate(runs,'meshparams','meshname',buildgeom.MeshParameters)
   #Set up tasks for each mesh
   for params in meshruns:
     yield tasks_mesh.create_geo(params)
@@ -74,7 +83,7 @@ def task_make_mesh():
 #Solver tasks
 def task_solve():
   #Get list of all models to solve
-  modelruns=consolidate(runs,'modelparams','modelname','model',['meshparams'])
+  modelruns=consolidate(runs,'modelparams','modelname',solver_general.SolverParams,['meshparams'])
   #Set up tasks for each model
   for params in modelruns:
     yield tasks_solver.dosolve(params)

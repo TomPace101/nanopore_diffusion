@@ -12,10 +12,10 @@ from fenics import *
 import numpy as np
 
 #Local
+from folderstructure import *
 import solver_general
 import useful
 import plotdata
-from folderstructure import *
 
 #TODO: there are probably parts of this that should be refactored into functions in a more general file, once one exists
 def SolveMesh(params):

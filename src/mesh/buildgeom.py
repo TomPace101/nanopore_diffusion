@@ -30,7 +30,7 @@ class MeshParameters(useful.ParameterSet):
       This file is specific to the jinja2 template used to generate the .geo file.
     Lx, Ly, R, H, tm = physical dimensions in the geometry
     mscale, mcarh, mcarl = mesh density parameters"""
-  __slots__=['meshname','lattice','Lx','Ly','R','H','tm','mscale','mcarh','mcarl']
+  __slots__=('meshname','lattice','Lx','Ly','R','H','tm','mscale','mcarh','mcarl')
 
 class GeometryDefinition(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
@@ -41,7 +41,7 @@ class GeometryDefinition(useful.ParameterSet):
     geomtable = mapping of surfaces to sequence points
     surfloops = mapping of surface loops to sequence of surfaces
     nonplanar = list of surfaces that are not planar surfaces"""
-  __slots__=['tmplfile','ptdict','geomtable','surfloops','nonplanar']
+  __slots__=('tmplfile','ptdict','geomtable','surfloops','nonplanar')
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names

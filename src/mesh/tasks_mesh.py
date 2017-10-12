@@ -14,14 +14,16 @@ import useful
 import buildgeom
 
 def create_geo(params):
-  paramdef=params.__dict__ #Ugly, but sometimes we need the dictionary version instead of an object
   geomyaml, geomdef, geofile = buildgeom.process_mesh_params(params)
-  filedeps=[osp.join(meshfolder,x) for x in ['buildgeom.py',geomyaml,geomdef['tmplfile'],'common.geo.jinja2'] ]
+  filedeps=[osp.join(meshfolder,'buildgeom.py'),
+            osp.join(geomdef_folder,geomyaml),
+            osp.join(geotemplates_folder,geomdef.tmplfile),
+            osp.join(geotemplates_folder,'common.geo.jinja2')]
   tdef = {'name':geofile,
           'file_dep':filedeps,
           'uptodate':[config_changed(paramdef)],
           'targets':[geofile],
-          'actions':[(buildgeom.write_one_geo,(geomdef,paramdef,geofile))]}
+          'actions':[(buildgeom.write_one_geo,(geomdef,params,geofile))]}
   return tdef
 
 def create_msh(params):
