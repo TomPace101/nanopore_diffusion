@@ -23,7 +23,7 @@ def dosolve(params):
   outpaths=[osp.join(outdir,f) for f in outfiles]
   tdef = {'name':params.modelname,
           'file_dep':[osp.join(solverfolder,'fickian_unhomog.py')]+xmlfiles,
-          'uptodate':[config_changed(params.__dict__)],
+          'uptodate':[config_changed(params.to_dict())],
           'targets':outpaths,
           'actions':[(fickian_unhomog.SolveMesh,(params,))]}
   return tdef

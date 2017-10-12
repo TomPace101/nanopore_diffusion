@@ -21,7 +21,7 @@ def create_geo(params):
             osp.join(geotemplates_folder,'common.geo.jinja2')]
   tdef = {'name':geofile,
           'file_dep':filedeps,
-          'uptodate':[config_changed(paramdef)],
+          'uptodate':[config_changed(params.to_dict())],
           'targets':[geofile],
           'actions':[(buildgeom.write_one_geo,(geomdef,params,geofile))]}
   return tdef

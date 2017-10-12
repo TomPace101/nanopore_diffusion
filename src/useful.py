@@ -71,16 +71,6 @@ class ParameterSet:
       pset = a ParameterSet object as defined by the contents of the yaml file"""
     d=readyaml(fpath)
     return cls(**d)
-  def to_yaml(self,fpath):
-    """Write ParameterSet to a yaml file.
-    Arguments:
-      fpath = path to the yaml file to write
-        This will be a single-document yaml file, containing a dictionary (potentially of other dictionaries).
-        The file will be overwritten if it already exists.
-    No return value."""
-    #TODO: consider writing docstring as comments in yaml file
-    writeyaml(self.__dict,fpath)
-    return
   @classmethod
   def all_from_yaml(cls,fpath):
     """Generator to read a list of ParameterSet objects from a yaml file.
@@ -95,6 +85,16 @@ class ParameterSet:
       gen=yaml.load_all(dat)
     for obj in gen:
       yield cls(**obj)
+  def to_yaml(self,fpath):
+    """Write ParameterSet to a yaml file.
+    Arguments:
+      fpath = path to the yaml file to write
+        This will be a single-document yaml file, containing a dictionary (potentially of other dictionaries).
+        The file will be overwritten if it already exists.
+    No return value."""
+    #TODO: consider writing docstring as comments in yaml file
+    writeyaml(self.to_dict(),fpath)
+    return
   @classmethod
   def from_pickle(cls,fpath):
     """Read ParameterSet from a pickle file.
@@ -111,6 +111,12 @@ class ParameterSet:
       fpath = path to the pickle file to write
         The file will be overwritten if it already exists.
     No return value."""
-    writepickle(self.__dict__,fpath)
+    writepickle(self.to_dict(),fpath)
     return
+  def to_dict(self):
+    """Return a dictionary with all the object's attributes.
+    Note that changes to this dictionary will not affect the object.
+    No arguments.
+    Returns the dictionary."""
+    return dict([(k,getattr(self,k)) for k in self.__slots__])
   ##TODO: read and write from ini file
