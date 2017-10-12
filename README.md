@@ -1,6 +1,4 @@
 
-__TODO__: add `jinja2` to software list
-
 # Description
 
 Source code and problem description document for FEM solution of diffusion through a nanoporous membrane.
@@ -18,7 +16,11 @@ have been automated using a python package known as `doit` (http://pydoit.org/).
 Many analysis parameters are stored in `yaml` format (https://en.wikipedia.org/wiki/YAML).
 The python package `pyyaml` (https://github.com/yaml/pyyaml) is used to read these files.
 
+Some output files (such as `gmsh` .geo input files)
+are generated using the `jinja2` template engine (http://jinja.pocoo.org/).
+
 The problem description document requires the following software:
+
 - `inkscape` (https://inkscape.org/en/)
 - `pdflatex` (available with most distributions of `LaTeX`, https://www.latex-project.org/)
 - python package `doit`, as described above.

@@ -1,28 +1,34 @@
 
-Current needs of review:
+_TODO_ formalize data extraction requests as sequence of requests with specified types and arguments
+This is in progress in extraction_functions.py
+The problem is the functions need data they haven't been passed yet.
+Need to figure out a good way to do this.
+Look for other TODOs as well.
+
+_TODO_ Current needs of review:
 
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
 
 _TODO_ the control.yaml files are pretty redundant now: all three entries are the same
+Maybe there should just be model definition objects, and nothing above that.
 
-_TODO_ formalize data extraction requests as sequence of requests with specified types and arguments
+_TODO_ in tasks_solver we can now get the other output filenames
 
-_ACTION_ use osp.relpath for task names (solver and mesh)
+_TODO_ command line in solver, or get rid of it
 
-_ACTION_ mesh output folders need to be together in another folder
+_TODO_ mesh output folders need to be together in another folder
 
-_ACTION_ find a way to mirror to holly and/or dlx
-_ACTION_ use hash or other basename as a top directory?  maybe not.
+_TODO_ find a way to mirror to holly and/or dlx
+_TODO_ use hash or other basename as a top directory?  maybe not.
 
-_ACTION_ a way to clean up meshes and solutions that are no longer desired
+_TODO_ a way to clean up meshes and solutions that are no longer desired
 
 _TODO_ sync project (with all results files) to shared.
 
 _EFFORT_ mesh refinement study
 _EFFORT_ study of required H value
-
 _EFFORT_ doctests? some other kind of test?
 
 # Figure
