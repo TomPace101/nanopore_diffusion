@@ -1,17 +1,26 @@
+#Miscellaneous
 __pycache__
 .doit.db.*
 notebooks
-*.pdf
+
+#Symlinks
+src/control.yaml
+
+#Generated mesh files
 src/mesh/geo/*.geo
 src/mesh/msh/*.msh
 src/mesh/xml/*.xml
 src/mesh/gmsh_out/*.txt
-src/control.yaml
+
+#FEM output
+src/solutions/*/
 *.pvd
 *.vtu
 *.pkl
 *.pkl.gz
-src/solutions/*/
+
+#Problem description output
 *.aux
 *.log
 latex.out
+*.pdf
