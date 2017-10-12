@@ -26,6 +26,11 @@ boundaryconditions:
   topval: 5.0
   baseval: 1.0
 dataextraction:
-  fluxsurf: 12
-  fluxsign: '-'
-  sample_spacing: 0.1
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1, fluxsign: '-', name: toflux_01}]
+  - [fluxintegral, {fluxsurf: 4, fluxsign: '-', name: toflux_04}]
+  - [fluxintegral, {fluxsurf: 12, fluxsign: '-', name: toflux_12}]
+  - [effective_diffusion, {name: Deff}]
+  - [volfrac, {name: free_volume_frac}]
+  - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]

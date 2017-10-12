@@ -9,24 +9,33 @@ import sys
 
 #Site packages
 from fenics import *
-import numpy as np
 
 #Local
 from folderstructure import *
 import solver_general
 import useful
-import plotdata
+
+class BCParameters(useful.ParameterSet):
+  """Boundary condition definition
+  Attributes:
+    topsurf = physical surface number for top surface
+    basesurf = physical surface number for base surface
+    topval = concentration value at top surface
+    baseval = concentration value at base surface"""
+  __slots__=['topsurf','basesurf','topval','baseval']
+  def to_bclist():
+    "output list of FEniCS DirichletBC objects based on given parameters"
+    bcs=[]
+    dpairs=[(self.basesurf,self.baseval), (self.topsurf,self.topval)] #Physical surface and Dirichlet value pairs
+    for psurf,val in dpairs:
+      bcs.append(DirichletBC(V,val,surfaces,psurf))
+    return bcs
 
 #TODO: there are probably parts of this that should be refactored into functions in a more general file, once one exists
 def SolveMesh(modelparams, meshparams):
   """Solve the unhomogenized Fickian diffusion equation on the indicated mesh.
   Arguments:
     modelparams = solver_general.ModelParameters instance
-      boundaryconditions:
-        topsurf = physical surface number for top surface
-        basesurf = physical surface number for base surface
-        topval = concentration value at top surface
-        baseval = concentration value at base surface
       dataextraction:
         fluxsurf: physical surface number for flux measurement
         fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
@@ -34,11 +43,6 @@ def SolveMesh(modelparams, meshparams):
     meshparams = buildgeom.MeshParameters instance
   No return value.
   Output files are created."""
-
-  #Output location(s)
-  outdir=osp.join(solnfolder,modelparams.modelname)
-  if not osp.isdir(outdir):
-    os.mkdir(outdir)
 
   #Mesh input files
   mesh_xml, surface_xml, volume_xml = solver_general.List_Mesh_Input_Files(modelparams.meshname)
@@ -53,11 +57,7 @@ def SolveMesh(modelparams, meshparams):
   V_vec = VectorFunctionSpace(mesh, "CG", 1)
 
   #Dirichlet boundary conditions
-  bcs=[]
-  bcvals=argparse.Namespace(**modelparams.boundaryconditions)
-  dpairs=[(bcvals.basesurf,bcvals.baseval), (bcvals.topsurf,bcvals.topval)] #Physical surface and Dirichlet value pairs
-  for psurf,val in dpairs:
-    bcs.append(DirichletBC(V,val,surfaces,psurf))
+  bcs=BCParameters(**modelparams.boundaryconditions).to_bclist()
   
   #Neumann boundary conditions
   #they are all zero in this case
@@ -73,60 +73,8 @@ def SolveMesh(modelparams, meshparams):
   c=Function(V)
   solve(a==L,c,bcs)
 
-  #VTK of concnentration
-  vtk_c=File(osp.join(outdir,'conc.pvd'))
-  vtk_c << c
-
-  #Gradient
-  j=project(Constant(-1)*grad(c),V_vec)
-  vtk_j=File(osp.join(outdir,'flux.pvd'))
-  vtk_j << j
-
-  #Data extraction
-  extraction=argparse.Namespace(**modelparams.dataextraction)
-
-  #Flux integral over surface
-  n=FacetNormal(mesh)
-  dsi=Measure('interior_facet',domain=mesh,subdomain_data=surfaces)
-  totflux=assemble(dot(j,n(extraction.fluxsign))*dsi(extraction.fluxsurf))
-
-  #Effective Diffusion Constant
-  cell_area = meshparams.Lx * meshparams.Ly
-  c_samples=[c(0,0,zv) for zv in [meshparams.H, meshparams.H + meshparams.tm]]
-  delta_c=c_samples[1]-c_samples[0]
-  Deff=float(totflux/cell_area*meshparams.tm/delta_c)
-
-  #Data for plots
-  #Hard-coded centerline plot for now
-  zr=np.arange(0, 2*meshparams.H + meshparams.tm, extraction.sample_spacing)
-  zlist=[]
-  clist=[]
-  for z in zr:
-    zlist.append(z)
-    tup=(0,0,z)
-    clist.append(c(*tup))
-  zarr=np.array(zlist)
-  carr=np.array(clist)
-  meta=dict([(k,getattr(meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
-  meta.update(bcvals.__dict__)
-  pd=plotdata.PlotSeries(xvals=zarr,yvals=carr,label='concentration along centerline',metadata=meta)
-  pklfile=osp.join(outdir,'plotdata_CL_c.pkl')
-  pd.to_pickle(pklfile)
-
-  #Pickle
-  #Nice try, but "can't pickle SwigPyOjbect objects"
-  # pobj={}
-  # ll=locals()
-  # for var in ['modelparams','mesh','surfaces','volumes','c','V','V_vec']:
-  #   pobj[var]=ll[var]
-  # useful.writepickle(pobj,pklfile)
-  
-  #Results yaml
-  volfrac = np.pi*meshparams.R**2/(4*meshparams.Lx*meshparams.Ly)
-  robj={'totflux':totflux, 'Deff':Deff, 'free_volume_frac':volfrac}
-  robj.update(meshparams.to_dict())
-  robj.update(modelparams.to_dict())
-  useful.writeyaml(robj,osp.join(outdir,'results.yaml'))
+  #Output
+  solver_general.Create_Output(modelparams,meshparams,c,modelparams.dataextraction)
 
   #Done
   return
