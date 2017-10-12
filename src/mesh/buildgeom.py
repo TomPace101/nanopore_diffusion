@@ -1,8 +1,9 @@
-#Process the jinja2 template into one (or more) gmsh .geo file(s)
+#Process a jinja2 template into one (or more) gmsh .geo file(s)
 #Usage:
 #python buildgeom.py geomdef paramdef
 #for more details, see
 #python buildgeom.py -h
+#Can also be used as an imported module
 
 ## TODO: validation of geometric inputs (different formulas for different geometries)
 
@@ -18,6 +19,29 @@ from jinja2 import Environment, FileSystemLoader
 sys.path.append(osp.abspath('..'))
 import useful
 from folderstructure import *
+
+class MeshParameters(useful.ParameterSet):
+  """Subclass of useful.ParameterSet to store the data for generating a mesh in gmsh of the problem geometry
+  These parameter files are usually stored in the location specified by folderstructure.params_mesh_folder.
+  Attributes:
+    meshname = stem name for the .geo, .msh and .xml files
+    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml),
+      this file is specific to the jinja2 template used to generate the .geo file
+    Lx, Ly, R, H, tm = physical dimensions in the geometry
+    mscale, mcarh, mcarl = mesh density parameters"""
+  __slots__=['meshname','lattice','mscale','mcarh','mcarl','Lx','Ly','R','H','tm']
+
+class GeometryDefinition(useful.ParameterSet):
+  """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
+  These parameter files are usually stored in the location specified by folderstructure.geomdef_folder.
+  Attributes:
+    tmplfile = geometry template file, usually stored in the location specified by folderstructure.geotemplates_folder.
+    ptdict = dictionary of points and their corresponding mesh density parameter name
+    geomtable = mapping of surfaces to sequence points
+    surfloops = mapping of surface loops to sequence of surfaces
+    nonplanar = list of surfaces that are not planar surfaces"""
+  __slots__=['tmplfile','ptdict','geomtable','surfloops','nonplanar']
+  
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names

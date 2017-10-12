@@ -24,7 +24,7 @@ geomtable: {1:  [111, 411, 441, 141, 111],
             9:  [132, 'center', 142, 242, 243, 'center', 143, 133, 132],
             10: [422, 'center', 412, 312, 313, 'center', 413, 423, 422]}
 
-#Mapping of surfaces to surface loops
+#Mapping of surface loops to surfaces
 #Each tuple is a surface loop that will be turned into a volume.
 #Use a negative sign to reverse the order of a loop, where needed.
 surfloops: {1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
