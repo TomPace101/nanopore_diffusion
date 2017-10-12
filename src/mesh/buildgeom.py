@@ -25,11 +25,12 @@ class MeshParameters(useful.ParameterSet):
   These parameter files are usually stored in the location specified by folderstructure.params_mesh_folder.
   Attributes:
     meshname = stem name for the .geo, .msh and .xml files
-    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml),
-      this file is specific to the jinja2 template used to generate the .geo file
+    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml)
+      The geometry definition yaml file stores the attributes of a GeometryDefinition instance
+      This file is specific to the jinja2 template used to generate the .geo file.
     Lx, Ly, R, H, tm = physical dimensions in the geometry
     mscale, mcarh, mcarl = mesh density parameters"""
-  __slots__=['meshname','lattice','mscale','mcarh','mcarl','Lx','Ly','R','H','tm']
+  __slots__=['meshname','lattice','Lx','Ly','R','H','tm','mscale','mcarh','mcarl']
 
 class GeometryDefinition(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
@@ -41,7 +42,6 @@ class GeometryDefinition(useful.ParameterSet):
     surfloops = mapping of surface loops to sequence of surfaces
     nonplanar = list of surfaces that are not planar surfaces"""
   __slots__=['tmplfile','ptdict','geomtable','surfloops','nonplanar']
-  
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
@@ -79,13 +79,16 @@ def add_entity(tup, tdict, looplist, nameprefix):
 
 def prepare_template_input(geom, paramdef):
   """Prepare the input dictionary for a template.
-  Inputs: see write_one_geo, except that geom is a namespace rather than a dictionary, and outfile is not required
+  Inputs:
+    geom = instance of GeometryDefinition
+    paramdef = instance of MeshParameters
   Returns:
-    t_input = the input dictionary for the template specified in geomdef"""
+    t_input = the input dictionary for the template"""
+    
+  #Put geometric and mesh refinement parameters into template input
+  t_input=dict((k,getattr(paramdef,k)) for k in ['mscale','mcarh','mcarl','Lx','Ly','R','H','tm'])
 
-  #Put needed parameters into template input
-  t_input={}
-  t_input.update(paramdef)
+  #Dictionary of points
   t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])
 
   #Create dictionaries of lines, circles, and line loops
@@ -126,28 +129,19 @@ def prepare_template_input(geom, paramdef):
   return t_input
 
 def write_one_geo(geomdef, paramdef, geofile):
-  """Generate a single geo file based on a geometry defintion dictionary and parameter dictionary
+  """Generate a single geo file based on a geometry defintion and parameters
   Inputs:
-    geomdef = geometry definition dictionary, which must contain:
-      tmplfile: geometry template file
-      ptdict: dictionary of points and their corresponding mesh density parameter name
-      geomtable: mapping of surfaces to points
-      internalsurfs: list of surfaces to exclude from surface loops
-      revsurfs: list of surfaces needing orientation reversal
-      nonplanar: list of surfaces that are not planar surfaces
-    paramdef = parameter defintion dictionary, which must contain all parameters needed by the geometry template file
+    geomdef = instance of GeometryDefinition
+    paramdef = instance of MeshParameters
     geofile = path to output .geo file, as string
   No return value. The .geo file is written."""
 
-  #Namepsace the geometry definition for convenience
-  geom=argparse.Namespace(**geomdef)
-
   #Get the input dictionary for the template
-  t_input = prepare_template_input(geom, paramdef)
+  t_input = prepare_template_input(geomdef, paramdef)
 
   #Load template
-  env=Environment(loader=FileSystemLoader(['.','./mesh']), trim_blocks=True)
-  tmpl=env.get_template(geom.tmplfile)
+  env=Environment(loader=FileSystemLoader([geotemplates_folder,'.']), trim_blocks=True)
+  tmpl=env.get_template(geomdef.tmplfile)
 
   #Render template
   outdat = tmpl.render(t_input)
@@ -160,17 +154,13 @@ def write_one_geo(geomdef, paramdef, geofile):
 def process_mesh_params(params):
   """Turn a mesh control parameters object into the arguments needed for write_one_geo and doit file dependencies
   Inputs:
-    params = an object (such as a Namespace) with at least the following attributes:
-    meshname = stem name for the .geo, .msh and .xml files (this script only generates the .geo file)
-    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml),
-      this file is specific to the jinja2 template used to generate the .geo file
-    and all the geometric parameters needed by the jinja2 template to generate the .geo file.
+    params = a MeshParameters instance
   Returns:
     geomyaml = geometry definition yaml file path, as string
-    geomdef = geometry definition dictionary
+    geomdef = instance of GeometryDefinition
     geofile = output .geo file path, as string"""
-  geomyaml=osp.join(meshfolder,params.lattice+'.yaml') #geometry definition yaml file
-  geomdef=useful.readyaml(geomyaml) #geometry definition dictionary
+  geomyaml=osp.join(geomdef_folder,params.lattice+'.yaml') #geometry definition yaml file
+  geomdef=GeometryDefinition.from_yaml(geomyaml)
   geofile=osp.join(geofolder,params.meshname+'.geo') #.geo file
   return geomyaml, geomdef, geofile
 
@@ -179,18 +169,17 @@ if __name__ == '__main__':
   #Process command-line arguments
   mesh_params_docstring="""parameter definition file for the mesh
   This is a potentially multi-doc yaml file, where each document specifies one mesh to generate.
-  The required attributes are as specified in the argument of process_mesh_params"""
+  Each document must provide the attributes for an instance of the MeshParameters class."""
   parser = argparse.ArgumentParser(description='Create gmsh .geo file(s)')
   parser.add_argument('mesh_params_yaml', help=mesh_params_docstring)
   cmdline=parser.parse_args()
   assert osp.isfile(cmdline.mesh_params_yaml), "Mesh parameter definition file does not exist: %s"%cmdline.mesh_params_yaml
 
   #Read in the yaml file
-  meshruns=useful.readyaml_multidoc(cmdline.mesh_params_yaml)
+  meshruns=MeshParameters.all_from_yaml(cmdline.mesh_params_yaml)
   
   #Generate each requested .geo file
-  for run in meshruns:
-    params=argparse.Namespace(**run)
+  for params in meshruns:
     geomyaml, geomdef, geofile = process_mesh_params(params)
     print(geofile)
-    write_one_geo(geomdef, run, geofile)
+    write_one_geo(geomdef, params, geofile)
