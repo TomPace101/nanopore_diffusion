@@ -14,11 +14,26 @@ _TODO_ Current needs of review:
 _TODO_ the control.yaml files are pretty redundant now: all three entries are the same
 Maybe there should just be model definition objects, and nothing above that.
 
+The thing the model definition doesn't currently know is WHERE the mesh given by its meshname is defined.
+So, if that field (the MeshParameter file defining the requested meshname) is,
+the control file would not be needed for that purpose.
+
+The other purpose is pointing doit at something.
+Is there another way to do that?
+
 _TODO_ in tasks_solver we can now get the other output filenames
 
+_TODO_ so now I know J must depend on D_bulk.
+Add this as a problem input?
+
 _TODO_ command line in solver, or get rid of it
+See below: maybe that should be how we get doctests instead.
+Or, at least, it should be an option.
 
 _TODO_ mesh output folders need to be together in another folder
+
+_TODO_ grep for uses of readyaml and writeyaml (and readyaml_multidoc) directly
+Maybe even get rid of these once nothing uses them.
 
 _TODO_ find a way to mirror to holly and/or dlx
 _TODO_ use hash or other basename as a top directory?  maybe not.
@@ -30,6 +45,29 @@ _TODO_ sync project (with all results files) to shared.
 _EFFORT_ mesh refinement study
 _EFFORT_ study of required H value
 _EFFORT_ doctests? some other kind of test?
+
+# Problem Description
+
+It has its own _TODO_ list.
+
+_TODO_ put bookmarks in pdf
+
+_TODO_ Section on D_eff needs to be clarified in light of results.
+- J = integral of j
+- j must include D_bulk
+- watch the minus sign!
+- and how does derivative become delta_c/delta_x?
+- better explanation of A
+
+_TODO_ split part about diffusion equation into sections:
+- governing differential equation
+- weak form
+- results (discuss Deff/Dbulk ratio)
+
+_TODO_ For the part where we have figures of the geometry,
+it would be nice if these could be auto-generated from the lattice yaml file.
+That way, if I add internal surfaces, the drawings could auto-update.
+Of course, right now the yaml file doesn't contain the physical dimensions.
 
 # Figure
 Current Goal: x=free volume fraction, y=Deff/Dbulk
@@ -86,18 +124,6 @@ Or, maybe gmsh can do it. You only need the mesh, not the solution.
 (See http://onelab.info/pipermail/gmsh/2008/003822.html:
 it seems you can export plots in raw text.)
 In any case, this is pretty low-priority right now.
-
-# Problem Description
-
-continue developing document.
-It has its own TODO list, but there is more than that.
-
-For the part where we have figures of the geometry,
-it would be nice if these could be auto-generated from the lattice yaml file.
-That way, if I add internal surfaces, the drawings could auto-update.
-
-Of course, right now the yaml file doesn't contain the physical dimensions.
-
 
 # Mesh
 _ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
