@@ -42,10 +42,10 @@ def fluxintegral(soln,results,outdir,fluxsurf,fluxsign,name):
 
 def effective_diffusion(soln,results,outdir,name):
   "Calculate effective diffusion constant"
-  area = meshparams.Lx * meshparams.Ly ##TODO: don't have meshparams
+  quarter_area = meshparams.Lx * meshparams.Ly ##TODO: don't have meshparams
   samples=[soln(0,0,zv) for zv in [meshparams.H, meshparams.H + meshparams.tm]] ##TODO: don't have meshparams
   delta=samples[1]-samples[0]
-  Deff=float(totflux/area*meshparams.tm/delta) #TODO: don't have meshparams, and need total flux (order of operations matters!)
+  Deff=float(totflux/quarter_area*meshparams.tm/delta) #TODO: don't have meshparams, and need total flux (order of operations matters!)
   results[name]=Deff
   return
 

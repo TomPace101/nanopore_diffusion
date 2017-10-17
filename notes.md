@@ -53,13 +53,6 @@ It has its own _TODO_ list.
 _TODO_ put bookmarks in pdf
 - tried, but something buggy is going on.
 
-_TODO_ Section on D_eff needs to be clarified in light of results.
-- J = integral of j
-- j must include D_bulk
-- watch the minus sign!
-- and how does derivative become delta_c/delta_x?
-- better explanation of A
-
 _TODO_ split part about diffusion equation into sections:
 - governing differential equation
 - weak form

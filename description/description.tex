@@ -90,7 +90,7 @@ To compute the equivalent diffusion constant, the problem is treated as a one-di
 That is, we consider diffusion in the direction across the membrane.
 The Fickian diffusion equation (see Section \ref{subsec:unhom_fick}) in one dimension is
 
-$$j = D_{\text{bulk}} \frac{dc}{dx}$$
+$$j = - D_{\text{bulk}} \frac{dc}{dx}$$
 
 where:
 
@@ -105,15 +105,20 @@ c & = & c(x) = \text{concentration at any point, in units of number of particles
 The three-dimensional problem is converted to an equivalent one-dimensional problem
 by integrating over the area of the unit cell, in the two directions perpendicular to
 the one-dimensional diffusion problem.
-The total flux across the membrane will be related to the effective diffusion constant by:
+The total flux across the membrane will be given by:
 
-$$\frac{J}{A} = D_{\text{eff}} \frac{\Delta c}{\Delta x}$$
+$$J = - D_{\text{bulk}}\int dA\, \frac{\partial c}{\partial x}$$
+
+We define the effective diffusion constant such that the integrated flux is the same,
+when used with an the average concentration gradient across the membrane:
+
+$$J = - D_{\text{eff}} A_{\text{cell}} \frac{\Delta c}{\Delta x}$$
 
 where:
 
 $\begin{array}{rcl}
 J & = & \text{integral of flux over the pore, in units of number of particles per unit time} \\
-A & = & \text{area of unit cell} \\
+A_{\text{cell}} & = & \text{area of unit cell} \\
 D_{\text{eff}} & = & \text{unknown effective diffusion constant} \\
 \Delta c & = & \text{change in concentration} \\
 \Delta x & = & \text{distance over which concentration changes}
@@ -121,7 +126,7 @@ D_{\text{eff}} & = & \text{unknown effective diffusion constant} \\
 
 Re-arranging this equation to solve for the unknown $D_{\text{eff}}$, we have:
 
-$$D_{\text{eff}} = \frac{J}{A} \frac{\Delta x}{\Delta c}$$
+$$D_{\text{eff}} = \frac{J}{A_{\text{cell}}} \frac{\Delta x}{\Delta c}$$
 
 The integrated flux, $J$ is calculated from the model by integrating
 the ion flux over a surface parallel to the membrane surface.
@@ -135,9 +140,14 @@ $$J = \int dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
 
 where $\hat{n}$ is the directed normal to the surface,
 and $c$ is the concentration field found by solving the model.
-The integral is taken over the portion of the pore included in the model,
-which is not the entire pore area due to the use of the planes of symmetry.
-Accordingly, the corresponding value of $A = Lx Ly$.
+
+Because of the use of planes of symmetry (see Section \ref{sec:geometry}),
+the flux obtained by integration is only one quarter of the total for the unit cell,
+and must therefore be multiplied by $4$.
+With $A_{\text{cell}} = 4 Lx Ly$, we have:
+
+$$D_{\text{eff}} = \frac{4 J}{4 Lx Ly} \frac{\Delta x}{\Delta c}
+ = \frac{J}{Lx Ly} \frac{\Delta x}{\Delta c}$$
 
 The values of $\Delta c$ and $\Delta x$ are calculated by extracting
 the concentration result at two points located symmetrically on opposite sides of the membrane.
