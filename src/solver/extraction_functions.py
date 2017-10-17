@@ -25,18 +25,18 @@ def solutionfield(soln,results,outdir,filename):
   vtk_file << soln
   return
 
-def fluxfield(soln,results,outdir,filename):
+def fluxfield(soln,results,outdir,filename): ##TODO: need D_bulk to get correct units
   "Flux as vector field"
   flux=project(Constant(-1)*grad(soln),V_vec) ##TODO: don't have V_vec
   vtk_file=File(osp.join(outdir,filename))
   vtk_file << flux
   return
 
-def fluxintegral(soln,results,outdir,fluxsurf,fluxsign,name):
+def fluxintegral(soln,results,outdir,fluxsurf,fluxsign,name): ##TODO: store also quadrupled value for unit cell
   "Flux integral over specified surface"
   n=FacetNormal(mesh) ##TODO: don't have mesh
   dsi=Measure('interior_facet',domain=mesh,subdomain_data=surfaces) ##TODO: don't have mesh or surfaces
-  totflux=assemble(dot(j,n(fluxsign))*dsi(fluxsurf))
+  totflux=assemble(dot(j,n(fluxsign))*dsi(fluxsurf)) ##TODO: don't have j
   results[name]=totflux
   return
 

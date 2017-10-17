@@ -90,16 +90,16 @@ To compute the equivalent diffusion constant, the problem is treated as a one-di
 That is, we consider diffusion in the direction across the membrane.
 The Fickian diffusion equation (see Section \ref{subsec:unhom_fick}) in one dimension is
 
-$$j = - D_{\text{bulk}} \frac{dc}{dx}$$
+$$j = - D_{\text{bulk}} \frac{dc}{ds}$$
 
 where:
 
 $\begin{array}{rcl}
-x & = & \text{position within the one-dimensional domain} \\
-j & = & j(x) = \text{flux at any point, in units of number of particles per unit area per unit time} \\
+s & = & \text{position within the one-dimensional domain} \\
+j & = & j(s) = \text{flux at any point, in units of number of particles per unit area per unit time} \\
 D_{\text{bulk}} & = & \text{diffusion constant of the medium, in units of area per unit time} \\
-c & = & c(x) = \text{concentration at any point, in units of number of particles per unit volume} \\
-\frac{dc}{dx} & = & \text{first spatial derivative of concentration}
+c & = & c(s) = \text{concentration at any point, in units of number of particles per unit volume} \\
+\frac{dc}{ds} & = & \text{first spatial derivative of concentration}
 \end{array}$
 
 The three-dimensional problem is converted to an equivalent one-dimensional problem
@@ -107,52 +107,69 @@ by integrating over the area of the unit cell, in the two directions perpendicul
 the one-dimensional diffusion problem.
 The total flux across the membrane will be given by:
 
-$$J = - D_{\text{bulk}}\int dA\, \frac{\partial c}{\partial x}$$
+$$J_{\text{cell}} = - D_{\text{bulk}}\int_{\text{cell}} dA\, \frac{\partial c}{\partial s}$$
 
 We define the effective diffusion constant such that the integrated flux is the same,
 when used with an the average concentration gradient across the membrane:
 
-$$J = - D_{\text{eff}} A_{\text{cell}} \frac{\Delta c}{\Delta x}$$
+$$J_{\text{cell}} = - D_{\text{eff}} A_{\text{cell}} \frac{\Delta c}{\Delta s}$$
 
 where:
 
 $\begin{array}{rcl}
-J & = & \text{integral of flux over the pore, in units of number of particles per unit time} \\
+J_{\text{cell}} & = & \text{integral of flux over the pore, in units of number of particles per unit time} \\
 A_{\text{cell}} & = & \text{area of unit cell} \\
 D_{\text{eff}} & = & \text{unknown effective diffusion constant} \\
 \Delta c & = & \text{change in concentration} \\
-\Delta x & = & \text{distance over which concentration changes}
+\Delta s & = & \text{distance over which concentration changes}
 \end{array}$
 
 Re-arranging this equation to solve for the unknown $D_{\text{eff}}$, we have:
 
-$$D_{\text{eff}} = \frac{J}{A_{\text{cell}}} \frac{\Delta x}{\Delta c}$$
+$$D_{\text{eff}} = - \frac{J_{\text{cell}}}{A_{\text{cell}}} \frac{\Delta s}{\Delta c}$$
 
-The integrated flux, $J$ is calculated from the model by integrating
+The integrated flux, $J_{\text{model}}$, is calculated from the model by integrating
 the ion flux over a surface parallel to the membrane surface.
 The result should be the same for any such surface capturing the full extents of the model.
-That is, the integrated flux should be the same when integrating over the pore as
+That is, the integrated flux should be the same when integrating over the model pore as
 when integrating over the upgradient or downgradient boundary of the model.
 
 Specifically, the integrated flux is calculated as:
 
-$$J = \int dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
+$$J_{\text{model}} = \int_{\text{model}} dA\, \left(\hat{n} \cdot \vec{j} \right)
+ = - D_{\text{bulk}} \int_{\text{model}} dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
 
 where $\hat{n}$ is the directed normal to the surface,
 and $c$ is the concentration field found by solving the model.
 
 Because of the use of planes of symmetry (see Section \ref{sec:geometry}),
-the flux obtained by integration is only one quarter of the total for the unit cell,
-and must therefore be multiplied by $4$.
+the flux obtained by integration is only one quarter of the total for the unit cell.
+That is, $J_{\text{cell}} = 4 J_{\text{model}}$.
 With $A_{\text{cell}} = 4 Lx Ly$, we have:
 
-$$D_{\text{eff}} = \frac{4 J}{4 Lx Ly} \frac{\Delta x}{\Delta c}
- = \frac{J}{Lx Ly} \frac{\Delta x}{\Delta c}$$
+$$D_{\text{eff}} = - \frac{4 J_{\text{model}}}{4 Lx Ly} \frac{\Delta s}{\Delta c}
+ = - \frac{J_{\text{model}}}{Lx Ly} \frac{\Delta s}{\Delta c}$$
 
-The values of $\Delta c$ and $\Delta x$ are calculated by extracting
+For convenience, we define the integral
+
+$$I_{\text{gc}} = \int_{\text{model}} dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
+
+then the flux integral is simply
+
+$$J_{\text{model}} = - D_{\text{bulk}} I_\text{gc}$$
+
+and the effective diffusion constant is
+
+$$D_{\text{eff}} = D_{\text{bulk}} \frac{I_\text{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}$$
+
+This can also be written as
+
+$$\frac{D_{\text{eff}}}{D_{\text{bulk}}} = \frac{I_\text{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}$$
+
+The values of $\Delta c$ and $\Delta s$ are calculated by extracting
 the concentration result at two points located symmetrically on opposite sides of the membrane.
 The difference in concentration between these two points is $\Delta c$,
-and the distance between them is $\Delta x$.
+and the distance between them is $\Delta s$.
 
 Slightly different results for the value of $D_{\text{eff}}$ could be attained by selecting different
 pairs of symmetrically located points.
