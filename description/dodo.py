@@ -26,8 +26,9 @@ def task_gen_report():
   stemname='description'
   infile=stemname+'.tex'
   outfile=stemname+'.pdf'
+  cleancmd = '; '.join(['rm -f %s.%s'%(stemname,ext) for ext in ['aux','log','out','pdf']])
   cmdstr='pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)
-  return {'actions': [cmdstr, cmdstr], #need to do it twice to get figure references correct.
+  return {'actions': [cleancmd, cmdstr, cmdstr], #clean up first, then run pdflatex twice to get figure references correct.
           'file_dep': [infile]+fig_outputs,
           'targets': [outfile]}
 

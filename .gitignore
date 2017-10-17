@@ -22,5 +22,5 @@ src/solutions/*/
 #Problem description output
 *.aux
 *.log
-latex.out
+*.out
 *.pdf

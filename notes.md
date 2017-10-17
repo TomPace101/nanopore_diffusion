@@ -51,6 +51,7 @@ _EFFORT_ doctests? some other kind of test?
 It has its own _TODO_ list.
 
 _TODO_ put bookmarks in pdf
+- tried, but something buggy is going on.
 
 _TODO_ Section on D_eff needs to be clarified in light of results.
 - J = integral of j
