@@ -4,6 +4,7 @@
 \documentclass{article}
 
 \usepackage[letterpaper, margin=0.5in, footskip=4ex]{geometry}
+\usepackage{xcolor}
 \usepackage{graphicx} % Required to insert images
 \usepackage{float} % For placing figures EXACTLY where I say
 \usepackage{epstopdf}
@@ -79,7 +80,7 @@ The mesh is generated from solid geometry defined by its boundary surfaces.
 These surfaces, in turn, are defined by their boundaries,
 which are defined using points.
 
-\textbf{TODO: gmsh geometry (point numbers, etc)}
+\textcolor{red}{\textbf{TODO}}: gmsh geometry (point numbers, etc)
 
 %-------------------------------------------------------------------------------
 \section{Result Calculations}
@@ -190,7 +191,7 @@ $$\phi = \frac{\text{pore area}}{\text{unit cell area}}
 %-------------------------------------------------------------------------------
 \subsection{Unhomogenized Fickian Diffusion Equation}\label{subsec:unhom_fick}
 
-\subsubsection{Governing Differential Equation}
+\subsubsection{Governing Differential Equation}\label{subsubsec:unhom_fick_gov}
 For particle flux defined as 
 
 $$\vec{j} = - D_{\text{bulk}} \vec{\nabla} c$$
@@ -223,7 +224,7 @@ Assuming $D_{\text{bulk}}$ is any nonzero constant, this is clearly the same as
 
 $$ \nabla^2 c = 0$$
 
-\subsubsection{Weak Form}
+\subsubsection{Weak Form}\label{subsubsec:unhom_fick_weak}
 
 For solution in \texttt{FEniCS}, a weak form of this equation is required.
 Multiplying by a test function $v$ and integrating over the problem domain,
@@ -276,7 +277,7 @@ In terms of \texttt{FEniCS}, this means that the bilinear form is
 $a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x$,
 and the linear form is constant, zero.
 
-\subsubsection{Expected Result}
+\subsubsection{Expected Results}\label{subsubsec:unhom_fick_expected}
 
 The effective diffusion constant of Section \ref{subsec:D_eff}
 was derived by simplification of the governing equation
@@ -331,6 +332,17 @@ for unhomogenized Fickian diffusion.
 %-------------------------------------------------------------------------------
 \subsection{Homogenized Fickian Diffusion Equation}\label{subsec:hom_fick}
 
-\textbf{TODO}
+\textcolor{red}{\textbf{TODO}}
+
+%-------------------------------------------------------------------------------
+\section{Results and Discussion}\label{sec:results}
+
+\subsection{Unhomogenized Fickian Diffusion}\label{subsec:results_unhom_fick}
+
+\textcolor{red}{\textbf{TODO}}: show and discuss concentration profile, D ratio vs phi
+
+\subsection{Homogenized Fickian Diffusion}\label{subsec:results_hom_fick}
+
+\textcolor{red}{\textbf{TODO}}
 
 \end{document}
