@@ -7,19 +7,23 @@
 #modelname: name of model parameter set
 #meshname: name of mesh to use
 #equation: name of equation to solve
+#properties:
+# Only D_bulk is needed for unhomogenized Fickian diffusion
 #boundaryconditions:
 # topsurf: physical surface number of top surface
 # basesurf: physical surface number of base surface
 # topval: concentration value specified at top surface
 # baseval: concentration value specified at base surface
 #dataextraction:
-# fluxsurf: physical surface number for flux measurement
-# fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
-# sample_spacing: distance between sampled points for line plots
+# a sequence of data extraction commands,
+# each command is a pair of an extraction function name and a dictionary of its keyword arguments
+# see solver_general.GenericSolver, or the appropriate class derived from there
 ---
 modelname: debug
 meshname: debug
 equation: fickian_unhomog
+properties:
+  D_bulk: 1
 boundaryconditions:
   topsurf: 4
   basesurf: 1
@@ -31,6 +35,6 @@ dataextraction:
   - [fluxintegral, {fluxsurf: 1, fluxsign: '-', name: toflux_01}]
   - [fluxintegral, {fluxsurf: 4, fluxsign: '-', name: toflux_04}]
   - [fluxintegral, {fluxsurf: 12, fluxsign: '-', name: toflux_12}]
-  - [effective_diffusion, {name: Deff}]
+  - [effective_diffusion, {name: Deff, totflux_name:totflux_12}]
   - [volfrac, {name: free_volume_frac}]
   - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]

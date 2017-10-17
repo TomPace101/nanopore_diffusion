@@ -31,54 +31,41 @@ class BCParameters(useful.ParameterSet):
       bcs.append(DirichletBC(V,val,surfaces,psurf))
     return bcs
 
-#TODO: there are probably parts of this that should be refactored into functions in a more general file, once one exists
-def SolveMesh(modelparams, meshparams):
-  """Solve the unhomogenized Fickian diffusion equation on the indicated mesh.
-  Arguments:
-    modelparams = solver_general.ModelParameters instance
-      dataextraction:
-        fluxsurf: physical surface number for flux measurement
-        fluxsign: '+' or '-' to specify which diretion normal to the surface for flux calculation
-        sample_spacing: distance between sampled points for line plots
-    meshparams = buildgeom.MeshParameters instance
-  No return value.
-  Output files are created."""
+class UnhomFickianSolver(solver_general.GenericSolver):
+  """Solver for Unhomogenized Fickian Diffusion
+  Additional attributes not inherited from GenericSolver:
+    V = FEniCS FunctionSpace on the mesh
+    V_vec = FEniCS VectorFunctionSpace on the mesh
+    bcs = FEniCS BCParameters
+    ds = FEniCS Measure for surface boundary conditions
+    c = FEniCS TrialFunction on V
+    v = FEniCS TestFunctoin on V
+    a = bilinear form in variational problem
+    L = linear form in variational problem"""
+  def __init__(self,modelparams,meshparams):
+    #Mesh setup
+    super().__init__(modelparams,meshparams)
+    
+    #Function space for scalars and vectors
+    self.V = FunctionSpace(mesh,'CG',1) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = VectorFunctionSpace(mesh, "CG", 1)
 
-  #Mesh input files
-  mesh_xml, surface_xml, volume_xml = solver_general.List_Mesh_Input_Files(modelparams.meshname)
+    #Dirichlet boundary conditions
+    self.bcs=BCParameters(**self.modelparams.boundaryconditions).to_bclist()
+    
+    #Neumann boundary conditions
+    #they are all zero in this case
+    self.ds = Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
 
-  #Load mesh and meshfunctions
-  mesh=Mesh(mesh_xml)
-  surfaces=MeshFunction("size_t", mesh, surface_xml) #Mesh Function of Physical Surface number
-  volumes=MeshFunction("size_t", mesh, volume_xml) #Mesh function of Physical Volume number
-
-  #Function space for scalars and vectors
-  V = FunctionSpace(mesh,'CG',1) #CG="continuous galerkin", ie "Lagrange"
-  V_vec = VectorFunctionSpace(mesh, "CG", 1)
-
-  #Dirichlet boundary conditions
-  bcs=BCParameters(**modelparams.boundaryconditions).to_bclist()
-  
-  #Neumann boundary conditions
-  #they are all zero in this case
-  ds = Measure("ds",domain=mesh,subdomain_data=surfaces) ##TODO: specify which surfaces are Neumann?
-
-  #Define variational problem
-  c=TrialFunction(V)
-  v=TestFunction(V)
-  a=dot(grad(c),grad(v))*dx
-  L=Constant(0)*v*ds
-  
-  #Solve
-  c=Function(V)
-  solve(a==L,c,bcs)
-
-  #Output
-  denicsdata={'soln':c,'V_vec':V_vec,'mesh':mesh,'surfaces':surfaces,'volumes':volumes}
-  solver_general.Create_Output(modelparams,meshparams,fenicsdata,modelparams.dataextraction)
-
-  #Done
-  return
+    #Define variational problem
+    self.c=TrialFunction(V)
+    self.v=TestFunction(V)
+    self.a=dot(grad(c),grad(v))*dx
+    self.L=Constant(0)*v*ds
+  def solve(self):
+    self.soln=Function(V)
+    solve(a==L,self.soln,bcs)
+    return
 
 #Support command-line arguments
 if __name__ == '__main__':

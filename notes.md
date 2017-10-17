@@ -1,27 +1,16 @@
 
-_TODO_ formalize data extraction requests as sequence of requests with specified types and arguments
-This is in progress in extraction_functions.py
-The problem is the functions need data they haven't been passed yet.
-Need to figure out a good way to do this.
-Look for other TODOs as well.
-They also need the modelparams and meshparams.
-In short, they need lots more data than just what comes from the extraction request.
+_TODO_ somewhere, document the new data extraction methodology
 
-Options:
-- put everything they might need in a dictionary and pass it
-- make the solver a class, and store the useful data in its attributes
-  It's not a particularly good class, as it only has 2 methods and one of them is init.
-  Maybe the extraction commands are methods as well?
-  Maybe that's the general class, which can be overridden.
-  So, you have an init to set the model up (and solve it)?
-  Another function to generate the solution (or maybe that's done in init?)
-  And then a function for doing all the data extractions,
-    which calls the appropriate member functions.
-  
+_TODO_ docstrings for solver (base and derived class) functions (other than data extraction; those should be in good shape)
+consider docstring inheritance
+https://stackoverflow.com/questions/2025562/inherit-docstrings-in-python-class-inheritance
 
+_TODO_ command line in solver, or get rid of it
+See below: maybe that should be how we get doctests instead.
+Or, at least, it should be an option.
 
 _TODO_ Current needs of review:
-
+- dodo.py
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
@@ -38,17 +27,12 @@ Is there another way to do that?
 
 _TODO_ in tasks_solver we can now get the other output filenames
 
-_TODO_ so now I know J must depend on D_bulk.
-Add this as a problem input?
-
-_TODO_ command line in solver, or get rid of it
-See below: maybe that should be how we get doctests instead.
-Or, at least, it should be an option.
-
 _TODO_ mesh output folders need to be together in another folder
 
 _TODO_ grep for uses of readyaml and writeyaml (and readyaml_multidoc) directly
 Maybe even get rid of these once nothing uses them.
+Currently, the data extraction uses writeyaml to create results.yaml.
+Not sure there's really another option there.
 
 _TODO_ find a way to mirror to holly and/or dlx
 _TODO_ use hash or other basename as a top directory?  maybe not.
