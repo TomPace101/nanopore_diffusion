@@ -28,12 +28,15 @@ def List_Mesh_Input_Files(meshname):
   volume_xml=osp.join(xmlfolder,meshname+'_physical_region.xml')
   return mesh_xml, surface_xml, volume_xml
 
-def Create_Output(modelparams,meshparams,soln,cmdlist):
+def Create_Output(modelparams,meshparams,fenicsdata,cmdlist):
   """Process a sequence of data extraction commands on the given solution.
   Arguments:
     modelparams = ModelParameters object
     meshparams = buildgeom.MeshParameters object
-    soln = the FEniCS solution to extract data from
+    fenicsdata = dictionary of some objects from the FEniCS calculations
+      This should contain all the additional objects needed by the extraction requests,
+      such as:
+        soln = the FEniCS solution to extract data from
     cmdlist = sequence of extraction commands
       Each command is a pair of extraction function names and keyword arguments.
   No return value.

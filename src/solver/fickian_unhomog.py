@@ -74,7 +74,8 @@ def SolveMesh(modelparams, meshparams):
   solve(a==L,c,bcs)
 
   #Output
-  solver_general.Create_Output(modelparams,meshparams,c,modelparams.dataextraction)
+  denicsdata={'soln':c,'V_vec':V_vec,'mesh':mesh,'surfaces':surfaces,'volumes':volumes}
+  solver_general.Create_Output(modelparams,meshparams,fenicsdata,modelparams.dataextraction)
 
   #Done
   return

@@ -4,6 +4,21 @@ This is in progress in extraction_functions.py
 The problem is the functions need data they haven't been passed yet.
 Need to figure out a good way to do this.
 Look for other TODOs as well.
+They also need the modelparams and meshparams.
+In short, they need lots more data than just what comes from the extraction request.
+
+Options:
+- put everything they might need in a dictionary and pass it
+- make the solver a class, and store the useful data in its attributes
+  It's not a particularly good class, as it only has 2 methods and one of them is init.
+  Maybe the extraction commands are methods as well?
+  Maybe that's the general class, which can be overridden.
+  So, you have an init to set the model up (and solve it)?
+  Another function to generate the solution (or maybe that's done in init?)
+  And then a function for doing all the data extractions,
+    which calls the appropriate member functions.
+  
+
 
 _TODO_ Current needs of review:
 
