@@ -1,5 +1,7 @@
 
 _TODO_ somewhere, document the new data extraction methodology
+modelparams.dataextraction format is currently only documented in debug.yaml.
+Should probably be some mention of it in GenericSolver.create_output as well.
 
 _TODO_ docstrings for solver (base and derived class) functions (other than data extraction; those should be in good shape)
 consider docstring inheritance
