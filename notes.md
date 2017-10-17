@@ -50,9 +50,6 @@ _EFFORT_ doctests? some other kind of test?
 
 It has its own _TODO_ list.
 
-_TODO_ put bookmarks in pdf
-- tried, but something buggy is going on.
-
 _TODO_ split part about diffusion equation into sections:
 - governing differential equation
 - weak form
