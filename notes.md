@@ -50,11 +50,6 @@ _EFFORT_ doctests? some other kind of test?
 
 It has its own _TODO_ list.
 
-_TODO_ split part about diffusion equation into sections:
-- governing differential equation
-- weak form
-- results (discuss Deff/Dbulk ratio)
-
 _TODO_ For the part where we have figures of the geometry,
 it would be nice if these could be auto-generated from the lattice yaml file.
 That way, if I add internal surfaces, the drawings could auto-update.

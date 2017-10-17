@@ -3,7 +3,7 @@
 
 \documentclass{article}
 
-\usepackage[letterpaper, margin=0.5in, footskip=2ex]{geometry}
+\usepackage[letterpaper, margin=0.5in, footskip=4ex]{geometry}
 \usepackage{graphicx} % Required to insert images
 \usepackage{float} % For placing figures EXACTLY where I say
 \usepackage{epstopdf}
@@ -187,8 +187,10 @@ $$\phi = \frac{\text{pore area}}{\text{unit cell area}}
 %-------------------------------------------------------------------------------
 \section{Diffusion Equation}\label{sec:equation}
 
+%-------------------------------------------------------------------------------
 \subsection{Unhomogenized Fickian Diffusion Equation}\label{subsec:unhom_fick}
 
+\subsubsection{Governing Differential Equation}
 For particle flux defined as 
 
 $$\vec{j} = - D_{\text{bulk}} \vec{\nabla} c$$
@@ -220,6 +222,8 @@ subject to boundary conditions.
 Assuming $D_{\text{bulk}}$ is any nonzero constant, this is clearly the same as
 
 $$ \nabla^2 c = 0$$
+
+\subsubsection{Weak Form}
 
 For solution in \texttt{FEniCS}, a weak form of this equation is required.
 Multiplying by a test function $v$ and integrating over the problem domain,
@@ -272,6 +276,59 @@ In terms of \texttt{FEniCS}, this means that the bilinear form is
 $a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x$,
 and the linear form is constant, zero.
 
+\subsubsection{Expected Result}
+
+The effective diffusion constant of Section \ref{subsec:D_eff}
+was derived by simplification of the governing equation
+to an unhomogenized Fickian diffusion equation.
+Consequently, the effective diffusion constant for this equation
+can be estimated very simply.
+
+In the absence of surface chemistry phenomena,
+we should expect the concentration gradient
+to be essentially constant within the pore, and oriented only in the axial direction.
+That is, the concentration profile within the pore will be linear,
+and at any cross-section there is only a single value of the concentration.
+This implies that the problem is very nearly one-dimensional,
+as assumed in the definition of $D_{\text{eff}}$.
+
+Defining the concentration gradient within the pore as
+$$\vec{\nabla} c = \left(\frac{dc}{ds}\right)_{\text{pore}} \hat{n}$$
+
+where $\left(\frac{dc}{ds}\right)_{\text{pore}}$ is a constant,
+the integrated flux within the pore is
+
+$$J_\text{cell} = -D_\text{bulk} \int_\text{cell} dA\, \left(\frac{dc}{ds}\right)_{\text{pore}}
+ = -D_\text{bulk} A_\text{pore} \left(\frac{dc}{ds}\right)_{\text{pore}}$$
+
+Note that the area in this formula is the area of the pore only,
+rather than the entire unit cell, because only the pore is within the problem domain
+at a cross-section through the pore.
+
+From the definition of the effective diffusion constant, we have
+
+$$J_{\text{cell}} = - D_{\text{eff}} A_{\text{cell}} \frac{\Delta c}{\Delta s}$$
+
+But with a constant concentration gradient,
+
+$$\frac{\Delta c}{\Delta s} = \left(\frac{dc}{ds}\right)_{\text{pore}}$$
+
+So,
+
+$$J_{\text{cell}} = - D_{\text{eff}} A_{\text{cell}} \left(\frac{dc}{ds}\right)_{\text{pore}}
+ = -D_\text{bulk} A_\text{pore} \left(\frac{dc}{ds}\right)_{\text{pore}}$$
+
+This simplifies to
+
+$$\frac{D_\text{eff}}{D_\text{bulk}} = \frac{A_\text{pore}}{A_\text{cell}}$$
+
+which matches the definition of the free volume fraction from Section \ref{subsec:volfrac}, so
+
+$$\frac{D_\text{eff}}{D_\text{bulk}} = \phi$$
+
+for unhomogenized Fickian diffusion.
+
+%-------------------------------------------------------------------------------
 \subsection{Homogenized Fickian Diffusion Equation}\label{subsec:hom_fick}
 
 \textbf{TODO}
