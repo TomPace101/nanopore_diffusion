@@ -1,5 +1,6 @@
 
 _TODO_ test the new solver class and data extraction method
+The best way to do this is to update doit based on the new control.yaml format.
 
 _TODO_ somewhere, document the new data extraction methodology
 modelparams.dataextraction format is currently only documented in debug.yaml.
@@ -18,22 +19,6 @@ _TODO_ Current needs of review:
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
-
-_TODO_ the control.yaml files are pretty redundant now: all three entries are the same
-Maybe there should just be model definition objects, and nothing above that.
-
-The thing the model definition doesn't currently know is WHERE the mesh given by its meshname is defined.
-So, if that field (the MeshParameter file defining the requested meshname) is,
-the control file would not be needed for that purpose.
-
-The other purpose is pointing doit at something.
-Is there another way to do that?
-
-control.yaml can be just a list of modelparam files to run.
-Entries can be commented out.
-You won't need a symlink in that case,
-or the directory of control files.
-This, of course, requires an overhaul of dodo.py
 
 _TODO_ in tasks_solver we can now get the other output filenames
 

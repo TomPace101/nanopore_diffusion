@@ -5,6 +5,7 @@
 
 #Model definition
 #modelname: name of model parameter set
+#meshparamsfile: name of yaml file containing the mesh defined by meshname (include .yaml extension)
 #meshname: name of mesh to use
 #equation: name of equation to solve
 #properties:
@@ -20,6 +21,7 @@
 # see solver_general.GenericSolver, or the appropriate class derived from there
 ---
 modelname: debug
+meshparamsfile: debug.yaml
 meshname: debug
 equation: fickian_unhomog
 properties:

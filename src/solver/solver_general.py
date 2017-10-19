@@ -18,6 +18,7 @@ class ModelParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store generic solver parameters
   Attributes:
     modelname = stem name for output files
+    meshparamsfile = name of yaml file containing the mesh defined by meshname (include .yaml extension)
     meshname = stem name for mesh files
     equation = name of equation to be solved
     properties = dictionary of property values
