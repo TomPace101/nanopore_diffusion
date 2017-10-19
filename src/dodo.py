@@ -67,14 +67,14 @@ def GetAllModelsAndMeshes(controlfile):
     allmeshses = Dictionary of all MeshParameters objects, by meshname
     meshfiles = Dictionary of yaml files for MeshParameters objects, by meshname"""
   #Read in the list of all model parameters files
-  modelparams_filelist = AnalysisRunSet.readyaml(controlfile)
+  modelparams_filelist = useful.readyaml(controlfile)
   #Get all the models from all the model parameter files
   allmodels, modelfiles = consolidate(modelparams_filelist,params_model_folder,solver_general.ModelParameters,'modelname')
   #Get a list of all mesh parameters files from the models
   meshparams_filelist = []
   for modelparams in allmodels.values():
     if not modelparams.meshparamsfile in meshparams_filelist:
-      meshparams_filelist.append(modelparams.meshparams_filelist)
+      meshparams_filelist.append(modelparams.meshparamsfile)
   #Get all the meshes from all the mesh parameter files
   allmeshes, meshfiles = consolidate(meshparams_filelist,params_mesh_folder,buildgeom.MeshParameters,'meshname')
   return allmodels,modelfiles,allmeshes,meshfiles

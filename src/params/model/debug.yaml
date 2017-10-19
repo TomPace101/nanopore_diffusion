@@ -37,6 +37,6 @@ dataextraction:
   - [fluxintegral, {fluxsurf: 1, fluxsign: '-', name: toflux_01}]
   - [fluxintegral, {fluxsurf: 4, fluxsign: '-', name: toflux_04}]
   - [fluxintegral, {fluxsurf: 12, fluxsign: '-', name: toflux_12}]
-  - [effective_diffusion, {name: Deff, totflux_name:totflux_12}]
+  - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
   - [volfrac, {name: free_volume_frac}]
   - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]

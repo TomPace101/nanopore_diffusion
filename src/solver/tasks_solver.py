@@ -40,7 +40,7 @@ def list_outputfiles(cmdlist):
   return outfiles
 
 def dosolve(modelparams,meshparams):
-  assert modelparams.equation in solverfuncs, "Unrecognized equation: %s"%modelparams.equation
+  assert modelparams.equation in solverclasses.keys(), "Unrecognized equation: %s"%modelparams.equation
   solver_class=solverclasses[modelparams.equation]
   solver_codefile=sys.modules[solver_class.__module__].__file__
   xmlfiles = [x for x in solver_general.List_Mesh_Input_Files(modelparams.meshname)]

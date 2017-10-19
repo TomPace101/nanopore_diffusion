@@ -25,7 +25,7 @@ class ModelParameters(useful.ParameterSet):
     boundaryconditions = parameters specifying boundary conditions
       The parameters specified are specific to the euqation being solved
     dataextraction = parameters for data to extract from the solution"""
-  __slots__=('modelname','meshname','equation','properties','boundaryconditions','dataextraction')
+  __slots__=('modelname','meshparamsfile','meshname','equation','properties','boundaryconditions','dataextraction')
 
 def List_Mesh_Input_Files(meshname):
   mesh_xml=osp.join(xmlfolder,meshname+'.xml')
