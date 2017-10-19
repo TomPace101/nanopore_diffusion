@@ -151,8 +151,9 @@ class GenericSolver:
       os.mkdir(self.outdir)
 
     #Initialize results dictionary
-    self.results=self.modelparams.to_dict()
-    self.results.update(self.meshparams.to_dict())
+    self.results={}
+    self.info=self.modelparams.to_dict()
+    self.info['meshparams']=self.meshparams.to_dict()
 
     #Process each command
     for cmd in self.modelparams.dataextraction:
@@ -162,7 +163,8 @@ class GenericSolver:
       getattr(self,funcname)(**kwargs)
       
     #Write out the results file
-    useful.writeyaml(self.results,osp.join(self.outdir,'results.yaml'))
+    self.info['results']=self.results
+    useful.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
 
     #Done
     return
