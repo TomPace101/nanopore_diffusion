@@ -24,12 +24,17 @@ class BCParameters(useful.ParameterSet):
     topval = concentration value at top surface
     baseval = concentration value at base surface"""
   __slots__=['topsurf','basesurf','topval','baseval']
-  def to_bclist():
-    "output list of FEniCS DirichletBC objects based on given parameters"
+  def to_bclist(self,fs,surfaces):
+    """Output list of FEniCS DirichletBC objects based on given parameters
+    Arguments:
+      fs = FEniCS FunctionSpace to use for the boundary conditions
+      surfaces = FEniCS MeshFunction to use for the surfaces
+    Returns:
+      bcs = list of DirichletBC objects"""
     bcs=[]
     dpairs=[(self.basesurf,self.baseval), (self.topsurf,self.topval)] #Physical surface and Dirichlet value pairs
     for psurf,val in dpairs:
-      bcs.append(DirichletBC(V,val,surfaces,psurf))
+      bcs.append(DirichletBC(fs,val,surfaces,psurf))
     return bcs
 
 class UnhomogFickianSolver(solver_general.GenericSolver):
@@ -54,21 +59,21 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     super().__init__(modelparams,meshparams)
     
     #Function space for scalars and vectors
-    self.V = FunctionSpace(mesh,'CG',1) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = VectorFunctionSpace(mesh, "CG", 1)
+    self.V = FunctionSpace(self.mesh,'CG',1) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = VectorFunctionSpace(self.mesh, "CG", 1)
 
     #Dirichlet boundary conditions
-    self.bcs=BCParameters(**self.modelparams.boundaryconditions).to_bclist()
-    
+    self.bcs=BCParameters(**self.modelparams.boundaryconditions).to_bclist(self.V, self.surfaces)
+
     #Neumann boundary conditions
     #they are all zero in this case
     self.ds = Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
 
     #Define variational problem
-    self.c=TrialFunction(V)
-    self.v=TestFunction(V)
-    self.a=dot(grad(c),grad(v))*dx
-    self.L=Constant(0)*v*ds
+    self.c=TrialFunction(self.V)
+    self.v=TestFunction(self.V)
+    self.a=dot(grad(self.c),grad(self.v))*dx
+    self.L=Constant(0)*self.v*self.ds
     
     #If requested, solve and generate output
     if complete:
@@ -76,8 +81,8 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
 
   def solve(self):
     "Do the step of solving this equation"
-    self.soln=Function(V)
-    solve(a==L,self.soln,bcs)
+    self.soln=Function(self.V)
+    solve(self.a==self.L, self.soln, self.bcs)
     return
 
 #Support command-line arguments

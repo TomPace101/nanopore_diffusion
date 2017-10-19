@@ -123,8 +123,8 @@ class GenericSolver:
 
     #Load mesh and meshfunctions
     self.mesh=Mesh(mesh_xml)
-    self.surfaces=MeshFunction("size_t", mesh, surface_xml) #Mesh Function of Physical Surface number
-    self.volumes=MeshFunction("size_t", mesh, volume_xml) #Mesh function of Physical Volume number
+    self.surfaces=MeshFunction("size_t", self.mesh, surface_xml) #Mesh Function of Physical Surface number
+    self.volumes=MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
 
   def complete(self):
     "Convenience function to solve the model and generate all the requested output."
@@ -157,7 +157,6 @@ class GenericSolver:
       funcname, kwargs = cmd
       #Call it
       getattr(self,funcname)(**kwargs)
-      extraction_functions.exfuncs[funcname](soln,results,outdir,**kwargs)
       
     #Write out the results file
     useful.writeyaml(self.results,osp.join(self.outdir,'results.yaml'))
@@ -165,7 +164,7 @@ class GenericSolver:
     #Done
     return
 
-  def solutionfield(filename):
+  def solutionfield(self,filename):
     """Write solution field to VTK file
     Arguments:
       filename = name of output file, as string
@@ -178,7 +177,7 @@ class GenericSolver:
     vtk_file << self.soln
     return
 
-  def fluxfield(filename): ##TODO: need D_bulk to get correct units
+  def fluxfield(self,filename): ##TODO: need D_bulk to get correct units
     """Flux as vector field (new attribute, and VTK file)
     Arguments:
       filename = name of output file, as string
@@ -191,10 +190,10 @@ class GenericSolver:
     D_bulk=self.modelparams.properties['D_bulk']
     self.flux=project(Constant(-D_bulk)*grad(self.soln),self.V_vec)
     vtk_file=File(osp.join(self.outdir,filename))
-    vtk_file << self.fluxfield
+    vtk_file << self.flux
     return
 
-  def fluxintegral(fluxsurf,fluxsign,name): ##TODO: store also quadrupled value for unit cell
+  def fluxintegral(self,fluxsurf,fluxsign,name): ##TODO: store also quadrupled value for unit cell
     """Flux integral over specified surface
     Arguments:
       fluxsurf = physical surface number for flux measurement
@@ -212,7 +211,7 @@ class GenericSolver:
     self.results[name]=totflux
     return
 
-  def effective_diffusion(name,totflux_name):
+  def effective_diffusion(self,name,totflux_name):
     """Calculate effective diffusion constant
     Arguments:
       name = name for storage in the results dictionary
@@ -224,13 +223,13 @@ class GenericSolver:
     No return value.
     No output files."""
     quarter_area = self.meshparams.Lx * self.meshparams.Ly
-    samples=[soln(0,0,zv) for zv in [self.meshparams.H, self.meshparams.H + self.meshparams.tm]]
+    samples=[self.soln(0,0,zv) for zv in [self.meshparams.H, self.meshparams.H + self.meshparams.tm]]
     delta=samples[1]-samples[0]
     Deff=float(self.results[totflux_name]/quarter_area*self.meshparams.tm/delta)
-    results[name]=Deff
+    self.results[name]=Deff
     return
 
-  def volfrac(soln,results,outdir,name):
+  def volfrac(self,name):
     """Calculate free volume fraction
     Arguments:
       name = name for storage in the results dictionary
@@ -239,10 +238,10 @@ class GenericSolver:
     New item added to results dictionary.
     No return value.
     No output files."""
-    results[name]=np.pi*self.meshparams.R**2/(4*self.meshparams.Lx*self.meshparams.Ly)
+    self.results[name]=np.pi*self.meshparams.R**2/(4*self.meshparams.Lx*self.meshparams.Ly)
     return
 
-  def profile_centerline(spacing,filename,label):
+  def profile_centerline(self,spacing,filename,label):
     """Data for plot of concentration profile along centerline
     Arguments:
       spacing = distance between sampled points for line plots
@@ -261,7 +260,7 @@ class GenericSolver:
     for z in zr:
       zlist.append(z)
       tup=(0,0,z)
-      vlist.append(soln(*tup))
+      vlist.append(self.soln(*tup))
     zarr=np.array(zlist)
     varr=np.array(vlist)
     meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
