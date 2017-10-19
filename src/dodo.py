@@ -3,8 +3,7 @@
 #Discussion
 #This file is intended to automate the process from mesh generation, through running the solver, through post-processing.
 #As such, it relies on scripts specific to each of those to generate the necessary tasks.
-#At present, the runs requested in control.yaml are used.
-#This can be a symlink to a yaml file in the params folder.
+#The runs requested in control.yaml are used.
 
 #Standard library
 import os
@@ -22,59 +21,74 @@ import tasks_postproc
 import buildgeom
 import solver_general
 
-class AnalysisRunSet(useful.ParameterSet):
-  """Subclass of useful.ParameterSet to store the data for completing a set of analysis runs
-  Attributes:
-    meshparams = yaml file containing buildgeom.MeshParameters documents
-    modelparams = yaml file containing 
-    master = """
-  __slots__=('meshparams','modelparams','master')
+#Constants
+controlfile='control.yaml'
 
-def consolidate(runs,yamlfolder,yamlname,entrytype,nameattribute):
-  """Get all things of a certain type from all the AnalysisRunSet objects
-  Explanation:
-    control.yaml contains multiple AnalysisRunSet objects, many of which specify other yaml files,
-    which in turn contain multiple objects of various types.
-    This function reads all of the yaml files for a certain type of object,
-    and consolidates those objects into one dictionary.
+def consolidate(entry_filelist,infolder,entrytype,nameattribute):
+  """Load all objects from a list of files
+  For each file in the list,
+  this will load every document the file contains as an object of the specified type,
+  and store all the objects from all the files in a single dictionary.
   Inputs:
-    runs = iterable over AnalysisRunSet objects
-    yamlfolder = path to folder containing yaml files referenced by yamlname, as string
-    yamlname = attribute name in AnalysisRunSet providing the base name for the relevant yaml files
+    entry_filelist = list (or other iterable) of file names
+    infolder = path to folder containing the files whose names are in entry_filelist
     entrytype = class to be used for each object
-    nameattribute = attribute name in the entries themselves providing their names
-      These names are the keys in the output dictionary.
+    nameattribute = attribute name in the entries providing their names
+      These names are the keys in the output dictionaries.
   Returns:
     entries_byname = dictionary mapping an entry's name to the entry itself
-    yaml_from_name = dictionary mapping an entry's name to the yaml file it came from"""
+    files_byname = dictionary mapping an entry's name to the file it came from."""
   entries_byname={}
-  yaml_from_name={}
-  for rd in runs:
-    yamlfile=getattr(rd,yamlname)+'.yaml'
-    yamlfpath=osp.join(yamlfolder,yamlfile)
-    entry_iter=entrytype.all_from_yaml(yamlfpath)
+  files_byname={}
+  #For each listed file
+  for filename in entry_filelist:
+    #Get an iterable over the objects defined in this file
+    infpath=osp.join(infolder,filename)
+    entry_iter=entrytype.all_from_yaml(infpath)
+    #For each object in this file
     for entry in entry_iter:
       if entry is not None:
+        #Get its name
         objname=getattr(entry,nameattribute)
-        assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(entrytype.__name__,objname,yaml_from_name[objname],yamlfile)
-        yaml_from_name[objname]=yamlfpath
+        #Do we already have one by that name?
+        assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(entrytype.__name__,objname,files_byname[objname],filename)
+        #Add entry to dictionaries
+        files_byname[objname]=infpath
         entries_byname[objname]=entry
-  return entries_byname, yaml_from_name
+  return entries_byname, files_byname
 
-#Read in the sequence of analysis runs
-runs=[r for r in AnalysisRunSet.all_from_yaml('control.yaml')]
+def GetAllModelsAndMeshes(controlfile):
+  """Read in all the models and meshes
+  Arguments:
+    controlfile = path to file containing list of all model parameters files to read
+  Return values:
+    allmodels = Dictionary of all ModelParameters objects, by modelname
+    modelfiles = Dictionary of yaml file for ModelParameters objects, by modelname
+    allmeshses = Dictionary of all MeshParameters objects, by meshname
+    meshfiles = Dictionary of yaml files for MeshParameters objects, by meshname"""
+  #Read in the list of all model parameters files
+  modelparams_filelist = AnalysisRunSet.readyaml(controlfile)
+  #Get all the models from all the model parameter files
+  allmodels, modelfiles = consolidate(modelparams_filelist,params_model_folder,solver_general.ModelParameters,'modelname')
+  #Get a list of all mesh parameters files from the models
+  meshparams_filelist = []
+  for modelparams in allmodels.values():
+    if not modelparams.meshparamsfile in meshparams_filelist:
+      meshparams_filelist.append(modelparams.meshparams_filelist)
+  #Get all the meshes from all the mesh parameter files
+  allmeshes, meshfiles = consolidate(meshparams_filelist,params_mesh_folder,buildgeom.MeshParameters,'meshname')
+  return allmodels,modelfiles,allmeshes,meshfiles
 
-#Get all the meshes and models
-allmeshes,meshfiles=consolidate(runs,params_mesh_folder,'meshparams',buildgeom.MeshParameters,'meshname')
-allmodels,modelfiles=consolidate(runs,params_model_folder,'modelparams',solver_general.ModelParameters,'modelname')
+#Read in all the models and meshes
+allmodels,modelfiles,allmeshes,meshfiles=GetAllModelsAndMeshes(controlfile)
 
 #Mesh tasks
 def task_make_mesh():
   #Set up tasks for each mesh
-  for params in allmeshes.values():
-    yield tasks_mesh.create_geo(params)
-    yield tasks_mesh.create_msh(params)
-    yield tasks_mesh.create_xml(params)
+  for meshparams in allmeshes.values():
+    yield tasks_mesh.create_geo(meshparams)
+    yield tasks_mesh.create_msh(meshparams)
+    yield tasks_mesh.create_xml(meshparams)
 
 #Solver tasks
 def task_solve():
