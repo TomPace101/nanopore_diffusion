@@ -6,10 +6,6 @@ _TODO_ somewhere, document the new data extraction methodology
 modelparams.dataextraction format is currently only documented in debug.yaml.
 Should probably be some mention of it in GenericSolver.create_output as well.
 
-_TODO_ docstrings for solver (base and derived class) functions (other than data extraction; those should be in good shape)
-consider docstring inheritance
-https://stackoverflow.com/questions/2025562/inherit-docstrings-in-python-class-inheritance
-
 _TODO_ command line in solver, or get rid of it
 See below: maybe that should be how we get doctests instead.
 Or, at least, it should be an option.
@@ -18,8 +14,6 @@ _TODO_ Current needs of review:
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
-
-_TODO_ in tasks_solver we can now get the other output filenames
 
 _TODO_ mesh output folders need to be together in another folder
 

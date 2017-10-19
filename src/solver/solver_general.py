@@ -46,8 +46,7 @@ class GenericSolver:
     volumes = FEniCS MeshFunction of Physical Volume number
   """
   def __init__(self,modelparams,meshparams):
-    """Initialize the solver by setting up the model, but do not generate solution yet.
-    Basically, everything up until the solving step should be done.
+    """Initialize the solver by loading the Mesh and MeshFunctions.
     Arguments:
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
@@ -63,8 +62,15 @@ class GenericSolver:
     self.surfaces=MeshFunction("size_t", mesh, surface_xml) #Mesh Function of Physical Surface number
     self.volumes=MeshFunction("size_t", mesh, volume_xml) #Mesh function of Physical Volume number
 
+  def complete(self):
+    "Convenience function to solve the model and generate all the requested output."
+    self.solve()
+    self.create_output()
+    return
+
   def solve(self):
-    raise NotImplementedError("Subclasses must override 'solve' method.")
+    "Method to be overridden by derived classes"
+    raise NotImplementedError("%s did not override 'solve' method."%str(type(self)))
 
   def create_output(self):
     """Process the data extraction commands
@@ -200,5 +206,3 @@ class GenericSolver:
     pklfile=osp.join(self.outdir,filename)
     pd.to_pickle(pklfile)
     return
-
-  

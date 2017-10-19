@@ -31,7 +31,7 @@ class BCParameters(useful.ParameterSet):
       bcs.append(DirichletBC(V,val,surfaces,psurf))
     return bcs
 
-class UnhomFickianSolver(solver_general.GenericSolver):
+class UnhomogFickianSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Fickian Diffusion
   Additional attributes not inherited from GenericSolver:
     V = FEniCS FunctionSpace on the mesh
@@ -42,7 +42,13 @@ class UnhomFickianSolver(solver_general.GenericSolver):
     v = FEniCS TestFunctoin on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
-  def __init__(self,modelparams,meshparams):
+  def __init__(self,modelparams,meshparams,complete=False):
+    """Initialize the model, and optionally solve and generate output.
+    Arguments:
+      modelparams = ModelParameters instance
+      meshparams = buildgeom.MeshParameters instance
+      complete = boolean, True to solve and generate output"""
+    
     #Mesh setup
     super().__init__(modelparams,meshparams)
     
@@ -62,7 +68,13 @@ class UnhomFickianSolver(solver_general.GenericSolver):
     self.v=TestFunction(V)
     self.a=dot(grad(c),grad(v))*dx
     self.L=Constant(0)*v*ds
+    
+    #If requested, solve and generate output
+    if complete:
+      self.complete()
+
   def solve(self):
+    "Do the step of solving this equation"
     self.soln=Function(V)
     solve(a==L,self.soln,bcs)
     return
