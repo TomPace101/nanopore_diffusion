@@ -2,7 +2,7 @@
 # List of model parameter files to run
 # These files are all located in the model parameters folder
 
- # Commenting out lines will suppress running those analyses
-
+# Commenting out lines will suppress running those analyses
+---
 - debug.yaml
 #- brainy-media.yaml
