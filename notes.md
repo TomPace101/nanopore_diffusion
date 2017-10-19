@@ -1,8 +1,4 @@
 
-_TODO_ somewhere, document the new data extraction methodology
-modelparams.dataextraction format is currently only documented in debug.yaml.
-Should probably be some mention of it in GenericSolver.create_output as well.
-
 _TODO_ Current needs of review:
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)

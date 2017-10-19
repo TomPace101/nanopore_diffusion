@@ -26,7 +26,10 @@ class ModelParameters(useful.ParameterSet):
     properties = dictionary of property values
     boundaryconditions = parameters specifying boundary conditions
       The parameters specified are specific to the euqation being solved
-    dataextraction = parameters for data to extract from the solution"""
+    dataextraction = a sequence of data extraction commands
+      Each command is a pair (cmdname, arguments), where
+        cmdname = name of the solver object's method to call, as a string
+        arguments = dictionary of arguments to the method: {argname: value,...}"""
   __slots__=('modelname','meshparamsfile','meshname','equation','properties','boundaryconditions','dataextraction')
 
 def List_Mesh_Input_Files(meshname):
