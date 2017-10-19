@@ -18,7 +18,6 @@ import useful
 import tasks_mesh
 import tasks_solver
 import tasks_postproc
-import buildgeom
 import solver_general
 
 #Constants

@@ -11,6 +11,7 @@ import sys
 from fenics import *
 
 #Local
+sys.path.append(osp.abspath('..'))
 from folderstructure import *
 import solver_general
 import useful
@@ -81,12 +82,12 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
 
 #Support command-line arguments
 if __name__ == '__main__':
-  ##TODO: this needs to be updated
   #Process command-line arguments
   parser = argparse.ArgumentParser(description='Solve the unhomogenized fickian diffusion equation with fenics')
-  parser.add_argument('model_params_file', help='path to file containing ModelParameters definitions')
+  parser.add_argument('model_params_file', help='filename (not complete path) containing ModelParameters definitions')
   cmdline=parser.parse_args()
-  assert osp.isfile(cmdline.model_params_file), "Model parameter definition file does not exist: %s"%cmdline.model_params_file
+  params_fullpath=osp.join(params_model_folder,cmdline.model_params_file)
+  assert osp.isfile(params_fullpath), "Model parameter definition file does not exist: %s"%(params_fullpath)
 
   #Get all models to solve, and all their meshes
   allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes([cmdline.model_params_file])

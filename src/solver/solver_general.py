@@ -13,6 +13,8 @@ import numpy as np
 from folderstructure import *
 import useful
 import plotdata
+import buildgeom
+
 
 class ModelParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store generic solver parameters
@@ -73,7 +75,7 @@ def ListMeshParamsFiles(modelparams_list):
   Returns:
     meshparams_filelist = list of mesh parameters filenames (not including folder path)"""
   meshparams_filelist = []
-  for modelparams in allmodels.values():
+  for modelparams in modelparams_list:
     if not modelparams.meshparamsfile in meshparams_filelist:
       meshparams_filelist.append(modelparams.meshparamsfile)
   return meshparams_filelist
@@ -88,7 +90,7 @@ def GetAllModelsAndMeshes(modelparams_filelist):
     allmeshses = Dictionary of all MeshParameters objects, by meshname
     meshfiles = Dictionary of yaml files for MeshParameters objects, by meshname"""
   #Get all the models from all the model parameter files
-  allmodels, modelfiles = consolidate(modelparams_filelist,params_model_folder,solver_general.ModelParameters,'modelname')
+  allmodels, modelfiles = consolidate(modelparams_filelist,params_model_folder,ModelParameters,'modelname')
   #Get a list of all mesh parameters files from the models
   meshparams_filelist = ListMeshParamsFiles(allmodels.values())
   #Get all the meshes from all the mesh parameter files
