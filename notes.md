@@ -1,25 +1,44 @@
 
-_TODO_ Current needs of major updates:
+_TODO_ total flux calculations need to distinguish between internal and external surfaces
+Maybe this requires two different functions (methods of the solver class).
+
+_TODO_ data collection in post-processing
+Another thing the old control.yaml did was give us a database name.
+Without that, we should probably use the model filename.
+Trouble is, we don't keep it around right now.
+
+Even if you solve that problem,
+the next one is the overall structure of info.yaml.
+For some keys, it makes sense to have a column.
+But some of them will need to be more than one.
+
+We need some more intelligence,
+rather than just blindly dumping everything in without structure.
+
+_TODO_ Other needs of major updates:
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
 
-_TODO_ total flux calculations need to distinguish between internal and external surfaces
-Maybe this requires two different functions (methods of the solver class).
-
-_TODO_ find a way to mirror to holly and/or dlx
-
 _TODO_ use hash or other basename as a top directory?  maybe not.
+Right now, this base name isn't stored.
+That seems to be an issue for the data collection as well.
 
 _TODO_ a way to clean up meshes and solutions that are no longer desired
-
-_TODO_ sync project (with all results files) to shared.
+This would be a lot easier if you use the hash as a base folder.
 
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
 
+_TODO_ sync project (with all results files) to shared.
+
+_TODO_ find a way to mirror to holly and/or dlx
 
 # Problem Description
+
+_TODO_ Review writeup on expected result.
+I didn't include the part about how the area needs to be piecewise constant.
+Should this be in there?
 
 _DECISION_ maybe the result figures and discussion should be a separate document.
 That way, the problem description could be generated before the analyses are run.
