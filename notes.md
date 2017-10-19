@@ -1,15 +1,22 @@
 
-_TODO_ Current needs of review:
+_TODO_ Current needs of major updates:
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
 
+_TODO_ total flux calculations need to distinguish between internal and external surfaces
+Maybe this requires two different functions (methods of the solver class).
+
 _TODO_ find a way to mirror to holly and/or dlx
+
 _TODO_ use hash or other basename as a top directory?  maybe not.
 
 _TODO_ a way to clean up meshes and solutions that are no longer desired
 
 _TODO_ sync project (with all results files) to shared.
+
+_TODO_ wiki page on flux integration over internal boundary
+Should probably document how to do external boundary as well, for comparison.
 
 
 # Problem Description
