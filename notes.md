@@ -15,7 +15,6 @@ See below: maybe that should be how we get doctests instead.
 Or, at least, it should be an option.
 
 _TODO_ Current needs of review:
-- dodo.py
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
@@ -23,11 +22,6 @@ _TODO_ Current needs of review:
 _TODO_ in tasks_solver we can now get the other output filenames
 
 _TODO_ mesh output folders need to be together in another folder
-
-_TODO_ grep for uses of readyaml and writeyaml (and readyaml_multidoc) directly
-Maybe even get rid of these once nothing uses them.
-Currently, the data extraction uses writeyaml to create results.yaml.
-Not sure there's really another option there.
 
 _TODO_ find a way to mirror to holly and/or dlx
 _TODO_ use hash or other basename as a top directory?  maybe not.
