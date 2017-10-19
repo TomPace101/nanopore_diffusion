@@ -84,15 +84,16 @@ if __name__ == '__main__':
   ##TODO: this needs to be updated
   #Process command-line arguments
   parser = argparse.ArgumentParser(description='Solve the unhomogenized fickian diffusion equation with fenics')
-  parser.add_argument('bc_params_yaml', help='path to boundary conditions parameter yaml file')
+  parser.add_argument('model_params_file', help='path to file containing ModelParameters definitions')
   cmdline=parser.parse_args()
-  assert osp.isfile(cmdline.bc_params_yaml), "Boundary conditions parameter definition file does not exist: %s"%cmdline.bc_params_yaml
+  assert osp.isfile(cmdline.model_params_file), "Model parameter definition file does not exist: %s"%cmdline.model_params_file
 
-  #Read in the yaml file
-  solruns=useful.readyaml_multidoc(cmdline.bc_params_yaml)
+  #Get all models to solve, and all their meshes
+  allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes([cmdline.model_params_file])
   
   #Run each requested analysis
-  for run in solruns:
-    params=argparse.Namespace(**run)
-    SolveMesh(params)
+  for modelparams in allmodels.values():
+    meshparams=allmeshes[modelparams.meshname]
+    solver=UnhomogFickianSolver(modelparams,meshparams)
+    solver.complete()
 

@@ -1,14 +1,11 @@
 
 _TODO_ test the new solver class and data extraction method
-The best way to do this is to update doit based on the new control.yaml format.
+Test it by calling fickian_unhomog.py,
+then test through doit.
 
 _TODO_ somewhere, document the new data extraction methodology
 modelparams.dataextraction format is currently only documented in debug.yaml.
 Should probably be some mention of it in GenericSolver.create_output as well.
-
-_TODO_ command line in solver, or get rid of it
-See below: maybe that should be how we get doctests instead.
-Or, at least, it should be an option.
 
 _TODO_ Current needs of review:
 - collect_results.py

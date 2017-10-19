@@ -9,7 +9,6 @@ from doit.tools import config_changed
 
 #Local
 from folderstructure import *
-import useful
 import solver_general
 import fickian_unhomog
 
