@@ -1,4 +1,6 @@
 
+_TODO_ test the new solver class and data extraction method
+
 _TODO_ somewhere, document the new data extraction methodology
 modelparams.dataextraction format is currently only documented in debug.yaml.
 Should probably be some mention of it in GenericSolver.create_output as well.
@@ -27,6 +29,12 @@ the control file would not be needed for that purpose.
 The other purpose is pointing doit at something.
 Is there another way to do that?
 
+control.yaml can be just a list of modelparam files to run.
+Entries can be commented out.
+You won't need a symlink in that case,
+or the directory of control files.
+This, of course, requires an overhaul of dodo.py
+
 _TODO_ in tasks_solver we can now get the other output filenames
 
 _TODO_ mesh output folders need to be together in another folder
@@ -48,6 +56,16 @@ _EFFORT_ study of required H value
 _EFFORT_ doctests? some other kind of test?
 
 # Problem Description
+
+_DECISION_ maybe the result figures and discussion should be a separate document.
+That way, the problem description could be generated before the analyses are run.
+
+You could even set it up so that the document that requires completed runs
+also pulls in the problem description itself,
+so in the end you do get a document that has everything.
+This would require splitting the description up as well:
+- the contents that are part of both documents
+- the part that pulls that in as a standalone document
 
 It has its own _TODO_ list.
 
@@ -292,4 +310,3 @@ The trouble is when python is started in mesh (ie to run buildgeom.py),
 and wants to import something from a directory above that (ie useful.py)
 
 So far the only solution is `sys.path.append('..')`
-
