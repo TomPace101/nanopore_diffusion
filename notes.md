@@ -1,8 +1,4 @@
 
-_TODO_ test the new solver class and data extraction method
-Test it by calling fickian_unhomog.py,
-then test through doit.
-
 _TODO_ somewhere, document the new data extraction methodology
 modelparams.dataextraction format is currently only documented in debug.yaml.
 Should probably be some mention of it in GenericSolver.create_output as well.
@@ -12,8 +8,6 @@ _TODO_ Current needs of review:
 - tasks_postproc.py (re-enable in dodo.py once working)
 - gen_brainy_media.py
 
-_TODO_ mesh output folders need to be together in another folder
-
 _TODO_ find a way to mirror to holly and/or dlx
 _TODO_ use hash or other basename as a top directory?  maybe not.
 
@@ -21,9 +15,6 @@ _TODO_ a way to clean up meshes and solutions that are no longer desired
 
 _TODO_ sync project (with all results files) to shared.
 
-_EFFORT_ mesh refinement study
-_EFFORT_ study of required H value
-_EFFORT_ doctests? some other kind of test?
 
 # Problem Description
 
@@ -44,16 +35,6 @@ it would be nice if these could be auto-generated from the lattice yaml file.
 That way, if I add internal surfaces, the drawings could auto-update.
 Of course, right now the yaml file doesn't contain the physical dimensions.
 
-# Figure
-Current Goal: x=free volume fraction, y=Deff/Dbulk
-
-We need to run the analysis at different values of R,
-collect their result values,
-and then make the plot.
-
-So, a script to auto-generate parameter files would be helpful,
-and we need the collection script.
-
 # Simulation
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
@@ -62,6 +43,12 @@ Is there a better way?
 
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
+
+# Someday/maybe
+
+_EFFORT_ mesh refinement study
+_EFFORT_ study of required H value
+_EFFORT_ doctests? some other kind of test?
 
 # Separate solution and post-processing
 
