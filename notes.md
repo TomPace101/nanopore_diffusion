@@ -1,5 +1,17 @@
 
-_TODO_ read about fixed potential calculation, prepare to do it
+# Simulation
+
+_EFFORT_ read about fixed potential calculation, prepare to do it
+
+_TODO_ use hash or other basename as a top directory?  maybe not.
+Right now, this base name isn't stored.
+That seems to be an issue for the data collection as well.
+
+The issue is only going to get worse if we don't do this.
+So, eventually, you will do this.
+
+_TODO_ a way to clean up meshes and solutions that are no longer desired
+This would be a lot easier if you use the hash as a base folder.
 
 _TODO_ data collection in post-processing
 - collect_results.py
@@ -38,22 +50,19 @@ In that case, make sure the value is the same.
 _TODO_ Other needs of major updates:
 - gen_brainy_media.py
 
-_TODO_ use hash or other basename as a top directory?  maybe not.
-Right now, this base name isn't stored.
-That seems to be an issue for the data collection as well.
-
-The issue is only going to get worse if we don't do this.
-So, eventually, you will do this.
-
-_TODO_ a way to clean up meshes and solutions that are no longer desired
-This would be a lot easier if you use the hash as a base folder.
-
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
 
 _TODO_ sync project (with all results files) to shared.
 
 _TODO_ find a way to mirror to holly and/or dlx
+
+_EFFORT_ we need to run for face-centered geometry as well
+This requires adding the interior surface to this mesh,
+which means redoing its geometry.
+Is there a better way?
+
+_THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Problem Description
 
@@ -77,14 +86,6 @@ _TODO_ For the part where we have figures of the geometry,
 it would be nice if these could be auto-generated from the lattice yaml file.
 That way, if I add internal surfaces, the drawings could auto-update.
 Of course, right now the yaml file doesn't contain the physical dimensions.
-
-# Simulation
-_EFFORT_ we need to run for face-centered geometry as well
-This requires adding the interior surface to this mesh,
-which means redoing its geometry.
-Is there a better way?
-
-_THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot
