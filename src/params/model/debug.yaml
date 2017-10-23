@@ -34,9 +34,9 @@ boundaryconditions:
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
   - [fluxfield, {filename: flux.pvd}]
-  - [fluxintegral, {fluxsurf: 1, fluxsign: '-', name: totflux_01}]
-  - [fluxintegral, {fluxsurf: 4, fluxsign: '-', name: totflux_04}]
-  - [fluxintegral, {fluxsurf: 12, fluxsign: '-', name: totflux_12}]
+  - [fluxintegral, {fluxsurf: 1, name: totflux_01}]
+  - [fluxintegral, {fluxsurf: 4, name: totflux_04}]
+  - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-'}]
   - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
   - [volfrac, {name: free_volume_frac}]
   - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]

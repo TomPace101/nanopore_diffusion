@@ -1,6 +1,5 @@
 
-_TODO_ total flux calculations need to distinguish between internal and external surfaces
-Maybe this requires two different functions (methods of the solver class).
+_TODO_ extraction functions need docstring updates for the required attributes.
 
 _TODO_ data collection in post-processing
 - collect_results.py
@@ -38,6 +37,9 @@ _TODO_ Other needs of major updates:
 _TODO_ use hash or other basename as a top directory?  maybe not.
 Right now, this base name isn't stored.
 That seems to be an issue for the data collection as well.
+
+The issue is only going to get worse if we don't do this.
+So, eventually, you will do this.
 
 _TODO_ a way to clean up meshes and solutions that are no longer desired
 This would be a lot easier if you use the hash as a base folder.

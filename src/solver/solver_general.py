@@ -198,21 +198,32 @@ class GenericSolver:
     vtk_file << self.flux
     return
 
-  def fluxintegral(self,fluxsurf,fluxsign,name): ##TODO: store also quadrupled value for unit cell
+  def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None): ##TODO: store also quadrupled value for unit cell
     """Flux integral over specified surface
     Arguments:
       fluxsurf = physical surface number for flux measurement
-      fluxsign = '+' or '-' to specify which diretion normal to the surface for flux calculation
       name = name for storage in the results dictionary
+      internal = boolean, default False, True to use internal boundary, False for external
+      fluxsign = '+' or '-' to specify which diretion normal to the surface for flux calculation
+        Required only if internal==True
     Required attributes:
       flux = as calculated by fluxfield
+      mesh = FEniCS Mesh object
+      surface = FEniCS MeshFunction object for surface numbers
     No new attributes.
     New item added to results dictionary.
     No return value.
     No output files."""
     n=FacetNormal(self.mesh)
-    dsi=Measure('interior_facet',domain=self.mesh,subdomain_data=self.surfaces)
-    totflux=assemble(dot(self.flux,n(fluxsign))*dsi(fluxsurf))
+    if internal:
+      integral_type='interior_facet'
+      assert fluxsign=='+' or fluxsign=='-', "Invalid fluxsign: %s"%str(fluxsign)
+      this_n=n(fluxsign)
+    else:
+      integral_type='exterior_facet'
+      this_n=n
+    this_ds=Measure(integral_type,domain=self.mesh,subdomain_data=self.surfaces)
+    totflux=assemble(dot(self.flux,this_n)*this_ds(fluxsurf))
     self.results[name]=totflux
     return
 
