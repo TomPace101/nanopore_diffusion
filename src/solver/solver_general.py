@@ -174,7 +174,9 @@ class GenericSolver:
     Arguments:
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
-    No attributes from other data extractions required.
+    Required attributes:
+      outdir = output directory, as string
+      soln = FEniCS Function containing solution
     No new attributes.
     No return value.
     Output file is written."""
@@ -182,12 +184,16 @@ class GenericSolver:
     vtk_file << self.soln
     return
 
-  def fluxfield(self,filename): ##TODO: need D_bulk to get correct units
+  def fluxfield(self,filename):
     """Flux as vector field (new attribute, and VTK file)
     Arguments:
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
-    No attributes from other data extractions required.
+    Required attributes:
+      modelparams.properties['D_bulk'] = bulk diffusion constant for the medium
+      outdir = output directory, as string
+      soln = FEniCS Function containing solution
+      V_vec = FEniCS VectorFunctionSpace
     New attributes:
       flux = flux field as a MeshFunction
     No return value.
@@ -198,7 +204,7 @@ class GenericSolver:
     vtk_file << self.flux
     return
 
-  def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None): ##TODO: store also quadrupled value for unit cell
+  def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None): ##TODO: store also quadrupled value for unit cell?
     """Flux integral over specified surface
     Arguments:
       fluxsurf = physical surface number for flux measurement
@@ -207,7 +213,8 @@ class GenericSolver:
       fluxsign = '+' or '-' to specify which diretion normal to the surface for flux calculation
         Required only if internal==True
     Required attributes:
-      flux = as calculated by fluxfield
+      flux = flux as vector field
+        This requires a previous call to fluxfield
       mesh = FEniCS Mesh object
       surface = FEniCS MeshFunction object for surface numbers
     No new attributes.
@@ -232,8 +239,10 @@ class GenericSolver:
     Arguments:
       name = name for storage in the results dictionary
       totflux_name = name of previously calculated total flux in results dictionary
-        This requires a prevous call to fluxintegral.
-    No attributes from other data extractions required.
+        This requires a previous call to fluxintegral.
+    Required attributes:
+      meshparams = buildgeom.MeshParameters object
+      results[toflux_name] = result from previous call to fluxintegral
     No new attributes.
     New item added to results dictionary.
     No return value.
@@ -249,7 +258,8 @@ class GenericSolver:
     """Calculate free volume fraction
     Arguments:
       name = name for storage in the results dictionary
-    No attributes from other data extractions required.
+    Required attributes:
+      meshparams = buildgeom.MeshParameters object
     No new attributes.
     New item added to results dictionary.
     No return value.
@@ -264,7 +274,10 @@ class GenericSolver:
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
       label = series label to assign, as string
-    No attributes from other data extractions required.
+    Required attributes:
+      meshparams = buildgeom.MeshParameters object
+      modelparams = ModelParameters object
+      outdir = path to output directory, as string
     No new attributes.
     New item added to results dictionary.
     No return value.

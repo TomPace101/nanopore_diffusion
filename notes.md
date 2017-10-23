@@ -1,5 +1,5 @@
 
-_TODO_ extraction functions need docstring updates for the required attributes.
+_TODO_ read about fixed potential calculation, prepare to do it
 
 _TODO_ data collection in post-processing
 - collect_results.py
