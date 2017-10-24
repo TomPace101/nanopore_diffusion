@@ -3,24 +3,6 @@
 
 _EFFORT_ read about fixed potential calculation, prepare to do it
 
-_TODO_ data collection in post-processing
-- collect_results.py
-- tasks_postproc.py (re-enable in dodo.py once working)
-
-Now each model knows its basename,
-and we'll use that as the database name.
-So all the analyses for a given database will be subfolders of the same parent folder.
-
-Reading data from info.yaml into a pandas table:
-Anything that is a number or string is added directly.
-Anything that is a dictionary has its items treated the same way.
-(More specifically, anything that has an 'items' attribute.)
-Anything that is a sequence is ignored.
-
-Sometimes dictionaries can have keys that are the same as other names,
-e.g. "meshname" is also in "meshparams".
-In that case, make sure the value is the same.
-
 _TODO_ Other needs of major updates:
 - gen_brainy_media.py
 
