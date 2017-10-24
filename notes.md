@@ -3,18 +3,9 @@
 
 _EFFORT_ read about fixed potential calculation, prepare to do it
 
-_TODO_ use hash or other basename as a top directory?  maybe not.
-Right now, this base name isn't stored.
-That seems to be an issue for the data collection as well.
+_TODO_ create scripts to do the basic validation on buildgeom and the solvers.
 
-The issue is only going to get worse if we don't do this.
-So, eventually, you will do this.
-
-How about this? The base name is everything up to the first underscore.
-No, just use the base name of the yaml file.
-
-_TODO_ a way to clean up meshes and solutions that are no longer desired
-This would be a lot easier if you use the hash as a base folder.
+_TODO_ make buildgeom use the correct parameter folder, the way fickian_... does, or vice-versa
 
 _TODO_ data collection in post-processing
 - collect_results.py
@@ -59,6 +50,7 @@ Should probably document how to do external boundary as well, for comparison.
 _TODO_ sync project (with all results files) to shared.
 
 _TODO_ find a way to mirror to holly and/or dlx
+for that matter, I'm running off the file server even on CP233 at the moment.
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
