@@ -3,11 +3,11 @@ __pycache__
 .doit.db.*
 notebooks
 
-#Generated mesh files
-src/mesh/geo/*.geo
-src/mesh/msh/*.msh
-src/mesh/xml/*.xml
-src/mesh/gmsh_out/*.txt
+#Generated mesh files/subdirs
+src/mesh/geo/*/
+src/mesh/msh/*/
+src/mesh/xml/*/
+src/mesh/gmsh_out/*/
 
 #FEM output
 src/solutions/*/

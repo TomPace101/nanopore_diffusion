@@ -9,6 +9,7 @@
 
 #Standard library
 import argparse
+import os
 import os.path as osp
 import sys
 
@@ -146,6 +147,9 @@ def write_one_geo(geomdef, paramdef, geofile):
   #Render template
   outdat = tmpl.render(t_input)
 
+  #Create output directory if needed
+  if not osp.isdir(osp.dirname(geofile)):
+    os.makedirs(osp.dirname(geofile))
   #Output result
   with open(geofile,'w') as fp:
     fp.write(outdat)
@@ -161,7 +165,7 @@ def process_mesh_params(params):
     geofile = output .geo file path, as string"""
   geomyaml=osp.join(geomdef_folder,params.lattice+'.yaml') #geometry definition yaml file
   geomdef=GeometryDefinition.from_yaml(geomyaml)
-  geofile=osp.join(geofolder,params.meshname+'.geo') #.geo file
+  geofile=osp.join(geofolder,params.basename,params.meshname+'.geo') #.geo file
   return geomyaml, geomdef, geofile
 
 #Support command-line arguments

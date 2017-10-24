@@ -1,5 +1,6 @@
 
 #Standard library
+import os.path as osp
 import pickle
 
 #Site packages
@@ -49,13 +50,17 @@ def writepickle(obj,fpath):
 #-------------------------------------------------------------------------------
 #ParameterSet
 
+def getbasename(fpath):
+  "Return the stem name of the specified file (no directory, no extension)"
+  return osp.splitext(osp.basename(fpath))[0]
+
 class ParameterSet:
   """A base class for defining sets of related parameters.
   Each subclass should use __slots__ to define its parameters.
   This is not intended as a method for storing complicated objects;
   all attributes should have values that are numbers, strings, sequences, or dictionaries
   whose items follow the same rules."""
-  __slots__=tuple() #Without this, a __dict__ object will be created even though subclasses use __slots__
+  __slots__=('basename',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwd):
     ##self.__dict__.update(kwd) #This doesn't seem work well with __slots__
     for k,v in kwd.items():
@@ -70,7 +75,9 @@ class ParameterSet:
     Returns:
       pset = a ParameterSet object as defined by the contents of the yaml file"""
     d=readyaml(fpath)
-    return cls(**d)
+    obj=cls(**d)
+    obj.basename=getbasename(fpath)
+    return obj
   @classmethod
   def all_from_yaml(cls,fpath):
     """Generator to read a list of ParameterSet objects from a yaml file.
@@ -83,8 +90,10 @@ class ParameterSet:
     with open(fpath,'r') as fp:
       dat=fp.read()
       gen=yaml.load_all(dat)
-    for obj in gen:
-      yield cls(**obj)
+    for d in gen:
+      obj=cls(**d)
+      obj.basename=getbasename(fpath)
+      yield obj
   def to_yaml(self,fpath):
     """Write ParameterSet to a yaml file.
     Arguments:

@@ -10,6 +10,9 @@ That seems to be an issue for the data collection as well.
 The issue is only going to get worse if we don't do this.
 So, eventually, you will do this.
 
+How about this? The base name is everything up to the first underscore.
+No, just use the base name of the yaml file.
+
 _TODO_ a way to clean up meshes and solutions that are no longer desired
 This would be a lot easier if you use the hash as a base folder.
 
@@ -61,6 +64,10 @@ _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
 which means redoing its geometry.
 Is there a better way?
+
+While I'm at it, I should redo the body-centered geometry to be more logical.
+Maybe even include two additional internal surfaces,
+at the ends of the pore(s).
 
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
