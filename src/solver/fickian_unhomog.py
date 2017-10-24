@@ -91,8 +91,7 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Solve the unhomogenized fickian diffusion equation with fenics')
   parser.add_argument('model_params_file', help='filename (not complete path) containing ModelParameters definitions')
   cmdline=parser.parse_args()
-  params_fullpath=osp.join(params_model_folder,cmdline.model_params_file)
-  assert osp.isfile(params_fullpath), "Model parameter definition file does not exist: %s"%(params_fullpath)
+  assert osp.isfile(cmdline.model_params_file), "Model parameter definition file does not exist: %s"%(cmdline.model_params_file)
 
   #Get all models to solve, and all their meshes
   allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes([cmdline.model_params_file])

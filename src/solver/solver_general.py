@@ -38,14 +38,13 @@ def List_Mesh_Input_Files(meshname,basedir):
   volume_xml=osp.join(xmlfolder,basedir,meshname+'_physical_region.xml')
   return mesh_xml, surface_xml, volume_xml
 
-def consolidate(entry_filelist,infolder,entrytype,nameattribute):
+def consolidate(entry_filelist,entrytype,nameattribute):
   """Load all objects from a list of files
   For each file in the list,
   this will load every document the file contains as an object of the specified type,
   and store all the objects from all the files in a single dictionary.
   Inputs:
-    entry_filelist = list (or other iterable) of file names
-    infolder = path to folder containing the files whose names are in entry_filelist
+    entry_filelist = list (or other iterable) of file paths
     entrytype = class to be used for each object
     nameattribute = attribute name in the entries providing their names
       These names are the keys in the output dictionaries.
@@ -55,9 +54,8 @@ def consolidate(entry_filelist,infolder,entrytype,nameattribute):
   entries_byname={}
   files_byname={}
   #For each listed file
-  for filename in entry_filelist:
+  for infpath in entry_filelist:
     #Get an iterable over the objects defined in this file
-    infpath=osp.join(infolder,filename)
     entry_iter=entrytype.all_from_yaml(infpath)
     #For each object in this file
     for entry in entry_iter:
@@ -65,7 +63,7 @@ def consolidate(entry_filelist,infolder,entrytype,nameattribute):
         #Get its name
         objname=getattr(entry,nameattribute)
         #Do we already have one by that name?
-        assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(entrytype.__name__,objname,files_byname[objname],filename)
+        assert objname not in entries_byname, "Duplicate %s name: %s in both %s and %s"%(entrytype.__name__,objname,files_byname[objname],infpath)
         #Add entry to dictionaries
         files_byname[objname]=infpath
         entries_byname[objname]=entry
@@ -80,24 +78,24 @@ def ListMeshParamsFiles(modelparams_list):
   meshparams_filelist = []
   for modelparams in modelparams_list:
     if not modelparams.meshparamsfile in meshparams_filelist:
-      meshparams_filelist.append(modelparams.meshparamsfile)
+      meshparams_filelist.append(osp.join(params_mesh_folder,modelparams.meshparamsfile))
   return meshparams_filelist
 
 def GetAllModelsAndMeshes(modelparams_filelist):
   """Read in all the models and meshes
   Arguments:
-    modelparams_filelist = list of model parameters files
+    modelparams_filelist = list of model parameters files, full paths, as strings
   Return values:
     allmodels = Dictionary of all ModelParameters objects, by modelname
     modelfiles = Dictionary of yaml file for ModelParameters objects, by modelname
     allmeshses = Dictionary of all MeshParameters objects, by meshname
     meshfiles = Dictionary of yaml files for MeshParameters objects, by meshname"""
   #Get all the models from all the model parameter files
-  allmodels, modelfiles = consolidate(modelparams_filelist,params_model_folder,ModelParameters,'modelname')
+  allmodels, modelfiles = consolidate(modelparams_filelist,ModelParameters,'modelname')
   #Get a list of all mesh parameters files from the models
   meshparams_filelist = ListMeshParamsFiles(allmodels.values())
   #Get all the meshes from all the mesh parameter files
-  allmeshes, meshfiles = consolidate(meshparams_filelist,params_mesh_folder,buildgeom.MeshParameters,'meshname')
+  allmeshes, meshfiles = consolidate(meshparams_filelist,buildgeom.MeshParameters,'meshname')
   return allmodels,modelfiles,allmeshes,meshfiles
 
 class GenericSolver:

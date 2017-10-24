@@ -5,8 +5,6 @@ _EFFORT_ read about fixed potential calculation, prepare to do it
 
 _TODO_ create scripts to do the basic validation on buildgeom and the solvers.
 
-_TODO_ make buildgeom use the correct parameter folder, the way fickian_... does, or vice-versa
-
 _TODO_ data collection in post-processing
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)

@@ -25,7 +25,7 @@ controlfile='control.yaml'
 
 
 #Read in all the models and meshes
-modelparams_filelist=useful.readyaml(controlfile)
+modelparams_filelist=[osp.join(params_model_folder,fn) for fn in useful.readyaml(controlfile)]
 allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes(modelparams_filelist)
 
 #Mesh tasks
