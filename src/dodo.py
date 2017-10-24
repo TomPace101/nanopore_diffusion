@@ -48,5 +48,5 @@ def task_solve():
 def task_collect():
   for fname in model_infiles:
     basename = osp.splitext(fname)[0]
-    yield tasks_postproc.collection(basename)
+    yield tasks_postproc.collection(basename,allmodels.values())
 
