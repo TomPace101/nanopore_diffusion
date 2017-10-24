@@ -44,7 +44,7 @@ def dosolve(modelparams,meshparams):
   solver_class=solverclasses[modelparams.equation]
   solver_codefile=sys.modules[solver_class.__module__].__file__
   xmlfiles = [x for x in solver_general.List_Mesh_Input_Files(modelparams.meshname,meshparams.basename)]
-  outdir=osp.join(solnfolder,modelparams.modelname)
+  outdir=osp.join(solnfolder,modelparams.basename,modelparams.modelname)
   outfiles=list_outputfiles(modelparams.dataextraction)
   outpaths=[osp.join(outdir,f) for f in outfiles]
   tdef = {'name':modelparams.modelname,
