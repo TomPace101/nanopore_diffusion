@@ -32,10 +32,10 @@ class ModelParameters(useful.ParameterSet):
         arguments = dictionary of arguments to the method: {argname: value,...}"""
   __slots__=('modelname','meshparamsfile','meshname','equation','properties','boundaryconditions','dataextraction')
 
-def List_Mesh_Input_Files(meshname):
-  mesh_xml=osp.join(xmlfolder,meshname+'.xml')
-  surface_xml=osp.join(xmlfolder,meshname+'_facet_region.xml')
-  volume_xml=osp.join(xmlfolder,meshname+'_physical_region.xml')
+def List_Mesh_Input_Files(meshname,basedir):
+  mesh_xml=osp.join(xmlfolder,basedir,meshname+'.xml')
+  surface_xml=osp.join(xmlfolder,basedir,meshname+'_facet_region.xml')
+  volume_xml=osp.join(xmlfolder,basedir,meshname+'_physical_region.xml')
   return mesh_xml, surface_xml, volume_xml
 
 def consolidate(entry_filelist,infolder,entrytype,nameattribute):
@@ -122,7 +122,7 @@ class GenericSolver:
     self.meshparams=meshparams
       
     #Mesh input files
-    mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(modelparams.meshname)
+    mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(modelparams.meshname,meshparams.basename)
 
     #Load mesh and meshfunctions
     self.mesh=Mesh(mesh_xml)
@@ -146,7 +146,7 @@ class GenericSolver:
       results = dictionary of input and output values
     Output files are generated."""
     #Output location(s)
-    self.outdir=osp.join(solnfolder,self.modelparams.modelname)
+    self.outdir=osp.join(solnfolder,self.modelparams.basename,self.modelparams.modelname)
     if not osp.isdir(self.outdir):
       os.mkdir(self.outdir)
 
