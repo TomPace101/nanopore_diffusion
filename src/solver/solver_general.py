@@ -74,11 +74,12 @@ def ListMeshParamsFiles(modelparams_list):
   Arguments:
     modelparams_list: list (or other iterable) of ModelParameters objects
   Returns:
-    meshparams_filelist = list of mesh parameters filenames (not including folder path)"""
+    meshparams_filelist = list of mesh parameters filenames, including folder path"""
   meshparams_filelist = []
   for modelparams in modelparams_list:
     if not modelparams.meshparamsfile in meshparams_filelist:
-      meshparams_filelist.append(osp.join(params_mesh_folder,modelparams.meshparamsfile))
+      meshparams_filelist.append(modelparams.meshparamsfile)
+  meshparams_filelist=[osp.join(params_mesh_folder,m) for m in meshparams_filelist]
   return meshparams_filelist
 
 def GetAllModelsAndMeshes(modelparams_filelist):
