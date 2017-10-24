@@ -21,7 +21,7 @@ def assure_dir(fpath):
 
 def assure_multi_dirs(*args):
   "Call assure_dir for each path in a list of arguments"
-  for fpath in fpath_iter:
+  for fpath in args:
     assure_dir(fpath)
   return
 
@@ -51,11 +51,11 @@ def create_msh(params):
 
 def create_xml(params):
   stem=params.meshname
-  mshfile=osp.join(mshfolder,'%s.msh'%stem)
-  xmlfile=osp.join(xmlfolder,'%s.xml'%stem)
+  mshfile=osp.join(mshfolder,params.basename,'%s.msh'%stem)
+  xmlfile=osp.join(xmlfolder,params.basename,'%s.xml'%stem)
   tdef = {'name':stem+'.xml',
           'file_dep':[mshfile],
           'targets':[xmlfile],
-          'actions':[(assur_dir,(xmlfile,)), 'dolfin-convert %s %s'%(mshfile,xmlfile)]}
+          'actions':[(assure_dir,(xmlfile,)), 'dolfin-convert %s %s'%(mshfile,xmlfile)]}
   return tdef
 
