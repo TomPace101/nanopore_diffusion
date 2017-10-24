@@ -5,19 +5,17 @@ import os.path as osp
 import sys
 
 #Site packages
-from doit.tools import config_changed
 
 #Local
 from folderstructure import *
 import useful
 import collect_results
 
-def collection(run):
-  infiles=collect_results.list_result_files(run)
-  outfpath=osp.join(solnfolder,rundict['master']+'.pkl.gz')
-  tdef = {'name':run.master,
-          'file_dep':infiles,
-          'uptodate':[config_changed(run.to_dict())],
+def collection(basename):
+  infiles=collect_results.list_inputfiles(basename)
+  outfpath=osp.join(solnfolder,basename+'.pkl.gz')
+  tdef = {'name': basename,
+          'file_dep':infiles+[collect_results.__file__],
           'targets':[outfpath],
-          'actions':[(collect_results.collectall,(run,))]}
+          'actions':[(collect_results.do_collection,(infiles,outfpath))]}
   return tdef  

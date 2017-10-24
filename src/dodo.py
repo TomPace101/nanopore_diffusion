@@ -25,7 +25,8 @@ controlfile='control.yaml'
 
 
 #Read in all the models and meshes
-modelparams_filelist=[osp.join(params_model_folder,fn) for fn in useful.readyaml(controlfile)]
+model_infiles=useful.readyaml(controlfile)
+modelparams_filelist=[osp.join(params_model_folder,fn) for fn in model_infiles]
 allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes(modelparams_filelist)
 
 #Mesh tasks
@@ -44,8 +45,8 @@ def task_solve():
     yield tasks_solver.dosolve(modelparams,meshparams)
     
 #Result collection tasks
-def ignored_task_collect(): ##TODO: re-enable once working
-  #Get list of all results to collect
-  for r in runs:
-    yield tasks_postproc.collection(r)
+def task_collect():
+  for fname in model_infiles:
+    basename = osp.splitext(fname)[0]
+    yield tasks_postproc.collection(basename)
 
