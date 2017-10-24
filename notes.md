@@ -3,36 +3,18 @@
 
 _EFFORT_ read about fixed potential calculation, prepare to do it
 
-_TODO_ create scripts to do the basic validation on buildgeom and the solvers.
-
 _TODO_ data collection in post-processing
 - collect_results.py
 - tasks_postproc.py (re-enable in dodo.py once working)
 
-Another thing the old control.yaml did was give us a database name.
-Without that, we should probably use the model filename.
-Trouble is, we don't keep it around right now.
-Dodo.py has it: use the modelfiles dict and take off the extension.
+Now each model knows its basename,
+and we'll use that as the database name.
+So all the analyses for a given database will be subfolders of the same parent folder.
 
-Alternatively, we could add a new field to ModelParameters.
-A basename that groups similar models.
-Seems a bit ridiculous, though.
-
-If the basename and the modelname are identical, don't make subfolders of the base.
-
-Even if you solve that problem,
-the next one is the overall structure of info.yaml.
-For some keys, it makes sense to have a column.
-But some of them will need to be more than one.
-
-We need some more intelligence,
-rather than just blindly dumping everything in without structure.
-
-Indeed, there should be some kind of ParameterSet (or something)
-that controls mapping of result fields into the database.
-
-Or maybe not. Maybe, anything that is a number or string is added directly.
+Reading data from info.yaml into a pandas table:
+Anything that is a number or string is added directly.
 Anything that is a dictionary has its items treated the same way.
+(More specifically, anything that has an 'items' attribute.)
 Anything that is a sequence is ignored.
 
 Sometimes dictionaries can have keys that are the same as other names,
@@ -149,9 +131,12 @@ _EVENTUALLY_ post the jinja2 templates and related code to labscripts
 
 # Someday/maybe
 
+_EFFORT_ doctests? some other kind of test?
+Maybe just create scripts to do the basic validation on buildgeom and the solvers.
+
 _EFFORT_ mesh refinement study
 _EFFORT_ study of required H value
-_EFFORT_ doctests? some other kind of test?
+
 
 --------------------------------------------------------------------------------
 # Non-active items only below this point
