@@ -3,9 +3,6 @@
 
 _EFFORT_ read about fixed potential calculation, prepare to do it
 
-_TODO_ Other needs of major updates:
-- gen_brainy_media.py
-
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
 
