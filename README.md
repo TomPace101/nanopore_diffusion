@@ -53,14 +53,17 @@ will have a '.keep' file to force `git` to include the directory itself.
     - solver: code using `FEniCS` to generate solutions
 
 The various sets of analyses that have been conducted using the code are organized
-by short, human-readable hashes of longer descriptions of their purposes.
+by short, human-readable hashes of longer analysis descriptions.
 The human readable hashes used here consist of an adjective followed by a noun.
-Some readers may be familar with the code names used for releases of the Ubuntu distribution of linux,
+Some readers may be familiar with the code names used for releases of the Ubuntu distribution of linux,
 which uses this pattern as well.
 The human-readable hashes here were generated using the python package `codenamize`
 (https://github.com/jjmontesl/codenamize).
 The code itself does not use this package, so it is not required
 in order to run analyses or generate the problem description document.
+And in some cases, the descriptions have been revised after the hash was generated.
+The mapping between the current analysis descriptions and the
+hashes is stored in `src/params/hashes.yaml`.
 
 # Contacts
 

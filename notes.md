@@ -87,6 +87,31 @@ it would be nice if these could be auto-generated from the lattice yaml file.
 That way, if I add internal surfaces, the drawings could auto-update.
 Of course, right now the yaml file doesn't contain the physical dimensions.
 
+This would be a time-consuming effort.
+Is there any other way to generate the necessary figures?
+Obviously, you could do the same thing, but without automation.
+The downside to that is that you have to redo it if something changes.
+
+So the real question, then is can we use a less complicated figure somehow?
+Or rather, how can we make the figure less complicated,
+while still showing what it needs to show?
+
+The ideal solution would be to use the gmsh model itself.
+Is there a way to get it to generate desired views?
+One issue is that it uses the sequential point numbers;
+it doesn't know what I called them.
+On top of that, getting it to show what you want seems tricky.
+If you shade the surfaces, sometimes the surface numbers pass behind them,
+or are truncated.
+You can get all the surface the same color, by shading by type instead,
+but that doesn't fix the problem with the numbers not always being visible.
+
+So, the options are:
+- Do all the needed geometry figures manually, and redo them if they change
+- Do all the needed geometry figures automatically, which will take too long
+- Do the surface figures automatically, but the 3D views manually.
+- Find a decent 3D cad program that can display things nicely, which may not exist
+
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot
 - needs to return two 1D arrays (independent and dependent variables)
