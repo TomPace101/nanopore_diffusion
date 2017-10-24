@@ -147,7 +147,7 @@ class GenericSolver:
     #Output location(s)
     self.outdir=osp.join(solnfolder,self.modelparams.basename,self.modelparams.modelname)
     if not osp.isdir(self.outdir):
-      os.mkdir(self.outdir)
+      os.makedirs(self.outdir)
 
     #Initialize results dictionary
     self.results={}
