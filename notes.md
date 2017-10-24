@@ -1,7 +1,7 @@
 
-# Simulation
+# Fixed potential
 
-_EFFORT_ read about fixed potential calculation, prepare to do it
+# Simulation
 
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
@@ -19,6 +19,9 @@ Is there a better way?
 While I'm at it, I should redo the body-centered geometry to be more logical.
 Maybe even include two additional internal surfaces,
 at the ends of the pore(s).
+
+Don't forget to remove mesh/geomdef/body-cen2.yaml and update
+params/mesh/debug.yaml accordingly.
 
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
