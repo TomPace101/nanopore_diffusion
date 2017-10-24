@@ -1,7 +1,5 @@
-#Generate mesh/fig_Deff_fvf.yaml
-
 #TODO: there's probably a lot that could be abstracted here.
-#TODO: should this be included in doit somehow? (the whole parameter generation step, that is)
+#TODO: should this be included in doit somehow? (the whole parameter generation step, that is: call this file, and others needed)
 
 import itertools
 import os.path as osp
@@ -9,10 +7,11 @@ import sys
 
 import yaml
 
-sys.path.append(osp.abspath('.'))
+sys.path.append(osp.abspath('../..'))
 from folderstructure import *
 
 hrhash='brainy-media'
+D_bulk = 1.0
 cellsizes=[(12, 12), (24,6), (36,4), (5,5), (10,5)]
 tmlist = [75, 25]
 Hvals = {75:50, 25:25}
@@ -47,6 +46,21 @@ with open(meshfile,'w') as fp:
 
 meshname_list=[m['meshname'] for m in meshdocs]
 
+#Data extraction commands
+dataextraction = yaml.load("""
+- [solutionfield, {filename: conc.pvd}]
+- [fluxfield, {filename: flux.pvd}]
+- [fluxintegral, {fluxsurf: 1, name: totflux_01}]
+- [fluxintegral, {fluxsurf: 4, name: totflux_04}]
+- [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-'}]
+- [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
+- [volfrac, {name: free_volume_frac}]
+- [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]
+""")
+
+#Material properites
+propertiesdict={'D_bulk':D_bulk}
+
 #The model parameters file
 modelfile=osp.join(params_model_folder,hrhash+'.yaml')
 modeldocs=[]
@@ -54,16 +68,17 @@ idnum=1
 for meshname,bcvals in itertools.product(meshname_list,dirichlet_pairs):
   assert idnum < 1000, "Insufficient number of digits provided"
   topval,baseval= bcvals
+  boundaryconditions={'topsurf': 4,
+          'basesurf': 1,
+          'topval': topval,
+          'baseval': baseval}
   doc={'modelname':'%s_model_%03d'%(hrhash,idnum),
         'meshname':meshname,
+        'meshparamsfile':hrhash+'.yaml',
         'equation': 'fickian_unhomog',
-        'topsurf': 4,
-        'basesurf': 1,
-        'topval': topval,
-        'baseval': baseval,
-        'fluxsurf': 12,
-        'fluxsign': '-',
-        'sample_spacing': 0.1}
+        'properties': propertiesdict,
+        'boundaryconditions': boundaryconditions,
+        'dataextraction': dataextraction}
   modeldocs.append(doc)
   idnum += 1
 with open(modelfile,'w') as fp:
