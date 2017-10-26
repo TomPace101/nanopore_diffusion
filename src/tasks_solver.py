@@ -13,7 +13,8 @@ import solver_general
 import fickian_unhomog
 
 #Mapping from solver_general.ModelParameters.equation to the appropriate solver classes
-solverclasses={'fickian_unhomog':fickian_unhomog.UnhomogFickianSolver}
+solverclasses={'fickian_unhomog':fickian_unhomog.UnhomogFickianSolver,
+               'smol_unhomog':smol_unhomog.SUSolver}
 
 def initobj(c,*args):
   "A doit action can't just initialize an object, so this function does the init"

@@ -40,3 +40,25 @@ dataextraction:
   - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
   - [volfrac, {name: free_volume_frac}]
   - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]
+---
+modelname: debug
+meshparamsfile: debug.yaml
+meshname: debug
+equation: smol_unhomog
+properties:
+  D_bulk: 1
+conditions:
+  topsurf: 4
+  basesurf: 1
+  topval: 5.0
+  baseval: 1.0
+dataextraction:
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1, name: totflux_01}]
+  - [fluxintegral, {fluxsurf: 4, name: totflux_04}]
+  - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-'}]
+  - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
+  - [volfrac, {name: free_volume_frac}]
+  - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]
+  
