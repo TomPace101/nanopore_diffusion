@@ -4,13 +4,13 @@ __pycache__
 notebooks
 
 #Generated mesh files/subdirs
-src/mesh/geo/*/
-src/mesh/msh/*/
-src/mesh/xml/*/
-src/mesh/gmsh_out/*/
+data/mesh/geo/*/
+data/mesh/msh/*/
+data/mesh/xml/*/
+data/mesh/gmsh_out/*/
 
 #FEM output
-src/solutions/*/
+data/solutions/*/
 *.pvd
 *.vtu
 *.pkl

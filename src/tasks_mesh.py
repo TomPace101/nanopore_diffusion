@@ -2,13 +2,11 @@
 #Standard library
 import os
 import os.path as osp
-import sys
 
 #Site packages
 from doit.tools import config_changed
 
 #Local
-sys.path.append('..')
 from folderstructure import *
 import useful
 import buildgeom

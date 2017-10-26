@@ -5,13 +5,11 @@
 import argparse
 import os
 import os.path as osp
-import sys
 
 #Site packages
 from fenics import *
 
 #Local
-sys.path.append(osp.abspath('..'))
 from folderstructure import *
 import solver_general
 import useful

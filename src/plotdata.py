@@ -2,7 +2,6 @@
 #Standard library
 import os
 import os.path as osp
-import sys
 
 #Site packages
 import numpy as np

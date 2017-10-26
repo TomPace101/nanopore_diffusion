@@ -6,6 +6,7 @@ _ACTION_ talk to Bin about setting potential field
 # Simulation
 
 _TODO_ move python files to one folder, to simplify finding code?
+For that matter, all the data could go in its own folder as well.
 
 _TODO_ more general "conditions", not "boundaryconditions"
 

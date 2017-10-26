@@ -11,15 +11,13 @@
 import argparse
 import os
 import os.path as osp
-import sys
 
 #Site packages
 from jinja2 import Environment, FileSystemLoader
 
 #Local
-sys.path.append(osp.abspath('..'))
-import useful
 from folderstructure import *
+import useful
 
 class MeshParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the data for generating a mesh in gmsh of the problem geometry
