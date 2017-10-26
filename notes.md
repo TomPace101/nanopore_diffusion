@@ -6,7 +6,9 @@ _ACTION_ obtain & read papers on slotboom form
 
 # Simulation
 
-_TODO_ more general "conditions", not "boundaryconditions"
+_TODO_ I no longer like the hashes I'm getting from codenamize
+We still need something like that, though.
+I experimented in the notebook with some other stuff.
 
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
