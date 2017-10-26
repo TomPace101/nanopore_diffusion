@@ -33,8 +33,6 @@ _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriaul
 
 # Problem Description
 
-_TODO_ turn on equation numbering
-
 _TODO_ Review writeup on expected result.
 I didn't include the part about how the area needs to be piecewise constant.
 Should this be in there?

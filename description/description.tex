@@ -92,7 +92,9 @@ the three-dimensional diffusion problem is considered from the perspective of a 
 Specifically, we wish to consider diffusion in the direction across the membrane.
 The Fickian diffusion equation (see Section \ref{subsec:unhom_fick}) in one dimension can be written as
 
-$$j = - D_{\text{bulk}} \frac{dc}{ds}$$
+\begin{equation}
+j = - D_{\mathrm{bulk}} \frac{dc}{ds}
+\end{equation}
 
 where:
 
@@ -109,12 +111,16 @@ by integrating over the area of the unit cell, in the two directions perpendicul
 the one-dimensional diffusion problem.
 The total flux across the membrane will be given by:
 
-$$J_{\text{cell}} = - D_{\text{bulk}}\int_{\text{cell}} dA\, \frac{\partial c}{\partial s}$$
+\begin{equation}
+J_{\mathrm{cell}} = - D_{\mathrm{bulk}}\int_{\mathrm{cell}} dA\, \frac{\partial c}{\partial s}
+\end{equation}
 
 We define the effective diffusion constant such that the integrated flux is the same,
 when used with an the average concentration gradient across the membrane:
 
-$$J_{\text{cell}} = - D_{\text{eff}} A_{\text{cell}} \frac{\Delta c}{\Delta s}$$
+\begin{equation}
+J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \frac{\Delta c}{\Delta s}
+\end{equation}
 
 where:
 
@@ -126,11 +132,13 @@ D_{\text{eff}} & = & \text{unknown effective diffusion constant} \\
 \Delta s & = & \text{distance over which concentration changes}
 \end{array}$
 
-Re-arranging this equation to solve for the unknown $D_{\text{eff}}$, we have:
+Re-arranging this equation to solve for the unknown $D_{\mathrm{eff}}$, we have:
 
-$$D_{\text{eff}} = - \frac{J_{\text{cell}}}{A_{\text{cell}}} \frac{\Delta s}{\Delta c}$$
+\begin{equation}
+D_{\mathrm{eff}} = - \frac{J_{\mathrm{cell}}}{A_{\mathrm{cell}}} \frac{\Delta s}{\Delta c}
+\end{equation}
 
-The integrated flux, $J_{\text{model}}$, is calculated from the model by integrating
+The integrated flux, $J_{\mathrm{model}}$, is calculated from the model by integrating
 the ion flux over a surface parallel to the membrane surface.
 The result should be the same for any such surface capturing the full extents of the model.
 That is, the integrated flux should be the same when integrating over the model pore as
@@ -138,42 +146,54 @@ when integrating over the upgradient or downgradient boundary of the model.
 
 Specifically, the integrated flux is calculated as:
 
-$$J_{\text{model}} = \int_{\text{model}} dA\, \left(\hat{n} \cdot \vec{j} \right)
- = - D_{\text{bulk}} \int_{\text{model}} dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
+\begin{equation}
+J_{\mathrm{model}} = \int_{\mathrm{model}} dA\, \left(\hat{n} \cdot \vec{j} \right)
+ = - D_{\mathrm{bulk}} \int_{\mathrm{model}} dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)
+\end{equation}
 
 where $\hat{n}$ is the directed normal to the surface,
 and $c$ is the concentration field found by solving the model.
 
 Because of the use of planes of symmetry (see Section \ref{sec:geometry}),
 the flux obtained by integration is only one quarter of the total for the unit cell.
-That is, $J_{\text{cell}} = 4 J_{\text{model}}$.
-With $A_{\text{cell}} = 4 Lx Ly$, we have:
+That is, $J_{\mathrm{cell}} = 4 J_{\mathrm{model}}$.
+With $A_{\mathrm{cell}} = 4 Lx Ly$, we have:
 
-$$D_{\text{eff}} = - \frac{4 J_{\text{model}}}{4 Lx Ly} \frac{\Delta s}{\Delta c}
- = - \frac{J_{\text{model}}}{Lx Ly} \frac{\Delta s}{\Delta c}$$
+\begin{equation}
+D_{\mathrm{eff}} = - \frac{4 J_{\mathrm{model}}}{4 Lx Ly} \frac{\Delta s}{\Delta c}
+ = - \frac{J_{\mathrm{model}}}{Lx Ly} \frac{\Delta s}{\Delta c}
+\end{equation}
 
 For convenience, we define the integral
 
-$$I_{\text{gc}} = \int_{\text{model}} dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)$$
+\begin{equation}
+I_{\mathrm{gc}} = \int_{\mathrm{model}} dA\, \left(\hat{n} \cdot \vec{\nabla} c \right)
+\end{equation}
 
 then the flux integral is simply
 
-$$J_{\text{model}} = - D_{\text{bulk}} I_\text{gc}$$
+\begin{equation}
+J_{\mathrm{model}} = - D_{\mathrm{bulk}} I_\mathrm{gc}
+\end{equation}
 
 and the effective diffusion constant is
 
-$$D_{\text{eff}} = D_{\text{bulk}} \frac{I_\text{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}$$
+\begin{equation}
+D_{\mathrm{eff}} = D_{\mathrm{bulk}} \frac{I_\mathrm{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}
+\end{equation}
 
 This can also be written as
 
-$$\frac{D_{\text{eff}}}{D_{\text{bulk}}} = \frac{I_\text{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}$$
+\begin{equation}
+\frac{D_{\mathrm{eff}}}{D_{\mathrm{bulk}}} = \frac{I_\mathrm{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}
+\end{equation}
 
 The values of $\Delta c$ and $\Delta s$ are calculated by extracting
 the concentration result at two points located symmetrically on opposite sides of the membrane.
 The difference in concentration between these two points is $\Delta c$,
 and the distance between them is $\Delta s$.
 
-Slightly different results for the value of $D_{\text{eff}}$ could be attained by selecting different
+Slightly different results for the value of $D_{\mathrm{eff}}$ could be attained by selecting different
 pairs of symmetrically located points.
 For consistency, the results here are taken with these two points located
 along the centerline of the pore, at both faces of the membrane.
@@ -182,8 +202,10 @@ along the centerline of the pore, at both faces of the membrane.
 
 The free volume fraction, $\phi$ is defined here as
 
-$$\phi = \frac{\text{pore area}}{\text{unit cell area}}
-= \frac{\pi R^2}{Sx Sy} = \frac{\pi R^2}{4 Lx Ly}$$
+\begin{equation}
+\phi = \frac{\text{pore area}}{\text{unit cell area}}
+= \frac{\pi R^2}{Sx Sy} = \frac{\pi R^2}{4 Lx Ly}
+\end{equation}
 
 %-------------------------------------------------------------------------------
 \section{Diffusion Equation}\label{sec:equation}
@@ -194,10 +216,14 @@ $$\phi = \frac{\text{pore area}}{\text{unit cell area}}
 \subsubsection{Governing Differential Equation}\label{subsubsec:unhom_fick_gov}
 For particle flux defined as 
 
-$$\vec{j} = - D_{\text{bulk}} \vec{\nabla} c$$
+\begin{equation}
+\vec{j} = - D_{\mathrm{bulk}} \vec{\nabla} c
+\end{equation}
 
 The Fickian diffusion equation can be written:
-$$\frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}$$
+\begin{equation}
+\frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}
+\end{equation}
 
 where:
 
@@ -208,47 +234,66 @@ t & = & \text{time} \\
 D & = & \text{the implicit diffusion constant of the solvent (unit area per unit time)}
 \end{array}$
 
-For constant $D_{\text{bulk}}$, this can be written as
+For constant $D_{\mathrm{bulk}}$, this can be written as
 
-$$\frac{\partial c}{\partial t} = D_{\text{bulk}} \nabla^2 c$$
+\begin{equation}
+\frac{\partial c}{\partial t} = D_{\mathrm{bulk}} \nabla^2 c
+\end{equation}
 
 We seek the solution at equilibrium, defined by
 $\frac{\partial c}{\partial t} = 0$ at all points in the problem domain.
 Thus, we seek to solve
 
-$$D_{\text{bulk}} \nabla^2 c = 0$$
+\begin{equation}
+D_{\mathrm{bulk}} \nabla^2 c = 0
+\end{equation}
 
 subject to boundary conditions.
 
-Assuming $D_{\text{bulk}}$ is any nonzero constant, this is clearly the same as
+Assuming $D_{\mathrm{bulk}}$ is any nonzero constant, this is clearly the same as
 
-$$ \nabla^2 c = 0$$
+\begin{equation}
+\nabla^2 c = 0
+\end{equation}
 
 \subsubsection{Weak Form}\label{subsubsec:unhom_fick_weak}
 
 For solution in \texttt{FEniCS}, a weak form of this equation is required.
 Multiplying by a test function $v$ and integrating over the problem domain,
 
-$$\int_{\Omega} \left(\nabla^2 c \right) v \,d^3x = 0$$
+\begin{equation}
+\int_{\Omega} \left(\nabla^2 c \right) v \,d^3x = 0
+\end{equation}
 
 Using the product rule
-$$\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) =
+\begin{equation}
+\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) =
 v \left(\vec{\nabla} \cdot \vec{\nabla} c \right) + \vec{\nabla}c \cdot \vec{\nabla}v =
-v \left(\nabla^2 c \right) + \vec{\nabla}c \cdot \vec{\nabla}v$$
-$$\left(\nabla^2 c \right) v =
-\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) - \vec{\nabla}c \cdot \vec{\nabla}v$$
+v \left(\nabla^2 c \right) + \vec{\nabla}c \cdot \vec{\nabla}v
+\end{equation}
+
+\begin{equation}
+\left(\nabla^2 c \right) v =
+\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) - \vec{\nabla}c \cdot \vec{\nabla}v
+\end{equation}
 
 to integrate by parts, the equation becomes
-$$ \int_{\Omega} \left(\nabla^2 c \right) v \,d^3x =
+\begin{equation}
+\int_{\Omega} \left(\nabla^2 c \right) v \,d^3x =
 \int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} c \right) \,d^3x
-- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =0$$
+- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =0
+\end{equation}
 
 Applying the divergence theorem (Gauss's theorem):
-$$\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds
-- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x = 0$$
+\begin{equation}
+\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds
+- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x = 0
+\end{equation}
 
-$$\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =
-\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds$$
+\begin{equation}
+\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =
+\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds
+\end{equation}
 
 In this case, we have both Dirichlet and von Neumann boundary conditions:
 there are some boundary surfaces where the concentration is known,
@@ -258,9 +303,11 @@ and the particle flux must be zero for all other boundary surfaces.
 Defining $\Gamma_D$ as the Dirichlet boundary surfaces,
 and $\Gamma_N$ as the von Neumann boundary surfaces, we obtain
 
-$$\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =
+\begin{equation}
+\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x =
 \int_{\Gamma_D} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds
-+\int_{\Gamma_N} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds$$
++\int_{\Gamma_N} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,ds
+\end{equation}
 
 For the Dirichlet boundary surfaces (where the concentration is known),
 the test function $v$ must be equal to zero,
@@ -271,7 +318,9 @@ normal to the boundary surface is zero.
 That is, $\hat{n} \cdot \vec{\nabla} c = 0$ at all points on the von Neumann boundaries.
 
 Therefore, the governing equation is simply
-$$\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x = 0$$
+\begin{equation}
+\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x = 0
+\end{equation}
 
 In terms of \texttt{FEniCS}, this means that the bilinear form is
 $a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,d^3x$,
@@ -291,16 +340,16 @@ to be essentially constant within the pore, and oriented only in the axial direc
 That is, the concentration profile within the pore will be linear,
 and at any cross-section there is only a single value of the concentration.
 This implies that the problem is very nearly one-dimensional,
-as assumed in the definition of $D_{\text{eff}}$.
+as assumed in the definition of $D_{\mathrm{eff}}$.
 
 Defining the concentration gradient within the pore as
-$$\vec{\nabla} c = \left(\frac{dc}{ds}\right)_{\text{pore}} \hat{n}$$
+\begin{equation}\vec{\nabla} c = \left(\frac{dc}{ds}\right)_{\mathrm{pore}} \hat{n}\end{equation}
 
-where $\left(\frac{dc}{ds}\right)_{\text{pore}}$ is a constant,
+where $\left(\frac{dc}{ds}\right)_{\mathrm{pore}}$ is a constant,
 the integrated flux within the pore is
 
-$$J_\text{cell} = -D_\text{bulk} \int_\text{cell} dA\, \left(\frac{dc}{ds}\right)_{\text{pore}}
- = -D_\text{bulk} A_\text{pore} \left(\frac{dc}{ds}\right)_{\text{pore}}$$
+\begin{equation}J_\mathrm{cell} = -D_\mathrm{bulk} \int_\mathrm{cell} dA\, \left(\frac{dc}{ds}\right)_{\mathrm{pore}}
+ = -D_\mathrm{bulk} A_\mathrm{pore} \left(\frac{dc}{ds}\right)_{\mathrm{pore}}\end{equation}
 
 Note that the area in this formula is the area of the pore only,
 rather than the entire unit cell, because only the pore is within the problem domain
@@ -308,24 +357,24 @@ at a cross-section through the pore.
 
 From the definition of the effective diffusion constant, we have
 
-$$J_{\text{cell}} = - D_{\text{eff}} A_{\text{cell}} \frac{\Delta c}{\Delta s}$$
+\begin{equation}J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \frac{\Delta c}{\Delta s}\end{equation}
 
 But with a constant concentration gradient,
 
-$$\frac{\Delta c}{\Delta s} = \left(\frac{dc}{ds}\right)_{\text{pore}}$$
+\begin{equation}\frac{\Delta c}{\Delta s} = \left(\frac{dc}{ds}\right)_{\mathrm{pore}}\end{equation}
 
 So,
 
-$$J_{\text{cell}} = - D_{\text{eff}} A_{\text{cell}} \left(\frac{dc}{ds}\right)_{\text{pore}}
- = -D_\text{bulk} A_\text{pore} \left(\frac{dc}{ds}\right)_{\text{pore}}$$
+\begin{equation}J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \left(\frac{dc}{ds}\right)_{\mathrm{pore}}
+ = -D_\mathrm{bulk} A_\mathrm{pore} \left(\frac{dc}{ds}\right)_{\mathrm{pore}}\end{equation}
 
 This simplifies to
 
-$$\frac{D_\text{eff}}{D_\text{bulk}} = \frac{A_\text{pore}}{A_\text{cell}}$$
+\begin{equation}\frac{D_\mathrm{eff}}{D_\mathrm{bulk}} = \frac{A_\mathrm{pore}}{A_\mathrm{cell}}\end{equation}
 
 which matches the definition of the free volume fraction from Section \ref{subsec:volfrac}, so
 
-$$\frac{D_\text{eff}}{D_\text{bulk}} = \phi$$
+\begin{equation}\frac{D_\mathrm{eff}}{D_\mathrm{bulk}} = \phi\end{equation}
 
 for unhomogenized Fickian diffusion.
 
