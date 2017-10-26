@@ -23,13 +23,13 @@ class ModelParameters(useful.ParameterSet):
     meshname = stem name for mesh files
     equation = name of equation to be solved
     properties = dictionary of property values
-    boundaryconditions = parameters specifying boundary conditions
+    conditions = parameters specifying boundary conditions, initial conditions, etc.
       The parameters specified are specific to the euqation being solved
     dataextraction = a sequence of data extraction commands
       Each command is a pair (cmdname, arguments), where
         cmdname = name of the solver object's method to call, as a string
         arguments = dictionary of arguments to the method: {argname: value,...}"""
-  __slots__=('modelname','meshparamsfile','meshname','equation','properties','boundaryconditions','dataextraction')
+  __slots__=('modelname','meshparamsfile','meshname','equation','properties','conditions','dataextraction')
 
 def List_Mesh_Input_Files(meshname,basedir):
   mesh_xml=osp.join(xmlfolder,basedir,meshname+'.xml')
@@ -291,7 +291,7 @@ class GenericSolver:
     zarr=np.array(zlist)
     varr=np.array(vlist)
     meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
-    meta.update(self.modelparams.boundaryconditions)
+    meta.update(self.modelparams.conditions)
     pd=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label,metadata=meta)
     pklfile=osp.join(self.outdir,filename)
     pd.to_pickle(pklfile)

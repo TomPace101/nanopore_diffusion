@@ -61,7 +61,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     self.V_vec = VectorFunctionSpace(self.mesh, "CG", 1)
 
     #Dirichlet boundary conditions
-    self.bcs=BCParameters(**self.modelparams.boundaryconditions).to_bclist(self.V, self.surfaces)
+    self.bcs=BCParameters(**self.modelparams.conditions).to_bclist(self.V, self.surfaces)
 
     #Neumann boundary conditions
     #they are all zero in this case

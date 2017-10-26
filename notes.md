@@ -2,6 +2,7 @@
 # Fixed potential
 
 _ACTION_ talk to Bin about setting potential field
+_ACTION_ obtain & read papers on slotboom form
 
 # Simulation
 

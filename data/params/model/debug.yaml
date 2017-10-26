@@ -10,7 +10,7 @@
 #equation: name of equation to solve
 #properties:
 # Only D_bulk is needed for unhomogenized Fickian diffusion
-#boundaryconditions:
+#conditions:
 # topsurf: physical surface number of top surface
 # basesurf: physical surface number of base surface
 # topval: concentration value specified at top surface
@@ -26,7 +26,7 @@ meshname: debug
 equation: fickian_unhomog
 properties:
   D_bulk: 1
-boundaryconditions:
+conditions:
   topsurf: 4
   basesurf: 1
   topval: 5.0

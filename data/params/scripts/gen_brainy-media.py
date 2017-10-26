@@ -68,7 +68,7 @@ idnum=1
 for meshname,bcvals in itertools.product(meshname_list,dirichlet_pairs):
   assert idnum < 1000, "Insufficient number of digits provided"
   topval,baseval= bcvals
-  boundaryconditions={'topsurf': 4,
+  conditions={'topsurf': 4,
           'basesurf': 1,
           'topval': topval,
           'baseval': baseval}
@@ -77,7 +77,7 @@ for meshname,bcvals in itertools.product(meshname_list,dirichlet_pairs):
         'meshparamsfile':hrhash+'.yaml',
         'equation': 'fickian_unhomog',
         'properties': propertiesdict,
-        'boundaryconditions': boundaryconditions,
+        'conditions': conditions,
         'dataextraction': dataextraction}
   modeldocs.append(doc)
   idnum += 1
