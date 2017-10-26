@@ -1,7 +1,13 @@
 
 # Fixed potential
 
+_ACTION_ talk to Bin about setting potential field
+
 # Simulation
+
+_TODO_ move python files to one folder, to simplify finding code?
+
+_TODO_ more general "conditions", not "boundaryconditions"
 
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
@@ -26,6 +32,8 @@ params/mesh/debug.yaml accordingly.
 _THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Problem Description
+
+_TODO_ turn on equation numbering
 
 _TODO_ Review writeup on expected result.
 I didn't include the part about how the area needs to be piecewise constant.
@@ -82,6 +90,7 @@ _EFFORT_ Function to extract data for 1D plot
 - could also want different components of a vector on the same set of axes
 - need to restrict to points that are actually inside the mesh or on the boundary?
 
+_EFFORT_
 A similar thing would be nice for 2D slices.
 But here, masking points outside the mesh would be even more important.
 This can be done with `tree=mesh.bounding_box_tree()` and `tree.collides(Point(...))`.
@@ -112,6 +121,8 @@ _EVENTUALLY_ post the jinja2 templates and related code to labscripts
 - mesh refinement study, of course
 
 # Someday/maybe
+
+_EFFORT_ solve with flux as another primary variable
 
 _EFFORT_ doctests? some other kind of test?
 Maybe just create scripts to do the basic validation on buildgeom and the solvers.
