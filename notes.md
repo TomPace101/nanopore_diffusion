@@ -1,16 +1,12 @@
 
-# Fixed potential
-
-_ACTION_ talk to Bin about setting potential field
-_ACTION_ obtain & read papers on slotboom form
-
-# Homogenized Fickian
-
-_ACTION_ see discussion in Auriault
 
 # Code/Misc
 
 _TODO_ complete the "test" analysis, even without middle surface
+
+_TODO_ actually generate the plots we extracted data for (concentration vs centerline)
+
+_TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
 _TODO_ I no longer like the hashes I'm getting from codenamize
 We still need something like that, though.
@@ -36,7 +32,23 @@ at the ends of the pore(s).
 Don't forget to remove mesh/geomdef/body-cen2.yaml and update
 params/mesh/debug.yaml accordingly.
 
+#Specific Equations
+## Fixed potential
+
+_ACTION_ look at Pete's code provided by Bin
+_ACTION_ get boltzmann constant into module?
+
+## Homogenized Fickian
+
+_ACTION_ see discussion in Auriault
+
 # Problem Description
+
+_TODO_ bibliography, with biblatex
+https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
+bibtex is older:
+https://www.sharelatex.com/learn/Bibliography_management_with_bibtex
+http://www.bibtex.org/Using/
 
 _TODO_ Review writeup on expected result.
 I didn't include the part about how the area needs to be piecewise constant.
@@ -114,8 +126,6 @@ In any case, this is pretty low-priority right now.
 _ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
 _ACTION_ check for compatibility of gmsh version (eg Ruled Surface vs Surface)
 _ACTION_ add validation of geometric inputs
-
-_EVENTUALLY_ post the jinja2 templates and related code to labscripts
 
 # Parametric variations
 - a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
