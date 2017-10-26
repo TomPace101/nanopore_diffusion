@@ -3,7 +3,7 @@
 import os.path as osp
 import sys
 
-srcfolder=osp.split(__file__)[0]
+srcfolder=osp.abspath(osp.split(__file__)[0])
 datafolder=osp.join(osp.split(srcfolder)[0],'data')
 
 #params
