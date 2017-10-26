@@ -25,7 +25,7 @@ def assure_multi_dirs(*args):
 
 def create_geo(params):
   geomyaml, geomdef, geofile = buildgeom.process_mesh_params(params)
-  filedeps=[osp.join(meshfolder,'buildgeom.py'),
+  filedeps=[buildgeom.__file__,
             osp.join(geomdef_folder,geomyaml),
             osp.join(geotemplates_folder,geomdef.tmplfile),
             osp.join(geotemplates_folder,'common.geo.jinja2')]

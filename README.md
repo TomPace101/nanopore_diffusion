@@ -19,6 +19,8 @@ The python package `pyyaml` (https://github.com/yaml/pyyaml) is used to read the
 Some output files (such as `gmsh` .geo input files)
 are generated using the `jinja2` template engine (http://jinja.pocoo.org/).
 
+Some output data is stored in `pandas` DataFrame objects (http://pandas.pydata.org/).
+
 The problem description document requires the following software:
 
 - `inkscape` (https://inkscape.org/en/)
@@ -38,19 +40,31 @@ will have a '.keep' file to force `git` to include the directory itself.
     - fig_svg: `inkscape` drawings for figures
     - fig_pdf: figures converted to pdf format
 - src: code for FEM analysis
-    - mesh: code and data for mesh generation using `gmsh`
+    - folderstructure.py: provides information on the folder structure described here to the other modules
+    - useful.py: functions and classes used by many of the other modules
+    - buildgeom.py: code for generated `gmsh` .geo files from input data
+    - solver_general.py: functions and classes used my many of the solver modules
+    - equation-specific solver modules:
+        - fickian_unhomog.py
+    - collect_results.py: generate `pandas` DataFrame from FEM results, and store.
+    - plotdata.py: for generating plots
+    - dodo.py: `doit` input file for the FEM analysis
+    - tasks_mesh.py: `doit` task definitions for mesh generation
+    - tasks_solver.py: `doit` task definitions for FEM analysis and data extraction
+    - tasks_postproc.py: `doit` task defintions for postprocessing
+- data: input and output data from FEM analysis
+    - mesh: data for mesh generation using `gmsh`
+        - geomdef: geometry defintion files as inputs to mesh generation
+        - templates: `jinja2` templates of `gmsh` .geo files
         - geo: storage place for `gmsh` .geo files
         - gmsh_out: storage place for `gmsh` terminal output
         - msh: storage place for `gmsh` .msh files
         - xml: storage place for xml files readable by `FEniCS`
     - params: storage place for parameter sets
-        - control: storage place for run definition parameters
         - scripts: python scripts to generate various parameter definition files
         - mesh: storage place for mesh definition parameters
-        - model: storage place for model defintion parameters
-    - postproc: post-processing
+        - model: storage place for model definition parameters
     - solutions: stored FEM results (one subdirectory per analysis name)
-    - solver: code using `FEniCS` to generate solutions
 
 The various sets of analyses that have been conducted using the code are organized
 by short, human-readable hashes of longer analysis descriptions.

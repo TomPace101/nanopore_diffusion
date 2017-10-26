@@ -20,7 +20,7 @@ import tasks_postproc
 import solver_general
 
 #Constants
-controlfile='control.yaml'
+controlfile=osp.join(datafolder,'control.yaml')
 
 
 #Read in all the models and meshes

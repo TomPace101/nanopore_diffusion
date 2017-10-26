@@ -48,7 +48,7 @@ def dosolve(modelparams,meshparams):
   outfiles=list_outputfiles(modelparams.dataextraction)
   outpaths=[osp.join(outdir,f) for f in outfiles]
   tdef = {'name':modelparams.modelname,
-          'file_dep':[osp.join(solverfolder,'solver_general.py'),osp.join(solverfolder,solver_codefile)]+xmlfiles, #This takes care of dependency on mesh
+          'file_dep':[solver_general.__file__,osp.join(srcfolder,solver_codefile)]+xmlfiles, #This takes care of dependency on mesh
           'uptodate':[config_changed(modelparams.to_dict())], #Mesh dependency already taken care of in file_dep
           'targets':outpaths,
           'actions':[(initobj,(solver_class,modelparams,meshparams,True))]}
