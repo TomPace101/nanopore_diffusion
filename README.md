@@ -52,6 +52,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - tasks_mesh.py: `doit` task definitions for mesh generation
     - tasks_solver.py: `doit` task definitions for FEM analysis and data extraction
     - tasks_postproc.py: `doit` task defintions for postprocessing
+    - gen_params: folder for python scripts to generate various parameter definition files
 - data: input and output data from FEM analysis
     - mesh: data for mesh generation using `gmsh`
         - geomdef: geometry defintion files as inputs to mesh generation
@@ -61,7 +62,6 @@ will have a '.keep' file to force `git` to include the directory itself.
         - msh: storage place for `gmsh` .msh files
         - xml: storage place for xml files readable by `FEniCS`
     - params: storage place for parameter sets
-        - scripts: python scripts to generate various parameter definition files
         - mesh: storage place for mesh definition parameters
         - model: storage place for model definition parameters
     - solutions: stored FEM results (one subdirectory per analysis name)

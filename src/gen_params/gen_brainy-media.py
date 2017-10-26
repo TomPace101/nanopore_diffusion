@@ -7,7 +7,7 @@ import sys
 
 import yaml
 
-sys.path.append(osp.abspath('../..'))
+sys.path.append(osp.abspath('..'))
 from folderstructure import *
 
 hrhash='brainy-media'
