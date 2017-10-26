@@ -4,7 +4,13 @@
 _ACTION_ talk to Bin about setting potential field
 _ACTION_ obtain & read papers on slotboom form
 
-# Simulation
+# Homogenized Fickian
+
+_ACTION_ see discussion in Auriault
+
+# Code/Misc
+
+_TODO_ complete the "test" analysis, even without middle surface
 
 _TODO_ I no longer like the hashes I'm getting from codenamize
 We still need something like that, though.
@@ -13,10 +19,10 @@ I experimented in the notebook with some other stuff.
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
 
-_TODO_ sync project (with all results files) to shared.
-
-_TODO_ find a way to mirror to holly and/or dlx
-for that matter, I'm running off the file server even on CP233 at the moment.
+_TODO_ syncing/mirroring
+- /u1 (could use unison)
+- shared (could use unison)
+- holly and/or dlx (has to be rsync, unless we can build unison on the server)
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
@@ -29,8 +35,6 @@ at the ends of the pore(s).
 
 Don't forget to remove mesh/geomdef/body-cen2.yaml and update
 params/mesh/debug.yaml accordingly.
-
-_THEN_ work on homogenized Fickian diffusion equation (see discussion in Auriault)
 
 # Problem Description
 
