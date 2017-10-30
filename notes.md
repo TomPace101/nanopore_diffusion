@@ -1,4 +1,6 @@
 
+**Current Goal** Image of potential from Poisson-Boltzmann
+- get Poisson-Boltzmann equation from McQuarrie
 
 # Code/Misc
 
@@ -49,6 +51,8 @@ https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
 bibtex is older:
 https://www.sharelatex.com/learn/Bibliography_management_with_bibtex
 http://www.bibtex.org/Using/
+
+_TODO_ is `\partial c / \partial t = 0` actually equilibrium, or just stationary (steady-state)
 
 _TODO_ Review writeup on expected result.
 I didn't include the part about how the area needs to be piecewise constant.
