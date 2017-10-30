@@ -20,7 +20,7 @@
 # each command is a pair of an extraction function name and a dictionary of its keyword arguments
 # see solver_general.GenericSolver, or the appropriate class derived from there
 ---
-modelname: debug
+modelname: debug01
 meshparamsfile: debug.yaml
 meshname: debug
 equation: fickian_unhomog
@@ -41,7 +41,7 @@ dataextraction:
   - [volfrac, {name: free_volume_frac}]
   - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]
 ---
-modelname: debug
+modelname: debug02
 meshparamsfile: debug.yaml
 meshname: debug
 equation: smol_unhomog
