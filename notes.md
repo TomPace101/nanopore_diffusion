@@ -44,12 +44,6 @@ _ACTION_ see discussion in Auriault
 
 It has its own _TODO_ list.
 
-_TODO_ bibliography, with biblatex
-https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
-bibtex is older:
-https://www.sharelatex.com/learn/Bibliography_management_with_bibtex
-http://www.bibtex.org/Using/
-
 _TODO_ For the part where we have figures of the geometry,
 it would be nice if these could be auto-generated from the lattice yaml file.
 That way, if I add internal surfaces, the drawings could auto-update.
@@ -92,6 +86,9 @@ This would require splitting the description up as well:
 
 For now, I stored what little I had for that section in results.tex
 
+
+biblatex reference:
+https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
 
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot

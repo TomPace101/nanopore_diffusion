@@ -13,6 +13,9 @@
 %%\usepackage[open, openlevel=2]{bookmark}
 \usepackage[hidelinks=true,bookmarks=true,bookmarksopen=true]{hyperref}
 
+\usepackage[backend=biber, style=alphabetic, sorting=anyt]{biblatex}
+\addbibresource{parts/refs.bib}
+
 \graphicspath{ {fig_pdf/} } %If additional directories are needed, place them in additional sets of inner braces e.g {fig_pdf/}{fig_svg/}
 
 \setlength{\parindent}{0pt}
@@ -47,10 +50,12 @@ The diffusion equation is solved using \texttt{FEniCS}.
 %===============================================================================
 \input{parts/eqn_uh_smol}
 
-%-------------------------------------------------------------------------------
+%===============================================================================
 \section{Homogenized Fickian Diffusion Equation}\label{sec:hom_fick}
 
 \textcolor{red}{\textbf{TODO}}
 
+%===============================================================================
+\printbibliography
 
 \end{document}

@@ -2,11 +2,15 @@
 
 import os
 import os.path as osp
+import shutil
 
 #Constants
 svgdir='fig_svg'
 pdfdir='fig_pdf'
 partsdir='parts'
+outdir='output'
+post_clean_exts=['aux','log','out','bbl','bcf','blg','run.xml','toc']
+pre_clean_exts=post_clean_exts+['pdf']
 
 def list_stems(folder,ext):
   "get a list of stems for the files in the directory with the given extension"
@@ -27,15 +31,26 @@ figstems=list_stems(svgdir,'svg')
 fig_inputs=stem_to_file(figstems,svgdir,'svg')
 fig_outputs=stem_to_file(figstems,pdfdir,'pdf')
 
-latexinputs=list_files(partsdir,'tex')
+latexinputs=list_files(partsdir,'tex')+list_files(partsdir,'bib')
+
+def do_post_clean(all_list):
+  "Move the multitude of latex-generated output files to a subfolder"
+  for fname in all_list:
+    if osp.isfile(fname):
+      newfile=osp.join(outdir,fname)
+      if osp.isfile(newfile):
+        os.remove(newfile)
+      shutil.move(fname,osp.join(outdir,fname))
 
 def task_gen_report():
   stemname='description'
   infile=stemname+'.tex'
   outfile=stemname+'.pdf'
-  cleancmd = '; '.join(['rm -f %s.%s'%(stemname,ext) for ext in ['aux','log','out','pdf']])
+  pre_clean_cmd = '; '.join(['rm -f %s.%s'%(stemname,ext) for ext in pre_clean_exts])
+  post_clean_files=['%s.%s'%(stemname,ext) for ext in post_clean_exts]
   cmdstr='pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)
-  return {'actions': [cleancmd, cmdstr, cmdstr], #clean up first, then run pdflatex twice to get figure references correct.
+  bibcmd='biber '+stemname
+  return {'actions': [pre_clean_cmd, cmdstr, bibcmd, cmdstr, (do_post_clean,(post_clean_files,))], #clean up first, then run pdflatex twice to get figure references correct, with bibtex in between.
           'file_dep': [infile]+fig_outputs+latexinputs,
           'targets': [outfile]}
 

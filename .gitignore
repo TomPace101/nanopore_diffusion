@@ -22,3 +22,7 @@ data/solutions/*/
 *.out
 *.toc
 *.pdf
+*.bbl
+*.bcf
+*.blg
+*.run.xml
