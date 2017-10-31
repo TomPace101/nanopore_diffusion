@@ -6,6 +6,7 @@ import os.path as osp
 #Constants
 svgdir='fig_svg'
 pdfdir='fig_pdf'
+latexinputs=['resultcalcs.tex','eqn_uh_fick.tex','geometry.tex','eqn_uh_smol.tex']
 
 #Get the names of all the image files
 def list_svg_stems(svgdir):
@@ -26,7 +27,6 @@ def task_gen_report():
   stemname='description'
   infile=stemname+'.tex'
   outfile=stemname+'.pdf'
-  latexinputs=['resultcalcs.tex','eqn_uh_fick.tex']
   cleancmd = '; '.join(['rm -f %s.%s'%(stemname,ext) for ext in ['aux','log','out','pdf']])
   cmdstr='pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)
   return {'actions': [cleancmd, cmdstr, cmdstr], #clean up first, then run pdflatex twice to get figure references correct.

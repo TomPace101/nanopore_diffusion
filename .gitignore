@@ -20,4 +20,5 @@ data/solutions/*/
 *.aux
 *.log
 *.out
+*.toc
 *.pdf
