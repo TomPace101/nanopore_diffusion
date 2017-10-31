@@ -26,10 +26,11 @@ def task_gen_report():
   stemname='description'
   infile=stemname+'.tex'
   outfile=stemname+'.pdf'
+  latexinputs=['resultcalcs.tex','eqn_uh_fick.tex']
   cleancmd = '; '.join(['rm -f %s.%s'%(stemname,ext) for ext in ['aux','log','out','pdf']])
   cmdstr='pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)
   return {'actions': [cleancmd, cmdstr, cmdstr], #clean up first, then run pdflatex twice to get figure references correct.
-          'file_dep': [infile]+fig_outputs,
+          'file_dep': [infile]+fig_outputs+latexinputs,
           'targets': [outfile]}
 
 def task_pdf_svg():

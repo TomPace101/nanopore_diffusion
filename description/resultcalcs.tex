@@ -1,0 +1,125 @@
+%not a stand-alone document; intended for inclusion in a larger document
+
+\section{Result Calculations}
+
+\subsection{Effective Diffusion Constant}\label{subsec:D_eff}
+
+To compute the effective diffusion constant,
+the three-dimensional diffusion problem is considered from the perspective of a simpler one-dimensional diffusion problem.
+Specifically, we wish to consider diffusion in the direction across the membrane.
+The Fickian diffusion equation (see Section \ref{subsec:unhom_fick}) in one dimension can be written as
+
+\begin{equation}\label{eq:fickslaw_1D}
+j = - D_{\mathrm{bulk}} \frac{\mathrm{d}c}{\mathrm{d}s}
+\end{equation}
+
+where:
+
+$\begin{array}{rcl}
+s & = & \text{position within the one-dimensional domain} \\
+j & = & j(s) = \text{flux at any point, in units of number of particles per unit area per unit time} \\
+D_{\text{bulk}} & = & \text{diffusion constant of the medium, in units of area per unit time} \\
+c & = & c(s) = \text{concentration at any point, in units of number of particles per unit volume} \\
+\frac{\mathrm{d}c}{\mathrm{d}s} & = & \text{first spatial derivative of concentration}
+\end{array}$
+
+The three-dimensional problem is converted to an equivalent one-dimensional problem
+by integrating over the area of the unit cell, in the two directions perpendicular to
+the one-dimensional diffusion problem.
+The total flux across the membrane will be given by:
+
+\begin{equation}
+J_{\mathrm{cell}} = - D_{\mathrm{bulk}}\int_{\mathrm{cell}} \mathrm{d}A\, \frac{\partial c}{\partial s}
+\end{equation}
+
+We define the effective diffusion constant such that the integrated flux is the same,
+when used with an the average concentration gradient across the membrane:
+
+\begin{equation}\label{eq:Deff_Jcell}
+J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \frac{\Delta c}{\Delta s}
+\end{equation}
+
+where:
+
+$\begin{array}{rcl}
+J_{\text{cell}} & = & \text{integral of flux over the pore, in units of number of particles per unit time} \\
+A_{\text{cell}} & = & \text{area of unit cell} \\
+D_{\text{eff}} & = & \text{unknown effective diffusion constant} \\
+\Delta c & = & \text{change in concentration} \\
+\Delta s & = & \text{distance over which concentration changes}
+\end{array}$
+
+Re-arranging this equation to solve for the unknown $D_{\mathrm{eff}}$, we have:
+
+\begin{equation}\label{eq:Deff_def}
+D_{\mathrm{eff}} = - \frac{J_{\mathrm{cell}}}{A_{\mathrm{cell}}} \frac{\Delta s}{\Delta c}
+\end{equation}
+
+The integrated flux, $J_{\mathrm{model}}$, is calculated from the model by integrating
+the ion flux over a surface parallel to the membrane surface.
+The result should be the same for any such surface capturing the full extents of the model.
+That is, the integrated flux should be the same when integrating over the model pore as
+when integrating over the upgradient or downgradient boundary of the model.
+
+Specifically, the integrated flux is calculated as:
+
+\begin{equation}
+J_{\mathrm{model}} = \int_{\mathrm{model}} \mathrm{d}A\, \left(\hat{n} \cdot \vec{j} \right)
+ = - D_{\mathrm{bulk}} \int_{\mathrm{model}} \mathrm{d}A\, \left(\hat{n} \cdot \vec{\nabla} c \right)
+\end{equation}
+
+where $\hat{n}$ is the directed normal to the surface,
+and $c$ is the concentration field found by solving the model.
+
+Because of the use of planes of symmetry (see Section \ref{sec:geometry}),
+the flux obtained by integration is only one quarter of the total for the unit cell.
+That is, $J_{\mathrm{cell}} = 4 J_{\mathrm{model}}$.
+With $A_{\mathrm{cell}} = 4 Lx Ly$, we have:
+
+\begin{equation}
+D_{\mathrm{eff}} = - \frac{4 J_{\mathrm{model}}}{4 Lx Ly} \frac{\Delta s}{\Delta c}
+ = - \frac{J_{\mathrm{model}}}{Lx Ly} \frac{\Delta s}{\Delta c}
+\end{equation}
+
+For convenience, we define the integral
+
+\begin{equation}
+I_{\mathrm{gc}} = \int_{\mathrm{model}} \mathrm{d}A\, \left(\hat{n} \cdot \vec{\nabla} c \right)
+\end{equation}
+
+then the flux integral is simply
+
+\begin{equation}
+J_{\mathrm{model}} = - D_{\mathrm{bulk}} I_\mathrm{gc}
+\end{equation}
+
+and the effective diffusion constant is
+
+\begin{equation}
+D_{\mathrm{eff}} = D_{\mathrm{bulk}} \frac{I_\mathrm{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}
+\end{equation}
+
+This can also be written as
+
+\begin{equation}
+\frac{D_{\mathrm{eff}}}{D_{\mathrm{bulk}}} = \frac{I_\mathrm{gc}}{Lx Ly} \frac{\Delta s}{\Delta c}
+\end{equation}
+
+The values of $\Delta c$ and $\Delta s$ are calculated by extracting
+the concentration result at two points located symmetrically on opposite sides of the membrane.
+The difference in concentration between these two points is $\Delta c$,
+and the distance between them is $\Delta s$.
+
+Slightly different results for the value of $D_{\mathrm{eff}}$ could be attained by selecting different
+pairs of symmetrically located points.
+For consistency, the results here are taken with these two points located
+along the centerline of the pore, at both faces of the membrane.
+
+\subsection{Free Volume Fraction}\label{subsec:volfrac}
+
+The free volume fraction, $\phi$ is defined here as
+
+\begin{equation}
+\phi = \frac{\text{pore area}}{\text{unit cell area}}
+= \frac{\pi R^2}{Sx Sy} = \frac{\pi R^2}{4 Lx Ly}
+\end{equation}
