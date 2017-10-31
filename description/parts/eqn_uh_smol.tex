@@ -5,23 +5,69 @@
 %-------------------------------------------------------------------------------
 \subsection{Governing Differential Equation}\label{subsec:unhom_smol_gov}
 
-\textcolor{red}{\textbf{TODO}}
+\textcolor{red}{\textbf{TODO}}: need reference for Smoluchowski equation
 
-For diffusion of ions, the potential field is given by
+For an environment free of particle sources and sinks,
+the diffusion equation can still be written as:
+\begin{equation}
+\frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}
+\end{equation}
+
+but for the Smoluchowski equation, the particle flux is defined as
 
 \begin{equation}
-\psi=q_i \Phi
+\vec{j} = - D_{\mathrm{bulk}} e^{-\beta \psi} \vec{\nabla} \left( e^{\beta \psi} c \right)
 \end{equation}
 
 where:
 
 $\begin{array}{rcl}
+c & = & c(x,y,z) = \text{the particle concentration field (number of particles per unit volume)} \\
+t & = & \text{time} \\
+\vec{j} & = & \vec{j}(x,y,z) = \text{the particle flux field (number of particles per unit area per unit time)} \\
+D_{\mathrm{bulk}} & = & \text{the implicit diffusion constant of the solvent (unit area per unit time)} \\
 \psi & = & \psi(x,y,z) = \text{the potential field} \\
-q_i & = & \text{the electric charge of ion species} i\\
-\Phi & = & \text{the electric potential field}
+\beta & = & 1/k_B T
 \end{array}$
 
-\textcolor{red}{\textbf{TODO}}
+Combining these equations, the governing equation for steady-state conditions ($\frac{\partial c}{\partial t} = 0$) is
+
+\begin{equation}
+\vec{\nabla} \cdot \left( D_{\mathrm{bulk}} e^{-\beta \psi} \vec{\nabla} \left( c e^{\beta \psi} \right) \right) = 0
+\end{equation}
+
+\textcolor{red}{\textbf{TODO}}: need reference for Slotboom transformation
+
+The mathematics are simplified considerably by making use of the Slotboom transformation:
+
+\begin{equation}
+\begin{array}{rcl}
+\overline{D} & = & D_{\mathrm{bulk}} e^{-\beta \psi} \\
+\overline{c} & = & c e^{\beta \psi}
+\end{array}
+\end{equation}
+
+which results in the governing equation
+
+\begin{equation}
+\vec{\nabla} \cdot \left( \overline{D} \vec{\nabla} \left( \overline{c} \right) \right) = 0
+\end{equation}
+
+
+\textcolor{red}{\textbf{TODO}}: apply product rule
+
+For diffusion of ions, the potential field is given by
+
+\begin{equation}
+\psi=q \Phi
+\end{equation}
+
+where:
+
+$\begin{array}{rcl}
+q & = & \text{the electric charge of the ion species} \\
+\Phi & = & \text{the electric potential field}
+\end{array}$
 
 %-------------------------------------------------------------------------------
 \subsection{Weak Form}\label{subsec:unhom_smol_weak}
