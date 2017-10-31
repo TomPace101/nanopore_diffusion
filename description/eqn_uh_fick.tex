@@ -2,6 +2,7 @@
 
 \subsection{Unhomogenized Fickian Diffusion Equation}\label{subsec:unhom_fick}
 
+%-------------------------------------------------------------------------------
 \subsubsection{Governing Differential Equation}\label{subsubsec:unhom_fick_gov}
 For particle flux defined as 
 
@@ -45,6 +46,8 @@ Assuming $D_{\mathrm{bulk}}$ is any nonzero constant, this is clearly the same a
 \nabla^2 c = 0
 \end{equation}
 
+
+%-------------------------------------------------------------------------------
 \subsubsection{Weak Form}\label{subsubsec:unhom_fick_weak}
 
 For solution in \texttt{FEniCS}, a weak form of this equation is required.
@@ -115,6 +118,8 @@ In terms of \texttt{FEniCS}, this means that the bilinear form is
 $a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x$,
 and the linear form is constant, zero.
 
+
+%-------------------------------------------------------------------------------
 \subsubsection{Expected Results}\label{subsubsec:unhom_fick_expected}
 
 The effective diffusion constant of Section \ref{subsec:D_eff}

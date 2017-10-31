@@ -26,7 +26,7 @@
 
 %%\tableofcontents
 
-%-------------------------------------------------------------------------------
+%===============================================================================
 \section{Background}\label{sec:background}
 
 We study a silica membrane containing nanoscopic circular pores arranged in a two-dimensional lattice.
@@ -35,57 +35,13 @@ quantified in terms of an effective diffusion constant.
 The pore geometry is variable, as is the diffusion equation governing transport.
 The diffusion equation is solved using \texttt{FEniCS}.
 
-%-------------------------------------------------------------------------------
-\section{System Geometry}\label{sec:geometry}
+%===============================================================================
+\input{geometry}
 
-We study both a body-centered rectangular lattice of pores,
-as well as a face-centered lattice of pores.
-The unit cell geometry has two planes of symmetry.
-This symmetry is used to reduce the model to only one quarter of the unit cell.
-
-The body-centered geometry is shown in Figure \ref{fig:body-intro}.
-The face-centered geometry is shown in Figure \ref{fig:face-intro}.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{body-intro.pdf}
-\caption{Body-centered geometry}
-\label{fig:body-intro}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{face-intro.pdf}
-\caption{Face-centered geometry}
-\label{fig:face-intro}
-\end{figure}
-
-The geometric variables are:
-
-$\begin{array}{rcl}
-Sx & = & 2 Lx =\text{Unit cell x-dimension} \\
-Sy & = & 2 Ly =\text{Unit cell y-dimension} \\
-Lx & = & \frac{Sx}{2} =\text{Model x-dimension} \\
-Ly & = & \frac{Sy}{2} =\text{Model y-dimension} \\
-R & = & \text{Pore radius} \\
-tm & = & \text{Membrane thickness} = \text{Pore length} \\
-H & = & \text{Distance from membrane surface to model boundary}
-\end{array}$
-
-%-------------------------------------------------------------------------------
-\section{Mesh Generation}\label{sec:meshgen}
-
-\texttt{gmsh} is used to generate the finite element mesh.
-The mesh is generated from solid geometry defined by its boundary surfaces.
-These surfaces, in turn, are defined by their boundaries,
-which are defined using points.
-
-\textcolor{red}{\textbf{TODO}}: gmsh geometry (point numbers, etc)
-
-%-------------------------------------------------------------------------------
+%===============================================================================
 \input{resultcalcs}
 
-%-------------------------------------------------------------------------------
+%===============================================================================
 \section{Diffusion Equation}\label{sec:equation}
 
 %-------------------------------------------------------------------------------
