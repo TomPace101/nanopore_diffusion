@@ -6,22 +6,28 @@ import os.path as osp
 #Constants
 svgdir='fig_svg'
 pdfdir='fig_pdf'
-latexinputs=['resultcalcs.tex','eqn_uh_fick.tex','geometry.tex','eqn_uh_smol.tex']
+partsdir='parts'
 
-#Get the names of all the image files
-def list_svg_stems(svgdir):
-  "get a list of stems for the svg files"
-  allfiles=os.listdir(svgdir)
+def list_stems(folder,ext):
+  "get a list of stems for the files in the directory with the given extension"
+  allfiles=os.listdir(folder)
   allsplits=[osp.splitext(x) for x in allfiles]
-  return [stem for stem,ext in allsplits if ext.lower()=='.svg']
+  return [stem for stem,xt in allsplits if xt.lower()[1:]==ext]
 
 def stem_to_file(stems,folder,ext):
   "get file names with a folder and extension from a list of stem names"
   return [osp.join(folder,'%s.%s'%(x,ext)) for x in stems]
 
-figstems=list_svg_stems(svgdir)
+def list_files(sdir,ext):
+  "get a list of the files in a directory with the specified extension"
+  stems=list_stems(sdir,ext)
+  return stem_to_file(stems,sdir,ext)
+
+figstems=list_stems(svgdir,'svg')
 fig_inputs=stem_to_file(figstems,svgdir,'svg')
 fig_outputs=stem_to_file(figstems,pdfdir,'pdf')
+
+latexinputs=list_files(partsdir,'tex')
 
 def task_gen_report():
   stemname='description'

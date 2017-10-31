@@ -36,17 +36,16 @@ The pore geometry is variable, as is the diffusion equation governing transport.
 The diffusion equation is solved using \texttt{FEniCS}.
 
 %===============================================================================
-\input{geometry}
+\input{parts/geometry}
 
 %===============================================================================
-\input{resultcalcs}
-
-
-%===============================================================================
-\input{eqn_uh_fick}
+\input{parts/resultcalcs}
 
 %===============================================================================
-\input{eqn_uh_smol}
+\input{parts/eqn_uh_fick}
+
+%===============================================================================
+\input{parts/eqn_uh_smol}
 
 %-------------------------------------------------------------------------------
 \section{Homogenized Fickian Diffusion Equation}\label{sec:hom_fick}
