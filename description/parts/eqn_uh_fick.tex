@@ -68,7 +68,7 @@ v \left(\vec{\nabla} \cdot \vec{\nabla} c \right) + \vec{\nabla}c \cdot \vec{\na
 v \left(\nabla^2 c \right) + \vec{\nabla}c \cdot \vec{\nabla}v
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:product_rule_divergence}
 \left(\nabla^2 c \right) v =
 \vec{\nabla} \cdot \left( v \vec{\nabla} c \right) - \vec{\nabla}c \cdot \vec{\nabla}v
 \end{equation}
@@ -119,9 +119,12 @@ Therefore, the governing equation is simply
 \end{equation}
 
 In terms of \texttt{FEniCS}, this means that the bilinear form is
-$a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x$,
-and the linear form is constant, zero.
 
+\begin{equation}
+a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x
+\end{equation}
+
+and the linear form is constant, zero.
 
 %-------------------------------------------------------------------------------
 \subsection{Expected Results}\label{subsec:unhom_fick_expected}

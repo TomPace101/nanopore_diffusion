@@ -33,9 +33,67 @@ q_i & = & \text{the electric charge of ion species} i\\
 
 To solve the Smoluchowski diffusion equation, the electric potential $\Phi$ must be given.
 Here, we will calculate the electric potential using the linearized Poisson-Boltzmann equation
-\cite{McQuarrie-StatMech}.
+(Equation 15-29 in \cite{McQuarrie-StatMech}).
 
-\textcolor{red}{\textbf{TODO}}
+\begin{equation}\label{eq:PoissonBoltzmann}
+\nabla^2 \Phi = \kappa^2 \Phi
+\end{equation}
+
+where the constant $\kappa$ has dimensions of inverse length.
+It is also noted in \cite{McQuarrie-StatMech} that this equation becomes exact
+in the limit $\kappa \rightarrow 0$,
+which corresponds to very low ionic concentrations.
+
+The length $\lambda_D = 1/\kappa$ is commonly known as the Debye length.
+A formula for the calculation of $\kappa^2$ is provided in \cite{McQuarrie-StatMech},
+but it requires knowing the spatial distribution of the ions.
+Instead, we will use the Debye length as a property of the problem domain.
+Then, with appropriate boundary conditions,
+the electric potential can be found by Finite Element solution of Equation \ref{eq:PoissonBoltzmann}.
+
+\textcolor{red}{\textbf{TODO}}: show sketch of electrostatic boundary conditions
+
+To solve for the potential in \texttt{FEniCS},
+a weak form of the Poisson-Boltzmann equation (Equation \ref{eq:PoissonBoltzmann}) is required.
+Multiplying by the test function $v$ and integrating over the problem domain, we obtain
+
+\begin{equation}
+\int_{\Omega} \left(\nabla^2 \Phi \right) v \,\mathrm{d}^3x = \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
+\end{equation}
+
+Using the same product rule as Equation \ref{eq:product_rule_divergence}, this becomes
+\begin{equation}
+\int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} \Phi \right) \,\mathrm{d}^3x
+- \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
+= \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
+\end{equation}
+
+Applying the divergence theorem (Gauss's theorem),
+\begin{equation}
+\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} \Phi \right) v \,\mathrm{d}s
+- \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
+= \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
+\end{equation}
+
+The boundary term separates into the Dirichlet boundaries (where $\Phi$ is known and therefore $v=0$),
+and the Neumann boundaries, which in this case will have zero electric field normal to the surface.
+This condition requires that the derivative of the potential normal to the surface is zero,
+and so $\hat{n} \cdot \vec{\nabla} c = 0$ at all points on the von Neumann boundaries.
+Thus, the boundary term is zero in its entirety, and the equation becomes
+
+\begin{equation}
+\frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
++ \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
+= 0
+\end{equation}
+
+In terms of \texttt{FEniCS}, this means that the bilinear form is
+
+\begin{equation}
+a(\Phi,v)=\left(\frac{1}{\lambda_D^2} \Phi v  + \vec{\nabla}\Phi \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x
+\end{equation}
+
+and the linear form is constant, zero.
 
 %-------------------------------------------------------------------------------
 \subsection{Expected Results}\label{subsec:unhom_smol_expected}
@@ -44,6 +102,4 @@ The Smoluchowski diffusion equation does not model any interaction between the i
 Therefore, with an applied potential of zero,
 the solution should be the same as for the
 unhomogenized Fickian diffusion equation (Section \ref{subsec:unhom_fick_expected}).
-
-\textcolor{red}{\textbf{TODO}}
 
