@@ -10,10 +10,6 @@ _TODO_ actually generate the plots we extracted data for (concentration vs cente
 
 _TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
-_TODO_ I no longer like the hashes I'm getting from codenamize
-We still need something like that, though.
-I experimented in the notebook with some other stuff.
-
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
 
@@ -46,29 +42,13 @@ _ACTION_ see discussion in Auriault
 
 # Problem Description
 
+It has its own _TODO_ list.
+
 _TODO_ bibliography, with biblatex
 https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
 bibtex is older:
 https://www.sharelatex.com/learn/Bibliography_management_with_bibtex
 http://www.bibtex.org/Using/
-
-_TODO_ is `\partial c / \partial t = 0` actually equilibrium, or just stationary (steady-state)
-
-_TODO_ Review writeup on expected result.
-I didn't include the part about how the area needs to be piecewise constant.
-Should this be in there?
-
-_DECISION_ maybe the result figures and discussion should be a separate document.
-That way, the problem description could be generated before the analyses are run.
-
-You could even set it up so that the document that requires completed runs
-also pulls in the problem description itself,
-so in the end you do get a document that has everything.
-This would require splitting the description up as well:
-- the contents that are part of both documents
-- the part that pulls that in as a standalone document
-
-It has its own _TODO_ list.
 
 _TODO_ For the part where we have figures of the geometry,
 it would be nice if these could be auto-generated from the lattice yaml file.
@@ -99,6 +79,19 @@ So, the options are:
 - Do all the needed geometry figures automatically, which will take too long
 - Do the surface figures automatically, but the 3D views manually.
 - Find a decent 3D cad program that can display things nicely, which may not exist
+
+_maybe_ maybe the result figures and discussion should be a separate document.
+That way, the problem description could be generated before the analyses are run.
+
+You could even set it up so that the document that requires completed runs
+also pulls in the problem description itself,
+so in the end you do get a document that has everything.
+This would require splitting the description up as well:
+- the contents that are part of both documents
+- the part that pulls that in as a standalone document
+
+For now, I stored what little I had for that section in results.tex
+
 
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot
@@ -139,13 +132,17 @@ _ACTION_ add validation of geometric inputs
 
 # Someday/maybe
 
-_EFFORT_ solve with flux as another primary variable
+_maybe_ solve with flux as another primary variable
+_maybe_ calculate potential for Smoluchowski using nonlinear Poisson-Boltzmann
 
-_EFFORT_ doctests? some other kind of test?
+_maybe_ doctests? some other kind of test?
 Maybe just create scripts to do the basic validation on buildgeom and the solvers.
 
-_EFFORT_ mesh refinement study
-_EFFORT_ study of required H value
+_maybe_ mesh refinement study
+_maybe_ study of required H value
+
+_mabye_ Find a replacement for codenamize
+I experimented in the notebook with some other stuff.
 
 
 --------------------------------------------------------------------------------
