@@ -89,6 +89,8 @@ For now, I stored what little I had for that section in results.tex
 
 biblatex reference:
 https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
+https://www.sharelatex.com/learn/Biblatex_bibliography_styles
+https://www.sharelatex.com/learn/Biblatex_citation_styles
 
 # Post-processing
 _EFFORT_ Function to extract data for 1D plot
