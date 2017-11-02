@@ -26,3 +26,6 @@ data/solutions/*/
 *.bcf
 *.blg
 *.run.xml
+
+#Post-processing
+*.png

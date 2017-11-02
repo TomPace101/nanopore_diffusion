@@ -58,6 +58,8 @@ conditions:
     dataextraction:
       - [solutionfield, {filename: potentialfield.pvd}]
       - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_phi.pkl, label: 'electric potential along centerline'}]
+      - [profile_radial, {spacing: 0.02, filename: plotdata_radialx_phi.pkl, label: 'electric potential along x-radius', direction: 'x'}]
+      - [profile_radial, {spacing: 0.02, filename: plotdata_radialy_phi.pkl, label: 'electric potential along y-radius', direction: 'y'}]
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
   - [fluxfield, {filename: flux.pvd}]

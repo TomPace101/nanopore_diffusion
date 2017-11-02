@@ -277,7 +277,7 @@ class GenericSolver:
     return
 
   def profile_centerline(self,spacing,filename,label):
-    """Data for plot of concentration profile along centerline
+    """Data for plot of solution profile along centerline
     Arguments:
       spacing = distance between sampled points for line plots
       filename = name of output file, as string
@@ -288,10 +288,9 @@ class GenericSolver:
       modelparams = ModelParameters object
       outdir = path to output directory, as string
     No new attributes.
-    New item added to results dictionary.
+    Nothing added to results dictionary.
     No return value.
     Output file is written."""
-    ##TODO: replace c with soln
     zr=np.arange(0, 2*self.meshparams.H + self.meshparams.tm, spacing)
     zlist=[]
     vlist=[]
@@ -303,7 +302,52 @@ class GenericSolver:
     varr=np.array(vlist)
     meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
     meta.update(self.modelparams.conditions)
-    pd=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label,metadata=meta)
+    series=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label,metadata=meta)
     pklfile=osp.join(self.outdir,filename)
-    pd.to_pickle(pklfile)
+    series.to_pickle(pklfile)
     return
+
+  def profile_radial(self,spacing,filename,label,direction):
+    """Data for plot of solution along radial line at model mid-height, in x-direction
+    Arguments:
+      spacing = distance between sampled points for line plots
+      filename = name of output file, as string
+        File will be created in the output directory (self.outdir)
+      label = series label to assign, as string
+      direction: 'x' or 'y' for radial line in that direction
+    Required attributes:
+      meshparams = buildgeom.MeshParameters object
+      modelparams = ModelParameters object
+      outdir = path to output directory, as string
+    No new attributes.
+    Nothing added to results dictionary.
+    No return value.
+    Output file is written."""
+    assert direction=="x" or direction=="y", "direction must be 'x' or 'y'"
+    zval=self.meshparams.H + self.meshparams.tm/2 #mid-height
+    tree=self.mesh.bounding_box_tree()
+    rrange=np.arange(0,self.meshparams.R)
+    rlist=[]
+    vlist=[]
+    for r in rrange:
+      if direction=='x':
+        xval=r
+        yval=0
+      else:
+        xval=0
+        yval=r
+      tup=(xval,yval,zval)
+      pt=fem.Point(*tup)
+      #Is this point inside the mesh (including on the boundary)
+      if tree.collides(pt):
+        rlist.append(r)
+        vlist.append(self.soln(*tup))
+    zarr=np.array(zlist)
+    varr=np.array(vlist)
+    meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
+    meta.update(self.modelparams.conditions)
+    series=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label,metadata=meta)
+    pklfile=osp.join(self.outdir,filename)
+    series.to_pickle(pklfile)
+    return
+    

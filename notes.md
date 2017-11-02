@@ -1,8 +1,12 @@
 
 **Current Goal** Image of potential from Poisson-Boltzmann
-- get Poisson-Boltzmann equation from McQuarrie
 
 # Code/Misc
+
+_TODO_ electric potential solver is writing an info.yaml
+
+_TODO_ is there a way to put multiple data series in the same pickle file?
+Could set up a class that subclasses list to do this.
 
 _TODO_ change `from fenics import *` to `import fenics` and catch all the consequences
 
@@ -99,6 +103,33 @@ https://www.sharelatex.com/learn/Biblatex_bibliography_styles
 https://www.sharelatex.com/learn/Biblatex_citation_styles
 
 # Post-processing
+
+Organization:
+We want to have post-processing tasks,
+which include generating plots from the available plotdata.
+
+Options:
+1) could scan the filesystem for plotdata files, and then generate the plots.
+But that doesn't tell you how to construct any plots with more than one series on them.
+2) Could just define a bunch of scripts, which generate plots.
+This is the most flexible approach.
+And we probably will do this, at least for things like the brainy-media figure.
+But, what about plots that are fairly repetitive, just on different data?
+3) Could create plot definition files, kind of like I have before.
+
+Let's get specific. What plots do I have so far to generate?
+- The brainy-media figure. This probably belongs in its own script.
+- The centerline plots (concentration, and now also electric potential)
+
+So, the question at the moment is, how do I want the centerline plots to work?
+Each one is potentially from a different mesh (although not all are).
+Do you want series from the same mesh on the same axes?
+
+It sounds like, for the time being, we just need to use scripts.
+As we get those developed, some (but not all) may become doit tasks,
+and some (but not all) may refactor into data-driven approaches.
+
+
 _EFFORT_ Function to extract data for 1D plot
 - needs to return two 1D arrays (independent and dependent variables)
 - could give it coordinate axis, limits, and number of points
