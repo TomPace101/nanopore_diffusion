@@ -16,7 +16,7 @@ import smol_unhomog
 #Mapping from solver_general.ModelParameters.equation to the appropriate solver classes
 #Each module implementing a solver should define a solverclasses dictionary, so we just need to put them all together
 solverclasses={}
-solverclasses.update(fickian_unhomog.solverclases)
+solverclasses.update(fickian_unhomog.solverclasses)
 solverclasses.update(smol_unhomog.solverclasses)
 
 def list_outputfiles(cmdlist):
@@ -50,5 +50,5 @@ def dosolve(modelparams,meshparams):
           'file_dep':[solver_general.__file__,osp.join(srcfolder,solver_codefile)]+xmlfiles, #This takes care of dependency on mesh
           'uptodate':[config_changed(modelparams.to_dict())], #Mesh dependency already taken care of in file_dep
           'targets':outpaths,
-          'actions':[(solver_class.complete,(modelparams,meshparams))]}
+          'actions':[(solver_class.as_action,(modelparams,meshparams))]}
   return tdef

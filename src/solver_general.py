@@ -131,12 +131,18 @@ class GenericSolver:
     self.volumes=MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
 
   @classmethod
-  def complete(cls,modelparams,meshparams):
+  def complete(cls,*args):
     "Convenience function to set up and solve the model, then generate all the requested output."
-    obj=cls(modelparams,meshparams)
+    obj=cls(*args)
     obj.solve()
     obj.create_output()
     return obj
+
+  @classmethod
+  def as_action(cls,*args):
+    "Method suitable for use a function action in doit"
+    cls.complete(*args)
+    return
 
   def solve(self):
     "Method to be overridden by derived classes"

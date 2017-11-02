@@ -33,7 +33,7 @@ class LPBSolver(solver_general.GenericSolver):
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
-  def __init__(self,modelparams,meshparams,complete=False):
+  def __init__(self,modelparams,meshparams):
     """Initialize the model, and optionally solve and generate output.
     Arguments:
       modelparams = ModelParameters instance
@@ -64,10 +64,6 @@ class LPBSolver(solver_general.GenericSolver):
     self.a=((1/self.lambda_D**2)*self.phi*self.v + fem.dot(fem.grad(self.phi),fem.grad(self.v)))*fem.dx
     self.L=fem.Constant(0)*self.v*self.ds
     
-    #If requested, solve and generate output
-    if complete:
-      self.complete()
-
   def solve(self):
     "Do the step of solving this equation"
     self.soln=fem.Function(self.V)
@@ -122,10 +118,10 @@ class SUSolver(solver_general.GenericSolver):
 
     #Set up electric potential field
     potentialparams_dict=self.conditions.potential
-    for key in ['modelname','meshname','meshparamsfile']:
+    for key in ['modelname','meshname','meshparamsfile','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
     potentialparams=solver_general.ModelParameters(**potentialparams_dict)
-    potsolv=potentialsolverclasses[potentialparams.equation](potentialparams,meshparams,complete=True)
+    potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams)
 
     #Define variational problem
     self.c=fem.TrialFunction(self.V)
@@ -157,7 +153,7 @@ if __name__ == '__main__':
   #Run each requested analysis
   for modelparams in allmodels.values():
     #Only do analyses with equations supported by this module
-    if modelparams.equation in solverclasses.keys() 
+    if modelparams.equation in solverclasses.keys():
       meshparams=allmeshes[modelparams.meshname]
       ##TODO: uncomment when ready
       ##solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)

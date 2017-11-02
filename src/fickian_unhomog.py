@@ -94,7 +94,7 @@ if __name__ == '__main__':
   #Run each requested analysis
   for modelparams in allmodels.values():
     #Only do analyses with equations supported by this module
-    if modelparams.equation in solverclasses.keys() 
+    if modelparams.equation in solverclasses.keys():
       meshparams=allmeshes[modelparams.meshname]
       solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)
 
