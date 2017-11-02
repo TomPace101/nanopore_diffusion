@@ -5,7 +5,7 @@ import os
 import os.path as osp
 
 #Site packages
-from fenics import *
+import fenics as fem
 import numpy as np
 
 #Local
@@ -126,9 +126,9 @@ class GenericSolver:
     mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(modelparams.meshname,meshparams.basename)
 
     #Load mesh and meshfunctions
-    self.mesh=Mesh(mesh_xml)
-    self.surfaces=MeshFunction("size_t", self.mesh, surface_xml) #Mesh Function of Physical Surface number
-    self.volumes=MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
+    self.mesh=fem.Mesh(mesh_xml)
+    self.surfaces=fem.MeshFunction("size_t", self.mesh, surface_xml) #Mesh Function of Physical Surface number
+    self.volumes=fem.MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
 
   @classmethod
   def complete(cls,*args):
@@ -189,7 +189,7 @@ class GenericSolver:
     No new attributes.
     No return value.
     Output file is written."""
-    vtk_file=File(osp.join(self.outdir,filename))
+    vtk_file=fem.File(osp.join(self.outdir,filename))
     vtk_file << self.soln
     return
 
@@ -208,8 +208,8 @@ class GenericSolver:
     No return value.
     Output file is written."""
     D_bulk=self.modelparams.properties['D_bulk']
-    self.flux=project(Constant(-D_bulk)*grad(self.soln),self.V_vec)
-    vtk_file=File(osp.join(self.outdir,filename))
+    self.flux=project(fem.Constant(-D_bulk)*fem.grad(self.soln),self.V_vec)
+    vtk_file=fem.File(osp.join(self.outdir,filename))
     vtk_file << self.flux
     return
 
@@ -230,7 +230,7 @@ class GenericSolver:
     New item added to results dictionary.
     No return value.
     No output files."""
-    n=FacetNormal(self.mesh)
+    n=fem.FacetNormal(self.mesh)
     if internal:
       integral_type='interior_facet'
       assert fluxsign=='+' or fluxsign=='-', "Invalid fluxsign: %s"%str(fluxsign)
@@ -238,8 +238,8 @@ class GenericSolver:
     else:
       integral_type='exterior_facet'
       this_n=n
-    this_ds=Measure(integral_type,domain=self.mesh,subdomain_data=self.surfaces)
-    totflux=assemble(dot(self.flux,this_n)*this_ds(fluxsurf))
+    this_ds=fem.Measure(integral_type,domain=self.mesh,subdomain_data=self.surfaces)
+    totflux=fem.assemble(fem.dot(self.flux,this_n)*this_ds(fluxsurf))
     self.results[name]=totflux
     return
 
