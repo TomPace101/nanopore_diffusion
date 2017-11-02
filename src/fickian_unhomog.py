@@ -46,12 +46,11 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     v = FEniCS TestFunctoin on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
-  def __init__(self,modelparams,meshparams,complete=False):
+  def __init__(self,modelparams,meshparams):
     """Initialize the model, and optionally solve and generate output.
     Arguments:
       modelparams = ModelParameters instance
-      meshparams = buildgeom.MeshParameters instance
-      complete = boolean, True to solve and generate output"""
+      meshparams = buildgeom.MeshParameters instance"""
     
     #Mesh setup
     super().__init__(modelparams,meshparams)
@@ -73,15 +72,13 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     self.a=dot(grad(self.c),grad(self.v))*dx
     self.L=Constant(0)*self.v*self.ds
     
-    #If requested, solve and generate output
-    if complete:
-      self.complete()
-
   def solve(self):
     "Do the step of solving this equation"
     self.soln=Function(self.V)
     solve(self.a==self.L, self.soln, self.bcs)
     return
+
+solverclasses={'fickian_unhomog':UnhomogFickianSolver}
 
 #Support command-line arguments
 if __name__ == '__main__':
@@ -96,7 +93,8 @@ if __name__ == '__main__':
   
   #Run each requested analysis
   for modelparams in allmodels.values():
-    meshparams=allmeshes[modelparams.meshname]
-    solver=UnhomogFickianSolver(modelparams,meshparams)
-    solver.complete()
+    #Only do analyses with equations supported by this module
+    if modelparams.equation in solverclasses.keys() 
+      meshparams=allmeshes[modelparams.meshname]
+      solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)
 

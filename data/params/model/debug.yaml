@@ -48,10 +48,16 @@ equation: smol_unhomog
 properties:
   D_bulk: 1
 conditions:
-  topsurf: 4
-  basesurf: 1
-  topval: 5.0
-  baseval: 1.0
+  bclist: [[4, 5.0],[1, 1.0]]
+  potential:
+    equation: linear_pb
+    properties:
+      debye_length: 1
+    conditions:
+      bclist: [[],[],[]]
+    dataextraction:
+      - [solutionfield, {filename: potentialfield.pvd}]
+      - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_phi.pkl, label: 'electric potential along centerline'}]
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
   - [fluxfield, {filename: flux.pvd}]

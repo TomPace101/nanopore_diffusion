@@ -4,6 +4,10 @@
 
 # Code/Misc
 
+_TODO_ change `from fenics import *` to `import fenics` and catch all the consequences
+
+_TODO_ set up Conditions object appropriate for each solver (fickian_unhomog.py)
+
 _TODO_ complete the "test" analysis, even without middle surface
 
 _TODO_ actually generate the plots we extracted data for (concentration vs centerline)
@@ -43,6 +47,8 @@ _ACTION_ see discussion in Auriault
 # Problem Description
 
 It has its own _TODO_ list.
+
+_TODO_ work through details of consistent set of units, with lengths in nanometers.
 
 _TODO_ For the part where we have figures of the geometry,
 it would be nice if these could be auto-generated from the lattice yaml file.

@@ -24,7 +24,7 @@ class ModelParameters(useful.ParameterSet):
     equation = name of equation to be solved
     properties = dictionary of property values
     conditions = parameters specifying boundary conditions, initial conditions, etc.
-      The parameters specified are specific to the euqation being solved
+      The parameters specified are specific to the equation being solved
     dataextraction = a sequence of data extraction commands
       Each command is a pair (cmdname, arguments), where
         cmdname = name of the solver object's method to call, as a string
@@ -100,7 +100,10 @@ def GetAllModelsAndMeshes(modelparams_filelist):
 
 class GenericSolver:
   """A generic solver, to be subclassed by solvers for the specific equations
-  Subclasses should, at a minimum, implement a "solve" method to generate the solution
+  This class is not directly usable itself.
+  Derived classes should, at a minimum:
+    - override __init__ to set up the variational problem (it's ok to use super() to set up the mesh)
+    - implement a "solve" method to generate the solution
   and other data needed by their data extraction functions.
   Subclasses may choose to override the extraction functions provided here.
   Attributes:
@@ -127,11 +130,13 @@ class GenericSolver:
     self.surfaces=MeshFunction("size_t", self.mesh, surface_xml) #Mesh Function of Physical Surface number
     self.volumes=MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
 
-  def complete(self):
-    "Convenience function to solve the model and generate all the requested output."
-    self.solve()
-    self.create_output()
-    return
+  @classmethod
+  def complete(cls,modelparams,meshparams):
+    "Convenience function to set up and solve the model, then generate all the requested output."
+    obj=cls(modelparams,meshparams)
+    obj.solve()
+    obj.create_output()
+    return obj
 
   def solve(self):
     "Method to be overridden by derived classes"
