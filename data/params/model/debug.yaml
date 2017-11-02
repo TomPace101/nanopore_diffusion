@@ -54,7 +54,7 @@ conditions:
     properties:
       debye_length: 1
     conditions:
-      bclist: [[],[],[]]
+      bclist: [[2,25.0],[3,25.0],[11,25.0],[15,25.0],[1,0.0],[4,0.0]]
     dataextraction:
       - [solutionfield, {filename: potentialfield.pvd}]
       - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_phi.pkl, label: 'electric potential along centerline'}]
