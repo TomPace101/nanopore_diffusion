@@ -307,14 +307,14 @@ class GenericSolver:
     series.to_pickle(pklfile)
     return
 
-  def profile_radial(self,spacing,filename,label,direction):
-    """Data for plot of solution along radial line at model mid-height, in x-direction
+  def profile_radial(self,spacing,filename,label,theta):
+    """Data for plot of solution along radial line at model mid-height, in specified direction
     Arguments:
       spacing = distance between sampled points for line plots
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
       label = series label to assign, as string
-      direction: 'x' or 'y' for radial line in that direction
+      theta: theta-angle in degrees from x-axis, as float
     Required attributes:
       meshparams = buildgeom.MeshParameters object
       modelparams = ModelParameters object
@@ -323,29 +323,42 @@ class GenericSolver:
     Nothing added to results dictionary.
     No return value.
     Output file is written."""
-    assert direction=="x" or direction=="y", "direction must be 'x' or 'y'"
     zval=self.meshparams.H + self.meshparams.tm/2 #mid-height
+    rads=np.radians(theta)
+    cos=np.cos(rads)
+    sin=np.sin(rads)
     tree=self.mesh.bounding_box_tree()
-    rrange=np.arange(0,self.meshparams.R)
+    rrange=np.arange(0,self.meshparams.R+spacing,spacing)
     rlist=[]
     vlist=[]
+    tuplist=[]
     for r in rrange:
-      if direction=='x':
-        xval=r
-        yval=0
-      else:
-        xval=0
-        yval=r
+      xval=r*cos
+      yval=r*sin
+      # if direction=='x':
+      #   xval=r
+      #   yval=0
+      # else:
+      #   xval=0
+      #   yval=r
       tup=(xval,yval,zval)
       pt=fem.Point(*tup)
+      inside=tree.collides(pt)
       #Is this point inside the mesh (including on the boundary)
-      if tree.collides(pt):
+      if inside:
         rlist.append(r)
-        vlist.append(self.soln(*tup))
+        try:
+          vlist.append(self.soln(*tup))
+          inside='FalsePositive'
+        except RuntimeError:
+          rlist.pop(-1)
+      #Track result
+      tuplist.append((tup,inside))
     rarr=np.array(rlist)
     varr=np.array(vlist)
     meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
     meta.update(self.modelparams.conditions)
+    meta['tuplist']=tuplist
     series=plotdata.PlotSeries(xvals=rarr,yvals=varr,label=label,metadata=meta)
     pklfile=osp.join(self.outdir,filename)
     series.to_pickle(pklfile)
