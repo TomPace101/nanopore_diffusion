@@ -208,7 +208,7 @@ class GenericSolver:
     No return value.
     Output file is written."""
     D_bulk=self.modelparams.properties['D_bulk']
-    self.flux=project(fem.Constant(-D_bulk)*fem.grad(self.soln),self.V_vec)
+    self.flux=fem.project(fem.Constant(-D_bulk)*fem.grad(self.soln),self.V_vec)
     vtk_file=fem.File(osp.join(self.outdir,filename))
     vtk_file << self.flux
     return
@@ -342,11 +342,11 @@ class GenericSolver:
       if tree.collides(pt):
         rlist.append(r)
         vlist.append(self.soln(*tup))
-    zarr=np.array(zlist)
+    rarr=np.array(rlist)
     varr=np.array(vlist)
     meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
     meta.update(self.modelparams.conditions)
-    series=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label,metadata=meta)
+    series=plotdata.PlotSeries(xvals=rarr,yvals=varr,label=label,metadata=meta)
     pklfile=osp.join(self.outdir,filename)
     series.to_pickle(pklfile)
     return
