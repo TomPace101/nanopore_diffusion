@@ -49,7 +49,7 @@ class LPBSolver(solver_general.GenericSolver):
     self.lambda_D = modelparams.properties['debye_length']
     
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',1) #CG="continuous galerkin", ie "Lagrange"
+    self.V = fem.FunctionSpace(self.mesh,'CG',2) #CG="continuous galerkin", ie "Lagrange"
 
     #Dirichlet boundary conditions
     self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]
