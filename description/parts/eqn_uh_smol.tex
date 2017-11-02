@@ -40,7 +40,7 @@ Combining these equations, the governing equation for steady-state conditions ($
 
 The mathematics are simplified considerably by making use of the Slotboom transformation:
 
-\begin{equation}
+\begin{equation}\label{eq:SlotboomTrans}
 \begin{array}{rcl}
 \overline{D} & = & D_{\mathrm{bulk}} e^{-\beta \psi} \\
 \overline{c} & = & c e^{\beta \psi}
@@ -53,10 +53,13 @@ which results in the governing equation
 \vec{\nabla} \cdot \left( \overline{D} \vec{\nabla} \left( \overline{c} \right) \right) = 0
 \end{equation}
 
+Applying the appropriate product rule for the divergence operator in this case,
 
-\textcolor{red}{\textbf{TODO}}: apply product rule
+\begin{equation}\label{eq:SmolSlotboomDiff}
+\overline{D} \nabla^2 \overline{c} + \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) = 0
+\end{equation}
 
-For diffusion of ions, the potential field is given by
+For the diffusion of ions in an electrostatic field, the potential field is given by
 
 \begin{equation}
 \psi=q \Phi
@@ -69,8 +72,38 @@ q & = & \text{the electric charge of the ion species} \\
 \Phi & = & \text{the electric potential field}
 \end{array}$
 
+This means that the Slotboom transformation (Equation \ref{eq:SlotboomTrans}) can be written as
+
+\begin{equation}
+\begin{array}{rcl}
+\overline{D} & = & D_{\mathrm{bulk}} e^{-\beta q \Phi} \\
+\overline{c} & = & c e^{\beta q \Phi}
+\end{array}
+\end{equation}
+
+Note that any applied boundary conditions must be transformed as well.
+This is straightforward for Dirichlet boundary conditions,
+but the Neumann boundary conditions are more complicated.
+
+\textcolor{red}{\textbf{TODO}}: Neumann boundary conditions
+
+Furthermore, after solution of the transformed equation,
+the ionic concentration field is calculated from the inverse transformation,
+
+\begin{equation}
+c = \overline{c} e^{-\beta \psi} = \overline{c} e^{-\beta q \Phi}
+\end{equation}
+
 %-------------------------------------------------------------------------------
 \subsection{Weak Form}\label{subsec:unhom_smol_weak}
+
+Starting from the governing differential equation (Equation \ref{eq:SmolSlotboomDiff}),
+multiplying by a test function $v$ and integrating over the problem domain, we have
+
+\begin{equation}
+\int_{\Omega} \overline{D} \nabla^2 \overline{c} \,\mathrm{d}^3x 
++ \int_{\Omega} \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
+\end{equation}
 
 \textcolor{red}{\textbf{TODO}}
 
