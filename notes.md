@@ -3,6 +3,8 @@
 
 # Code/Misc
 
+_TODO_ find a way to get coordinates of the surface normal used in a flux calculation
+
 _TODO_ is there a way to put multiple data series in the same pickle file?
 Could set up a class that subclasses list to do this.
 If so, it should have a 'relabel' method that takes a dictionary {old label: new label}
@@ -23,6 +25,9 @@ Should probably document how to do external boundary as well, for comparison.
 
 _TODO_ syncing/mirroring
 - holly and/or dlx (has to be rsync, unless we can build unison on the server)
+
+_TODO_ use mpirun for fenics calculations?
+(not for pre-and post-processing)
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
