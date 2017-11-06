@@ -7,7 +7,7 @@ import os
 import os.path as osp
 
 #Site packages
-from fenics import *
+import fenics as fem
 
 #Local
 from folderstructure import *
@@ -32,7 +32,7 @@ class BCParameters(useful.ParameterSet):
     bcs=[]
     dpairs=[(self.basesurf,self.baseval), (self.topsurf,self.topval)] #Physical surface and Dirichlet value pairs
     for psurf,val in dpairs:
-      bcs.append(DirichletBC(fs,val,surfaces,psurf))
+      bcs.append(fem.DirichletBC(fs,val,surfaces,psurf))
     return bcs
 
 class UnhomogFickianSolver(solver_general.GenericSolver):
@@ -56,26 +56,26 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     super().__init__(modelparams,meshparams)
     
     #Function space for scalars and vectors
-    self.V = FunctionSpace(self.mesh,'CG',modelparams.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = VectorFunctionSpace(self.mesh, "CG", modelparams.elementorder)
+    self.V = fem.FunctionSpace(self.mesh,'CG',modelparams.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", modelparams.elementorder)
 
     #Dirichlet boundary conditions
     self.bcs=BCParameters(**self.modelparams.conditions).to_bclist(self.V, self.surfaces)
 
     #Neumann boundary conditions
     #they are all zero in this case
-    self.ds = Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
+    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
 
     #Define variational problem
-    self.c=TrialFunction(self.V)
-    self.v=TestFunction(self.V)
-    self.a=dot(grad(self.c),grad(self.v))*dx
-    self.L=Constant(0)*self.v*self.ds
+    self.c=fem.TrialFunction(self.V)
+    self.v=fem.TestFunction(self.V)
+    self.a=fem.dot(fem.grad(self.c),fem.grad(self.v))*fem.dx
+    self.L=fem.Constant(0)*self.v*self.ds
     
   def solve(self):
     "Do the step of solving this equation"
-    self.soln=Function(self.V)
-    solve(self.a==self.L, self.soln, self.bcs)
+    self.soln=fem.Function(self.V)
+    fem.solve(self.a==self.L, self.soln, self.bcs)
     return
 
 solverclasses={'fickian_unhomog':UnhomogFickianSolver}

@@ -4,13 +4,12 @@
 # Code/Misc
 
 _TODO_ find a way to get coordinates of the surface normal used in a flux calculation
+The notebook dated 2017-11-06 is where I was working on this before.
 
 _TODO_ is there a way to put multiple data series in the same pickle file?
 Could set up a class that subclasses list to do this.
 If so, it should have a 'relabel' method that takes a dictionary {old label: new label}
 So you don't have to re-run the analysis just to change the series labels.
-
-_TODO_ change `from fenics import *` to `import fenics` and catch all the consequences
 
 _TODO_ set up Conditions object appropriate for each solver (fickian_unhomog.py)
 
