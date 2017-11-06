@@ -216,7 +216,7 @@ class GenericSolver:
     vtk_file << self.flux
     return
 
-  def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None): ##TODO: store also quadrupled value for unit cell?
+  def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None): ##TODO: store also quadrupled value for unit cell?
     """Flux integral over specified surface
     Arguments:
       fluxsurf = physical surface number for flux measurement
@@ -224,13 +224,14 @@ class GenericSolver:
       internal = boolean, default False, True to use internal boundary, False for external
       fluxsign = '+' or '-' to specify which diretion normal to the surface for flux calculation
         Required only if internal==True
+      normalvar = optional variable name to write the surface normal components to, as a sequence
     Required attributes:
       flux = flux as vector field
         This requires a previous call to fluxfield
       mesh = FEniCS Mesh object
       surface = FEniCS MeshFunction object for surface numbers
     No new attributes.
-    New item added to results dictionary.
+    New item(s) added to results dictionary.
     No return value.
     No output files."""
     n=fem.FacetNormal(self.mesh)
@@ -241,6 +242,8 @@ class GenericSolver:
     else:
       integral_type='exterior_facet'
       this_n=n
+    if normalvar is not None:
+      self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the surface normal
     this_ds=fem.Measure(integral_type,domain=self.mesh,subdomain_data=self.surfaces)
     totflux=fem.assemble(fem.dot(self.flux,this_n)*this_ds(fluxsurf))
     self.results[name]=totflux
