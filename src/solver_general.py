@@ -131,12 +131,17 @@ class GenericSolver:
     self.surfaces=fem.MeshFunction("size_t", self.mesh, surface_xml) #Mesh Function of Physical Surface number
     self.volumes=fem.MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
 
+    #Initialize results dictionaries
+    self.results={}
+    self.info=self.modelparams.to_dict()
+    self.info['meshparams']=self.meshparams.to_dict()
+
   @classmethod
-  def complete(cls,*args):
+  def complete(cls,*args,writeinfo=True):
     "Convenience function to set up and solve the model, then generate all the requested output."
     obj=cls(*args)
     obj.solve()
-    obj.create_output()
+    obj.create_output(writeinfo)
     return obj
 
   @classmethod
@@ -149,8 +154,10 @@ class GenericSolver:
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'solve' method."%str(type(self)))
 
-  def create_output(self):
+  def create_output(self,writeinfo=True):
     """Process the data extraction commands
+    Arguments:
+      writeinfo = boolean, optional, True to write the info.yaml file.
     Adds the following attributes:
       outdir = path to output directory, as string
       results = dictionary of input and output values
@@ -159,11 +166,6 @@ class GenericSolver:
     self.outdir=osp.join(solnfolder,self.modelparams.basename,self.modelparams.modelname)
     if not osp.isdir(self.outdir):
       os.makedirs(self.outdir)
-
-    #Initialize results dictionary
-    self.results={}
-    self.info=self.modelparams.to_dict()
-    self.info['meshparams']=self.meshparams.to_dict()
 
     #Process each command
     for cmd in self.modelparams.dataextraction:

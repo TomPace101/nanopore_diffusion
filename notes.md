@@ -3,8 +3,6 @@
 
 # Code/Misc
 
-_TODO_ electric potential solver is writing an info.yaml
-
 _TODO_ is there a way to put multiple data series in the same pickle file?
 Could set up a class that subclasses list to do this.
 If so, it should have a 'relabel' method that takes a dictionary {old label: new label}

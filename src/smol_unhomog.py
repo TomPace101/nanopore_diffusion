@@ -121,7 +121,8 @@ class SUSolver(solver_general.GenericSolver):
     for key in ['modelname','meshname','meshparamsfile','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
     potentialparams=solver_general.ModelParameters(**potentialparams_dict)
-    potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams)
+    potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,writeinfo=False)
+    self.info['potential']=potsolv.info
 
     #Define variational problem
     self.c=fem.TrialFunction(self.V)
