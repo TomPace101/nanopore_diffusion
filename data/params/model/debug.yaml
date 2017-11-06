@@ -49,6 +49,7 @@ equation: smol_unhomog
 elementorder: 2
 properties:
   D_bulk: 1
+  q: 1
 conditions:
   bclist: [[4, 5.0],[1, 1.0]]
   potential:
