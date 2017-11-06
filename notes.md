@@ -11,7 +11,7 @@ Could set up a class that subclasses list to do this.
 If so, it should have a 'relabel' method that takes a dictionary {old label: new label}
 So you don't have to re-run the analysis just to change the series labels.
 
-_TODO_ set up Conditions object appropriate for each solver (fickian_unhomog.py)
+_TODO_ set up Conditions object in fickian_unhomog.py more like what we have in smol now.
 
 _TODO_ complete the "test" analysis, even without middle surface
 
@@ -24,6 +24,8 @@ Should probably document how to do external boundary as well, for comparison.
 
 _TODO_ syncing/mirroring
 - holly and/or dlx (has to be rsync, unless we can build unison on the server)
+
+_TODO_ look into opencascade and gmsh for mesh generation
 
 _TODO_ use mpirun for fenics calculations?
 (not for pre-and post-processing)
