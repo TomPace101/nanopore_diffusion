@@ -24,8 +24,6 @@ _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
 
 _TODO_ syncing/mirroring
-- /u1 (could use unison)
-- shared (could use unison)
 - holly and/or dlx (has to be rsync, unless we can build unison on the server)
 
 _EFFORT_ we need to run for face-centered geometry as well
