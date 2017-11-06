@@ -76,6 +76,7 @@ for meshname,bcvals in itertools.product(meshname_list,dirichlet_pairs):
         'meshname':meshname,
         'meshparamsfile':hrhash+'.yaml',
         'equation': 'fickian_unhomog',
+        'elementorder': 2,
         'properties': propertiesdict,
         'conditions': conditions,
         'dataextraction': dataextraction}

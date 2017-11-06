@@ -28,8 +28,9 @@ class ModelParameters(useful.ParameterSet):
     dataextraction = a sequence of data extraction commands
       Each command is a pair (cmdname, arguments), where
         cmdname = name of the solver object's method to call, as a string
-        arguments = dictionary of arguments to the method: {argname: value,...}"""
-  __slots__=('modelname','meshparamsfile','meshname','equation','properties','conditions','dataextraction')
+        arguments = dictionary of arguments to the method: {argname: value,...}
+    elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements"""
+  __slots__=('modelname','meshparamsfile','meshname','equation','properties','conditions','dataextraction','elementorder')
 
 def List_Mesh_Input_Files(meshname,basedir):
   mesh_xml=osp.join(xmlfolder,basedir,meshname+'.xml')

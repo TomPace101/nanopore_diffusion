@@ -24,6 +24,7 @@ modelname: debug01
 meshparamsfile: debug.yaml
 meshname: debug
 equation: fickian_unhomog
+elementorder: 2
 properties:
   D_bulk: 1
 conditions:
@@ -45,12 +46,14 @@ modelname: debug02
 meshparamsfile: debug.yaml
 meshname: debug
 equation: smol_unhomog
+elementorder: 2
 properties:
   D_bulk: 1
 conditions:
   bclist: [[4, 5.0],[1, 1.0]]
   potential:
     equation: linear_pb
+    elementorder: 2
     properties:
       debye_length: 1
     conditions:

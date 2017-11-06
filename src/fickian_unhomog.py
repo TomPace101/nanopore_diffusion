@@ -56,8 +56,8 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     super().__init__(modelparams,meshparams)
     
     #Function space for scalars and vectors
-    self.V = FunctionSpace(self.mesh,'CG',1) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = VectorFunctionSpace(self.mesh, "CG", 1)
+    self.V = FunctionSpace(self.mesh,'CG',modelparams.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = VectorFunctionSpace(self.mesh, "CG", modelparams.elementorder)
 
     #Dirichlet boundary conditions
     self.bcs=BCParameters(**self.modelparams.conditions).to_bclist(self.V, self.surfaces)
