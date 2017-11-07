@@ -33,14 +33,31 @@ class LPBSolver(solver_general.GenericSolver):
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
-  def __init__(self,modelparams,meshparams):
+  def __init__(self,modelparams,meshparams,other):
     """Initialize the model.
     Arguments:
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance
-      complete = boolean, True to solve and generate output"""
-    #Mesh setup
-    super().__init__(modelparams,meshparams)
+      other = solver to get mesh from"""
+    #Mesh setup, output init
+    #Can't do it this way here; we need to use the same mesh as the Smoluchowski solver
+    ##super().__init__(modelparams,meshparams)
+
+    #Store defining ParameterSet objects
+    self.modelparams=modelparams
+    self.meshparams=meshparams
+      
+    #Load mesh and meshfunctions
+    self.mesh=other.mesh
+    self.surfaces=other.surfaces
+    self.volumes=other.volumes
+    self.V = other.V
+    self.ds = other.ds
+
+    #Initialize results dictionaries
+    self.results={}
+    self.info=self.modelparams.to_dict()
+    self.info['meshparams']=self.meshparams.to_dict()
     
     #Get conditions
     self.conditions=LPBConditions(**modelparams.conditions)
@@ -49,14 +66,14 @@ class LPBSolver(solver_general.GenericSolver):
     self.lambda_D = self.conditions.debye_length
     
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    ##self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
 
     #Dirichlet boundary conditions
     self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bcdict.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
+    ##self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
 
     #Define variational problem
     self.phi=fem.TrialFunction(self.V)
@@ -131,12 +148,15 @@ class SUSolver(solver_general.GenericSolver):
     self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
     self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
 
+    #Measure for external boundaries
+    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces)
+
     #Set up electric potential field
     potentialparams_dict=self.conditions.potential
     for key in ['modelname','meshname','meshparamsfile','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
     potentialparams=solver_general.ModelParameters(**potentialparams_dict)
-    self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,writeinfo=False)
+    self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,self,writeinfo=False)
     self.info['potential']=self.potsolv.info
 
     #Dirichlet boundary conditions
@@ -145,7 +165,6 @@ class SUSolver(solver_general.GenericSolver):
 
     #Neumann boundary conditions
     #they are all zero in this case
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
 
     #Define the Dbar function
     self.Dbar=self.conditions.D_bulk*fem.exp(-self.beta_q*self.potsolv.soln)
@@ -163,7 +182,7 @@ class SUSolver(solver_general.GenericSolver):
     self.sb_soln=fem.Function(self.V)
     fem.solve(self.a==self.L, self.sb_soln, self.bcs)
     #Transform back to concentration
-    self.soln=self.sb_soln*fem.exp(-self.beta_q*self.potsolv.soln)
+    self.soln=fem.project(self.sb_soln*fem.exp(-self.beta_q*self.potsolv.soln),self.V)
     return
 
 solverclasses={'smol_unhomog':SUSolver}
@@ -184,6 +203,6 @@ if __name__ == '__main__':
     #Only do analyses with equations supported by this module
     if modelparams.equation in solverclasses.keys():
       meshparams=allmeshes[modelparams.meshname]
-      ##solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)
+      solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)
       ##TODO: uncomment the above, and delete these two lines
-      solver=solverclasses[modelparams.equation](modelparams,meshparams)
+      ##solver=solverclasses[modelparams.equation](modelparams,meshparams)
