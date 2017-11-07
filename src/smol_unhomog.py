@@ -34,7 +34,7 @@ class LPBSolver(solver_general.GenericSolver):
     a = bilinear form in variational problem
     L = linear form in variational problem"""
   def __init__(self,modelparams,meshparams):
-    """Initialize the model, and optionally solve and generate output.
+    """Initialize the model.
     Arguments:
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance
@@ -84,18 +84,18 @@ class SUConditions(solver_general.GeneralConditions):
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
   __slots__=['D_bulk','q','beta','potential','trans_bcdict']
-  def transform_bcs(self,pdict):
+  def transform_bcs(self,pdict,beta_q):
     """Apply Slotboom transformation to Dirichlet boundary conditions.
     This function requires that the surfaces with Dirichlet conditions for the concentration
       must also have Dirichlet conditions for the potential. (The reverse is not required.)
     Arguments:
       pdict = dictionary of Dirichlet boundary conditions for the potential
+      beta_q = product of beta and q
     No return value.
     trans_bcdict attribute is updated"""
     transvals={}
-    factor=self.beta*self.q
     for psurf,cval in self.bcdict.items():
-      transvals[psurf] = cval*math.exp(factor*pdict[psurf])
+      transvals[psurf] = cval*math.exp(beta_q*pdict[psurf])
     self.trans_bcdict=transvals
     return
 
@@ -103,16 +103,19 @@ class SUSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Smoluchowski Diffusion
   Additional attributes not inherited from GenericSolver:
     conditions = instance of SUConditions
+    beta_q = product of beta and q (for convenience)
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
     ds = FEniCS Measure for surface boundary conditions
-    c = FEniCS TrialFunction on V
+    potsolv = instance of solver for the electric potential
+    Dbar = FEniCS Function
+    cbar = FEniCS TrialFunction on V
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
   def __init__(self,modelparams,meshparams):
-    """Initialize the model, and optionally solve and generate output.
+    """Initialize the model.
     Arguments:
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
@@ -122,6 +125,7 @@ class SUSolver(solver_general.GenericSolver):
     
     #Get conditions
     self.conditions=SUConditions(**modelparams.conditions)
+    self.beta_q = self.conditions.beta * self.conditions.q
 
     #Function space for scalars and vectors
     self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
@@ -132,29 +136,34 @@ class SUSolver(solver_general.GenericSolver):
     for key in ['modelname','meshname','meshparamsfile','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
     potentialparams=solver_general.ModelParameters(**potentialparams_dict)
-    potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,writeinfo=False)
-    self.info['potential']=potsolv.info
+    self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,writeinfo=False)
+    self.info['potential']=self.potsolv.info
 
     #Dirichlet boundary conditions
-    self.conditions.transform_bcs(potsolv.conditions.bcdict) #apply Slotboom transformation
+    self.conditions.transform_bcs(self.potsolv.conditions.bcdict,self.beta_q) #apply Slotboom transformation
     self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.trans_bcdict.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
     self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
 
+    #Define the Dbar function
+    self.Dbar=self.conditions.D_bulk*fem.exp(-self.beta_q*self.potsolv.soln)
+
     #Define variational problem
-    self.c=fem.TrialFunction(self.V)
+    self.d3x = fem.Measure('cell',domain=self.mesh)
+    self.cbar=fem.TrialFunction(self.V)
     self.v=fem.TestFunction(self.V)
-    ##TODO: input smoluchowski weak form here
-    self.a=fem.dot(fem.grad(self.c),fem.grad(self.v))*fem.dx ##TODO
-    self.L=fem.Constant(0)*self.v*self.ds ##TODO
-    
+    self.a=self.Dbar*fem.dot(fem.grad(self.cbar),fem.grad(self.v))*self.d3x
+    self.L=fem.Constant(0)*self.v*self.ds
+
   def solve(self):
     "Do the step of solving this equation"
-    ##TODO: slotboom!
-    self.soln=fem.Function(self.V)
-    fem.solve(self.a==self.L, self.soln, self.bcs)
+    #Solve for cbar
+    self.sb_soln=fem.Function(self.V)
+    fem.solve(self.a==self.L, self.sb_soln, self.bcs)
+    #Transform back to concentration
+    self.soln=self.sb_soln*fem.exp(-self.beta_q*self.potsolv.soln)
     return
 
 solverclasses={'smol_unhomog':SUSolver}
@@ -175,6 +184,6 @@ if __name__ == '__main__':
     #Only do analyses with equations supported by this module
     if modelparams.equation in solverclasses.keys():
       meshparams=allmeshes[modelparams.meshname]
-      ##TODO: uncomment when ready
       ##solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)
+      ##TODO: uncomment the above, and delete these two lines
       solver=solverclasses[modelparams.equation](modelparams,meshparams)
