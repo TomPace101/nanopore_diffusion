@@ -179,7 +179,11 @@ class GenericSolver:
       #Function name and arguments
       funcname, kwargs = cmd
       #Call it
-      getattr(self,funcname)(**kwargs)
+      try:
+        getattr(self,funcname)(**kwargs)
+      except Exception as einst:
+        print("Excption occured for command: %s"%str(cmd))
+        raise einst
       
     #Write out the results file
     self.info['results']=self.results
