@@ -47,6 +47,7 @@ conditions:
       - [profile_radial, {spacing: 0.02, filename: plotdata_radial_45_phi.pkl, label: 'electric potential along theta=45 deg', theta: 45}]
       - [profile_radial, {spacing: 0.02, filename: plotdata_radial_90_phi.pkl, label: 'electric potential along theta=90 deg', theta: 90}]
 dataextraction:
+  - [solutionfield, {filename: trans_conc.pvd, attrname: sb_soln}]
   - [solutionfield, {filename: conc.pvd}]
   - [fluxfield, {filename: flux.pvd}]
   - [fluxintegral, {fluxsurf: 1, name: totflux_01, normalvar: n01}]
