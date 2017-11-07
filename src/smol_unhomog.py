@@ -3,6 +3,7 @@
 
 #Standard library
 import argparse
+import math
 import os
 import os.path as osp
 
@@ -83,16 +84,20 @@ class SUConditions(solver_general.GeneralConditions):
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
   __slots__=['D_bulk','q','beta','potential','trans_bcdict']
-  def transform_bcs(self,potentialparams):
-    """Apply Slotboom transformation to Dirichelt boundary conditions.
-    This function requires that the potential and concentration have Dirichlet boundary conditions on the same surfaces.
+  def transform_bcs(self,pdict):
+    """Apply Slotboom transformation to Dirichlet boundary conditions.
+    This function requires that the surfaces with Dirichlet conditions for the concentration
+      must also have Dirichlet conditions for the potential. (The reverse is not required.)
     Arguments:
-      potentialparams = solver_general.ModelParameters for the electric potential field
+      pdict = dictionary of Dirichlet boundary conditions for the potential
     No return value.
     trans_bcdict attribute is updated"""
-    ##TODO
-    pass
-    
+    transvals={}
+    factor=self.beta*self.q
+    for psurf,cval in self.bcdict.items():
+      transvals[psurf] = cval*math.exp(factor*pdict[psurf])
+    self.trans_bcdict=transvals
+    return
 
 class SUSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Smoluchowski Diffusion
@@ -131,7 +136,7 @@ class SUSolver(solver_general.GenericSolver):
     self.info['potential']=potsolv.info
 
     #Dirichlet boundary conditions
-    self.conditions.transform_bcs(potentialparams) #apply Slotboom transformation
+    self.conditions.transform_bcs(potsolv.conditions.bcdict) #apply Slotboom transformation
     self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.trans_bcdict.items()]
 
     #Neumann boundary conditions
