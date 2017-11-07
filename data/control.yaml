@@ -4,5 +4,5 @@
 
 # Commenting out lines will suppress running those analyses
 ---
-#- debug.yaml
-- brainy-media.yaml
+- debug.yaml
+#- brainy-media.yaml
