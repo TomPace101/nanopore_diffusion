@@ -33,7 +33,7 @@ conditions:
   bcdict: {4: 5.0, 1: 1.0}
   D_bulk: 1
   q: 1
-  beta: 1
+  beta: .01
   potential:
     equation: linear_pb
     conditions:
