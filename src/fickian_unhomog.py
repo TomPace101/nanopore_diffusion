@@ -33,7 +33,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     a = bilinear form in variational problem
     L = linear form in variational problem"""
   def __init__(self,modelparams,meshparams):
-    """Initialize the model, and optionally solve and generate output.
+    """Initialize the model.
     Arguments:
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
