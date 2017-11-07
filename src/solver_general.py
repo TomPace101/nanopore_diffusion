@@ -18,9 +18,8 @@ class GeneralConditions(useful.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
   Attributes:
     elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
-    bclist = list of Dirichlet boundary conditions pairs:
-      [(physical surface number, solution value), ...]"""
-  __slots__=['elementorder','bclist']
+    bcdict = dictionary of Dirichlet boundary conditions: {physical surface number: solution value, ...}"""
+  __slots__=['elementorder','bcdict']
 
 class ModelParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store generic solver parameters

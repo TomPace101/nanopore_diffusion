@@ -29,7 +29,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     bcs = FEniCS BCParameters
     ds = FEniCS Measure for surface boundary conditions
     c = FEniCS TrialFunction on V
-    v = FEniCS TestFunctoin on V
+    v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
   def __init__(self,modelparams,meshparams):
@@ -49,7 +49,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]
+    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bcdict.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case

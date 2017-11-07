@@ -12,7 +12,7 @@ meshname: debug
 equation: fickian_unhomog
 conditions:
   elementorder: 2
-  bclist: [[4,5.0],[1,1.0]]
+  bcdict: {4: 5.0, 1: 1.0}
   D_bulk: 1
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -30,7 +30,7 @@ meshname: debug
 equation: smol_unhomog
 conditions:
   elementorder: 2
-  bclist: [[4, 5.0],[1, 1.0]]
+  bcdict: {4: 5.0, 1: 1.0}
   D_bulk: 1
   q: 1
   beta: 1
@@ -38,7 +38,7 @@ conditions:
     equation: linear_pb
     conditions:
       elementorder: 2
-      bclist: [[2,25.0],[3,25.0],[11,25.0],[15,25.0],[1,0.0],[4,0.0]]
+      bcdict: {2: 25.0, 3: 25.0, 11: 25.0, 15: 25.0, 1: 0.0, 4: 0.0}
       debye_length: 1
     dataextraction:
       - [solutionfield, {filename: potentialfield.pvd}]

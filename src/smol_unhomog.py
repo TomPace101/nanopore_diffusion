@@ -51,7 +51,7 @@ class LPBSolver(solver_general.GenericSolver):
     self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]
+    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bcdict.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
@@ -79,17 +79,17 @@ class SUConditions(solver_general.GeneralConditions):
     q = electric charge of ion
     beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
     potential = dictionary defining ModelParameters for electric potential
-    trans_bclist = Dirichlet boundary conditions after Slotboom transformation
+    trans_bcdict = Dirichlet boundary conditions after Slotboom transformation
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['D_bulk','q','beta','potential','trans_bclist']
+  __slots__=['D_bulk','q','beta','potential','trans_bcdict']
   def transform_bcs(self,potentialparams):
     """Apply Slotboom transformation to Dirichelt boundary conditions.
     This function requires that the potential and concentration have Dirichlet boundary conditions on the same surfaces.
     Arguments:
       potentialparams = solver_general.ModelParameters for the electric potential field
     No return value.
-    trans_bclist attribute is updated"""
+    trans_bcdict attribute is updated"""
     ##TODO
     pass
     
@@ -132,7 +132,7 @@ class SUSolver(solver_general.GenericSolver):
 
     #Dirichlet boundary conditions
     self.conditions.transform_bcs(potentialparams) #apply Slotboom transformation
-    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.trans_bclist]
+    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.trans_bcdict.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case

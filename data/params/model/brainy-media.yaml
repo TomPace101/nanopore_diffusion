@@ -1,8 +1,6 @@
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -28,9 +26,7 @@ modelname: brainy-media_model_001
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -56,9 +52,7 @@ modelname: brainy-media_model_002
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -84,9 +78,7 @@ modelname: brainy-media_model_003
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -112,9 +104,7 @@ modelname: brainy-media_model_004
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -140,9 +130,7 @@ modelname: brainy-media_model_005
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -168,9 +156,7 @@ modelname: brainy-media_model_006
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -196,9 +182,7 @@ modelname: brainy-media_model_007
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -224,9 +208,7 @@ modelname: brainy-media_model_008
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -252,9 +234,7 @@ modelname: brainy-media_model_009
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -280,9 +260,7 @@ modelname: brainy-media_model_010
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -308,9 +286,7 @@ modelname: brainy-media_model_011
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -336,9 +312,7 @@ modelname: brainy-media_model_012
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -364,9 +338,7 @@ modelname: brainy-media_model_013
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -392,9 +364,7 @@ modelname: brainy-media_model_014
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -420,9 +390,7 @@ modelname: brainy-media_model_015
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -448,9 +416,7 @@ modelname: brainy-media_model_016
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -476,9 +442,7 @@ modelname: brainy-media_model_017
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -504,9 +468,7 @@ modelname: brainy-media_model_018
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -532,9 +494,7 @@ modelname: brainy-media_model_019
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -560,9 +520,7 @@ modelname: brainy-media_model_020
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -588,9 +546,7 @@ modelname: brainy-media_model_021
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -616,9 +572,7 @@ modelname: brainy-media_model_022
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -644,9 +598,7 @@ modelname: brainy-media_model_023
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -672,9 +624,7 @@ modelname: brainy-media_model_024
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -700,9 +650,7 @@ modelname: brainy-media_model_025
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -728,9 +676,7 @@ modelname: brainy-media_model_026
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -756,9 +702,7 @@ modelname: brainy-media_model_027
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -784,9 +728,7 @@ modelname: brainy-media_model_028
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -812,9 +754,7 @@ modelname: brainy-media_model_029
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -840,9 +780,7 @@ modelname: brainy-media_model_030
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -868,9 +806,7 @@ modelname: brainy-media_model_031
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -896,9 +832,7 @@ modelname: brainy-media_model_032
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -924,9 +858,7 @@ modelname: brainy-media_model_033
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -952,9 +884,7 @@ modelname: brainy-media_model_034
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -980,9 +910,7 @@ modelname: brainy-media_model_035
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1008,9 +936,7 @@ modelname: brainy-media_model_036
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1036,9 +962,7 @@ modelname: brainy-media_model_037
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1064,9 +988,7 @@ modelname: brainy-media_model_038
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1092,9 +1014,7 @@ modelname: brainy-media_model_039
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1120,9 +1040,7 @@ modelname: brainy-media_model_040
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1148,9 +1066,7 @@ modelname: brainy-media_model_041
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1176,9 +1092,7 @@ modelname: brainy-media_model_042
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1204,9 +1118,7 @@ modelname: brainy-media_model_043
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1232,9 +1144,7 @@ modelname: brainy-media_model_044
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1260,9 +1170,7 @@ modelname: brainy-media_model_045
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1288,9 +1196,7 @@ modelname: brainy-media_model_046
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1316,9 +1222,7 @@ modelname: brainy-media_model_047
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1344,9 +1248,7 @@ modelname: brainy-media_model_048
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1372,9 +1274,7 @@ modelname: brainy-media_model_049
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1400,9 +1300,7 @@ modelname: brainy-media_model_050
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1428,9 +1326,7 @@ modelname: brainy-media_model_051
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1456,9 +1352,7 @@ modelname: brainy-media_model_052
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1484,9 +1378,7 @@ modelname: brainy-media_model_053
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1512,9 +1404,7 @@ modelname: brainy-media_model_054
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1540,9 +1430,7 @@ modelname: brainy-media_model_055
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1568,9 +1456,7 @@ modelname: brainy-media_model_056
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1596,9 +1482,7 @@ modelname: brainy-media_model_057
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1624,9 +1508,7 @@ modelname: brainy-media_model_058
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1652,9 +1534,7 @@ modelname: brainy-media_model_059
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1680,9 +1560,7 @@ modelname: brainy-media_model_060
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1708,9 +1586,7 @@ modelname: brainy-media_model_061
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1736,9 +1612,7 @@ modelname: brainy-media_model_062
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1764,9 +1638,7 @@ modelname: brainy-media_model_063
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1792,9 +1664,7 @@ modelname: brainy-media_model_064
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1820,9 +1690,7 @@ modelname: brainy-media_model_065
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1848,9 +1716,7 @@ modelname: brainy-media_model_066
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1876,9 +1742,7 @@ modelname: brainy-media_model_067
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1904,9 +1768,7 @@ modelname: brainy-media_model_068
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1932,9 +1794,7 @@ modelname: brainy-media_model_069
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1960,9 +1820,7 @@ modelname: brainy-media_model_070
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -1988,9 +1846,7 @@ modelname: brainy-media_model_071
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2016,9 +1872,7 @@ modelname: brainy-media_model_072
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2044,9 +1898,7 @@ modelname: brainy-media_model_073
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2072,9 +1924,7 @@ modelname: brainy-media_model_074
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2100,9 +1950,7 @@ modelname: brainy-media_model_075
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2128,9 +1976,7 @@ modelname: brainy-media_model_076
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2156,9 +2002,7 @@ modelname: brainy-media_model_077
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2184,9 +2028,7 @@ modelname: brainy-media_model_078
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2212,9 +2054,7 @@ modelname: brainy-media_model_079
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2240,9 +2080,7 @@ modelname: brainy-media_model_080
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2268,9 +2106,7 @@ modelname: brainy-media_model_081
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2296,9 +2132,7 @@ modelname: brainy-media_model_082
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2324,9 +2158,7 @@ modelname: brainy-media_model_083
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2352,9 +2184,7 @@ modelname: brainy-media_model_084
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2380,9 +2210,7 @@ modelname: brainy-media_model_085
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2408,9 +2236,7 @@ modelname: brainy-media_model_086
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2436,9 +2262,7 @@ modelname: brainy-media_model_087
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2464,9 +2288,7 @@ modelname: brainy-media_model_088
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2492,9 +2314,7 @@ modelname: brainy-media_model_089
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2520,9 +2340,7 @@ modelname: brainy-media_model_090
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2548,9 +2366,7 @@ modelname: brainy-media_model_091
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2576,9 +2392,7 @@ modelname: brainy-media_model_092
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2604,9 +2418,7 @@ modelname: brainy-media_model_093
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2632,9 +2444,7 @@ modelname: brainy-media_model_094
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2660,9 +2470,7 @@ modelname: brainy-media_model_095
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2688,9 +2496,7 @@ modelname: brainy-media_model_096
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2716,9 +2522,7 @@ modelname: brainy-media_model_097
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2744,9 +2548,7 @@ modelname: brainy-media_model_098
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2772,9 +2574,7 @@ modelname: brainy-media_model_099
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2800,9 +2600,7 @@ modelname: brainy-media_model_100
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2828,9 +2626,7 @@ modelname: brainy-media_model_101
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2856,9 +2652,7 @@ modelname: brainy-media_model_102
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2884,9 +2678,7 @@ modelname: brainy-media_model_103
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2912,9 +2704,7 @@ modelname: brainy-media_model_104
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2940,9 +2730,7 @@ modelname: brainy-media_model_105
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2968,9 +2756,7 @@ modelname: brainy-media_model_106
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -2996,9 +2782,7 @@ modelname: brainy-media_model_107
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3024,9 +2808,7 @@ modelname: brainy-media_model_108
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3052,9 +2834,7 @@ modelname: brainy-media_model_109
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3080,9 +2860,7 @@ modelname: brainy-media_model_110
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3108,9 +2886,7 @@ modelname: brainy-media_model_111
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3136,9 +2912,7 @@ modelname: brainy-media_model_112
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3164,9 +2938,7 @@ modelname: brainy-media_model_113
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3192,9 +2964,7 @@ modelname: brainy-media_model_114
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3220,9 +2990,7 @@ modelname: brainy-media_model_115
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3248,9 +3016,7 @@ modelname: brainy-media_model_116
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3276,9 +3042,7 @@ modelname: brainy-media_model_117
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3304,9 +3068,7 @@ modelname: brainy-media_model_118
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3332,9 +3094,7 @@ modelname: brainy-media_model_119
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3360,9 +3120,7 @@ modelname: brainy-media_model_120
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3388,9 +3146,7 @@ modelname: brainy-media_model_121
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3416,9 +3172,7 @@ modelname: brainy-media_model_122
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3444,9 +3198,7 @@ modelname: brainy-media_model_123
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3472,9 +3224,7 @@ modelname: brainy-media_model_124
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3500,9 +3250,7 @@ modelname: brainy-media_model_125
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3528,9 +3276,7 @@ modelname: brainy-media_model_126
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3556,9 +3302,7 @@ modelname: brainy-media_model_127
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3584,9 +3328,7 @@ modelname: brainy-media_model_128
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3612,9 +3354,7 @@ modelname: brainy-media_model_129
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3640,9 +3380,7 @@ modelname: brainy-media_model_130
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3668,9 +3406,7 @@ modelname: brainy-media_model_131
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3696,9 +3432,7 @@ modelname: brainy-media_model_132
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3724,9 +3458,7 @@ modelname: brainy-media_model_133
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3752,9 +3484,7 @@ modelname: brainy-media_model_134
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3780,9 +3510,7 @@ modelname: brainy-media_model_135
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3808,9 +3536,7 @@ modelname: brainy-media_model_136
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3836,9 +3562,7 @@ modelname: brainy-media_model_137
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3864,9 +3588,7 @@ modelname: brainy-media_model_138
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3892,9 +3614,7 @@ modelname: brainy-media_model_139
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3920,9 +3640,7 @@ modelname: brainy-media_model_140
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3948,9 +3666,7 @@ modelname: brainy-media_model_141
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -3976,9 +3692,7 @@ modelname: brainy-media_model_142
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4004,9 +3718,7 @@ modelname: brainy-media_model_143
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4032,9 +3744,7 @@ modelname: brainy-media_model_144
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4060,9 +3770,7 @@ modelname: brainy-media_model_145
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4088,9 +3796,7 @@ modelname: brainy-media_model_146
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4116,9 +3822,7 @@ modelname: brainy-media_model_147
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4144,9 +3848,7 @@ modelname: brainy-media_model_148
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4172,9 +3874,7 @@ modelname: brainy-media_model_149
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4200,9 +3900,7 @@ modelname: brainy-media_model_150
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4228,9 +3926,7 @@ modelname: brainy-media_model_151
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4256,9 +3952,7 @@ modelname: brainy-media_model_152
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4284,9 +3978,7 @@ modelname: brainy-media_model_153
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4312,9 +4004,7 @@ modelname: brainy-media_model_154
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4340,9 +4030,7 @@ modelname: brainy-media_model_155
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4368,9 +4056,7 @@ modelname: brainy-media_model_156
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4396,9 +4082,7 @@ modelname: brainy-media_model_157
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4424,9 +4108,7 @@ modelname: brainy-media_model_158
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4452,9 +4134,7 @@ modelname: brainy-media_model_159
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4480,9 +4160,7 @@ modelname: brainy-media_model_160
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4508,9 +4186,7 @@ modelname: brainy-media_model_161
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4536,9 +4212,7 @@ modelname: brainy-media_model_162
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4564,9 +4238,7 @@ modelname: brainy-media_model_163
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4592,9 +4264,7 @@ modelname: brainy-media_model_164
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4620,9 +4290,7 @@ modelname: brainy-media_model_165
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4648,9 +4316,7 @@ modelname: brainy-media_model_166
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4676,9 +4342,7 @@ modelname: brainy-media_model_167
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4704,9 +4368,7 @@ modelname: brainy-media_model_168
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4732,9 +4394,7 @@ modelname: brainy-media_model_169
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4760,9 +4420,7 @@ modelname: brainy-media_model_170
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4788,9 +4446,7 @@ modelname: brainy-media_model_171
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4816,9 +4472,7 @@ modelname: brainy-media_model_172
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4844,9 +4498,7 @@ modelname: brainy-media_model_173
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4872,9 +4524,7 @@ modelname: brainy-media_model_174
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4900,9 +4550,7 @@ modelname: brainy-media_model_175
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4928,9 +4576,7 @@ modelname: brainy-media_model_176
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4956,9 +4602,7 @@ modelname: brainy-media_model_177
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -4984,9 +4628,7 @@ modelname: brainy-media_model_178
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5012,9 +4654,7 @@ modelname: brainy-media_model_179
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5040,9 +4680,7 @@ modelname: brainy-media_model_180
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5068,9 +4706,7 @@ modelname: brainy-media_model_181
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5096,9 +4732,7 @@ modelname: brainy-media_model_182
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5124,9 +4758,7 @@ modelname: brainy-media_model_183
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5152,9 +4784,7 @@ modelname: brainy-media_model_184
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5180,9 +4810,7 @@ modelname: brainy-media_model_185
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5208,9 +4836,7 @@ modelname: brainy-media_model_186
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5236,9 +4862,7 @@ modelname: brainy-media_model_187
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5264,9 +4888,7 @@ modelname: brainy-media_model_188
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5292,9 +4914,7 @@ modelname: brainy-media_model_189
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5320,9 +4940,7 @@ modelname: brainy-media_model_190
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5348,9 +4966,7 @@ modelname: brainy-media_model_191
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5376,9 +4992,7 @@ modelname: brainy-media_model_192
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5404,9 +5018,7 @@ modelname: brainy-media_model_193
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5432,9 +5044,7 @@ modelname: brainy-media_model_194
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5460,9 +5070,7 @@ modelname: brainy-media_model_195
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5488,9 +5096,7 @@ modelname: brainy-media_model_196
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5516,9 +5122,7 @@ modelname: brainy-media_model_197
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5544,9 +5148,7 @@ modelname: brainy-media_model_198
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5572,9 +5174,7 @@ modelname: brainy-media_model_199
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5600,9 +5200,7 @@ modelname: brainy-media_model_200
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5628,9 +5226,7 @@ modelname: brainy-media_model_201
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5656,9 +5252,7 @@ modelname: brainy-media_model_202
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5684,9 +5278,7 @@ modelname: brainy-media_model_203
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5712,9 +5304,7 @@ modelname: brainy-media_model_204
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5740,9 +5330,7 @@ modelname: brainy-media_model_205
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5768,9 +5356,7 @@ modelname: brainy-media_model_206
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5796,9 +5382,7 @@ modelname: brainy-media_model_207
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5824,9 +5408,7 @@ modelname: brainy-media_model_208
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5852,9 +5434,7 @@ modelname: brainy-media_model_209
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5880,9 +5460,7 @@ modelname: brainy-media_model_210
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5908,9 +5486,7 @@ modelname: brainy-media_model_211
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5936,9 +5512,7 @@ modelname: brainy-media_model_212
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5964,9 +5538,7 @@ modelname: brainy-media_model_213
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -5992,9 +5564,7 @@ modelname: brainy-media_model_214
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6020,9 +5590,7 @@ modelname: brainy-media_model_215
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6048,9 +5616,7 @@ modelname: brainy-media_model_216
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6076,9 +5642,7 @@ modelname: brainy-media_model_217
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6104,9 +5668,7 @@ modelname: brainy-media_model_218
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6132,9 +5694,7 @@ modelname: brainy-media_model_219
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6160,9 +5720,7 @@ modelname: brainy-media_model_220
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6188,9 +5746,7 @@ modelname: brainy-media_model_221
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6216,9 +5772,7 @@ modelname: brainy-media_model_222
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6244,9 +5798,7 @@ modelname: brainy-media_model_223
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6272,9 +5824,7 @@ modelname: brainy-media_model_224
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6300,9 +5850,7 @@ modelname: brainy-media_model_225
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6328,9 +5876,7 @@ modelname: brainy-media_model_226
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6356,9 +5902,7 @@ modelname: brainy-media_model_227
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6384,9 +5928,7 @@ modelname: brainy-media_model_228
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6412,9 +5954,7 @@ modelname: brainy-media_model_229
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6440,9 +5980,7 @@ modelname: brainy-media_model_230
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6468,9 +6006,7 @@ modelname: brainy-media_model_231
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6496,9 +6032,7 @@ modelname: brainy-media_model_232
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6524,9 +6058,7 @@ modelname: brainy-media_model_233
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6552,9 +6084,7 @@ modelname: brainy-media_model_234
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 5.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 5.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
@@ -6580,9 +6110,7 @@ modelname: brainy-media_model_235
 ---
 conditions:
   D_bulk: 1.0
-  bclist:
-  - [4, 10.0]
-  - [1, 1.0]
+  bcdict: {1: 1.0, 4: 10.0}
   elementorder: 2
 dataextraction:
 - - solutionfield
