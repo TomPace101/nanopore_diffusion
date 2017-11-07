@@ -1,7 +1,12 @@
 
 **Current Goal** Image of potential from Poisson-Boltzmann
 
+_TODO_ units analysis as described below, to get an appropriate value of beta.
+Then re-run, then generate the figure.
+
 # Code/Misc
+
+_TODO_ collect_results is choking on debug right now
 
 _TODO_ find a way to get coordinates of the surface normal used in a flux calculation
 The notebook dated 2017-11-06 is where I was working on this before.
