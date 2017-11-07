@@ -188,11 +188,12 @@ class GenericSolver:
     #Done
     return
 
-  def solutionfield(self,filename):
+  def solutionfield(self,filename,attrname='soln'):
     """Write solution field to VTK file
     Arguments:
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
+      attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
       outdir = output directory, as string
       soln = FEniCS Function containing solution
@@ -200,7 +201,7 @@ class GenericSolver:
     No return value.
     Output file is written."""
     vtk_file=fem.File(osp.join(self.outdir,filename))
-    vtk_file << self.soln
+    vtk_file << getattr(self,attrname)
     return
 
   def fluxfield(self,filename):
