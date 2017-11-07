@@ -14,12 +14,11 @@ from folderstructure import *
 import solver_general
 import useful
 
-class LPBConditions(useful.ParameterSet):
+class LPBConditions(solver_general.GeneralConditions):
   """Condition defnitions for use with LPBSolver
   Attributes:
-    bclist = list of Dirichlet boundary conditions pairs:
-      [(physical surface number, solution value), ...]"""
-  __slots__=['bclist']
+      debye_length = Debye length"""
+  __slots__=['debye_length']
 
 class LPBSolver(solver_general.GenericSolver):
   """Solver for linearized Poisson-Boltzmann equation.
@@ -46,10 +45,10 @@ class LPBSolver(solver_general.GenericSolver):
     self.conditions=LPBConditions(**modelparams.conditions)
     
     #Properties of problem domain
-    self.lambda_D = modelparams.properties['debye_length']
+    self.lambda_D = self.conditions.debye_length
     
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',modelparams.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
 
     #Dirichlet boundary conditions
     self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]
@@ -73,13 +72,15 @@ class LPBSolver(solver_general.GenericSolver):
 #Lookup of electric potential solvers by name
 potentialsolverclasses={'linear_pb':LPBSolver}
 
-class SUConditions(useful.ParameterSet):
+class SUConditions(solver_general.GeneralConditions):
   """Condition defnitions for use with SUSolver
   Attributes:
-    bclist = list of Dirichlet boundary conditions pairs:
-      [(physical surface number, solution value), ...]
-    potential = dictionary defining ModelParameters for electric potential""" ##TODO: is solution value in bclist c or cbar?
-  __slots__=['bclist','potential']
+    D_bulk = bulk diffusion constant
+    q = electric charge of ion
+    beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
+    potential = dictionary defining ModelParameters for electric potential"""
+  ##TODO: is solution value in bclist c or cbar?
+  __slots__=['D_bulk','q','beta','potential']
 
 class SUSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Smoluchowski Diffusion
@@ -106,8 +107,8 @@ class SUSolver(solver_general.GenericSolver):
     self.conditions=SUConditions(**modelparams.conditions)
 
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',modelparams.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", modelparams.elementorder)
+    self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
 
     #Dirichlet boundary conditions
     self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]

@@ -14,12 +14,11 @@ from folderstructure import *
 import solver_general
 import useful
 
-class UnhomogFickianConditions(useful.ParameterSet):
+class UnhomogFickianConditions(solver_general.GeneralConditions):
   """Condition defnitions for use with UnhomogFickianSolver
   Attributes:
-    bclist = list of Dirichlet boundary conditions pairs:
-      [(physical surface number, solution value), ...]"""
-  __slots__=['bclist']
+    D_bulk = bulk diffusion constant"""
+  __slots__=['D_bulk']
 
 class UnhomogFickianSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Fickian Diffusion
@@ -46,8 +45,8 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     self.conditions=UnhomogFickianConditions(**modelparams.conditions)
 
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',modelparams.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", modelparams.elementorder)
+    self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
 
     #Dirichlet boundary conditions
     self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]

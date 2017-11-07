@@ -4,31 +4,16 @@
 #Blank (bare) documents are skipped
 
 #Model definition
-#modelname: name of model parameter set
-#meshparamsfile: name of yaml file containing the mesh defined by meshname (include .yaml extension)
-#meshname: name of mesh to use
-#equation: name of equation to solve
-#properties:
-# Only D_bulk is needed for unhomogenized Fickian diffusion
-#conditions:
-# topsurf: physical surface number of top surface
-# basesurf: physical surface number of base surface
-# topval: concentration value specified at top surface
-# baseval: concentration value specified at base surface
-#dataextraction:
-# a sequence of data extraction commands,
-# each command is a pair of an extraction function name and a dictionary of its keyword arguments
-# see solver_general.GenericSolver, or the appropriate class derived from there
+#Each document defines an instance of solver_general.ModelParameters
 ---
 modelname: debug01
 meshparamsfile: debug.yaml
 meshname: debug
 equation: fickian_unhomog
-elementorder: 2
-properties:
-  D_bulk: 1
 conditions:
+  elementorder: 2
   bclist: [[4,5.0],[1,1.0]]
+  D_bulk: 1
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
   - [fluxfield, {filename: flux.pvd}]
@@ -43,19 +28,18 @@ modelname: debug02
 meshparamsfile: debug.yaml
 meshname: debug
 equation: smol_unhomog
-elementorder: 2
-properties:
+conditions:
+  elementorder: 2
+  bclist: [[4, 5.0],[1, 1.0]]
   D_bulk: 1
   q: 1
-conditions:
-  bclist: [[4, 5.0],[1, 1.0]]
+  beta: 1
   potential:
     equation: linear_pb
-    elementorder: 2
-    properties:
-      debye_length: 1
     conditions:
+      elementorder: 2
       bclist: [[2,25.0],[3,25.0],[11,25.0],[15,25.0],[1,0.0],[4,0.0]]
+      debye_length: 1
     dataextraction:
       - [solutionfield, {filename: potentialfield.pvd}]
       - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_phi.pkl, label: 'electric potential along centerline'}]

@@ -1,7 +1,9 @@
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -19,17 +21,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_001
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_001
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -47,17 +49,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_001
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_002
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -75,17 +77,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_002
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_003
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -103,17 +105,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_002
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_004
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -131,17 +133,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_003
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_005
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -159,17 +161,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_003
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_006
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -187,17 +189,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_004
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_007
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -215,17 +217,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_004
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_008
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -243,17 +245,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_005
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_009
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -271,17 +273,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_005
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_010
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -299,17 +301,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_006
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_011
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -327,17 +329,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_006
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_012
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -355,17 +357,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_007
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_013
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -383,17 +385,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_007
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_014
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -411,17 +413,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_008
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_015
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -439,17 +441,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_008
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_016
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -467,17 +469,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_009
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_017
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -495,17 +497,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_009
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_018
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -523,17 +525,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_010
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_019
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -551,17 +553,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_010
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_020
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -579,17 +581,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_011
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_021
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -607,17 +609,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_011
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_022
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -635,17 +637,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_012
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_023
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -663,17 +665,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_012
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_024
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -691,17 +693,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_013
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_025
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -719,17 +721,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_013
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_026
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -747,17 +749,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_014
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_027
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -775,17 +777,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_014
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_028
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -803,17 +805,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_015
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_029
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -831,17 +833,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_015
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_030
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -859,17 +861,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_016
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_031
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -887,17 +889,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_016
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_032
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -915,17 +917,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_017
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_033
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -943,17 +945,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_017
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_034
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -971,17 +973,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_018
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_035
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -999,17 +1001,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_018
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_036
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1027,17 +1029,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_019
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_037
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1055,17 +1057,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_019
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_038
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1083,17 +1085,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_020
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_039
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1111,17 +1113,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_020
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_040
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1139,17 +1141,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_021
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_041
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1167,17 +1169,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_021
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_042
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1195,17 +1197,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_022
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_043
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1223,17 +1225,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_022
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_044
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1251,17 +1253,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_023
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_045
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1279,17 +1281,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_023
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_046
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1307,17 +1309,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_024
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_047
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1335,17 +1337,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_024
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_048
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1363,17 +1365,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_025
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_049
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1391,17 +1393,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_025
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_050
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1419,17 +1421,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_026
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_051
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1447,17 +1449,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_026
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_052
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1475,17 +1477,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_027
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_053
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1503,17 +1505,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_027
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_054
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1531,17 +1533,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_028
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_055
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1559,17 +1561,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_028
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_056
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1587,17 +1589,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_029
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_057
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1615,17 +1617,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_029
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_058
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1643,17 +1645,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_030
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_059
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1671,17 +1673,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_030
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_060
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1699,17 +1701,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_031
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_061
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1727,17 +1729,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_031
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_062
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1755,17 +1757,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_032
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_063
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1783,17 +1785,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_032
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_064
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1811,17 +1813,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_033
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_065
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1839,17 +1841,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_033
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_066
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1867,17 +1869,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_034
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_067
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1895,17 +1897,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_034
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_068
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1923,17 +1925,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_035
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_069
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1951,17 +1953,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_035
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_070
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -1979,17 +1981,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_036
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_071
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2007,17 +2009,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_036
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_072
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2035,17 +2037,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_037
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_073
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2063,17 +2065,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_037
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_074
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2091,17 +2093,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_038
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_075
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2119,17 +2121,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_038
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_076
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2147,17 +2149,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_039
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_077
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2175,17 +2177,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_039
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_078
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2203,17 +2205,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_040
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_079
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2231,17 +2233,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_040
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_080
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2259,17 +2261,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_041
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_081
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2287,17 +2289,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_041
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_082
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2315,17 +2317,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_042
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_083
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2343,17 +2345,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_042
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_084
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2371,17 +2373,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_043
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_085
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2399,17 +2401,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_043
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_086
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2427,17 +2429,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_044
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_087
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2455,17 +2457,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_044
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_088
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2483,17 +2485,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_045
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_089
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2511,17 +2513,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_045
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_090
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2539,17 +2541,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_046
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_091
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2567,17 +2569,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_046
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_092
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2595,17 +2597,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_047
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_093
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2623,17 +2625,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_047
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_094
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2651,17 +2653,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_048
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_095
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2679,17 +2681,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_048
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_096
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2707,17 +2709,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_049
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_097
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2735,17 +2737,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_049
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_098
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2763,17 +2765,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_050
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_099
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2791,17 +2793,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_050
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_100
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2819,17 +2821,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_051
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_101
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2847,17 +2849,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_051
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_102
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2875,17 +2877,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_052
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_103
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2903,17 +2905,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_052
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_104
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2931,17 +2933,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_053
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_105
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2959,17 +2961,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_053
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_106
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -2987,17 +2989,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_054
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_107
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3015,17 +3017,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_054
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_108
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3043,17 +3045,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_055
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_109
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3071,17 +3073,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_055
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_110
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3099,17 +3101,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_056
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_111
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3127,17 +3129,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_056
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_112
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3155,17 +3157,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_057
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_113
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3183,17 +3185,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_057
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_114
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3211,17 +3213,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_058
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_115
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3239,17 +3241,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_058
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_116
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3267,17 +3269,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_059
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_117
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3295,17 +3297,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_059
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_118
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3323,17 +3325,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_060
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_119
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3351,17 +3353,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_060
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_120
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3379,17 +3381,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_061
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_121
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3407,17 +3409,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_061
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_122
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3435,17 +3437,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_062
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_123
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3463,17 +3465,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_062
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_124
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3491,17 +3493,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_063
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_125
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3519,17 +3521,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_063
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_126
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3547,17 +3549,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_064
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_127
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3575,17 +3577,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_064
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_128
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3603,17 +3605,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_065
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_129
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3631,17 +3633,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_065
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_130
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3659,17 +3661,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_066
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_131
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3687,17 +3689,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_066
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_132
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3715,17 +3717,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_067
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_133
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3743,17 +3745,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_067
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_134
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3771,17 +3773,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_068
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_135
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3799,17 +3801,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_068
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_136
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3827,17 +3829,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_069
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_137
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3855,17 +3857,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_069
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_138
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3883,17 +3885,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_070
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_139
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3911,17 +3913,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_070
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_140
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3939,17 +3941,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_071
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_141
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3967,17 +3969,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_071
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_142
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -3995,17 +3997,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_072
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_143
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4023,17 +4025,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_072
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_144
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4051,17 +4053,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_073
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_145
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4079,17 +4081,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_073
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_146
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4107,17 +4109,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_074
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_147
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4135,17 +4137,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_074
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_148
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4163,17 +4165,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_075
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_149
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4191,17 +4193,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_075
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_150
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4219,17 +4221,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_076
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_151
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4247,17 +4249,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_076
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_152
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4275,17 +4277,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_077
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_153
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4303,17 +4305,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_077
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_154
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4331,17 +4333,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_078
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_155
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4359,17 +4361,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_078
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_156
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4387,17 +4389,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_079
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_157
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4415,17 +4417,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_079
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_158
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4443,17 +4445,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_080
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_159
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4471,17 +4473,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_080
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_160
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4499,17 +4501,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_081
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_161
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4527,17 +4529,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_081
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_162
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4555,17 +4557,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_082
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_163
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4583,17 +4585,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_082
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_164
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4611,17 +4613,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_083
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_165
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4639,17 +4641,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_083
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_166
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4667,17 +4669,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_084
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_167
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4695,17 +4697,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_084
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_168
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4723,17 +4725,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_085
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_169
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4751,17 +4753,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_085
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_170
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4779,17 +4781,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_086
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_171
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4807,17 +4809,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_086
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_172
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4835,17 +4837,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_087
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_173
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4863,17 +4865,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_087
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_174
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4891,17 +4893,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_088
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_175
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4919,17 +4921,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_088
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_176
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4947,17 +4949,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_089
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_177
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -4975,17 +4977,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_089
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_178
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5003,17 +5005,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_090
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_179
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5031,17 +5033,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_090
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_180
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5059,17 +5061,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_091
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_181
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5087,17 +5089,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_091
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_182
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5115,17 +5117,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_092
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_183
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5143,17 +5145,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_092
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_184
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5171,17 +5173,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_093
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_185
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5199,17 +5201,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_093
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_186
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5227,17 +5229,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_094
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_187
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5255,17 +5257,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_094
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_188
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5283,17 +5285,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_095
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_189
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5311,17 +5313,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_095
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_190
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5339,17 +5341,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_096
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_191
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5367,17 +5369,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_096
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_192
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5395,17 +5397,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_097
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_193
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5423,17 +5425,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_097
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_194
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5451,17 +5453,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_098
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_195
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5479,17 +5481,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_098
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_196
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5507,17 +5509,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_099
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_197
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5535,17 +5537,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_099
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_198
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5563,17 +5565,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_100
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_199
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5591,17 +5593,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_100
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_200
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5619,17 +5621,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_101
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_201
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5647,17 +5649,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_101
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_202
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5675,17 +5677,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_102
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_203
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5703,17 +5705,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_102
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_204
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5731,17 +5733,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_103
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_205
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5759,17 +5761,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_103
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_206
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5787,17 +5789,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_104
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_207
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5815,17 +5817,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_104
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_208
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5843,17 +5845,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_105
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_209
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5871,17 +5873,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_105
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_210
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5899,17 +5901,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_106
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_211
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5927,17 +5929,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_106
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_212
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5955,17 +5957,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_107
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_213
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -5983,17 +5985,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_107
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_214
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6011,17 +6013,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_108
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_215
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6039,17 +6041,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_108
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_216
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6067,17 +6069,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_109
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_217
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6095,17 +6097,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_109
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_218
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6123,17 +6125,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_110
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_219
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6151,17 +6153,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_110
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_220
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6179,17 +6181,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_111
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_221
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6207,17 +6209,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_111
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_222
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6235,17 +6237,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_112
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_223
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6263,17 +6265,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_112
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_224
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6291,17 +6293,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_113
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_225
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6319,17 +6321,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_113
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_226
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6347,17 +6349,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_114
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_227
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6375,17 +6377,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_114
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_228
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6403,17 +6405,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_115
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_229
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6431,17 +6433,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_115
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_230
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6459,17 +6461,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_116
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_231
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6487,17 +6489,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_116
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_232
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6515,17 +6517,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_117
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_233
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6543,17 +6545,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_117
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_234
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 5.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6571,17 +6573,17 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_118
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_235
-properties: {D_bulk: 1.0}
 ---
 conditions:
+  D_bulk: 1.0
   bclist:
   - [4, 10.0]
   - [1, 1.0]
+  elementorder: 2
 dataextraction:
 - - solutionfield
   - {filename: conc.pvd}
@@ -6599,9 +6601,7 @@ dataextraction:
   - {name: free_volume_frac}
 - - profile_centerline
   - {filename: plotdata_CL_c.pkl, label: concentration along centerline, spacing: 0.1}
-elementorder: 2
 equation: fickian_unhomog
 meshname: brainy-media_mesh_118
 meshparamsfile: brainy-media.yaml
 modelname: brainy-media_model_236
-properties: {D_bulk: 1.0}

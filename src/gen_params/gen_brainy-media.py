@@ -58,9 +58,6 @@ dataextraction = yaml.load("""
 - [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]
 """)
 
-#Material properites
-propertiesdict={'D_bulk':D_bulk}
-
 #The model parameters file
 modelfile=osp.join(params_model_folder,hrhash+'.yaml')
 modeldocs=[]
@@ -68,13 +65,11 @@ idnum=1
 for meshname,bcvals in itertools.product(meshname_list,dirichlet_pairs):
   assert idnum < 1000, "Insufficient number of digits provided"
   topval,baseval= bcvals
-  conditions={'bclist':[[4,topval],[1,baseval]]}
+  conditions={'elementorder':2, 'bclist':[[4,topval],[1,baseval]], 'D_bulk':D_bulk}
   doc={'modelname':'%s_model_%03d'%(hrhash,idnum),
         'meshname':meshname,
         'meshparamsfile':hrhash+'.yaml',
         'equation': 'fickian_unhomog',
-        'elementorder': 2,
-        'properties': propertiesdict,
         'conditions': conditions,
         'dataextraction': dataextraction}
   modeldocs.append(doc)

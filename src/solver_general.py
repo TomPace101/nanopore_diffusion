@@ -14,6 +14,13 @@ import useful
 import plotdata
 import buildgeom
 
+class GeneralConditions(useful.ParameterSet):
+  """Condition defnitions, to be subclassed by each equation as needed
+  Attributes:
+    elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
+    bclist = list of Dirichlet boundary conditions pairs:
+      [(physical surface number, solution value), ...]"""
+  __slots__=['elementorder','bclist']
 
 class ModelParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store generic solver parameters
@@ -23,14 +30,15 @@ class ModelParameters(useful.ParameterSet):
     meshname = stem name for mesh files
     equation = name of equation to be solved
     properties = dictionary of property values
-    conditions = parameters specifying boundary conditions, initial conditions, etc.
-      The parameters specified are specific to the equation being solved
+    conditions = parameters specifying boundary conditions, initial conditions, property values, etc.
+      The parameters specified are specific to the equation being solved.
+      See the equation's module for the equation-specific conditions object,
+      which will usually inherit from GeneralConditions.
     dataextraction = a sequence of data extraction commands
       Each command is a pair (cmdname, arguments), where
         cmdname = name of the solver object's method to call, as a string
-        arguments = dictionary of arguments to the method: {argname: value,...}
-    elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements"""
-  __slots__=('modelname','meshparamsfile','meshname','equation','properties','conditions','dataextraction','elementorder')
+        arguments = dictionary of arguments to the method: {argname: value,...}"""
+  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction')
 
 def List_Mesh_Input_Files(meshname,basedir):
   mesh_xml=osp.join(xmlfolder,basedir,meshname+'.xml')
@@ -202,7 +210,7 @@ class GenericSolver:
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
     Required attributes:
-      modelparams.properties['D_bulk'] = bulk diffusion constant for the medium
+      conditions.D_bulk = bulk diffusion constant for the medium
       outdir = output directory, as string
       soln = FEniCS Function containing solution
       V_vec = FEniCS VectorFunctionSpace
@@ -210,7 +218,7 @@ class GenericSolver:
       flux = flux field as a MeshFunction
     No return value.
     Output file is written."""
-    D_bulk=self.modelparams.properties['D_bulk']
+    D_bulk=self.conditions.D_bulk
     self.flux=fem.project(fem.Constant(-D_bulk)*fem.grad(self.soln),self.V_vec)
     vtk_file=fem.File(osp.join(self.outdir,filename))
     vtk_file << self.flux
