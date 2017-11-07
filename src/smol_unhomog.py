@@ -78,9 +78,21 @@ class SUConditions(solver_general.GeneralConditions):
     D_bulk = bulk diffusion constant
     q = electric charge of ion
     beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
-    potential = dictionary defining ModelParameters for electric potential"""
-  ##TODO: is solution value in bclist c or cbar?
-  __slots__=['D_bulk','q','beta','potential']
+    potential = dictionary defining ModelParameters for electric potential
+    trans_bclist = Dirichlet boundary conditions after Slotboom transformation
+  Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
+    That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
+  __slots__=['D_bulk','q','beta','potential','trans_bclist']
+  def transform_bcs(self,potentialparams):
+    """Apply Slotboom transformation to Dirichelt boundary conditions.
+    This function requires that the potential and concentration have Dirichlet boundary conditions on the same surfaces.
+    Arguments:
+      potentialparams = solver_general.ModelParameters for the electric potential field
+    No return value.
+    trans_bclist attribute is updated"""
+    ##TODO
+    pass
+    
 
 class SUSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Smoluchowski Diffusion
@@ -110,13 +122,6 @@ class SUSolver(solver_general.GenericSolver):
     self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
     self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
 
-    #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]
-
-    #Neumann boundary conditions
-    #they are all zero in this case
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
-
     #Set up electric potential field
     potentialparams_dict=self.conditions.potential
     for key in ['modelname','meshname','meshparamsfile','basename']:
@@ -124,6 +129,14 @@ class SUSolver(solver_general.GenericSolver):
     potentialparams=solver_general.ModelParameters(**potentialparams_dict)
     potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,writeinfo=False)
     self.info['potential']=potsolv.info
+
+    #Dirichlet boundary conditions
+    self.conditions.transform_bcs(potentialparams) #apply Slotboom transformation
+    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.trans_bclist]
+
+    #Neumann boundary conditions
+    #they are all zero in this case
+    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
 
     #Define variational problem
     self.c=fem.TrialFunction(self.V)

@@ -74,20 +74,45 @@ q & = & \text{the electric charge of the ion species} \\
 
 This means that the Slotboom transformation (Equation \ref{eq:SlotboomTrans}) can be written as
 
-\begin{equation}
+\begin{equation}\label{eq:SlotboomTransWithQ}
 \begin{array}{rcl}
 \overline{D} & = & D_{\mathrm{bulk}} e^{-\beta q \Phi} \\
 \overline{c} & = & c e^{\beta q \Phi}
 \end{array}
 \end{equation}
 
-Note that any applied boundary conditions must be transformed as well.
+Note that the applied boundary conditions must be transformed as well.
 This is straightforward for Dirichlet boundary conditions,
-but the Neumann boundary conditions are more complicated.
+as Equation \ref{eq:SlotboomTransWithQ} can be applied directly
+to obtain the Dirchlet value of $\overline{c}$ from that of $c$.
+Neumann boundary conditions, however, are more complicated.
+We wish to specify a value of $\frac{\partial c}{\partial n} = \vec{\nabla} c \cdot \hat{n}$,
+but solving the transformed equation requires converting this to specification of the value
+$\frac{\partial \overline{c}}{\partial n} = \vec{\nabla} \overline{c} \cdot \hat{n}$.
 
-\textcolor{red}{\textbf{TODO}}: Neumann boundary conditions
+\begin{equation}
+\begin{array}{rcl}
+\frac{\partial \overline{c}}{\partial n} & = & \vec{\nabla} \overline{c} \cdot \hat{n} \\
+& = & \vec{\nabla} \left( c e^{\beta q \Phi} \right) \cdot \hat{n} \\
+& = & \left( c \vec{\nabla} e^{\beta q \Phi} +  e^{\beta q \Phi} \vec{\nabla} c \right) \cdot \hat{n} \\
+& = & c \vec{\nabla} \left(e^{\beta q \Phi} \right) \cdot \hat{n}
++ e^{\beta q \Phi} \vec{\nabla} \left( c \right) \cdot \hat{n} \\
+& = & c \beta q e^{\beta q \Phi} \vec{\nabla} \left( \Phi \right) \cdot \hat{n}
++ e^{\beta q \Phi} \vec{\nabla} \left( c \right) \cdot \hat{n} \\
+& = & c \beta q e^{\beta q \Phi} \frac{\partial \Phi}{\partial n}
++ e^{\beta q \Phi} \frac{\partial c}{\partial n} \\
+\frac{\partial \overline{c}}{\partial n} & = & e^{\beta q \Phi}
+\left( c \beta q \frac{\partial \Phi}{\partial n} + \frac{\partial c}{\partial n} \right)
+\end{array}\end{equation}
 
-Furthermore, after solution of the transformed equation,
+Thus, the Neumann boundary conditions on $\overline{c}$ depend not only on
+those of $c$, but also on the potential field and its normal derivative at the boundary.
+In the case of this model, the normal derivative of $c$ is specified to be zero
+at all Neumann boundaries, as is the normal derivative of $\Phi$.
+Thus, the boundary condition on $\overline{c}$ is also that its normal derivative is zero
+at the Neumann boundaries.
+
+Finally, after solution of the transformed equation,
 the ionic concentration field is calculated from the inverse transformation,
 
 \begin{equation}
