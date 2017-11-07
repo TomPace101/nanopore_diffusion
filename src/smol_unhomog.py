@@ -168,6 +168,7 @@ class SUSolver(solver_general.GenericSolver):
 
     #Define the Dbar function
     self.Dbar=self.conditions.D_bulk*fem.exp(-self.beta_q*self.potsolv.soln)
+    self.Dbar_proj=fem.project(self.Dbar,self.V)
 
     #Define variational problem
     self.d3x = fem.Measure('cell',domain=self.mesh)
