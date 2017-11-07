@@ -125,12 +125,81 @@ c = \overline{c} e^{-\beta \psi} = \overline{c} e^{-\beta q \Phi}
 Starting from the governing differential equation (Equation \ref{eq:SmolSlotboomDiff}),
 multiplying by a test function $v$ and integrating over the problem domain, we have
 
-\begin{equation}
-\int_{\Omega} \overline{D} \nabla^2 \overline{c} \,\mathrm{d}^3x 
-+ \int_{\Omega} \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
+\begin{equation}\label{eq:SmolWeakStart}
+\int_{\Omega} \overline{D} v \left( \nabla^2 \overline{c} \right) \,\mathrm{d}^3x 
++ \int_{\Omega} v \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
 \end{equation}
 
-\textcolor{red}{\textbf{TODO}}
+Using the same product rule as Equation \ref{eq:product_rule_divergence}, 
+we have
+
+\begin{equation}
+\vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) =
+\overline{D} v \left(\vec{\nabla} \cdot \vec{\nabla} \overline{c} \right)
++ \vec{\nabla}\overline{c} \cdot \vec{\nabla} \left( \overline{D} v \right) =
+\overline{D} v \left(\nabla^2 \overline{c} \right)
++ \vec{\nabla}\overline{c} \cdot \vec{\nabla} \left( \overline{D} v \right)
+\end{equation}
+
+And so, applying the product rule for the gradient of two scalars,
+\begin{equation}
+\overline{D} v \left(\nabla^2 \overline{c} \right) =
+\vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right)
+- \vec{\nabla}\overline{c} \cdot \left( \overline{D} \vec{\nabla} v + v \vec{\nabla} \overline{D} \right)
+\end{equation}
+
+\begin{equation}
+\overline{D} v \left(\nabla^2 \overline{c} \right) =
+\vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right)
+- \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)
+- v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right)
+\end{equation}
+
+Taking the integral over the problem domain, this gives us
+
+\begin{equation}
+\int_{\Omega} \overline{D} v \left(\nabla^2 \overline{c} \right) \,\mathrm{d}^3x=
+\int_{\Omega} \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) \,\mathrm{d}^3x
+- \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+- \int_{\Omega} v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right) \,\mathrm{d}^3x
+\end{equation}
+
+Substituting this into Equation \ref{eq:SmolWeakStart},
+the governing equation becomes
+
+\begin{equation}
+\int_{\Omega} \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) \,\mathrm{d}^3x
+- \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+- \int_{\Omega} v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right) \,\mathrm{d}^3x
++ \int_{\Omega} v \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
+\end{equation}
+
+The final two terms cancel one another.
+Using the divergence theorem (Gauss's theorem), the result is
+\begin{equation}
+\int_{\partial\Omega} \overline{D} v \left(\hat{n} \cdot \vec{\nabla}\overline{c}\right) \,\mathrm{d}s
+- \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+= 0
+\end{equation}
+
+The boundary term separates into the Dirichlet boundaries (where $\overline{c}$ is known and therefore $v=0$),
+and the Neumann boundaries, as discussed in Section \ref{subsec:unhom_smol_gov},
+where it was noted that $\hat{n} \cdot \vec{\nabla} \overline{c} = 0$ at all points on the von Neumann boundaries.
+Thus, the boundary term is zero in its entirety,
+and so the weak form of the transformed Smoluchowski equation in this case is
+
+\begin{equation}
+\int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x = 0
+\end{equation}
+
+In terms of \texttt{FEniCS}, this means that the bilinear form is
+
+\begin{equation}
+a(\overline{c},v)= \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+\end{equation}
+
+and the linear form is constant, zero.
+
 
 %-------------------------------------------------------------------------------
 \subsection{Applied Potential}\label{subsec:unhom_smol_potential}
@@ -165,7 +234,7 @@ Multiplying by the test function $v$ and integrating over the problem domain, we
 \int_{\Omega} \left(\nabla^2 \Phi \right) v \,\mathrm{d}^3x = \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
 \end{equation}
 
-Using the same product rule as Equation \ref{eq:product_rule_divergence}, this becomes
+Using the same product rule as Equation \ref{eq:product_rule_divergence} for integration by parts, this becomes
 \begin{equation}
 \int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} \Phi \right) \,\mathrm{d}^3x
 - \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
@@ -182,7 +251,7 @@ Applying the divergence theorem (Gauss's theorem),
 The boundary term separates into the Dirichlet boundaries (where $\Phi$ is known and therefore $v=0$),
 and the Neumann boundaries, which in this case will have zero electric field normal to the surface.
 This condition requires that the derivative of the potential normal to the surface is zero,
-and so $\hat{n} \cdot \vec{\nabla} c = 0$ at all points on the von Neumann boundaries.
+and so $\hat{n} \cdot \vec{\nabla} \Phi = 0$ at all points on the von Neumann boundaries.
 Thus, the boundary term is zero in its entirety, and the equation becomes
 
 \begin{equation}
