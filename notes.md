@@ -40,15 +40,22 @@ at the ends of the pore(s).
 Don't forget to remove mesh/geomdef/body-cen2.yaml and update
 params/mesh/debug.yaml accordingly.
 
+_ISSUE_ parameter generation scripts
+Really, there should be a doit task for this.
+But there can't be, because the tasks are generated based on reading its output.
+
+doit has a way to resolve this, of course:
+http://pydoit.org/task_creation.html#delayed-task-creation
+
 #Specific Equations
 ## Fixed potential
 
-_ACTION_ look at Pete's code provided by Bin
 _ACTION_ get boltzmann constant into module?
 
 ## Homogenized Fickian
 
 _ACTION_ see discussion in Auriault
+_ACTION_ look through homogmwe again as well
 
 # Problem Description
 
