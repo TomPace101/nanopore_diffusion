@@ -28,10 +28,7 @@ elementorder: 2
 properties:
   D_bulk: 1
 conditions:
-  topsurf: 4
-  basesurf: 1
-  topval: 5.0
-  baseval: 1.0
+  bclist: [[4,5.0],[1,1.0]]
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
   - [fluxfield, {filename: flux.pvd}]

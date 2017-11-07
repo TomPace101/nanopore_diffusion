@@ -68,10 +68,7 @@ idnum=1
 for meshname,bcvals in itertools.product(meshname_list,dirichlet_pairs):
   assert idnum < 1000, "Insufficient number of digits provided"
   topval,baseval= bcvals
-  conditions={'topsurf': 4,
-          'basesurf': 1,
-          'topval': topval,
-          'baseval': baseval}
+  conditions={'bclist':[[4,topval],[1,baseval]]}
   doc={'modelname':'%s_model_%03d'%(hrhash,idnum),
         'meshname':meshname,
         'meshparamsfile':hrhash+'.yaml',

@@ -11,8 +11,6 @@ Could set up a class that subclasses list to do this.
 If so, it should have a 'relabel' method that takes a dictionary {old label: new label}
 So you don't have to re-run the analysis just to change the series labels.
 
-_TODO_ set up Conditions object in fickian_unhomog.py more like what we have in smol now.
-
 _TODO_ complete the "test" analysis, even without middle surface
 
 _TODO_ actually generate the plots we extracted data for (concentration vs centerline)

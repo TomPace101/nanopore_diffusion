@@ -14,30 +14,17 @@ from folderstructure import *
 import solver_general
 import useful
 
-class BCParameters(useful.ParameterSet):
-  """Boundary condition definition
+class UnhomogFickianConditions(useful.ParameterSet):
+  """Condition defnitions for use with UnhomogFickianSolver
   Attributes:
-    topsurf = physical surface number for top surface
-    basesurf = physical surface number for base surface
-    topval = concentration value at top surface
-    baseval = concentration value at base surface"""
-  __slots__=['topsurf','basesurf','topval','baseval']
-  def to_bclist(self,fs,surfaces):
-    """Output list of FEniCS DirichletBC objects based on given parameters
-    Arguments:
-      fs = FEniCS FunctionSpace to use for the boundary conditions
-      surfaces = FEniCS MeshFunction to use for the surfaces
-    Returns:
-      bcs = list of DirichletBC objects"""
-    bcs=[]
-    dpairs=[(self.basesurf,self.baseval), (self.topsurf,self.topval)] #Physical surface and Dirichlet value pairs
-    for psurf,val in dpairs:
-      bcs.append(fem.DirichletBC(fs,val,surfaces,psurf))
-    return bcs
+    bclist = list of Dirichlet boundary conditions pairs:
+      [(physical surface number, solution value), ...]"""
+  __slots__=['bclist']
 
 class UnhomogFickianSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Fickian Diffusion
   Additional attributes not inherited from GenericSolver:
+    conditions = instance of UnhomogFickianConditions
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
@@ -52,15 +39,18 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
     
-    #Mesh setup
+    #Mesh setup, output init
     super().__init__(modelparams,meshparams)
-    
+
+    #Get conditions
+    self.conditions=UnhomogFickianConditions(**modelparams.conditions)
+
     #Function space for scalars and vectors
     self.V = fem.FunctionSpace(self.mesh,'CG',modelparams.elementorder) #CG="continuous galerkin", ie "Lagrange"
     self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", modelparams.elementorder)
 
     #Dirichlet boundary conditions
-    self.bcs=BCParameters(**self.modelparams.conditions).to_bclist(self.V, self.surfaces)
+    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bclist]
 
     #Neumann boundary conditions
     #they are all zero in this case

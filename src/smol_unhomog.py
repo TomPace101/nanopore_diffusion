@@ -99,7 +99,7 @@ class SUSolver(solver_general.GenericSolver):
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
     
-    #Mesh setup
+    #Mesh setup, output init
     super().__init__(modelparams,meshparams)
     
     #Get conditions
