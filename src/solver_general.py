@@ -3,6 +3,7 @@
 #Standard library
 import os
 import os.path as osp
+import sys
 
 #Site packages
 import fenics as fem
@@ -20,6 +21,12 @@ class GenericConditions(useful.ParameterSet):
     elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
     bcdict = dictionary of Dirichlet boundary conditions: {physical surface number: solution value, ...}"""
   __slots__=['elementorder','bcdict']
+
+class OutData(useful.ParameterSet):
+  """Data from solver to be written to disk.
+  Attributes:
+    plots = Dictionary of plot data, {plotname: [plotdata.PlotSeries, ...], ...}"""
+  __slots__=['plots']
 
 class ModelParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store generic solver parameters
@@ -130,41 +137,51 @@ class GenericSolver:
     self.modelparams=modelparams
     self.meshparams=meshparams
 
+    #Initialize output attributes
+    self.results={}
+    self.info=self.modelparams.to_dict()
+    self.info['meshparams']=self.meshparams.to_dict()
+    self.outdata=OutData(plots={})
+
+  def loadmesh(self):
+    """Load the mesh from the usual file locations"""
     #Mesh input files
-    mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(modelparams.meshname,meshparams.basename)
+    mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(self.modelparams.meshname,self.meshparams.basename)
 
     #Load mesh and meshfunctions
     self.mesh=fem.Mesh(mesh_xml)
     self.surfaces=fem.MeshFunction("size_t", self.mesh, surface_xml) #Mesh Function of Physical Surface number
     self.volumes=fem.MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
 
-    #Initialize results dictionaries
-    self.results={}
-    self.info=self.modelparams.to_dict()
-    self.info['meshparams']=self.meshparams.to_dict()
+    return
 
   @classmethod
-  def complete(cls,*args,writeinfo=True):
-    "Convenience function to set up and solve the model, then generate all the requested output."
+  def complete(cls,*args,diskwrite=True,as_action=False):
+    """Convenience function to set up and solve the model, then generate all the requested output.
+    Arguments:
+      *args to be passed to the the solver class __init__
+      diskwrite = boolean, True to write info and output data to disk
+      as_action = boolean, True to return None rather than the solver
+        This is used to allow this method to be used as a task in doit,
+        which restricts what a task function can return.
+    In general, it would be a bad idea to use diskwrite=False and as_action=True,
+    because you'd then have no way to get any results from the solution at all."""
     obj=cls(*args)
     obj.solve()
-    obj.create_output(writeinfo)
+    obj.create_output(diskwrite)
+    if as_action:
+      obj = None
     return obj
-
-  @classmethod
-  def as_action(cls,*args):
-    "Method suitable for use a function action in doit"
-    cls.complete(*args)
-    return
 
   def solve(self):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'solve' method."%str(type(self)))
 
-  def create_output(self,writeinfo=True):
+  def create_output(self,diskwrite=True):
     """Process the data extraction commands
     Arguments:
-      writeinfo = boolean, optional, True to write the info.yaml file.
+      diskwrite = boolean, optional, True to write the output files.
+        If false, the output will only be stored in the object itself
     Adds the following attributes:
       outdir = path to output directory, as string
       results = dictionary of input and output values
@@ -182,12 +199,15 @@ class GenericSolver:
       try:
         getattr(self,funcname)(**kwargs)
       except Exception as einst:
-        print("Excption occured for command: %s"%str(cmd))
+        print("Excption occured for command: %s"%str(cmd), file=sys.stderr)
         raise einst
 
-    #Write out the results file
+    #Put results into info
     self.info['results']=self.results
-    useful.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
+    #Write output files if requested
+    if diskwrite:
+      useful.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
+      self.outdata.to_pickle(osp.join(self.outdir,'outdata.pkl'))
 
     #Done
     return
@@ -294,12 +314,11 @@ class GenericSolver:
     self.results[name]=np.pi*self.meshparams.R**2/(4*self.meshparams.Lx*self.meshparams.Ly)
     return
 
-  def profile_centerline(self,spacing,filename,label,attrname='soln'):
+  def profile_centerline(self,spacing,plotname,label,attrname='soln'):
     """Data for plot of solution profile along centerline
     Arguments:
       spacing = distance between sampled points for line plots
-      filename = name of output file, as string
-        File will be created in the output directory (self.outdir)
+      plotname = name of plot in outdata.plots, as string
       label = series label to assign, as string
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
@@ -309,8 +328,10 @@ class GenericSolver:
     No new attributes.
     Nothing added to results dictionary.
     No return value.
-    Output file is written."""
+    Series is added to `outdata.plots`."""
+    #Get the object with the data
     vals=getattr(self,attrname)
+    #Extract data points
     zr=np.arange(0, 2*self.meshparams.H + self.meshparams.tm, spacing)
     zlist=[]
     vlist=[]
@@ -318,21 +339,21 @@ class GenericSolver:
       zlist.append(z)
       tup=(0,0,z)
       vlist.append(vals(*tup))
+    #Create PlotSeries
     zarr=np.array(zlist)
     varr=np.array(vlist)
-    meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
-    meta.update(self.modelparams.conditions)
-    series=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label,metadata=meta)
-    pklfile=osp.join(self.outdir,filename)
-    series.to_pickle(pklfile)
+    series=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label)
+    #Store data
+    if not plotname in self.outdata.plots.keys():
+      self.outdata.plots[plotname]=[]
+    self.outdata.plots[plotname].append(series)
     return
 
-  def profile_radial(self,spacing,filename,label,theta,attrname='soln'):
+  def profile_radial(self,spacing,plotname,label,theta,attrname='soln'):
     """Data for plot of solution along radial line at model mid-height, in specified direction
     Arguments:
       spacing = distance between sampled points for line plots
-      filename = name of output file, as string
-        File will be created in the output directory (self.outdir)
+      plotname = name of plot in outdata.plots, as string
       label = series label to assign, as string
       theta = theta-angle in degrees from x-axis, as float
       attrname = name of attribute to output, as string, defaults to 'soln'
@@ -343,8 +364,10 @@ class GenericSolver:
     No new attributes.
     Nothing added to results dictionary.
     No return value.
-    Output file is written."""
+    Series is added to `outdata.plots`."""
+    #Get the object with the data
     vals=getattr(self,attrname)
+    #Extract data points
     zval=self.meshparams.H + self.meshparams.tm/2 #mid-height
     rads=np.radians(theta)
     cos=np.cos(rads)
@@ -377,12 +400,13 @@ class GenericSolver:
           rlist.pop(-1)
       #Track result
       tuplist.append((tup,inside))
+    #Create PlotSeries
     rarr=np.array(rlist)
     varr=np.array(vlist)
-    meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
-    meta.update(self.modelparams.conditions)
-    meta['tuplist']=tuplist
+    meta={'tuplist':tuplist}
     series=plotdata.PlotSeries(xvals=rarr,yvals=varr,label=label,metadata=meta)
-    pklfile=osp.join(self.outdir,filename)
-    series.to_pickle(pklfile)
+    #Store data
+    if not plotname in self.outdata.plots.keys():
+      self.outdata.plots[plotname]=[]
+    self.outdata.plots[plotname].append(series)
     return

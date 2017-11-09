@@ -39,13 +39,9 @@ class LPBSolver(solver_general.GenericSolver):
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance
       other = solver to get mesh from"""
-    #Mesh setup, output init
-    #Can't do it this way here; we need to use the same mesh as the Smoluchowski solver
-    ##super().__init__(modelparams,meshparams)
 
-    #Store defining ParameterSet objects
-    self.modelparams=modelparams
-    self.meshparams=meshparams
+    #Load parameters, init output, mesh setup
+    super().__init__(modelparams,meshparams)
 
     #Load mesh and meshfunctions
     self.mesh=other.mesh
@@ -53,11 +49,6 @@ class LPBSolver(solver_general.GenericSolver):
     self.volumes=other.volumes
     self.V = other.V
     self.ds = other.ds
-
-    #Initialize results dictionaries
-    self.results={}
-    self.info=self.modelparams.to_dict()
-    self.info['meshparams']=self.meshparams.to_dict()
 
     #Get conditions
     self.conditions=LPBConditions(**modelparams.conditions)
@@ -137,8 +128,9 @@ class SUSolver(solver_general.GenericSolver):
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
 
-    #Mesh setup, output init
+    #Load parameters, init output, mesh setup
     super().__init__(modelparams,meshparams)
+    self.loadmesh()
 
     #Get conditions
     self.conditions=SUConditions(**modelparams.conditions)
@@ -156,7 +148,7 @@ class SUSolver(solver_general.GenericSolver):
     for key in ['modelname','meshname','meshparamsfile','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
     potentialparams=solver_general.ModelParameters(**potentialparams_dict)
-    self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,self,writeinfo=False)
+    self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,self,diskwrite=False)
     self.info['potential']=self.potsolv.info
 
     #Dirichlet boundary conditions

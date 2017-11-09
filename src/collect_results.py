@@ -55,7 +55,7 @@ def get_all_columns(dlist):
     newcols=get_columns(d)
     for c in newcols:
       if not c in columns:
-        c.append(columns)
+        columns.append(c)
   return columns
 
 def flatdict(d,cols):

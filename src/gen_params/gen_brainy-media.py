@@ -55,7 +55,7 @@ dataextraction = yaml.load("""
 - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-'}]
 - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
 - [volfrac, {name: free_volume_frac}]
-- [profile_centerline, {spacing: 0.1, filename: plotdata_CL_c.pkl, label: 'concentration along centerline'}]
+- [profile_centerline, {spacing: 0.1, plotname: CL_c, label: 'concentration along centerline'}]
 """)
 
 #The model parameters file

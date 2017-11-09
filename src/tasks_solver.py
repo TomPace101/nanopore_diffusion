@@ -50,5 +50,5 @@ def dosolve(modelparams,meshparams):
           'file_dep':[solver_general.__file__,osp.join(srcfolder,solver_codefile)]+xmlfiles, #This takes care of dependency on mesh
           'uptodate':[config_changed(modelparams.to_dict())], #Mesh dependency already taken care of in file_dep
           'targets':outpaths,
-          'actions':[(solver_class.as_action,(modelparams,meshparams))]}
+          'actions':[(solver_class.complete,(modelparams,meshparams),{'diskwrite':True,'as_action':True})]}
   return tdef
