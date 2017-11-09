@@ -18,6 +18,8 @@ collection_plots:
     calcfuncs: [calc_Dratio]
     xcols: [free_volume_frac]
     ycols: [ratio_D]
+---
+modelnames: []
 model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_c.pdf

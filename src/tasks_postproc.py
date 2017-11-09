@@ -67,7 +67,9 @@ def postproc_task_generator(model_infiles,allmodels):
         #Each requested model plot
         for mplotdict in postprocparams.model_plots:
           mplotparams = plotdata.ModelPlotFigure(**mplotdict)
+          mplotparams.basename=postprocparams.basename
           for modelparams in modellist:
+            mplotparams.modelname=modelparams.modelname
             yield do_modelplot(mplotparams,modelparams,basename)
       #Generate the collection task, if it exists
       if getattr(postprocparams,'do_collection',False):
@@ -76,5 +78,6 @@ def postproc_task_generator(model_infiles,allmodels):
         if getattr(postprocparams,'collection_plots',None) is not None:
           for cplotdict in postprocparams.collection_plots:
             cplotparams=plotdata.CollectionPlotFigure(**cplotdict)
+            cplotparams.basename=postprocparams.basename
             yield do_collectionplot(cplotparams,basename)
   

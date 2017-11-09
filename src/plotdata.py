@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 #Local
+from folderstructure import *
 import useful
 import solver_general
 
@@ -57,18 +58,19 @@ class PlotFigure(useful.ParameterSet):
     self.load_data(*datafiles)
     
     #Initialize the figure at the size requested
-    self.fig = plt.Figure(figsize=self.figsize)
+    self.fig = plt.figure(figsize=self.figsize)
     
     #Get the axes
-    self.ax=fig.gca()
+    self.ax=self.fig.gca()
     
     #Call the requested plot function
     plotfunc=getattr(self,self.plotfunction)
     plotfunc()
     
     #Save the figure
-    os.makedirs(osp.split(self.filename)[0],exist_ok=True)
-    self.fig.savefig(self.filename)
+    fpath=osp.join(self.outdir(),self.filename)
+    os.makedirs(self.outdir(),exist_ok=True)
+    self.fig.savefig(fpath)
     
     #Done
     return
@@ -93,16 +95,22 @@ class ModelPlotFigure(PlotFigure):
   Attributes:
     To be read in from yaml file:
       plotname = plot name in outdata file holding data series
+    To be assigned after instantiation:
+      modelname = name of model
     To be created by methods:
-      series = sequence of PlotSeries instances"""
-  __slots__=['plotname',]
+      series = sequence of PlotSeries instances
+      info = dictionary of model data"""
+  __slots__=['plotname','modelname','series','info']
+  def outdir(self):
+    return osp.join(postprocfolder,self.basename,self.modelname)
+
   def load_data(self,pklfile,infofile):
     """Load the data for the plot.
     Arguments:
       pklfile = path to the solver_general.OutData pickle file
       infofile = path to the info.yaml file"""
     #Load the data series
-    oudata=solver_general.OutData.from_pickle(pklfile)
+    outdata=solver_general.OutData.from_pickle(pklfile)
     self.series=outdata.plots[self.plotname]
     
     #Load the info
@@ -118,7 +126,7 @@ class ModelPlotFigure(PlotFigure):
 
   def plot_radial_potential(self):
     pore_radius = self.info['meshparams']['R']
-    applied_potential=self.info['conditions']['potential']['bcdict'][11]
+    applied_potential=self.info['conditions']['potential']['conditions']['bcdict'][11]
     self.plot_basic_series()
     o=self.ax.axvline(pore_radius,label='Pore Boundary',color='k',linestyle='--')
     o=self.ax.axhline(applied_potential,label='Potential at Pore Boundary',color='k',linestyle=":")
@@ -134,6 +142,8 @@ class CollectionPlotFigure(PlotFigure):
     To be created by methods:
       df = the DataFrame"""
   __slots__=['calcfuncs','xcol','ycol','df']
+  def outdir(self):
+    return osp.join(postprocfolder,self.basename)
   def load_data(self,dfpath):
     """Load the data for the plot.
     Arguments:
