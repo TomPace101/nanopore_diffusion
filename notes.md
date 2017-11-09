@@ -6,7 +6,24 @@ Then re-run, then generate the figure.
 
 # Code/Misc
 
+_TODO_ don't only ModelParameters and MeshParameters actually use basename?
+
+_TODO_ collect results can't flatten dictionaries that way anymore
+We need a flattening schema:
+DataFrame column label: sequence of info dictionary keys
+
+Also, we simply don't want to do collection for debug.
+
+_TODO_ need parameters for for post-processing tasks
+That is, `data/params/postproc`.
+
+For example, for debug this would indicate that no collection is to be done.
+
+It should also be the place where plots to be generated are defined.
+
 _FEATURE_ ParameterSet subclass that can generate a parameterset multidoc.
+`data/params/paramgen`
+
 Define constant parameters, and variational sets.
 Then use itertools.product.
 Also have a sequence id and a way to incorporate it into strings.
