@@ -26,6 +26,10 @@ _FEATURE_ ParameterSet subclass that can generate a parameterset multidoc.
 Define constant parameters, and variational sets.
 Then use itertools.product.
 Also have a sequence id and a way to incorporate it into strings.
+Basically, this is a set of properties that make use of a counter.
+You'll need a prefix, suffix, and counter format.
+Or, maybe just a template string which is passed the counter.
+
 Maybe there's even a way you can take advantage of the &id001 thing.
 
 Note that we need to be able to read in a ParameterSet from somewhere else,
