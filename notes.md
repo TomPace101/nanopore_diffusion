@@ -28,6 +28,9 @@ Then use itertools.product.
 Also have a sequence id and a way to incorporate it into strings.
 Maybe there's even a way you can take advantage of the &id001 thing.
 
+Note that we need to be able to read in a ParameterSet from somewhere else,
+and include its documents in our itertools.product
+
 _FEATURE_ parameter generation scripts
 Really, there should be a doit task for this.
 But there can't be, because the tasks are generated based on reading its output.

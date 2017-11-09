@@ -1,4 +1,4 @@
-#Functions used my various solvers
+#Functions used by various solvers
 
 #Standard library
 import os
