@@ -13,7 +13,6 @@ import numpy as np
 from folderstructure import *
 import useful
 import plotdata
-import buildgeom
 
 class GenericConditions(useful.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed

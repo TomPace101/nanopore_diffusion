@@ -32,20 +32,20 @@ def do_collectionplot(cplotparams,basename):
   dfpath=get_df_fname(basename)
   outfpath=osp.join(postprocfolder,basename,cplotparams.filename)
   tdef = {'name':basename+":"+cplotparams.filename,
-          'file_dep':[dfpath]
-          'uptodate':[config_changed(cplotparams.to_dict())]
+          'file_dep':[dfpath],
+          'uptodate':[config_changed(cplotparams.to_dict())],
           'targets':[outfpath],
           'actions':[(cplotparams.make_plot,(dfpath,))]}
   return tdef
 
 def do_modelplot(mplotparams,modelparams,basename):
   outfpath=osp.join(postprocfolder,basename,modelparams.modelname,mplotparams.filename)
-  datadir=osp.join(solnfolder,basename,modelparms.modelname)
+  datadir=osp.join(solnfolder,basename,modelparams.modelname)
   pklfile=osp.join(datadir,'outdata.pkl')
   infofile=osp.join(datadir,'info.yaml')
   tdef = {'name':modelparams.modelname+":"+mplotparams.filename,
-          'file_dep':[pklfile,infofile]
-          'uptodate':[config_changed(mplotparams.to_dict())]
+          'file_dep':[pklfile,infofile],
+          'uptodate':[config_changed(mplotparams.to_dict())],
           'targets':[outfpath],
           'actions':[(mplotparams.make_plot,(pklfile,infofile))]}
   return tdef
@@ -55,7 +55,7 @@ def postproc_task_generator(model_infiles,allmodels):
   for fname in model_infiles:
     basename = osp.splitext(fname)[0]
     postproc_file = osp.join(params_postproc_folder,fname)
-    postproc_list = [p for p in postproc.PostProcParameters.all_from_yaml(fn)]
+    postproc_list = [p for p in postproc.PostProcParameters.all_from_yaml(osp.join(params_postproc_folder,fname))]
     for postprocparams in postproc_list:
       #Get the indicated modelnames
       if getattr(postprocparams,'modelnames',None) is not None:
@@ -65,16 +65,16 @@ def postproc_task_generator(model_infiles,allmodels):
       #Generate model plot tasks, if any
       if getattr(postprocparams,'model_plots',None) is not None:
         #Each requested model plot
-        for mplotdict in postproc_params.model_plots:
-          mplotparams = plotdata.ModelPlotFigure(mplotdict)
+        for mplotdict in postprocparams.model_plots:
+          mplotparams = plotdata.ModelPlotFigure(**mplotdict)
           for modelparams in modellist:
             yield do_modelplot(mplotparams,modelparams,basename)
       #Generate the collection task, if it exists
       if getattr(postprocparams,'do_collection',False):
-        yield do_collection(basename,modellist,getattr(postprocparams,'collection_exclusions',[])
+        yield do_collection(basename,modellist,getattr(postprocparams,'collection_exclusions',[]))
         #Generate tasks for each plot from the collected data
         if getattr(postprocparams,'collection_plots',None) is not None:
           for cplotdict in postprocparams.collection_plots:
-            cplotparams=plotdata.CollectionPlotFigure(cplotdict)
+            cplotparams=plotdata.CollectionPlotFigure(**cplotdict)
             yield do_collectionplot(cplotparams,basename)
   

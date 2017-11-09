@@ -62,7 +62,7 @@ def get_all_columns(dlist,exclusions):
         columns.append(c)
   return columns
 
-def flatdict(d,cols,name=".",exclusions):
+def flatdict(d,cols,name,exclusions):
   """Flatten a potentially nested dictionary so it can be added to a DataFrame with the specified columns."""
   fd={}
   for k,v in d.items():
@@ -71,7 +71,7 @@ def flatdict(d,cols,name=".",exclusions):
         fd[k]=v
       elif hasattr(v,'items'):
         newname=name+'->'+k
-        for newk, newv in flatdict(v,cols,newname).items():
+        for newk, newv in flatdict(v,cols,newname,exclusions).items():
           if newk in fd.keys():
             assert newv==fd[newk], "In %s, unequal assignments to %s: previously had %s, but %s wants to change it to %s"%(name,str(newk),str(fd[newk]),str(k),str(newv))
           else:
@@ -111,7 +111,7 @@ def do_collection(inputfiles,outfpath,exclusions):
   Output file is generated.
   """
   #Make sure the parent folder exists
-  os.makedirs(osp.split(outfpath)[0])
+  os.makedirs(osp.split(outfpath)[0],exist_ok=True)
   alldicts = [useful.readyaml(fp) for fp in inputfiles]
   df = dicts_to_dataframe(alldicts,exclusions)
   df.to_pickle(outfpath)

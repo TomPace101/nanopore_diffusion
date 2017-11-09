@@ -9,6 +9,7 @@ from doit.tools import config_changed
 
 #Local
 from folderstructure import *
+import buildgeom
 import solver_general
 import fickian_unhomog
 import smol_unhomog

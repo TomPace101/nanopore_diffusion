@@ -67,6 +67,7 @@ class PlotFigure(useful.ParameterSet):
     plotfunc()
     
     #Save the figure
+    os.makedirs(osp.split(self.filename)[0],exist_ok=True)
     self.fig.savefig(self.filename)
     
     #Done
@@ -108,11 +109,20 @@ class ModelPlotFigure(PlotFigure):
     self.info=useful.readyaml(infofile)
     
     return
+
   def plot_invert_xaxis(self):
     "just invert the x-axis"
     self.plot_basic_series()
     self.ax.invert_xaxis()
     return
+
+  def plot_radial_potential(self):
+    pore_radius = self.info['meshparams']['R']
+    applied_potential=self.info['conditions']['potential']['bcdict'][11]
+    self.plot_basic_series()
+    o=self.ax.axvline(pore_radius,label='Pore Boundary',color='k',linestyle='--')
+    o=self.ax.axhline(applied_potential,label='Potential at Pore Boundary',color='k',linestyle=":")
+    
 
 class CollectionPlotFigure(PlotFigure):
   """Data for a single collection plot

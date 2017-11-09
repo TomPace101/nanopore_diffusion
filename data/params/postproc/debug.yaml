@@ -20,9 +20,66 @@ model_plots:
 modelnames: [debug02]
 model_plots:
   - figsize: [11, 8.5]
-    filename: 
-    plotname: 
-    plotfunction: 
-    xlabel: 
-    ylabel: 
-    title: 
+    filename: profile_CL_phi.pdf
+    plotname: CL_phi
+    plotfunction: plot_invert_xaxis
+    xlabel: 'z (nm)'
+    ylabel: 'Electric Potential'
+    title: 'Electric Field Profile along Pore Centerline'
+    fmts: ['k-']
+  - figsize: [11, 8.5]
+    filename: profile_CL_c.pdf
+    plotname: CL_c
+    plotfunction: plot_invert_xaxis
+    xlabel: 'z (nm)'
+    ylabel: 'concentration (mM)'
+    title: 'Concentration Profile along Pore Centerline'
+    fmts: ['k-']
+  - figsize: [11, 8.5]
+    filename: profile_CL_cbar.pdf
+    plotname: CL_cbar
+    plotfunction: plot_invert_xaxis
+    xlabel: 'z (nm)'
+    ylabel: 'cbar'
+    title: 'Transformed Concentration along Pore Centerline'
+    fmts: ['k-']
+  - figsize: [11, 8.5]
+    filename: profile_CL_Dbar.pdf
+    plotname: CL_Dbar
+    plotfunction: plot_invert_xaxis
+    xlabel: 'z (nm)'
+    ylabel: 'Dbar'
+    title: 'Transformed Diffusion Constant along Pore Centerline'
+    fmts: ['k-']
+  - figsize: [11, 8.5]
+    filename: radial_phi.pdf
+    plotname: radial_phi
+    plotfunction: plot_radial_potential
+    xlabel: 'Radial Distance (nm)'
+    ylabel: 'Electric Potential (mV)'
+    title: 'Electric Potential along Radial Lines'
+    fmts: ['r-','g-','b-']
+  - figsize: [11, 8.5]
+    filename: radial_c.pdf
+    plotname: radial_c
+    plotfunction: plot_basic_series
+    xlabel: 'Radial Distance (nm)'
+    ylabel: 'Concentration'
+    title: 'Concentration Profile along Radial Lines'
+    fmts: ['r-','g-','b-']
+  - figsize: [11, 8.5]
+    filename: radial_cbar.pdf
+    plotname: radial_cbar
+    plotfunction: plot_basic_series
+    xlabel: 'Radial Distance (nm)'
+    ylabel: 'cbar'
+    title: 'Transformed Concentration along Radial Lines'
+    fmts: ['r-','g-','b-']
+  - figsize: [11, 8.5]
+    filename: radial_Dbar.pdf
+    plotname: radial_Dbar
+    plotfunction: plot_basic_series
+    xlabel: 'Radial Distance (nm)'
+    ylabel: 'Dbar'
+    title: 'Transformed Diffusion Constant along Radial Lines'
+    fmts: ['r-','g-','b-']

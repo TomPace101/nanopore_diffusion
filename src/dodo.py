@@ -49,4 +49,4 @@ def task_solve():
 
 #Post-processing tasks
 def task_postproc():
-  return task_postproc.postproc_task_generator(model_infiles,allmodels)
+  return tasks_postproc.postproc_task_generator(model_infiles,allmodels)
