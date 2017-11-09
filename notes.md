@@ -4,7 +4,14 @@
 _TODO_ units analysis as described below, to get an appropriate value of beta.
 Then re-run, then generate the figure.
 
+_ISSUE_ radial cbar plot looks weird
+Could just be this:
+https://stackoverflow.com/questions/3677368/matplotlib-format-axis-offset-values-to-whole-numbers-or-specific-number
+
 # Code/Misc
+
+_ISSUE_ config_changed doesn't seem to be working for the plots.
+Try it yourself and see.
 
 _TODO_ plotting
 Some plotfuncs will need additional info.
@@ -12,25 +19,6 @@ Put it in a dictionary?
 
 maybe plotfuncs could be a sequence as well
 call all of them before generating output
-
-
-_TODO_ collect results can't flatten dictionaries that way anymore
-We need a flattening schema:
-DataFrame column label: sequence of info dictionary keys
-
-Also, we simply don't want to do collection for debug.
-
-This can now be part of the postproc params.
-
-It turns out this is way too much work.
-Instead, we can just have a list of exclusions.
-
-_TODO_ need parameters for for post-processing tasks
-That is, `data/params/postproc`.
-
-For example, for debug this would indicate that no collection is to be done.
-
-It should also be the place where plots to be generated are defined.
 
 _FEATURE_ ParameterSet subclass that can generate a parameterset multidoc.
 `data/params/paramgen`
@@ -40,26 +28,15 @@ Then use itertools.product.
 Also have a sequence id and a way to incorporate it into strings.
 Maybe there's even a way you can take advantage of the &id001 thing.
 
+_FEATURE_ parameter generation scripts
+Really, there should be a doit task for this.
+But there can't be, because the tasks are generated based on reading its output.
+
+doit has a way to resolve this, of course:
+http://pydoit.org/task_creation.html#delayed-task-creation
+
 _TODO_ find a way to get coordinates of the surface normal used in a flux calculation
 The notebook dated 2017-11-06 is where I was working on this before.
-
-_TODO_ auto-generate plots in postproc
-For things like the hlines and vlines,
-and axis titles, plot titles, you need a separate specification.
-It's in the metadata (or info), but you've got to know where in the metadata to get it from.
-And, of course, those need labels.
-
-So you have part of the plot defined in the pickle (a list of data series),
-and all of this other stuff defined in some other subclass of ParameterSet.
-Then there's a class to pull it all together and generate PDFs.
-
-You'll never get that class to be so general it can do everything.
-You need functions for each specific plot.
-
-The subclass of ParameterSet says which function to call.
-The information the function has includes:
-- info
-- list of plotseries
 
 _TODO_ complete the "test" analysis, even without middle surface
 
@@ -89,13 +66,6 @@ at the ends of the pore(s).
 
 Don't forget to remove mesh/geomdef/body-cen2.yaml and update
 params/mesh/debug.yaml accordingly.
-
-_ISSUE_ parameter generation scripts
-Really, there should be a doit task for this.
-But there can't be, because the tasks are generated based on reading its output.
-
-doit has a way to resolve this, of course:
-http://pydoit.org/task_creation.html#delayed-task-creation
 
 #Specific Equations
 ## Fixed potential

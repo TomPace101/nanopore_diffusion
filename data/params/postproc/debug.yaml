@@ -32,7 +32,7 @@ model_plots:
     plotname: CL_c
     plotfunction: plot_invert_xaxis
     xlabel: 'z (nm)'
-    ylabel: 'concentration (mM)'
+    ylabel: 'Concentration (mM)'
     title: 'Concentration Profile along Pore Centerline'
     fmts: ['k-']
   - figsize: [11, 8.5]
@@ -59,6 +59,7 @@ model_plots:
     ylabel: 'Electric Potential (mV)'
     title: 'Electric Potential along Radial Lines'
     fmts: ['r-','g-','b-']
+    legendloc: 'upper left'
   - figsize: [11, 8.5]
     filename: radial_c.pdf
     plotname: radial_c

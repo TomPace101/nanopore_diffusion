@@ -31,8 +31,9 @@ def do_collection(basename,model_list,exclusions):
 def do_collectionplot(cplotparams,basename):
   dfpath=get_df_fname(basename)
   outfpath=osp.join(postprocfolder,basename,cplotparams.filename)
+  codefile=osp.join(srcfolder,'plotdata.py')
   tdef = {'name':basename+":"+cplotparams.filename,
-          'file_dep':[dfpath],
+          'file_dep':[dfpath,codefile],
           'uptodate':[config_changed(cplotparams.to_dict())],
           'targets':[outfpath],
           'actions':[(cplotparams.make_plot,(dfpath,))]}
@@ -41,10 +42,11 @@ def do_collectionplot(cplotparams,basename):
 def do_modelplot(mplotparams,modelparams,basename):
   outfpath=osp.join(postprocfolder,basename,modelparams.modelname,mplotparams.filename)
   datadir=osp.join(solnfolder,basename,modelparams.modelname)
+  codefile=osp.join(srcfolder,'plotdata.py')
   pklfile=osp.join(datadir,'outdata.pkl')
   infofile=osp.join(datadir,'info.yaml')
   tdef = {'name':modelparams.modelname+":"+mplotparams.filename,
-          'file_dep':[pklfile,infofile],
+          'file_dep':[pklfile,infofile,codefile],
           'uptodate':[config_changed(mplotparams.to_dict())],
           'targets':[outfpath],
           'actions':[(mplotparams.make_plot,(pklfile,infofile))]}

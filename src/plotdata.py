@@ -130,6 +130,8 @@ class ModelPlotFigure(PlotFigure):
     self.plot_basic_series()
     o=self.ax.axvline(pore_radius,label='Pore Boundary',color='k',linestyle='--')
     o=self.ax.axhline(applied_potential,label='Potential at Pore Boundary',color='k',linestyle=":")
+    if getattr(self,'legendloc',None) is not None:
+      o=self.ax.legend(loc=self.legendloc)
     
 
 class CollectionPlotFigure(PlotFigure):
