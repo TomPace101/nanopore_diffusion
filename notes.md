@@ -8,6 +8,12 @@ Then re-run, then generate the figure.
 
 _TODO_ collect_results is choking on debug right now
 
+_FEATURE_ ParameterSet subclass that can generate a parameterset multidoc.
+Define constant parameters, and variational sets.
+Then use itertools.product.
+Also have a sequence id and a way to incorporate it into strings.
+Maybe there's even a way you can take advantage of the &id001 thing.
+
 _TODO_ find a way to get coordinates of the surface normal used in a flux calculation
 The notebook dated 2017-11-06 is where I was working on this before.
 
@@ -15,6 +21,42 @@ _TODO_ is there a way to put multiple data series in the same pickle file?
 Could set up a class that subclasses list to do this.
 If so, it should have a 'relabel' method that takes a dictionary {old label: new label}
 So you don't have to re-run the analysis just to change the series labels.
+But that should only happen in postproc, of course.
+
+Here's a way to do it:
+give GenericSolver a new attribute "pickleobj".
+Just like "info" is written out to a yaml file,
+this gets written to a pickle.
+It could have a dictionary of plotdata.PlotSeries objects.
+Or maybe even a dictionary of plots, each of which is a sequence of PlotSeries objects.
+The idea being that similar series go on the same set of axes, most likely.
+After all the data extraction commands are issued, the pickle file is written.
+
+That would facilitate knowing what plots to generate.
+
+Also, the metadata could be with the plot, rather than with each series.
+Or maybe there could just be one set of metadata in the whole pickle.
+Actually, you could just read in info.
+So do you really need the metadata then at all?
+
+Still, for things like the hlines and vlines,
+and axis titles, plot titles, you need a separate specification.
+It's in the metadata (or info), but you've got to know where in the metadata to get it from.
+And, of course, those need labels.
+
+So you have part of the plot defined in the pickle (a list of data series),
+and all of this other stuff defined in some other subclass of ParameterSet.
+Then there's a class to pull it all together and generate PDFs.
+
+You'll never get that class to be so general it can do everything.
+You need functions for each specific plot.
+
+So, perhaps the way to say it is not that there is a class that pulls it all together,
+but rather that there are functions.
+The subclass of ParameterSet says which function to call.
+The information the function has includes:
+- info
+- list of plotseries
 
 _TODO_ complete the "test" analysis, even without middle surface
 

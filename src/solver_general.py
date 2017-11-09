@@ -14,7 +14,7 @@ import useful
 import plotdata
 import buildgeom
 
-class GeneralConditions(useful.ParameterSet):
+class GenericConditions(useful.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
   Attributes:
     elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
@@ -32,7 +32,7 @@ class ModelParameters(useful.ParameterSet):
     conditions = parameters specifying boundary conditions, initial conditions, property values, etc.
       The parameters specified are specific to the equation being solved.
       See the equation's module for the equation-specific conditions object,
-      which will usually inherit from GeneralConditions.
+      which will usually inherit from GenericConditions.
     dataextraction = a sequence of data extraction commands
       Each command is a pair (cmdname, arguments), where
         cmdname = name of the solver object's method to call, as a string
@@ -129,7 +129,7 @@ class GenericSolver:
     #Store defining ParameterSet objects
     self.modelparams=modelparams
     self.meshparams=meshparams
-      
+
     #Mesh input files
     mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(modelparams.meshname,meshparams.basename)
 
@@ -184,7 +184,7 @@ class GenericSolver:
       except Exception as einst:
         print("Excption occured for command: %s"%str(cmd))
         raise einst
-      
+
     #Write out the results file
     self.info['results']=self.results
     useful.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
@@ -294,13 +294,14 @@ class GenericSolver:
     self.results[name]=np.pi*self.meshparams.R**2/(4*self.meshparams.Lx*self.meshparams.Ly)
     return
 
-  def profile_centerline(self,spacing,filename,label):
+  def profile_centerline(self,spacing,filename,label,attrname='soln'):
     """Data for plot of solution profile along centerline
     Arguments:
       spacing = distance between sampled points for line plots
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
       label = series label to assign, as string
+      attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
       meshparams = buildgeom.MeshParameters object
       modelparams = ModelParameters object
@@ -309,13 +310,14 @@ class GenericSolver:
     Nothing added to results dictionary.
     No return value.
     Output file is written."""
+    vals=getattr(self,attrname)
     zr=np.arange(0, 2*self.meshparams.H + self.meshparams.tm, spacing)
     zlist=[]
     vlist=[]
     for z in zr:
       zlist.append(z)
       tup=(0,0,z)
-      vlist.append(self.soln(*tup))
+      vlist.append(vals(*tup))
     zarr=np.array(zlist)
     varr=np.array(vlist)
     meta=dict([(k,getattr(self.meshparams,k)) for k in ['Lx','Ly','R','tm','H']])
@@ -325,14 +327,15 @@ class GenericSolver:
     series.to_pickle(pklfile)
     return
 
-  def profile_radial(self,spacing,filename,label,theta):
+  def profile_radial(self,spacing,filename,label,theta,attrname='soln'):
     """Data for plot of solution along radial line at model mid-height, in specified direction
     Arguments:
       spacing = distance between sampled points for line plots
       filename = name of output file, as string
         File will be created in the output directory (self.outdir)
       label = series label to assign, as string
-      theta: theta-angle in degrees from x-axis, as float
+      theta = theta-angle in degrees from x-axis, as float
+      attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
       meshparams = buildgeom.MeshParameters object
       modelparams = ModelParameters object
@@ -341,6 +344,7 @@ class GenericSolver:
     Nothing added to results dictionary.
     No return value.
     Output file is written."""
+    vals=getattr(self,attrname)
     zval=self.meshparams.H + self.meshparams.tm/2 #mid-height
     rads=np.radians(theta)
     cos=np.cos(rads)
@@ -366,9 +370,10 @@ class GenericSolver:
       if inside:
         rlist.append(r)
         try:
-          vlist.append(self.soln(*tup))
+          vlist.append(vals(*tup))
           inside='FalsePositive'
         except RuntimeError:
+          #Couldn't get value for this point, so drop it
           rlist.pop(-1)
       #Track result
       tuplist.append((tup,inside))
@@ -381,4 +386,3 @@ class GenericSolver:
     pklfile=osp.join(self.outdir,filename)
     series.to_pickle(pklfile)
     return
-    

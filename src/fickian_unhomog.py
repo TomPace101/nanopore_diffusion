@@ -14,7 +14,7 @@ from folderstructure import *
 import solver_general
 import useful
 
-class UnhomogFickianConditions(solver_general.GeneralConditions):
+class UnhomogFickianConditions(solver_general.GenericConditions):
   """Condition defnitions for use with UnhomogFickianSolver
   Attributes:
     D_bulk = bulk diffusion constant"""
@@ -37,7 +37,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     Arguments:
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
-    
+
     #Mesh setup, output init
     super().__init__(modelparams,meshparams)
 
@@ -60,7 +60,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     self.v=fem.TestFunction(self.V)
     self.a=fem.dot(fem.grad(self.c),fem.grad(self.v))*fem.dx
     self.L=fem.Constant(0)*self.v*self.ds
-    
+
   def solve(self):
     "Do the step of solving this equation"
     self.soln=fem.Function(self.V)
@@ -79,11 +79,10 @@ if __name__ == '__main__':
 
   #Get all models to solve, and all their meshes
   allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes([cmdline.model_params_file])
-  
+
   #Run each requested analysis
   for modelparams in allmodels.values():
     #Only do analyses with equations supported by this module
     if modelparams.equation in solverclasses.keys():
       meshparams=allmeshes[modelparams.meshname]
       solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)
-

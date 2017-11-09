@@ -15,7 +15,7 @@ from folderstructure import *
 import solver_general
 import useful
 
-class LPBConditions(solver_general.GeneralConditions):
+class LPBConditions(solver_general.GenericConditions):
   """Condition defnitions for use with LPBSolver
   Attributes:
       debye_length = Debye length"""
@@ -46,7 +46,7 @@ class LPBSolver(solver_general.GenericSolver):
     #Store defining ParameterSet objects
     self.modelparams=modelparams
     self.meshparams=meshparams
-      
+
     #Load mesh and meshfunctions
     self.mesh=other.mesh
     self.surfaces=other.surfaces
@@ -58,13 +58,13 @@ class LPBSolver(solver_general.GenericSolver):
     self.results={}
     self.info=self.modelparams.to_dict()
     self.info['meshparams']=self.meshparams.to_dict()
-    
+
     #Get conditions
     self.conditions=LPBConditions(**modelparams.conditions)
-    
+
     #Properties of problem domain
     self.lambda_D = self.conditions.debye_length
-    
+
     #Function space for scalars and vectors
     ##self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
 
@@ -80,7 +80,7 @@ class LPBSolver(solver_general.GenericSolver):
     self.v=fem.TestFunction(self.V)
     self.a=((1/self.lambda_D**2)*self.phi*self.v + fem.dot(fem.grad(self.phi),fem.grad(self.v)))*fem.dx
     self.L=fem.Constant(0)*self.v*self.ds
-    
+
   def solve(self):
     "Do the step of solving this equation"
     self.soln=fem.Function(self.V)
@@ -90,7 +90,7 @@ class LPBSolver(solver_general.GenericSolver):
 #Lookup of electric potential solvers by name
 potentialsolverclasses={'linear_pb':LPBSolver}
 
-class SUConditions(solver_general.GeneralConditions):
+class SUConditions(solver_general.GenericConditions):
   """Condition defnitions for use with SUSolver
   Attributes:
     D_bulk = bulk diffusion constant
@@ -136,10 +136,10 @@ class SUSolver(solver_general.GenericSolver):
     Arguments:
       modelparams = ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
-    
+
     #Mesh setup, output init
     super().__init__(modelparams,meshparams)
-    
+
     #Get conditions
     self.conditions=SUConditions(**modelparams.conditions)
     self.beta_q = self.conditions.beta * self.conditions.q
@@ -198,7 +198,7 @@ if __name__ == '__main__':
 
   #Get all models to solve, and all their meshes
   allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes([cmdline.model_params_file])
-  
+
   #Run each requested analysis
   for modelparams in allmodels.values():
     #Only do analyses with equations supported by this module
