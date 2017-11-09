@@ -10,7 +10,7 @@ datafolder=osp.join(osp.split(srcfolder)[0],'data')
 paramsfolder=osp.join(datafolder,'params')
 params_mesh_folder=osp.join(paramsfolder,'mesh')
 params_model_folder=osp.join(paramsfolder,'model')
-params_control_folder=osp.join(paramsfolder,'control')
+params_postproc_folder=osp.join(paramsfolder,'postproc')
 
 #mesh
 meshfolder=osp.join(datafolder,'mesh')
@@ -23,6 +23,9 @@ gmsh_outfolder=osp.join(meshfolder,'gmsh_out')
 
 #solutions
 solnfolder=osp.join(datafolder,'solutions')
+
+#post-processing
+postprocfolder=osp.join(datafolder,'postproc')
 
 #add python code folder(s) to path
 if not srcfolder in sys.path:

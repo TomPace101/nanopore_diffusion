@@ -1,0 +1,28 @@
+%YAML 1.2
+#Parameter input file
+#Each document is a separate case run
+#Blank (bare) documents are skipped
+
+#Post-processing specification
+#Each document defines an instance of postproc.PostProcParameters
+---
+modelnames: [debug01]
+model_plots:
+  - figsize: [11, 8.5]
+    filename: profile_CL_c.pdf
+    plotname: CL_c
+    plotfunction: plot_invert_xaxis
+    xlabel: 'z (nm)'
+    ylabel: 'concentration (mM)'
+    title: 'Concentration Profile along Pore Centerline'
+    fmts: ['k-']
+---
+modelnames: [debug02]
+model_plots:
+  - figsize: [11, 8.5]
+    filename: 
+    plotname: 
+    plotfunction: 
+    xlabel: 
+    ylabel: 
+    title: 

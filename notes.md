@@ -6,13 +6,24 @@ Then re-run, then generate the figure.
 
 # Code/Misc
 
-_TODO_ don't only ModelParameters and MeshParameters actually use basename?
+_TODO_ plotting
+Some plotfuncs will need additional info.
+Put it in a dictionary?
+
+maybe plotfuncs could be a sequence as well
+call all of them before generating output
+
 
 _TODO_ collect results can't flatten dictionaries that way anymore
 We need a flattening schema:
 DataFrame column label: sequence of info dictionary keys
 
 Also, we simply don't want to do collection for debug.
+
+This can now be part of the postproc params.
+
+It turns out this is way too much work.
+Instead, we can just have a list of exclusions.
 
 _TODO_ need parameters for for post-processing tasks
 That is, `data/params/postproc`.

@@ -17,16 +17,14 @@ import useful
 import tasks_mesh
 import tasks_solver
 import tasks_postproc
-import solver_general
 
 #Constants
 controlfile=osp.join(datafolder,'control.yaml')
 
-
 #Read in all the models and meshes
 model_infiles=useful.readyaml(controlfile)
 modelparams_filelist=[osp.join(params_model_folder,fn) for fn in model_infiles]
-allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes(modelparams_filelist)
+allmodels,modelfiles,allmeshes,meshfiles=tasks_solver.GetAllModelsAndMeshes(modelparams_filelist)
 
 #Mesh tasks
 def task_make_mesh():
@@ -44,8 +42,11 @@ def task_solve():
     yield tasks_solver.dosolve(modelparams,meshparams)
     
 #Result collection tasks
-def task_collect():
-  for fname in model_infiles:
-    basename = osp.splitext(fname)[0]
-    yield tasks_postproc.collection(basename,allmodels.values())
+# def task_collect():
+#   for fname in model_infiles:
+#     basename = osp.splitext(fname)[0]
+#     yield tasks_postproc.collection(basename,allmodels.values())
 
+#Post-processing tasks
+def task_postproc():
+  return task_postproc.postproc_task_generator(model_infiles,allmodels)

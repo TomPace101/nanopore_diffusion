@@ -150,6 +150,7 @@ class SUSolver(solver_general.GenericSolver):
     potentialparams=solver_general.ModelParameters(**potentialparams_dict)
     self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,self,diskwrite=False)
     self.info['potential']=self.potsolv.info
+    self.outdata.plots=self.potsolv.outdata.plots
 
     #Dirichlet boundary conditions
     self.conditions.transform_bcs(self.potsolv.conditions.bcdict,self.beta_q) #apply Slotboom transformation
