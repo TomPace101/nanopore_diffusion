@@ -1,0 +1,30 @@
+%YAML 1.2
+#Parameter input file
+#Each document is a separate case run
+#Blank (bare) documents are skipped
+
+#Model definition
+#Each document defines an instance of solver_general.ModelParameters
+
+##TODO: put in the fields
+
+{% for fields in allfields %}
+---
+modelname: debug01
+meshparamsfile: debug.yaml
+meshname: debug
+equation: fickian_unhomog
+conditions:
+  elementorder: 2
+  bcdict: {4: 5.0, 1: 1.0}
+  D_bulk: 1
+dataextraction:
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1, name: totflux_01, normalvar: n01}]
+  - [fluxintegral, {fluxsurf: 4, name: totflux_04, normalvar: n04}]
+  - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-', normalvar: n12}]
+  - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
+  - [volfrac, {name: free_volume_frac}]
+  - [profile_centerline, {spacing: 0.1, plotname: CL_c, label: 'concentration along centerline'}]
+{% endfor %}

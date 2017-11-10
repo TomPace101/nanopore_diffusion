@@ -10,6 +10,9 @@ https://stackoverflow.com/questions/3677368/matplotlib-format-axis-offset-values
 
 # Code/Misc
 
+_TODO_ learn how &id001 works in yaml.
+In particular, can it only refer to something in the same document?
+
 _ISSUE_ config_changed doesn't seem to be working for the plots.
 Try it yourself and see.
 
@@ -34,6 +37,12 @@ Maybe there's even a way you can take advantage of the &id001 thing.
 
 Note that we need to be able to read in a ParameterSet from somewhere else,
 and include its documents in our itertools.product
+
+current __TODO__ includes:
+- finish the model template
+- write the logic that generates the fields from the input data (generate_fields)
+  The docstring explains what the inputs to this will be.
+
 
 _FEATURE_ parameter generation scripts
 Really, there should be a doit task for this.

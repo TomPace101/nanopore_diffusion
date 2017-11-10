@@ -7,3 +7,7 @@
 #Each document defines an instance of paramgen.ParameterGenerator
 ---
 outfile: mesh/brainy-media.yaml
+tmplfile: mesh_body-centered.yaml.jinja2
+---
+outfile: model/brainy-media.yaml
+tmplfile: model_fick_uh.yaml.jinja2
