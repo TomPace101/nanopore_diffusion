@@ -80,8 +80,8 @@ class ParameterGenerator(useful.ParameterSet):
           [first name, second name, ...]
         File names must be paths relative to params.
         Empty field dictionaries may be used to provide documents for calcfields below.
-      calcfields = sequence of field calculation specifiers, each specifier a pair:
-        (calcfunc, kwargs)
+      calcfields = sequence of field calculation specifiers, each specifier a dictionary:
+        {calcfunc:kwargs}
         The calculation functions are also passed the fields dictionary as it exists at that point,
         and the complete yaml documents used to generate the otherfiles fields.
         Calculated fields are done after all other fields are known,
@@ -136,7 +136,8 @@ class ParameterGenerator(useful.ParameterSet):
             #Put into specified field
             fields[fieldname]=val
         #Do calcfields
-        for funcname,kwargs in getattr(self,'calcfields',[]):
+        calclist=[cf.items() for cf in getattr(self,'calcfields',[])]
+        for funcname,kwargs in calclist:
           result = calcfuncs[funcname](fields,files_docs_dict,**kwargs)
           if not result:
             break

@@ -11,20 +11,20 @@
 {% for fields in allfields %}
 ---
 modelname: {{ '%s_model_%03d'|format(fields.hrhash, fields.counter) }}
-meshparamsfile: debug.yaml
-meshname: debug
+meshparamsfile: {{ fields.meshparamsfile }}
+meshname: {{ fields.meshname }}
 equation: fickian_unhomog
 conditions:
-  elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
-  D_bulk: 1
+  elementorder: {{ fields.elementorder }}
+  bcdict: { {{- fields.psurf_top }}: {{ fields.dval_top }}, {{ fields.psurf_base }}: {{ fields.dval_base -}} }
+  D_bulk: {{ fields.D_bulk }}
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
   - [fluxfield, {filename: flux.pvd}]
-  - [fluxintegral, {fluxsurf: 1, name: totflux_01, normalvar: n01}]
-  - [fluxintegral, {fluxsurf: 4, name: totflux_04, normalvar: n04}]
-  - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-', normalvar: n12}]
-  - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
+  - [fluxintegral, {fluxsurf: {{ fields.psurf_base }}, name: {{ 'totflux_%02d'|format(fields.psurf_base) }}, normalvar: {{ 'n%02d'|format(fields.psurf_base) -}} }]
+  - [fluxintegral, {fluxsurf: {{ fields.psurf_top }}, name: {{ 'totflux_%02d'|format(fields.psurf_top) }}, normalvar: {{ 'n%02d'|format(fields.psurf_top) -}} }]
+  - [fluxintegral, {fluxsurf: {{ fields.psurf_mid }}, name: {{ 'totflux_%02d'|format(fields.psurf_mid) }}, internal: True, fluxsign: '-', normalvar: {{ 'n%02d'|format(fields.psurf_mid) -}} }]
+  - [effective_diffusion, {name: Deff, totflux_name: {{ 'totflux_%02d'|format(fields.psurf_mid) -}} }]
   - [volfrac, {name: free_volume_frac}]
   - [profile_centerline, {spacing: 0.1, plotname: CL_c, label: 'concentration along centerline'}]
 {% endfor %}
