@@ -10,7 +10,7 @@
 
 {% for fields in allfields %}
 ---
-modelname: debug01
+modelname: {{ '%s_model_%03d'|format(fields.hrhash, fields.counter) }}
 meshparamsfile: debug.yaml
 meshname: debug
 equation: fickian_unhomog

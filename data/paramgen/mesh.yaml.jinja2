@@ -8,10 +8,10 @@
 {% for fields in allfields %}
 ---
 meshname: {{ '%s_mesh_%03d'|format(fields.hrhash, fields.counter) }}
-lattice: body-cen2
-mscale: 1.0
-mcarh: 1.0
-mcarl: 5.0
+lattice: {{ fields.lattice }}
+mscale: {{ fields.mscale }}
+mcarh: {{ fields.mcarh }}
+mcarl: {{ fields.mcarl }}
 Lx: {{ fields.Lx }}
 Ly: {{ fields.Ly }}
 R: {{ fields.R }}

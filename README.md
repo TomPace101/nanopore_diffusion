@@ -54,6 +54,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - tasks_mesh.py: `doit` task definitions for mesh generation
     - tasks_solver.py: `doit` task definitions for FEM analysis and data extraction
     - tasks_postproc.py: `doit` task defintions for post-processing
+    - paramgen.py: code for generating parameter sets from templates and input data
     - gen_params: folder for python scripts to generate various parameter definition files
 - data: input and output data from FEM analysis
     - mesh: data for mesh generation using `gmsh`
@@ -63,6 +64,7 @@ will have a '.keep' file to force `git` to include the directory itself.
         - gmsh_out: storage place for `gmsh` terminal output
         - msh: storage place for `gmsh` .msh files
         - xml: storage place for xml files readable by `FEniCS`
+    - paramgen: storage place for templates used in parameter generation
     - params: storage place for parameter sets
         - mesh: storage place for mesh definition parameters
         - model: storage place for model definition parameters
@@ -88,4 +90,3 @@ hashes is stored in `src/params/hashes.yaml`.
 
 - Tom Pace
 - Dr. Pete Kekenes-Huskey
-
