@@ -34,7 +34,7 @@ optable={'<':operator.lt, '<=':operator.le, '>':operator.gt, '>=':operator.ge,
 @addcalcfunc
 def calc_comparison_ok(fields,files_docs_dict,opstr,field1,field2):
   """Do a comparison, and filter out this entry if it fails"""
-  return optable[opstr](fields[field1],fields[field2]
+  return optable[opstr](fields[field1],fields[field2])
 
 @addcalcfunc
 def calc_extremum(fields,files_docs_dict,dest_field,ismax,namelist):
@@ -93,7 +93,7 @@ class ParameterGenerator(useful.ParameterSet):
       num_generated = number of documents generated
   The template will be provided with the following input:
       allfields = a sequence of fields dictionaries"""
-  __slots__=['outfile','tmplfile','constfields','rangefields','otherfiles','calcfields']
+  __slots__=['outfile','tmplfile','constfields','rangefields','otherfiles','calcfields','tmpl_input','num_generated']
 
   def generate_fields(self):
     """Generator that calculates all the field dictionaries"""
@@ -101,42 +101,43 @@ class ParameterGenerator(useful.ParameterSet):
     otherdocs={}
     if getattr(self,'otherfiles',None) is not None:
       for yfile in self.otherfiles.keys():
-          otherdocs[yfile]=uself.readyaml_multidoc(osp.join(paramsfolder,yfile))
+          otherdocs[yfile]=useful.readyaml_multidoc(osp.join(paramsfolder,yfile))
     #Set up iterator for the big loop
     if getattr(self,'rangefields',None) is not None:
         fieldnames_range=tuple(self.rangefields.keys())
-        iterator_range=itertools.product(*self.rangefiles.values())
+        iterator_range=itertools.product(*self.rangefields.values())
     else:
         #range_fields needs to be an emtpy dictionary
         fieldnames_range=tuple()
         iterator_range=[tuple()]
-    filenames_docs=tuple(self.otherdocs.keys())
-    iterator_docs=itertools.product(*self.otherdocs.values())
+    filenames_docs=tuple(otherdocs.keys())
+    iterator_docs=itertools.product(*otherdocs.values())
     #Loop through
     counter=1
     for values_range in iterator_range:
       range_fields=dict(zip(fieldnames_range,values_range))
-      for ydocs in iterator_docs
+      for ydocs in iterator_docs:
         #Initialize the fields dictionary with a counter
         fields={'counter':counter}
         #Include the range fields
         fields.update(range_fields)
         #Include the constfields
-        field.update(getattr(self,'constfields',{}))
+        fields.update(getattr(self,'constfields',{}))
         #Get mapping of file to the document from that file
         files_docs_dict=dict(zip(filenames_docs,ydocs))
-        #For each file
-        for yfile,fieldmap in self.otherfiles.items():
-          #Get the document to read from
-          otherdoc=files_docs_dict[yfile]
-          #For each destination field
-          for fieldname,locseq in fieldmap.items():
-            #Get the value at the specified location
-            val=nested_location(otherdoc,locseq)
-            #Put into specified field
-            fields[fieldname]=val
+        if getattr(self,'otherfiles',None) is not None:
+          #For each file
+          for yfile,fieldmap in self.otherfiles.items():
+            #Get the document to read from
+            otherdoc=files_docs_dict[yfile]
+            #For each destination field
+            for fieldname,locseq in fieldmap.items():
+              #Get the value at the specified location
+              val=nested_location(otherdoc,locseq)
+              #Put into specified field
+              fields[fieldname]=val
         #Do calcfields
-        calclist=[cf.items() for cf in getattr(self,'calcfields',[])]
+        calclist=[tuple(*cf.items()) for cf in getattr(self,'calcfields',[])]
         for funcname,kwargs in calclist:
           result = calcfuncs[funcname](fields,files_docs_dict,**kwargs)
           if not result:
@@ -160,7 +161,7 @@ class ParameterGenerator(useful.ParameterSet):
     self.prepare_tmpl_input()
 
     #Load template
-    env=Environment(loader=FileSystemLoader([pgtemplates_folder_folder,'.']), trim_blocks=True)
+    env=Environment(loader=FileSystemLoader([pgtemplates_folder,'.']), trim_blocks=True)
     tmpl=env.get_template(self.tmplfile)
 
     #Render template

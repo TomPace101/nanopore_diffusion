@@ -11,6 +11,7 @@ paramsfolder=osp.join(datafolder,'params')
 params_mesh_folder=osp.join(paramsfolder,'mesh')
 params_model_folder=osp.join(paramsfolder,'model')
 params_postproc_folder=osp.join(paramsfolder,'postproc')
+params_paramgen_folder=osp.join(paramsfolder,'paramgen')
 
 #mesh
 meshfolder=osp.join(datafolder,'mesh')
