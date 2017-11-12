@@ -111,12 +111,11 @@ class ParameterGenerator(useful.ParameterSet):
         fieldnames_range=tuple()
         iterator_range=[tuple()]
     filenames_docs=tuple(otherdocs.keys())
-    iterator_docs=itertools.product(*otherdocs.values())
     #Loop through
     counter=1
     for values_range in iterator_range:
       range_fields=dict(zip(fieldnames_range,values_range))
-      for ydocs in iterator_docs:
+      for ydocs in itertools.product(*otherdocs.values()):
         #Initialize the fields dictionary with a counter
         fields={'counter':counter}
         #Include the range fields
