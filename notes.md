@@ -1,14 +1,10 @@
 
-**Current Goal** Image of potential from Poisson-Boltzmann
+# Code/Misc
+
+_ISSUE_ doit tasks can't generate meshes when there are no models
 
 _TODO_ units analysis as described below, to get an appropriate value of beta.
 Then re-run, then generate the figure.
-
-_ISSUE_ radial cbar plot looks weird
-Could just be this:
-https://stackoverflow.com/questions/3677368/matplotlib-format-axis-offset-values-to-whole-numbers-or-specific-number
-
-# Code/Misc
 
 _TODO_ learn how &id001 works in yaml.
 In particular, can it only refer to something in the same document?
@@ -25,6 +21,24 @@ Put it in a dictionary?
 
 maybe plotfuncs could be a sequence as well
 call all of them before generating output
+
+_TODO_ plotdata.ModelPlotFigure.plot_radial_potential has some hardcoded numbers specific to the current body-centered mesh
+A more general way to add hlines and vlines would help,
+but not resolve the issue completely,
+as those values need to come from a calculation.
+
+Maybe model plots needs calcfuncs too, then?
+How would that work, since you don't have a DataFrame?
+As stated below, you'd like to be able to add new series as well,
+not just hlines and vlines.
+
+Maybe there should be hlines and vlines properties,
+just like series.
+And the calcfuncs can access them.
+
+_TODO_ collection plot: what if I want to add a series?
+This should probably be an option for PlotFigure in general,
+as hlines and vlines
 
 _FEATURE_ doit tasks for parameter generation
 tasks are generated based on reading the output of such a task.

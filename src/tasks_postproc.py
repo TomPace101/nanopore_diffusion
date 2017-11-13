@@ -52,11 +52,13 @@ def do_modelplot(mplotparams,modelparams,basename):
           'actions':[(mplotparams.make_plot,(pklfile,infofile))]}
   return tdef
 
-def postproc_task_generator(model_infiles,allmodels):
+def postproc_task_generator(infile_list,allmodels):
   "generator yielding postproc tasks"
-  for fname in model_infiles:
+  for fname in infile_list:
     basename = osp.splitext(fname)[0]
     postproc_file = osp.join(params_postproc_folder,fname)
+    if not osp.isfile(postproc_file):
+      break
     postproc_list = [p for p in postproc.PostProcParameters.all_from_yaml(osp.join(params_postproc_folder,fname))]
     for postprocparams in postproc_list:
       #Get the indicated modelnames
