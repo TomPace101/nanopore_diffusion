@@ -12,12 +12,11 @@ collection_plots:
   - figsize: [11, 8.5]
     filename: ratio_vs_phi.pdf
     plotfunction: plot_basic_series
-    xlabel: '$\\phi$'
+    xlabel: '$\phi$'
     ylabel: '$D_{eff}/D_{bulk}$'
     fmts: ['k.']
     calcfuncs: [calc_Dratio]
-    xcols: [free_volume_frac]
-    ycols: [ratio_D]
+    seriescols: [[free_volume_frac, ratio_D]]
 ---
 modelnames: []
 model_plots:

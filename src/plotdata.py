@@ -47,13 +47,14 @@ class PlotFigure(useful.ParameterSet):
       fmts = list of format specifier strings
       legendloc = legend location (loc keyword argument for Axes.legend()), None or omitted for no legend
     To be created by methods:
+      series = sequence of PlotSeries instances
       fig = matplotlib Figure for the generated plot
       ax = matplotlib Axes for the plot"""
-  __slots__=['figsize','filename','plotfunction','xlabel','ylabel','title','fmts','legendloc','fig','ax']
+  __slots__=['figsize','filename','plotfunction','series','xlabel','ylabel','title','fmts','legendloc','fig','ax']
   def make_plot(self,*datafiles):
     """Create the plot.
     Arguments:
-      *datafiles = data files, passe through to load_data"""
+      *datafiles = data files, passed through to load_data"""
     #Load the data we need to generate the plot
     self.load_data(*datafiles)
     
@@ -98,9 +99,8 @@ class ModelPlotFigure(PlotFigure):
     To be assigned after instantiation:
       modelname = name of model
     To be created by methods:
-      series = sequence of PlotSeries instances
       info = dictionary of model data"""
-  __slots__=['plotname','modelname','series','info']
+  __slots__=['plotname','modelname','info']
   def outdir(self):
     return osp.join(postprocfolder,self.basename,self.modelname)
 
@@ -139,11 +139,12 @@ class CollectionPlotFigure(PlotFigure):
   Attributes:
     To be read in from yaml file:
       calcfuncs = sequence of calculation functions to be called before generating plot
-      xcol = sequence of column names in DataFrame to use for x-values
-      ycol = sequence of column names in DataFrame to use for y-values
+      seriescols = sequence of series definitions (xcol, ycol, label),
+        where the columns specify the DataFrame columns containing values for the series
+        The label is optional.
     To be created by methods:
       df = the DataFrame"""
-  __slots__=['calcfuncs','xcol','ycol','df']
+  __slots__=['calcfuncs','seriescols','df']
   def outdir(self):
     return osp.join(postprocfolder,self.basename)
   def load_data(self,dfpath):
@@ -159,10 +160,20 @@ class CollectionPlotFigure(PlotFigure):
         f=getattr(self,cf)
         f()
     
+    #Add the requested columns in as series
+    self.series=[]
+    for sdef in self.seriescols:
+      sdef_dict={'xvals':self.df[sdef[0]],'yvals':self.df[sdef[1]]}
+      if len(sdef)>2:
+        sdef_dict['label']=sdef[2]
+      else:
+        sdef_dict['label']=''
+      self.series.append(PlotSeries(**sdef_dict))
+    
     return
 
-    def calc_Dratio(self):
-      def calc_ratio(row):
-        return row['Deff']/row['D_bulk']
-      self.df['ratio_D']=self.df.apply(calc_ratio,axis=1)
-      return
+  def calc_Dratio(self):
+    def calc_ratio(row):
+      return row['Deff']/row['D_bulk']
+    self.df['ratio_D']=self.df.apply(calc_ratio,axis=1)
+    return

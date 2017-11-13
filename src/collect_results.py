@@ -48,7 +48,7 @@ def get_columns(d,exclusions):
       if type(v)==int or type(v)==float or type(v)==str:
         cols.append(k)
       elif hasattr(v,'items'):
-        newcols=get_columns(v)
+        newcols=get_columns(v,exclusions)
         cols.extend([c for c in newcols if c not in cols])
   return cols
 

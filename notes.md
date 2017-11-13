@@ -16,6 +16,9 @@ In particular, can it only refer to something in the same document?
 _ISSUE_ config_changed doesn't seem to be working for the plots.
 Try it yourself and see.
 
+_TODO_ add pore limits as vlines on all centerline plots
+_TODO_ add pore radius as vline on all radial plots
+
 _TODO_ plotting
 Some plotfuncs will need additional info.
 Put it in a dictionary?
@@ -28,6 +31,14 @@ tasks are generated based on reading the output of such a task.
 
 doit has a way to resolve this, of course:
 http://pydoit.org/task_creation.html#delayed-task-creation
+
+Or maybe it doesn't need to be a task at all.
+Maybe you just include the code to generate the parameters as 'always execute'
+in the dodo file, then generate the tasks.
+This is somewhat wasteful because parameter generation could take time.
+And it would cause file dates to reflect last run,
+not necessarily the last time something actually changed.
+(Though you shouldn't always count on that anyway.)
 
 _TODO_ find a way to get coordinates of the surface normal used in a flux calculation
 The notebook dated 2017-11-06 is where I was working on this before.

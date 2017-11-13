@@ -22,7 +22,7 @@ def get_df_fname(basename):
 def do_collection(basename,model_list,exclusions):
   infiles=collect_results.list_inputfiles(basename,model_list)
   outfpath=get_df_fname(basename)
-  tdef = {'name': basename,
+  tdef = {'name': basename+":collection",
           'file_dep':infiles+[collect_results.__file__],
           'targets':[outfpath],
           'actions':[(collect_results.do_collection,(infiles,outfpath,exclusions))]}
