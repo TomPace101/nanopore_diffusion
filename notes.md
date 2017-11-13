@@ -23,30 +23,8 @@ Put it in a dictionary?
 maybe plotfuncs could be a sequence as well
 call all of them before generating output
 
-_FEATURE_ ParameterSet subclass that can generate a parameterset multidoc.
-`data/params/paramgen`
-
-Define constant parameters, and variational sets.
-Then use itertools.product.
-Also have a sequence id and a way to incorporate it into strings.
-Basically, this is a set of properties that make use of a counter.
-You'll need a prefix, suffix, and counter format.
-Or, maybe just a template string which is passed the counter.
-
-Maybe there's even a way you can take advantage of the &id001 thing.
-
-Note that we need to be able to read in a ParameterSet from somewhere else,
-and include its documents in our itertools.product
-
-current __TODO__ includes:
-- finish the model template
-- write the logic that generates the fields from the input data (generate_fields)
-  The docstring explains what the inputs to this will be.
-
-
-_FEATURE_ parameter generation scripts
-Really, there should be a doit task for this.
-But there can't be, because the tasks are generated based on reading its output.
+_FEATURE_ doit tasks for parameter generation
+tasks are generated based on reading the output of such a task.
 
 doit has a way to resolve this, of course:
 http://pydoit.org/task_creation.html#delayed-task-creation
