@@ -14,6 +14,11 @@ from folderstructure import *
 import useful
 import plotdata
 
+#fenics version check
+target_fenics_version='2017.1.0'
+fenics_version_msg_template="This code was written for FEniCS version '%s'. Detected version '%s'. You can try to run it by uncommenting this line, but it may not work, due to FEniCS API changes."
+assert fem.DOLFIN_VERSION_STRING == target_fenics_version, fenics_version_msg_template%(target_fenics_version,fem.DOLFIN_VERSION_STRING)
+
 class GenericConditions(useful.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
   Attributes:
