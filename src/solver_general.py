@@ -135,7 +135,7 @@ class GenericSolver:
       os.makedirs(self.outdir)
 
     #Process each command
-    for cmd in self.modelparams.dataextraction:
+    for cmd in getattr(self.modelparams,'dataextraction',[]):
       #Function name and arguments
       funcname, kwargs = cmd
       #Call it

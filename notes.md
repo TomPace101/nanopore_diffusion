@@ -1,6 +1,8 @@
 
 # Code/Misc
 
+_ISSUE_ data/paramgen/model_smol_uh.yaml.jinja2 has some body-centered mesh-specific information in its bcdict.
+
 _ISSUE_ doit tasks can't generate meshes when there are no models
 
 _TODO_ units analysis as described below, to get an appropriate value of beta.

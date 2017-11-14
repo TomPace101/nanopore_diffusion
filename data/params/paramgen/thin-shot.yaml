@@ -29,3 +29,27 @@ calcfields:
       dest_field: H
       src_field: tm
       ldict: {75: 50, 25: 25}
+---
+outfile: model/thin-shot.yaml
+tmplfile: model_smol_uh.yaml.jinja2
+constfields:
+  hrhash: thin-shot
+  meshparamsfile: thin-shot.yaml
+  D_bulk: 1.0
+  elementorder: 2
+  psurf_top: 4
+  psurf_base: 1
+  psurf_mid: 12
+  beta: 0.01
+  debye_length: 1
+  membrane_potential: 25.0
+rangefields:
+  dirichlet_pair: [[5.0,1.0],[10.0,1.0]]
+  q: [1.0, 0.0, -1.0]
+otherfiles:
+  mesh/thin-shot.yaml:
+    meshname: [meshname]
+calcfields:
+  - calc_seq_split:
+      dest_field_seq: [dval_top, dval_base]
+      fieldname: dirichlet_pair
