@@ -53,7 +53,7 @@ class PlotFigure(useful.ParameterSet):
       fig = matplotlib Figure for the generated plot
       ax = matplotlib Axes for the plot
       info = dictionary of miscellaneous data"""
-  __slots__=['figsize','filename','plotfunctions','series','xlabel','ylabel','title','fmts','fig','ax']
+  __slots__=['figsize','filename','prepfunctions','plotfunctions','series','xlabel','ylabel','title','fmts','fig','ax','info']
   
   def execute_commandseq(self,attrname):
     """Execute the command sequence
@@ -143,7 +143,7 @@ class PlotFigure(useful.ParameterSet):
     xval=useful.nested_location(self.info,locspec)
     if kwargs is None:
       kwargs = {}
-    self.ax.axvline(yval,**kwargs)
+    self.ax.axvline(xval,**kwargs)
     return
 
 

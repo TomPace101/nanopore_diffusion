@@ -19,7 +19,7 @@ collection_plots:
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
     xlabel: '$\phi$'
     ylabel: '$D_{eff}/D_{bulk}$'
-    fmts: ['k.']
+    fmts: ['k.','r-']
     seriescols: [[free_volume_frac, ratio_D, 'model results']]
   - figsize: [9, 7]
     filename: ratio_vs_phi.png
@@ -31,7 +31,8 @@ collection_plots:
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
     xlabel: '$\phi$'
     ylabel: '$D_{eff}/D_{bulk}$'
-    fmts: ['k.']
+    fmts: ['k.','r-']
+    seriescols: [[free_volume_frac, ratio_D, 'model results']]
 ---
 modelnames: []
 model_plots:
@@ -42,8 +43,8 @@ model_plots:
       - [prep_porelimits, {}]
     plotfunctions:
       - [plot_axmethod, {method: invert_xaxis}]
-      - [plot_vline, {[meshparams, H],{label:'Pore Limits',color:'k',linestyle:'--'}}]
-      - [plot_vline, {[meshparams, poretop_z],{label:'Pore Limits',color:'k',linestyle:'--'}}]
+      - [plot_vline, {locspec: [meshparams, H],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+      - [plot_vline, {locspec: [meshparams, poretop_z],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
     xlabel: 'z (nm)'
     ylabel: 'concentration (mM)'
     title: 'Concentration Profile along Pore Centerline'
