@@ -46,10 +46,13 @@ def get_columns(d,exclusions):
   for k,v in d.items():
     if not k in exclusions:
       if type(v)==int or type(v)==float or type(v)==str:
-        cols.append(k)
+        if not k in cols:
+          cols.append(k)
       elif hasattr(v,'items'):
         newcols=get_columns(v,exclusions)
-        cols.extend([c for c in newcols if c not in cols])
+        for c in newcols:
+          if c not in cols:
+            cols.append(c)
   return cols
 
 def get_all_columns(dlist,exclusions):

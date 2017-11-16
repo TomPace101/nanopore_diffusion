@@ -7,7 +7,7 @@
 #Each document defines an instance of postproc.PostProcParameters
 ---
 do_collection: True
-collection_exclusions: [bcdict]
+collection_exclusions: [bcdict, equation]
 collection_plots:
   - figsize: [11, 8.5]
     filename: ratio_vs_phi.pdf
