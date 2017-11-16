@@ -29,7 +29,7 @@ model_plots:
     plotname: CL_phi
     prepfunctions:
       - [prep_porelimits, {}]
-    plotfunctions:
+    plotfunctions: &cl_plotfuncs
       - [plot_axmethod, {method: invert_xaxis}]
       - [plot_vline, {locspec: [meshparams, H], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
       - [plot_vline, {locspec: [meshparams, poretop_z], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
@@ -42,10 +42,7 @@ model_plots:
     plotname: CL_c
     prepfunctions:
       - [prep_porelimits, {}]
-    plotfunctions:
-      - [plot_axmethod, {method: invert_xaxis}]
-      - [plot_vline, {locspec: [meshparams, H], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
-      - [plot_vline, {locspec: [meshparams, poretop_z], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+    plotfunctions: *cl_plotfuncs
     xlabel: 'z (nm)'
     ylabel: 'Concentration (mM)'
     title: 'Concentration Profile along Pore Centerline'
@@ -55,10 +52,7 @@ model_plots:
     plotname: CL_cbar
     prepfunctions:
       - [prep_porelimits, {}]
-    plotfunctions:
-      - [plot_axmethod, {method: invert_xaxis}]
-      - [plot_vline, {locspec: [meshparams, H], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
-      - [plot_vline, {locspec: [meshparams, poretop_z], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+    plotfunctions: *cl_plotfuncs
     xlabel: 'z (nm)'
     ylabel: 'cbar'
     title: 'Transformed Concentration along Pore Centerline'
@@ -68,10 +62,7 @@ model_plots:
     plotname: CL_Dbar
     prepfunctions:
       - [prep_porelimits, {}]
-    plotfunctions:
-      - [plot_axmethod, {method: invert_xaxis}]
-      - [plot_vline, {locspec: [meshparams, H], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
-      - [plot_vline, {locspec: [meshparams, poretop_z], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+    plotfunctions: *cl_plotfuncs
     xlabel: 'z (nm)'
     ylabel: 'Dbar'
     title: 'Transformed Diffusion Constant along Pore Centerline'
@@ -80,7 +71,7 @@ model_plots:
     filename: radial_phi.pdf
     plotname: radial_phi
     plotfunctions:
-      - [plot_vline, {locspec: [meshparams, R],kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
+      - &poreboundary [plot_vline, {locspec: [meshparams, R],kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
       - [plot_hline, {locspec: [conditions, potential, conditions, bcdict, 11],kwargs: {label: 'Potential at Pore Boundary',color: 'k',linestyle: ":"}}]
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
     xlabel: 'Radial Distance (nm)'
@@ -91,7 +82,7 @@ model_plots:
     filename: radial_c.pdf
     plotname: radial_c
     plotfunctions:
-      - [plot_vline, {locspec: [meshparams, R],kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
+      - *poreboundary
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper right'}}]
     xlabel: 'Radial Distance (nm)'
     ylabel: 'Concentration'
@@ -101,7 +92,7 @@ model_plots:
     filename: radial_cbar.pdf
     plotname: radial_cbar
     plotfunctions:
-      - [plot_vline, {locspec: [meshparams, R],kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
+      - *poreboundary
       - [plot_axmethod, {method: legend, kwargs: {loc: 'lower left'}}]
     xlabel: 'Radial Distance (nm)'
     ylabel: 'cbar'
@@ -111,7 +102,7 @@ model_plots:
     filename: radial_Dbar.pdf
     plotname: radial_Dbar
     plotfunctions:
-      - [plot_vline, {locspec: [meshparams, R],kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
+      - *poreboundary
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper right'}}]
     xlabel: 'Radial Distance (nm)'
     ylabel: 'Dbar'
