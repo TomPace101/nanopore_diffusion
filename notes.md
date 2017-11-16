@@ -10,6 +10,8 @@ Then re-run, then generate the figure.
 
 _TODO_ learn how &id001 works in yaml.
 In particular, can it only refer to something in the same document?
+If not, I'd like to use it to reduce redundancy in some of the yaml parameter files.
+Particularly things like data extraction.
 
 _ISSUE_ config_changed doesn't seem to be working for the plots.
 Try it yourself and see.
@@ -23,6 +25,11 @@ Put it in a dictionary?
 
 maybe plotfuncs could be a sequence as well
 call all of them before generating output
+
+Yes, this should work more like the way data extraction does.
+Plotting consists of a series of tasks.
+In fact, maybe we should have a way to call the methods of the axes object,
+and pass them a keyword argument dictionary.
 
 _TODO_ plotdata.ModelPlotFigure.plot_radial_potential has some hardcoded numbers specific to the current body-centered mesh
 A more general way to add hlines and vlines would help,
