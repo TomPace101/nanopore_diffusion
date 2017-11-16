@@ -19,36 +19,6 @@ Try it yourself and see.
 _TODO_ add pore limits as vlines on all centerline plots
 _TODO_ add pore radius as vline on all radial plots
 
-_TODO_ plotting
-Some plotfuncs will need additional info.
-Put it in a dictionary?
-
-maybe plotfuncs could be a sequence as well
-call all of them before generating output
-
-Yes, this should work more like the way data extraction does.
-Plotting consists of a series of tasks.
-In fact, maybe we should have a way to call the methods of the axes object,
-and pass them a keyword argument dictionary.
-
-_TODO_ plotdata.ModelPlotFigure.plot_radial_potential has some hardcoded numbers specific to the current body-centered mesh
-A more general way to add hlines and vlines would help,
-but not resolve the issue completely,
-as those values need to come from a calculation.
-
-Maybe model plots needs calcfuncs too, then?
-How would that work, since you don't have a DataFrame?
-As stated below, you'd like to be able to add new series as well,
-not just hlines and vlines.
-
-Maybe there should be hlines and vlines properties,
-just like series.
-And the calcfuncs can access them.
-
-_TODO_ collection plot: what if I want to add a series?
-This should probably be an option for PlotFigure in general,
-as hlines and vlines
-
 _FEATURE_ doit tasks for parameter generation
 tasks are generated based on reading the output of such a task.
 
