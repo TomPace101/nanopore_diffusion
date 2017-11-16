@@ -2,7 +2,6 @@
 
 #Standard library
 import argparse
-from functools import reduce
 import itertools
 import operator
 import os
@@ -53,16 +52,6 @@ def calc_seq_split(fields,files_docs_dict,dest_field_seq,fieldname):
   newfields=dict(zip(dest_field_seq,fields[fieldname]))
   fields.update(newfields)
   return True
-
-#Get a value from a nested dictionary
-def nested_location(obj,loc):
-  """For nested dictionary obj, get item at location specified by loc
-  obj={'a':{'b':{'c':11,'d':99}}}
-  loc=['a','b','c']
-  nested_location(obj,loc)
-  11
-  Note that loc must be a list, not a tuple."""
-  return reduce(operator.getitem, [obj]+loc)
 
 class ParameterGenerator(useful.ParameterSet):
   """ParameterSet used to generate other ParameterSets
@@ -132,7 +121,7 @@ class ParameterGenerator(useful.ParameterSet):
             #For each destination field
             for fieldname,locseq in fieldmap.items():
               #Get the value at the specified location
-              val=nested_location(otherdoc,locseq)
+              val=useful.nested_location(otherdoc,locseq)
               #Put into specified field
               fields[fieldname]=val
         #Do calcfields

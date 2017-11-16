@@ -1,5 +1,7 @@
 
 #Standard library
+from functools import reduce
+import operator
 import os.path as osp
 import pickle
 
@@ -8,6 +10,18 @@ import yaml
 
 #Constants
 pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
+
+#-------------------------------------------------------------------------------
+#Get a value from a nested dictionary
+
+def nested_location(obj,loc):
+  """For nested dictionary obj, get item at location specified by loc
+  obj={'a':{'b':{'c':11,'d':99}}}
+  loc=['a','b','c']
+  nested_location(obj,loc)
+  11
+  Note that loc must be a list, not a tuple."""
+  return reduce(operator.getitem, [obj]+loc)
 
 #-------------------------------------------------------------------------------
 #Standard work with yaml files
