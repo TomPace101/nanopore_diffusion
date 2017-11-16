@@ -8,16 +8,8 @@ _ISSUE_ doit tasks can't generate meshes when there are no models
 _TODO_ units analysis as described below, to get an appropriate value of beta.
 Then re-run, then generate the figure.
 
-_TODO_ learn how &id001 works in yaml.
-In particular, can it only refer to something in the same document?
-If not, I'd like to use it to reduce redundancy in some of the yaml parameter files.
-Particularly things like data extraction.
-
 _ISSUE_ config_changed doesn't seem to be working for the plots.
 Try it yourself and see.
-
-_TODO_ add pore limits as vlines on all centerline plots
-_TODO_ add pore radius as vline on all radial plots
 
 _FEATURE_ doit tasks for parameter generation
 tasks are generated based on reading the output of such a task.
