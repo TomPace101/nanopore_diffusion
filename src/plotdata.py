@@ -40,17 +40,35 @@ class PlotFigure(useful.ParameterSet):
     To be read in from yaml file:
       figsize = pair of numbers representing figure size, in inches: (Width, Height)
       filename = name of the output file to be created, as string
-      plotfunction = name of method used to generate plot
+      prepfunctions = sequence of method calls used to generate additional data, etc.
+        The available method names usually start with 'prep_'
+      plotfunctions = sequence of method calls used to generate plot
+        The available method names usually start with 'plot_'
       xlabel = x-axis label, as string
       ylabel = y-axis label, as string
       title = plot title, as string
       fmts = list of format specifier strings
-      legendloc = legend location (loc keyword argument for Axes.legend()), None or omitted for no legend
     To be created by methods:
       series = sequence of PlotSeries instances
       fig = matplotlib Figure for the generated plot
-      ax = matplotlib Axes for the plot"""
-  __slots__=['figsize','filename','plotfunction','series','xlabel','ylabel','title','fmts','legendloc','fig','ax']
+      ax = matplotlib Axes for the plot
+      info = dictionary of miscellaneous data"""
+  __slots__=['figsize','filename','plotfunctions','series','xlabel','ylabel','title','fmts','fig','ax']
+  
+  def execute_commandseq(self,attrname):
+    """Execute the command sequence
+    Arguments:
+      attrname = name of attribute containing the command sequence"""
+    for cmd in getattr(self,attrname,[]):
+      #Function name and arguments
+      funcname, kwargs = cmd
+      #Call it
+      try:
+        getattr(self,funcname)(**kwargs)
+      except Exception as einst:
+        print("Excption occured for command: %s"%str(cmd), file=sys.stderr)
+        raise einst
+      
   def make_plot(self,*datafiles):
     """Create the plot.
     Arguments:
@@ -64,9 +82,14 @@ class PlotFigure(useful.ParameterSet):
     #Get the axes
     self.ax=self.fig.gca()
     
-    #Call the requested plot function
-    plotfunc=getattr(self,self.plotfunction)
-    plotfunc()
+    #Call the preparation functions
+    self.execute_commandseq('prepfunctions')
+    
+    #Add the available series to the axes
+    self.plot_basic_series()
+    
+    #Call the requested plot functions
+    self.execute_commandseq('plotfunctions')
     
     #Save the figure
     fpath=osp.join(self.outdir(),self.filename)
@@ -82,13 +105,46 @@ class PlotFigure(useful.ParameterSet):
         o=sr.add_to_axes(self.ax,self.fmts[i])
     if getattr(self,'title',None) is not None:
       o=self.ax.set_title(self.title)
-    if getattr(self,'legendloc',None) is not None:
-      o=self.ax.legend(loc=self.legendloc)
+    # if getattr(self,'legendloc',None) is not None:
+    #   o=self.ax.legend(loc=self.legendloc)
     if getattr(self,'xlabel',None) is not None:
       o=self.ax.set_xlabel(self.xlabel)
     if getattr(self,'ylabel',None) is not None:
       o=self.ax.set_ylabel(self.ylabel)
     return   
+
+  def plot_axmethod(self,method,kwargs=None):
+    """Call a method of the axes.
+    Arguments:
+      method = name of Axes method to call, as string
+      kwargs = arguments dictionary for the method"""
+    f=getattr(self.ax,method)
+    if kwargs is None:
+      kwargs = {}
+    f(**kwargs)
+    return
+
+  def plot_hline(self,locspec,kwargs=None):
+    """Add a horizontal line with a value from info
+    Arguments:
+      locspec = sequence of keys in the info dictionary to locate the y-value
+      kwargs = keyword arguments for ax.axhline"""
+    yval=useful.nested_location(self.info,locspec)
+    if kwargs is None:
+      kwargs = {}
+    self.ax.axhline(yval,**kwargs)
+    return
+
+  def plot_vline(self,locspec,kwargs=None):
+    """Add a vertical line with a value from info
+    Arguments:
+      locspec = sequence of keys in the info dictionary to locate the x-value
+      kwargs = keyword arguments for ax.axvline"""
+    xval=useful.nested_location(self.info,locspec)
+    if kwargs is None:
+      kwargs = {}
+    self.ax.axvline(yval,**kwargs)
+    return
 
 
 class ModelPlotFigure(PlotFigure):
@@ -99,8 +155,8 @@ class ModelPlotFigure(PlotFigure):
     To be assigned after instantiation:
       modelname = name of model
     To be created by methods:
-      info = dictionary of model data"""
-  __slots__=['plotname','modelname','info']
+      (none)"""
+  __slots__=['plotname','modelname']
   def outdir(self):
     return osp.join(postprocfolder,self.basename,self.modelname)
 
@@ -118,35 +174,23 @@ class ModelPlotFigure(PlotFigure):
     
     return
 
-  def plot_invert_xaxis(self):
-    "just invert the x-axis"
-    self.plot_basic_series()
-    self.ax.invert_xaxis()
-    return
-
-  def plot_radial_potential(self):
-    pore_radius = self.info['meshparams']['R']
-    applied_potential=self.info['conditions']['potential']['conditions']['bcdict'][11]
-    self.plot_basic_series()
-    o=self.ax.axvline(pore_radius,label='Pore Boundary',color='k',linestyle='--')
-    o=self.ax.axhline(applied_potential,label='Potential at Pore Boundary',color='k',linestyle=":")
-    if getattr(self,'legendloc',None) is not None:
-      o=self.ax.legend(loc=self.legendloc)
-    
+  def prep_porelimits(self):
+    self.info['meshparams']['poretop_z']=self.info['meshparams']['H']+self.info['meshparams']['tm']
 
 class CollectionPlotFigure(PlotFigure):
   """Data for a single collection plot
   Attributes:
     To be read in from yaml file:
-      calcfuncs = sequence of calculation functions to be called before generating plot
+      calcfunctions = sequence of calculation functions to be called before generating plot
       seriescols = sequence of series definitions (xcol, ycol, label),
         where the columns specify the DataFrame columns containing values for the series
         The label is optional.
     To be created by methods:
       df = the DataFrame"""
-  __slots__=['calcfuncs','seriescols','df']
+  __slots__=['calcfunctions','seriescols','df']
   def outdir(self):
     return osp.join(postprocfolder,self.basename)
+
   def load_data(self,dfpath):
     """Load the data for the plot.
     Arguments:
@@ -154,11 +198,11 @@ class CollectionPlotFigure(PlotFigure):
     #Load the DataFrame
     self.df=pd.read_pickle(dfpath)
     
+    #Initialize empty info
+    self.info={}
+    
     #Do the requested calculations to add new columns
-    if hasattr(self,'calcfuncs') and self.calcfuncs is not None:
-      for cf in self.calcfuncs:
-        f=getattr(self,cf)
-        f()
+    self.execute_commandseq('calcfunctions')
     
     #Add the requested columns in as series
     self.series=[]
@@ -176,4 +220,11 @@ class CollectionPlotFigure(PlotFigure):
     def calc_ratio(row):
       return row['Deff']/row['D_bulk']
     self.df['ratio_D']=self.df.apply(calc_ratio,axis=1)
+    return
+
+  def prep_series_equality(self):
+    pdser=self.df['free_volume_frac']
+    vals=[pdser.min(),pdser.max()]
+    ser=PlotSeries(xvals=vals,yvals=vals,label="1:1")
+    self.series.append(ser)
     return

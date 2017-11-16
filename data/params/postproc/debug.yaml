@@ -11,7 +11,12 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_c.pdf
     plotname: CL_c
-    plotfunction: plot_invert_xaxis
+    prepfunctions:
+      - [prep_porelimits, {}]
+    plotfunctions:
+      - [plot_axmethod, {method: invert_xaxis}]
+      - [plot_vline, {[meshparams, H],{label:'Pore Limits',color:'k',linestyle:'--'}}]
+      - [plot_vline, {[meshparams, poretop_z],{label:'Pore Limits',color:'k',linestyle:'--'}}]
     xlabel: 'z (nm)'
     ylabel: 'concentration (mM)'
     title: 'Concentration Profile along Pore Centerline'
@@ -22,7 +27,12 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_phi.pdf
     plotname: CL_phi
-    plotfunction: plot_invert_xaxis
+    prepfunctions:
+      - [prep_porelimits, {}]
+    plotfunctions:
+      - [plot_axmethod, {method: invert_xaxis}]
+      - [plot_vline, {[meshparams, H],{label:'Pore Limits',color:'k',linestyle:'--'}}]
+      - [plot_vline, {[meshparams, poretop_z],{label:'Pore Limits',color:'k',linestyle:'--'}}]
     xlabel: 'z (nm)'
     ylabel: 'Electric Potential'
     title: 'Electric Field Profile along Pore Centerline'
@@ -30,7 +40,12 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_c.pdf
     plotname: CL_c
-    plotfunction: plot_invert_xaxis
+    prepfunctions:
+      - [prep_porelimits, {}]
+    plotfunctions:
+      - [plot_axmethod, {method: invert_xaxis}]
+      - [plot_vline, {[meshparams, H],{label:'Pore Limits',color:'k',linestyle:'--'}}]
+      - [plot_vline, {[meshparams, poretop_z],{label:'Pore Limits',color:'k',linestyle:'--'}}]
     xlabel: 'z (nm)'
     ylabel: 'Concentration (mM)'
     title: 'Concentration Profile along Pore Centerline'
@@ -38,7 +53,12 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_cbar.pdf
     plotname: CL_cbar
-    plotfunction: plot_invert_xaxis
+    prepfunctions:
+      - [prep_porelimits, {}]
+    plotfunctions:
+      - [plot_axmethod, {method: invert_xaxis}]
+      - [plot_vline, {[meshparams, H],{label:'Pore Limits',color:'k',linestyle:'--'}}]
+      - [plot_vline, {[meshparams, poretop_z],{label:'Pore Limits',color:'k',linestyle:'--'}}]
     xlabel: 'z (nm)'
     ylabel: 'cbar'
     title: 'Transformed Concentration along Pore Centerline'
@@ -46,7 +66,12 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_Dbar.pdf
     plotname: CL_Dbar
-    plotfunction: plot_invert_xaxis
+    prepfunctions:
+      - [prep_porelimits, {}]
+    plotfunctions:
+      - [plot_axmethod, {method: invert_xaxis}]
+      - [plot_vline, {[meshparams, H],{label:'Pore Limits',color:'k',linestyle:'--'}}]
+      - [plot_vline, {[meshparams, poretop_z],{label:'Pore Limits',color:'k',linestyle:'--'}}]
     xlabel: 'z (nm)'
     ylabel: 'Dbar'
     title: 'Transformed Diffusion Constant along Pore Centerline'
@@ -54,36 +79,42 @@ model_plots:
   - figsize: [11, 8.5]
     filename: radial_phi.pdf
     plotname: radial_phi
+    plotfunctions:
+      - [plot_vline, {[meshparams, R],{label:'Pore Boundary',color:'k',linestyle:'--'}}]
+      - [plot_hline, {[conditions, potential, conditions, bcdict, 11],{label:'Potential at Pore Boundary',color:'k',linestyle:":"}}]
+      - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
     plotfunction: plot_radial_potential
     xlabel: 'Radial Distance (nm)'
     ylabel: 'Electric Potential (mV)'
     title: 'Electric Potential along Radial Lines'
     fmts: ['r-','g-','b-']
-    legendloc: 'upper left'
   - figsize: [11, 8.5]
     filename: radial_c.pdf
     plotname: radial_c
-    plotfunction: plot_basic_series
+    plotfunctions:
+      - [plot_vline, {[meshparams, R],{label:'Pore Boundary',color:'k',linestyle:'--'}}]
+      - [plot_axmethod, {method: legend, kwargs: {loc: 'upper right'}}]
     xlabel: 'Radial Distance (nm)'
     ylabel: 'Concentration'
     title: 'Concentration Profile along Radial Lines'
     fmts: ['r-','g-','b-']
-    legendloc: 'upper right'
   - figsize: [11, 8.5]
     filename: radial_cbar.pdf
     plotname: radial_cbar
-    plotfunction: plot_basic_series
+    plotfunctions:
+      - [plot_vline, {[meshparams, R],{label:'Pore Boundary',color:'k',linestyle:'--'}}]
+      - [plot_axmethod, {method: legend, kwargs: {loc: 'lower left'}}]
     xlabel: 'Radial Distance (nm)'
     ylabel: 'cbar'
     title: 'Transformed Concentration along Radial Lines'
     fmts: ['r-','g-','b-']
-    legendloc: 'lower left'
   - figsize: [11, 8.5]
     filename: radial_Dbar.pdf
     plotname: radial_Dbar
-    plotfunction: plot_basic_series
+    plotfunctions:
+      - [plot_vline, {[meshparams, R],{label:'Pore Boundary',color:'k',linestyle:'--'}}]
+      - [plot_axmethod, {method: legend, kwargs: {loc: 'upper right'}}]
     xlabel: 'Radial Distance (nm)'
     ylabel: 'Dbar'
     title: 'Transformed Diffusion Constant along Radial Lines'
     fmts: ['r-','g-','b-']
-    legendloc: 'upper right'
