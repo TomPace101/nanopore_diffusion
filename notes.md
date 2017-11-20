@@ -1,12 +1,25 @@
 
+_ISSUE_ how to document case-specific inputs?
+For example, the potential boundary conditions for thin-shot.
+Maybe it would make sense to put them with the results they gave.
+So maybe we need results.tex after all.
+But, again, it depends on having the results run first.
+So it belongs in the src doit, not the description doit.
+
 # Code/Misc
 
 _ISSUE_ data/paramgen/model_smol_uh.yaml.jinja2 has some body-centered mesh-specific information in its bcdict.
 
-_ISSUE_ doit tasks can't generate meshes when there are no models
+_FEATURE_ for collection plots, may not what an entire column as the series
+Like with thin-shot, you may want to select elements from that based on some criteria.
+I think you pass it a string anway, so that string could just be specified.
 
 _TODO_ units analysis as described below, to get an appropriate value of beta.
 Then re-run, then generate the figure.
+
+_ISSUE_ doit tasks can't generate meshes when there are no models
+This was kind of as intended: it only generates meshes that are needed.
+But maybe you should generate all the meshes for the basenames requested in control.yaml.
 
 _FEATURE_ doit tasks for parameter generation
 tasks are generated based on reading the output of such a task.
@@ -45,6 +58,16 @@ Should probably document how to do external boundary as well, for comparison.
 
 _TODO_ syncing/mirroring
 - holly and/or dlx (has to be rsync, unless we can build unison on the server)
+
+_FEATURE_ running on holly/dlx
+It would also be nice if we had a way, on these systems,
+to break the doit tasks into chunks that could be assigned to nodes.
+You could do it by giving each node a different symlink for control, but
+- you still need to modify dodo so that it can take an argument telling it where to find control.yaml (or other filename)
+- it would be nice to have more granularity than that
+- the database for each one has to be different, and then they have to be re-synced
+
+See also `doit -n`.
 
 _TODO_ look into opencascade and gmsh for mesh generation
 
