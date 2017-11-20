@@ -34,7 +34,13 @@ collection_plots:
     fmts: ['k.','r-']
     seriescols: [[free_volume_frac, ratio_D, 'model results']]
 ---
-modelnames: []
+modelnames:
+  - thin-shot_model_001
+  - thin-shot_model_119
+  - thin-shot_model_237
+  - thin-shot_model_023
+  - thin-shot_model_141
+  - thin-shot_model_259
 model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_c.pdf
