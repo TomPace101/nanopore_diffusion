@@ -10,9 +10,14 @@ So it belongs in the src doit, not the description doit.
 
 _ISSUE_ data/paramgen/model_smol_uh.yaml.jinja2 has some body-centered mesh-specific information in its bcdict.
 
-_FEATURE_ for collection plots, may not what an entire column as the series
+_FEATURE_ for collection plots, may not want an entire column as the series
 Like with thin-shot, you may want to select elements from that based on some criteria.
-I think you pass it a string anway, so that string could just be specified.
+
+Using df.loc to select the rows, you need to specify a column for the selection,
+and the value of that column.
+This is in addition to what you already need: the column names themselves.
+What about inequalities?
+What about multiple criteria? Should it be a list of criteria statements?
 
 _TODO_ units analysis as described below, to get an appropriate value of beta.
 Then re-run, then generate the figure.
