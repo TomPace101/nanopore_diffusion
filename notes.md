@@ -8,14 +8,20 @@ _ISSUE_ doit tasks can't generate meshes when there are no models
 _TODO_ units analysis as described below, to get an appropriate value of beta.
 Then re-run, then generate the figure.
 
-_ISSUE_ config_changed doesn't seem to be working for the plots.
-Try it yourself and see.
-
 _FEATURE_ doit tasks for parameter generation
 tasks are generated based on reading the output of such a task.
 
 doit has a way to resolve this, of course:
 http://pydoit.org/task_creation.html#delayed-task-creation
+
+That doesn't completely resolve the issue:
+the code that generates the other tasks is outside any task function.
+So even if the other tasks happen after parameter generation,
+the parameters for them have already been read in.
+
+Perhaps there could be a task to populate those global parameters,
+which is delayed until after parameter generation.
+The other tasks are delayed until after population.
 
 Or maybe it doesn't need to be a task at all.
 Maybe you just include the code to generate the parameters as 'always execute'

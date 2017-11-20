@@ -13,11 +13,13 @@ import collect_results
 import plotdata
 import postproc
 
-#Constants
-collected_df_fname='collected_results.pkl.gz'
+def enter_debugger():
+  "Use as a doit action to enter pdb correctly"
+  from doit import tools
+  tools.set_trace()
 
 def get_df_fname(basename):
-  return osp.join(postprocfolder,basename,collected_df_fname)
+  return osp.join(postprocfolder,basename,collect_results.collected_df_fname)
 
 def do_collection(basename,model_list,exclusions):
   infiles=collect_results.list_inputfiles(basename,model_list)
@@ -36,7 +38,7 @@ def do_collectionplot(cplotparams,basename):
           'file_dep':[dfpath,codefile],
           'uptodate':[config_changed(cplotparams.to_dict())],
           'targets':[outfpath],
-          'actions':[(cplotparams.make_plot,(dfpath,))]}
+          'actions':[(plotdata.CollectionPlotFigure.go,(cplotparams.to_dict(),))]}
   return tdef
 
 def do_modelplot(mplotparams,modelparams,basename):
@@ -49,7 +51,7 @@ def do_modelplot(mplotparams,modelparams,basename):
           'file_dep':[pklfile,infofile,codefile],
           'uptodate':[config_changed(mplotparams.to_dict())],
           'targets':[outfpath],
-          'actions':[(mplotparams.make_plot,(pklfile,infofile))]}
+          'actions':[(plotdata.ModelPlotFigure.go,(mplotparams.to_dict(),))]}
   return tdef
 
 def postproc_task_generator(infile_list,allmodels):

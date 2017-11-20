@@ -12,6 +12,7 @@ import pandas as pd
 from folderstructure import *
 import useful
 import solver_general
+import collect_results
 
 class PlotSeries(useful.ParameterSet):
   """Data for a single series on a plot
@@ -49,32 +50,38 @@ class PlotFigure(useful.ParameterSet):
       title = plot title, as string
       fmts = list of format specifier strings
     To be created by methods:
+      datafiles = dictionary of loaded data files
       series = sequence of PlotSeries instances
       fig = matplotlib Figure for the generated plot
       ax = matplotlib Axes for the plot
       info = dictionary of miscellaneous data"""
-  __slots__=['figsize','filename','prepfunctions','plotfunctions','series','xlabel','ylabel','title','fmts','fig','ax','info']
+  __slots__=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts','datafiles','series','fig','ax','info']
   
+  @classmethod
+  def go(cls,kwargs):
+    obj=cls(**kwargs)
+    obj.make_plot()
+
   def execute_commandseq(self,attrname):
     """Execute the command sequence
     Arguments:
       attrname = name of attribute containing the command sequence"""
-    for cmd in getattr(self,attrname,[]):
-      #Function name and arguments
-      funcname, kwargs = cmd
-      #Call it
-      try:
-        getattr(self,funcname)(**kwargs)
-      except Exception as einst:
-        print("Excption occured for command: %s"%str(cmd), file=sys.stderr)
-        raise einst
+    if getattr(self,attrname,None) is not None:
+      for cmd in getattr(self,attrname,[]):
+        #Function name and arguments
+        funcname, kwargs = cmd
+        #Call it
+        try:
+          getattr(self,funcname)(**kwargs)
+        except Exception as einst:
+          print("Excption occured for command: %s"%str(cmd), file=sys.stderr)
+          raise einst
       
-  def make_plot(self,*datafiles):
-    """Create the plot.
-    Arguments:
-      *datafiles = data files, passed through to load_data"""
+  def make_plot(self):
+    """Create the plot."""
     #Load the data we need to generate the plot
-    self.load_data(*datafiles)
+    self.locate_data()
+    self.load_data()
     
     #Initialize the figure at the size requested
     self.fig = plt.figure(figsize=self.figsize)
@@ -159,18 +166,22 @@ class ModelPlotFigure(PlotFigure):
   __slots__=['plotname','modelname']
   def outdir(self):
     return osp.join(postprocfolder,self.basename,self.modelname)
+  def datadir(self):
+    return osp.join(solnfolder,self.basename,self.modelname)
 
-  def load_data(self,pklfile,infofile):
-    """Load the data for the plot.
-    Arguments:
-      pklfile = path to the solver_general.OutData pickle file
-      infofile = path to the info.yaml file"""
+  def locate_data(self):
+    datadir=self.datadir()
+    self.datafiles={'pklfile':osp.join(datadir,'outdata.pkl'), 'infofile':osp.join(datadir,'info.yaml')}
+
+  def load_data(self):
+    """Load the data for the plot."""
+    
     #Load the data series
-    outdata=solver_general.OutData.from_pickle(pklfile)
+    outdata=solver_general.OutData.from_pickle(self.datafiles['pklfile'])
     self.series=outdata.plots[self.plotname]
     
     #Load the info
-    self.info=useful.readyaml(infofile)
+    self.info=useful.readyaml(self.datafiles['infofile'])
     
     return
 
@@ -191,12 +202,13 @@ class CollectionPlotFigure(PlotFigure):
   def outdir(self):
     return osp.join(postprocfolder,self.basename)
 
-  def load_data(self,dfpath):
-    """Load the data for the plot.
-    Arguments:
-      dfpath = path to the Pandas DataFrame to load"""
+  def locate_data(self):
+    self.datafiles={'dataframe': osp.join(postprocfolder,self.basename,collect_results.collected_df_fname)}
+
+  def load_data(self):
+    """Load the data for the plot."""
     #Load the DataFrame
-    self.df=pd.read_pickle(dfpath)
+    self.df=pd.read_pickle(self.datafiles['dataframe'])
     
     #Initialize empty info
     self.info={}

@@ -34,7 +34,7 @@ collection_plots:
     fmts: ['k.','r-']
     seriescols: [[free_volume_frac, ratio_D, 'model results']]
 ---
-modelnames: []
+modelnames: [brainy-media_model_001, brainy-media_model_023]
 model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_c.pdf

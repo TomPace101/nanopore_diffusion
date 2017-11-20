@@ -12,6 +12,7 @@ import useful
 
 #Constants
 infofile='info.yaml'
+collected_df_fname='collected_results.pkl.gz'
 
 def list_inputfiles_foldersearch(basename):
   """Return a list of all info.yaml files for the given basename.

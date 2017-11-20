@@ -1,6 +1,7 @@
 
 #Standard library
 from functools import reduce
+from itertools import chain
 import operator
 import os.path as osp
 import pickle
@@ -136,10 +137,13 @@ class ParameterSet:
     No return value."""
     writepickle(self.to_dict(),fpath)
     return
+  def _all_slots_iter(self):
+    """Return an iterator over all the available slots"""
+    return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
   def to_dict(self):
     """Return a dictionary with all the object's attributes.
     Note that changes to this dictionary will not affect the object.
     No arguments.
     Returns the dictionary."""
-    return dict([(k,getattr(self,k,None)) for k in self.__slots__])
+    return dict([(k,getattr(self,k,None)) for k in self._all_slots_iter()])
   ##TODO: read and write from ini file
