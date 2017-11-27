@@ -5,10 +5,16 @@ Maybe it would make sense to put them with the results they gave.
 So maybe we need results.tex after all.
 But, again, it depends on having the results run first.
 So it belongs in the src doit, not the description doit.
+Maybe the doits should be combined.
 
 # Code/Misc
 
 _ISSUE_ data/paramgen/model_smol_uh.yaml.jinja2 has some body-centered mesh-specific information in its bcdict.
+
+_FEATURE_ add metadata text to model plots
+a text box consisting of strings using a template,
+which is rendered using the info dictionary itself.
+(So the template should use the names.)
 
 _FEATURE_ for collection plots, may not want an entire column as the series
 Like with thin-shot, you may want to select elements from that based on some criteria.
@@ -20,6 +26,7 @@ What about inequalities?
 What about multiple criteria? Should it be a list of criteria statements?
 
 _TODO_ units analysis as described below, to get an appropriate value of beta.
+May want to increase the strength of the interaction (which would be like turning up beta).
 Then re-run, then generate the figure.
 
 _ISSUE_ doit tasks can't generate meshes when there are no models
@@ -92,10 +99,6 @@ Don't forget to remove mesh/geomdef/body-cen2.yaml and update
 params/mesh/debug.yaml accordingly.
 
 #Specific Equations
-## Fixed potential
-
-_ACTION_ get boltzmann constant into module?
-
 ## Homogenized Fickian
 
 _ACTION_ see discussion in Auriault
@@ -157,33 +160,7 @@ https://www.sharelatex.com/learn/Biblatex_citation_styles
 
 # Post-processing
 
-Organization:
-We want to have post-processing tasks,
-which include generating plots from the available plotdata.
-
-Options:
-1) could scan the filesystem for plotdata files, and then generate the plots.
-But that doesn't tell you how to construct any plots with more than one series on them.
-2) Could just define a bunch of scripts, which generate plots.
-This is the most flexible approach.
-And we probably will do this, at least for things like the brainy-media figure.
-But, what about plots that are fairly repetitive, just on different data?
-3) Could create plot definition files, kind of like I have before.
-
-Let's get specific. What plots do I have so far to generate?
-- The brainy-media figure. This probably belongs in its own script.
-- The centerline plots (concentration, and now also electric potential)
-
-So, the question at the moment is, how do I want the centerline plots to work?
-Each one is potentially from a different mesh (although not all are).
-Do you want series from the same mesh on the same axes?
-
-It sounds like, for the time being, we just need to use scripts.
-As we get those developed, some (but not all) may become doit tasks,
-and some (but not all) may refactor into data-driven approaches.
-
-
-_EFFORT_ Function to extract data for 1D plot
+_FEATURE_ More general function to extract data for 1D plot
 - needs to return two 1D arrays (independent and dependent variables)
 - could give it coordinate axis, limits, and number of points
 - but more generally, could give it two points, and a number of points
@@ -191,7 +168,7 @@ _EFFORT_ Function to extract data for 1D plot
 - could also want different components of a vector on the same set of axes
 - need to restrict to points that are actually inside the mesh or on the boundary?
 
-_EFFORT_
+_FEATURE_
 A similar thing would be nice for 2D slices.
 But here, masking points outside the mesh would be even more important.
 This can be done with `tree=mesh.bounding_box_tree()` and `tree.collides(Point(...))`.
@@ -212,12 +189,6 @@ In any case, this is pretty low-priority right now.
 _ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
 _ACTION_ check for compatibility of gmsh version (eg Ruled Surface vs Surface)
 _ACTION_ add validation of geometric inputs
-
-# Parametric variations
-- a given volume fraction can be obtained for different cell and pore sizes, but we can probably just stick with the ones similar to the physical measurements
-- the length of the pore, although again we'll probably stick to physical measurements
-- the bulk space above and below the pore (far enough away to not affect results)
-- mesh refinement study, of course
 
 # Someday/maybe
 
