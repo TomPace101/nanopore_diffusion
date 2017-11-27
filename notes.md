@@ -9,8 +9,6 @@ Maybe the doits should be combined.
 
 # Code/Misc
 
-_ISSUE_ data/paramgen/model_smol_uh.yaml.jinja2 has some body-centered mesh-specific information in its bcdict.
-
 _FEATURE_ add metadata text to model plots
 a text box consisting of strings using a template,
 which is rendered using the info dictionary itself.
