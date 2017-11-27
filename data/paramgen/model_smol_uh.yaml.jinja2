@@ -24,7 +24,12 @@ conditions:
     equation: linear_pb
     conditions:
       elementorder: {{ fields.elementorder }}
-      bcdict: {2: {{ fields.membrane_potential }}, 3: {{ fields.membrane_potential }}, 11: {{ fields.membrane_potential }}, 15: {{ fields.membrane_potential }}, {{ fields.psurf_top }}: 0.0, {{ fields.psurf_base }}: 0.0}
+      bcdict:
+        {{ fields.psurf_top }}: {{ fields.boundary_potential }}
+        {{ fields.psurf_base }}: {{ fields.boundary_potential }}
+{% for psurf in fields.membrane_surfaces %}
+        {{ psurf }}: {{ fields.membrane_potential }}
+{% endfor %}
       debye_length: {{ fields.debye_length }}
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
