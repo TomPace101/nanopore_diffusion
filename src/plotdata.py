@@ -103,6 +103,9 @@ class PlotFigure(useful.ParameterSet):
     os.makedirs(self.outdir(),exist_ok=True)
     self.fig.savefig(fpath)
     
+    #Close the figure
+    plt.close(self.fig)
+    
     #Done
     return
 

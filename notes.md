@@ -9,6 +9,8 @@ Maybe the doits should be combined.
 
 # Code/Misc
 
+_FEATURE_ scaling factor on x and y values to do unit conversions
+
 _FEATURE_ add metadata text to model plots
 a text box consisting of strings using a template,
 which is rendered using the info dictionary itself.
