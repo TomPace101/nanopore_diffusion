@@ -36,7 +36,7 @@ def do_collectionplot(cplotparams,basename):
   codefile=osp.join(srcfolder,'plotdata.py')
   tdef = {'name':basename+":"+cplotparams.filename,
           'file_dep':[dfpath,codefile],
-          'uptodate':[config_changed(cplotparams.to_dict())],
+          'uptodate':[config_changed(str(cplotparams))],
           'targets':[outfpath],
           'actions':[(plotdata.CollectionPlotFigure.go,(cplotparams.to_dict(),))]}
   return tdef
@@ -49,7 +49,7 @@ def do_modelplot(mplotparams,modelparams,basename):
   infofile=osp.join(datadir,'info.yaml')
   tdef = {'name':modelparams.modelname+":"+mplotparams.filename,
           'file_dep':[pklfile,infofile,codefile],
-          'uptodate':[config_changed(mplotparams.to_dict())],
+          'uptodate':[config_changed(str(mplotparams))],
           'targets':[outfpath],
           'actions':[(plotdata.ModelPlotFigure.go,(mplotparams.to_dict(),))]}
   return tdef

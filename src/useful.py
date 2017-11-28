@@ -16,13 +16,32 @@ pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
 #Get a value from a nested dictionary
 
 def nested_location(obj,loc):
-  """For nested dictionary obj, get item at location specified by loc
-  obj={'a':{'b':{'c':11,'d':99}}}
-  loc=['a','b','c']
-  nested_location(obj,loc)
+  """For nested dictionary obj, get item at location specified by the sequence loc
+  
+  >>> obj={'a':{'b':{'c':11,'d':99}}}
+  >>> loc=['a','b','c']
+  >>> nested_location(obj,loc)
   11
-  Note that loc must be a list, not a tuple."""
-  return reduce(operator.getitem, [obj]+loc)
+  """
+  loclist=list(loc)
+  return reduce(operator.getitem, [obj]+loclist)
+
+def nested_to_str(obj):
+  """For nested dictionary obj, return a consistent string"""
+  #Get pairs in correct order, with keys converted to strings
+  pairs1=[(repr(k),v) for k,v in obj.items()]
+  pairs1.sort(key=lambda t: t[0])
+  #Get list of sorted key strings alone
+  skeys=[p[0] for p in pairs1]
+  #Convert values to strings while maintaining order
+  svals=[]
+  for k,v in pairs1:
+    if hasattr(v,'items'):
+      svals.append(nested_to_str(v))
+    else:
+      svals.append(repr(v))
+  items_list=[k+': '+v for k,v in zip(skeys,svals)]
+  return '{%s}'%', '.join(items_list)
 
 #-------------------------------------------------------------------------------
 #Standard work with yaml files
@@ -146,4 +165,6 @@ class ParameterSet:
     No arguments.
     Returns the dictionary."""
     return dict([(k,getattr(self,k,None)) for k in self._all_slots_iter()])
+  def __repr__(self):
+    return nested_to_str(self.to_dict())
   ##TODO: read and write from ini file

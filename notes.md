@@ -14,6 +14,8 @@ a text box consisting of strings using a template,
 which is rendered using the info dictionary itself.
 (So the template should use the names.)
 
+Just like with a legend, the challenge will be where (and how) to locate this.
+
 _FEATURE_ for collection plots, may not want an entire column as the series
 Like with thin-shot, you may want to select elements from that based on some criteria.
 
