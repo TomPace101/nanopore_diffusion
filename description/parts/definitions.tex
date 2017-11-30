@@ -1,6 +1,44 @@
 %not a stand-alone document; intended for inclusion in a larger document
 
-\section{Result Calculations}
+\section{Definitions}
+
+%-------------------------------------------------------------------------------
+\subsection{System of Units}\label{subsec:units}
+
+\texttt{FEniCS} does not generally keep track of the units used in either its inputs or its outputs.
+Accordingly, a consistent set of units must be provided for all inputs,
+and also used to interpret all outputs.
+This is done by selecting a minimal set of fundamental units,
+and then deriving the units of all other quantities in terms
+these fundamental units.
+
+The fundamental dimensions and units selected for this problem are:
+\begin{description}
+  \item [Length:] nanometers (nm)
+  \item [Amount of substance:] number of particles (particles)
+  \item [Time:] nanoseconds (ns)
+  \item [Energy:] electron-Volts (eV)
+  \item [Temperature:] Kelvin (K)
+  \item [Electric charge:] fundamental charge (e)
+\end{description}
+
+From the fundamental units and dimensions, the following are derived:
+\begin{description}
+  \item [Concentration:] particles per cubic nanometer (particles/nm\textsuperscript{3})
+  \item [Particle Flux (vector field):] particles per nanometer squared per nanosecond (particles/nm\textsuperscript{2}/ns)
+  \item [Integrated Particle Flux (scalar quantity):] particles per nanosecond (particles/ns)
+  \item [Electric Potential:] Volts (V)
+\end{description}
+
+The implicit units above can be converted to other units with the following conversion factors:
+\begin{description}
+  \item [Molarity (M):]
+  $\frac{1 \,\mathrm{particle}}{\mathrm{nm}^3} = \frac{1 \,\mathrm{particle}}{\mathrm{nm}^3}
+  \frac{1 \,\mathrm{mole}}{6.02 \cdot 10^{23} \,\mathrm{particles}} \left(\frac{10^9 \,\mathrm{nm}}{\mathrm{m}}\right)^3 
+  \frac{(10^{-1}\,\mathrm{m})^3}{1 \,\mathrm{L}}
+  = 1.66 \,\frac{\mathrm{moles}}{\mathrm{L}}$
+  \item [millmoles/liter (mM):] $\frac{1 \,\mathrm{particle}}{\mathrm{nm}^3} = 1,661 \,\frac{10^{-3}\,\mathrm{moles}}{\mathrm{L}}$
+\end{description}
 
 %-------------------------------------------------------------------------------
 \subsection{Effective Diffusion Constant}\label{subsec:D_eff}
