@@ -34,7 +34,7 @@ model_plots:
       - [plot_vline, {locspec: [meshparams, H], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
       - [plot_vline, {locspec: [meshparams, poretop_z], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
     xlabel: 'z (nm)'
-    ylabel: 'Electric Potential'
+    ylabel: 'Electric Potential (V)'
     title: 'Electric Field Profile along Pore Centerline'
     fmts: ['k-']
   - figsize: [11, 8.5]
@@ -44,7 +44,7 @@ model_plots:
       - [prep_porelimits, {}]
     plotfunctions: *cl_plotfuncs
     xlabel: 'z (nm)'
-    ylabel: 'Concentration (mM)'
+    ylabel: 'Concentration (count/nm^3)'
     title: 'Concentration Profile along Pore Centerline'
     fmts: ['k-']
   - figsize: [11, 8.5]
@@ -75,7 +75,7 @@ model_plots:
       - [plot_hline, {locspec: [conditions, potential, conditions, bcdict, 11],kwargs: {label: 'Potential at Pore Boundary',color: 'k',linestyle: ":"}}]
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
     xlabel: 'Radial Distance (nm)'
-    ylabel: 'Electric Potential (mV)'
+    ylabel: 'Electric Potential (V)'
     title: 'Electric Potential along Radial Lines'
     fmts: ['r-','g-','b-']
   - figsize: [11, 8.5]
@@ -85,7 +85,7 @@ model_plots:
       - *poreboundary
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper right'}}]
     xlabel: 'Radial Distance (nm)'
-    ylabel: 'Concentration'
+    ylabel: 'Concentration (count/nm^3)'
     title: 'Concentration Profile along Radial Lines'
     fmts: ['r-','g-','b-']
   - figsize: [11, 8.5]
