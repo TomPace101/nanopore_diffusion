@@ -38,7 +38,7 @@ conditions:
     equation: linear_pb
     conditions:
       elementorder: 2
-      bcdict: {2: 25E-3, 3: 25E-3, 11: 25E-3, 15: 25E-3, 1: 0.0, 4: 0.0}
+      bcdict: {2: 25.E-3, 3: 25.E-3, 11: 25.E-3, 15: 25.E-3, 1: 0.0, 4: 0.0}
       debye_length: 1
     dataextraction:
       - [solutionfield, {filename: potentialfield.pvd}]

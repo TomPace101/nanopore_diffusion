@@ -42,7 +42,7 @@ constfields:
   psurf_mid: 12
   beta: 38.94135
   debye_length: 1
-  membrane_potential: 25E-3
+  membrane_potential: 25.E-3
   membrane_surfaces: [2, 3, 11, 15]
   boundary_potential: 0.0
 rangefields:
