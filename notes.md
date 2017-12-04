@@ -27,6 +27,25 @@ This is in addition to what you already need: the column names themselves.
 What about inequalities?
 What about multiple criteria? Should it be a list of criteria statements?
 
+On top of that, each plot series contains two data sets (x and y).
+So it's almost like we need a way to define the queries first,
+and then define the series in terms of the queries.
+
+So you have a dictionary of named queries.
+Then the series just list the query names.
+(If there is not a query by that name, just look for a column name instead.)
+
+In fact, pandas as df.query:
+https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.query.html?highlight=query
+Note that this selects entire rows of the dataframe.
+
+To get data suitable for a series, we need:
+- the query string (as passed to df.query) (use info as the local_dict)
+- the column to select
+
+So maybe the easiest way to do this is just to add an optional query string to restrict the rows.
+After all, its highly unlikely you'd want to plot x and y values from different rows against each other.
+
 _TODO_ units analysis as described below, to get an appropriate value of beta.
 May want to increase the strength of the interaction (which would be like turning up beta).
 Then re-run, then generate the figure.
