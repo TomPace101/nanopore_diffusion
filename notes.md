@@ -1,11 +1,18 @@
 
-_ISSUE_ how to document case-specific inputs?
+_ISSUE_ Reorganization of problem description document(s)
+
+how to document case-specific inputs?
 For example, the potential boundary conditions for thin-shot.
 Maybe it would make sense to put them with the results they gave.
 So maybe we need results.tex after all.
 But, again, it depends on having the results run first.
 So it belongs in the src doit, not the description doit.
 Maybe the doits should be combined.
+
+Along the same lines,
+I now have different problems this code could apply to:
+different geometries.
+How does that fit in
 
 # Code/Misc
 
