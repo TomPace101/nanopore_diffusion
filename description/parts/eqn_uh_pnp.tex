@@ -1,0 +1,41 @@
+%not a stand-alone document; intended for inclusion in a larger document
+
+\section{Unhomogenized Poisson-Nernst-Planck Equation}\label{sec:unhom_pnp}
+
+%-------------------------------------------------------------------------------
+\subsection{Governing Differential Equation}\label{subsec:unhom_pnp_gov}
+
+We consider $N$ ion species interacting through the an electrostatic potential.
+The concentration field of each species is $c_i$, where $i=1 ... N$.
+The charge of each ion species is $z_i$, so that the volumetric charge density associated
+with ion $i$ is $z_i c_i$.
+The overall volumetric charge density is therefore given by:
+
+\begin{equation}
+\rho = \sum_{i=1}^{N}z_i c_i
+\end{equation}
+
+From the Poisson equation, the electric potential is therefore governed by:
+
+\begin{equation}
+-\epsilon_{0}\epsilon_{r} \nabla^2 \Phi = \sum_{i=1}^{N}z_i c_i
+\end{equation}
+
+For each ionic species, the change in concentration over time is related to the ion flux as:
+
+\begin{equation} 
+\frac{\partial c_i}{\partial t} = - \nabla \cdot \vec{j}_i
+\end{equation} 
+
+with ion flux defined as:
+
+\begin{equation}
+\vec{j}_i  = -D_i \left( \nabla c_i + \beta z_i c_i \nabla \Phi \right)
+\end{equation}
+
+\textcolor{red}{\textbf{TODO}}: need reference for PNP equation
+
+%-------------------------------------------------------------------------------
+\subsection{Weak Form}\label{subsec:unhom_pnp_weak}
+
+\textcolor{red}{\textbf{TODO}}
