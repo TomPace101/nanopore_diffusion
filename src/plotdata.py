@@ -196,12 +196,12 @@ class CollectionPlotFigure(PlotFigure):
   Attributes:
     To be read in from yaml file:
       calcfunctions = sequence of calculation functions to be called before generating plot
-      seriescols = sequence of series definitions (xcol, ycol, label),
+      seriesdefs = sequence of series definitions (xcol, ycol, label),
         where the columns specify the DataFrame columns containing values for the series
         The label is optional.
     To be created by methods:
       df = the DataFrame"""
-  __slots__=['calcfunctions','seriescols','df']
+  __slots__=['calcfunctions','seriesdefs','df']
   def outdir(self):
     return osp.join(postprocfolder,self.basename)
 
@@ -221,8 +221,13 @@ class CollectionPlotFigure(PlotFigure):
     
     #Add the requested columns in as series
     self.series=[]
-    for sdef in self.seriescols:
-      sdef_dict={'xvals':self.df[sdef[0]],'yvals':self.df[sdef[1]]}
+    for sdef in self.seriesdefs:
+      assert len(sdef) >= 2, "Inadequate series definition: %s"%str(sdef)
+      if len(sdef)>3 and len(sdef[3])>0:
+        qdf=self.df.query(sdef[3])
+      else:
+        qdf=self.df
+      sdef_dict={'xvals':qdf[sdef[0]],'yvals':qdf[sdef[1]]}
       if len(sdef)>2:
         sdef_dict['label']=sdef[2]
       else:
