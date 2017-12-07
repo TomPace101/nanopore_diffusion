@@ -12,7 +12,16 @@ Maybe the doits should be combined.
 Along the same lines,
 I now have different problems this code could apply to:
 different geometries.
-How does that fit in
+How does that fit in?
+
+Also, it's not really a problem definition anymore.
+It's more like a set of general notes.
+
+Note that latex does have a way to check for missing files:
+https://tex.stackexchange.com/questions/176201/how-to-create-placeholder-for-missing-figure
+So, with the right macros, you could build the document
+with placeholder figures for any result images that were missing.
+
 
 # Code/Misc
 
@@ -104,7 +113,7 @@ _ACTION_ look through homogmwe again as well
 
 It has its own _TODO_ list.
 
-_TODO_ work through details of consistent set of units, with lengths in nanometers.
+## Physical Surface/Volume Figures
 
 _TODO_ For the part where we have figures of the geometry,
 it would be nice if these could be auto-generated from the lattice yaml file.
@@ -136,7 +145,9 @@ So, the options are:
 - Do the surface figures automatically, but the 3D views manually.
 - Find a decent 3D cad program that can display things nicely, which may not exist
 
-_maybe_ maybe the result figures and discussion should be a separate document.
+## Results organization
+
+Maybe the result figures and discussion should be a separate document.
 That way, the problem description could be generated before the analyses are run.
 
 You could even set it up so that the document that requires completed runs
@@ -148,8 +159,10 @@ This would require splitting the description up as well:
 
 For now, I stored what little I had for that section in results.tex
 
+Decision: Include them in the same document,
+with a macro that uses placeholder figures for missing images.
 
-biblatex reference:
+## Biblatex reference
 https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
 https://www.sharelatex.com/learn/Biblatex_bibliography_styles
 https://www.sharelatex.com/learn/Biblatex_citation_styles
