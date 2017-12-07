@@ -1,12 +1,17 @@
 %not a stand-alone document; intended for inclusion in a larger document
 
-\section{Geometry and Finite Element Mesh}\label{sec:geometry-and-mesh}
+\section{Problem Geometries and Finite Element Meshes}\label{sec:geometry-and-mesh}
 
 \textcolor{red}{\textbf{TODO}}: this should probably be restructured,
 now that we actually have more than one geometry in question.
 
 %-------------------------------------------------------------------------------
-\subsection{System Geometry}\label{subsec:geometry}
+\subsection{Mesoporous Silica Membrane}\label{subsec:silica_membrane}
+
+We study a silica membrane containing nanoscopic circular pores arranged in a two-dimensional lattice.
+We desire to understand the rate of transport of different ions through the nanopores,
+quantified in terms of an effective diffusion constant.
+The pore geometry is variable.
 
 We study both a body-centered rectangular lattice of pores,
 as well as a face-centered lattice of pores.
@@ -41,10 +46,6 @@ R & = & \text{Pore radius} \\
 tm & = & \text{Membrane thickness} = \text{Pore length} \\
 H & = & \text{Distance from membrane surface to model boundary}
 \end{array}$
-
-
-%-------------------------------------------------------------------------------
-\subsection{Mesh Generation}\label{subsec:meshgen}
 
 \texttt{gmsh} is used to generate the finite element mesh.
 The mesh is generated from solid geometry defined by its boundary surfaces.
