@@ -1,28 +1,4 @@
 
-_ISSUE_ Reorganization of problem description document(s)
-
-how to document case-specific inputs?
-For example, the potential boundary conditions for thin-shot.
-Maybe it would make sense to put them with the results they gave.
-So maybe we need results.tex after all.
-But, again, it depends on having the results run first.
-So it belongs in the src doit, not the description doit.
-Maybe the doits should be combined.
-
-Along the same lines,
-I now have different problems this code could apply to:
-different geometries.
-How does that fit in?
-
-Also, it's not really a problem definition anymore.
-It's more like a set of general notes.
-
-Note that latex does have a way to check for missing files:
-https://tex.stackexchange.com/questions/176201/how-to-create-placeholder-for-missing-figure
-So, with the right macros, you could build the document
-with placeholder figures for any result images that were missing.
-
-
 # Code/Misc
 
 _FEATURE_ scaling factor on x and y values to do unit conversions
@@ -145,6 +121,10 @@ So, the options are:
 - Do the surface figures automatically, but the 3D views manually.
 - Find a decent 3D cad program that can display things nicely, which may not exist
 
+Note that for automatic generation,
+the macro used for results figures would solve the issue
+of the figures potentially being missing.
+
 ## Results organization
 
 Maybe the result figures and discussion should be a separate document.
@@ -161,6 +141,17 @@ For now, I stored what little I had for that section in results.tex
 
 Decision: Include them in the same document,
 with a macro that uses placeholder figures for missing images.
+
+There may be ways to improve the current macro.
+For example, maybe there should be a message that explains
+why the graphic is missing (need complete calculations)
+References:
+https://tex.stackexchange.com/questions/176201/how-to-create-placeholder-for-missing-figure
+https://tex.stackexchange.com/questions/44195/placeholder-for-figure-includegraphics
+
+Also, case-specific inputs should be presented in the relevant results section(s).
+
+
 
 ## Biblatex reference
 https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX

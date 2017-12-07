@@ -19,6 +19,14 @@
 
 \graphicspath{ {fig_pdf/} } %If additional directories are needed, place them in additional sets of inner braces e.g {fig_pdf/}{fig_svg/}
 
+\newcommand{\maybeincludegraphics}[2][]{
+  \IfFileExists{#2}{
+    \includegraphics[#1]{#2}
+  }{
+    \includegraphics[draft,#1]{#2}
+  }
+}
+
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1ex}
 
@@ -32,6 +40,9 @@
 
 %===============================================================================
 \section{Background}\label{sec:background}
+
+\textcolor{red}{\textbf{TODO}}: this is no longer sufficiently general.
+Some of it should be moved to the geometry section for the silica membrane.
 
 We study a silica membrane containing nanoscopic circular pores arranged in a two-dimensional lattice.
 We desire to understand the rate of transport of different ions through the nanopores,
@@ -49,7 +60,15 @@ The diffusion equation is solved using \texttt{FEniCS}.
 \input{parts/eqn_uh_fick}
 
 %===============================================================================
+\input{parts/res_uh_fick}
+
+%===============================================================================
 \input{parts/eqn_uh_smol}
+
+%===============================================================================
+\section{Results from Unhomogenized Smoluchowski Equation}\label{sec:res_unhom_smol}
+
+\textcolor{red}{\textbf{TODO}}
 
 %===============================================================================
 \input{parts/eqn_uh_pnp}
