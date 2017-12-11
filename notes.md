@@ -42,8 +42,6 @@ The notebook dated 2017-11-06 is where I was working on this before.
 
 _TODO_ complete the "test" analysis, even without middle surface
 
-_TODO_ actually generate the plots we extracted data for (concentration vs centerline)
-
 _TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
 _TODO_ wiki page on flux integration over internal boundary
