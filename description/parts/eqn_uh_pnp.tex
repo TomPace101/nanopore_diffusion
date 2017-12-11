@@ -5,6 +5,9 @@
 %-------------------------------------------------------------------------------
 \subsection{Governing Differential Equation}\label{subsec:unhom_pnp_gov}
 
+
+\textcolor{red}{\textbf{TODO}}: need reference for PNP equation
+
 We consider $N$ ion species interacting through the an electrostatic potential.
 The concentration field of each species is $c_i$, where $i=1 ... N$.
 The charge of each ion species is $z_i$, so that the volumetric charge density associated
@@ -33,9 +36,60 @@ with ion flux defined as:
 \vec{j}_i  = -D_i \left( \nabla c_i + \beta z_i c_i \nabla \Phi \right)
 \end{equation}
 
-\textcolor{red}{\textbf{TODO}}: need reference for PNP equation
+The governing equation for each ion species is therefore:
+
+\begin{equation}
+\frac{\partial c_i}{\partial t} = \nabla \cdot \left(
+D_i \left( \nabla c_i + \beta z_i c_i \nabla \Phi \right)
+\right)
+\end{equation}
+
+Under the assumption that the diffusion constant does not vary spatially,
+this becomes:
+
+\begin{equation}
+\frac{\partial c_i}{\partial t} = 
+D_i \left( \nabla^2 c_i + \beta z_i \nabla \cdot \left( c_i \nabla \Phi \right) \right)
+\end{equation}
+
+\begin{equation}
+\frac{\partial c_i}{\partial t} = 
+D_i \left( \nabla^2 c_i + \beta z_i \left( \nabla c_i \cdot \nabla \Phi \right)  + \beta z_i c_i \nabla^2 \Phi \right)
+\end{equation}
+
+The steady-state condition is therefore governed by
+
+\begin{equation}\label{eq:PNP_steady_state_gov}
+\nabla^2 c_i + \beta z_i \left( \nabla c_i \cdot \nabla \Phi \right)  + \beta z_i c_i \nabla^2 \Phi = 0
+\end{equation}
+
 
 %-------------------------------------------------------------------------------
 \subsection{Weak Form}\label{subsec:unhom_pnp_weak}
+
+\textcolor{red}{\textbf{TODO}}: provide weak form of Poisson equation
+
+The weak form equation for each ion starts from Equation \ref{eq:PNP_steady_state_gov},
+which is multiplied by a test function $v_i$ associated with the concentration $c_i$,
+and then integrated over the problem domain.
+
+\begin{equation}
+\int_\Omega v_i \nabla^2 c_i \,\mathrm{d}^3x 
++ \beta z_i \int_\Omega c_i v_i \nabla^2 \Phi \,\mathrm{d}^3x
++ \beta z_i \int_\Omega  v_i \left( \nabla c_i \cdot \nabla \Phi \right) \,\mathrm{d}^3x
+= 0
+\end{equation}
+
+Performing an integration by parts on the first two terms
+using the product rule of Equation \ref{eq:product_rule_divergence}, this becomes
+
+\begin{equation}
+\int_\Omega \nabla \cdot \left( v_i \nabla c_i \right) \,\mathrm{d}^3x
+- \int_\Omega \left( \nabla c_i \cdot \nabla v_i \right) \,\mathrm{d}^3x
++ \beta z_i \left( \int_\Omega \nabla \cdot \left( c_i v_i \nabla \Phi \right) \,\mathrm{d}^3x
+- \int_\Omega \left( \nabla \left( c_i v_i \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
++ \beta z_i \int_\Omega  v_i \left( \nabla c_i \cdot \nabla \Phi \right) \,\mathrm{d}^3x
+= 0
+\end{equation}
 
 \textcolor{red}{\textbf{TODO}}
