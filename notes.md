@@ -58,7 +58,27 @@ You could do it by giving each node a different symlink for control, but
 - it would be nice to have more granularity than that
 - the database for each one has to be different, and then they have to be re-synced
 
-See also `doit -n`.
+See also `doit -n` to allow tasks to run in parallel.
+
+dodo files can indeed take command-line parameters
+http://pydoit.org/task_args.html
+
+doit also has command line option `--db-file` to specify the database file.
+There is a another option to specify the database format.
+The default uses the python `dbm` module,
+so if nothing else you could write your own code to reconstitute the new database.
+
+You could certainly split one of the massive input yaml files at the time
+of parameter generation.
+Just do a round-robin on the output files.
+The assumption here is that adjacent runs will have similar resource requirements.
+That isn't always true, but it should give better load-balancing than splitting
+the file after generation.
+
+Note, however, that holly doesn't have many nodes, but they each show 64 cores.
+And, of course, you can allegedly try mpirun for fenics.
+
+That would require a change in how the fenics tasks are started.
 
 _TODO_ look into opencascade and gmsh for mesh generation
 
