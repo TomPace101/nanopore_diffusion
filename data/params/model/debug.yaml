@@ -68,3 +68,15 @@ dataextraction:
   - [profile_radial, {spacing: 0.02, plotname: radial_Dbar, label: 'Dbar along theta=0 deg', theta: 0, attrname: Dbar_proj}]
   - [profile_radial, {spacing: 0.02, plotname: radial_Dbar, label: 'Dbar along theta=45 deg', theta: 45, attrname: Dbar_proj}]
   - [profile_radial, {spacing: 0.02, plotname: radial_Dbar, label: 'Dbar along theta=90 deg', theta: 90, attrname: Dbar_proj}]
+---
+modelname: debug03
+meshparamsfile: debug.yaml
+meshname: debug
+equation: pnp_unhomog
+conditions:
+  elementorder: 2
+  bcdict: {}
+  beta: 38.94135
+  species_info: {'Na+':1}
+dataextraction:
+  - []
