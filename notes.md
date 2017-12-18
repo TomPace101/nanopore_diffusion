@@ -105,6 +105,8 @@ _ACTION_ look through homogmwe again as well
 
 # Problem Description
 
+_TODO_ Smol: use z for charge instead of q
+
 It has its own _TODO_ list.
 
 ## Physical Surface/Volume Figures
