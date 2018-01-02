@@ -1,6 +1,21 @@
 
 # Code/Misc
 
+_TODO_ code from notebooks into modules
+- time-domain Fickian?
+- steady-state PNP?
+- time-domain PNP w/o reactions?
+- time-domain PNP with reactions
+
+_FEATURE_ 2D mesh generation
+
+_ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
+Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
+
+_ISSUE_ figure out a way to get t=0 into the same VTK file as the other timesteps
+
+_FEATURE_ investigate more accurate time-step methods, such as Adams-Moulton
+
 _FEATURE_ scaling factor on x and y values to do unit conversions
 
 _FEATURE_ add metadata text to model plots
@@ -15,7 +30,7 @@ This was kind of as intended: it only generates meshes that are needed.
 But maybe you should generate all the meshes for the basenames requested in control.yaml.
 
 _FEATURE_ doit tasks for parameter generation
-tasks are generated based on reading the output of such a task.
+But other tasks are generated based on reading the output of parameter generation tasks.
 
 doit has a way to resolve this, of course:
 http://pydoit.org/task_creation.html#delayed-task-creation
@@ -25,7 +40,8 @@ the code that generates the other tasks is outside any task function.
 So even if the other tasks happen after parameter generation,
 the parameters for them have already been read in.
 
-Perhaps there could be a task to populate those global parameters,
+Perhaps there could be a task to populate those global parameters
+(that is, outside tasks they initialize empty, and tasks fill them in),
 which is delayed until after parameter generation.
 The other tasks are delayed until after population.
 
@@ -48,7 +64,31 @@ _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
 
 _TODO_ syncing/mirroring
+- set up a scratch folder on /u1 (could use unison to sync it): will speed up runs on CP233
 - holly and/or dlx (has to be rsync, unless we can build unison on the server)
+
+For holly/dlx:
+sync entire code folder?
+That would mean not having copies of login scripts.
+The goals are:
+- everything on the remote machine has a local storage place
+- avoid duplication: don't keep multiple copies of anything on the same computer
+(it's ok to have scratch and home versions of something, but try to keep scratch clean)
+- keep the same folder structure everywhere, as much as possible
+
+This suggests the need for:
+- a way of quickly copying to scratch, syncing, and removing scratch for each computer
+- an established "one folder structure" for everything not machine-specific
+  Or not. Maybe it is multiple structures, the roots of which may be at different locations on different machines.
+  Kind of like what I was hoping to do with my flash drive before.
+- a storage structure for machine-specific files (login scripts, etc.), and a way to update them into their machine-specific locations as well.
+
+The real question is getting unison on the remote machines.
+In fact, it needs to be the same version, even,
+on any machine you want to sync with one of those.
+
+After that, you start here:
+https://www.cis.upenn.edu/~bcpierce/unison/download/releases/stable/unison-manual.html#remote
 
 _FEATURE_ running on holly/dlx
 It would also be nice if we had a way, on these systems,
@@ -76,7 +116,7 @@ That isn't always true, but it should give better load-balancing than splitting
 the file after generation.
 
 Note, however, that holly doesn't have many nodes, but they each show 64 cores.
-And, of course, you can allegedly try mpirun for fenics.
+And, of course, you can allegedly try mpirun for fenics (see item below).
 
 That would require a change in how the fenics tasks are started.
 
@@ -84,6 +124,10 @@ _TODO_ look into opencascade and gmsh for mesh generation
 
 _TODO_ use mpirun for fenics calculations?
 (not for pre-and post-processing)
+
+https://fenicsproject.org/qa/6969/how-to-go-parallel
+https://fenicsproject.org/qa/8459/what-is-the-simplest-way-to-use-mpi
+https://fenicsproject.org/qa/3025/solving-a-problem-in-parallel-with-mpi-&-petsc
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
