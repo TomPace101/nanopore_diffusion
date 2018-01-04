@@ -8,7 +8,7 @@
 ---
 outfile: mesh/brainy-media.yaml
 tmplfile: mesh.yaml.jinja2
-constfields: {hrhash: brainy-media, lattice: body-cen2, mscale: 1.0, mcarh: 1.0, mcarl: 5.0}
+constfields: {hrhash: brainy-media, geomdef: body-cen2, mscale: 1.0, mcarh: 1.0, mcarl: 5.0}
 rangefields:
   cellsize: [[12, 12], [24,6], [36,4], [5,5], [10,5]]
   tm: [75, 25]

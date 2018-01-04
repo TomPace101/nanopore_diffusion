@@ -5,11 +5,11 @@
 
 #Mesh definition
 #meshname: name to be used for .geo, .msh, and .xml files
-#lattice: base name geometry definition yaml file (in `mesh`)
+#geomdef: base name geometry definition yaml file (in `mesh`)
 #other parameters are as neeed by the jinja2 template specified in the geometry definition yaml file
 ---
 meshname: debug
-lattice: body-cen2
+geomdef: body-cen2
 mscale: 1.0
 mcarh: 1.0
 mcarl: 5.0

@@ -24,12 +24,12 @@ class MeshParameters(useful.ParameterSet):
   These parameter files are usually stored in the location specified by folderstructure.params_mesh_folder.
   Attributes:
     meshname = stem name for the .geo, .msh and .xml files
-    lattice = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml)
+    geomdef = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml)
       The geometry definition yaml file stores the attributes of a GeometryDefinition instance
       This file is specific to the jinja2 template used to generate the .geo file.
     Lx, Ly, R, H, tm = physical dimensions in the geometry
     mscale, mcarh, mcarl = mesh density parameters"""
-  __slots__=('meshname','lattice','Lx','Ly','R','H','tm','mscale','mcarh','mcarl')
+  __slots__=('meshname','geomdef','Lx','Ly','R','H','tm','mscale','mcarh','mcarl')
 
 class GeometryDefinition(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
@@ -165,7 +165,7 @@ def process_mesh_params(params):
     geomyaml = geometry definition yaml file path, as string
     geomdef = instance of GeometryDefinition
     geofile = output .geo file path, as string"""
-  geomyaml=osp.join(geomdef_folder,params.lattice+'.yaml') #geometry definition yaml file
+  geomyaml=osp.join(geomdef_folder,params.geomdef+'.yaml') #geometry definition yaml file
   geomdef=GeometryDefinition.from_yaml(geomyaml)
   geofile=osp.join(geofolder,params.basename,params.meshname+'.geo') #.geo file
   return geomyaml, geomdef, geofile
