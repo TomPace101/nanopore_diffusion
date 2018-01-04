@@ -87,6 +87,9 @@ def prepare_template_input(geom, paramdef):
     
   #Put geometric and mesh refinement parameters into template input
   t_input=dict((k,getattr(paramdef,k)) for k in ['mscale','mcarh','mcarl','Lx','Ly','R','H','tm'])
+  
+  #Put dimensions into mesh
+  t_input['dimensions']=geom.dimensions
 
   #Dictionary of points
   t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])
