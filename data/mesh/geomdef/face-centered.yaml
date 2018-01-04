@@ -1,4 +1,4 @@
-#Define properties specific to the body-centered geometry template
+#Define properties specific to the face-centered geometry template
 dimensions: 3
 
 tmplfile: face-centered.geo.jinja2
