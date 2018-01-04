@@ -9,16 +9,18 @@ _TODO_ code from notebooks into modules
 
 _FEATURE_ 2D mesh generation
 
-Should we create a new file parallel common.geo.jinja2, or modify the current one?
-Modifying the current one should be cleaner and simpler, but requires a new parameter in the geometry definition file: dimensions.
-Maybe that's the easiest way.
-
 Now, the meshparameters will be different.
 Which means we need a new MeshParameters object,
 or for it not to use slots anymore.
 Which would mean there would need to be a class like useful.ParameterSet that can read itself from yaml without slots.
 
 Also, the line in prepare_template_input that specifies the meshparameters for direct input to the template (line 89) will need to be more flexible.
+
+Also, "lattice" can be part of a more general meshparams object,
+but it needs to be changed to something like "geomdef" as really it tells you what geometry definition file to use.
+
+Also note that body-centered.yaml says to use body-centered.geo.jinja2,
+but really that already only works for body-cen2.yaml.
 
 _ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
 Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
@@ -66,6 +68,7 @@ _TODO_ find a way to get coordinates of the surface normal used in a flux calcul
 The notebook dated 2017-11-06 is where I was working on this before.
 
 _TODO_ complete the "test" analysis, even without middle surface
+That is, run a face-centered model somewhere, even without the middle surface.
 
 _TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
