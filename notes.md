@@ -14,8 +14,6 @@ Tried solving Poisson by itself first, but couldn't get results into the mixed f
 
 _ISSUE_ figure out a way to get t=0 into the same VTK file as the other timesteps
 
-_FEATURE_ investigate more accurate time-step methods, such as Adams-Moulton
-
 _FEATURE_ scaling factor on x and y values to do unit conversions
 
 _FEATURE_ add metadata text to model plots
@@ -120,8 +118,6 @@ And, of course, you can allegedly try mpirun for fenics (see item below).
 
 That would require a change in how the fenics tasks are started.
 
-_TODO_ look into opencascade and gmsh for mesh generation
-
 _TODO_ use mpirun for fenics calculations?
 (not for pre-and post-processing)
 
@@ -150,6 +146,8 @@ _ACTION_ look through homogmwe again as well
 # Problem Description
 
 _TODO_ Smol: use z for charge instead of q
+_TODO_ PNP: use s for species index instead of i
+_TODO_ reaction terms: find a good index name for reactions
 
 It has its own _TODO_ list.
 
@@ -265,9 +263,38 @@ Maybe just create scripts to do the basic validation on buildgeom and the solver
 _maybe_ mesh refinement study
 _maybe_ study of required H value
 
-_mabye_ Find a replacement for codenamize
+_maybe_ Find a replacement for codenamize
 I experimented in the notebook with some other stuff.
 
+_maybe_ investigate more accurate time-step methods, such as Adams-Moulton
+
+_maybe_ look into opencascade and gmsh for mesh generation
+https://en.wikipedia.org/wiki/Open_Cascade_Technology
+
+opencascade is not a program, but rather an SDK.
+gmsh refers to it as a geometry kernel.
+
+Using this kernel, gmsh can import BREP, IGES and STEP files (I think).
+
+There is a set of python bindings called Python OCC:
+http://www.pythonocc.org/
+Precompiled binaries are available from conda-forge.
+
+There is a "scripting interface" called pycado,
+but it looks unfinished
+http://julienbld.github.io/pycado/
+
+FreeCAD is a program that can generate IGES and STEP files.
+It is scriptable with python,
+and uses the opencascade kernel.
+
+It might even be possible to get something out of Blender,
+but maybe not.
+https://docs.blender.org/manual/en/dev/data_system/files/import_export.html
 
 --------------------------------------------------------------------------------
 # Non-active items only below this point
+
+_question_ is it possible for fenics to give us the condition number of a system?
+If nothing else, can we get the relevant matrix and calculate it from that?
+
