@@ -145,9 +145,9 @@ _ACTION_ look through homogmwe again as well
 
 # Problem Description
 
-_TODO_ Smol: use z for charge instead of q
-_TODO_ PNP: use s for species index instead of i
-_TODO_ reaction terms: find a good index name for reactions
+_TODO_ Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
+_TODO_ reaction terms (not written up yet): find a good index name for reactions
+_TODO_ would it be better to use delta_... for test functions (ala variational calculus) instead of v?
 
 It has its own _TODO_ list.
 
