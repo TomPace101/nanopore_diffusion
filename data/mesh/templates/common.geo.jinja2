@@ -33,6 +33,10 @@ Line Loop({{ lpnum }})={ {{- lents -}} };
 Physical Surface({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
 
+{% if dimensions==2 %}
+//Mesh
+Mesh 2;
+{% elif dimensions==3 %}
 //Surface Loops
 {% for lpnum, sents in surfloops.items() %}
 Surface Loop({{ lpnum }})={ {{- sents -}} };
@@ -46,6 +50,7 @@ Physical Volume({{ lpnum }})={ {{- lpnum -}} };
 
 //Mesh
 Mesh 3;
+{% endif %}
 
 //Blank lines
 //because gmsh gets confused without them

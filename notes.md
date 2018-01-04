@@ -9,6 +9,11 @@ _TODO_ code from notebooks into modules
 
 _FEATURE_ 2D mesh generation
 
+Should we create a new file parallel common.geo.jinja2, or modify the current one?
+Modifying the current one should be cleaner and simpler, but requires a new parameter in the geometry definition file: dimensions.
+Maybe that's the easiest way.
+
+
 _ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
 Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
 

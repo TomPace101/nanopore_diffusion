@@ -1,4 +1,5 @@
 #Define properties specific to the body-centered geometry template
+dimensions: 3
 
 tmplfile: body-centered.geo.jinja2
 
