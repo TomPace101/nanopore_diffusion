@@ -14,8 +14,6 @@ Which means we need a new MeshParameters object,
 or for it not to use slots anymore.
 Which would mean there would need to be a class like useful.ParameterSet that can read itself from yaml without slots.
 
-Also, the line in prepare_template_input that specifies the meshparameters for direct input to the template (line 89) will need to be more flexible.
-
 Both of those issues seem to have the same solution.
 The geometry-specific parameters need to be specified in the geometry definition yaml file.
 Then, when you instantiate the MeshParameters,

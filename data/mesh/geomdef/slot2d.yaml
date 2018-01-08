@@ -2,6 +2,7 @@
 dimensions: 2
 
 tmplfile: slot2d.geo.jinja2
+tmplvars: ['mscale','mcarh','mcarl','L','R','H','tm']
 
 #Dictionary of points and their corresponding mesh density variable
 #(mcarh for high-density regions, mcarl for low-density regions)

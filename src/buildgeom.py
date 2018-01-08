@@ -37,11 +37,12 @@ class GeometryDefinition(useful.ParameterSet):
   Attributes:
     dimensions = number of spatial dimensions (i.e. 2 for 2D mesh, 3 for 3D mesh)
     tmplfile = geometry template file, usually stored in the location specified by folderstructure.geotemplates_folder.
+    tmplvars = mesh parameter variables needed by the geometry template file
     ptdict = dictionary of points and their corresponding mesh density parameter name
     geomtable = mapping of surfaces to sequence points
     surfloops = mapping of surface loops to sequence of surfaces
     nonplanar = list of surfaces that are not planar surfaces"""
-  __slots__=('dimensions','tmplfile','ptdict','geomtable','surfloops','nonplanar')
+  __slots__=('dimensions','tmplfile','tmplvars','ptdict','geomtable','surfloops','nonplanar')
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
@@ -86,7 +87,7 @@ def prepare_template_input(geom, paramdef):
     t_input = the input dictionary for the template"""
     
   #Put geometric and mesh refinement parameters into template input
-  t_input=dict((k,getattr(paramdef,k)) for k in ['mscale','mcarh','mcarl','Lx','Ly','R','H','tm'])
+  t_input=dict((k,getattr(paramdef,k)) for k in geom.tmplvars)
   
   #Put dimensions into mesh
   t_input['dimensions']=geom.dimensions
