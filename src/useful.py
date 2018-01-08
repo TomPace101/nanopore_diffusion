@@ -156,6 +156,9 @@ class ParameterSet:
     No return value."""
     writepickle(self.to_dict(),fpath)
     return
+  @classmethod
+  def from_dict(cls,d):
+    return cls(**d)
   def _all_slots_iter(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
@@ -167,4 +170,7 @@ class ParameterSet:
     return dict([(k,getattr(self,k,None)) for k in self._all_slots_iter()])
   def __repr__(self):
     return nested_to_str(self.to_dict())
+  @classmethod
+  def from_Namespace(cls,ns):
+    return cls(**ns.__dict__)
   ##TODO: read and write from ini file
