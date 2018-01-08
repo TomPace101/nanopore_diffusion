@@ -14,6 +14,8 @@ The FEM analysis and the generation of the problem description document
 have been automated using a python package known as `doit` (http://pydoit.org/).
 
 Many analysis parameters are stored in `yaml` format (https://en.wikipedia.org/wiki/YAML).
+A very brief introduction to the syntax can be found at https://learnxinyminutes.com/docs/yaml/,
+and its official site is http://yaml.org/.
 The python package `pyyaml` (https://github.com/yaml/pyyaml) is used to read these files.
 
 Some output files (such as `gmsh` .geo input files)
