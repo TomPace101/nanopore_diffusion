@@ -25,6 +25,13 @@ Or maybe https://docs.python.org/3/library/functions.html#type
 To make it with __slots__:
 https://stackoverflow.com/questions/29780433/dynamic-class-creation-with-type-and-slots
 
+But now we have a chicken and egg problem.
+We load the mesh parameters, which tells us where to find the geometry definition.
+But then the geometry definition tells us how to properly load the mesh parameters.
+Solution: load mesh parameters as a namespace initially,
+then generate the class, then load the class from the namespace.
+That works when calling buildgeom directly, but it doesn't work with the doit workflow.
+
 Also, "lattice" can be part of a more general meshparams object,
 but it needs to be changed to something like "geomdef" as really it tells you what geometry definition file to use.
 I've tried to change this in the code, but the mesh parameters need to be regenerated now.
@@ -52,6 +59,102 @@ Just like with a legend, the challenge will be where (and how) to locate this.
 _ISSUE_ doit tasks can't generate meshes when there are no models
 This was kind of as intended: it only generates meshes that are needed.
 But maybe you should generate all the meshes for the basenames requested in control.yaml.
+
+Currently, control.yaml actually lists the model files to be read,
+not the mesh files.
+That way, the mesh files and model files are not required to have the same names.
+
+If you want to change that, you need to think carefully through all the consequences.
+The easiest way to deal with the issue here is probably to have a "null" model of some kind,
+that will not generate any tasks.
+When you only want to generate meshes, use that model.
+
+Or, we could do it this way:
+control.yaml contains a list of either model or mesh (and maybe even postproc or paramgen) files.
+You run the ones that exist, and don't complain about the ones that don't.
+(Unless no files are found; then you should issue a warning.)
+That seems like it could cause errors: a typo in a filename wouldn't be as detectable.
+
+__ISSUE__ Some of the current problems suggest we are too tightly coupled to doit.
+- The changes needed for 2D geometry
+- Not being able to generate meshes for which there are no models
+- difficulties with parameter generation tasks
+- not having a way to easily generate .msh and .xml files without doit
+- challenges in using MPI for fenics but not everything else
+
+What should be happening here is just that doit runs things a human being could conceivably do,
+but in an automated and organized fashion.
+That is, it just ties together command-line programs.
+Of course, if they are python modules/scripts, it can call functions inside them instead.
+
+Or maybe that's the problem.
+In trying to set things up so doit can use the objects directly,
+I've set up two parallel systems of doing things.
+And sometimes they conflict.
+
+Take a look at the post-processing tasks, for example.
+You couldn't possibly run them without doit to figure out what to call.
+
+Currently:
+- paramgen can be called directly to generate yaml input files from yaml
+- buildgeom can be called directly to generate .geo files from yaml
+- individual solver modules can be called directly to solve models from yaml
+
+A more consistent, comprehensive approach:
+- paramgen as now
+- buildgeom as now
+- something to generate .msh files from .geo, based on yaml
+- something to generate .xml files from .msh, based on yaml
+- something to find and run the appropriate solver, based on yaml
+- something to run post-processing tasks in a yaml file, which also specifies the folder where the models can be found (this is a new parameter for that file)
+
+The catch is that we lose some granularity over re-running things.
+Right now, we can re-run individual models from a long list.
+The new approach would re-run the entire list if it is specified.
+That's how we got to the current approach.
+The tight coupling is needed to figure out what really needs to be run and what doesn't.
+
+Is there a way to get both?
+The command line programs would need to be able to take additional arguments
+that specify wich documents in a multi-doc yaml file should be run.
+They need to know a property by which to identify such documents.
+So an argument for the property name, and another for its value.
+These are optional, but both must be provided.
+(In argparse this is done by an option that takes two arguments:
+  https://docs.python.org/3/library/argparse.html#nargs
+  e.g. '--select modelname debug001'
+  or you could let it take at least two arguments, and all beyond the second are additional cases to run)
+
+How does that help?
+It sets up a more consistent entry point between doit and the command line.
+
+And so, really, the goal here is to have less duplicated code between the two.
+That is, there should only be one place where the objects are loaded from yaml,
+not one for doit and a different one for the command line.
+But the way we determine file and parameter dependencies is by loading the objects
+and examining them.
+Is there a way to do it without that?
+For example, maybe doit could just leave things as dictionaries, or namespaces.
+Yes, that's how to somewhat decouple without losing the granularity.
+
+Also, the doit task generation should be more consistent between the different tasks.
+What does that look like?
+- for each stem, see if there is a file appropriate for this task
+- if so, load all the documents
+- do the investigation to see which ones are not up-to-date
+- generate tasks, then with the entry point as the python action,
+- OR a command action with only required tasks specified by the --select argument
+
+For that matter, command line execution should be more consistent as well.
+- accept one required yaml file, and optionally the select argument above
+- then load the yaml file as a sequence of namespaces, extract the selected documents (or all docs if no selection)
+- call the task-specific entry point with the list of namespaces
+- the entry point converts namespaces to objects
+- delete the list of namespaces
+
+The way to do this is probably to get the command line stuff working first,
+breaking doit.
+Then fix doit.
 
 _FEATURE_ doit tasks for parameter generation
 But other tasks are generated based on reading the output of parameter generation tasks.

@@ -59,6 +59,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - paramgen.py: code for generating parameter sets from templates and input data
     - gen_params: folder for python scripts to generate various parameter definition files
 - data: input and output data from FEM analysis
+    - control.yaml: list of model files (located in params/model) to run
     - mesh: data for mesh generation using `gmsh`
         - geomdef: geometry defintion files as inputs to mesh generation
         - templates: `jinja2` templates of `gmsh` .geo files
