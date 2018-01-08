@@ -1,5 +1,6 @@
 
 #Standard library
+from argparse import Namespace
 from functools import reduce
 from itertools import chain
 import operator
@@ -173,4 +174,10 @@ class ParameterSet:
   @classmethod
   def from_Namespace(cls,ns):
     return cls(**ns.__dict__)
+  def to_Namespace(self):
+    """Return an argparse.Namespace object with all the object's attributes.
+    Note that changes to the Namespace will not affect the object.
+    No arguments.
+    Returns the Namespace."""
+    return Namespace(**self.to_dict())
   ##TODO: read and write from ini file
