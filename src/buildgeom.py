@@ -35,6 +35,7 @@ class GeometryDefinition(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
   These parameter files are usually stored in the location specified by folderstructure.geomdef_folder.
   Attributes:
+    geomident = string usable as python identifier (e.g. must start with letter, no dashes, etc.) for geometry-specific parameters class
     dimensions = number of spatial dimensions (i.e. 2 for 2D mesh, 3 for 3D mesh)
     tmplfile = geometry template file, usually stored in the location specified by folderstructure.geotemplates_folder.
     tmplvars = mesh parameter variables needed by the geometry template file
@@ -42,7 +43,7 @@ class GeometryDefinition(useful.ParameterSet):
     geomtable = mapping of surfaces to sequence points
     surfloops = mapping of surface loops to sequence of surfaces
     nonplanar = list of surfaces that are not planar surfaces"""
-  __slots__=('dimensions','tmplfile','tmplvars','ptdict','geomtable','surfloops','nonplanar')
+  __slots__=('geomident','dimensions','tmplfile','tmplvars','ptdict','geomtable','surfloops','nonplanar')
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names

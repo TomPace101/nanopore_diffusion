@@ -1,4 +1,5 @@
 #Define properties specific to the face-centered geometry template
+geomident: face_centered
 dimensions: 3
 
 tmplfile: face-centered.geo.jinja2
