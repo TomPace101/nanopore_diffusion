@@ -8,7 +8,8 @@
 ---
 modelnames: [debug01]
 model_plots:
-  - figsize: [11, 8.5]
+  - &modelplotdef
+    figsize: [11, 8.5]
     filename: profile_CL_c.pdf
     plotname: CL_c
     prepfunctions:
@@ -21,10 +22,14 @@ model_plots:
     ylabel: 'concentration (mM)'
     title: 'Concentration Profile along Pore Centerline'
     fmts: ['k-']
+  - <<: *modelplotdef #reuse definition
+    figsize: [9, 7]
+    filename: fick_profile_CL_c.png
 ---
 modelnames: [debug02]
 model_plots:
-  - figsize: [11, 8.5]
+  - &plot1def
+    figsize: [11, 8.5]
     filename: profile_CL_phi.pdf
     plotname: CL_phi
     prepfunctions:
@@ -37,7 +42,11 @@ model_plots:
     ylabel: 'Electric Potential (V)'
     title: 'Electric Field Profile along Pore Centerline'
     fmts: ['k-']
-  - figsize: [11, 8.5]
+  - <<: *plot1def #reuse definition
+    figsize: [9, 7]
+    filename: profile_CL_phi.png
+  - &plot2def
+    figsize: [11, 8.5]
     filename: profile_CL_c.pdf
     plotname: CL_c
     prepfunctions:
@@ -47,7 +56,11 @@ model_plots:
     ylabel: 'Concentration (count/nm^3)'
     title: 'Concentration Profile along Pore Centerline'
     fmts: ['k-']
-  - figsize: [11, 8.5]
+  - <<: *plot2def #reuse definition
+    figsize: [9, 7]
+    filename: profile_CL_c.png
+  - &plot3def
+    figsize: [11, 8.5]
     filename: profile_CL_cbar.pdf
     plotname: CL_cbar
     prepfunctions:
@@ -57,7 +70,11 @@ model_plots:
     ylabel: 'cbar'
     title: 'Transformed Concentration along Pore Centerline'
     fmts: ['k-']
-  - figsize: [11, 8.5]
+  - <<: *plot3def #reuse definition
+    figsize: [9, 7]
+    filename: profile_CL_cbar.png
+  - &plot4def
+    figsize: [11, 8.5]
     filename: profile_CL_Dbar.pdf
     plotname: CL_Dbar
     prepfunctions:
@@ -67,7 +84,11 @@ model_plots:
     ylabel: 'Dbar'
     title: 'Transformed Diffusion Constant along Pore Centerline'
     fmts: ['k-']
-  - figsize: [11, 8.5]
+  - <<: *plot4def #reuse definition
+    figsize: [9, 7]
+    filename: profile_CL_Dbar.png
+  - &plot5def
+    figsize: [11, 8.5]
     filename: radial_phi.pdf
     plotname: radial_phi
     plotfunctions:
@@ -78,7 +99,11 @@ model_plots:
     ylabel: 'Electric Potential (V)'
     title: 'Electric Potential along Radial Lines'
     fmts: ['r-','g-','b-']
-  - figsize: [11, 8.5]
+  - <<: *plot5def #reuse definition
+    figsize: [9, 7]
+    filename: radial_phi.png
+  - &plot6def
+    figsize: [11, 8.5]
     filename: radial_c.pdf
     plotname: radial_c
     plotfunctions:
@@ -88,7 +113,11 @@ model_plots:
     ylabel: 'Concentration (count/nm^3)'
     title: 'Concentration Profile along Radial Lines'
     fmts: ['r-','g-','b-']
-  - figsize: [11, 8.5]
+  - <<: *plot6def #reuse definition
+    figsize: [9, 7]
+    filename: radial_c.png
+  - &plot7def
+    figsize: [11, 8.5]
     filename: radial_cbar.pdf
     plotname: radial_cbar
     plotfunctions:
@@ -98,7 +127,11 @@ model_plots:
     ylabel: 'cbar'
     title: 'Transformed Concentration along Radial Lines'
     fmts: ['r-','g-','b-']
-  - figsize: [11, 8.5]
+  - <<: *plot7def #reuse definition
+    figsize: [9, 7]
+    filename: radial_cbar.png
+  - &plot8def
+    figsize: [11, 8.5]
     filename: radial_Dbar.pdf
     plotname: radial_Dbar
     plotfunctions:
@@ -108,3 +141,6 @@ model_plots:
     ylabel: 'Dbar'
     title: 'Transformed Diffusion Constant along Radial Lines'
     fmts: ['r-','g-','b-']
+  - <<: *plot8def #reuse definition
+    figsize: [9, 7]
+    filename: radial_Dbar.png
