@@ -6,7 +6,8 @@
 - module to generate .xml files from .msh, based on yaml
 - top-level solver module: find and run the appropriate solver, based on yaml
 - run post-processing tasks in a yaml file, which also specifies the folder where the models can be found (this is a new parameter for that file)
-- solver extraction functions and post-processing need updates for new MeshParameters structure
+- post-processing need updates for new MeshParameters structure
+- modify dodo.py and the various task_ files to use the new approach
 
 _FEATURE_ 2D mesh generation
 
