@@ -8,7 +8,6 @@ from doit.tools import config_changed
 
 #Local
 from folderstructure import *
-import useful
 import buildgeom
 
 def assure_dir(fpath):
