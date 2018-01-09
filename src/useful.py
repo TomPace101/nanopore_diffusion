@@ -61,6 +61,13 @@ def readyaml_multidoc(fpath):
     gen=yaml.load_all(dat)
   return [obj for obj in gen]
 
+def readyaml_gen(fpath):
+  "return a generator for the contents of the yaml file"
+  with open(fpath,'r') as fp:
+    dat=fp.read()
+  gen=yaml.load_all(dat)
+  return gen
+
 def writeyaml(obj,fpath):
   "write object to yaml file, overwriting"
   with open(fpath,'w') as fp:
