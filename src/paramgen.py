@@ -161,21 +161,16 @@ class ParameterGenerator(useful.ParameterSet):
     with open(outfpath,'w') as fp:
       fp.write(doc)
 
+def do_gendoc_gen(gendoc):
+  gendoc.do_generation()
+  print("%s: %d documents"%(gendoc.outfile,gendoc.num_generated))
+
 #Support command-line arguments
 if __name__ == '__main__':
   #Process command-line arguments
-  input_yaml_docstring="""File defining the parameter files to be generated
+  program_description='Create parameter files'
+  input_file_description="""File defining the parameter files to be generated
   This is a potentially multi-doc yaml file, where each document specifies one multi-doc yaml file to generate.
   Each document must provide the attributes for an instance of the ParameterGenerator class."""
-  parser = argparse.ArgumentParser(description='Create parameter files')
-  parser.add_argument('input_yaml', help=input_yaml_docstring)
-  cmdline=parser.parse_args()
-  assert osp.isfile(cmdline.input_yaml), "Input file does not exist: %s"%cmdline.input_yaml
-
-  #Read in the yaml file
-  alldocs=ParameterGenerator.all_from_yaml(cmdline.input_yaml)
-
-  #Generate each requested parameter file
-  for gendoc in alldocs:
-    gendoc.do_generation()
-    print("%s: %d documents"%(gendoc.outfile,gendoc.num_generated))
+  
+  useful.run_cmd_line(program_description,input_file_description,ParameterGenerator,do_gendoc_gen)

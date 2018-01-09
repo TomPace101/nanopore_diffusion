@@ -188,25 +188,11 @@ def geo_from_MeshParams(params):
 #Support command-line arguments
 if __name__ == '__main__':
   #Process command-line arguments
-  parser = argparse.ArgumentParser(description='Create gmsh .geo file(s)')
-  parser.add_argument('params_yaml', help="""Parameter definition file for the mesh
+  program_description='Create gmsh .geo file(s)'
+  input_file_description="""Parameter definition file for the mesh
     This is a potentially multi-doc yaml file, where each document specifies one mesh to generate.
     Each document must provide the attributes for an instance of the MeshParameters class,
-    or a subclass thereof appropriate for the specified geometry defintion.""")
-  parser.add_argument('--select',nargs="+",help="""Only process selected elements of the yaml file
-    This option must be followed by an attribute name, and then a sequence of values for that attribute.
-    Only those entries in the yaml file where the attribute matches one of these values will be processed.""")
-  cmdline=parser.parse_args()
-  assert osp.isfile(cmdline.params_yaml), "Mesh parameter definition file does not exist: %s"%cmdline.mesh_params_yaml
-  if cmdline.select is not None:
-    selattr=cmdline.select[0]
-    selitems=cmdline.select[1:]
-
-  #Read in the yaml file
-  allobjs=MeshParameters.all_from_yaml(cmdline.params_yaml)
+    or a subclass thereof appropriate for the specified geometry defintion."""
   
-  #Process documents
-  for obj in allobjs:
-    #Is this document selected? (if no selection list provided, process all documents)
-    if cmdline.select is None or getattr(doc,selattr,None) in selitems:
-      geo_from_MeshParams(obj)
+  useful.run_cmd_line(program_description,input_file_description,MeshParameters,geo_from_MeshParams)
+  

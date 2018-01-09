@@ -1,6 +1,6 @@
 
 #Standard library
-from argparse import Namespace
+import argparse
 from functools import reduce
 from itertools import chain
 import operator
@@ -186,5 +186,46 @@ class ParameterSet:
     Note that changes to the Namespace will not affect the object.
     No arguments.
     Returns the Namespace."""
-    return Namespace(**self.to_dict())
+    return argparse.Namespace(**self.to_dict())
   ##TODO: read and write from ini file
+
+#-------------------------------------------------------------------------------
+#Common command-line usage
+
+def run_cmd_line(program_description,input_file_description,objtype,process_function):
+  """Perform common command line processing.
+  Many of the modules use a similar process for running from the command line:
+  - read an multi-document input yaml file
+  - load each document into an object of some type
+  - select specific objects using the "--select" command line argument, and/or other means
+  - run a function on each selected object
+  This function implements that common process.
+  Arguments:
+    program_description = string containing the help for the program to run
+    input_file_desscription = string containing help for the input file to process
+    objtype = type all documents in the input file should be loaded into
+      This is assumed to be a subclass of ParameterSet.
+      (At a minimum, it must have an all_from_yaml method)
+    process_function = function to be called with the object as its argument.
+  No return value."""
+
+  parser = argparse.ArgumentParser(description=program_description)
+  parser.add_argument('params_yaml', help=input_file_description)
+  parser.add_argument('--select',nargs="+",help="""Only process selected elements of the input yaml file.
+    This option must be followed by an attribute name, and then a sequence of values for that attribute.
+    Only those entries in the yaml file where the attribute matches one of these values will be processed.""")
+  cmdline=parser.parse_args()
+  assert osp.isfile(cmdline.params_yaml), "Parameter definition file does not exist: %s"%cmdline.params_yaml
+  if cmdline.select is not None:
+    selattr=cmdline.select[0]
+    selitems=cmdline.select[1:]
+
+  #Read in the yaml file
+  allobjs=objtype.all_from_yaml(cmdline.params_yaml)
+  
+  #Process documents
+  for obj in allobjs:
+    #Is this document selected? (if no selection list provided, process all documents)
+    if cmdline.select is None or getattr(doc,selattr,None) in selitems:
+      process_function(obj)
+
