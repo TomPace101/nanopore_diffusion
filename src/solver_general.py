@@ -74,6 +74,7 @@ def complete_by_ModelParameters(modelparams,solverclasses):
   #Get the requested mesh
   meshparams=loaded_meshes[modelparams.meshname]
   #Run the solver
+  print(modelparams.modelname)
   solverclasses[modelparams.equation].complete(modelparams,meshparams)
 
 class GenericSolver:
