@@ -2,7 +2,6 @@
 
 # Refactoring
 
-- set up git branch for current approach
 - revision to buildgeom command line
 - module to generate .msh files from .geo, based on yaml
 - module to generate .xml files from .msh, based on yaml
