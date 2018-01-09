@@ -192,7 +192,7 @@ class ParameterSet:
 #-------------------------------------------------------------------------------
 #Common command-line usage
 
-def run_cmd_line(program_description,input_file_description,objtype,process_function):
+def run_cmd_line(program_description,input_file_description,objtype,process_function,other_selection=None,f_args=None):
   """Perform common command line processing.
   Many of the modules use a similar process for running from the command line:
   - read an multi-document input yaml file
@@ -207,18 +207,30 @@ def run_cmd_line(program_description,input_file_description,objtype,process_func
       This is assumed to be a subclass of ParameterSet.
       (At a minimum, it must have an all_from_yaml method)
     process_function = function to be called with the object as its argument.
+    other_selection = optional dictionary with additional requirements for objects to process
+      {attribute name: sequence of allowed values}
+    f_args = optional list of other positional arguments for calling the process_function
   No return value."""
 
+  #Parse arguments
   parser = argparse.ArgumentParser(description=program_description)
   parser.add_argument('params_yaml', help=input_file_description)
   parser.add_argument('--select',nargs="+",help="""Only process selected elements of the input yaml file.
     This option must be followed by an attribute name, and then a sequence of values for that attribute.
     Only those entries in the yaml file where the attribute matches one of these values will be processed.""")
   cmdline=parser.parse_args()
+  #Check that input file exists
   assert osp.isfile(cmdline.params_yaml), "Parameter definition file does not exist: %s"%cmdline.params_yaml
+  #Set up dictionary for object selection by attribute
+  if other_selection is None:
+    requirements = {}
+  else:
+    requirements=dict(other_selection)
   if cmdline.select is not None:
-    selattr=cmdline.select[0]
-    selitems=cmdline.select[1:]
+    requirements[cmdline.select[0]]=cmdline.select[1:]
+  #Any other positional arguments?
+  if f_args is None:
+    f_args = []
 
   #Read in the yaml file
   allobjs=objtype.all_from_yaml(cmdline.params_yaml)
@@ -226,6 +238,11 @@ def run_cmd_line(program_description,input_file_description,objtype,process_func
   #Process documents
   for obj in allobjs:
     #Is this document selected? (if no selection list provided, process all documents)
-    if cmdline.select is None or getattr(doc,selattr,None) in selitems:
-      process_function(obj)
+    selected=True
+    for selattr,allowed in requirements.items():
+       selected = selected and (getattr(obj,selattr,None) in allowed)
+       if not selected:
+         break
+    if selected:
+      process_function(obj,*f_args)
 

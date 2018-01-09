@@ -6,6 +6,7 @@
 - module to generate .xml files from .msh, based on yaml
 - top-level solver module: find and run the appropriate solver, based on yaml
 - run post-processing tasks in a yaml file, which also specifies the folder where the models can be found (this is a new parameter for that file)
+- solver extraction functions and post-processing need updates for new MeshParameters structure
 
 _FEATURE_ 2D mesh generation
 
@@ -136,6 +137,20 @@ That just has some consequences of its own.
 Yes, this means two separate loadings of the document.
 But we taught these objects to load themselves from yaml for a reason.
 
+Now we get to the real problem: loading meshparameters for each model.
+It's inefficient to do it one model at a time, reloading all the meshes in the specified file each time.
+It's slow enough already.
+That's what got us into loading all the meshes needed by all the models first,
+and storing them in a dictionary.
+(This is a time-memory tradeoff.)
+
+One way to do this is to have the entry point function accept not just one object,
+but the generator itself. As originally planned.
+But this is where the conflict with doit happens.
+Each object needs its own task.
+
+Another way is to memoize (or, really, just cache) the results of the mesh parameter file loading.
+
 _FEATURE_ doit tasks for parameter generation
 But other tasks are generated based on reading the output of parameter generation tasks.
 
@@ -184,6 +199,8 @@ which is rendered using the info dictionary itself.
 
 Just like with a legend, the challenge will be where (and how) to locate this.
 
+_TODO_ replace 'from folderstructure import \*'
+This is challenging, because you have to search multiple files for the strings therein.
 
 _TODO_ find a way to get coordinates of the surface normal used in a flux calculation
 The notebook dated 2017-11-06 is where I was working on this before.

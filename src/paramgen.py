@@ -167,7 +167,6 @@ def do_gendoc_gen(gendoc):
 
 #Support command-line arguments
 if __name__ == '__main__':
-  #Process command-line arguments
   program_description='Create parameter files'
   input_file_description="""File defining the parameter files to be generated
   This is a potentially multi-doc yaml file, where each document specifies one multi-doc yaml file to generate.

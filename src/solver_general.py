@@ -12,6 +12,7 @@ import numpy as np
 #Local
 from folderstructure import *
 import useful
+import buildgeom
 import plotdata
 
 #fenics version check
@@ -55,6 +56,25 @@ def List_Mesh_Input_Files(meshname,basedir):
   surface_xml=osp.join(xmlfolder,basedir,meshname+'_facet_region.xml')
   volume_xml=osp.join(xmlfolder,basedir,meshname+'_physical_region.xml')
   return mesh_xml, surface_xml, volume_xml
+
+loaded_meshfiles=[]
+loaded_meshes={}
+def complete_by_ModelParameters(modelparams,solverclasses):
+  """Run a model, given only its modelparameters object.
+  Arguments:
+    modelparams=ModelParameters instance
+    solverclasses = dictionary of solver classes: {equation name: instance of a subclass of GenericSolver}"""
+  #Load the mesh file if not already loaded
+  if not modelparams.meshparamsfile in loaded_meshfiles:
+    meshparams_fpath=osp.join(params_mesh_folder,modelparams.meshparamsfile)
+    meshparams_gen=buildgeom.MeshParameters.all_from_yaml(meshparams_fpath)
+    for mp in meshparams_gen:
+      loaded_meshes[mp.meshname]=mp
+    loaded_meshfiles.append(modelparams.meshparamsfile)
+  #Get the requested mesh
+  meshparams=loaded_meshes[modelparams.meshname]
+  #Run the solver
+  solverclasses[modelparams.equation].complete(modelparams,meshparams)
 
 class GenericSolver:
   """A generic solver, to be subclassed by solvers for the specific equations
