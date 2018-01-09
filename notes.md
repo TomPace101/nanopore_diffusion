@@ -1,11 +1,13 @@
 
-# Code/Misc
 
-_TODO_ code from notebooks into modules
-- time-domain Fickian?
-- steady-state PNP?
-- time-domain PNP w/o reactions?
-- time-domain PNP with reactions
+# Refactoring
+
+- set up git branch for current approach
+- revision to buildgeom command line
+- module to generate .msh files from .geo, based on yaml
+- module to generate .xml files from .msh, based on yaml
+- top-level solver module: find and run the appropriate solver, based on yaml
+- run post-processing tasks in a yaml file, which also specifies the folder where the models can be found (this is a new parameter for that file)
 
 _FEATURE_ 2D mesh generation
 
@@ -42,19 +44,7 @@ but really that already only works for body-cen2.yaml.
 Eventually, we will need a test problem for this.
 (Should probably use Fickian solver.)
 
-_ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
-Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
-
-_ISSUE_ figure out a way to get t=0 into the same VTK file as the other timesteps
-
-_FEATURE_ scaling factor on x and y values to do unit conversions
-
-_FEATURE_ add metadata text to model plots
-a text box consisting of strings using a template,
-which is rendered using the info dictionary itself.
-(So the template should use the names.)
-
-Just like with a legend, the challenge will be where (and how) to locate this.
+_TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
 _ISSUE_ doit tasks can't generate meshes when there are no models
 This was kind of as intended: it only generates meshes that are needed.
@@ -180,13 +170,36 @@ And it would cause file dates to reflect last run,
 not necessarily the last time something actually changed.
 (Though you shouldn't always count on that anyway.)
 
+
+
+# Code/Misc
+
+_TODO_ code from notebooks into modules
+- time-domain Fickian?
+- steady-state PNP?
+- time-domain PNP w/o reactions?
+- time-domain PNP with reactions
+
+_ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
+Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
+
+_ISSUE_ figure out a way to get t=0 into the same VTK file as the other timesteps
+
+_FEATURE_ scaling factor on x and y values to do unit conversions
+
+_FEATURE_ add metadata text to model plots
+a text box consisting of strings using a template,
+which is rendered using the info dictionary itself.
+(So the template should use the names.)
+
+Just like with a legend, the challenge will be where (and how) to locate this.
+
+
 _TODO_ find a way to get coordinates of the surface normal used in a flux calculation
 The notebook dated 2017-11-06 is where I was working on this before.
 
 _TODO_ complete the "test" analysis, even without middle surface
 That is, run a face-centered model somewhere, even without the middle surface.
-
-_TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
