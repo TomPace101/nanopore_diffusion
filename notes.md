@@ -141,9 +141,25 @@ For that matter, command line execution should be more consistent as well.
 - the entry point converts namespaces to objects
 - delete the list of namespaces
 
-The way to do this is probably to get the command line stuff working first,
-breaking doit.
-Then fix doit.
+Actually, we should just use the native objects from loading the yaml (ie dictionaries) instead of namespaces.
+And should it be that the entry point does only a single task?
+The command line calls the entry point once for each document to process, with the dictionary as the only argument.
+Doit:
+- loops over the steps (the modules that are runnable from the command line), and in each step
+- loops over the filenames in control.yaml, and for each filename
+- sees if there is such a file for this step, and if so
+- it loads all the documents,
+- sees which ones are out of date, and for each of those
+- creates tasks which call the entry point with the document dictionary
+
+And you know, we could actually still use the appropriate objects,
+if for meshparameters we just created a new parent attribute for the geometric parameter values.
+That just has some consequences of its own.
+- parameter generation changes (fairly minor)
+- post-processing changes (somewhat extensive, but easy to find)
+
+Yes, this means two separate loadings of the document.
+But we taught these objects to load themselves from yaml for a reason.
 
 _FEATURE_ doit tasks for parameter generation
 But other tasks are generated based on reading the output of parameter generation tasks.
