@@ -183,20 +183,12 @@ solverclasses={'smol_unhomog':SUSolver}
 
 #Support command-line arguments
 if __name__ == '__main__':
-  #Process command-line arguments
-  parser = argparse.ArgumentParser(description='Solve the unhomogenized Smoluchowski diffusion equation with fenics')
-  parser.add_argument('model_params_file', help='filename (not complete path) containing ModelParameters definitions')
-  cmdline=parser.parse_args()
-  assert osp.isfile(cmdline.model_params_file), "Model parameter definition file does not exist: %s"%(cmdline.model_params_file)
-
-  #Get all models to solve, and all their meshes
-  allmodels,modelfiles,allmeshes,meshfiles=solver_general.GetAllModelsAndMeshes([cmdline.model_params_file])
-
-  #Run each requested analysis
-  for modelparams in allmodels.values():
-    #Only do analyses with equations supported by this module
-    if modelparams.equation in solverclasses.keys():
-      meshparams=allmeshes[modelparams.meshname]
-      solver=solverclasses[modelparams.equation].complete(modelparams,meshparams)
-      ##TODO: uncomment the above, and delete these two lines
-      ##solver=solverclasses[modelparams.equation](modelparams,meshparams)
+  program_description='Solve the unhomogenized Smoluchowski diffusion equation with fenics'
+  input_file_description='Path to file containing ModelParameters definitions'
+  other_selection={'equation':solverclasses.keys()}
+  
+  useful.run_cmd_line(program_description,input_file_description,
+    solver_general.ModelParameters,
+    solver_general.complete_by_ModelParameters,
+    other_selection,
+    [solverclasses])

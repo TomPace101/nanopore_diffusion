@@ -187,7 +187,7 @@ def geo_from_MeshParams(params):
 #Support command-line arguments
 if __name__ == '__main__':
   program_description='Create gmsh .geo file(s)'
-  input_file_description="""Parameter definition file for the mesh
+  input_file_description="""Path to parameter definition file for the mesh
     This is a potentially multi-doc yaml file, where each document specifies one mesh to generate.
     Each document must provide the attributes for an instance of the MeshParameters class,
     or a subclass thereof appropriate for the specified geometry defintion."""

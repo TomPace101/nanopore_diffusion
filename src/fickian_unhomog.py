@@ -72,7 +72,7 @@ solverclasses={'fickian_unhomog':UnhomogFickianSolver}
 #Support command-line arguments
 if __name__ == '__main__':
   program_description='Solve the unhomogenized fickian diffusion equation with fenics'
-  input_file_description='filename (not complete path) containing ModelParameters definitions'
+  input_file_description='Path to file containing ModelParameters definitions'
   other_selection={'equation':solverclasses.keys()}
   
   useful.run_cmd_line(program_description,input_file_description,
