@@ -59,7 +59,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - paramgen.py: code for generating parameter sets from templates and input data
     - gen_params: folder for python scripts to generate various parameter definition files
 - data: input and output data from FEM analysis
-    - control.yaml: list of model files (located in params/model) to run
+    - control.yaml: list of analyses to be run with `doit` (see description below)
     - mesh: data for mesh generation using `gmsh`
         - geomdef: geometry defintion files as inputs to mesh generation
         - templates: `jinja2` templates of `gmsh` .geo files
@@ -88,6 +88,11 @@ in order to run analyses or generate the problem description document.
 And in some cases, the descriptions have been revised after the hash was generated.
 The mapping between the current analysis descriptions and the
 hashes is stored in `src/params/hashes.yaml`.
+
+# Usage
+
+__TODO__
+- describe control.yaml and how it works with doit
 
 # Contacts
 

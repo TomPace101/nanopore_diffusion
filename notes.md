@@ -4,18 +4,9 @@
 
 - module to generate .msh files from .geo, based on yaml
 - module to generate .xml files from .msh, based on yaml
+- let objects provide their own info needed by doit tasks in a standard structure
 - modify dodo.py and the various task_ files to use the new approach, reusing (after extracting out) code from the command-line version where possible
-
-_FEATURE_ 2D mesh generation
-
-Also note that body-centered.yaml says to use body-centered.geo.jinja2,
-but really that already only works for body-cen2.yaml, because it has a Z5.
-
-Eventually, we will need a test problem for this.
-(Should probably use Fickian solver.)
-
-And then we'll need a new gmsh .geo template file.
-Currently, mesh.yaml.jinja2 is specific to the nanopore geometry.
+  - I started these changes, then realized I wasn't quite ready yet
 
 _TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
@@ -37,6 +28,30 @@ control.yaml contains a list of either model or mesh (and maybe even postproc or
 You run the ones that exist, and don't complain about the ones that don't.
 (Unless no files are found; then you should issue a warning.)
 That seems like it could cause errors: a typo in a filename wouldn't be as detectable.
+
+_FEATURE_ doit tasks for parameter generation
+But other tasks are generated based on reading the output of parameter generation tasks.
+
+doit has a way to resolve this, of course:
+http://pydoit.org/task_creation.html#delayed-task-creation
+
+That doesn't completely resolve the issue:
+the code that generates the other tasks is outside any task function.
+So even if the other tasks happen after parameter generation,
+the parameters for them have already been read in.
+
+Perhaps there could be a task to populate those global parameters
+(that is, outside tasks they initialize empty, and tasks fill them in),
+which is delayed until after parameter generation.
+The other tasks are delayed until after population.
+
+Or maybe it doesn't need to be a task at all.
+Maybe you just include the code to generate the parameters as 'always execute'
+in the dodo file, then generate the tasks.
+This is somewhat wasteful because parameter generation could take time.
+And it would cause file dates to reflect last run,
+not necessarily the last time something actually changed.
+(Though you shouldn't always count on that anyway.)
 
 __ISSUE__ Some of the current problems suggest we are too tightly coupled to doit.
 - The changes needed for 2D geometry
@@ -158,30 +173,26 @@ rather than having to duplicate the same code.
 Maybe these should even be methods of the objects.
 For example, the PlotFigure objects have locate_data methods.
 
-_FEATURE_ doit tasks for parameter generation
-But other tasks are generated based on reading the output of parameter generation tasks.
+What do they need to provide:
+- a dictionary of their file dependencies, with useful keys: file_dep
+- a dictionary of their targets, with useful keys: targets
+- a name that could be used for a task name (maybe we already have this, just use the modelname, meshname, etc.)
+- a method that can be used as an action: run
+- you don't need anything for uptodate: just convert the object itself to a string
 
-doit has a way to resolve this, of course:
-http://pydoit.org/task_creation.html#delayed-task-creation
+The "run" method might obviate the need for some of the functions I created today.
+That is, that code might be better as a method in some cases.
 
-That doesn't completely resolve the issue:
-the code that generates the other tasks is outside any task function.
-So even if the other tasks happen after parameter generation,
-the parameters for them have already been read in.
-
-Perhaps there could be a task to populate those global parameters
-(that is, outside tasks they initialize empty, and tasks fill them in),
-which is delayed until after parameter generation.
-The other tasks are delayed until after population.
-
-Or maybe it doesn't need to be a task at all.
-Maybe you just include the code to generate the parameters as 'always execute'
-in the dodo file, then generate the tasks.
-This is somewhat wasteful because parameter generation could take time.
-And it would cause file dates to reflect last run,
-not necessarily the last time something actually changed.
-(Though you shouldn't always count on that anyway.)
-
+So a typical doit task definition would look like:
+{'name': X.xname,
+ 'file_dep': list(X.file_dep.values()),
+ 'uptdodate': config_changed(str(X)),
+ 'targets': list(X.targets.values()),
+ 'actions': [(X.run,)]}
+ 
+In fact, maybe the objects can just return their own doit task definition.
+Except that meshparameters needs 3, not 1.
+Or, we create new objects and use those, but they are read from the same yaml file.
 
 
 # Code/Misc
@@ -191,6 +202,17 @@ _TODO_ code from notebooks into modules
 - steady-state PNP?
 - time-domain PNP w/o reactions?
 - time-domain PNP with reactions
+
+_FEATURE_ 2D mesh generation
+
+Also note that body-centered.yaml says to use body-centered.geo.jinja2,
+but really that already only works for body-cen2.yaml, because it has a Z5.
+
+Eventually, we will need a test problem for this.
+(Should probably use Fickian solver.)
+
+And then we'll need a new gmsh .geo template file for parameter generation.
+Currently, mesh.yaml.jinja2 is specific to the nanopore geometry.
 
 _ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
 Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
