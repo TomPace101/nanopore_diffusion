@@ -6,6 +6,7 @@
 #Post-processing specification
 #Each document defines an instance of postproc.PostProcParameters
 ---
+modelparamsfile: debug.yaml
 modelnames: [debug01]
 model_plots:
   - &modelplotdef
@@ -26,6 +27,7 @@ model_plots:
     figsize: [9, 7]
     filename: fick_profile_CL_c.png
 ---
+modelparamsfile: debug.yaml
 modelnames: [debug02]
 model_plots:
   - &plot1def

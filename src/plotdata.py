@@ -185,11 +185,13 @@ class ModelPlotFigure(PlotFigure):
     
     #Load the info
     self.info=useful.readyaml(self.datafiles['infofile'])
+    #Promote mesh paramater values to direct entries of meshparams
+    self.info['meshparams'].update(self.info['meshparams']['tmplvalues'])
     
     return
 
   def prep_porelimits(self):
-    self.info['meshparams']['poretop_z']=self.info['meshparams']['H']+self.info['meshparams']['tm']
+    self.info['meshparams']['poretop_z']=self.info['meshparams']['tmplvalues']['H']+self.info['meshparams']['tmplvalues']['tm']
 
 class CollectionPlotFigure(PlotFigure):
   """Data for a single collection plot

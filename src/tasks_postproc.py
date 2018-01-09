@@ -18,12 +18,9 @@ def enter_debugger():
   from doit import tools
   tools.set_trace()
 
-def get_df_fname(basename):
-  return osp.join(postprocfolder,basename,collect_results.collected_df_fname)
-
 def do_collection(basename,model_list,exclusions):
   infiles=collect_results.list_inputfiles(basename,model_list)
-  outfpath=get_df_fname(basename)
+  outfpath=postproc.get_df_fname(basename)
   tdef = {'name': basename+":collection",
           'file_dep':infiles+[collect_results.__file__],
           'targets':[outfpath],

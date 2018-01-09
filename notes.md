@@ -4,10 +4,9 @@
 
 - module to generate .msh files from .geo, based on yaml
 - module to generate .xml files from .msh, based on yaml
-- top-level solver module: find and run the appropriate solver, based on yaml
 - run post-processing tasks in a yaml file, which also specifies the folder where the models can be found (this is a new parameter for that file)
 - post-processing need updates for new MeshParameters structure
-- modify dodo.py and the various task_ files to use the new approach
+- modify dodo.py and the various task_ files to use the new approach, reusing (after extracting out) code from the command-line version where possible
 
 _FEATURE_ 2D mesh generation
 
@@ -151,6 +150,13 @@ But this is where the conflict with doit happens.
 Each object needs its own task.
 
 Another way is to memoize (or, really, just cache) the results of the mesh parameter file loading.
+
+So here's how duplicate code between the command-line and doit versions happens:
+They each need the same information (input file locations, parameters, output files)
+but they do different things with them.
+So we need to create little functions to generate these things.
+That way, both doit and the command line can call the same functions,
+rather than having to duplicate the same code.
 
 _FEATURE_ doit tasks for parameter generation
 But other tasks are generated based on reading the output of parameter generation tasks.
