@@ -8,7 +8,6 @@
 ## TODO: validation of geometric inputs (different formulas for different geometries)
 
 #Standard library
-import argparse
 import os
 import os.path as osp
 

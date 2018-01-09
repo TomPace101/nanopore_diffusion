@@ -100,11 +100,12 @@ class GenericSolver:
     self.modelparams=modelparams
     self.meshparams=meshparams
 
-    #Initialize output attributes
+    #Initialize output attributes and intermediates
     self.results={}
     self.info=self.modelparams.to_dict()
     self.info['meshparams']=self.meshparams.to_dict()
     self.outdata=OutData(plots={})
+    self.tmplvalues=self.meshparams.tmplvalues
 
   def loadmesh(self):
     """Load the mesh from the usual file locations"""
@@ -257,10 +258,10 @@ class GenericSolver:
     New item added to results dictionary.
     No return value.
     No output files."""
-    quarter_area = self.meshparams.Lx * self.meshparams.Ly
-    samples=[self.soln(0,0,zv) for zv in [self.meshparams.H, self.meshparams.H + self.meshparams.tm]]
+    quarter_area = self.tmplvalues['Lx'] * self.tmplvalues['Ly']
+    samples=[self.soln(0,0,zv) for zv in [self.tmplvalues['H'], self.tmplvalues['H'] + self.tmplvalues['tm']]]
     delta=samples[1]-samples[0]
-    Deff=float(self.results[totflux_name]/quarter_area*self.meshparams.tm/delta)
+    Deff=float(self.results[totflux_name]/quarter_area*self.tmplvalues['tm']/delta)
     self.results[name]=Deff
     return
 
@@ -274,7 +275,7 @@ class GenericSolver:
     New item added to results dictionary.
     No return value.
     No output files."""
-    self.results[name]=np.pi*self.meshparams.R**2/(4*self.meshparams.Lx*self.meshparams.Ly)
+    self.results[name]=np.pi*self.tmplvalues['R']**2/(4*self.tmplvalues['Lx']*self.tmplvalues['Ly'])
     return
 
   def profile_centerline(self,spacing,plotname,label,attrname='soln'):
@@ -295,7 +296,7 @@ class GenericSolver:
     #Get the object with the data
     vals=getattr(self,attrname)
     #Extract data points
-    zr=np.arange(0, 2*self.meshparams.H + self.meshparams.tm, spacing)
+    zr=np.arange(0, 2*self.tmplvalues['H'] + self.tmplvalues['tm'], spacing)
     zlist=[]
     vlist=[]
     for z in zr:
@@ -331,12 +332,12 @@ class GenericSolver:
     #Get the object with the data
     vals=getattr(self,attrname)
     #Extract data points
-    zval=self.meshparams.H + self.meshparams.tm/2 #mid-height
+    zval=self.tmplvalues['H'] + self.tmplvalues['tm']/2 #mid-height
     rads=np.radians(theta)
     cos=np.cos(rads)
     sin=np.sin(rads)
     tree=self.mesh.bounding_box_tree()
-    rrange=np.arange(0,self.meshparams.R+spacing,spacing)
+    rrange=np.arange(0,self.tmplvalues['R']+spacing,spacing)
     rlist=[]
     vlist=[]
     tuplist=[]

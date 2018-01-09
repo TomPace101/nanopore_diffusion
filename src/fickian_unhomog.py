@@ -2,7 +2,6 @@
 #and extract the data needed for post-processing efforts
 
 #Standard library
-import argparse
 import os
 import os.path as osp
 
