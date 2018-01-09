@@ -43,6 +43,9 @@ but really that already only works for body-cen2.yaml.
 Eventually, we will need a test problem for this.
 (Should probably use Fickian solver.)
 
+And then we'll need a new gmsh .geo template file.
+Currently, mesh.yaml.jinja2 is specific to the nanopore geometry.
+
 _TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
 _ISSUE_ doit tasks can't generate meshes when there are no models

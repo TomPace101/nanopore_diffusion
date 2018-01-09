@@ -1,5 +1,4 @@
 #Define properties specific to the 2D slot geometry template
-geomident: slot2d
 dimensions: 2
 
 tmplfile: slot2d.geo.jinja2

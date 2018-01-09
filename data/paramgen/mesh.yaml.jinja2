@@ -9,12 +9,13 @@
 ---
 meshname: {{ '%s_mesh_%03d'|format(fields.hrhash, fields.counter) }}
 geomdef: {{ fields.geomdef }}
-mscale: {{ fields.mscale }}
-mcarh: {{ fields.mcarh }}
-mcarl: {{ fields.mcarl }}
-Lx: {{ fields.Lx }}
-Ly: {{ fields.Ly }}
-R: {{ fields.R }}
-H: {{ fields.H }}
-tm: {{ fields.tm }}
+tmplvalues:
+  mscale: {{ fields.mscale }}
+  mcarh: {{ fields.mcarh }}
+  mcarl: {{ fields.mcarl }}
+  Lx: {{ fields.Lx }}
+  Ly: {{ fields.Ly }}
+  R: {{ fields.R }}
+  H: {{ fields.H }}
+  tm: {{ fields.tm }}
 {% endfor %}

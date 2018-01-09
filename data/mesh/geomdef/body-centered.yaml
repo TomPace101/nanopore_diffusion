@@ -1,5 +1,4 @@
 #Define properties specific to the body-centered geometry template
-geomident: body_centered_old
 dimensions: 3
 
 tmplfile: body-centered.geo.jinja2

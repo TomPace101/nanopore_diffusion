@@ -27,15 +27,14 @@ class MeshParameters(useful.ParameterSet):
     geomdef = stem name of the geometry defintion yaml file (such as body-centered.yaml or face-centered.yaml)
       The geometry definition yaml file stores the attributes of a GeometryDefinition instance
       This file is specific to the jinja2 template used to generate the .geo file.
-    Lx, Ly, R, H, tm = physical dimensions in the geometry
-    mscale, mcarh, mcarl = mesh density parameters"""
-  __slots__=('meshname','geomdef','Lx','Ly','R','H','tm','mscale','mcarh','mcarl')
+    tmplvalues = dictionary of physical dimensions, mesh density parameters, etc
+      Note that the geometry definition file contains a list of the variables that must be defined in this dictionary."""
+  __slots__=('meshname','geomdef','tmplvalues')
 
 class GeometryDefinition(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
   These parameter files are usually stored in the location specified by folderstructure.geomdef_folder.
   Attributes:
-    geomident = string usable as python identifier (e.g. must start with letter, no dashes, etc.) for geometry-specific parameters class
     dimensions = number of spatial dimensions (i.e. 2 for 2D mesh, 3 for 3D mesh)
     tmplfile = geometry template file, usually stored in the location specified by folderstructure.geotemplates_folder.
     tmplvars = mesh parameter variables needed by the geometry template file
@@ -43,7 +42,7 @@ class GeometryDefinition(useful.ParameterSet):
     geomtable = mapping of surfaces to sequence points
     surfloops = mapping of surface loops to sequence of surfaces
     nonplanar = list of surfaces that are not planar surfaces"""
-  __slots__=('geomident','dimensions','tmplfile','tmplvars','ptdict','geomtable','surfloops','nonplanar')
+  __slots__=('dimensions','tmplfile','tmplvars','ptdict','geomtable','surfloops','nonplanar')
 
 #From mapping of surfaces to points, generate:
 # - mapping of loops to line and circle names
@@ -87,8 +86,13 @@ def prepare_template_input(geom, paramdef):
   Returns:
     t_input = the input dictionary for the template"""
     
+  #Check that the necessary variables are defined
+  missing=[var for var in geom.tmplvars if not var in paramdef.tmplvalues.keys()]
+  extra=[var for var in paramdef.tmplvalues.keys() if not var in geom.tmplvars]
+  assert len(missing)==0 and len(extra)==0, "Missing or extra template variables. missing=%s extra=%s"%(str(missing),str(extra))
+  
   #Put geometric and mesh refinement parameters into template input
-  t_input=dict((k,getattr(paramdef,k)) for k in geom.tmplvars)
+  t_input=dict(paramdef.tmplvalues)
   
   #Put dimensions into mesh
   t_input['dimensions']=geom.dimensions
@@ -172,22 +176,37 @@ def process_mesh_params(params):
   geofile=osp.join(geofolder,params.basename,params.meshname+'.geo') #.geo file
   return geomyaml, geomdef, geofile
 
+def geo_from_MeshParams(params):
+  """Generate the gmsh .geo file from the specified MeshParams
+  Inputs:
+    params = as MeshParameters instance
+  No return value."""
+  geomyaml, geomdef, geofile = process_mesh_params(params)
+  print(geofile)
+  write_one_geo(geomdef, params, geofile)
+
 #Support command-line arguments
 if __name__ == '__main__':
   #Process command-line arguments
-  mesh_params_docstring="""parameter definition file for the mesh
-  This is a potentially multi-doc yaml file, where each document specifies one mesh to generate.
-  Each document must provide the attributes for an instance of the MeshParameters class."""
   parser = argparse.ArgumentParser(description='Create gmsh .geo file(s)')
-  parser.add_argument('mesh_params_yaml', help=mesh_params_docstring)
+  parser.add_argument('params_yaml', help="""Parameter definition file for the mesh
+    This is a potentially multi-doc yaml file, where each document specifies one mesh to generate.
+    Each document must provide the attributes for an instance of the MeshParameters class,
+    or a subclass thereof appropriate for the specified geometry defintion.""")
+  parser.add_argument('--select',nargs="+",help="""Only process selected elements of the yaml file
+    This option must be followed by an attribute name, and then a sequence of values for that attribute.
+    Only those entries in the yaml file where the attribute matches one of these values will be processed.""")
   cmdline=parser.parse_args()
-  assert osp.isfile(cmdline.mesh_params_yaml), "Mesh parameter definition file does not exist: %s"%cmdline.mesh_params_yaml
+  assert osp.isfile(cmdline.params_yaml), "Mesh parameter definition file does not exist: %s"%cmdline.mesh_params_yaml
+  if cmdline.select is not None:
+    selattr=cmdline.select[0]
+    selitems=cmdline.select[1:]
 
   #Read in the yaml file
-  meshruns=MeshParameters.all_from_yaml(cmdline.mesh_params_yaml)
+  allobjs=MeshParameters.all_from_yaml(cmdline.params_yaml)
   
-  #Generate each requested .geo file
-  for params in meshruns:
-    geomyaml, geomdef, geofile = process_mesh_params(params)
-    print(geofile)
-    write_one_geo(geomdef, params, geofile)
+  #Process documents
+  for obj in allobjs:
+    #Is this document selected? (if no selection list provided, process all documents)
+    if cmdline.select is None or getattr(doc,selattr,None) in selitems:
+      geo_from_MeshParams(obj)

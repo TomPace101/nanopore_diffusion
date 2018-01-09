@@ -1,7 +1,6 @@
 #Define properties specific to the body-centered geometry template
 #This is the version for breaking the geometry up into two separate volumes,
 #so we can use the internal boundary between them.
-geomident: body_centered2
 dimensions: 3
 
 tmplfile: body-centered.geo.jinja2

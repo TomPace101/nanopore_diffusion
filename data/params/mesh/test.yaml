@@ -10,22 +10,24 @@
 ---
 meshname: test-body
 geomdef: body-centered
-mscale: 1.0
-mcarh: 1.0
-mcarl: 5.0
-Lx: 10
-Ly: 7.5
-R: 2.5
-H: 50
-tm: 75
+tmplvalues:
+  mscale: 1.0
+  mcarh: 1.0
+  mcarl: 5.0
+  Lx: 10
+  Ly: 7.5
+  R: 2.5
+  H: 50
+  tm: 75
 ---
 meshname: test-face
 geomdef: face-centered
-mscale: 1.0
-mcarh: 1.0
-mcarl: 5.0
-Lx: 10
-Ly: 7.5
-R: 2.5
-H: 50
-tm: 75
+tmplvalues:
+  mscale: 1.0
+  mcarh: 1.0
+  mcarl: 5.0
+  Lx: 10
+  Ly: 7.5
+  R: 2.5
+  H: 50
+  tm: 75
