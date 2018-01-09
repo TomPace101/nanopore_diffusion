@@ -12,7 +12,7 @@ import os.path as osp
 #Site packages
 
 #Local
-from folderstructure import *
+import folderstructure
 import useful
 import tasks_mesh
 import tasks_solver
@@ -21,18 +21,50 @@ import tasks_postproc
 #Constants
 controlfile=osp.join(datafolder,'control.yaml')
 
-#Read in all the models and meshes
+#Read in the files for processing
 infile_list=useful.readyaml(controlfile)
-modelparams_filelist=[osp.join(params_model_folder,fn) for fn in infile_list]
-allmodels,modelfiles,allmeshes,meshfiles=tasks_solver.GetAllModelsAndMeshes(modelparams_filelist)
+
+def loadobjs(indir,fname,objtype):
+  infpath = osp.join(indir,fname)
+  if osp.isfile(infpath):
+    gen=objtype.all_from_yaml(infpath)
+  else:
+    gen=[]
+  return gen
+
+#Parameter generation tasks
+##TODO
 
 #Mesh tasks
 def task_make_mesh():
-  #Set up tasks for each mesh
-  for meshparams in allmeshes.values():
-    yield tasks_mesh.create_geo(meshparams)
-    yield tasks_mesh.create_msh(meshparams)
-    yield tasks_mesh.create_xml(meshparams)
+  for fn in infile_list:
+    meshes=loadobjs(folderstructure.params_mesh_folder,fn,buildgeom.MeshParameters): ##TODO: import buildgeom, or move this?
+    for meshparams in meshes:
+      ##TODO: these don't use new methods yet
+      yield tasks_mesh.create_geo(meshparams)
+      yield tasks_mesh.create_msh(meshparams)
+      yield tasks_mesh.create_xml(meshparams)
+
+#Solver tasks
+def task_solve():
+  for fn in infile_list:
+    models=loadobjs(folderstructure.params_model_folder,fn,solver_general.ModelParameters)
+    for modelparams in models:
+      ##TODO
+      pass
+
+#Post-processing tasks
+##TODO
+
+
+
+
+##------------------------------------------------------------------------------
+##TODO: everything below here is old and should be deleted
+
+
+modelparams_filelist=[osp.join(params_model_folder,fn) for fn in infile_list]
+allmodels,modelfiles,allmeshes,meshfiles=tasks_solver.GetAllModelsAndMeshes(modelparams_filelist)
 
 #Solver tasks
 def task_solve():
