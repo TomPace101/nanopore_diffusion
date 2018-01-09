@@ -2,7 +2,6 @@
 
 # Refactoring
 
-- revision to buildgeom command line
 - module to generate .msh files from .geo, based on yaml
 - module to generate .xml files from .msh, based on yaml
 - top-level solver module: find and run the appropriate solver, based on yaml
@@ -10,35 +9,8 @@
 
 _FEATURE_ 2D mesh generation
 
-Now, the meshparameters will be different.
-Which means we need a new MeshParameters object,
-or for it not to use slots anymore.
-Which would mean there would need to be a class like useful.ParameterSet that can read itself from yaml without slots.
-
-Both of those issues seem to have the same solution.
-The geometry-specific parameters need to be specified in the geometry definition yaml file.
-Then, when you instantiate the MeshParameters,
-you create a class that adds those to its slots.
-The more general MeshParameters now only has 'meshname' and 'geomdef' slots.
-Note this requires a dynamically generated class:
-https://docs.python.org/3/library/types.html
-Or maybe https://docs.python.org/3/library/functions.html#type
-To make it with __slots__:
-https://stackoverflow.com/questions/29780433/dynamic-class-creation-with-type-and-slots
-
-But now we have a chicken and egg problem.
-We load the mesh parameters, which tells us where to find the geometry definition.
-But then the geometry definition tells us how to properly load the mesh parameters.
-Solution: load mesh parameters as a namespace initially,
-then generate the class, then load the class from the namespace.
-That works when calling buildgeom directly, but it doesn't work with the doit workflow.
-
-Also, "lattice" can be part of a more general meshparams object,
-but it needs to be changed to something like "geomdef" as really it tells you what geometry definition file to use.
-I've tried to change this in the code, but the mesh parameters need to be regenerated now.
-
 Also note that body-centered.yaml says to use body-centered.geo.jinja2,
-but really that already only works for body-cen2.yaml.
+but really that already only works for body-cen2.yaml, because it has a Z5.
 
 Eventually, we will need a test problem for this.
 (Should probably use Fickian solver.)
