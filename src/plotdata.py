@@ -185,7 +185,7 @@ class ModelPlotFigure(PlotFigure):
     
     #Load the info
     self.info=useful.readyaml(self.datafiles['infofile'])
-    #Promote mesh paramater values to direct entries of meshparams
+    #Promote mesh parameter values to direct entries of meshparams
     self.info['meshparams'].update(self.info['meshparams']['tmplvalues'])
     
     return

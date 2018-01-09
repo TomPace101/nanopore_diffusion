@@ -4,8 +4,6 @@
 
 - module to generate .msh files from .geo, based on yaml
 - module to generate .xml files from .msh, based on yaml
-- run post-processing tasks in a yaml file, which also specifies the folder where the models can be found (this is a new parameter for that file)
-- post-processing need updates for new MeshParameters structure
 - modify dodo.py and the various task_ files to use the new approach, reusing (after extracting out) code from the command-line version where possible
 
 _FEATURE_ 2D mesh generation
@@ -157,6 +155,8 @@ but they do different things with them.
 So we need to create little functions to generate these things.
 That way, both doit and the command line can call the same functions,
 rather than having to duplicate the same code.
+Maybe these should even be methods of the objects.
+For example, the PlotFigure objects have locate_data methods.
 
 _FEATURE_ doit tasks for parameter generation
 But other tasks are generated based on reading the output of parameter generation tasks.
