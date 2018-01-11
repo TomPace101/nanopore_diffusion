@@ -161,9 +161,13 @@ class ParameterGenerator(useful.ParameterSet):
     with open(outfpath,'w') as fp:
       fp.write(doc)
 
+  def run(self):
+    self.do_generation()
+    print("%s: %d documents"%(self.outfile,self.num_generated))
+
+##TEMP: delete me once useful.run_cmd_line has been refactored
 def do_gendoc_gen(gendoc):
-  gendoc.do_generation()
-  print("%s: %d documents"%(gendoc.outfile,gendoc.num_generated))
+  gendoc.run()
 
 #Support command-line arguments
 if __name__ == '__main__':

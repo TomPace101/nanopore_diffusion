@@ -184,7 +184,9 @@ The "run" method might obviate the need for some of the functions I created toda
 That is, that code might be better as a method in some cases.
 
 Maybe some of this functionality could be implemented in useful.ParamterSet.
-The memo stuff in the solver could become class (not instance) attributes.
+That is, give it slots for inputfiles and outputfiles, and initialize them as dictionaries.
+Maybe they should be properties, so that they can be computed when needed?
+Or should they be loaded at initialization?
 
 So a typical doit task definition would look like:
 {'name': X.xname,
@@ -194,9 +196,30 @@ So a typical doit task definition would look like:
  'actions': [(X.run,)]}
  
 In fact, maybe the objects can just return their own doit task definition.
-Except that meshparameters needs 3, not 1.
+Except that meshparameters needs 3 tasks, not 1.
 Or, we create new objects and use those, but they are read from the same yaml file.
 
+Also, .geo files aren't built from one object, but two:
+- MeshParameters
+- GeometryDefinition
+So maybe there needs to be a single object that has both of them as attributes?
+Or maybe MeshParameters needs to allow a GeometryDefinition as a child attribute.
+
+Useful.run_cmd_line then would no longer need a function to call.
+It could just call the run method of the object it is passed.
+
+Except that wouldn't quite work for buildgeom.
+Unless MeshParameter WAS the object that was run,
+and GeometryDefinition was just a child of it.
+Of course it should be.
+And the functions should be methods, usually of MeshParameters.
+
+The memo stuff in the solver could become class (not instance) attributes.
+
+But how do you run a model with a method of ModelParameters?
+The same way we are already doing it from a function:
+load the solver class and call complete on it.
+But pass it the 'as_action' argument as well.
 
 # Code/Misc
 
