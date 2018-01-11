@@ -174,8 +174,8 @@ Maybe these should even be methods of the objects.
 For example, the PlotFigure objects have locate_data methods.
 
 What do they need to provide:
-- a dictionary of their file dependencies, with useful keys: file_dep
-- a dictionary of their targets, with useful keys: targets
+- a dictionary of their file dependencies, with useful keys: inputfiles
+- a dictionary of their targets, with useful keys: outputfiles
 - a name that could be used for a task name (maybe we already have this, just use the modelname, meshname, etc.)
 - a method that can be used as an action: run
 - you don't need anything for uptodate: just convert the object itself to a string
@@ -183,11 +183,14 @@ What do they need to provide:
 The "run" method might obviate the need for some of the functions I created today.
 That is, that code might be better as a method in some cases.
 
+Maybe some of this functionality could be implemented in useful.ParamterSet.
+The memo stuff in the solver could become class (not instance) attributes.
+
 So a typical doit task definition would look like:
 {'name': X.xname,
- 'file_dep': list(X.file_dep.values()),
+ 'file_dep': list(X.inputfiles.values()),
  'uptdodate': config_changed(str(X)),
- 'targets': list(X.targets.values()),
+ 'targets': list(X.outputfiles.values()),
  'actions': [(X.run,)]}
  
 In fact, maybe the objects can just return their own doit task definition.
