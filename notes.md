@@ -4,17 +4,17 @@
 
 - let objects provide their own info needed by doit tasks in a standard structure
   - changes within useful
-    - useful.run_cmd_line should be changed to use the run method instead of a function
-    - ParameterSet.task_definition (read-only property)
-    - supporter in in ParameterSet init for \_required_attr (if present)
-    - ParameterSet.config (read-only property)
-    - ParameterSet.taskname (read-only property)
+    - DONE: useful.run_cmd_line should be changed to use the run method instead of a function
+    - DONE: ParameterSet.task_definition (read-only property)
+    - DONE: support in in ParameterSet init for \_required_attr (if present)
+    - DONE: ParameterSet.config (read-only property)
+    - DONE: ParameterSet.taskname (read-only property)
   - Load-level Attributes/properties/methods needed (see below)
     - inputfiles (read-only property)
     - outputfiles (read-only property)
     - \_required_attr (class attribute)
     - \_config_attr (class attribute)
-    - taskname_src (class attribute)
+    - \_taskname_src (class attribute)
     - run()
   - Objects needing each of these:
     - paramgen.ParameterGenerator
@@ -281,6 +281,10 @@ The default getter method will read the class attribute taskname_source,
 How do inputfiles and outputfiles work?
 Probably read-only properties again.
 But no default getter method; it's entirely class-dependent.
+
+I'm not really happy that useful must now import from doit.
+It makes doit less optional than it was before.
+I mitigated this by putting it in a try block.
 
 # Code/Misc
 

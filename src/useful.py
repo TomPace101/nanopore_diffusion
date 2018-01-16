@@ -9,6 +9,12 @@ import pickle
 
 #Site packages
 import yaml
+try:
+  from doit.tools import config_changed
+except ImportError:
+  #dummy version of config_changed to be used when doit is not available
+  def config_changed(arg):
+    return arg
 
 #Constants
 pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
@@ -18,7 +24,7 @@ pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
 
 def nested_location(obj,loc):
   """For nested dictionary obj, get item at location specified by the sequence loc
-  
+
   >>> obj={'a':{'b':{'c':11,'d':99}}}
   >>> loc=['a','b','c']
   >>> nested_location(obj,loc)
@@ -104,9 +110,13 @@ class ParameterSet:
   whose items follow the same rules."""
   __slots__=('basename',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwd):
-    ##self.__dict__.update(kwd) #This doesn't seem work well with __slots__
+    ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
     for k,v in kwd.items():
       setattr(self,k,v)
+    #Check for required attributes that are missing
+    if hasattr(self,'_required_attr'):
+      missing = [a for a in self._required_attr if not hasattr(self,a)]
+      assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
   @classmethod
   def from_yaml(cls,fpath):
     """Read ParameterSet from a yaml file.
@@ -188,11 +198,30 @@ class ParameterSet:
     Returns the Namespace."""
     return argparse.Namespace(**self.to_dict())
   ##TODO: read and write from ini file
+  #Methods supporting task definition for doit
+  @property
+  def task_definition(self):
+    """A doit task definition dictionary appropriate for processing this object."""
+    return {'name': self.taskname,
+     'file_dep': list(self.inputfiles.values()),
+     'uptdodate': config_changed(self.config()),
+     'targets': list(self.outputfiles.values()),
+     'actions': [(self.run,)]}
+  @property
+  def config(self):
+    """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
+    d=self.to_dict()
+    cd=dict([(k,v) for k,v in d.items() if k in self._config_attr])
+    return(str(cd))
+  @property
+  def taskname(self):
+    """A string representing the task name in doit"""
+    return getattr(self,self._taskname_src)
 
 #-------------------------------------------------------------------------------
 #Common command-line usage
 
-def run_cmd_line(program_description,input_file_description,objtype,process_function,other_selection=None,f_args=None):
+def run_cmd_line(program_description,input_file_description,objtype,process_method="run",other_selection=None,f_args=None):
   """Perform common command line processing.
   Many of the modules use a similar process for running from the command line:
   - read an multi-document input yaml file
@@ -206,10 +235,10 @@ def run_cmd_line(program_description,input_file_description,objtype,process_func
     objtype = type all documents in the input file should be loaded into
       This is assumed to be a subclass of ParameterSet.
       (At a minimum, it must have an all_from_yaml method)
-    process_function = function to be called with the object as its argument.
+    process_method = optional string, name of object's method to be called
     other_selection = optional dictionary with additional requirements for objects to process
       {attribute name: sequence of allowed values}
-    f_args = optional list of other positional arguments for calling the process_function
+    f_args = optional list of positional arguments for calling the process_method
   No return value."""
 
   #Parse arguments
@@ -234,7 +263,7 @@ def run_cmd_line(program_description,input_file_description,objtype,process_func
 
   #Read in the yaml file
   allobjs=objtype.all_from_yaml(cmdline.params_yaml)
-  
+
   #Process documents
   for obj in allobjs:
     #Is this document selected? (if no selection list provided, process all documents)
@@ -244,5 +273,4 @@ def run_cmd_line(program_description,input_file_description,objtype,process_func
        if not selected:
          break
     if selected:
-      process_function(obj,*f_args)
-
+      getattr(obj,process_method)(*f_args)
