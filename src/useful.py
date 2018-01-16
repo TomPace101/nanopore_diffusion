@@ -204,7 +204,7 @@ class ParameterSet:
     """A doit task definition dictionary appropriate for processing this object."""
     return {'name': self.taskname,
      'file_dep': list(self.inputfiles.values()),
-     'uptdodate': config_changed(self.config()),
+     'uptdodate': config_changed(self.config),
      'targets': list(self.outputfiles.values()),
      'actions': [(self.run,)]}
   @property

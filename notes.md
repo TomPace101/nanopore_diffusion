@@ -210,7 +210,7 @@ Or should they be loaded at initialization?
 So a typical doit task definition would look like:
 {'name': self.taskname,
  'file_dep': list(self.inputfiles.values()),
- 'uptdodate': config_changed(self.config()),
+ 'uptdodate': config_changed(self.config,
  'targets': list(self.outputfiles.values()),
  'actions': [(self.run,)]}
 
@@ -281,6 +281,9 @@ The default getter method will read the class attribute taskname_source,
 How do inputfiles and outputfiles work?
 Probably read-only properties again.
 But no default getter method; it's entirely class-dependent.
+But you have the input file (maybe) at instantiation.
+So maybe it's not a read-only property.
+
 
 I'm not really happy that useful must now import from doit.
 It makes doit less optional than it was before.
