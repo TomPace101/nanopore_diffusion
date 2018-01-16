@@ -2,11 +2,30 @@
 
 # Refactoring
 
-- module to generate .msh files from .geo, based on yaml
-- module to generate .xml files from .msh, based on yaml
 - let objects provide their own info needed by doit tasks in a standard structure
+  - changes within useful
+    - useful.run_cmd_line should be changed to use the run method instead of a function
+    - ParameterSet.task_definition (read-only property)
+    - supporter in in ParameterSet init for \_required_attr (if present)
+    - ParameterSet.config (read-only property)
+    - ParameterSet.taskname (read-only property)
+  - Load-level Attributes/properties/methods needed (see below)
+    - inputfiles (read-only property)
+    - outputfiles (read-only property)
+    - \_required_attr (class attribute)
+    - \_config_attr (class attribute)
+    - taskname_src (class attribute)
+    - run()
+  - Objects needing each of these:
+    - paramgen.ParameterGenerator
+    - buildgeom.MeshParameters
+    - new module to generate .msh files from .geo, based on yaml (run_gmsh)
+    - new module to generate .xml files from .msh, based on yaml (run_dolfin_convert)
+    - solver_general.ModelParameters
+    - postproc.PostProcParameters
 - modify dodo.py and the various task_ files to use the new approach, reusing (after extracting out) code from the command-line version where possible
   - I started these changes, then realized I wasn't quite ready yet
+- document the general approach in README.md
 
 _TODO_ shell command files for generating .msh and .xml files, which doit then calls?
 
@@ -176,9 +195,9 @@ For example, the PlotFigure objects have locate_data methods.
 What do they need to provide:
 - a dictionary of their file dependencies, with useful keys: inputfiles
 - a dictionary of their targets, with useful keys: outputfiles
-- a name that could be used for a task name (maybe we already have this, just use the modelname, meshname, etc.)
-- a method that can be used as an action: run
-- you don't need anything for uptodate: just convert the object itself to a string
+- a name that could be used for a task name (maybe we already have this, just use the modelname, meshname, etc. But we need a way to say what this is. So it needs to be a property.)
+- a method that can be used as an action: run()
+- a method to return a configuration string suitable as an argument to config_changed: config()
 
 The "run" method might obviate the need for some of the functions I created today.
 That is, that code might be better as a method in some cases.
@@ -189,15 +208,37 @@ Maybe they should be properties, so that they can be computed when needed?
 Or should they be loaded at initialization?
 
 So a typical doit task definition would look like:
-{'name': X.xname,
- 'file_dep': list(X.inputfiles.values()),
- 'uptdodate': config_changed(str(X)),
- 'targets': list(X.outputfiles.values()),
- 'actions': [(X.run,)]}
- 
+{'name': self.taskname,
+ 'file_dep': list(self.inputfiles.values()),
+ 'uptdodate': config_changed(self.config()),
+ 'targets': list(self.outputfiles.values()),
+ 'actions': [(self.run,)]}
+
 In fact, maybe the objects can just return their own doit task definition.
 Except that meshparameters needs 3 tasks, not 1.
 Or, we create new objects and use those, but they are read from the same yaml file.
+Or, the method that returns task definitions is a generator.
+In the simple case, it only yields one task definition.
+But for MeshParameters, it can yield 3 of them.
+No, that doesn't work for the command line.
+The action's wouldn't all just be "run".
+For the typical command line approach, we need new modules, with their own classes.
+Still, it seems less efficient.
+We have to load the same yaml file 3 times, instead of only once.
+Maybe that is an acceptable price to pay for consistency?
+Maybe instead of run, the object gives a list of possible actions.
+You select the one you want from the command line,
+and optionally can omit this to run all of them.
+So now the task definition can be a generator after all.
+useful.run_cmd_line needs to accept an optional command line argument
+specifiying a task to be done with the loaded object.
+So the objects have a dictionary {cmd_line_task_specifier: method_name}.
+This dictionary is called "actions".
+But that complicates the inputfiles and outputfiles as well.
+(Different actions use different ones.)
+Instead, we do need the 3 different objects.
+So, there is no reasonable way around loading the file 3 times,
+as each object will be loaded from the file.
 
 Also, .geo files aren't built from one object, but two:
 - MeshParameters
@@ -220,6 +261,26 @@ But how do you run a model with a method of ModelParameters?
 The same way we are already doing it from a function:
 load the solver class and call complete on it.
 But pass it the 'as_action' argument as well.
+
+Wait! Uptodate needs to specifically exclude some of the slots.
+We don't want the whole dictionary. Just parts of it.
+So we'll need to specify which keys go into that one.
+So, it does need to be a method of some kind after all.
+For example, there could be a "read_keys" attribute, or something like that.
+It could be a class attribute, I guess.
+ParameterSet can check this to make sure the required keys
+were defined by the YAML file,
+and it can have a method to return a dictionary with only those keys.
+For the required keys check, the class attribute is "\_required_attr".
+For the config, the class attribute is "\_config_attr"
+
+How does taskname work?
+It can be a read-only property.
+The default getter method will read the class attribute taskname_source,
+
+How do inputfiles and outputfiles work?
+Probably read-only properties again.
+But no default getter method; it's entirely class-dependent.
 
 # Code/Misc
 
@@ -502,4 +563,3 @@ https://docs.blender.org/manual/en/dev/data_system/files/import_export.html
 
 _question_ is it possible for fenics to give us the condition number of a system?
 If nothing else, can we get the relevant matrix and calculate it from that?
-
