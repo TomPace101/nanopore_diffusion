@@ -50,6 +50,12 @@ def nested_to_str(obj):
   items_list=[k+': '+v for k,v in zip(skeys,svals)]
   return '{%s}'%', '.join(items_list)
 
+#And from a nested set of attributes ("drilling down")
+def nested_attributes(obj,loc):
+  """Liked nested_location, but with attributes instead of dictionary keys"""
+  loclist=list(loc)
+  return reduce(getattr, [obj]+loclist)
+
 #-------------------------------------------------------------------------------
 #Standard work with yaml files
 
@@ -107,16 +113,19 @@ class ParameterSet:
   Each subclass should use __slots__ to define its parameters.
   This is not intended as a method for storing complicated objects;
   all attributes should have values that are numbers, strings, sequences, or dictionaries
-  whose items follow the same rules."""
-  __slots__=('basename','inputfiles','outputfiles') #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+  whose items follow the same rules.
+  Attributes:
+    basename = a base name which may be shared by a group of instances (usually the stem name of the source file)
+    sourcefile = file from which the object was read, if any"""
+  __slots__=('basename','sourcefile') #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwd):
     ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
     #Load the attributes specified
     for k,v in kwd.items():
       setattr(self,k,v)
     #Check for required attributes that are missing
-    if hasattr(self,'_required_attr'):
-      missing = [a for a in self._required_attr if not hasattr(self,a)]
+    if hasattr(self,'_required_attrs'):
+      missing = [a for a in self._required_attrs if not hasattr(self,a)]
       assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
     #Initialize inputfiles and outputfiles
     for attr in ['inputfiles','outputfiles']
@@ -132,10 +141,7 @@ class ParameterSet:
     Returns:
       pset = a ParameterSet object as defined by the contents of the yaml file"""
     d=readyaml(fpath)
-    obj=cls(**d)
-    obj.basename=getbasename(fpath)
-    obj.inputfiles['initializer']=fpath
-    return obj
+    return cls.from_dict(d,fpath)
   @classmethod
   def all_from_yaml(cls,fpath):
     """Generator to read a list of ParameterSet objects from a yaml file.
@@ -149,9 +155,7 @@ class ParameterSet:
       dat=fp.read()
       gen=yaml.load_all(dat)
     for d in gen:
-      obj=cls(**d)
-      obj.basename=getbasename(fpath)
-      yield obj
+      yield cls.from_dict(d,fpath)
   def to_yaml(self,fpath):
     """Write ParameterSet to a yaml file.
     Arguments:
@@ -171,7 +175,7 @@ class ParameterSet:
     Returns:
       pset = a ParameterSet object as defined by the contents of the pickle file."""
     d=readpickle(fpath)
-    return cls(**d)
+    return cls.from_dict(d,fpath)
   def to_pickle(self,fpath):
     """Write ParameterSet to a pickle file.
     Arguments:
@@ -181,8 +185,13 @@ class ParameterSet:
     writepickle(self.to_dict(),fpath)
     return
   @classmethod
-  def from_dict(cls,d):
-    return cls(**d)
+  def from_dict(cls,d,fpath=None):
+    """Load the object from a dictionary, optionally specifying the input file"""
+    obj = cls(**d)
+    if fpath is not None:
+      obj.basename=getbasename(fpath)
+      obj.sourcefile=fpath
+    return obj
   def _all_slots_iter(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
@@ -209,20 +218,57 @@ class ParameterSet:
   def task_definition(self):
     """A doit task definition dictionary appropriate for processing this object."""
     return {'name': self.taskname,
-     'file_dep': list(self.inputfiles.values()),
+     'file_dep': self.inputfiles,
      'uptdodate': config_changed(self.config),
-     'targets': list(self.outputfiles.values()),
+     'targets': self.outputfiles,
      'actions': [(self.run,)]}
   @property
   def config(self):
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
     d=self.to_dict()
-    cd=dict([(k,v) for k,v in d.items() if k in self._config_attr])
+    cd=dict([(k,v) for k,v in d.items() if k in self._config_attrs])
     return(str(cd))
   @property
   def taskname(self):
     """A string representing the task name in doit"""
-    return getattr(self,self._taskname_src)
+    return getattr(self,self._taskname_src_attr)
+  @property
+  def inputfiles(self):
+    """A list of all the inputfiles related to this object"""
+    ifl=self.file_list('_inputfile_attrs')
+    ifl+=getattr(self,'_more_inputfiles',[])
+    return ifl
+  @property
+  def outputfiles(self):
+    """A list of all the outputfiles related to this object"""
+    ofl = self.file_list('_outputfile_attrs')
+    ofl+=getattr(self,'_more_outputfiles',[])
+    return ofl
+  def file_list(self,top_attr):
+    """Return the files whose relative paths are provided in top_attr"""
+    seq=[]
+    for attr in getattr(self,top_attr,[]):
+      seq.append(self.get_full_path(attr))
+    return seq
+  def get_full_path(self,attr):
+    """Return the full path string associated with a specific attribute, drilling down if needed"""
+    if type(itm)==str:
+      #Just the attribute name
+      fname=getattr(self,itm)
+    else:
+      #A nested sequence
+      fname=nested_attributes(self,itm)
+    return osp.join(self.get_folder(attr),fname)
+  def get_folder(self,attr):
+    """Return the folder associated with a specific attribute, drilling down if needed"""
+    if type(attr)==str:
+      return self._folders.get(attr,'')
+    else:
+      head=attr[0]
+      tail=attr[1:]
+      if len(tail)==1:
+        tail=tail[0]
+      return getattr(self,attr).get_folder(tail)
 
 #-------------------------------------------------------------------------------
 #Common command-line usage
@@ -254,8 +300,7 @@ def run_cmd_line(program_description,input_file_description,objtype,process_meth
     This option must be followed by an attribute name, and then a sequence of values for that attribute.
     Only those entries in the yaml file where the attribute matches one of these values will be processed.""")
   cmdline=parser.parse_args()
-  #Check that input file exists
-  assert osp.isfile(cmdline.params_yaml), "Parameter definition file does not exist: %s"%cmdline.params_yaml
+  
   #Set up dictionary for object selection by attribute
   if other_selection is None:
     requirements = {}
@@ -263,12 +308,26 @@ def run_cmd_line(program_description,input_file_description,objtype,process_meth
     requirements=dict(other_selection)
   if cmdline.select is not None:
     requirements[cmdline.select[0]]=cmdline.select[1:]
+
+  #Go
+  common_run(cmdline.params_yaml,objtype,process_method,other_selection,f_args)
+
+
+def common_run(input_file,objtype,process_method="run",requirements=None,f_args=None):
+
+  #Check that input file exists
+  assert osp.isfile(input_file), "Parameter definition file does not exist: %s"%input_file
+
+  #Dictionary for object selection by attribute
+  if requirements is None:
+    requirements={}
+
   #Any other positional arguments?
   if f_args is None:
     f_args = []
 
   #Read in the yaml file
-  allobjs=objtype.all_from_yaml(cmdline.params_yaml)
+  allobjs=objtype.all_from_yaml(input_file)
 
   #Process documents
   for obj in allobjs:

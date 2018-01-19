@@ -3,21 +3,19 @@
 # Refactoring
 
 - let objects provide their own info needed by doit tasks in a standard structure
-  - changes within useful
-    - DONE: useful.run_cmd_line should be changed to use the run method instead of a function
-    - DONE: ParameterSet.task_definition (read-only property)
-    - DONE: support in in ParameterSet init for \_required_attr (if present)
-    - DONE: ParameterSet.config (read-only property)
-    - DONE: ParameterSet.taskname (read-only property)
-    - DONE: ParameterSet support for inputfiles and outputfiles
+  - DONE: changes within useful
   - Load-level Attributes/properties/methods needed (see below)
-    - inputfiles (read-only property)
-    - outputfiles (read-only property)
-    - \_required_attr (class attribute)
-    - \_config_attr (class attribute)
-    - \_taskname_src (class attribute)
+    - \_inputfile_attrs (class attribute, list, if needed)
+    - \_more_inputfiles (class attribute, list, if needed)
+    - \_outputfile_attrs (class attribute, list, if needed)
+    - \_more_outputfiles (class attribute, list, if needed)
+    - \_folders (class attribute, dictionary)
+    - \_required_attrs (class attribute, list)
+    - \_config_attrs (class attribute, list)
+    - \_taskname_src_attr (class attribute), string
     - run()
-    - and the __main__ portion of the module as well
+    - and the __main__ portion of the module as well (change process_function to process_method, usually omitted)
+    - change 'from folderstructure import \*'
   - Objects needing each of these:
     - paramgen.ParameterGenerator
     - buildgeom.MeshParameters
@@ -280,6 +278,10 @@ How does taskname work?
 It can be a read-only property.
 The default getter method will read the class attribute taskname_source,
 
+I'm not really happy that useful must now import from doit.
+It makes doit less optional than it was before.
+I mitigated this by putting it in a try block.
+
 How do inputfiles and outputfiles work?
 Probably read-only properties again.
 But no default getter method; it's entirely class-dependent.
@@ -296,10 +298,48 @@ they are shared by all derived classes.
 Unless, apparently, you use a metaclass.
 But these shouldn't be class attributes anyway: they should be instance attributes.
 
+How about this:
+what if inputfiles and outputfiles weren't dictionaries,
+but rather lists of attributes containing input and output file paths,
+respectively.
+These could be class attributes.
+Hmm. Sometimes they might need to be  nested, rather than first-level attributes.
+Except that the file it was loaded from isn't an attribute.
+But it could be.
 
-I'm not really happy that useful must now import from doit.
-It makes doit less optional than it was before.
-I mitigated this by putting it in a try block.
+So now inputfiles and outputfiles become read-only properties.
+
+The attribute for the parent file is: 'sourcefile'
+
+Ah, no, still not right.
+The properties read in from the yaml file are not full file paths.
+We need a transformation function to locate those.
+So it's going to be more complicated than just a list of attributes.
+Unless, along with that, you had a list of folders.
+But that's not the way the sourcefile comes in.
+You could split it up, of course.
+But then we have things like the otherfiles dictionary.
+Converting that into the proper list of input files isn't trivial.
+And, to avoid duplication, it must be done in a way that
+the rest of the function can use the resulting information.
+This is where the idea of a dictionary came from.
+
+Maybe after any initialization,
+we need a function that processes only required attributes
+(and maybe not even all of those)
+and populates the inputfiles and outputfiles accordingly.
+Maybe it should just be a list?
+No, then you get redundancy.
+So here is the fundamental problem:
+the file-related attributes we read in are relative paths.
+
+Aha! You could have a class-attribute dictionary of the folders
+those are relative to, by attribute name.
+That works with the setup of having a list of attributes.
+
+But now, what about paramgen's otherfiles?
+
+
 
 # Code/Misc
 
