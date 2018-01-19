@@ -9,6 +9,7 @@
     - DONE: support in in ParameterSet init for \_required_attr (if present)
     - DONE: ParameterSet.config (read-only property)
     - DONE: ParameterSet.taskname (read-only property)
+    - DONE: ParameterSet support for inputfiles and outputfiles
   - Load-level Attributes/properties/methods needed (see below)
     - inputfiles (read-only property)
     - outputfiles (read-only property)
@@ -16,6 +17,7 @@
     - \_config_attr (class attribute)
     - \_taskname_src (class attribute)
     - run()
+    - and the __main__ portion of the module as well
   - Objects needing each of these:
     - paramgen.ParameterGenerator
     - buildgeom.MeshParameters
@@ -283,6 +285,16 @@ Probably read-only properties again.
 But no default getter method; it's entirely class-dependent.
 But you have the input file (maybe) at instantiation.
 So maybe it's not a read-only property.
+It's an (instance) attribute.
+It gets a slot.
+Initialized at instantiation.
+
+The inputfiles entry for the yaml input file is: 'initializer'
+
+Note that if you give the base class mutable class attributes,
+they are shared by all derived classes.
+Unless, apparently, you use a metaclass.
+But these shouldn't be class attributes anyway: they should be instance attributes.
 
 
 I'm not really happy that useful must now import from doit.

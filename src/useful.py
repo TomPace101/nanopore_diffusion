@@ -108,15 +108,20 @@ class ParameterSet:
   This is not intended as a method for storing complicated objects;
   all attributes should have values that are numbers, strings, sequences, or dictionaries
   whose items follow the same rules."""
-  __slots__=('basename',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+  __slots__=('basename','inputfiles','outputfiles') #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwd):
     ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
+    #Load the attributes specified
     for k,v in kwd.items():
       setattr(self,k,v)
     #Check for required attributes that are missing
     if hasattr(self,'_required_attr'):
       missing = [a for a in self._required_attr if not hasattr(self,a)]
       assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
+    #Initialize inputfiles and outputfiles
+    for attr in ['inputfiles','outputfiles']
+    if not hasattr(self,attr):
+      setattr(self,attr,{})
   @classmethod
   def from_yaml(cls,fpath):
     """Read ParameterSet from a yaml file.
@@ -129,6 +134,7 @@ class ParameterSet:
     d=readyaml(fpath)
     obj=cls(**d)
     obj.basename=getbasename(fpath)
+    obj.inputfiles['initializer']=fpath
     return obj
   @classmethod
   def all_from_yaml(cls,fpath):
