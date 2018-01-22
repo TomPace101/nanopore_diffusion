@@ -29,6 +29,10 @@ class MeshParameters(useful.ParameterSet):
     tmplvalues = dictionary of physical dimensions, mesh density parameters, etc
       Note that the geometry definition file contains a list of the variables that must be defined in this dictionary."""
   __slots__=('meshname','geomdef','tmplvalues')
+  _required_attrs=['meshname','geomdef','tmplvalues']
+  _config_attrs=['meshname','geomdef','tmplvalues']
+  _inputfile_attrs=['sourcefile']
+  _taskname_src_attr='meshname'
 
 class GeometryDefinition(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions

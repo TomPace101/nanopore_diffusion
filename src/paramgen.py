@@ -107,9 +107,9 @@ class ParameterGenerator(useful.ParameterSet):
     """Generator that calculates all the field dictionaries"""
     #Read in all the other files
     otherdocs={}
-    if getattr(self,'otherfiles',None) is not None:
-      for yfile in self.otherfiles.keys():
-          otherdocs[yfile]=useful.readyaml_multidoc(osp.join(FS.paramsfolder,yfile))
+    if getattr(self,'otherfpaths',None) is not None:
+      for yfile in self.otherfpaths.keys():
+          otherdocs[yfile]=useful.readyaml_multidoc(yfile)
     #Set up iterator for the big loop
     if getattr(self,'rangefields',None) is not None:
         fieldnames_range=tuple(self.rangefields.keys())
@@ -132,9 +132,9 @@ class ParameterGenerator(useful.ParameterSet):
         fields.update(getattr(self,'constfields',{}))
         #Get mapping of file to the document from that file
         files_docs_dict=dict(zip(filenames_docs,ydocs))
-        if getattr(self,'otherfiles',None) is not None:
+        if getattr(self,'otherfpaths',None) is not None:
           #For each file
-          for yfile,fieldmap in self.otherfiles.items():
+          for yfile,fieldmap in self.otherfpaths.items():
             #Get the document to read from
             otherdoc=files_docs_dict[yfile]
             #For each destination field

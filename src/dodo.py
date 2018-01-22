@@ -15,6 +15,7 @@ import os.path as osp
 import folderstructure as FS
 import useful
 import paramgen
+import buildgeom
 
 #Constants
 controlfile=osp.join(FS.datafolder,'control.yaml')
@@ -25,12 +26,15 @@ infile_list=useful.readyaml(controlfile)
 
 #Parameter generation tasks
 for infile in infile_list:
-  ##TODO: untested
   infpath=osp.join(FS.params_paramgen_folder,infile)
   if osp.isfile(infpath):
     useful.common_run(infpath,paramgen.ParameterGenerator)
 
 #Mesh tasks
+for infile in file_list:
+  infpath=osp.join(FS.params_mesh_folder,infile)
+  if osp.isfile(infpath):
+    useful.common_run(infpath,buildgeom.MeshParameters)
 ##TODO
 # def task_make_mesh():
 #   for fn in infile_list:

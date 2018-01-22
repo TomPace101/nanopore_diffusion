@@ -17,7 +17,7 @@
     - and the __main__ portion of the module as well (change process_function to process_method, usually omitted)
     - change 'from folderstructure import \*'
   - Objects needing each of these:
-    - paramgen.ParameterGenerator
+    - DONE: paramgen.ParameterGenerator
     - buildgeom.MeshParameters
     - new module to generate .msh files from .geo, based on yaml (run_gmsh)
     - new module to generate .xml files from .msh, based on yaml (run_dolfin_convert)
