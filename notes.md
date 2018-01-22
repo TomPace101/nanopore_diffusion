@@ -5,11 +5,12 @@
 - let objects provide their own info needed by doit tasks in a standard structure
   - DONE: changes within useful
   - Load-level Attributes/properties/methods needed (see below)
+    - \_child_attrs (class attribute, list, if needed)
     - \_inputfile_attrs (class attribute, list, if needed)
     - \_more_inputfiles (class attribute, list, if needed)
     - \_outputfile_attrs (class attribute, list, if needed)
     - \_more_outputfiles (class attribute, list, if needed)
-    - \_folders (class attribute, dictionary)
+    - \_folders (class attribute OR instance attribute, dictionary)
     - \_required_attrs (class attribute, list)
     - \_config_attrs (class attribute, list)
     - \_taskname_src_attr (class attribute), string
@@ -24,7 +25,6 @@
     - solver_general.ModelParameters
     - postproc.PostProcParameters
 - modify dodo.py and the various task_ files to use the new approach, reusing (after extracting out) code from the command-line version where possible
-  - I started these changes, then realized I wasn't quite ready yet
 - document the general approach in README.md
 
 _TODO_ shell command files for generating .msh and .xml files, which doit then calls?
@@ -338,7 +338,12 @@ those are relative to, by attribute name.
 That works with the setup of having a list of attributes.
 
 But now, what about paramgen's otherfiles?
+For that, I added the \_more_*files attributes, which are direct lists of files.
 
+I decided the input and output files should come from a simple list of attributes.
+If the children have them, you should just ask the children to provide them,
+by calling the appropriate method on them.
+That means there is now a need for class attribute listing attributes containing children to be queried.
 
 
 # Code/Misc

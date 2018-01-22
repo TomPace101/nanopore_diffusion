@@ -94,6 +94,13 @@ hashes is stored in `src/params/hashes.yaml`.
 __TODO__
 - describe control.yaml and how it works with doit
 
+Misc. things to note:
+- the distinction between loading objects and actually running them:
+  - generally, you could think of it as initialization reads in everything that needs to be read, and running is when output is actually generated
+  - also, any quick and simple calculations can be done at initialization, but any time-consuming ones need to wait for running
+  - for classes derived from useful.ParameterSet, initialization gives all the information needed to create a task in doit, running actually performs the task
+  - for classes derived from solver_general.GenericSolver, initialization stops just before asking FEniCS to solve the problem, running solves and generates output
+
 # Contacts
 
 - Tom Pace

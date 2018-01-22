@@ -87,10 +87,11 @@ class ParameterGenerator(useful.ParameterSet):
   _required_attrs=['outfile','tmplfile']
   _config_attrs=['outfile','tmplfile','constfields','rangefields','otherfiles','calcfields']
   _folders={'outfile':FS.paramsfolder, 'tmplfile':FS.pgtemplates_folder, 'otherfiles':FS.paramsfolder}
-  _inputfile_attrs=['sourcefile']
+  _inputfile_attrs=['sourcefile','tmplfile']
   _outputfile_attrs=['outfile']
   _taskname_src_attr='outfile'
   def __init__(self,**kwd):
+    #Initialization from base class
     super().__init__(**kwd)
     if getattr(self,'otherfiles',None) is not None:
       #Get full paths for the otherfiles
@@ -175,7 +176,7 @@ class ParameterGenerator(useful.ParameterSet):
     doc = tmpl.render(self.tmpl_input)
 
     #Write output
-    outfpath=self.get_full_path('outfile')
+    outfpath=self.full_path('outfile')
     os.makedirs(osp.dirname(outfpath),exist_ok=True)
     with open(outfpath,'w') as fp:
       fp.write(doc)

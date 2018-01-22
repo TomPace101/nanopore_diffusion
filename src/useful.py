@@ -215,7 +215,7 @@ class ParameterSet:
     """A doit task definition dictionary appropriate for processing this object."""
     return {'name': self.taskname,
      'file_dep': self.inputfiles,
-     'uptdodate': config_changed(self.config),
+     'uptodate': [config_changed(self.config)],
      'targets': self.outputfiles,
      'actions': [(self.run,)]}
   @property
@@ -233,38 +233,23 @@ class ParameterSet:
     """A list of all the inputfiles related to this object"""
     ifl=self.file_list('_inputfile_attrs')
     ifl+=getattr(self,'_more_inputfiles',[])
+    for childattr in getattr(self,'_child_attrs',[]):
+      ifl += getattr(self,childattr).inputfiles()
     return ifl
   @property
   def outputfiles(self):
     """A list of all the outputfiles related to this object"""
     ofl = self.file_list('_outputfile_attrs')
     ofl+=getattr(self,'_more_outputfiles',[])
+    for childattr in getattr(self,'_child_attrs',[]):
+      ofl += getattr(self,childattr).outputfiles()
     return ofl
   def file_list(self,top_attr):
     """Return the files whose relative paths are provided in top_attr"""
-    seq=[]
-    for attr in getattr(self,top_attr,[]):
-      seq.append(self.get_full_path(attr))
-    return seq
-  def get_full_path(self,attr):
-    """Return the full path string associated with a specific attribute, drilling down if needed"""
-    if type(attr)==str:
-      #Just the attribute name
-      fname=getattr(self,attr)
-    else:
-      #A nested sequence
-      fname=nested_attributes(self,attr)
-    return osp.join(self.get_folder(attr),fname)
-  def get_folder(self,attr):
-    """Return the folder associated with a specific attribute, drilling down if needed"""
-    if type(attr)==str:
-      return self._folders.get(attr,'')
-    else:
-      head=attr[0]
-      tail=attr[1:]
-      if len(tail)==1:
-        tail=tail[0]
-      return getattr(self,head).get_folder(tail)
+    return [self.full_path(attr) for attr in getattr(self,top_attr,[])]
+  def full_path(self,attr):
+    """Return the full path string associated with a specific attribute"""
+    return osp.join(self._folders.get(attr,''),getattr(self,attr))
 
 #-------------------------------------------------------------------------------
 #Common command-line usage

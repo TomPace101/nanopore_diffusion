@@ -8,7 +8,7 @@
 {% for fields in allfields %}
 ---
 meshname: {{ '%s_mesh_%03d'|format(fields.hrhash, fields.counter) }}
-geomdef: {{ fields.geomdef }}
+geomdefname: {{ fields.geomdefname }}
 tmplvalues:
   mscale: {{ fields.mscale }}
   mcarh: {{ fields.mcarh }}

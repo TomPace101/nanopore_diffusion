@@ -25,16 +25,19 @@ infile_list=useful.readyaml(controlfile)
 
 
 #Parameter generation tasks
-for infile in infile_list:
-  infpath=osp.join(FS.params_paramgen_folder,infile)
-  if osp.isfile(infpath):
-    useful.common_run(infpath,paramgen.ParameterGenerator)
+def task_paramgen():
+  for infile in infile_list:
+    infpath=osp.join(FS.params_paramgen_folder,infile)
+    if osp.isfile(infpath):
+      allobj=paramgen.ParameterGenerator.all_from_yaml(infpath)
+      for obj in allobj:
+        yield obj.task_definition
 
 #Mesh tasks
-for infile in file_list:
-  infpath=osp.join(FS.params_mesh_folder,infile)
-  if osp.isfile(infpath):
-    useful.common_run(infpath,buildgeom.MeshParameters)
+# for infile in file_list:
+#   infpath=osp.join(FS.params_mesh_folder,infile)
+#   if osp.isfile(infpath):
+#     useful.common_run(infpath,buildgeom.MeshParameters)
 ##TODO
 # def task_make_mesh():
 #   for fn in infile_list:
