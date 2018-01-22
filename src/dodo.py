@@ -17,7 +17,7 @@ import useful
 import paramgen
 
 #Constants
-controlfile=osp.join(datafolder,'control.yaml')
+controlfile=osp.join(FS.datafolder,'control.yaml')
 
 #Read in the files for processing
 infile_list=useful.readyaml(controlfile)

@@ -97,7 +97,7 @@ class ParameterGenerator(useful.ParameterSet):
       folder=self._folders.get('otherfiles','')
       self.otherfpaths={}
       for k,v in self.otherfiles.items():
-        self.otherfpaths(osp.join(folder,k))=v
+        self.otherfpaths[osp.join(folder,k)]=v
       #Store a list of these additional input files
       if not hasattr(self,'_more_inputfiles'):
         self._more_inputfiles=[]

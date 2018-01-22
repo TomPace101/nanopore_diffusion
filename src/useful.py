@@ -127,10 +127,6 @@ class ParameterSet:
     if hasattr(self,'_required_attrs'):
       missing = [a for a in self._required_attrs if not hasattr(self,a)]
       assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
-    #Initialize inputfiles and outputfiles
-    for attr in ['inputfiles','outputfiles']
-    if not hasattr(self,attr):
-      setattr(self,attr,{})
   @classmethod
   def from_yaml(cls,fpath):
     """Read ParameterSet from a yaml file.
@@ -252,12 +248,12 @@ class ParameterSet:
     return seq
   def get_full_path(self,attr):
     """Return the full path string associated with a specific attribute, drilling down if needed"""
-    if type(itm)==str:
+    if type(attr)==str:
       #Just the attribute name
-      fname=getattr(self,itm)
+      fname=getattr(self,attr)
     else:
       #A nested sequence
-      fname=nested_attributes(self,itm)
+      fname=nested_attributes(self,attr)
     return osp.join(self.get_folder(attr),fname)
   def get_folder(self,attr):
     """Return the folder associated with a specific attribute, drilling down if needed"""
@@ -268,7 +264,7 @@ class ParameterSet:
       tail=attr[1:]
       if len(tail)==1:
         tail=tail[0]
-      return getattr(self,attr).get_folder(tail)
+      return getattr(self,head).get_folder(tail)
 
 #-------------------------------------------------------------------------------
 #Common command-line usage
