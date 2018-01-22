@@ -185,10 +185,6 @@ class ParameterGenerator(useful.ParameterSet):
     self.do_generation()
     print("%s: %d documents"%(self.outfile,self.num_generated))
 
-##TEMP: delete me once useful.run_cmd_line has been refactored
-def do_gendoc_gen(gendoc):
-  gendoc.run()
-
 #Support command-line arguments
 if __name__ == '__main__':
   program_description='Create parameter files'
@@ -196,4 +192,4 @@ if __name__ == '__main__':
   This is a potentially multi-doc yaml file, where each document specifies one multi-doc yaml file to generate.
   Each document must provide the attributes for an instance of the ParameterGenerator class."""
   
-  useful.run_cmd_line(program_description,input_file_description,ParameterGenerator,do_gendoc_gen)
+  useful.run_cmd_line(program_description,input_file_description,ParameterGenerator)
