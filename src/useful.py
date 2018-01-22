@@ -108,6 +108,10 @@ def getbasename(fpath):
   "Return the stem name of the specified file (no directory, no extension)"
   return osp.splitext(osp.basename(fpath))[0]
 
+def add_file_info(d,fpath):
+  """Add info from the file path to the dictionary"""
+  d.update({'sourcefile':fpath, 'basename':getbasename(fpath)})
+
 class ParameterSet:
   """A base class for defining sets of related parameters.
   Each subclass should use __slots__ to define its parameters.
@@ -137,7 +141,8 @@ class ParameterSet:
     Returns:
       pset = a ParameterSet object as defined by the contents of the yaml file"""
     d=readyaml(fpath)
-    return cls.from_dict(d,fpath)
+    add_file_info(d,fpath)
+    return cls.from_dict(d)
   @classmethod
   def all_from_yaml(cls,fpath):
     """Generator to read a list of ParameterSet objects from a yaml file.
@@ -151,7 +156,8 @@ class ParameterSet:
       dat=fp.read()
       gen=yaml.load_all(dat)
     for d in gen:
-      yield cls.from_dict(d,fpath)
+      add_file_info(d,fpath)
+      yield cls.from_dict(d)
   def to_yaml(self,fpath):
     """Write ParameterSet to a yaml file.
     Arguments:
@@ -171,7 +177,8 @@ class ParameterSet:
     Returns:
       pset = a ParameterSet object as defined by the contents of the pickle file."""
     d=readpickle(fpath)
-    return cls.from_dict(d,fpath)
+    add_file_info(d)
+    return cls.from_dict(d)
   def to_pickle(self,fpath):
     """Write ParameterSet to a pickle file.
     Arguments:
@@ -181,13 +188,9 @@ class ParameterSet:
     writepickle(self.to_dict(),fpath)
     return
   @classmethod
-  def from_dict(cls,d,fpath=None):
-    """Load the object from a dictionary, optionally specifying the input file"""
-    obj = cls(**d)
-    if fpath is not None:
-      obj.basename=getbasename(fpath)
-      obj.sourcefile=fpath
-    return obj
+  def from_dict(cls,d):
+    """Load the object from a dictionary"""
+    return cls(**d)
   def _all_slots_iter(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
