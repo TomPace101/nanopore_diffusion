@@ -24,20 +24,22 @@ controlfile=osp.join(FS.datafolder,'control.yaml')
 infile_list=useful.readyaml(controlfile)
 
 
-#Parameter generation tasks
-def task_paramgen():
+def generic_task_generator(folder,objtype):
   for infile in infile_list:
-    infpath=osp.join(FS.params_paramgen_folder,infile)
+    infpath=osp.join(folder,infile)
     if osp.isfile(infpath):
-      allobj=paramgen.ParameterGenerator.all_from_yaml(infpath)
+      allobj=objtype.all_from_yaml(infpath)
       for obj in allobj:
         yield obj.task_definition
 
+#Parameter generation tasks
+def task_paramgen():
+  return generic_task_generator(FS.params_paramgen_folder,paramgen.ParameterGenerator)
+
 #Mesh tasks
-# for infile in file_list:
-#   infpath=osp.join(FS.params_mesh_folder,infile)
-#   if osp.isfile(infpath):
-#     useful.common_run(infpath,buildgeom.MeshParameters)
+def task_make_geo():
+  return generic_task_generator(FS.params_mesh_folder,buildgeom.MeshParameters)
+
 ##TODO
 # def task_make_mesh():
 #   for fn in infile_list:

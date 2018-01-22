@@ -237,7 +237,7 @@ class ParameterSet:
     ifl=self.file_list('_inputfile_attrs')
     ifl+=getattr(self,'_more_inputfiles',[])
     for childattr in getattr(self,'_child_attrs',[]):
-      ifl += getattr(self,childattr).inputfiles()
+      ifl += getattr(self,childattr).inputfiles
     return ifl
   @property
   def outputfiles(self):
@@ -245,14 +245,14 @@ class ParameterSet:
     ofl = self.file_list('_outputfile_attrs')
     ofl+=getattr(self,'_more_outputfiles',[])
     for childattr in getattr(self,'_child_attrs',[]):
-      ofl += getattr(self,childattr).outputfiles()
+      ofl += getattr(self,childattr).outputfiles
     return ofl
   def file_list(self,top_attr):
     """Return the files whose relative paths are provided in top_attr"""
     return [self.full_path(attr) for attr in getattr(self,top_attr,[])]
   def full_path(self,attr):
     """Return the full path string associated with a specific attribute"""
-    return osp.join(self._folders.get(attr,''),getattr(self,attr))
+    return osp.join(getattr(self,'_folders',{}).get(attr,''),getattr(self,attr))
 
 #-------------------------------------------------------------------------------
 #Common command-line usage
