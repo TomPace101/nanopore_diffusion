@@ -23,6 +23,12 @@ _TODO_ debug01 postproc needs to make PDF as well as PNG
 
 # Refactoring
 
+_TODO_: finish testing postproc with doit, then cleanup:
+- delete old code in dodo
+- remove the tasks_ files
+- create a branch to mark the occasion
+
+
 - let objects provide their own info needed by doit tasks in a standard structure
   - DONE: changes within useful
   - Load-level Attributes/properties/methods needed (see below)
