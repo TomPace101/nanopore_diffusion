@@ -48,7 +48,7 @@ class MeshParameters(useful.ParameterSet):
       geofile = name of .geo output file, as string (not full path)"""
   __slots__=('meshname','geomdefname','tmplvalues','geomdef','geofile','_folders')
   _required_attrs=['meshname','geomdefname','tmplvalues']
-  _config_attrs=_required_attrs
+  _config_attrs=['basename']+_required_attrs
   #don't need sourcefile as input file due to config
   _more_inputfiles=[thisfile,useful.__file__]
   _outputfile_attrs=['geofile']

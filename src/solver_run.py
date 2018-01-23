@@ -97,3 +97,4 @@ if __name__ == '__main__':
   other_selection={'equation':ModelParameters.solverclasses.keys()}
   
   useful.run_cmd_line(program_description,input_file_description,ModelParameters,other_selection=other_selection)
+  #other_selection is needed so we only try to run models whose equation we have a solver for

@@ -18,6 +18,7 @@ import paramgen
 import buildgeom
 import geom_mk_msh
 import geom_mk_xml
+import solver_run
 
 #Constants
 controlfile=osp.join(FS.datafolder,'control.yaml')
@@ -49,17 +50,10 @@ def task_make_msh():
 def task_make_xml():
   return generic_task_generator(FS.params_mesh_folder,geom_mk_xml.DolfinConvertRunner)
 
-##TODO
-# def task_make_mesh():
-#   for fn in infile_list:
-#     meshes=loadobjs(folderstructure.params_mesh_folder,fn,buildgeom.MeshParameters): ##TODO: import buildgeom, or move this?
-#     for meshparams in meshes:
-#       ##TODO: these don't use new methods yet
-#       yield tasks_mesh.create_geo(meshparams)
-#       yield tasks_mesh.create_msh(meshparams)
-#       yield tasks_mesh.create_xml(meshparams)
-
 #Solver tasks
+def task_solve():
+  return generic_task_generator(FS.params_model_folder,solver_run.ModelParameters)
+
 ##TODO
 # def task_solve():
 #   for fn in infile_list:

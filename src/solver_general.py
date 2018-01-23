@@ -54,18 +54,13 @@ class ModelParametersBase(useful.ParameterSet):
       outdir = folder containing output files"""
   __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction','outdir')
   _required_attrs=['modelname','meshparamsfile','meshname','equation','conditions']
-  _config_attrs=_required_attrs+['dataextraction']
-  _taskname_src='modelname'
+  _config_attrs=['basename']+_required_attrs+['dataextraction']
+  _taskname_src_attr='modelname'
 
   def __init__(self,**kwd):
     #Initialization from base class
     super().__init__(**kwd)
     self.outdir=osp.join(FS.solnfolder,self.basename,self.modelname)
-
-
-def List_Mesh_Input_Files(meshname,basedir):
-  return mesh_xml, surface_xml, volume_xml
-
 
 class GenericSolver:
   """A generic solver, to be subclassed by solvers for the specific equations
@@ -93,8 +88,8 @@ class GenericSolver:
 
     #Initialize output attributes and intermediates
     self.results={}
-    self.info=self.modelparams.to_dict()
-    self.info['meshparams']=self.meshparams.to_dict()
+    self.info=self.modelparams.config_dict
+    self.info['meshparams']=self.meshparams.config_dict
     self.outdata=OutData(plots={})
     self.tmplvalues=self.meshparams.tmplvalues
 
