@@ -36,7 +36,7 @@ class PNPUSolver(solver_general.GenericSolver):
   def __init__(self,modelparams,meshparams):
     """Initialize the model.
     Arguments:
-      modelparams = ModelParameters instance
+      modelparams = solver_run.ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
       
       ##TODO
@@ -49,15 +49,3 @@ class PNPUSolver(solver_general.GenericSolver):
     pass
 
 solverclasses={'pnp_unhomog':PNPUSolver}
-
-#Support command-line arguments
-if __name__ == '__main__':
-  program_description='Solve the unhomogenized PNP diffusion equation with fenics'
-  input_file_description='Path to file containing ModelParameters definitions'
-  other_selection={'equation':solverclasses.keys()}
-  
-  useful.run_cmd_line(program_description,input_file_description,
-    solver_general.ModelParameters,
-    solver_general.complete_by_ModelParameters,
-    other_selection,
-    [solverclasses])

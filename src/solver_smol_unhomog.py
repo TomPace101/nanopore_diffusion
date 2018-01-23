@@ -36,7 +36,7 @@ class LPBSolver(solver_general.GenericSolver):
   def __init__(self,modelparams,meshparams,other):
     """Initialize the model.
     Arguments:
-      modelparams = ModelParameters instance
+      modelparams = solver_run.ModelParameters instance
       meshparams = buildgeom.MeshParameters instance
       other = solver to get mesh from"""
 
@@ -87,7 +87,7 @@ class SUConditions(solver_general.GenericConditions):
     D_bulk = bulk diffusion constant
     q = electric charge of ion
     beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
-    potential = dictionary defining ModelParameters for electric potential
+    potential = dictionary defining solver_run.ModelParameters for electric potential
     trans_bcdict = Dirichlet boundary conditions after Slotboom transformation
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
@@ -125,7 +125,7 @@ class SUSolver(solver_general.GenericSolver):
   def __init__(self,modelparams,meshparams):
     """Initialize the model.
     Arguments:
-      modelparams = ModelParameters instance
+      modelparams = solver_run.ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
 
     #Load parameters, init output, mesh setup
@@ -147,7 +147,7 @@ class SUSolver(solver_general.GenericSolver):
     potentialparams_dict=self.conditions.potential
     for key in ['modelname','meshname','meshparamsfile','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
-    potentialparams=solver_general.ModelParameters(**potentialparams_dict)
+    potentialparams=solver_general.ModelParametersBase(**potentialparams_dict)
     self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,self,diskwrite=False)
     self.info['potential']=self.potsolv.info
     self.outdata.plots=self.potsolv.outdata.plots
@@ -180,15 +180,3 @@ class SUSolver(solver_general.GenericSolver):
     return
 
 solverclasses={'smol_unhomog':SUSolver}
-
-#Support command-line arguments
-if __name__ == '__main__':
-  program_description='Solve the unhomogenized Smoluchowski diffusion equation with fenics'
-  input_file_description='Path to file containing ModelParameters definitions'
-  other_selection={'equation':solverclasses.keys()}
-  
-  useful.run_cmd_line(program_description,input_file_description,
-    solver_general.ModelParameters,
-    solver_general.complete_by_ModelParameters,
-    other_selection,
-    [solverclasses])

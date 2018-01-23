@@ -34,7 +34,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
   def __init__(self,modelparams,meshparams):
     """Initialize the model.
     Arguments:
-      modelparams = ModelParameters instance
+      modelparams = solver_run.ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
 
     #Load parameters, init output, mesh setup
@@ -68,15 +68,3 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     return
 
 solverclasses={'fickian_unhomog':UnhomogFickianSolver}
-
-#Support command-line arguments
-if __name__ == '__main__':
-  program_description='Solve the unhomogenized fickian diffusion equation with fenics'
-  input_file_description='Path to file containing ModelParameters definitions'
-  other_selection={'equation':solverclasses.keys()}
-  
-  useful.run_cmd_line(program_description,input_file_description,
-    solver_general.ModelParameters,
-    solver_general.complete_by_ModelParameters,
-    other_selection,
-    [solverclasses])

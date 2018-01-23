@@ -10,7 +10,7 @@ import fenics as fem
 import numpy as np
 
 #Local
-from folderstructure import *
+import folderstructure as FS
 import useful
 import buildgeom
 import plotdata
@@ -33,49 +33,39 @@ class OutData(useful.ParameterSet):
     plots = Dictionary of plot data, {plotname: [plotdata.PlotSeries, ...], ...}"""
   __slots__=['plots']
 
-class ModelParameters(useful.ParameterSet):
+class ModelParametersBase(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store generic solver parameters
   Attributes:
-    modelname = stem name for output files
-    meshparamsfile = name of yaml file containing the mesh defined by meshname (include .yaml extension)
-    meshname = stem name for mesh files
-    equation = name of equation to be solved
-    properties = dictionary of property values
-    conditions = parameters specifying boundary conditions, initial conditions, property values, etc.
-      The parameters specified are specific to the equation being solved.
-      See the equation's module for the equation-specific conditions object,
-      which will usually inherit from GenericConditions.
-    dataextraction = a sequence of data extraction commands
-      Each command is a pair (cmdname, arguments), where
-        cmdname = name of the solver object's method to call, as a string
-        arguments = dictionary of arguments to the method: {argname: value,...}"""
-  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction')
+    To be read in from file:
+      modelname = stem name for output files
+      meshparamsfile = name of yaml file containing the mesh defined by meshname (include .yaml extension)
+      meshname = stem name for mesh files
+      equation = name of equation to be solved
+      properties = dictionary of property values
+      conditions = parameters specifying boundary conditions, initial conditions, property values, etc.
+        The parameters specified are specific to the equation being solved.
+        See the equation's module for the equation-specific conditions object,
+        which will usually inherit from GenericConditions.
+      dataextraction = a sequence of data extraction commands
+        Each command is a pair (cmdname, arguments), where
+          cmdname = name of the solver object's method to call, as a string
+          arguments = dictionary of arguments to the method: {argname: value,...}
+    To be calculated from methods:
+      outdir = folder containing output files"""
+  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction','outdir')
+  _required_attrs=['modelname','meshparamsfile','meshname','equation','conditions']
+  _config_attrs=_required_attrs+['dataextraction']
+  _taskname_src='modelname'
+
+  def __init__(self,**kwd):
+    #Initialization from base class
+    super().__init__(**kwd)
+    self.outdir=osp.join(FS.solnfolder,self.basename,self.modelname)
+
 
 def List_Mesh_Input_Files(meshname,basedir):
-  mesh_xml=osp.join(xmlfolder,basedir,meshname+'.xml')
-  surface_xml=osp.join(xmlfolder,basedir,meshname+'_facet_region.xml')
-  volume_xml=osp.join(xmlfolder,basedir,meshname+'_physical_region.xml')
   return mesh_xml, surface_xml, volume_xml
 
-loaded_meshfiles=[]
-loaded_meshes={}
-def complete_by_ModelParameters(modelparams,solverclasses):
-  """Run a model, given only its modelparameters object.
-  Arguments:
-    modelparams=ModelParameters instance
-    solverclasses = dictionary of solver classes: {equation name: instance of a subclass of GenericSolver}"""
-  #Load the mesh file if not already loaded
-  if not modelparams.meshparamsfile in loaded_meshfiles:
-    meshparams_fpath=osp.join(params_mesh_folder,modelparams.meshparamsfile)
-    meshparams_gen=buildgeom.MeshParameters.all_from_yaml(meshparams_fpath)
-    for mp in meshparams_gen:
-      loaded_meshes[mp.meshname]=mp
-    loaded_meshfiles.append(modelparams.meshparamsfile)
-  #Get the requested mesh
-  meshparams=loaded_meshes[modelparams.meshname]
-  #Run the solver
-  print(modelparams.modelname)
-  solverclasses[modelparams.equation].complete(modelparams,meshparams)
 
 class GenericSolver:
   """A generic solver, to be subclassed by solvers for the specific equations
@@ -86,7 +76,7 @@ class GenericSolver:
   and other data needed by their data extraction functions.
   Subclasses may choose to override the extraction functions provided here.
   Attributes:
-    modelparams = ModelParameters instance
+    modelparams = solver_run.ModelParameters instance
     meshparams = buildgeom.MeshParameters instance
     mesh = FEniCS Mesh
     surfaces = FEniCS MeshFunction of Physical Surface nubmer
@@ -95,7 +85,7 @@ class GenericSolver:
   def __init__(self,modelparams,meshparams):
     """Initialize the solver by loading the Mesh and MeshFunctions.
     Arguments:
-      modelparams = ModelParameters instance
+      modelparams = solver_run.ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
     #Store defining ParameterSet objects
     self.modelparams=modelparams
@@ -110,32 +100,23 @@ class GenericSolver:
 
   def loadmesh(self):
     """Load the mesh from the usual file locations"""
-    #Mesh input files
-    mesh_xml, surface_xml, volume_xml = List_Mesh_Input_Files(self.modelparams.meshname,self.meshparams.basename)
-
     #Load mesh and meshfunctions
-    self.mesh=fem.Mesh(mesh_xml)
-    self.surfaces=fem.MeshFunction("size_t", self.mesh, surface_xml) #Mesh Function of Physical Surface number
-    self.volumes=fem.MeshFunction("size_t", self.mesh, volume_xml) #Mesh function of Physical Volume number
-
+    self.mesh=fem.Mesh(self.modelparams.mesh_xml)
+    self.surfaces=fem.MeshFunction("size_t", self.mesh, self.modelparams.surface_xml) #Mesh Function of Physical Surface number
+    self.volumes=fem.MeshFunction("size_t", self.mesh, self.modelparams.volume_xml) #Mesh function of Physical Volume number
     return
 
   @classmethod
-  def complete(cls,*args,diskwrite=True,as_action=False):
+  def complete(cls,*args,diskwrite=True):
     """Convenience function to set up and solve the model, then generate all the requested output.
     Arguments:
       *args to be passed to the the solver class __init__
       diskwrite = boolean, True to write info and output data to disk
-      as_action = boolean, True to return None rather than the solver
-        This is used to allow this method to be used as a task in doit,
-        which restricts what a task function can return.
     In general, it would be a bad idea to use diskwrite=False and as_action=True,
     because you'd then have no way to get any results from the solution at all."""
     obj=cls(*args)
     obj.solve()
     obj.create_output(diskwrite)
-    if as_action:
-      obj = None
     return obj
 
   def solve(self):
@@ -152,7 +133,7 @@ class GenericSolver:
       results = dictionary of input and output values
     Output files are generated."""
     #Output location(s)
-    self.outdir=osp.join(solnfolder,self.modelparams.basename,self.modelparams.modelname)
+    self.outdir=self.modelparams.outdir
     if not osp.isdir(self.outdir):
       os.makedirs(self.outdir)
 
@@ -288,7 +269,7 @@ class GenericSolver:
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
       meshparams = buildgeom.MeshParameters object
-      modelparams = ModelParameters object
+      modelparams = solver_run.ModelParameters object
       outdir = path to output directory, as string
     No new attributes.
     Nothing added to results dictionary.
@@ -324,7 +305,7 @@ class GenericSolver:
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
       meshparams = buildgeom.MeshParameters object
-      modelparams = ModelParameters object
+      modelparams = solver_run.ModelParameters object
       outdir = path to output directory, as string
     No new attributes.
     Nothing added to results dictionary.

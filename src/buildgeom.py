@@ -54,6 +54,8 @@ class MeshParameters(useful.ParameterSet):
   _outputfile_attrs=['geofile']
   _child_attrs=['geomdef']
   _taskname_src_attr='meshname'
+  #Remember loaded geometry definitions so we aren't reading the same files over and over when generating multiple meshes
+  loaded_geomdefs={}
 
   def __init__(self,**kwd):
     #Initialization from base class
@@ -62,8 +64,10 @@ class MeshParameters(useful.ParameterSet):
     self._folders={'geomdefname':FS.geomdef_folder,'geofile':osp.join(FS.geofolder,self.basename)}
     #Get name of output file
     self.geofile=self.meshname+'.geo'
-    #Load the geometry definition
-    self.geomdef=GeometryDefinition.from_yaml(self.full_path('geomdefname')+'.yaml')
+    #Load the geometry definition, unless already loaded
+    if not self.geomdefname in self.loaded_geomdefs.keys():
+      self.loaded_geomdefs[self.geomdefname]=GeometryDefinition.from_yaml(self.full_path('geomdefname')+'.yaml')
+    self.geomdef=self.loaded_geomdefs[self.geomdefname]
 
   def run(self):
     print(self.geofile)

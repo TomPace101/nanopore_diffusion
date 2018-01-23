@@ -226,6 +226,10 @@ class ParameterSet:
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
     d=self.to_dict()
     cd=dict([(k,v) for k,v in d.items() if k in self._config_attrs])
+    #Don't add configuration of children: look at the output files they generate instead
+    #(otherwise changes will cascade even if output files are unaltered)
+    ##for childattr in getattr(self,'_child_attrs',[]):
+    ##  cd[childattr]=getattr(self,childattr).config
     return(str(cd))
   @property
   def taskname(self):
