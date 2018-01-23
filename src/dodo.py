@@ -10,6 +10,7 @@ import os
 import os.path as osp
 
 #Site packages
+from doit import create_after
 
 #Local
 import folderstructure as FS
@@ -30,8 +31,8 @@ infile_list=useful.readyaml(controlfile)
 def generic_task_generator(folder,objtype,infile_list=infile_list):
   for infile in infile_list:
     infpath=osp.join(folder,infile)
-    print("Loading %s from %s."%(objtype.__name__,infpath))
     if osp.isfile(infpath):
+      print("Loading %s from %s."%(objtype.__name__,infpath))
       allobj=objtype.all_from_yaml(infpath)
       for obj in allobj:
         yield obj.task_definition
@@ -41,16 +42,20 @@ def task_paramgen():
   return generic_task_generator(FS.params_paramgen_folder,paramgen.ParameterGenerator)
 
 #Mesh tasks
+@create_after('paramgen')
 def task_make_geo():
   return generic_task_generator(FS.params_mesh_folder,buildgeom.MeshParameters)
 
+@create_after('paramgen')
 def task_make_msh():
   return generic_task_generator(FS.params_mesh_folder,geom_mk_msh.GmshRunner)
 
+@create_after('paramgen')
 def task_make_xml():
   return generic_task_generator(FS.params_mesh_folder,geom_mk_xml.DolfinConvertRunner)
 
 #Solver tasks
+@create_after('paramgen')
 def task_solve():
   return generic_task_generator(FS.params_model_folder,solver_run.ModelParameters)
 
