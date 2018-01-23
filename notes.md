@@ -17,6 +17,10 @@ _TODO_ in buildgeom, validate geometric inputs (different formulas for different
 
 _TODO_ the LPB solver dataextraction output files don't get listed as targets currently.
 
+_TODO_ the name of info.yaml appears in several places
+
+_TODO_ debug01 postproc needs to make PDF as well as PNG
+
 # Refactoring
 
 - let objects provide their own info needed by doit tasks in a standard structure
@@ -39,7 +43,7 @@ _TODO_ the LPB solver dataextraction output files don't get listed as targets cu
     - DONE: buildgeom.MeshParameters
     - DONE: new module to generate .msh files from .geo, based on yaml (run_gmsh)
     - DONE: new module to generate .xml files from .msh, based on yaml (run_dolfin_convert)
-    - solver_run.ModelParameters
+    - DONE: solver_run.ModelParameters
     - postproc.PostProcParameters
 - modify dodo.py and the various task_ files to use the new approach, reusing (after extracting out) code from the command-line version where possible
 - document the general approach in README.md
@@ -362,6 +366,38 @@ If the children have them, you should just ask the children to provide them,
 by calling the appropriate method on them.
 That means there is now a need for class attribute listing attributes containing children to be queried.
 
+And so at last we reach the step of postproc.
+This is a challenge.
+A single postproc document is not a single task.
+One way to do it would be to have the postproc script itself
+generate input files where each document was a single task.
+It would have to generate 3 such files:
+- model plots
+- data collection
+- collection plots
+What we want, though, is to do this without generating such an intermediate file.
+The point is that we have 3 task types.
+So we need 3 classes, where each object is a single task of that type.
+We already have 2 of them: plotdata. CollectionPlotFigure and ModelPlotFigure.
+Both come from a base class, so a lot of the doit info can be on the base class.
+But we don't have such a class for data collection. We need to make it.
+And these objects must all be generated at the task definition phase.
+So:
+- postproc.py loads the yaml file
+- it also loads the requested ModelParameters files (as what object type?)
+- then it instantiates the task-defining objects
+- then it runs them
+Doit will call the functions (or constructors, etc.) in this module to instantiate the task-defining objects as well.
+But then the task generator will just yield the task definition from each of them.
+
+Here's how that will work.
+postproc.PostProcParameters is what you load from the postproc yaml.
+It knows how to generate the other objects.
+It yields them all when asked.
+So you are iterating over iterators.
+The objects themselves then provide their doit task definitions.
+The loop in the dodo.py file can just check to see if it gets a dictionary or a generator,
+and act accordingly.
 
 # Code/Misc
 

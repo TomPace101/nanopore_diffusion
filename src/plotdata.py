@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 #Local
-from folderstructure import *
+import folderstructure as FS
 import useful
 import solver_general
 import collect_results
@@ -51,17 +51,26 @@ class PlotFigure(useful.ParameterSet):
       fmts = list of format specifier strings
     To be created by methods:
       datafiles = dictionary of loaded data files
+      outfpath = path to output file
       series = sequence of PlotSeries instances
       fig = matplotlib Figure for the generated plot
       ax = matplotlib Axes for the plot
       info = dictionary of miscellaneous data"""
-  __slots__=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts','datafiles','series','fig','ax','info']
+  __slots__=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts','outfpath','datafiles','series','fig','ax','info']
+  _config_attrs=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts']
+  _outputfile_attrs=['outfpath']
   
-  @classmethod
-  def go(cls,kwargs):
-    obj=cls(**kwargs)
-    obj.make_plot()
+  def __init__(self,**kwd):
+    #Initialization from base class
+    super().__init__(**kwd)
+    #Find the input and output files
+    self.locate_data()
+    self.outfpath=osp.join(self.outdir(),self.filename)
 
+  @property
+  def _more_inputfiles(self):
+    return list(self.datafiles.values())
+  
   def execute_commandseq(self,attrname):
     """Execute the command sequence
     Arguments:
@@ -77,10 +86,11 @@ class PlotFigure(useful.ParameterSet):
           print("Excption occured for command: %s"%str(cmd), file=sys.stderr)
           raise einst
       
-  def make_plot(self):
+  def run(self):
     """Create the plot."""
+    print(self.outfpath)
+    
     #Load the data we need to generate the plot
-    self.locate_data()
     self.load_data()
     
     #Initialize the figure at the size requested
@@ -99,9 +109,8 @@ class PlotFigure(useful.ParameterSet):
     self.execute_commandseq('plotfunctions')
     
     #Save the figure
-    fpath=osp.join(self.outdir(),self.filename)
     os.makedirs(self.outdir(),exist_ok=True)
-    self.fig.savefig(fpath)
+    self.fig.savefig(self.outfpath)
     
     #Close the figure
     plt.close(self.fig)
@@ -162,15 +171,18 @@ class ModelPlotFigure(PlotFigure):
   Attributes:
     To be read in from yaml file:
       plotname = plot name in outdata file holding data series
-    To be assigned after instantiation:
       modelname = name of model
     To be created by methods:
       (none)"""
   __slots__=['plotname','modelname']
+  _config_attrs=PlotFigure._config_attrs+['plotname','modelname']
+  _taskname_src='plotname'
+
   def outdir(self):
-    return osp.join(postprocfolder,self.basename,self.modelname)
+    return osp.join(FS.postprocfolder,self.basename,self.modelname)
+
   def datadir(self):
-    return osp.join(solnfolder,self.basename,self.modelname)
+    return osp.join(FS.solnfolder,self.basename,self.modelname)
 
   def locate_data(self):
     datadir=self.datadir()
@@ -204,11 +216,13 @@ class CollectionPlotFigure(PlotFigure):
     To be created by methods:
       df = the DataFrame"""
   __slots__=['calcfunctions','seriesdefs','df']
+  _config_attrs=PlotFigure._config_attrs+['calcfunctions','seriesdfs']
+  _taskname_src='basename'
   def outdir(self):
-    return osp.join(postprocfolder,self.basename)
+    return osp.join(FS.postprocfolder,self.basename)
 
   def locate_data(self):
-    self.datafiles={'dataframe': osp.join(postprocfolder,self.basename,collect_results.collected_df_fname)}
+    self.datafiles={'dataframe': osp.join(FS.postprocfolder,self.basename,collect_results.collected_df_fname)}
 
   def load_data(self):
     """Load the data for the plot."""

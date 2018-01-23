@@ -20,6 +20,7 @@ import buildgeom
 import geom_mk_msh
 import geom_mk_xml
 import solver_run
+import postproc
 
 #Constants
 controlfile=osp.join(FS.datafolder,'control.yaml')
@@ -35,7 +36,14 @@ def generic_task_generator(folder,objtype,infile_list=infile_list):
       print("Loading %s from %s."%(objtype.__name__,infpath))
       allobj=objtype.all_from_yaml(infpath)
       for obj in allobj:
-        yield obj.task_definition
+        tdo=obj.task_definition
+        if hasattr(tdo,'__next__'):
+          #Got a generator: yield everything it does
+          for td in tdo:
+            yield td
+        else:
+          #Single task definition to yield
+          yield tdo
 
 #Parameter generation tasks
 def task_paramgen():
@@ -59,16 +67,10 @@ def task_make_xml():
 def task_solve():
   return generic_task_generator(FS.params_model_folder,solver_run.ModelParameters)
 
-##TODO
-# def task_solve():
-#   for fn in infile_list:
-#     models=loadobjs(folderstructure.params_model_folder,fn,solver_general.ModelParameters)
-#     for modelparams in models:
-#       ##TODO
-#       pass
-
 #Post-processing tasks
-##TODO
+@create_after('paramgen')
+def task_postproc():
+  return generic_task_generator(FS.postprocfolder,postproc.PostProcParameters)
 
 
 

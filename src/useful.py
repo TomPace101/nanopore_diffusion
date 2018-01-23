@@ -177,7 +177,7 @@ class ParameterSet:
     Returns:
       pset = a ParameterSet object as defined by the contents of the pickle file."""
     d=readpickle(fpath)
-    add_file_info(d)
+    add_file_info(d,fpath)
     return cls.from_dict(d)
   def to_pickle(self,fpath):
     """Write ParameterSet to a pickle file.
