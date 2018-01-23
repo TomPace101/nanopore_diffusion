@@ -15,6 +15,9 @@ from jinja2 import Environment, FileSystemLoader
 import folderstructure as FS
 import useful
 
+#Path to this code file (for dependency list)
+thisfile=sys.modules[__name__].__file__
+
 #Calculation functions
 calcfuncs={}
 def addcalcfunc(f):
@@ -87,7 +90,7 @@ class ParameterGenerator(useful.ParameterSet):
   _required_attrs=['outfile','tmplfile']
   _config_attrs=['outfile','tmplfile','constfields','rangefields','otherfiles','calcfields']
   _folders={'outfile':FS.paramsfolder, 'tmplfile':FS.pgtemplates_folder, 'otherfiles':FS.paramsfolder}
-  _inputfile_attrs=['sourcefile','tmplfile']
+  _inputfile_attrs=['tmplfile'] #don't need sourcefile due to config
   _outputfile_attrs=['outfile']
   _taskname_src_attr='outfile'
   def __init__(self,**kwd):
@@ -101,7 +104,7 @@ class ParameterGenerator(useful.ParameterSet):
         self.otherfpaths[osp.join(folder,k)]=v
       #Store a list of these additional input files
       if not hasattr(self,'_more_inputfiles'):
-        self._more_inputfiles=[]
+        self._more_inputfiles=[thisfile,useful.__file__]
       self._more_inputfiles+=list(self.otherfpaths.keys())
 
   def generate_fields(self):

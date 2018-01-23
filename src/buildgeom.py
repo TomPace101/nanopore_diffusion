@@ -10,6 +10,7 @@
 #Standard library
 import os
 import os.path as osp
+import sys
 
 #Site packages
 from jinja2 import Environment, FileSystemLoader
@@ -17,6 +18,9 @@ from jinja2 import Environment, FileSystemLoader
 #Local
 import folderstructure as FS
 import useful
+
+#Path to this code file (for dependency list)
+thisfile=sys.modules[__name__].__file__
 
 class GeometryDefinition(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
@@ -50,7 +54,8 @@ class MeshParameters(useful.ParameterSet):
   __slots__=('meshname','geomdefname','tmplvalues','geomdef','geofile','_folders')
   _required_attrs=['meshname','geomdefname','tmplvalues']
   _config_attrs=_required_attrs
-  _inputfile_attrs=['sourcefile']
+  #don't need sourcefile as input file due to config
+  _more_inputfiles=[thisfile,useful.__file__]
   _outputfile_attrs=['geofile']
   _child_attrs=['geomdef']
   _taskname_src_attr='meshname'

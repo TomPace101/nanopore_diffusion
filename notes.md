@@ -19,7 +19,7 @@
     - change 'from folderstructure import \*'
   - Objects needing each of these:
     - DONE: paramgen.ParameterGenerator
-    - buildgeom.MeshParameters
+    - DONE: buildgeom.MeshParameters
     - new module to generate .msh files from .geo, based on yaml (run_gmsh)
     - new module to generate .xml files from .msh, based on yaml (run_dolfin_convert)
     - solver_general.ModelParameters
