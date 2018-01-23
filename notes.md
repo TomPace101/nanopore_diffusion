@@ -7,6 +7,12 @@ _TODO_ create a path object (unless pathlib can do it) supporting:
 - file name (property)
 - full path (property)
 This would simplify things a lot if we had it.
+Or would it?
+You have to use this class as the appropriate object attribute,
+meaning at initialization it has to be there.
+That doesn't fit with the way ParameterSet works.
+
+_TODO_ in buildgeom, validate geometric inputs (different formulas for different geometries)
 
 # Refactoring
 
