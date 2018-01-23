@@ -1,11 +1,4 @@
 #Process a jinja2 template into one (or more) gmsh .geo file(s)
-#Usage:
-#python buildgeom.py geomdef paramdef
-#for more details, see
-#python buildgeom.py -h
-#Can also be used as an imported module
-
-## TODO: validation of geometric inputs (different formulas for different geometries)
 
 #Standard library
 import os
@@ -181,7 +174,7 @@ def write_one_geo(geomdef, paramdef, geofile):
   t_input = prepare_template_input(geomdef, paramdef)
 
   #Load template
-  env=Environment(loader=FileSystemLoader([FS.geotemplates_folder,'.']), trim_blocks=True)
+  env=Environment(loader=FileSystemLoader([geomdef._folders['tmplfile'],'.']), trim_blocks=True)
   tmpl=env.get_template(geomdef.tmplfile)
 
   #Render template
