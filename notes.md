@@ -11,8 +11,11 @@ Or would it?
 You have to use this class as the appropriate object attribute,
 meaning at initialization it has to be there.
 That doesn't fit with the way ParameterSet works.
+Although we could read in the string, then at initialization change it to the class.
 
 _TODO_ in buildgeom, validate geometric inputs (different formulas for different geometries)
+
+_TODO_ the LPB solver dataextraction output files don't get listed as targets currently.
 
 # Refactoring
 
@@ -34,9 +37,9 @@ _TODO_ in buildgeom, validate geometric inputs (different formulas for different
   - Objects needing each of these:
     - DONE: paramgen.ParameterGenerator
     - DONE: buildgeom.MeshParameters
-    - new module to generate .msh files from .geo, based on yaml (run_gmsh)
-    - new module to generate .xml files from .msh, based on yaml (run_dolfin_convert)
-    - solver_general.ModelParameters
+    - DONE: new module to generate .msh files from .geo, based on yaml (run_gmsh)
+    - DONE: new module to generate .xml files from .msh, based on yaml (run_dolfin_convert)
+    - solver_run.ModelParameters
     - postproc.PostProcParameters
 - modify dodo.py and the various task_ files to use the new approach, reusing (after extracting out) code from the command-line version where possible
 - document the general approach in README.md

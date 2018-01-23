@@ -100,6 +100,7 @@ Misc. things to note:
   - also, any quick and simple calculations can be done at initialization, but any time-consuming ones need to wait for running
   - for classes derived from useful.ParameterSet, initialization gives all the information needed to create a task in doit, running actually performs the task
   - for classes derived from solver_general.GenericSolver, initialization stops just before asking FEniCS to solve the problem, running solves and generates output
+- solver_general defines base classes used by other solver_modules, and solver_run uses those to define tasks and run analyses.
 
 # Contacts
 
