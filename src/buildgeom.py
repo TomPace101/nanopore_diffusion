@@ -35,7 +35,9 @@ class GeometryDefinition(useful.ParameterSet):
     nonplanar = list of surfaces that are not planar surfaces"""
   __slots__=('dimensions','tmplfile','tmplvars','ptdict','geomtable','surfloops','nonplanar')
   _required_attrs=list(__slots__)
-  _inputfile_attrs=['sourcefile']
+  _folders={'tmplfile':FS.geotemplates_folder}
+  _inputfile_attrs=['sourcefile','tmplfile']
+  _more_inputfiles=[osp.join(FS.geotemplates_folder,'common.geo.jinja2')]
 
 class MeshParameters(useful.ParameterSet):
   """Subclass of useful.ParameterSet to store the data for generating a mesh in gmsh of the problem geometry

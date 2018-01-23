@@ -24,7 +24,7 @@ controlfile=osp.join(FS.datafolder,'control.yaml')
 infile_list=useful.readyaml(controlfile)
 
 
-def generic_task_generator(folder,objtype):
+def generic_task_generator(folder,objtype,infile_list=infile_list):
   for infile in infile_list:
     infpath=osp.join(folder,infile)
     if osp.isfile(infpath):

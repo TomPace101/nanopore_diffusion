@@ -1,5 +1,13 @@
 
 
+_TODO_ create a path object (unless pathlib can do it) supporting:
+- folder
+- base name
+- extension
+- file name (property)
+- full path (property)
+This would simplify things a lot if we had it.
+
 # Refactoring
 
 - let objects provide their own info needed by doit tasks in a standard structure
