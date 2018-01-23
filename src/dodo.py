@@ -16,6 +16,8 @@ import folderstructure as FS
 import useful
 import paramgen
 import buildgeom
+import geom_mk_msh
+import geom_mk_xml
 
 #Constants
 controlfile=osp.join(FS.datafolder,'control.yaml')
@@ -27,6 +29,7 @@ infile_list=useful.readyaml(controlfile)
 def generic_task_generator(folder,objtype,infile_list=infile_list):
   for infile in infile_list:
     infpath=osp.join(folder,infile)
+    print("Loading %s from %s."%(objtype.__name__,infpath))
     if osp.isfile(infpath):
       allobj=objtype.all_from_yaml(infpath)
       for obj in allobj:
@@ -39,6 +42,12 @@ def task_paramgen():
 #Mesh tasks
 def task_make_geo():
   return generic_task_generator(FS.params_mesh_folder,buildgeom.MeshParameters)
+
+def task_make_msh():
+  return generic_task_generator(FS.params_mesh_folder,geom_mk_msh.GmshRunner)
+
+def task_make_xml():
+  return generic_task_generator(FS.params_mesh_folder,geom_mk_xml.DolfinConvertRunner)
 
 ##TODO
 # def task_make_mesh():
