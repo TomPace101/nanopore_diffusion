@@ -1,9 +1,8 @@
 %YAML 1.2
-# List of model parameter files to run
-# These files are all located in the model parameters folder
+# List of parameter files to run
 
 # Commenting out lines will suppress running those analyses
 ---
 - debug.yaml
 - brainy-media.yaml
-##- thin-shot.yaml
+- thin-shot.yaml
