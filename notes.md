@@ -1,4 +1,5 @@
 
+# Code/Misc
 
 _TODO_ create a path object (unless pathlib can do it) supporting:
 - folder
@@ -26,6 +27,7 @@ Conclusion: better than the way I'm doing it now, and part of the standard libra
 This is what I should be doing.
 
 This would (potentially) get rid of the \_folders attribute and \_full_path
+Everything in folderstructure should become a Path.
 
 _TODO_ in buildgeom, validate geometric inputs (different formulas for different geometries)
 
@@ -35,8 +37,6 @@ Search conditions (actually, it's immediate children) for dataextraction.
 _TODO_ the name of info.yaml appears in several places
 
 _TODO_ debug01 postproc needs to make PDF as well as PNG
-
-# Code/Misc
 
 _TODO_ code from notebooks into modules
 - time-domain Fickian?
