@@ -1,5 +1,5 @@
 
-_TODO_ unit conversion section: work out conversion factors for the other direction as well.
+_TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
 
 # Code/Misc
 

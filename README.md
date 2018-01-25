@@ -46,18 +46,17 @@ will have a '.keep' file to force `git` to include the directory itself.
     - useful.py: functions and classes used by many of the other modules
     - buildgeom.py: code for generating `gmsh` .geo files from input data
     - solver_general.py: functions and classes used by many of the solver modules
+    - solver_run.py: top-level module for running solvers
     - equation-specific solver modules:
         - fickian_unhomog.py: solver for Fick's Law, unhomogenized
         - smol_unhomog.py: solver for Smoluchowski equation, unhomogenized
+        - __TODO__
     - collect_results.py: generate `pandas` DataFrame from FEM results, and store.
     - plotdata.py: for generating plots
     - postproc.py: code for handling post-processing requests
     - dodo.py: `doit` input file for the FEM analysis
-    - tasks_mesh.py: `doit` task definitions for mesh generation
-    - tasks_solver.py: `doit` task definitions for FEM analysis and data extraction
-    - tasks_postproc.py: `doit` task defintions for post-processing
     - paramgen.py: code for generating parameter sets from templates and input data
-    - gen_params: folder for python scripts to generate various parameter definition files
+    - unitsystem.py: convenience module for converting values to and from model units
 - data: input and output data from FEM analysis
     - control.yaml: list of analyses to be run with `doit` (see description below)
     - mesh: data for mesh generation using `gmsh`
@@ -101,6 +100,8 @@ Misc. things to note:
   - for classes derived from useful.ParameterSet, initialization gives all the information needed to create a task in doit, running actually performs the task
   - for classes derived from solver_general.GenericSolver, initialization stops just before asking FEniCS to solve the problem, running solves and generates output
 - solver_general defines base classes used by other solver_modules, and solver_run uses those to define tasks and run analyses.
+
+Discuss how to use unitsystem.py
 
 # Contacts
 
