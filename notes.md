@@ -38,11 +38,12 @@ But, you can join them together, and can get a new one with a suffix by p.with_s
 Conclusion: better than the way I'm doing it now, and part of the standard library.
 This is what I should be doing.
 
-This would get rid of the \_folders attribute and \_full_path
+This would (potentially) get rid of the \_folders attribute and \_full_path
 
 _TODO_ in buildgeom, validate geometric inputs (different formulas for different geometries)
 
 _TODO_ the LPB solver dataextraction output files don't get listed as targets currently.
+Search conditions (actually, it's immediate children) for dataextraction.
 
 _TODO_ the name of info.yaml appears in several places
 

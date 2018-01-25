@@ -59,6 +59,7 @@ class PlotFigure(useful.ParameterSet):
   __slots__=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts','outfpath','datafiles','series','fig','ax','info']
   _config_attrs=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts']
   _outputfile_attrs=['outfpath']
+  _taskname_src_attr='outfpath'
   
   def __init__(self,**kwd):
     #Initialization from base class
@@ -176,7 +177,6 @@ class ModelPlotFigure(PlotFigure):
       (none)"""
   __slots__=['plotname','modelname']
   _config_attrs=PlotFigure._config_attrs+['plotname','modelname']
-  _taskname_src='plotname'
 
   def outdir(self):
     return osp.join(FS.postprocfolder,self.basename,self.modelname)
@@ -217,7 +217,7 @@ class CollectionPlotFigure(PlotFigure):
       df = the DataFrame"""
   __slots__=['calcfunctions','seriesdefs','df']
   _config_attrs=PlotFigure._config_attrs+['calcfunctions','seriesdfs']
-  _taskname_src='basename'
+
   def outdir(self):
     return osp.join(FS.postprocfolder,self.basename)
 

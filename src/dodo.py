@@ -70,7 +70,7 @@ def task_solve():
 #Post-processing tasks
 @create_after('paramgen')
 def task_postproc():
-  return generic_task_generator(FS.postprocfolder,postproc.PostProcParameters)
+  return generic_task_generator(FS.params_postproc_folder,postproc.PostProcParameters)
 
 
 

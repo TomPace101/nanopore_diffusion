@@ -81,6 +81,7 @@ def dicts_to_dataframe(alldicts,exclusions):
 class ResultsCollector(useful.ParameterSet):
   __slots__=('modellist','exclusions','input_files','outfpath')
   _required_attrs=['basename','modellist']
+  _config_attrs=['modellist','exclusions']
   _outputfile_attrs=['outfpath']
   _taskname_src_attr=['taskname']
   
@@ -90,7 +91,7 @@ class ResultsCollector(useful.ParameterSet):
     #Get the output file
     self.outfpath=osp.join(FS.postprocfolder,self.basename,collected_df_fname)
     #Get the input files
-    basedir=osp.join(FS.solnfolder,basename)
+    basedir=osp.join(FS.solnfolder,self.basename)
     self.input_files=[]
     for modelparams in self.modellist:
       if modelparams.basename==self.basename:
@@ -113,5 +114,5 @@ class ResultsCollector(useful.ParameterSet):
     alldicts = [useful.readyaml(fp) for fp in self.input_files]
     #Convert to dataframe and save
     df = dicts_to_dataframe(alldicts,self.exclusions)
-    df.to_pickle(outfpath)
+    df.to_pickle(self.outfpath)
     
