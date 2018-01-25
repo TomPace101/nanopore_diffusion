@@ -12,6 +12,33 @@ You have to use this class as the appropriate object attribute,
 meaning at initialization it has to be there.
 That doesn't fit with the way ParameterSet works.
 Although we could read in the string, then at initialization change it to the class.
+Or create a different attribute for the class.
+
+How it would work:
+repr and string should return the full path, or should they?
+init accepts all 5 arguments as keywords, with default strings:
+def __init__(folder=None,base_name=None,extension=None,filename=None,fullpath=None):
+  if fullpath is not None:
+    #obtain folder and filename from fullpath
+  if filename is not None:
+    #obtain basename and extension by spliting filename
+  if folder is None:
+    folder="."
+Have doctests for all possible combinations of parameters.
+That's 1+5+10+10+5+1=32 combinations (0 arguments, 1 argument, 2 ...)
+
+Comparison to pathlib.Path:
+- p.parent
+- p.stem (note that for multiple extensions this only take off the last one)
+- p.suffix (note that for multiple extensions this only gives the last one, and it does include the dot)
+- p.name
+- str(p)
+However, they are immutable.
+But, you can join them together, and can get a new one with a suffix by p.with_suffix()
+Conclusion: better than the way I'm doing it now, and part of the standard library.
+This is what I should be doing.
+
+This would get rid of the \_folders attribute and \_full_path
 
 _TODO_ in buildgeom, validate geometric inputs (different formulas for different geometries)
 
@@ -27,7 +54,7 @@ _TODO_: finish testing postproc with doit, then cleanup:
 - delete old code in dodo
 - remove the tasks_ files
 - create a branch to mark the occasion
-
+- delete old notes from this file
 
 - let objects provide their own info needed by doit tasks in a standard structure
   - DONE: changes within useful
