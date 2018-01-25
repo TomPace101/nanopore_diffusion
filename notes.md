@@ -1,5 +1,10 @@
 
+_TODO_ unit conversion section: work out conversion factors for the other direction as well.
+
 # Code/Misc
+
+_TODO_ rename useful to something like "common" or "general"
+Don't forget to update the readme when you do this.
 
 _TODO_ create a path object (unless pathlib can do it) supporting:
 - folder
