@@ -10,7 +10,7 @@ ptdict: {11: mcarl,            13: mcarl,
          21: mcarh, 22: mcarh, 23: mcarl,
          31: mcarh, 32: mcarh,
          41: mcarh, 42: mcarh, 43: mcarl,
-         51: mcarl,            53: mcarh}
+         51: mcarl,            53: mcarl}
 
 #Mapping of surfaces to points
 #In the following table of values, each tuple is a line loop that will be turned into a surface.
