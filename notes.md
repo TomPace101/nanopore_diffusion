@@ -1,6 +1,15 @@
 
 _TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
 
+# ill-sleep
+- a new notebook using actual geometry instead of square mesh
+- I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
+- then I need to figure out how to specify the expression for the Neumann boundary condition.
+- and at some point I need to fix the weak form based on my earlier observations
+- (the problem description document has some TODO items as well, as always)
+- then I need to make the tdPNP solver module
+- and I need to set up the necessary post-processing routines, to generate plots (only model plots in this case, I think)
+
 # Code/Misc
 
 _TODO_ rename useful to something like "common" or "general"
@@ -33,6 +42,9 @@ This is what I should be doing.
 
 This would (potentially) get rid of the \_folders attribute and \_full_path
 Everything in folderstructure should become a Path.
+
+_TODO_ should ParameterSet be split into a base class,
+and a derived class that includes all the doit support?
 
 _TODO_ in buildgeom, validate geometric inputs (different formulas for different geometries)
 
@@ -158,6 +170,13 @@ at the ends of the pore(s).
 
 Don't forget to remove mesh/geomdef/body-cen2.yaml and update
 params/mesh/debug.yaml accordingly.
+
+_FEATURE_ a new class like ParameterSet,
+but not using slots.
+Instead, use a jsonschema to indicate what keys are required on load,
+and what structure is allowed.
+Or is it better to stick with what we have now?
+It might actually be more portable than using jsonschema.
 
 #Specific Equations
 ## Homogenized Fickian
