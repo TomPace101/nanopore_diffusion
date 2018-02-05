@@ -13,7 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 
 #Local
 import folderstructure as FS
-import useful
+import common
 
 #Path to this code file (for dependency list)
 thisfile=sys.modules[__name__].__file__
@@ -56,7 +56,7 @@ def calc_seq_split(fields,files_docs_dict,dest_field_seq,fieldname):
   fields.update(newfields)
   return True
 
-class ParameterGenerator(useful.ParameterSet):
+class ParameterGenerator(common.ParameterSet):
   """ParameterSet used to generate other ParameterSets
   Attributes:
     To be read in:
@@ -104,7 +104,7 @@ class ParameterGenerator(useful.ParameterSet):
         self.otherfpaths[osp.join(folder,k)]=v
       #Store a list of these additional input files
       if not hasattr(self,'_more_inputfiles'):
-        self._more_inputfiles=[thisfile,useful.__file__]
+        self._more_inputfiles=[thisfile,common.__file__]
       self._more_inputfiles+=list(self.otherfpaths.keys())
 
   def generate_fields(self):
@@ -113,7 +113,7 @@ class ParameterGenerator(useful.ParameterSet):
     otherdocs={}
     if getattr(self,'otherfpaths',None) is not None:
       for yfile in self.otherfpaths.keys():
-          otherdocs[yfile]=useful.readyaml_multidoc(yfile)
+          otherdocs[yfile]=common.readyaml_multidoc(yfile)
     #Set up iterator for the big loop
     if getattr(self,'rangefields',None) is not None:
         fieldnames_range=tuple(self.rangefields.keys())
@@ -144,7 +144,7 @@ class ParameterGenerator(useful.ParameterSet):
             #For each destination field
             for fieldname,locseq in fieldmap.items():
               #Get the value at the specified location
-              val=useful.nested_location(otherdoc,locseq)
+              val=common.nested_location(otherdoc,locseq)
               #Put into specified field
               fields[fieldname]=val
         #Do calcfields
@@ -195,4 +195,4 @@ if __name__ == '__main__':
   This is a potentially multi-doc yaml file, where each document specifies one multi-doc yaml file to generate.
   Each document must provide the attributes for an instance of the ParameterGenerator class."""
   
-  useful.run_cmd_line(program_description,input_file_description,ParameterGenerator)
+  common.run_cmd_line(program_description,input_file_description,ParameterGenerator)

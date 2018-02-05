@@ -10,11 +10,11 @@ import pandas as pd
 
 #Local
 import folderstructure as FS
-import useful
+import common
 import solver_general
 import collect_results
 
-class PlotSeries(useful.ParameterSet):
+class PlotSeries(common.ParameterSet):
   """Data for a single series on a plot
   Attributes:
     xvals = array of x-values
@@ -34,7 +34,7 @@ class PlotSeries(useful.ParameterSet):
       The result of call to ax.plot"""
     return ax.plot(self.xvals,self.yvals,fmt,label=self.label,**kwd)
 
-class PlotFigure(useful.ParameterSet):
+class PlotFigure(common.ParameterSet):
   """Data for a single matplotlib figure
   This is for a plot with a single set of axes.
   Attributes:
@@ -149,7 +149,7 @@ class PlotFigure(useful.ParameterSet):
     Arguments:
       locspec = sequence of keys in the info dictionary to locate the y-value
       kwargs = keyword arguments for ax.axhline"""
-    yval=useful.nested_location(self.info,locspec)
+    yval=common.nested_location(self.info,locspec)
     if kwargs is None:
       kwargs = {}
     self.ax.axhline(yval,**kwargs)
@@ -160,7 +160,7 @@ class PlotFigure(useful.ParameterSet):
     Arguments:
       locspec = sequence of keys in the info dictionary to locate the x-value
       kwargs = keyword arguments for ax.axvline"""
-    xval=useful.nested_location(self.info,locspec)
+    xval=common.nested_location(self.info,locspec)
     if kwargs is None:
       kwargs = {}
     self.ax.axvline(xval,**kwargs)
@@ -196,7 +196,7 @@ class ModelPlotFigure(PlotFigure):
     self.series=outdata.plots[self.plotname]
     
     #Load the info
-    self.info=useful.readyaml(self.datafiles['infofile'])
+    self.info=common.readyaml(self.datafiles['infofile'])
     #Promote mesh parameter values to direct entries of meshparams
     self.info['meshparams'].update(self.info['meshparams']['tmplvalues'])
     

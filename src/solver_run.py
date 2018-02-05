@@ -7,7 +7,7 @@ import sys
 
 #Local
 import folderstructure as FS
-import useful
+import common
 import buildgeom
 import solver_general
 
@@ -73,7 +73,7 @@ class ModelParameters(solver_general.ModelParametersBase):
     #Get the solver class
     self.solverclass=self.solverclasses[self.equation]
     #Get code files
-    self._more_inputfiles=[thisfile,useful.__file__, sys.modules[self.solverclass.__module__].__file__]
+    self._more_inputfiles=[thisfile,common.__file__, sys.modules[self.solverclass.__module__].__file__]
     #Get XML files
     self.xmlfolder=osp.join(FS.xmlfolder,self.meshparams.basename)
     self.mesh_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'.xml')
@@ -96,5 +96,5 @@ if __name__ == '__main__':
   input_file_description='Path to file containing ModelParameters definitions'
   other_selection={'equation':ModelParameters.solverclasses.keys()}
   
-  useful.run_cmd_line(program_description,input_file_description,ModelParameters,other_selection=other_selection)
+  common.run_cmd_line(program_description,input_file_description,ModelParameters,other_selection=other_selection)
   #other_selection is needed so we only try to run models whose equation we have a solver for

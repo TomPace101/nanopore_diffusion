@@ -14,7 +14,7 @@ from doit import create_after
 
 #Local
 import folderstructure as FS
-import useful
+import common
 import paramgen
 import buildgeom
 import geom_mk_msh
@@ -26,7 +26,7 @@ import postproc
 controlfile=osp.join(FS.datafolder,'control.yaml')
 
 #Read in the files for processing
-infile_list=useful.readyaml(controlfile)
+infile_list=common.readyaml(controlfile)
 
 
 def generic_task_generator(folder,objtype,infile_list=infile_list):

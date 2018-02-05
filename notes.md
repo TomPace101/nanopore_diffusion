@@ -12,9 +12,6 @@ _TODO_ unit conversion section of problem description: work out conversion facto
 
 # Code/Misc
 
-_TODO_ rename useful to something like "common" or "general"
-Don't forget to update the readme when you do this.
-
 _TODO_ create a path object (unless pathlib can do it) supporting:
 - folder
 - base name

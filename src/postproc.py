@@ -10,11 +10,11 @@ import folderstructure as FS
 import solver_general
 import plotdata
 import collect_results
-import useful
+import common
 
 #Constants
 
-class PostProcParameters(useful.ParameterSet):
+class PostProcParameters(common.ParameterSet):
   """Definition of post-processing requests
   Attributes:
     modelparamsfile = name of yaml file containing the models to post-process (include .yaml extension)
@@ -84,4 +84,4 @@ if __name__ == '__main__':
   program_description='Run post-processing commands'
   input_file_description="Path to the file containing PostProcParameters definitions"
   
-  useful.run_cmd_line(program_description,input_file_description,PostProcParameters)
+  common.run_cmd_line(program_description,input_file_description,PostProcParameters)

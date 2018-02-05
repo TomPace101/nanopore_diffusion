@@ -11,7 +11,6 @@ import fenics as fem
 #Local
 from folderstructure import *
 import solver_general
-import useful
 
 class UnhomogFickianConditions(solver_general.GenericConditions):
   """Condition defnitions for use with UnhomogFickianSolver

@@ -13,7 +13,6 @@ import fenics as fem
 #Local
 from folderstructure import *
 import solver_general
-import useful
 
 class LPBConditions(solver_general.GenericConditions):
   """Condition defnitions for use with LPBSolver

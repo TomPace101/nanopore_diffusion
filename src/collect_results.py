@@ -8,7 +8,7 @@ import pandas as pd
 
 #Local
 import folderstructure as FS
-import useful
+import common
 
 #Constants
 infofile='info.yaml'
@@ -78,7 +78,7 @@ def dicts_to_dataframe(alldicts,exclusions):
     df=df.append(fd,ignore_index=True)
   return df
   
-class ResultsCollector(useful.ParameterSet):
+class ResultsCollector(common.ParameterSet):
   __slots__=('modellist','exclusions','input_files','outfpath')
   _required_attrs=['basename','modellist']
   _config_attrs=['modellist','exclusions']
@@ -111,7 +111,7 @@ class ResultsCollector(useful.ParameterSet):
     #Make sure the parent folder exists
     os.makedirs(osp.split(self.outfpath)[0],exist_ok=True)
     #Read in all the info files
-    alldicts = [useful.readyaml(fp) for fp in self.input_files]
+    alldicts = [common.readyaml(fp) for fp in self.input_files]
     #Convert to dataframe and save
     df = dicts_to_dataframe(alldicts,self.exclusions)
     df.to_pickle(self.outfpath)

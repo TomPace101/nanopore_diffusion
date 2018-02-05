@@ -10,7 +10,7 @@ import sys
 
 #Local
 import folderstructure as FS
-import useful
+import common
 import buildgeom
 
 #Path to this code file (for dependency list)
@@ -20,13 +20,13 @@ thisfile=sys.modules[__name__].__file__
 #arguments: mshfile, xmlfile
 cmd_tmpl="dolfin-convert %s %s"
 
-class DolfinConvertRunner(useful.ParameterSet):
+class DolfinConvertRunner(common.ParameterSet):
   __slots__=('meshname','geomdefname','tmplvalues','mshfile','xmlfile','_folders')
   _required_attrs=['meshname','geomdefname','tmplvalues']
   _config_attrs=_required_attrs
   #don't need sourcefile as input file due to config
   _inputfile_attrs=['mshfile']
-  _more_inputfiles=[thisfile,useful.__file__]
+  _more_inputfiles=[thisfile,common.__file__]
   _outputfile_attrs=['xmlfile']
   _taskname_src_attr='meshname'
 
@@ -55,4 +55,4 @@ if __name__ == '__main__':
   input_file_description="""Path to parameter definition file for the mesh
     This is a potentially multi-doc yaml file, where each document specifies one mesh to generate."""
   
-  useful.run_cmd_line(program_description,input_file_description,DolfinConvertRunner)
+  common.run_cmd_line(program_description,input_file_description,DolfinConvertRunner)

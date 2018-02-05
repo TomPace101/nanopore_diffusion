@@ -11,7 +11,7 @@ import numpy as np
 
 #Local
 import folderstructure as FS
-import useful
+import common
 import buildgeom
 import plotdata
 
@@ -20,21 +20,21 @@ target_fenics_version='2017.1.0'
 fenics_version_msg_template="This code was written for FEniCS version '%s'. Detected version '%s'. You can try to run it by uncommenting this line, but it may not work, due to FEniCS API changes."
 assert fem.DOLFIN_VERSION_STRING == target_fenics_version, fenics_version_msg_template%(target_fenics_version,fem.DOLFIN_VERSION_STRING)
 
-class GenericConditions(useful.ParameterSet):
+class GenericConditions(common.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
   Attributes:
     elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
     bcdict = dictionary of Dirichlet boundary conditions: {physical surface number: solution value, ...}"""
   __slots__=['elementorder','bcdict']
 
-class OutData(useful.ParameterSet):
+class OutData(common.ParameterSet):
   """Data from solver to be written to disk.
   Attributes:
     plots = Dictionary of plot data, {plotname: [plotdata.PlotSeries, ...], ...}"""
   __slots__=['plots']
 
-class ModelParametersBase(useful.ParameterSet):
-  """Subclass of useful.ParameterSet to store generic solver parameters
+class ModelParametersBase(common.ParameterSet):
+  """Subclass of common.ParameterSet to store generic solver parameters
   Attributes:
     To be read in from file:
       modelname = stem name for output files
@@ -147,7 +147,7 @@ class GenericSolver:
     self.info['results']=self.results
     #Write output files if requested
     if diskwrite:
-      useful.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
+      common.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
       self.outdata.to_pickle(osp.join(self.outdir,'outdata.pkl'))
 
     #Done

@@ -10,7 +10,7 @@ import sys
 
 #Local
 import folderstructure as FS
-import useful
+import common
 import buildgeom
 
 #Path to this code file (for dependency list)
@@ -20,13 +20,13 @@ thisfile=sys.modules[__name__].__file__
 #arguments: mshfile, geofile, txtfile
 cmd_tmpl="gmsh -0 -o %s %s >%s"
 
-class GmshRunner(useful.ParameterSet):
+class GmshRunner(common.ParameterSet):
   __slots__=('meshname','geomdefname','tmplvalues','geofile','mshfile','txtfile','_folders')
   _required_attrs=['meshname','geomdefname','tmplvalues']
   _config_attrs=_required_attrs
   #don't need sourcefile as input file due to config
   _inputfile_attrs=['geofile']
-  _more_inputfiles=[thisfile,useful.__file__]
+  _more_inputfiles=[thisfile,common.__file__]
   _outputfile_attrs=['mshfile','txtfile']
   _taskname_src_attr='meshname'
 
@@ -57,4 +57,4 @@ if __name__ == '__main__':
   input_file_description="""Path to parameter definition file for the mesh
     This is a potentially multi-doc yaml file, where each document specifies one mesh to generate."""
   
-  useful.run_cmd_line(program_description,input_file_description,GmshRunner)
+  common.run_cmd_line(program_description,input_file_description,GmshRunner)

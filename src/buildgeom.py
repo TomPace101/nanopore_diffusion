@@ -10,13 +10,13 @@ from jinja2 import Environment, FileSystemLoader
 
 #Local
 import folderstructure as FS
-import useful
+import common
 
 #Path to this code file (for dependency list)
 thisfile=sys.modules[__name__].__file__
 
-class GeometryDefinition(useful.ParameterSet):
-  """Subclass of useful.ParameterSet to store the problem geometry without reference to physical dimensions
+class GeometryDefinition(common.ParameterSet):
+  """Subclass of common.ParameterSet to store the problem geometry without reference to physical dimensions
   These parameter files are usually stored in the location specified by folderstructure.geomdef_folder.
   Attributes:
     dimensions = number of spatial dimensions (i.e. 2 for 2D mesh, 3 for 3D mesh)
@@ -32,8 +32,8 @@ class GeometryDefinition(useful.ParameterSet):
   _inputfile_attrs=['sourcefile','tmplfile']
   _more_inputfiles=[osp.join(FS.geotemplates_folder,'common.geo.jinja2')]
 
-class MeshParameters(useful.ParameterSet):
-  """Subclass of useful.ParameterSet to store the data for generating a mesh in gmsh of the problem geometry
+class MeshParameters(common.ParameterSet):
+  """Subclass of common.ParameterSet to store the data for generating a mesh in gmsh of the problem geometry
   These parameter files are usually stored in the location specified by folderstructure.params_mesh_folder.
   Attributes:
     To be read in:
@@ -50,7 +50,7 @@ class MeshParameters(useful.ParameterSet):
   _required_attrs=['meshname','geomdefname','tmplvalues']
   _config_attrs=['basename']+_required_attrs
   #don't need sourcefile as input file due to config
-  _more_inputfiles=[thisfile,useful.__file__]
+  _more_inputfiles=[thisfile,common.__file__]
   _outputfile_attrs=['geofile']
   _child_attrs=['geomdef']
   _taskname_src_attr='meshname'
@@ -200,5 +200,5 @@ if __name__ == '__main__':
     Each document must provide the attributes for an instance of the MeshParameters class,
     or a subclass thereof appropriate for the specified geometry defintion."""
   
-  useful.run_cmd_line(program_description,input_file_description,MeshParameters)
+  common.run_cmd_line(program_description,input_file_description,MeshParameters)
   
