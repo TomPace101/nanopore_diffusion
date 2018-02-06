@@ -10,6 +10,28 @@ _TODO_ unit conversion section of problem description: work out conversion facto
 - then I need to make the tdPNP solver module
 - and I need to set up the necessary post-processing routines, to generate plots (only model plots in this case, I think)
 
+This simulation does present some challenges in moving the data around.
+- BT: it is used to calculate initial concentrations, and in the reaction rate functions
+- reaction rate constants
+- reaction rate functions
+
+Reaction rate functions
+- have a module of such functions, with similar argument structures
+
+BT: just make CaM a species, and exclude it from diffusion calculations,
+but set up everything else so that the total of CaM and CaCaM at each point is a constant.
+If those species can't diffuse, and the reaction converts them at a 1:1 ratio, their total at each point will remain constant, right?
+Maybe you could output this field to make sure it stays constant?
+Or maybe you just do that in your own post-processing?
+Still, it's the difference between storing a single scalar, and storing a field quantity recalculated at each step.
+
+Diffusion exclusions:
+just put "null" in as the diffusion constant.
+pyyaml will convert that to a None.
+
+Do a check to make sure that the simulation is electrically neutral at first:
+take sum of initconc*z.
+
 # Code/Misc
 
 _TODO_ create a path object (unless pathlib can do it) supporting:

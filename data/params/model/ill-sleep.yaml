@@ -1,0 +1,25 @@
+%YAML 1.2
+#Parameter input file
+#Each document is a separate case run
+#Blank (bare) documents are skipped
+
+#Model definition
+#Each document defines an instance of solver_general.ModelParameters
+---
+modelname: ill-sleep_model
+meshparamsfile: ill-sleep.yaml
+meshname: ill-sleep_mesh
+equation: tdpnp_unhomog
+conditions:
+  elementorder: 3
+  bcdict: {} ##TODO
+  temperature: 298 #Kelvin
+  species_info:
+    symbol:   [Ca2+, Cl-,  CaCaM]
+    z:        [2,    -1,   2]
+    initconc: [] ##TODO
+    D:        [1.9,  2.03, 2.5] ##TODO: these are test values only
+  reaction_info:
+    constants: [] ##TODO
+    functions: [] ##TODO
+    stoichio: [[-1,0,1],[1,0,-1]]
