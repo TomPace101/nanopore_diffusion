@@ -55,12 +55,16 @@ class ReactionInfo(common.ParameterSet):
 class TDPNPUConditions(solver_general.GenericConditions):
   """Condition defnitions for use with TDPNPUSolver
   Attributes:
+    elementorder = see base class
+    bcdict = dictionary of Dirichlet boundary conditions:
+      {physical facet number: [solution values, None for no condition]}
     temperature = the temperature under consideration, as a number
     species_info = dictionary defining a SpeciesInfo object
     reaction_info = dictionary defining a ReactionInfo object
-    bcdict = dictionary of Dirichlet boundary conditions: {physical ...##TODO}
+    t_end = end time for simulation (may be exceeded if not exactly divisible by timestep)
+    delta_t = timestep for simulation (number of timesteps is calculated from this)
     beta = optional, calculated from temperature if not provided"""
-  __slots__=['beta','temperature','species_info','reaction_info']
+  __slots__=['beta','temperature','species_info','reaction_info','t_end','delta_t']
   def __init__(self,**kwargs):
     #Initialization from base class
     super().__init__(**kwargs)
@@ -75,6 +79,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     species = instance of SpeciesInfo
     reactions = instance of ReactionInfo
     Nvars = number of field variables to solve for
+    dt = timestep
+    numsteps = number of steps to compute
 
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
@@ -103,6 +109,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
     varlist=self.species.symbol+non_species_vars
     self.Nvars=len(varlist)
     
+    #Calculate number of time steps
+    self.dt=self.conditions.delta_t
+    self.numsteps=math.ceil(t_end/self.dt)
+    
     #Function space(s)
     ##TODO
 
@@ -121,7 +131,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
   def solve(self):
     "Do the time steps"
     
-    ##TODO
-    pass
+    for k in range(self.numsteps):
+      ##TODO
 
 solverclasses={'tdpnp_unhomog':TDPNPUSolver}

@@ -12,7 +12,9 @@ meshname: ill-sleep_mesh
 equation: tdpnp_unhomog
 conditions:
   elementorder: 3
-  bcdict: {} ##TODO
+  bcdict:
+    1113: [null, null, null, 0.02]
+    5153: [null, null, null, -0.02]
   temperature: 298 #Kelvin
   species_info:
     symbol:   [Ca2+, Cl-,  CaCaM]
@@ -23,3 +25,5 @@ conditions:
     constants: [0.0016605390404271642, 1e-09]
     functions: [] ##TODO
     stoichio: [[-1,0,1],[1,0,-1]]
+  t_end: 10.0
+  delta_t: 1.0

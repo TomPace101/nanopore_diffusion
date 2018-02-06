@@ -2,12 +2,16 @@
 _TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
 
 # ill-sleep
-- a new notebook using actual geometry instead of square mesh
+The solver module:
+
+
+
+Other stuff:
+- a new notebook using actual geometry instead of square mesh (or is this necessary anymore?)
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
 - then I need to figure out how to specify the expression for the Neumann boundary condition.
 - and at some point I need to fix the weak form based on my earlier observations
 - (the problem description document has some TODO items as well, as always)
-- then I need to make the tdPNP solver module
 - and I need to set up the necessary post-processing routines, to generate plots (only model plots in this case, I think)
 
 This simulation does present some challenges in moving the data around.
@@ -18,31 +22,12 @@ This simulation does present some challenges in moving the data around.
 Reaction rate functions
 - have a module of such functions, with similar argument structures
 
-BT: just make CaM a species, and exclude it from diffusion calculations,
-but set up everything else so that the total of CaM and CaCaM at each point is a constant.
-If those species can't diffuse, and the reaction converts them at a 1:1 ratio, their total at each point will remain constant, right?
-Maybe you could output this field to make sure it stays constant?
-Or maybe you just do that in your own post-processing?
-Still, it's the difference between storing a single scalar, and storing a field quantity recalculated at each step.
-So that's the memory difference: a single scalar versus a field variable.
-What about the time difference?
-The additional calculation for BT-conc is pretty much negligible,
-but solving for another field variable, even if it's not in the diffusion terms,
-probably does take longer.
-
-The general principle here is we have a species we don't want to generate a field for.
-We need to know its concentration, but we can calculate it from other state information.
-And the more general principle to that is that we have a spatially varying quantity,
-which is not computed from the differential equation,
-but by a different equation.
-(And I don't think you can put it in a FEniCS expression, either.)
-
+BT:
 The easiest solution is just to allow reaction functions to accept a dictionary argument,
 which will contain BT in this case.
 The challenge is to maintain consistency of these parameters when I calculate the initial concentrations.
 This could be made easier by using calculated fields in the parameter generation script,
 but that's actually more complicated than we need.
-
 
 Diffusion exclusions:
 just put "null" in as the diffusion constant.
