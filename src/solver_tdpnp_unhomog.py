@@ -23,8 +23,16 @@ class SpeciesInfo(common.ParameterSet):
     z: [list of ionic charges as numbers],
     initconc: [list of initial concentrations as numbers],
     D: [list of diffusion constants]
+    N: number of species (calculated)
   Each list must have 1 entry per diffusing chemical species"""
-  __slots__=['symbol','z','initconc','D']
+  __slots__=['symbol','z','initconc','D','N']
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super().__init__(**kwargs)
+    #Check number of species
+    nspec_all=[len(l) for l in self.conditions.species_info.values()]
+    assert min(nspec_all)==max(nspec_all), "Inconsistent number of species: %s"%str(nspec_all)
+    self.N=nspec_all[0]
 
 class ReactionInfo(common.ParameterSet):
   """Information on each reaction
@@ -35,7 +43,14 @@ class ReactionInfo(common.ParameterSet):
       each entry for stoichiometric coefficients is itself a list (one such list for each reaction), with one number for each species in the list for each reaction
       Thus, the total number of stoichiometric coefficients is the product of the number of reactions and the number of species.
   Each list must have 1 entry per uni-directional reaction (bidirectional reactions are considered as 2 uni-directional reactions each)"""
-  __slots__=['constants','functions','stoichio']
+  __slots__=['constants','functions','stoichio','N']
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super().__init__(**kwargs)
+    #Check number of reactions
+    nreac_all=[len(l) for l in reaction_info_dict.values()]
+    assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)    
+    self.N=nreac_all[0]
 
 class TDPNPUConditions(solver_general.GenericConditions):
   """Condition defnitions for use with TDPNPUSolver
@@ -56,9 +71,11 @@ class TDPNPUConditions(solver_general.GenericConditions):
 class TDPNPUSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Time-Domain Poisson-Nernst-Planck Diffusion
   Additional attributes not inherited from GenericSolver:
-    conditions = instance of PNPUConditions
-    nspecies = number of species
-    nreactions = number of reactions
+    conditions = instance of TDPNPUConditions
+    species = instance of SpeciesInfo
+    reactions = instance of ReactionInfo
+    Nvars = number of field variables to solve for
+
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
@@ -78,17 +95,14 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Get conditions
     self.conditions=TDPNPUConditions(**modelparams.conditions)
-    self.species_info=SpeciesInfo(**self.conditions.species_info)
-    self.reaction_info=ReactionInfo(**self.conditions.reaction_info)
+    self.species=SpeciesInfo(**self.conditions.species_info)
+    self.reaction=ReactionInfo(**self.conditions.reaction_info)
 
-    #Get number of species and reactions
-    nspec_all=[len(l) for l in self.conditions.species_info.values()]
-    assert min(nspec_all)==max(nspec_all), "Inconsistent number of species: %s"%str(nspec_all)
-    self.nspecies=nspec_all[0]
-    nreac_all=[len(l) for l in reaction_info_dict.values()]
-    assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)    
-    self.nreactions=nreac_all[0]
-
+    ##TODO
+    non_species_vars=['Phi']
+    varlist=self.species.symbol+non_species_vars
+    self.Nvars=len(varlist)
+    
     #Function space(s)
     ##TODO
 

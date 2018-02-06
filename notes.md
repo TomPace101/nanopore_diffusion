@@ -2,7 +2,7 @@
 _TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
 
 # ill-sleep
-- do we need physical lines for the boundaries? Do we need the physical surfaces?
+- buildgeom: set up physical lines for the boundaries
 - a new notebook using actual geometry instead of square mesh
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
 - then I need to figure out how to specify the expression for the Neumann boundary condition.
@@ -56,6 +56,15 @@ Maybe you do this in your input generation?
 
 
 # Code/Misc
+
+_TODO_ replace "surface" and "volume" with the more general "facet" and "cell"
+Boundary conditions always apply to facets.
+D = number of dimensions in problem (maximum entity dimension), d = number of dimensions in entity
+Note: D-d = "codimension"
+  D=2, d=1: fenics facet (facet_region) = fenics edge = gmsh physical line
+  D=2, d=2: fenics cell (physical_region) = fenics face = gmsh physical surface
+  D=3, d=2: fenics facet (facet_region) = fenics face = gmsh physical surface
+  D=3, d=3: fenics cell (physical_region) = fenics ____ = gmsh physical volume
 
 _TODO_ create a path object (unless pathlib can do it) supporting:
 - folder
