@@ -82,7 +82,7 @@ def add_entity(tup, tdict, looplist, nameprefix):
     tup = line/circle tuple of point numbers (as integers) (lines have 2 points, circles have 3)
     tdict = dictionary storing the line/circle tuples
     looplist = list of lines/circles in this line loop
-    nameprefix = 'c' for circle, 'l' for line
+    nameprefix = eg 'C' for circle, 'L' for line
   No return value.
   Side effects:
     tdict and looplist are modified in place, to include the generated (or found) lines/circles"""
@@ -141,10 +141,10 @@ def prepare_template_input(geom, paramdef):
       if pttup[indx]=='center':
         indx += 2
         ctup=(startpt,pttup[indx-1],pttup[indx])
-        add_entity(ctup,circles,loops[surfnum],'c')
+        add_entity(ctup,circles,loops[surfnum],'C')
       else:
         ltup=(startpt,pttup[indx])
-        add_entity(ltup,lines,loops[surfnum],'c')
+        add_entity(ltup,lines,loops[surfnum],'L')
       #Next point
       startpt=pttup[indx]
       indx += 1
