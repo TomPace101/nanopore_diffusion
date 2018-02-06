@@ -149,6 +149,15 @@ def prepare_template_input(geom, paramdef):
       startpt=pttup[indx]
       indx += 1
 
+  #Generate physical lines, if needed
+  if geom.dimensions == 2:
+    t_input['phys_lines']={}
+    for lname in lines.keys():
+      pts=lname[1:].split('_')
+      pts.sort()
+      lnum=''.join(pts)
+      t_input['phys_lines'][lnum]=lname
+
   #Provide mappings to template
   linemap=dict([(n,', '.join(['p%d'%p for p in pts])) for n,pts in lines.items()])
   t_input['lines']=linemap

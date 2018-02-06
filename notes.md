@@ -2,7 +2,6 @@
 _TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
 
 # ill-sleep
-- buildgeom: set up physical lines for the boundaries
 - a new notebook using actual geometry instead of square mesh
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
 - then I need to figure out how to specify the expression for the Neumann boundary condition.

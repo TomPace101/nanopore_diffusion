@@ -38,6 +38,11 @@ Physical Surface({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
 
 {% if dimensions==2 %}
+//Physical Lines
+{% for lnum,lname in phys_lines.items() %}
+Physical Line({{ lnum }})={ {{- lname -}} };
+{% endfor %}
+
 //Mesh
 Mesh 2;
 {% elif dimensions==3 %}
