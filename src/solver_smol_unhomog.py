@@ -11,7 +11,6 @@ import os.path as osp
 import fenics as fem
 
 #Local
-from folderstructure import *
 import solver_general
 
 class LPBConditions(solver_general.GenericConditions):

@@ -11,7 +11,6 @@ import os.path as osp
 import fenics as fem
 
 #Local
-import folderstructure as FS
 import unitsystem as UN
 import common
 import solver_general

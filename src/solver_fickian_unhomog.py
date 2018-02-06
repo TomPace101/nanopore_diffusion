@@ -9,7 +9,6 @@ import os.path as osp
 import fenics as fem
 
 #Local
-from folderstructure import *
 import solver_general
 
 class UnhomogFickianConditions(solver_general.GenericConditions):
