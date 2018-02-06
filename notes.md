@@ -184,9 +184,6 @@ The complete schema would thus be a read-only property.
 Or is there a way to call the validation methods of all supers?
 Probably not, as you'd need to know what keys are allowed by other classes in the mro.
 
-Maybe the class docstring could be yaml (with comments for actual text)
-that includes the schema, to reduce redundancy.
-
 Or is it better to stick with what we have now?
 Slots might actually be more portable than using jsonschema.
 
@@ -195,8 +192,13 @@ The validation would be more thorough than just listing required keys and allowe
 It would also include type information. (And maybe more.)
 Also, because there are no slots, you could still add attributes at run time.
 The validation would only happen at instantiation, to confirm the data read in from the file.
-(Towards that end, maybe you want a validation method you can run later on as well?)
+(Towards that end, maybe you want a validation method you can run later on as well?
+It would require converting the object to dictionary and validating that.)
 I'm not sure that's enough of an advantage.
+
+Maybe the class docstring could be yaml (with comments for actual text)
+that includes the schema, to reduce redundancy.
+Now that might be enough of an advantage.
 
 #Specific Equations
 ## Homogenized Fickian
