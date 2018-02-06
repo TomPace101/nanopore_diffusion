@@ -14,15 +14,15 @@ import fenics as fem
 from folderstructure import *
 import solver_general
 
-class PNPUConditions(solver_general.GenericConditions):
-  """Condition defnitions for use with PNPUSolver
+class TDPNPUConditions(solver_general.GenericConditions):
+  """Condition defnitions for use with TDPNPUSolver
   Attributes:
     beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
     species_info = dictionary {symbol: charge}"""
   __slots__=['beta','species_info']
 
-class PNPUSolver(solver_general.GenericSolver):
-  """Solver for Unhomogenized PNP Diffusion
+class TDPNPUSolver(solver_general.GenericSolver):
+  """Solver for Unhomogenized Time-Domain Poisson-Nernst-Planck Diffusion
   Additional attributes not inherited from GenericSolver:
     conditions = instance of PNPUConditions
     V = FEniCS FunctionSpace on the mesh
@@ -42,9 +42,9 @@ class PNPUSolver(solver_general.GenericSolver):
       pass
 
   def solve(self):
-    "Do the step of solving this equation"
+    "Do the time steps"
     
     ##TODO
     pass
 
-solverclasses={'pnp_unhomog':PNPUSolver}
+solverclasses={'tdpnp_unhomog':TDPNPUSolver}
