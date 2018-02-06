@@ -18,8 +18,8 @@ conditions:
     symbol:   [Ca2+, Cl-,  CaCaM]
     z:        [2,    -1,   2]
     initconc: [] ##TODO
-    D:        [1.9,  2.03, 2.5] ##TODO: these are test values only
+    D:        [1.9,  2.03, null] ##TODO: these are test values only
   reaction_info:
-    constants: [] ##TODO
+    constants: [0.0016605390404271642, 1e-09]
     functions: [] ##TODO
     stoichio: [[-1,0,1],[1,0,-1]]

@@ -2,6 +2,7 @@
 _TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
 
 # ill-sleep
+- do we need physical lines for the boundaries? Do we need the physical surfaces?
 - a new notebook using actual geometry instead of square mesh
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
 - then I need to figure out how to specify the expression for the Neumann boundary condition.
@@ -24,13 +25,35 @@ If those species can't diffuse, and the reaction converts them at a 1:1 ratio, t
 Maybe you could output this field to make sure it stays constant?
 Or maybe you just do that in your own post-processing?
 Still, it's the difference between storing a single scalar, and storing a field quantity recalculated at each step.
+So that's the memory difference: a single scalar versus a field variable.
+What about the time difference?
+The additional calculation for BT-conc is pretty much negligible,
+but solving for another field variable, even if it's not in the diffusion terms,
+probably does take longer.
+
+The general principle here is we have a species we don't want to generate a field for.
+We need to know its concentration, but we can calculate it from other state information.
+And the more general principle to that is that we have a spatially varying quantity,
+which is not computed from the differential equation,
+but by a different equation.
+(And I don't think you can put it in a FEniCS expression, either.)
+
+The easiest solution is just to allow reaction functions to accept a dictionary argument,
+which will contain BT in this case.
+The challenge is to maintain consistency of these parameters when I calculate the initial concentrations.
+This could be made easier by using calculated fields in the parameter generation script,
+but that's actually more complicated than we need.
+
 
 Diffusion exclusions:
 just put "null" in as the diffusion constant.
 pyyaml will convert that to a None.
+Then just exclude such terms from your weak form.
 
 Do a check to make sure that the simulation is electrically neutral at first:
 take sum of initconc*z.
+Maybe you do this in your input generation?
+
 
 # Code/Misc
 

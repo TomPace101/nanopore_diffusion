@@ -13,26 +13,38 @@ import fenics as fem
 #Local
 import folderstructure as FS
 import unitsystem as UN
+import common
 import solver_general
 
+
+class SpeciesInfo(common.ParameterSet):
+  """Information on each species
+  Attributes:
+    symbol: [list of chemical symbols as strings],
+    z: [list of ionic charges as numbers],
+    initconc: [list of initial concentrations as numbers],
+    D: [list of diffusion constants]
+  Each list must have 1 entry per diffusing chemical species"""
+  __slots__=['symbol','z','initconc','D']
+
+class ReactionInfo(common.ParameterSet):
+  """Information on each reaction
+  Attributes:
+    constants: [list of reaction rate constants],
+    functions: [list of reaction rate function ....]}
+    stoichio: [list of stoichiometric coefficients lists, negative for reactants, positive for products]
+      each entry for stoichiometric coefficients is itself a list (one such list for each reaction), with one number for each species in the list for each reaction
+      Thus, the total number of stoichiometric coefficients is the product of the number of reactions and the number of species.
+  Each list must have 1 entry per uni-directional reaction (bidirectional reactions are considered as 2 uni-directional reactions each)"""
+  __slots__=['constants','functions','stoichio']
 
 class TDPNPUConditions(solver_general.GenericConditions):
   """Condition defnitions for use with TDPNPUSolver
   Attributes:
     temperature = the temperature under consideration, as a number
-    species_info = dictionary
-      {symbol: [list of chemical symbols as strings],
-       z: [list of ionic charges as numbers],
-       initconc: [list of initial concentrations as numbers],
-       D: [list of diffusion constants]}
-      each list must have 1 entry per diffusing chemical species
-    reaction_info = dictionary
-      {constants: [list of reaction rate constants],
-       functions: [list of reaction rate function ....]}
-       stoichio: [list of stoichiometric coefficients lists, negative for reactants, positive for products]
-        each entry for stoichiometric coefficients is itself a list (one such list for each reaction), with one number for each species in the list for each reaction
-        Thus, the total number of stoichiometric coefficients is the product of the number of reactions and the number of species.
-      each list must have 1 entry per uni-directional reaction (bidirectional reactions are considered as 2 uni-directional reactions each)
+    species_info = dictionary defining a SpeciesInfo object
+    reaction_info = dictionary defining a ReactionInfo object
+    bcdict = dictionary of Dirichlet boundary conditions: {physical ...##TODO}
     beta = optional, calculated from temperature if not provided"""
   __slots__=['beta','temperature','species_info','reaction_info']
   def __init__(self,**kwargs):
@@ -46,6 +58,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Time-Domain Poisson-Nernst-Planck Diffusion
   Additional attributes not inherited from GenericSolver:
     conditions = instance of PNPUConditions
+    nspecies = number of species
+    nreactions = number of reactions
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
@@ -65,23 +79,30 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Get conditions
     self.conditions=TDPNPUConditions(**modelparams.conditions)
+    self.species_info=SpeciesInfo(**self.conditions.species_info)
+    self.reaction_info=ReactionInfo(**self.conditions.reaction_info)
 
-    #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
+    #Get number of species and reactions
+    nspec_all=[len(l) for l in self.conditions.species_info.values()]
+    assert min(nspec_all)==max(nspec_all), "Inconsistent number of species: %s"%str(nspec_all)
+    self.nspecies=nspec_all[0]
+    nreac_all=[len(l) for l in reaction_info_dict.values()]
+    assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)    
+    self.nreactions=nreac_all[0]
+
+    #Function space(s)
+    ##TODO
 
     #Measure for external boundaries
     self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces)
 
     #Dirichlet boundary conditions
-    self.conditions.transform_bcs(self.potsolv.conditions.bcdict,self.beta_q) #apply Slotboom transformation
-    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.trans_bcdict.items()]
+    ##TODO
 
     #Neumann boundary conditions
     ##TODO
 
     #Define variational problem
-    self.d3x = fem.Measure('cell',domain=self.mesh)
     ##TODO
 
   def solve(self):
