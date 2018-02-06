@@ -184,6 +184,9 @@ The complete schema would thus be a read-only property.
 Or is there a way to call the validation methods of all supers?
 Probably not, as you'd need to know what keys are allowed by other classes in the mro.
 
+Maybe the class docstring could be yaml (with comments for actual text)
+that includes the schema, to reduce redundancy.
+
 Or is it better to stick with what we have now?
 Slots might actually be more portable than using jsonschema.
 
