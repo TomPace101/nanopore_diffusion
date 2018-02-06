@@ -172,8 +172,28 @@ _FEATURE_ a new class like ParameterSet,
 but not using slots.
 Instead, use a jsonschema to indicate what keys are required on load,
 and what structure is allowed.
+http://json-schema.org/
+https://github.com/Julian/jsonschema
+(already present in anaconda)
+
+The schema for each class would be a class attribute.
+In init, run the validation on the input dictionary before assigning its values to the attributes.
+
+Use mro to assemble schema from all parent class schemas (and the class itself).
+The complete schema would thus be a read-only property.
+Or is there a way to call the validation methods of all supers?
+Probably not, as you'd need to know what keys are allowed by other classes in the mro.
+
 Or is it better to stick with what we have now?
-It might actually be more portable than using jsonschema.
+Slots might actually be more portable than using jsonschema.
+
+So what would be the advantage, then?
+The validation would be more thorough than just listing required keys and allowed keys.
+It would also include type information. (And maybe more.)
+Also, because there are no slots, you could still add attributes at run time.
+The validation would only happen at instantiation, to confirm the data read in from the file.
+(Towards that end, maybe you want a validation method you can run later on as well?)
+I'm not sure that's enough of an advantage.
 
 #Specific Equations
 ## Homogenized Fickian
