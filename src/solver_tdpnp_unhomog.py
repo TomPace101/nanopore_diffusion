@@ -79,7 +79,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
-    ds = FEniCS Measure for surface boundary conditions
+    ds = FEniCS Measure for facet boundary conditions
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
@@ -107,7 +107,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     ##TODO
 
     #Measure for external boundaries
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces)
+    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets)
 
     #Dirichlet boundary conditions
     ##TODO

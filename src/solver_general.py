@@ -24,7 +24,7 @@ class GenericConditions(common.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
   Attributes:
     elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
-    bcdict = dictionary of Dirichlet boundary conditions: {physical surface number: solution value, ...}"""
+    bcdict = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}"""
   __slots__=['elementorder','bcdict']
 
 class OutData(common.ParameterSet):
@@ -74,8 +74,8 @@ class GenericSolver:
     modelparams = solver_run.ModelParameters instance
     meshparams = buildgeom.MeshParameters instance
     mesh = FEniCS Mesh
-    surfaces = FEniCS MeshFunction of Physical Surface nubmer
-    volumes = FEniCS MeshFunction of Physical Volume number
+    facets = FEniCS MeshFunction of gmsh Physical Surface number (3D) or Physical Line number (2D)
+    cells = FEniCS MeshFunction of gmsh Physical Volume number (3D) or Physical Surface number (2D)
   """
   def __init__(self,modelparams,meshparams):
     """Initialize the solver by loading the Mesh and MeshFunctions.
@@ -94,11 +94,22 @@ class GenericSolver:
     self.tmplvalues=self.meshparams.tmplvalues
 
   def loadmesh(self):
-    """Load the mesh from the usual file locations"""
+    """Load the mesh from the usual file locations
+    A note on the terminology used in FEniCS and gmsh:
+      The FEniCS parts are from page 185-186 of the FEniCS book
+      d = number of dimensions in entity, D = number of dimensions in problem (maximum entity dimension)
+      D-d = "codimension" of entity
+      Terms:
+        D=2, d=1: fenics facet (facet_region xml) = fenics edge = gmsh physical line
+        D=2, d=2: fenics cell (physical_region xml) = fenics face = gmsh physical surface
+        D=3, d=2: fenics facet (facet_region xml) = fenics face = gmsh physical surface
+        D=3, d=3: fenics cell (physical_region xml) = fenics ____ = gmsh physical volume
+        also, d=0 is a fenics vertex
+      """
     #Load mesh and meshfunctions
     self.mesh=fem.Mesh(self.modelparams.mesh_xml)
-    self.surfaces=fem.MeshFunction("size_t", self.mesh, self.modelparams.surface_xml) #Mesh Function of Physical Surface number
-    self.volumes=fem.MeshFunction("size_t", self.mesh, self.modelparams.volume_xml) #Mesh function of Physical Volume number
+    self.facets=fem.MeshFunction("size_t", self.mesh, self.modelparams.facet_xml)
+    self.cells=fem.MeshFunction("size_t", self.mesh, self.modelparams.cell_xml)
     return
 
   @classmethod
@@ -190,19 +201,19 @@ class GenericSolver:
     return
 
   def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None): ##TODO: store also quadrupled value for unit cell?
-    """Flux integral over specified surface
+    """Flux integral over specified facet
     Arguments:
-      fluxsurf = physical surface number for flux measurement
+      fluxsurf = physical facet number for flux measurement
       name = name for storage in the results dictionary
       internal = boolean, default False, True to use internal boundary, False for external
-      fluxsign = '+' or '-' to specify which diretion normal to the surface for flux calculation
+      fluxsign = '+' or '-' to specify which diretion normal to the facet for flux calculation
         Required only if internal==True
-      normalvar = optional variable name to write the surface normal components to, as a sequence
+      normalvar = optional variable name to write the facet normal components to, as a sequence
     Required attributes:
       flux = flux as vector field
         This requires a previous call to fluxfield
       mesh = FEniCS Mesh object
-      surface = FEniCS MeshFunction object for surface numbers
+      facet = FEniCS MeshFunction object for facet numbers
     No new attributes.
     New item(s) added to results dictionary.
     No return value.
@@ -216,8 +227,8 @@ class GenericSolver:
       integral_type='exterior_facet'
       this_n=n
     if normalvar is not None:
-      self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the surface normal
-    this_ds=fem.Measure(integral_type,domain=self.mesh,subdomain_data=self.surfaces)
+      self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the facet normal
+    this_ds=fem.Measure(integral_type,domain=self.mesh,subdomain_data=self.facets)
     totflux=fem.assemble(fem.dot(self.flux,this_n)*this_ds(fluxsurf))
     self.results[name]=totflux
     return

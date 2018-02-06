@@ -26,7 +26,7 @@ class LPBSolver(solver_general.GenericSolver):
     lambda_D = Debye length
     V = FEniCS FunctionSpace on the mesh
     bcs = list of FEniCS DirichletBC instances
-    ds = FEniCS Measure for surface boundary conditions
+    ds = FEniCS Measure for facet boundary conditions
     phi = FEniCS TrialFunction on V
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
@@ -43,8 +43,8 @@ class LPBSolver(solver_general.GenericSolver):
 
     #Load mesh and meshfunctions
     self.mesh=other.mesh
-    self.surfaces=other.surfaces
-    self.volumes=other.volumes
+    self.facets=other.facets
+    self.cells=other.cells
     self.V = other.V
     self.ds = other.ds
 
@@ -58,11 +58,11 @@ class LPBSolver(solver_general.GenericSolver):
     ##self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.bcdict.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.bcdict.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
-    ##self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces) ##TODO: specify which surfaces are Neumann?
+    ##self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets) ##TODO: specify which facets are Neumann?
 
     #Define variational problem
     self.phi=fem.TrialFunction(self.V)
@@ -92,7 +92,7 @@ class SUConditions(solver_general.GenericConditions):
   __slots__=['D_bulk','q','beta','potential','trans_bcdict']
   def transform_bcs(self,pdict,beta_q):
     """Apply Slotboom transformation to Dirichlet boundary conditions.
-    This function requires that the surfaces with Dirichlet conditions for the concentration
+    This function requires that the facets with Dirichlet conditions for the concentration
       must also have Dirichlet conditions for the potential. (The reverse is not required.)
     Arguments:
       pdict = dictionary of Dirichlet boundary conditions for the potential
@@ -113,7 +113,7 @@ class SUSolver(solver_general.GenericSolver):
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
-    ds = FEniCS Measure for surface boundary conditions
+    ds = FEniCS Measure for facet boundary conditions
     potsolv = instance of solver for the electric potential
     Dbar = FEniCS Function
     cbar = FEniCS TrialFunction on V
@@ -139,7 +139,7 @@ class SUSolver(solver_general.GenericSolver):
     self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
 
     #Measure for external boundaries
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.surfaces)
+    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets)
 
     #Set up electric potential field
     potentialparams_dict=self.conditions.potential
@@ -152,7 +152,7 @@ class SUSolver(solver_general.GenericSolver):
 
     #Dirichlet boundary conditions
     self.conditions.transform_bcs(self.potsolv.conditions.bcdict,self.beta_q) #apply Slotboom transformation
-    self.bcs=[fem.DirichletBC(self.V,val,self.surfaces,psurf) for psurf,val in self.conditions.trans_bcdict.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.trans_bcdict.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case

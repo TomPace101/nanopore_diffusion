@@ -57,15 +57,6 @@ Maybe you do this in your input generation?
 
 # Code/Misc
 
-_TODO_ replace "surface" and "volume" with the more general "facet" and "cell"
-Boundary conditions always apply to facets.
-D = number of dimensions in problem (maximum entity dimension), d = number of dimensions in entity
-Note: D-d = "codimension"
-  D=2, d=1: fenics facet (facet_region) = fenics edge = gmsh physical line
-  D=2, d=2: fenics cell (physical_region) = fenics face = gmsh physical surface
-  D=3, d=2: fenics facet (facet_region) = fenics face = gmsh physical surface
-  D=3, d=3: fenics cell (physical_region) = fenics ____ = gmsh physical volume
-
 _TODO_ create a path object (unless pathlib can do it) supporting:
 - folder
 - base name
