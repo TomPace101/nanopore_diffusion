@@ -3,15 +3,19 @@ _TODO_ unit conversion section of problem description: work out conversion facto
 
 # ill-sleep
 The solver module:
+- need the appropriate data extraction methods
+  - model steps to VTK file
+  - data series at watched points
 
-
+The problem:
+- generate a square mesh in gmsh identicial to the one in the test notebooks
+- create a notebook that uses that gmsh square
+- create a debug model definition file that tests the same parameters as the notebooks
 
 Other stuff:
-- a new notebook using actual geometry instead of square mesh (or is this necessary anymore?)
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
 - then I need to figure out how to specify the expression for the Neumann boundary condition.
 - and at some point I need to fix the weak form based on my earlier observations
-- (the problem description document has some TODO items as well, as always)
 - and I need to set up the necessary post-processing routines, to generate plots (only model plots in this case, I think)
 
 This simulation does present some challenges in moving the data around.
