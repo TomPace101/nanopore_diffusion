@@ -84,12 +84,28 @@ Performing an integration by parts on the first two terms
 using the product rule of Equation \ref{eq:product_rule_divergence}, this becomes
 
 \begin{equation}
+\begin{aligned}
 \int_\Omega \nabla \cdot \left( v_s \nabla c_s \right) \,\mathrm{d}^3x
-- \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x
+- \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x \\
 + \beta z_s \left( \int_\Omega \nabla \cdot \left( c_s v_s \nabla \Phi \right) \,\mathrm{d}^3x
-- \int_\Omega \left( \nabla \left( c_s v_s \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
+- \int_\Omega \left( \nabla \left( c_s v_s \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right) 
 + \beta z_s \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
-= 0
+& = & 0
+\end{aligned}
 \end{equation}
+
+Applying the divergence theorem and grouping the factor $\beta z_s$ on the last two terms,
+\begin{equation}
+\begin{aligned}
+\int_{\partial\Omega} \left( \hat{n} \cdot \nabla c_s \right) v_s \,\mathrm{d}s
+- \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x \\
++ \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s
+- \int_\Omega \left( \nabla \left( c_s v_s \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x
++ \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
+& = & 0
+\end{aligned}
+\end{equation}
+
+
 
 \textcolor{red}{\textbf{TODO}}
