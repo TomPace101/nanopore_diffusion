@@ -20,6 +20,6 @@ meshname: debug2d
 geomdefname: rectangle
 tmplvalues:
   mscale: 1.0
-  mcar: 1.0
-  Lx: 50
-  Ly: 50
+  mcar: 0.75
+  Lx: 40
+  Ly: 40

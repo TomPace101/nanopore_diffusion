@@ -68,12 +68,30 @@ dataextraction:
   - [profile_radial, {spacing: 0.02, plotname: radial_Dbar, label: 'Dbar along theta=0 deg', theta: 0, attrname: Dbar_proj}]
   - [profile_radial, {spacing: 0.02, plotname: radial_Dbar, label: 'Dbar along theta=45 deg', theta: 45, attrname: Dbar_proj}]
   - [profile_radial, {spacing: 0.02, plotname: radial_Dbar, label: 'Dbar along theta=90 deg', theta: 90, attrname: Dbar_proj}]
-#---
-# modelname: debug03
-# meshparamsfile: debug.yaml
-# meshname: debug2d
-# equation: tdpnp_unhomog
-# ...TODO
+---
+modelname: debug03
+meshparamsfile: debug.yaml
+meshname: debug2d
+equation: tdpnp_unhomog
+conditions:
+  elementorder: 3
+  bcdict:
+    1113: [null, null, null, 0.02]
+    5153: [null, null, null, -0.02]
+  temperature: 298 #Kelvin
+  eps_r: 78.5
+  species_info:
+    symbol:   [Ca2+, Cl-,  CaCaM]
+    z:        [2,    -1,   2]
+    initconc: [0.1, 0.200005, 2.5e-06]
+    D:        [1.9,  2.03, null]
+  reaction_info:
+    constants: [0.0016605390404271642, 1e-09]
+    functions: [rate_forward, rate_backward]
+    stoichio: [[-1,0,1],[1,0,-1]]
+  t_end: 10.0
+  delta_t: 1.0
+
 #---
 # modelname: debug04
 # meshparamsfile: debug.yaml

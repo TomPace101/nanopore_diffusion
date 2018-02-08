@@ -59,12 +59,13 @@ class TDPNPUConditions(solver_general.GenericConditions):
     bcdict = dictionary of Dirichlet boundary conditions:
       {physical facet number: [solution values, None for no condition]}
     temperature = the temperature under consideration, as a number
+    eps_r = relative permittivity of the medium
     species_info = dictionary defining a SpeciesInfo object
     reaction_info = dictionary defining a ReactionInfo object
     t_end = end time for simulation (may be exceeded if not exactly divisible by timestep)
     delta_t = timestep for simulation (number of timesteps is calculated from this)
     beta = optional, calculated from temperature if not provided"""
-  __slots__=['beta','temperature','species_info','reaction_info','t_end','delta_t']
+  __slots__=['beta','temperature','eps_r','species_info','reaction_info','t_end','delta_t']
   def __init__(self,**kwargs):
     #Initialization from base class
     super().__init__(**kwargs)

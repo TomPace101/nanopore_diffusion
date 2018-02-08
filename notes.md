@@ -1,14 +1,14 @@
 
 # ill-sleep (and debug of the PNP-reaction solver)
 The solver module:
+- finish its own TODO items
 - need the appropriate data extraction methods
   - model steps to VTK file
   - data series at watched points
 
 The problem:
-- create a notebook that uses that gmsh square instead of RectangleMesh
 - create a debug model definition file that tests the same parameters as the notebooks
-Now you can really compare apples and apples.
+Then you can more readily compare the notebook and the module.
 
 Other stuff:
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
@@ -42,6 +42,9 @@ Maybe you do this in your input generation?
 
 
 # Code/Misc
+
+_TODO_ more general approach for reaction rate functions
+(see discussion above, including about BT)
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
