@@ -4,7 +4,6 @@
 # Commenting out lines will suppress running those analyses
 ---
 - debug.yaml
-- debug2d.yaml
 #- brainy-media.yaml
 #- thin-shot.yaml
 #- ill-sleep.yaml

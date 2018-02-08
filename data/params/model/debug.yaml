@@ -71,6 +71,12 @@ dataextraction:
 #---
 # modelname: debug03
 # meshparamsfile: debug.yaml
+# meshname: debug2d
+# equation: tdpnp_unhomog
+# ...TODO
+#---
+# modelname: debug04
+# meshparamsfile: debug.yaml
 # meshname: debug
 # equation: pnp_unhomog
 # conditions:

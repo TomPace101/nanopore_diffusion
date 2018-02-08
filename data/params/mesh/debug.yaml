@@ -15,3 +15,11 @@ tmplvalues:
   R: 2.5
   H: 50
   tm: 75
+---
+meshname: debug2d
+geomdefname: rectangle
+tmplvalues:
+  mscale: 1.0
+  mcar: 1.0
+  Lx: 50
+  Ly: 50
