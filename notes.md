@@ -1,6 +1,4 @@
 
-_TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
-
 # ill-sleep (and debug of the PNP-reaction solver)
 The solver module:
 - need the appropriate data extraction methods
