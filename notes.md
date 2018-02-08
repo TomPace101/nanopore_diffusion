@@ -21,9 +21,6 @@ This simulation does present some challenges in moving the data around.
 - reaction rate constants
 - reaction rate functions
 
-Reaction rate functions
-- have a module of such functions, with similar argument structures
-
 BT:
 The easiest solution is just to allow reaction functions to accept a dictionary argument,
 which will contain BT in this case.
@@ -45,6 +42,8 @@ Maybe you do this in your input generation?
 
 _TODO_ more general approach for reaction rate functions
 (see discussion above, including about BT)
+
+Clearly, all the functions need similar argument structures.
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.

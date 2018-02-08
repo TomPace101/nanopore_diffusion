@@ -82,11 +82,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
     Nvars = number of field variables to solve for
     dt = timestep
     numsteps = number of steps to compute
-
     V = FEniCS FunctionSpace on the mesh
-    V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
     ds = FEniCS Measure for facet boundary conditions
+
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
@@ -105,7 +104,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.species=SpeciesInfo(**self.conditions.species_info)
     self.reaction=ReactionInfo(**self.conditions.reaction_info)
 
-    ##TODO
+    #List and count the degrees of freedom
     non_species_vars=['Phi']
     varlist=self.species.symbol+non_species_vars
     self.Nvars=len(varlist)
@@ -114,24 +113,43 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.dt=self.conditions.delta_t
     self.numsteps=math.ceil(t_end/self.dt)
     
-    #Function space(s)
-    ##TODO
+    #Elements and Function space(s)
+    ele = fem.FiniteElement('P',mesh.ufl_cell(),elementorder)
+    mele = fem.MixedElement([ele]*Nvars)
+    self.V = fem.FunctionSpace(self.mesh,mele)
+
+    #Test and trial functions
+    u = fem.Function(V)
+    trialfuncs=fem.split(u)
+    clist=trialfuncs[:Nspecies]
+    Phi=trialfuncs[Nspecies]
+    testfuncs=fem.TestFunctions(V)
+    vlist=testfuncs[:Nspecies]
+    vPhi=testfuncs[Nspecies]
 
     #Measure for external boundaries
     self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets)
 
     #Dirichlet boundary conditions
-    ##TODO
+    self.bcs=[]
+    for psurf,vals in bcdict.items():
+      for i,value in enumerate(vals):
+        if value is not None:
+          self.bcs.append(fem.DirichletBC(V.sub(i),Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
     ##TODO
 
-    #Define variational problem
+    #Initial Conditions and Guess
+    ##TODO
+    
+    #Weak Form
     ##TODO
 
   def solve(self):
     "Do the time steps"
     
+    ##TODO: where were the output files initialized?
     for k in range(self.numsteps):
       ##TODO
       pass
