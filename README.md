@@ -43,20 +43,21 @@ will have a '.keep' file to force `git` to include the directory itself.
     - fig_pdf: figures converted to pdf format
 - src: code for FEM analysis
     - folderstructure.py: provides information on the folder structure described here to the other modules
+    - unitsystem.py: convenience module for converting values to and from model units
     - common.py: functions and classes used by many of the other modules
     - buildgeom.py: code for generating `gmsh` .geo files from input data
     - solver_general.py: functions and classes used by many of the solver modules
     - solver_run.py: top-level module for running solvers
     - equation-specific solver modules:
-        - fickian_unhomog.py: solver for Fick's Law, unhomogenized
-        - smol_unhomog.py: solver for Smoluchowski equation, unhomogenized
-        - __TODO__
+        - solver_fickian_unhomog.py: solver for Fick's Law, unhomogenized
+        - solver_smol_unhomog.py: solver for Smoluchowski equation, unhomogenized
+        - solver_tdpnp_unhomog.py: solver for time-dependent Poisson-Nernst-Planck equation, unhomogenized
+        - __TODO__: more to come
     - collect_results.py: generate `pandas` DataFrame from FEM results, and store.
     - plotdata.py: for generating plots
     - postproc.py: code for handling post-processing requests
     - dodo.py: `doit` input file for the FEM analysis
     - paramgen.py: code for generating parameter sets from templates and input data
-    - unitsystem.py: convenience module for converting values to and from model units
 - data: input and output data from FEM analysis
     - control.yaml: list of analyses to be run with `doit` (see description below)
     - mesh: data for mesh generation using `gmsh`
