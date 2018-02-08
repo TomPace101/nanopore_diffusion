@@ -1,16 +1,16 @@
 
 _TODO_ unit conversion section of problem description: work out conversion factors for the other direction as well.
 
-# ill-sleep
+# ill-sleep (and debug of the PNP-reaction solver)
 The solver module:
 - need the appropriate data extraction methods
   - model steps to VTK file
   - data series at watched points
 
 The problem:
-- generate a square mesh in gmsh identicial to the one in the test notebooks
-- create a notebook that uses that gmsh square
+- create a notebook that uses that gmsh square instead of RectangleMesh
 - create a debug model definition file that tests the same parameters as the notebooks
+Now you can really compare apples and apples.
 
 Other stuff:
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
@@ -76,6 +76,15 @@ This is what I should be doing.
 
 This would (potentially) get rid of the \_folders attribute and \_full_path
 Everything in folderstructure should become a Path (or the subclass).
+
+Towards that end, maybe the input files should be more consistent.
+Sometimes they give stem names only, and sometimes they give filenames.
+For paramgen, you even need to specify the folder (since it doesn't know what type of parameter set you want to make otherwise).
+A good compromise would be that the extension should always be included.
+That is, it's always a path relative to the respective location given by folderstructure.
+In many cases, that means all it is is a filename.
+But in the case of paramgen, it needs more than that.
+Alternatively, you could add a folder field to paramgen input files, but that seems unnecessary.
 
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?

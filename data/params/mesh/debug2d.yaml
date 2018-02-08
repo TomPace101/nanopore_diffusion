@@ -5,12 +5,9 @@
 
 ---
 meshname: debug2d
-geomdefname: slot2d
+geomdefname: rectangle
 tmplvalues:
   mscale: 1.0
-  mcarh: 1.0
-  mcarl: 5.0
-  L: 10
-  R: 2.5
-  H: 50
-  tm: 75
+  mcar: 1.0
+  Lx: 50
+  Ly: 50
