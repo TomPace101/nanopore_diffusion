@@ -133,5 +133,6 @@ class TDPNPUSolver(solver_general.GenericSolver):
     
     for k in range(self.numsteps):
       ##TODO
+      pass
 
 solverclasses={'tdpnp_unhomog':TDPNPUSolver}

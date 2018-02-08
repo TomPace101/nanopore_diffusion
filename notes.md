@@ -41,33 +41,37 @@ Maybe you do this in your input generation?
 
 # Code/Misc
 
-_TODO_ create a path object (unless pathlib can do it) supporting:
-- folder
-- base name
-- extension
-- file name (property)
-- full path (property)
-This would simplify things a lot if we had it.
-Or would it?
+_TODO_ use pathlib.Path for paths
+Or maybe subclass it.
+
+p=pathlib.Path(...)
+- folder: p.parent
+    Except that if p is itself a folder rather than a file, this will give the parent folder, not the same folder
+    You could check to see if it is a folder, but that requires checking the disk.
+    Your subclass could have a boolean flag for whether it is a file or folder,
+    which you'd have to maintain at each operation.
+- base name: p.stem (note that for multiple extensions this only takes off the last one)
+    If subclassing, you could create a read-only property that uses p.stem.split('.')[0] to get the base name
+- extension: p.suffix (note that for multiple extensions this only gives the last one, and it does include the dot)
+    If subclassing, you could create a read-only property that calculates this
+- file name: p.name
+- full path: str(p) (repr(p) is different, and should not be used)
+In fact, any function that needs a string instead of a path object will need
+to get str(p.whatever) instead of just p.whatever.
+Paths are immutable, but can be concatenated with "/"
+and can get suffixes added wtih p.with_suffix()
+
 You have to use this class as the appropriate object attribute,
 meaning at initialization it has to be there.
 That doesn't fit with the way ParameterSet works.
 Although we could read in the string, then at initialization change it to the class.
 Or create a different attribute for the class.
 
-Comparison to pathlib.Path:
-- p.parent
-- p.stem (note that for multiple extensions this only take off the last one)
-- p.suffix (note that for multiple extensions this only gives the last one, and it does include the dot)
-- p.name
-- str(p)
-However, they are immutable.
-But, you can join them together, and can get a new one with a suffix by p.with_suffix()
 Conclusion: better than the way I'm doing it now, and part of the standard library.
 This is what I should be doing.
 
 This would (potentially) get rid of the \_folders attribute and \_full_path
-Everything in folderstructure should become a Path.
+Everything in folderstructure should become a Path (or the subclass).
 
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?
