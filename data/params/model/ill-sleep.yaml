@@ -24,5 +24,6 @@ conditions:
     constants: [0.0016605390404271642, 1e-09]
     functions: [] ##TODO
     stoichio: [[-1,0,1],[1,0,-1]]
+  intial_potential: 0.0 ##TODO
   t_end: 10.0
   delta_t: 1.0

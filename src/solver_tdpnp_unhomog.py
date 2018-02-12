@@ -14,6 +14,7 @@ import fenics as fem
 import unitsystem as UN
 import common
 import solver_general
+import rxn_rate_funcs
 
 
 class SpeciesInfo(common.ParameterSet):
@@ -38,10 +39,11 @@ class ReactionInfo(common.ParameterSet):
   """Information on each reaction
   Attributes:
     constants: [list of reaction rate constants],
-    functions: [list of reaction rate function ....]}
+    functions: [list of reaction rate function ....] (all functions must be in the reaction rates module)
     stoichio: [list of stoichiometric coefficients lists, negative for reactants, positive for products]
       each entry for stoichiometric coefficients is itself a list (one such list for each reaction), with one number for each species in the list for each reaction
       Thus, the total number of stoichiometric coefficients is the product of the number of reactions and the number of species.
+    N: number of reactions (calculated)
   Each list must have 1 entry per uni-directional reaction (bidirectional reactions are considered as 2 uni-directional reactions each)"""
   __slots__=['constants','functions','stoichio','N']
   def __init__(self,**kwargs):
@@ -62,10 +64,11 @@ class TDPNPUConditions(solver_general.GenericConditions):
     eps_r = relative permittivity of the medium
     species_info = dictionary defining a SpeciesInfo object
     reaction_info = dictionary defining a ReactionInfo object
+    initial_potential = initial electric potential, assumed constant over space, as number
     t_end = end time for simulation (may be exceeded if not exactly divisible by timestep)
     delta_t = timestep for simulation (number of timesteps is calculated from this)
     beta = optional, calculated from temperature if not provided"""
-  __slots__=['beta','temperature','eps_r','species_info','reaction_info','t_end','delta_t']
+  __slots__=['beta','temperature','eps_r','species_info','reaction_info','initial','t_end','delta_t']
   def __init__(self,**kwargs):
     #Initialization from base class
     super().__init__(**kwargs)
@@ -79,16 +82,17 @@ class TDPNPUSolver(solver_general.GenericSolver):
     conditions = instance of TDPNPUConditions
     species = instance of SpeciesInfo
     reactions = instance of ReactionInfo
+    Nspecies = number of chemical species
     Nvars = number of field variables to solve for
     dt = timestep
     numsteps = number of steps to compute
     V = FEniCS FunctionSpace on the mesh
     bcs = FEniCS BCParameters
     ds = FEniCS Measure for facet boundary conditions
+    FF = symbolic functional form, which is set equal to zero in the weak form equation
+    J = symbolic Jacobian of FF
 
-    v = FEniCS TestFunction on V
-    a = bilinear form in variational problem
-    L = linear form in variational problem"""
+    v = FEniCS TestFunction on V"""
   def __init__(self,modelparams,meshparams):
     """Initialize the model.
     Arguments:
@@ -102,9 +106,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Get conditions
     self.conditions=TDPNPUConditions(**modelparams.conditions)
     self.species=SpeciesInfo(**self.conditions.species_info)
-    self.reaction=ReactionInfo(**self.conditions.reaction_info)
+    self.reactions=ReactionInfo(**self.conditions.reaction_info)
 
     #List and count the degrees of freedom
+    self.Nspecies=len(species.symbol)
     non_species_vars=['Phi']
     varlist=self.species.symbol+non_species_vars
     self.Nvars=len(varlist)
@@ -121,11 +126,11 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Test and trial functions
     u = fem.Function(V)
     trialfuncs=fem.split(u)
-    clist=trialfuncs[:Nspecies]
-    Phi=trialfuncs[Nspecies]
-    testfuncs=fem.TestFunctions(V)
-    vlist=testfuncs[:Nspecies]
-    vPhi=testfuncs[Nspecies]
+    clist=trialfuncs[:self.Nspecies]
+    Phi=trialfuncs[self.Nspecies]
+    testfuncs=fem.TestFunctions(self.V)
+    vlist=testfuncs[:self.Nspecies]
+    vPhi=testfuncs[self.Nspecies]
 
     #Measure for external boundaries
     self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets)
@@ -141,15 +146,51 @@ class TDPNPUSolver(solver_general.GenericSolver):
     ##TODO
 
     #Initial Conditions and Guess
-    ##TODO
+    guesstup=self.species.initconc+[self.conditions.initial_potential]
+    u.interpolate(fem.Constant(guesstup))
+    u_k=fem.interpolate(fem.Constant(guesstup),self.V)
+    u_klist=split(u_k)
+    c_klist=u_klist[:self.Nspecies]
     
     #Weak Form
-    ##TODO
+    #Steady-state Nernst-Planck terms for each species
+    ##TODO: use revised weak form
+    weakforms=[]
+    for i,c in enumerate(clist):
+      if self.species.D[i] is not None:
+        J=-self.species.D[i]*(fem.grad(c)+self.conditions.beta*self.species.z[i]*c*fem.grad(Phi))
+        wkform=inner(self.J,fem.grad(vlist[i]))*fem.dx
+        weakforms.append(wkform)
+    #Poisson terms
+    poissonL=self.inner(UN.eps_0*self.conditions.eps_r*fem.grad(Phi),grad(vPhi))*fem.dx
+    terms=[self.species.z[i]*clist[i] for i in range(self.species.N)]
+    poissonR=sum(terms)*vPhi*fem.dx
+    #Add up to Steady-State PNP
+    FF_ss=sum(weakforms)+poissonL-poissonR
+    #Time-dependent terms
+    tdweaks=[]
+    for i,c in enumerate(clist):
+      term1=c*vlist[i]*dx
+      term2=c_klist[i]*vlist[i]*dx
+      tdweaks.append(term1-term2)
+    #Reaction terms
+    rxnweaks=[]
+    for i,c in enumerate(clist):
+      for j in range(self.reactions.N):
+        if self.reactions.stoichio[j][i] != 0:
+          termconst=self.reactions.stoichio[j][i]*self.reactions.constants[j]
+          rxf=getattr(rxn_rate_funcs,self.reactions.functions[j])
+          term=termconst*rxf(*clist)*vlist[i]*dx
+          rxnweaks.append(term)
+    #Put it all together
+    self.FF=sum(tdweaks)-self.dt*FF_ss-self.dt*sum(rxnweaks)
+    #Take derivative
+    self.J=derivative(self.FF,u)
 
   def solve(self):
     "Do the time steps"
     
-    ##TODO: where were the output files initialized?
+    ##TODO: open the output files
     for k in range(self.numsteps):
       ##TODO
       pass

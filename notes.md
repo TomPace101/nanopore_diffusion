@@ -1,4 +1,6 @@
 
+_TODO_ set up boxes in the problem description, like I did in the Iridates calculation.
+
 # ill-sleep (and debug of the PNP-reaction solver)
 The solver module:
 - finish its own TODO items
