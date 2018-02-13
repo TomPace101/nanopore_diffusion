@@ -42,6 +42,38 @@ Maybe you do this in your input generation?
 
 # Code/Misc
 
+_FEATURE_ differentiate data extraction at each step from that done at the end.
+The easiest way is probably to allow "dataextraction" to mean extraction done only at the end,
+and have a new attribute of ModelParameters for stepwise extractions.
+In fact, there is a need for both:
+for stepwise extractions, you still need to write the actual file at the end, in some cases.
+Basically, I currently have a set of functions called after solution.
+In addition to that, I want a set of functions called at each timestep.
+It's clear those functions need to work on objects which are initialized before stepping.
+The question, then, is how to keep track of those data destinations between the calls at each step?
+
+VTK output:
+  - initialize the output files prior to stepping
+  - add each step, add data to the files
+Plots vs time:
+  - initialize the series prior to stepping (plotdata.PlotSeries)
+  - at each step, add data to the series
+  - at end, add these series to outdata (you could do it earlier if you can figure out how to keep them straight)
+
+Each function could add its own dictionary to the object, in which to store the results.
+It knows how to initialize this on the first call:
+  - the dictionary for the first call of the function itself, and
+  - each member in the dictionary on the first call with those arguments
+
+By itself, that would require copying the data for plots vs time over to outdata at the end.
+We want to avoid that, so we need a way to get the location within outdata.
+In this case, then, the dictionary maps some other key to the location within outdata: plotname, and series index.
+The plotname is an argument to the function.
+But the series index has to be mapped to the actual data requested.
+Of course, you could just have the dictionary map directly to the series itself within the list,
+rather than keeping track of the index.
+For time histories, the key is the series label.
+
 _TODO_ more general approach for reaction rate functions
 (see discussion above, including about BT)
 
@@ -104,23 +136,27 @@ _TODO_ code from notebooks into modules
 - time-domain Fickian?
 - steady-state PNP?
 - time-domain PNP w/o reactions?
-- time-domain PNP with reactions
 
 _FEATURE_ 2D mesh generation
 
 Also note that body-centered.yaml says to use body-centered.geo.jinja2,
 but really that already only works for body-cen2.yaml, because it has a Z5.
 
-Eventually, we will need a test problem for this.
-(Should probably use Fickian solver.)
-
-And then we'll need a new gmsh .geo template file for parameter generation.
+We'll need a new gmsh .geo template file for parameter generation.
 Currently, mesh.yaml.jinja2 is specific to the nanopore geometry.
 
 _ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
 Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
 
 _ISSUE_ figure out a way to get t=0 into the same VTK file as the other timesteps
+
+_FEATURE_ greater modularity in data extraction functions
+
+Right now, everything is going into solver_general.
+But not all the output functions there are appropriate for that, really.
+This might be a good use case for multiple inheritance.
+Or, maybe even better, have a module of just extraction functions, which are not part of a class.
+Then, in the class definitions, you can just assign them to class members.
 
 _FEATURE_ scaling factor on x and y values to do unit conversions
 
