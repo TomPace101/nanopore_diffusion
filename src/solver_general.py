@@ -117,8 +117,8 @@ class GenericSolver:
     self.facets=fem.MeshFunction("size_t", self.mesh, self.modelparams.facet_xml)
     self.cells=fem.MeshFunction("size_t", self.mesh, self.modelparams.cell_xml)
     #Load parametric locations file, if found
-    if osp.isfile(self.paramlocsfile):
-      self.parametric_locations=common.readyaml(self.paramslocfile)
+    if osp.isfile(self.modelparams.paramlocsfile):
+      self.parametric_locations=common.readyaml(self.modelparams.paramlocsfile)
     return
 
   @classmethod

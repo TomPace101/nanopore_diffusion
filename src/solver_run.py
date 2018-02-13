@@ -47,7 +47,7 @@ class ModelParameters(solver_general.ModelParametersBase):
   __slots__=('solverclass','meshparams','xmlfolder','mesh_xml','facet_xml','cell_xml','paramlocsfile','_more_inputfiles','_more_outputfiles')
   _folders={'meshparamsfile':FS.params_mesh_folder}
   #don't need sourcefile as input file due to config
-  _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml', 'paramlocsfile']
+  _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml']
   #Remember loaded meshes (parameters, not xml) so we aren't reading the same files over and over when solving multiple models
   loaded_meshfiles=[]
   loaded_meshes={}
@@ -82,6 +82,8 @@ class ModelParameters(solver_general.ModelParametersBase):
     self.cell_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_physical_region.xml')
     #Get parametric locations file
     self.paramlocsfile=osp.join(FS.paramlocs_outfolder,self.meshparams.basename,self.meshparams.meshname+'.yaml')
+    if osp.isfile(self.paramlocsfile):
+      self._more_inputfiles.append(self.paramlocsfile)
     #Get output files
     outfiles=['info.yaml']
     outfiles+=list_outputfiles(getattr(self,'dataextraction',[]))

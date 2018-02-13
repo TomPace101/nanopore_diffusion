@@ -31,7 +31,7 @@ class SpeciesInfo(common.ParameterSet):
     #Initialization from base class
     super().__init__(**kwargs)
     #Check number of species
-    nspec_all=[len(l) for l in self.conditions.species_info.values()]
+    nspec_all=[len(l) for l in kwargs.values()]
     assert min(nspec_all)==max(nspec_all), "Inconsistent number of species: %s"%str(nspec_all)
     self.N=nspec_all[0]
 
@@ -50,7 +50,7 @@ class ReactionInfo(common.ParameterSet):
     #Initialization from base class
     super().__init__(**kwargs)
     #Check number of reactions
-    nreac_all=[len(l) for l in reaction_info_dict.values()]
+    nreac_all=[len(l) for l in kwargs.values()]
     assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)    
     self.N=nreac_all[0]
 
@@ -68,7 +68,7 @@ class TDPNPUConditions(solver_general.GenericConditions):
     t_end = end time for simulation (may be exceeded if not exactly divisible by timestep)
     delta_t = timestep for simulation (number of timesteps is calculated from this)
     beta = optional, calculated from temperature if not provided"""
-  __slots__=['beta','temperature','eps_r','species_info','reaction_info','initial','t_end','delta_t']
+  __slots__=['beta','temperature','eps_r','species_info','reaction_info','initial_potential','t_end','delta_t']
   def __init__(self,**kwargs):
     #Initialization from base class
     super().__init__(**kwargs)
@@ -111,22 +111,22 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.reactions=ReactionInfo(**self.conditions.reaction_info)
 
     #List and count the degrees of freedom
-    self.Nspecies=len(species.symbol)
+    self.Nspecies=len(self.species.symbol)
     non_species_vars=['Phi']
     varlist=self.species.symbol+non_species_vars
     self.Nvars=len(varlist)
     
     #Calculate number of time steps
     self.dt=self.conditions.delta_t
-    self.numsteps=math.ceil(t_end/self.dt)
+    self.numsteps=math.ceil(self.conditions.t_end/self.dt)
     
     #Elements and Function space(s)
-    ele = fem.FiniteElement('P',mesh.ufl_cell(),elementorder)
-    mele = fem.MixedElement([ele]*Nvars)
+    ele = fem.FiniteElement('P',self.mesh.ufl_cell(),self.conditions.elementorder)
+    mele = fem.MixedElement([ele]*self.Nvars)
     self.V = fem.FunctionSpace(self.mesh,mele)
 
     #Test and trial functions
-    self.u = fem.Function(V)
+    self.u = fem.Function(self.V)
     trialfuncs=fem.split(self.u)
     clist=trialfuncs[:self.Nspecies]
     Phi=trialfuncs[self.Nspecies]
@@ -139,10 +139,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Dirichlet boundary conditions
     self.bcs=[]
-    for psurf,vals in bcdict.items():
+    for psurf,vals in self.conditions.bcdict.items():
       for i,value in enumerate(vals):
         if value is not None:
-          self.bcs.append(fem.DirichletBC(V.sub(i),Constant(value),self.facets,psurf))
+          self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
     ##TODO
@@ -151,7 +151,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     guesstup=self.species.initconc+[self.conditions.initial_potential]
     self.u.interpolate(fem.Constant(guesstup))
     self.u_k=fem.interpolate(fem.Constant(guesstup),self.V)
-    u_klist=split(self.u_k)
+    u_klist=fem.split(self.u_k)
     c_klist=u_klist[:self.Nspecies]
     #Start time
     self.t=0.0
@@ -163,10 +163,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
     for i,c in enumerate(clist):
       if self.species.D[i] is not None:
         J=-self.species.D[i]*(fem.grad(c)+self.conditions.beta*self.species.z[i]*c*fem.grad(Phi))
-        wkform=inner(self.J,fem.grad(vlist[i]))*fem.dx
+        wkform=fem.inner(J,fem.grad(vlist[i]))*fem.dx
         weakforms.append(wkform)
     #Poisson terms
-    poissonL=self.inner(UN.eps_0*self.conditions.eps_r*fem.grad(Phi),grad(vPhi))*fem.dx
+    poissonL=fem.inner(UN.eps_0*self.conditions.eps_r*fem.grad(Phi),fem.grad(vPhi))*fem.dx
     terms=[self.species.z[i]*clist[i] for i in range(self.species.N)]
     poissonR=sum(terms)*vPhi*fem.dx
     #Add up to Steady-State PNP
@@ -174,8 +174,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Time-dependent terms
     tdweaks=[]
     for i,c in enumerate(clist):
-      term1=c*vlist[i]*dx
-      term2=c_klist[i]*vlist[i]*dx
+      term1=c*vlist[i]*fem.dx
+      term2=c_klist[i]*vlist[i]*fem.dx
       tdweaks.append(term1-term2)
     #Reaction terms
     rxnweaks=[]
@@ -184,7 +184,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
         if self.reactions.stoichio[j][i] != 0:
           termconst=self.reactions.stoichio[j][i]*self.reactions.constants[j]
           rxf=getattr(rxn_rate_funcs,self.reactions.functions[j])
-          term=termconst*rxf(*clist)*vlist[i]*dx
+          term=termconst*rxf(*clist)*vlist[i]*fem.dx
           rxnweaks.append(term)
     #Put it all together
     self.FF=sum(tdweaks)-self.dt*FF_ss-self.dt*sum(rxnweaks)
