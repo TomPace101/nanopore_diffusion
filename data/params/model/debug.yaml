@@ -93,8 +93,11 @@ conditions:
   t_end: 10.0
   delta_t: 1.0
 datasteps:
-  ##TODO
-  - [, {}]
+  - [splitfield, {namewhole: u, namesplit: ulist}]
+  - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  - [td_solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
+  - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 2}]
+  - [td_solutionfield, {filename: Phi.pvd,   attrname: ulist, idx: 3}]
 
 #---
 # modelname: debug04

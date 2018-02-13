@@ -91,6 +91,7 @@ class GenericSolver:
     self.meshparams=meshparams
 
     #Initialize output attributes and intermediates
+    self.outdir=self.modelparams.outdir
     self.results={}
     self.info=self.modelparams.config_dict
     self.info['meshparams']=self.meshparams.config_dict
@@ -133,30 +134,35 @@ class GenericSolver:
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'solve' method."%str(type(self)))
 
-  def create_output(self,diskwrite=True):
-    """Process the data extraction commands
+  def process_output_commands(self,attrname='dataextraction'):
+    """Process a list of data extraction commands
     Arguments:
-      diskwrite = boolean, optional, True to write the output files.
-        If false, the output will only be stored in the object itself
-    Adds the following attributes:
-      outdir = path to output directory, as string
-      results = dictionary of input and output values
-    Output files are generated."""
-    #Output location(s)
-    self.outdir=self.modelparams.outdir
-    if not osp.isdir(self.outdir):
-      os.makedirs(self.outdir)
-
-    #Process each command
-    for cmd in getattr(self.modelparams,'dataextraction',[]):
+      attrname = attribute name of self.modelparams containing the command list
+    No return value."""
+    for cmd in getattr(self.modelparams,attrname,[]):
       #Function name and arguments
       funcname, kwargs = cmd
       #Call it
       try:
         getattr(self,funcname)(**kwargs)
       except Exception as einst:
-        print("Excption occured for command: %s"%str(cmd), file=sys.stderr)
+        print("Exception occured in %s for command: %s"%(attrname,str(cmd)), file=sys.stderr)
         raise einst
+    return
+
+  def create_output(self,diskwrite=True):
+    """Process the data extraction commands for the completed solution
+    Arguments:
+      diskwrite = boolean, optional, True to write the output files.
+        If false, the output will only be stored in the object itself
+    No return value.
+    Output files may be generated."""
+    #Output location(s)
+    if not osp.isdir(self.outdir):
+      os.makedirs(self.outdir)
+
+    #Process each command
+    self.process_output_commands('dataextraction')
 
     #Put results into info
     self.info['results']=self.results
@@ -366,3 +372,44 @@ class GenericSolver:
       self.outdata.plots[plotname]=[]
     self.outdata.plots[plotname].append(series)
     return
+
+  def splitfield(self,namewhole,namesplit):
+    """Call the split() method of a solution field.
+    Arguments:
+      namewhole = name of the field to split
+      namesplit = attribute name to store the result in
+    Required attributes:
+      The attribute specified by namewhole.
+    New attributes:
+      The attribute specified by namesplit.
+    No return value.
+    No other side-effects."""
+    setattr(self,namesplit,getattr(self,namewhole).split())
+
+  def td_solutionfield(self,filename,attrname='soln',idx=None):
+    """Write solution field to VTK file at each timestep
+    Arguments:
+      filename = name of output file, as string
+        File will be created in the output directory (self.outdir)
+      attrname = name of attribute to output, as string, defaults to 'soln'
+      idx = index of the solution field to write out, None (default) if not a sequence
+    Required attributes:
+      outdir = output directory, as string
+      soln = FEniCS Function containing solution
+    New attributes:
+      td_vtk_files = dictionary of FEniCS File objects, by filename
+    No return value.
+    Output file is created on first call, and updated each subsequent call."""
+    #Create dictionary of files if not yet present
+    if not hasattr(self,'td_vtk_files'):
+      self.td_vtk_files={}
+    #Create new file if not already present
+    if not filename in self.td_vtk_files.keys():
+      self.td_vtk_files[filename]=fem.File(osp.join(self.outdir,filename))
+    #Output data
+    output = getattr(self,attrname)
+    if idx is not None:
+      output = output[idx]
+    self.td_vtk_files[filename] << (output,self.t)
+    return
+

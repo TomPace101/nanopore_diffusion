@@ -171,8 +171,6 @@ Currently, mesh.yaml.jinja2 is specific to the nanopore geometry.
 _ISSUE_ have initial potential consistent with other initial conditions, including boundary conditions.
 Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
 
-_ISSUE_ figure out a way to get t=0 into the same VTK file as the other timesteps
-
 _FEATURE_ scaling factor on x and y values to do unit conversions
 
 _FEATURE_ add metadata text to model plots

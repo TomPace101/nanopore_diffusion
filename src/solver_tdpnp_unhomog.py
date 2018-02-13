@@ -87,6 +87,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     dt = timestep
     numsteps = number of steps to compute
     V = FEniCS FunctionSpace on the mesh
+    u = FEniCS Function on the FunctionSpace for the current timestep
+    u_k = FENiCS Function on the FunctionSpace for the previous timestep
     bcs = FEniCS BCParameters
     ds = FEniCS Measure for facet boundary conditions
     FF = symbolic functional form, which is set equal to zero in the weak form equation
@@ -124,8 +126,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.V = fem.FunctionSpace(self.mesh,mele)
 
     #Test and trial functions
-    u = fem.Function(V)
-    trialfuncs=fem.split(u)
+    self.u = fem.Function(V)
+    trialfuncs=fem.split(self.u)
     clist=trialfuncs[:self.Nspecies]
     Phi=trialfuncs[self.Nspecies]
     testfuncs=fem.TestFunctions(self.V)
@@ -147,10 +149,12 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Initial Conditions and Guess
     guesstup=self.species.initconc+[self.conditions.initial_potential]
-    u.interpolate(fem.Constant(guesstup))
-    u_k=fem.interpolate(fem.Constant(guesstup),self.V)
-    u_klist=split(u_k)
+    self.u.interpolate(fem.Constant(guesstup))
+    self.u_k=fem.interpolate(fem.Constant(guesstup),self.V)
+    u_klist=split(self.u_k)
     c_klist=u_klist[:self.Nspecies]
+    #Start time
+    self.t=0.0
     
     #Weak Form
     #Steady-state Nernst-Planck terms for each species
@@ -185,14 +189,21 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Put it all together
     self.FF=sum(tdweaks)-self.dt*FF_ss-self.dt*sum(rxnweaks)
     #Take derivative
-    self.J=derivative(self.FF,u)
+    self.J=derivative(self.FF,self.u)
 
   def solve(self):
     "Do the time steps"
-    
-    ##TODO: open the output files
+
+    #Formulate problem and solver
+    problem = NonlinearVariationalProblem(self.FF, self.u, bcs=self.bcs, J=self.J)
+    solver = NonlinearVariationalSolver(problem)
+    #Initialize time-domain output
+    self.process_output_commands('datasteps')
+    #Do the steps
     for k in range(self.numsteps):
-      ##TODO
-      pass
+      solver.solve()
+      self.t+=self.dt
+      self.process_output_commands('datasteps')
+      self.u_k.assign(self.u)
 
 solverclasses={'tdpnp_unhomog':TDPNPUSolver}
