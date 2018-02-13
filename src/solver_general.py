@@ -100,6 +100,7 @@ class GenericSolver:
 
   def loadmesh(self):
     """Load the mesh from the usual file locations
+    Also load the parametric locations file, if present.
     A note on the terminology used in FEniCS and gmsh:
       The FEniCS parts are from page 185-186 of the FEniCS book
       d = number of dimensions in entity, D = number of dimensions in problem (maximum entity dimension)
@@ -115,6 +116,9 @@ class GenericSolver:
     self.mesh=fem.Mesh(self.modelparams.mesh_xml)
     self.facets=fem.MeshFunction("size_t", self.mesh, self.modelparams.facet_xml)
     self.cells=fem.MeshFunction("size_t", self.mesh, self.modelparams.cell_xml)
+    #Load parametric locations file, if found
+    if osp.isfile(self.paramlocsfile):
+      self.parametric_locations=common.readyaml(self.paramslocfile)
     return
 
   @classmethod
@@ -166,6 +170,9 @@ class GenericSolver:
 
     #Put results into info
     self.info['results']=self.results
+    #If present, add parametric locations
+    if hasattr(self,'parametric_locations'):
+      self.info['parametric_locations']=self.parametric_locations
     #Write output files if requested
     if diskwrite:
       common.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
@@ -418,16 +425,40 @@ class GenericSolver:
   def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None):
     """Get solution value at a single model point at each timestep
     Arguments:
-      location = specifier of location within the mesh ##TODO!!
+      location = specifier of location within the mesh
+        This should be a tuple, with length matching the problem dimensions.
+        Each entry is either a number or a string.
+        Numbers represent physical coordinates within the mesh.
+        Strings are replaced with the corresponding entry from the parametric locations dictionary.
+          (which is a required attributed in that case)
       plotname = name of plot in outdata.plots, as string
       label = series label to assign, as string
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
       outdata = instance of OutData
+      parametric_locations = only required if needed by location specifier, dictionary of parametric locations
     New attributes:
       td_point_series = dictionary of plotdata.Series objects
     No return value.
     No output file generated."""
-    ##TODO
-    pass
+    #Create dictionary of point histories if not yet present
+    if not hasattr(self,'td_point_series'):
+      self.td_point_series={}
+    #Create new series if not already present
+    if not (plotname,label) in self.td_point_series.keys():
+      newseries=plotdata.PlotSeries(xvals=np.array([]),yvals=np.array([]),label=label,metadata={})
+      self.td_point_series[(plotname,label)]=newseries
+    #Get coordinates of specfiied point
+    coords=tuple()
+    for v in location:
+      if type(v)==str:
+        v=self.parametric_locations[v]
+      coords+=(v,)
+    #Store data
+    output=getattr(self,attrname)
+    if idx is not None:
+      output = output[idx]
+    series=self.td_point_series[(plotname,label)]
+    series.xvals=np.append(series.xvals,self.t)
+    series.yvals=np.append(series.yvals,output)
       

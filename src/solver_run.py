@@ -42,11 +42,12 @@ class ModelParameters(solver_general.ModelParametersBase):
     solverclass = the class used to solve the model
     meshparams = instance of buildgeom.MeshParameters
     xmlfolder = path to xml input files for mesh
-    mesh_xml, facet_xml, cell_xml = various mesh input xml files, full paths, as strings"""
-  __slots__=('solverclass','meshparams','xmlfolder','mesh_xml','facet_xml','cell_xml','_more_inputfiles','_more_outputfiles')
+    mesh_xml, facet_xml, cell_xml = various mesh input xml files, full paths, as strings
+    paramlocsfile = parametric locations file"""
+  __slots__=('solverclass','meshparams','xmlfolder','mesh_xml','facet_xml','cell_xml','paramlocsfile','_more_inputfiles','_more_outputfiles')
   _folders={'meshparamsfile':FS.params_mesh_folder}
   #don't need sourcefile as input file due to config
-  _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml']
+  _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml', 'paramlocsfile']
   #Remember loaded meshes (parameters, not xml) so we aren't reading the same files over and over when solving multiple models
   loaded_meshfiles=[]
   loaded_meshes={}
@@ -79,6 +80,8 @@ class ModelParameters(solver_general.ModelParametersBase):
     self.mesh_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'.xml')
     self.facet_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_facet_region.xml')
     self.cell_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_physical_region.xml')
+    #Get parametric locations file
+    self.paramlocsfile=osp.join(FS.paramlocs_outfolder,self.meshparams.basename,self.meshparams.meshname+'.yaml')
     #Get output files
     outfiles=['info.yaml']
     outfiles+=list_outputfiles(getattr(self,'dataextraction',[]))

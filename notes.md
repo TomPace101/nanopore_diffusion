@@ -61,6 +61,9 @@ If you switch to a different computer or move the whole project,
 the .geo files have to be regenerated.
 Maybe gmsh could accept a relative path?
 ie "../../paramlocs/{basename}/{meshname}.yaml"
+__TODO__
+
+The existing profile outputs should be refactored to use this. __TODO__
 
 Otherwise, they have to be calculated by some other function, somewhere else.
 To do it that way, you'd need a function that returned a different dictionary for each geometry definition.
@@ -127,6 +130,7 @@ The reason for this is that the extraction functions not only depend on the equa
 but also in some cases on the geometry of the problem as well.
 From an inheritance perspective, there are base classes appropriate for an equation,
 and then derived classes with data extraction methods appropriate to both the equation and the geometry definition (not the parameter values).
+The use of parametric locations could help with this.
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
