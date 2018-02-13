@@ -73,6 +73,7 @@ class GenericSolver:
   Attributes:
     modelparams = solver_run.ModelParameters instance
     meshparams = buildgeom.MeshParameters instance
+    tmplvalues = shortcut attribute for meshparams.tmplvalues
     mesh = FEniCS Mesh
     facets = FEniCS MeshFunction of gmsh Physical Surface number (3D) or Physical Line number (2D)
     cells = FEniCS MeshFunction of gmsh Physical Volume number (3D) or Physical Surface number (2D)
@@ -240,7 +241,7 @@ class GenericSolver:
       totflux_name = name of previously calculated total flux in results dictionary
         This requires a previous call to fluxintegral.
     Required attributes:
-      meshparams = buildgeom.MeshParameters object
+      tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
       results[toflux_name] = result from previous call to fluxintegral
     No new attributes.
     New item added to results dictionary.
@@ -258,7 +259,7 @@ class GenericSolver:
     Arguments:
       name = name for storage in the results dictionary
     Required attributes:
-      meshparams = buildgeom.MeshParameters object
+      tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
     No new attributes.
     New item added to results dictionary.
     No return value.
@@ -274,7 +275,7 @@ class GenericSolver:
       label = series label to assign, as string
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
-      meshparams = buildgeom.MeshParameters object
+      tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
       modelparams = solver_run.ModelParameters object
       outdir = path to output directory, as string
     No new attributes.
@@ -310,7 +311,7 @@ class GenericSolver:
       theta = theta-angle in degrees from x-axis, as float
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
-      meshparams = buildgeom.MeshParameters object
+      tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
       modelparams = solver_run.ModelParameters object
       outdir = path to output directory, as string
     No new attributes.
