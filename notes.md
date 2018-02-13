@@ -83,6 +83,25 @@ _TODO_ more general approach for reaction rate functions
 
 Clearly, all the functions need similar argument structures.
 
+_TODO_ refactor solver modules into a package?
+That would group together the various modules in a more logical way.
+But what complications would it cause?
+The package should probably be called "solvers".
+rxn_rate_funcs would need to go in there as well.
+
+_FEATURE_ greater modularity in data extraction functions
+
+Right now, everything is going into solver_general.
+But not all the output functions there are appropriate for that, really.
+This might be a good use case for multiple inheritance.
+Or, maybe even better, have a module of just extraction functions, which are not part of a class.
+Then, in the class definitions, you can just assign them to class members.
+
+The reason for this is that the extraction functions not only depend on the equation,
+but also in some cases on the geometry of the problem as well.
+From an inheritance perspective, there are base classes appropriate for an equation,
+and then derived classes with data extraction methods appropriate to both the equation and the geometry.
+
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
 
@@ -153,14 +172,6 @@ _ISSUE_ have initial potential consistent with other initial conditions, includi
 Tried solving Poisson by itself first, but couldn't get results into the mixed function space.
 
 _ISSUE_ figure out a way to get t=0 into the same VTK file as the other timesteps
-
-_FEATURE_ greater modularity in data extraction functions
-
-Right now, everything is going into solver_general.
-But not all the output functions there are appropriate for that, really.
-This might be a good use case for multiple inheritance.
-Or, maybe even better, have a module of just extraction functions, which are not part of a class.
-Then, in the class definitions, you can just assign them to class members.
 
 _FEATURE_ scaling factor on x and y values to do unit conversions
 
