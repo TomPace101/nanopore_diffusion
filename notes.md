@@ -100,7 +100,7 @@ Then, in the class definitions, you can just assign them to class members.
 The reason for this is that the extraction functions not only depend on the equation,
 but also in some cases on the geometry of the problem as well.
 From an inheritance perspective, there are base classes appropriate for an equation,
-and then derived classes with data extraction methods appropriate to both the equation and the geometry.
+and then derived classes with data extraction methods appropriate to both the equation and the geometry definition (not the parameter values).
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
