@@ -42,6 +42,32 @@ Maybe you do this in your input generation?
 
 # Code/Misc
 
+_FEATURE_ parametric definition of mesh locations
+It would be nice if we could map strings to coordinates of specific locations in the mesh.
+For example, it would be good if we could get the X#, Y#, and Z# values that come from the gmsh template,
+and allow for generation of other ones as well.
+Maybe we could get gmsh to write a YAML file with those values?
+
+The catch is that this creates one file per mesh,
+rather than a multi-doc yaml file.
+Lots of small files.
+Admittedly, there's already one .geo file per mesh,
+and one msh file, and 3 xml files.
+
+There is also some awkwardness in that buildgeom needs to put the location of this file into the .geo file.
+So both buildgeom and geom_mk_mesh have to calculate the location.
+This also makes the .geo file machine-dependent.
+If you switch to a different computer or move the whole project,
+the .geo files have to be regenerated.
+Maybe gmsh could accept a relative path?
+ie "../../paramlocs/{basename}/{meshname}.yaml"
+
+Otherwise, they have to be calculated by some other function, somewhere else.
+To do it that way, you'd need a function that returned a different dictionary for each geometry definition.
+That is, it's a function of the MeshParameters object.
+Maybe a method of that, then?
+But it would embed lots of data.
+
 _FEATURE_ differentiate data extraction at each step from that done at the end.
 The easiest way is probably to allow "dataextraction" to mean extraction done only at the end,
 and have a new attribute of ModelParameters for stepwise extractions.

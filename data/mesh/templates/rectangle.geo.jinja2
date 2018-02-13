@@ -2,7 +2,8 @@
 {# parameter definitions section for body-centered geometry #}
 
 {# Required input variables:
-    mcarh, mcarl = characteristic lengths for mesh refinement
+    mscale =  scaling factor for mesh refinement
+    mcar = characteristic length for mesh refinement
     L = unit cell separation in 1D
     R = slot half-width
     H = bulk distance above and below slot included in model
@@ -24,4 +25,14 @@ X1=0;
 X2=Lx;
 Y1=0;
 Y2=Ly;
+
+//Parametric locations output
+paramlocsfile="{{ paramlocsfile }}";
+Printf("# Parametric locations output") > paramlocsfile;
+Printf("X1: %f", X1) >> paramlocsfile;
+Printf("X2: %f", X2) >> paramlocsfile;
+Printf("Y1: %f", Y1) >> paramlocsfile;
+Printf("Y2: %f", Y2) >> paramlocsfile;
+Printf("Xmid: %f", Lx/2) >> paramlocsfile;
+Printf("Ymid: %f", Ly/2) >> paramlocsfile;
 {% endblock %}

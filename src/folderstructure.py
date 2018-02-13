@@ -21,6 +21,7 @@ geofolder=osp.join(meshfolder,'geo')
 mshfolder=osp.join(meshfolder,'msh')
 xmlfolder=osp.join(meshfolder,'xml')
 gmsh_outfolder=osp.join(meshfolder,'gmsh_out')
+paramlocs_outfolder=osp.join(meshfolder,'paramlocs')
 
 #solutions
 solnfolder=osp.join(datafolder,'solutions')

@@ -8,6 +8,7 @@ data/mesh/geo/*/
 data/mesh/msh/*/
 data/mesh/xml/*/
 data/mesh/gmsh_out/*/
+data/mesh/paramlocs/*/
 
 #FEM output
 data/solutions/*/
