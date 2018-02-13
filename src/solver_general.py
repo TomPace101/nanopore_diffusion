@@ -284,6 +284,7 @@ class GenericSolver:
       label = series label to assign, as string
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
+      outdata = instance of OutData
       tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
       modelparams = solver_run.ModelParameters object
       outdir = path to output directory, as string
@@ -320,6 +321,7 @@ class GenericSolver:
       theta = theta-angle in degrees from x-axis, as float
       attrname = name of attribute to output, as string, defaults to 'soln'
     Required attributes:
+      outdata = instance of OutData
       tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
       modelparams = solver_run.ModelParameters object
       outdir = path to output directory, as string
@@ -413,3 +415,19 @@ class GenericSolver:
     self.td_vtk_files[filename] << (output,self.t)
     return
 
+  def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None):
+    """Get solution value at a single model point at each timestep
+    Arguments:
+      location = specifier of location within the mesh ##TODO!!
+      plotname = name of plot in outdata.plots, as string
+      label = series label to assign, as string
+      attrname = name of attribute to output, as string, defaults to 'soln'
+    Required attributes:
+      outdata = instance of OutData
+    New attributes:
+      td_point_series = dictionary of plotdata.Series objects
+    No return value.
+    No output file generated."""
+    ##TODO
+    pass
+      
