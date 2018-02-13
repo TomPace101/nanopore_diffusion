@@ -74,6 +74,10 @@ Of course, you could just have the dictionary map directly to the series itself 
 rather than keeping track of the index.
 For time histories, the key is the series label.
 
+So, while nothing is planned to be set up this way for now, you could have a command in 'datasteps'
+that requires some corresponding command in 'dataextraction' to finish it up,
+e.g. by writing the data to a new file.
+
 _TODO_ more general approach for reaction rate functions
 (see discussion above, including about BT)
 

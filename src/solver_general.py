@@ -46,15 +46,18 @@ class ModelParametersBase(common.ParameterSet):
         The parameters specified are specific to the equation being solved.
         See the equation's module for the equation-specific conditions object,
         which will usually inherit from GenericConditions.
-      dataextraction = a sequence of data extraction commands
+      dataextraction = a sequence of data extraction commands to execute after solving the model
         Each command is a pair (cmdname, arguments), where
           cmdname = name of the solver object's method to call, as a string
           arguments = dictionary of arguments to the method: {argname: value,...}
+      datasteps = a sequence of data extraction commands to execute at each time step
+        Note: Not all solvers will support this argument. It is mainly intended for time-domain equations.
+        The command structure is the same as for dataextraction.
     To be calculated from methods:
       outdir = folder containing output files"""
-  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction','outdir')
+  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction','datasteps','outdir')
   _required_attrs=['modelname','meshparamsfile','meshname','equation','conditions']
-  _config_attrs=['basename']+_required_attrs+['dataextraction']
+  _config_attrs=['basename']+_required_attrs+['dataextraction','datasteps']
   _taskname_src_attr='modelname'
 
   def __init__(self,**kwd):

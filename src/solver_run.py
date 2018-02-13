@@ -29,7 +29,7 @@ def list_outputfiles(cmdlist):
     outfiles = list of generated output files (names only, not including their folder)"""
   #Currently, we assume all files can only come from the 'filename' argument
   filearg_list=['filename']
-  outfiles=['info.yaml']
+  outfiles=[]
   for cmdname, arguments in cmdlist:
     #Check all possible arguments that could contain the name of an output file
     present_args=[n for n in filearg_list if n in arguments.keys()]
@@ -80,7 +80,9 @@ class ModelParameters(solver_general.ModelParametersBase):
     self.facet_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_facet_region.xml')
     self.cell_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_physical_region.xml')
     #Get output files
-    outfiles=list_outputfiles(getattr(self,'dataextraction',[]))
+    outfiles=['info.yaml']
+    outfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
+    outfiles+=list_outputfiles(getattr(self,'datasteps',[]))
     self._more_outputfiles=[osp.join(self.outdir,f) for f in outfiles]
 
   def run(self):

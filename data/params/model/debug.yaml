@@ -92,7 +92,7 @@ conditions:
   intial_potential: 0.0
   t_end: 10.0
   delta_t: 1.0
-dataextraction:
+datasteps:
   ##TODO
   - [, {}]
 
