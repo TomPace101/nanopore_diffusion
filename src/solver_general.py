@@ -40,9 +40,7 @@ class SolverCustomizations(common.ParameterSet):
   Attributes:
     methods = a dictionary {method name: (module name, function name)}
     initializations = a dictionary {module name: {variable: value}}
-      All modules listed in `methods` must be listed here as well.
-      If no initialization is needed for a module, just use None for its variables dictionary.
-      Upon loading the module, this values in this dictionary will be passed as keyword arguments
+      Upon loading the module, the values in this dictionary will be passed as keyword arguments
         to the function `initialize_module`, if present, within the module.
     extra = dictionary {additional solver attributes: initial value}"""
   __slots__=['methods','initializations','extra']
@@ -119,17 +117,20 @@ class GenericSolver:
     
     #Apply customizations
     if hasattr(self.modelparams,'customizations'):
-      #Load and initialize the modules
       loaded_modules={}
-      for modname,kwargs in getattr(self.modelparams.customizations,'initializations',{}).items():
-        themod=importlib.import_module(modname)
-        loaded_modules[modname]=themod
-        if (kwargs is not None) and hasattr(themod,'initialize_module'):
-          themod.initialize_module(**kwargs)
+      module_initializations=getattr(self.modelparams.customizations,'initializations',{})
       #Bind methods
       for methodname, pair in getattr(self.modelparams.customizations,'methods',{}).items():
         modname,funcname = pair
-        assert modname in loaded_modules.keys(), "Module initializations did not specify module %s"%modname
+        #Load module if not already loaded
+        if not modname in loaded_modules.keys():
+          themod=importlib.import_module(modname)
+          loaded_modules[modname]=themod
+          #Intialize, if requested
+          if modname in module_initializations.keys():
+            kwargs = module_initializations[modname]
+            if (kwargs is not None) and hasattr(themod,'initialize_module'):
+              themod.initialize_module(**kwargs)
         thefunction=getattr(loaded_modules[modname],funcname)
         setattr(self,methodname,types.MethodType(thefunction,self))
       #Assign extra attributes
