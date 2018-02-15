@@ -29,59 +29,6 @@ Maybe you do this in your input generation?
 
 # Code/Misc
 
-_FEATURE_ custom code modules
-
-The modules become file dependencies, so ModelParameters needs to know about this.
-
-Each module will be loaded during solver init, then have an initialization function called.
-(This should be a standard name, like `initialize_module_globals`.)
-This function accepts a dictionary, and sets global module variables.
-
-Now, appropriate functions within the module can be called with standard arguments.
-That means we need to know those function names, associated with the location where they will be called,
-so we know what arguments they should accept.
-
-So we have a list of particular customizations we are allowed:
-  - reaction rate functions
-  - data extraction functions
-  - solver customization?
-
-We need to know which modules are which.
-And, maybe I want more than one such module loaded.
-For example, for data extractions.
-That way the customization modules can be reusable.
-The same could be true of reaction functions.
-A general function that was just the product of the rates could be used repeatedly.
-And, for solver customization, maybe you have more than one such function you want to run.
-
-So, we need:
-  - all the customization modules in a list, or dictionary of some kind
-      maybe this could be the dictionary of initialization arguments, except that some modules don't need them
-      maybe just use `null` if you don't need the module initialized
-  - a way to figure out what module a particular function is in
-  - initialization dictionaries for each module (probably in a dictionary by module name)
-  - a mapping of call points to functions, which has a structure determined by the call point
-    (e.g. for reactions it is in the reaction_info)
-    (for extraction functions, it's probably just a list somewhere)
-
-How about a new ModelParameters attribute, `customizations`:
-- initializations: a dictionary of module names to initialization arguments dictionaries
-- methods: a dictionary of method name to (module name, function name) pairs
-- extra: a dictionary of extra attributes assigned to the solver
-
-The function names are registered by assigning methods to the solver class.
-That means all custom functions will receive the solver as their first argument,
-which could be handy.
-The modules still might need global variables,
-since the solver itself might not have all the parameters they need.
-We could either assign MethodType attributes to the instance during init,
-or we could modify the class definition itself, prior to init.
-The former is easier, but considered bad design.
-I think it's the simplest approach in this case, though.
-
-_FEATURE_ customization functions called within solver init.
-For example, this could be a way to do boundary conditions that require expressions.
-
 _FEATURE_ parametric definition of mesh locations
 
 There is some awkwardness in that buildgeom needs to put the location of this file into the .geo file.
@@ -94,21 +41,6 @@ ie "../../paramlocs/{basename}/{meshname}.yaml"
 __TODO__
 
 The existing profile outputs should be refactored to use this. __TODO__
-
-_TODO_ more general approach for reaction rate functions
-
-Clearly, all the functions need similar argument structures.
-
-But maybe the best way to do it is not to have a single module for all simulations,
-but rather to allow the data input file to specify a reaction rate functions module.
-
-That helps, but still we need to be able to set some other parameters.
-For example, maybe we have a function that sets up global module variables.
-Then the reaction functions can change them if they so desire.
-
-Now those modules become file dependencies, though.
-ModelParameters needs to know about them.
-This is probably best handled by treating reaction modules as customizations (see above).
 
 _TODO_ refactor solver modules into a package?
 That would group together the various modules in a more logical way.
@@ -130,7 +62,7 @@ From an inheritance perspective, there are base classes appropriate for an equat
 and then derived classes with data extraction methods appropriate to both the equation and the geometry definition (not the parameter values).
 The use of parametric locations could help with this.
 
-This, again, could be handled by customizations (see above).
+This could be handled by customizations.
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
