@@ -10,13 +10,6 @@ Other stuff:
 - and at some point I need to fix the weak form based on my earlier observations
 - and I need to set up the necessary post-processing routines, to generate plots (only model plots in this case, I think)
 
-BT:
-The easiest solution is just to allow reaction functions to accept a dictionary argument,
-which will contain BT in this case.
-The challenge is to maintain consistency of these parameters when I calculate the initial concentrations.
-This could be made easier by using calculated fields in the parameter generation script,
-but that's actually more complicated than we need.
-
 Diffusion exclusions:
 just put "null" in as the diffusion constant.
 pyyaml will convert that to a None.
