@@ -189,14 +189,14 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Put it all together
     self.FF=sum(tdweaks)-self.dt*FF_ss-self.dt*sum(rxnweaks)
     #Take derivative
-    self.J=derivative(self.FF,self.u)
+    self.J=fem.derivative(self.FF,self.u)
 
   def solve(self):
     "Do the time steps"
 
     #Formulate problem and solver
-    problem = NonlinearVariationalProblem(self.FF, self.u, bcs=self.bcs, J=self.J)
-    solver = NonlinearVariationalSolver(problem)
+    problem = fem.NonlinearVariationalProblem(self.FF, self.u, bcs=self.bcs, J=self.J)
+    solver = fem.NonlinearVariationalSolver(problem)
     #Initialize time-domain output
     self.process_output_commands('datasteps')
     #Do the steps
