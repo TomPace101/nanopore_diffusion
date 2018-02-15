@@ -278,12 +278,19 @@ And, of course, you can allegedly try mpirun for fenics (see item below).
 
 That would require a change in how the fenics tasks are started.
 
-_TODO_ use mpirun for fenics calculations?
+_FEATURE_ use mpirun for fenics calculations
 (not for pre-and post-processing)
 
 https://fenicsproject.org/qa/6969/how-to-go-parallel
 https://fenicsproject.org/qa/8459/what-is-the-simplest-way-to-use-mpi
 https://fenicsproject.org/qa/3025/solving-a-problem-in-parallel-with-mpi-&-petsc
+https://www.allanswered.com/post/eqnvq/get-a-displacement-at-a-node-in-parallel/
+
+https://fenicsproject.org/olddocs/dolfin/1.6.0/python/programmers-reference/cpp/common/MPI.html
+
+The challenge is that the python script will be run in parallel,
+meaning some operations that are only intended to happen once,
+happen multiple times instead.
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
