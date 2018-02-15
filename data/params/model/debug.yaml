@@ -73,6 +73,12 @@ modelname: debug03
 meshparamsfile: debug.yaml
 meshname: debug2d
 equation: tdpnp_unhomog
+customizations:
+  methods:
+    rate_forward: [rxnrates_ill-sleep, rate_forward]
+    rate_backward: [rxnrates_ill-sleep, rate_backward]
+  initializations:
+    rxnrates_ill-sleep: {BT: 5.0e-6}
 conditions:
   elementorder: 3
   bcdict:

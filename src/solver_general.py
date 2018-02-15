@@ -1,9 +1,11 @@
 #Functions used by various solvers
 
 #Standard library
+import importlib
 import os
 import os.path as osp
 import sys
+import types
 
 #Site packages
 import fenics as fem
@@ -33,6 +35,18 @@ class OutData(common.ParameterSet):
     plots = Dictionary of plot data, {plotname: [plotdata.PlotSeries, ...], ...}"""
   __slots__=['plots']
 
+class SolverCustomizations(common.ParameterSet):
+  """Information about custom methods and attributes for the solver class
+  Attributes:
+    methods = a dictionary {method name: (module name, function name)}
+    initializations = a dictionary {module name: {variable: value}}
+      All modules listed in `methods` must be listed here as well.
+      If no initialization is needed for a module, just use None for its variables dictionary.
+      Upon loading the module, this values in this dictionary will be passed as keyword arguments
+        to the function `initialize_module`, if present, within the module.
+    extra = dictionary {additional solver attributes: initial value}"""
+  __slots__=['methods','initializations','extra']
+
 class ModelParametersBase(common.ParameterSet):
   """Subclass of common.ParameterSet to store generic solver parameters
   Attributes:
@@ -53,9 +67,10 @@ class ModelParametersBase(common.ParameterSet):
       datasteps = a sequence of data extraction commands to execute at each time step
         Note: Not all solvers will support this argument. It is mainly intended for time-domain equations.
         The command structure is the same as for dataextraction.
+      customizations = parameters specifying an instance of SolverCustomizations
     To be calculated from methods:
       outdir = folder containing output files"""
-  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction','datasteps','outdir')
+  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction','datasteps','customizations','outdir')
   _required_attrs=['modelname','meshparamsfile','meshname','equation','conditions']
   _config_attrs=['basename']+_required_attrs+['dataextraction','datasteps']
   _taskname_src_attr='modelname'
@@ -63,7 +78,11 @@ class ModelParametersBase(common.ParameterSet):
   def __init__(self,**kwd):
     #Initialization from base class
     super().__init__(**kwd)
+    #Get output directory
     self.outdir=osp.join(FS.solnfolder,self.basename,self.modelname)
+    #Load customization info, if present
+    if hasattr(self,'customizations'):
+      self.customizations=SolverCustomizations(**self.customizations)
 
 class GenericSolver:
   """A generic solver, to be subclassed by solvers for the specific equations
@@ -97,6 +116,25 @@ class GenericSolver:
     self.info['meshparams']=self.meshparams.config_dict
     self.outdata=OutData(plots={})
     self.tmplvalues=self.meshparams.tmplvalues
+    
+    #Apply customizations
+    if hasattr(self.modelparams,'customizations'):
+      #Load and initialize the modules
+      loaded_modules={}
+      for modname,kwargs in getattr(self.modelparams.customizations,'initializations',{}).items():
+        themod=importlib.import_module(modname)
+        loaded_modules[modname]=themod
+        if (kwargs is not None) and hasattr(themod,'initialize_module'):
+          themod.initialize_module(**kwargs)
+      #Bind methods
+      for methodname, pair in getattr(self.modelparams.customizations,'methods',{}).items():
+        modname,funcname = pair
+        assert modname in loaded_modules.keys(), "Module initializations did not specify module %s"%modname
+        thefunction=getattr(loaded_modules[modname],funcname)
+        setattr(self,methodname,types.MethodType(thefunction,self))
+      #Assign extra attributes
+      for k,v in getattr(self.modelparams.customizations,'extra',{}).items():
+        setattr(self,k,v)
 
   def loadmesh(self):
     """Load the mesh from the usual file locations

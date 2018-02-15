@@ -76,6 +76,10 @@ class ModelParameters(solver_general.ModelParametersBase):
     self.solverclass=self.solverclasses[self.equation]
     #Get code files
     self._more_inputfiles=[thisfile,common.__file__, sys.modules[self.solverclass.__module__].__file__]
+    #Customization modules
+    if hasattr(self,'customizations'):
+      for modname in getattr(self.customizations,'initializations',{}).keys():
+        self._more_inputfiles.append(osp.join(FS.custom_modules_folder,modname+'.py'))
     #Get XML files
     self.xmlfolder=osp.join(FS.xmlfolder,self.meshparams.basename)
     self.mesh_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'.xml')

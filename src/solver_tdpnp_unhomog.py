@@ -14,8 +14,6 @@ import fenics as fem
 import unitsystem as UN
 import common
 import solver_general
-import rxn_rate_funcs
-
 
 class SpeciesInfo(common.ParameterSet):
   """Information on each species
@@ -39,7 +37,7 @@ class ReactionInfo(common.ParameterSet):
   """Information on each reaction
   Attributes:
     constants: [list of reaction rate constants],
-    functions: [list of reaction rate function ....] (all functions must be in the reaction rates module)
+    functions: [list of reaction rate function ....] (all functions must be assigned as methods of the solver through `customizations`)
     stoichio: [list of stoichiometric coefficients lists, negative for reactants, positive for products]
       each entry for stoichiometric coefficients is itself a list (one such list for each reaction), with one number for each species in the list for each reaction
       Thus, the total number of stoichiometric coefficients is the product of the number of reactions and the number of species.
@@ -183,7 +181,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
       for j in range(self.reactions.N):
         if self.reactions.stoichio[j][i] != 0:
           termconst=self.reactions.stoichio[j][i]*self.reactions.constants[j]
-          rxf=getattr(rxn_rate_funcs,self.reactions.functions[j])
+          rxf=getattr(self,self.reactions.functions[j])
           term=termconst*rxf(*clist)*vlist[i]*fem.dx
           rxnweaks.append(term)
     #Put it all together
