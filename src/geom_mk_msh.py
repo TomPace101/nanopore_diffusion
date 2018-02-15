@@ -27,7 +27,8 @@ class GmshRunner(common.ParameterSet):
   #don't need sourcefile as input file due to config
   _inputfile_attrs=['geofile']
   _more_inputfiles=[thisfile,common.__file__]
-  _outputfile_attrs=['mshfile','txtfile','paramlocsfile']
+  ##_outputfile_attrs=['mshfile','txtfile','paramlocsfile']
+  _outputfile_attrs=['mshfile','txtfile'] ##paramlocsfile is excluded for now because it can create false out-of-date conditions: it's not always generated
   _taskname_src_attr='meshname'
 
   def __init__(self,**kwd):
