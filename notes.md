@@ -50,6 +50,34 @@ We need to know which modules are which.
 And, maybe I want more than one such module loaded.
 For example, for data extractions.
 That way the customization modules can be reusable.
+The same could be true of reaction functions.
+A general function that was just the product of the rates could be used repeatedly.
+And, for solver customization, maybe you have more than one such function you want to run.
+
+So, we need:
+  - all the customization modules in a list, or dictionary of some kind
+      maybe this could be the dictionary of initialization arguments, except that some modules don't need them
+      maybe just use `null` if you don't need the module initialized
+  - a way to figure out what module a particular function is in
+  - initialization dictionaries for each module (probably in a dictionary by module name)
+  - a mapping of call points to functions, which has a structure determined by the call point
+    (e.g. for reactions it is in the reaction_info)
+    (for extraction functions, it's probably just a list somewhere)
+
+How about a new ModelParameters attribute, `customizations`:
+- initializations: a dictionary of module names to initialization arguments dictionaries
+- methods: a dictionary of method name to (module name, function name) pairs
+- extra: a dictionary of extra attributes assigned to the solver
+
+The function names are registered by assigning methods to the solver class.
+That means all custom functions will receive the solver as their first argument,
+which could be handy.
+The modules still might need global variables,
+since the solver itself might not have all the parameters they need.
+We could either assign MethodType attributes to the instance during init,
+or we could modify the class definition itself, prior to init.
+The former is easier, but considered bad design.
+I think it's the simplest approach in this case, though.
 
 _FEATURE_ customization functions called within solver init.
 For example, this could be a way to do boundary conditions that require expressions.
