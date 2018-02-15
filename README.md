@@ -101,6 +101,7 @@ Misc. things to note:
   - for classes derived from common.ParameterSet, initialization gives all the information needed to create a task in doit, running actually performs the task
   - for classes derived from solver_general.GenericSolver, initialization stops just before asking FEniCS to solve the problem, running solves and generates output
 - solver_general defines base classes used by other solver_modules, and solver_run uses those to define tasks and run analyses.
+- how files are located (e.g. the `_folders` attribute, etc.)
 
 Discuss how to use unitsystem.py
 

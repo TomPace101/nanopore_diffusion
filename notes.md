@@ -4,26 +4,11 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 _TODO_ set up boxes in the problem description, like I did in the Iridates calculation.
 
 # ill-sleep (and debug of the PNP-reaction solver)
-The solver module:
-- finish its own TODO items
-- need the appropriate data extraction methods
-  - model steps to VTK file
-  - data series at watched points
-
-The problem:
-- create a debug model definition file that tests the same parameters as the notebooks
-Then you can more readily compare the notebook and the module.
-
 Other stuff:
 - I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
 - then I need to figure out how to specify the expression for the Neumann boundary condition.
 - and at some point I need to fix the weak form based on my earlier observations
 - and I need to set up the necessary post-processing routines, to generate plots (only model plots in this case, I think)
-
-This simulation does present some challenges in moving the data around.
-- BT: it is used to calculate initial concentrations, and in the reaction rate functions
-- reaction rate constants
-- reaction rate functions
 
 BT:
 The easiest solution is just to allow reaction functions to accept a dictionary argument,
@@ -44,19 +29,34 @@ Maybe you do this in your input generation?
 
 # Code/Misc
 
+_FEATURE_ custom code modules
+
+The modules become file dependencies, so ModelParameters needs to know about this.
+
+Each module will be loaded during solver init, then have an initialization function called.
+(This should be a standard name, like `initialize_module_globals`.)
+This function accepts a dictionary, and sets global module variables.
+
+Now, appropriate functions within the module can be called with standard arguments.
+That means we need to know those function names, associated with the location where they will be called,
+so we know what arguments they should accept.
+
+So we have a list of particular customizations we are allowed:
+  - reaction rate functions
+  - data extraction functions
+  - solver customization?
+
+We need to know which modules are which.
+And, maybe I want more than one such module loaded.
+For example, for data extractions.
+That way the customization modules can be reusable.
+
+_FEATURE_ customization functions called within solver init.
+For example, this could be a way to do boundary conditions that require expressions.
+
 _FEATURE_ parametric definition of mesh locations
-It would be nice if we could map strings to coordinates of specific locations in the mesh.
-For example, it would be good if we could get the X#, Y#, and Z# values that come from the gmsh template,
-and allow for generation of other ones as well.
-Maybe we could get gmsh to write a YAML file with those values?
 
-The catch is that this creates one file per mesh,
-rather than a multi-doc yaml file.
-Lots of small files.
-Admittedly, there's already one .geo file per mesh,
-and one msh file, and 3 xml files.
-
-There is also some awkwardness in that buildgeom needs to put the location of this file into the .geo file.
+There is some awkwardness in that buildgeom needs to put the location of this file into the .geo file.
 So both buildgeom and geom_mk_mesh have to calculate the location.
 This also makes the .geo file machine-dependent.
 If you switch to a different computer or move the whole project,
@@ -67,52 +67,20 @@ __TODO__
 
 The existing profile outputs should be refactored to use this. __TODO__
 
-Otherwise, they have to be calculated by some other function, somewhere else.
-To do it that way, you'd need a function that returned a different dictionary for each geometry definition.
-That is, it's a function of the MeshParameters object.
-Maybe a method of that, then?
-But it would embed lots of data.
-
-_FEATURE_ differentiate data extraction at each step from that done at the end.
-The easiest way is probably to allow "dataextraction" to mean extraction done only at the end,
-and have a new attribute of ModelParameters for stepwise extractions.
-In fact, there is a need for both:
-for stepwise extractions, you still need to write the actual file at the end, in some cases.
-Basically, I currently have a set of functions called after solution.
-In addition to that, I want a set of functions called at each timestep.
-It's clear those functions need to work on objects which are initialized before stepping.
-The question, then, is how to keep track of those data destinations between the calls at each step?
-
-VTK output:
-  - initialize the output files prior to stepping
-  - add each step, add data to the files
-Plots vs time:
-  - initialize the series prior to stepping (plotdata.PlotSeries)
-  - at each step, add data to the series
-  - at end, add these series to outdata (you could do it earlier if you can figure out how to keep them straight)
-
-Each function could add its own dictionary to the object, in which to store the results.
-It knows how to initialize this on the first call:
-  - the dictionary for the first call of the function itself, and
-  - each member in the dictionary on the first call with those arguments
-
-By itself, that would require copying the data for plots vs time over to outdata at the end.
-We want to avoid that, so we need a way to get the location within outdata.
-In this case, then, the dictionary maps some other key to the location within outdata: plotname, and series index.
-The plotname is an argument to the function.
-But the series index has to be mapped to the actual data requested.
-Of course, you could just have the dictionary map directly to the series itself within the list,
-rather than keeping track of the index.
-For time histories, the key is the series label.
-
-So, while nothing is planned to be set up this way for now, you could have a command in 'datasteps'
-that requires some corresponding command in 'dataextraction' to finish it up,
-e.g. by writing the data to a new file.
-
 _TODO_ more general approach for reaction rate functions
-(see discussion above, including about BT)
 
 Clearly, all the functions need similar argument structures.
+
+But maybe the best way to do it is not to have a single module for all simulations,
+but rather to allow the data input file to specify a reaction rate functions module.
+
+That helps, but still we need to be able to set some other parameters.
+For example, maybe we have a function that sets up global module variables.
+Then the reaction functions can change them if they so desire.
+
+Now those modules become file dependencies, though.
+ModelParameters needs to know about them.
+This is probably best handled by treating reaction modules as customizations (see above).
 
 _TODO_ refactor solver modules into a package?
 That would group together the various modules in a more logical way.
@@ -133,6 +101,8 @@ but also in some cases on the geometry of the problem as well.
 From an inheritance perspective, there are base classes appropriate for an equation,
 and then derived classes with data extraction methods appropriate to both the equation and the geometry definition (not the parameter values).
 The use of parametric locations could help with this.
+
+This, again, could be handled by customizations (see above).
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
@@ -163,7 +133,6 @@ Or create a different attribute for the class.
 Conclusion: better than the way I'm doing it now, and part of the standard library.
 This is what I should be doing.
 
-This would (potentially) get rid of the \_folders attribute and \_full_path
 Everything in folderstructure should become a Path (or the subclass).
 
 Towards that end, maybe the input files should be more consistent.
@@ -173,7 +142,15 @@ A good compromise would be that the extension should always be included.
 That is, it's always a path relative to the respective location given by folderstructure.
 In many cases, that means all it is is a filename.
 But in the case of paramgen, it needs more than that.
-Alternatively, you could add a folder field to paramgen input files, but that seems unnecessary.
+Alternatively, you could add a folder field to paramgen input files, but that seems unnecessary
+
+Then, at object initialization, those filename parameters are converted to Paths,
+by appending the folder specified in `_folders`.
+(This could even become an optional step in ParameterSet init: skip it for empty or nonexistent entries.)
+Instead of calling a function to get the full path, you use the appropriate attribute of the Path object.
+
+The catch is that sometimes you really do want a string, and you have to remember to cast it.
+
 
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?
@@ -291,6 +268,10 @@ https://fenicsproject.org/olddocs/dolfin/1.6.0/python/programmers-reference/cpp/
 The challenge is that the python script will be run in parallel,
 meaning some operations that are only intended to happen once,
 happen multiple times instead.
+
+Pete mentioned on Slack that he has an example code that does this correctly.
+(Thursday, February 15, between 12pm and 12:30 pm)
+He also said it's in `template_timedep.py`
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
