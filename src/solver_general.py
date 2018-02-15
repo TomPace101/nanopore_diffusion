@@ -448,6 +448,9 @@ class GenericSolver:
     if not (plotname,label) in self.td_point_series.keys():
       newseries=plotdata.PlotSeries(xvals=np.array([]),yvals=np.array([]),label=label,metadata={})
       self.td_point_series[(plotname,label)]=newseries
+      if plotname not in self.outdata.plots.keys():
+        self.outdata.plots[plotname]=[]
+      self.outdata.plots[plotname].append(newseries)
     #Get coordinates of specfiied point
     coords=tuple()
     for v in location:
@@ -455,10 +458,11 @@ class GenericSolver:
         v=self.parametric_locations[v]
       coords+=(v,)
     #Store data
-    output=getattr(self,attrname)
+    datafunction=getattr(self,attrname)
     if idx is not None:
-      output = output[idx]
+      datafunction = datafunction[idx]
+    outval=datafunction(*coords)
     series=self.td_point_series[(plotname,label)]
     series.xvals=np.append(series.xvals,self.t)
-    series.yvals=np.append(series.yvals,output)
+    series.yvals=np.append(series.yvals,outval)
       

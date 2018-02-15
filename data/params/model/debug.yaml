@@ -98,10 +98,10 @@ datasteps:
   - [td_solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
   - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 2}]
   - [td_solutionfield, {filename: Phi.pvd,   attrname: ulist, idx: 3}]
-  - [td_pointhistory, {location: [Xmid, Ymid], plotname: 'Concentrations at midpoint', label: 'Ca2+', attrname: ulist, idx: 0}]
-  - [td_pointhistory, {location: [Xmid, Ymid], plotname: 'Concentrations at midpoint', label: 'Cl-', attrname: ulist, idx: 1}]
-  - [td_pointhistory, {location: [Xmid, Ymid], plotname: 'Concentrations at midpoint', label: 'CaCaM', attrname: ulist, idx: 2}]
-  - [td_pointhistory, {location: [Xmid, Ymid], plotname: 'Potential at midpoint', label: 'Potential', attrname: ulist, idx: 3}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_phi, label: 'Potential', attrname: ulist, idx: 3}]
 
 #---
 # modelname: debug04

@@ -125,8 +125,6 @@ class PlotFigure(common.ParameterSet):
         o=sr.add_to_axes(self.ax,self.fmts[i])
     if getattr(self,'title',None) is not None:
       o=self.ax.set_title(self.title)
-    # if getattr(self,'legendloc',None) is not None:
-    #   o=self.ax.legend(loc=self.legendloc)
     if getattr(self,'xlabel',None) is not None:
       o=self.ax.set_xlabel(self.xlabel)
     if getattr(self,'ylabel',None) is not None:

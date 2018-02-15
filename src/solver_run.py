@@ -48,6 +48,7 @@ class ModelParameters(solver_general.ModelParametersBase):
   _folders={'meshparamsfile':FS.params_mesh_folder}
   #don't need sourcefile as input file due to config
   _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml']
+  _more_inputfiels=[solver_general.__file__]
   #Remember loaded meshes (parameters, not xml) so we aren't reading the same files over and over when solving multiple models
   loaded_meshfiles=[]
   loaded_meshes={}
