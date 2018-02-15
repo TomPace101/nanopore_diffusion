@@ -76,8 +76,8 @@ equation: tdpnp_unhomog
 conditions:
   elementorder: 3
   bcdict:
-    1113: [null, null, null, 0.02]
-    5153: [null, null, null, -0.02]
+    1222: [null, null, null, 0.02]
+    1121: [null, null, null, -0.02]
   temperature: 298 #Kelvin
   eps_r: 78.5
   species_info:
