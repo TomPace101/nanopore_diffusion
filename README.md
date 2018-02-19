@@ -48,7 +48,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - buildgeom.py: code for generating `gmsh` .geo files from input data
     - solver_general.py: functions and classes used by many of the solver modules
     - solver_run.py: top-level module for running solvers
-    - equation-specific solver modules:
+    - solvers: equation-specific solver modules:
         - solver_fickian_unhomog.py: solver for Fick's Law, unhomogenized
         - solver_smol_unhomog.py: solver for Smoluchowski equation, unhomogenized
         - solver_tdpnp_unhomog.py: solver for time-dependent Poisson-Nernst-Planck equation, unhomogenized
@@ -58,6 +58,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - postproc.py: code for handling post-processing requests
     - dodo.py: `doit` input file for the FEM analysis
     - paramgen.py: code for generating parameter sets from templates and input data
+    - customizations: modules used to customize the equation solvers for specific problems
 - data: input and output data from FEM analysis
     - control.yaml: list of analyses to be run with `doit` (see description below)
     - mesh: data for mesh generation using `gmsh`
