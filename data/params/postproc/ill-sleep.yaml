@@ -1,0 +1,48 @@
+%YAML 1.2
+#Parameter input file
+#Each document is a separate case run
+#Blank (bare) documents are skipped
+
+#Post-processing specification
+#Each document defines an instance of postproc.PostProcParameters
+---
+modelparamsfile: ill-sleep.yaml
+model_plots:
+  - &plot1def
+    figsize: [11, 8.5]
+    filename: mid_conc_0_hist.pdf
+    plotname: mid_conc_0
+    xlabel: 'time (ns)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Ca2+ Concentration History at Midpoint'
+    fmts: ['k-']
+  - <<: *plot1def #reuse definition
+    figsize: [9, 7]
+    filename: mid_conc_0_hist.png
+  - &plot2def
+    <<: *plot1def #reuse definition
+    filename: mid_conc_1_hist.pdf
+    plotname: mid_conc_1
+    title: 'Cl- Concentration History at Midpoint'
+  - <<: *plot2def #reuse definition
+    figsize: [9, 7]
+    filename: mid_conc_1_hist.png
+  - &plot3def
+    <<: *plot1def #reuse definition
+    filename: mid_conc_2_hist.pdf
+    plotname: mid_conc_2
+    title: 'CaCaM Concentration History at Midpoint'
+  - <<: *plot3def #reuse definition
+    figsize: [9, 7]
+    filename: mid_conc_2_hist.png
+  - &plot4def
+    figsize: [11, 8.5]
+    filename: mid_phi_hist.pdf
+    plotname: mid_phi
+    xlabel: 'time (ns)'
+    ylabel: 'Electric Potential (V)'
+    title: 'Electric Potential History at Midpoint'
+    fmts: ['k-']
+  - <<: *plot4def #reuse definition
+    figsize: [9, 7]
+    filename: mid_phi_hist.png

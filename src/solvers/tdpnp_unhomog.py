@@ -157,15 +157,21 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Dirichlet boundary conditions
     self.bcs=[]
-    for psurf,vals in self.conditions.dirichlet.items():
+    for psurf,vals in getattr(self.conditions,'dirichlet',{}).items():
       for i,value in enumerate(vals):
         if value is not None:
           self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
-    ##TODO
-    if hasattr(self.conditions,'neumann'):
-      raise NotImplementedError
+    for psurf,vals in getattr(self.conditions,'dirichlet',{}).items():
+      for i,value in enumerate(vals):
+        if value is not None:
+          if type(value)==int or type(value)==float:
+            ##TODO need to put this somewhere it can go into the weak form
+          elif type(value)==list:
+            exprstr, exprargs = value
+            ##TODO
+            ##=fem.Expression(exprstr,**exprargs)
 
     #Initial Conditions and Guess
     guesstup=self.species.initconc+[self.conditions.initial_potential]

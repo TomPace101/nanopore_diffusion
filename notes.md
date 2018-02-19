@@ -19,6 +19,18 @@ Do a check to make sure that the simulation is electrically neutral at first:
 take sum of initconc*z.
 Maybe you do this in your input generation?
 
+Time-dependent Neumann condition on select surfaces:
+Expressions: https://fenicsproject.org/pub/tutorial/html/._ftut1006.html#ch:fundamentals:diffusion
+simpler expressions: https://fenicsproject.org/pub/tutorial/html/._ftut1011.html#ch:poisson0:DN
+restrict surface: https://fenicsproject.org/pub/tutorial/html/._ftut1014.html#ch:poisson0:multi:bc
+
+It would be easy to just check for a string, and convert it to an expression.
+The problem is that if it is an Expression, you need to give it parameters (t in this case).
+And those parameters then have to be updated in the expression object at each step.
+Maybe that could be done with a custom function in datasteps?
+We could make the condition itself a tuple instead of just a string:
+- the first argument would be the expression string
+- the second could be a dictionary, sent as kwargs
 
 # Code/Misc
 

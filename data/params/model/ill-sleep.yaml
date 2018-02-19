@@ -16,20 +16,43 @@ customizations:
     rxnrates_ill-sleep: {BT: 5.0e-6}
 conditions:
   elementorder: 3
-  dirichlet: {}
+  neumann: ##TODO: these are test values only
+    1113:
+      - ['exp(-t)', {t: 0}]
+      - ['2*exp(-t)', {t: 0}]
+      - null
+      - null
   temperature: 298 #Kelvin
   eps_r: 78.5
   species_info:
     symbol:   [Ca2+, Cl-,  CaCaM]
     z:        [2,    -1,   2]
-    initconc: [] ##TODO
+    initconc: [0.1, 0.200005, 2.5e-06] ##TODO: these are test values only
     D:        [1.9,  2.03, null] ##TODO: these are test values only
   reaction_info:
     constants: [0.0016605390404271642, 1.0e-09]
-    functions: [] ##TODO
+    functions: [rate_forward, rate_backward]
     stoichio: [[-1,0,1],[1,0,-1]]
-  intial_potential: 0.0 ##TODO
+  intial_potential: 0.0
   timedomain:
     stepsize: 1.0
     stopping:
       t_end: 10.0
+datasteps:
+  - [splitfield, {namewhole: u, namesplit: ulist}]
+  - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  - [td_solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
+  - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 2}]
+  - [td_solutionfield, {filename: Phi.pvd,   attrname: ulist, idx: 3}]
+  - [td_pointhistory, {location: [X2, Y1], plotname: front_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [td_pointhistory, {location: [X2, Y1], plotname: front_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+  - [td_pointhistory, {location: [X2, Y1], plotname: front_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]
+  - [td_pointhistory, {location: [X2, Y1], plotname: front_phi, label: 'Potential', attrname: ulist, idx: 3}]
+  - [td_pointhistory, {location: [X3, Y1], plotname: mid_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [td_pointhistory, {location: [X3, Y1], plotname: mid_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+  - [td_pointhistory, {location: [X3, Y1], plotname: mid_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]
+  - [td_pointhistory, {location: [X3, Y1], plotname: mid_phi, label: 'Potential', attrname: ulist, idx: 3}]
+  - [td_pointhistory, {location: [X4, Y1], plotname: back_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [td_pointhistory, {location: [X4, Y1], plotname: back_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+  - [td_pointhistory, {location: [X4, Y1], plotname: back_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]
+  - [td_pointhistory, {location: [X4, Y1], plotname: back_phi, label: 'Potential', attrname: ulist, idx: 3}]
