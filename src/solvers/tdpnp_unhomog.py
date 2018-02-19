@@ -52,6 +52,28 @@ class ReactionInfo(common.ParameterSet):
     assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)    
     self.N=nreac_all[0]
 
+class StoppingCriterion:
+  """Define stopping criterion for time-domain simulation.
+  Possible attributes:
+    numsteps = number of steps to stop after
+    t_end = time to stop after"""
+  def __init__(self,**kwargs):
+    assert len(kwargs.keys())==1, "Must specify exactly one stopping criterion, got %d in args: %s"%(len(kwargs.keys()),str(kwargs))
+    self.numsteps=kwargs.get('numsteps',None)
+    self.t_end=kwargs.get('t_end',None)
+
+class TimeDomainInfo(common.ParameterSet):
+  """"Specify time steps and stopping criterion
+  Attributes:
+    stepsize: Specification of time step size, as float
+    stopping: instance of StoppingCriterion"""
+  __slots__=['stepsize','stopping']
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super().__init__(**kwargs)
+    #Stopping Criterions
+    self.stopping=StoppingCriterion(**kwargs['stopping'])
+
 class TDPNPUConditions(solver_general.GenericConditions):
   """Condition defnitions for use with TDPNPUSolver
   Attributes:
@@ -63,16 +85,17 @@ class TDPNPUConditions(solver_general.GenericConditions):
     species_info = dictionary defining a SpeciesInfo object
     reaction_info = dictionary defining a ReactionInfo object
     initial_potential = initial electric potential, assumed constant over space, as number
-    t_end = end time for simulation (may be exceeded if not exactly divisible by timestep)
-    delta_t = timestep for simulation (number of timesteps is calculated from this)
+    timedomain = instance of solver_general.TimeDomainInfo
     beta = optional, calculated from temperature if not provided"""
-  __slots__=['dirichlet','beta','temperature','eps_r','species_info','reaction_info','initial_potential','t_end','delta_t']
+  __slots__=['dirichlet','beta','temperature','eps_r','species_info','reaction_info','initial_potential','timedomain']
   def __init__(self,**kwargs):
     #Initialization from base class
     super().__init__(**kwargs)
     #If beta not provided, calculate from temperature
     if not hasattr(self,'beta'):
       self.beta = 1.0/(self.temperature*UN.kB)
+    #Get TimeDomainInfo instance
+    self.timedomain=TimeDomainInfo(**self.timedomain)
 
 class TDPNPUSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Time-Domain Poisson-Nernst-Planck Diffusion
@@ -83,7 +106,6 @@ class TDPNPUSolver(solver_general.GenericSolver):
     Nspecies = number of chemical species
     Nvars = number of field variables to solve for
     dt = timestep
-    numsteps = number of steps to compute
     V = FEniCS FunctionSpace on the mesh
     u = FEniCS Function on the FunctionSpace for the current timestep
     u_k = FENiCS Function on the FunctionSpace for the previous timestep
@@ -91,8 +113,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     ds = FEniCS Measure for facet boundary conditions
     FF = symbolic functional form, which is set equal to zero in the weak form equation
     J = symbolic Jacobian of FF
-
-    v = FEniCS TestFunction on V"""
+    k = current step number, as integer"""
   def __init__(self,modelparams,meshparams):
     """Initialize the model.
     Arguments:
@@ -114,9 +135,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     varlist=self.species.symbol+non_species_vars
     self.Nvars=len(varlist)
     
-    #Calculate number of time steps
-    self.dt=self.conditions.delta_t
-    self.numsteps=math.ceil(self.conditions.t_end/self.dt)
+    #Calculate time step size
+    self.dt=self.conditions.timedomain.stepsize
     
     #Elements and Function space(s)
     ele = fem.FiniteElement('P',self.mesh.ufl_cell(),self.conditions.elementorder)
@@ -191,8 +211,20 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Take derivative
     self.J=fem.derivative(self.FF,self.u)
 
+  def stopnow(self):
+    """Check if stopping criterion is met.
+    Returns True if time to stop, False otherwise"""
+    
+    criterion=self.conditions.timedomain.stopping
+    if criterion.numsteps is not None:
+      return self.k >= criterion.numsteps
+    elif criterion.t_end is not None:
+      return self.t >= criterion.t_end
+    else:
+      raise Exception("Unknown stopping criterion.")
+
   def solve(self):
-    "Do the time steps"
+    """Do the time steps"""
 
     #Formulate problem and solver
     problem = fem.NonlinearVariationalProblem(self.FF, self.u, bcs=self.bcs, J=self.J)
@@ -200,8 +232,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Initialize time-domain output
     self.process_output_commands('datasteps')
     #Do the steps
-    for k in range(self.numsteps):
+    self.k=0
+    while not self.stopnow():
       solver.solve()
+      self.k+=1
       self.t+=self.dt
       self.process_output_commands('datasteps')
       self.u_k.assign(self.u)

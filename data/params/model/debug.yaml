@@ -100,8 +100,10 @@ conditions:
     functions: [rate_forward, rate_backward]
     stoichio: [[-1,0,1],[1,0,-1]]
   initial_potential: 0.0
-  t_end: 10.0
-  delta_t: 1.0
+  timedomain:
+    stepsize: 1.0
+    stopping:
+      t_end: 10.0
 datasteps:
   - [splitfield, {namewhole: u, namesplit: ulist}]
   - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]

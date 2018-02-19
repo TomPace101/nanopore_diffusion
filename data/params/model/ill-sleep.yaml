@@ -29,5 +29,7 @@ conditions:
     functions: [] ##TODO
     stoichio: [[-1,0,1],[1,0,-1]]
   intial_potential: 0.0 ##TODO
-  t_end: 10.0
-  delta_t: 1.0
+  timedomain:
+    stepsize: 1.0
+    stopping:
+      t_end: 10.0
