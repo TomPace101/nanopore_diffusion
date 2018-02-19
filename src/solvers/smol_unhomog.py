@@ -16,8 +16,9 @@ import solver_general
 class LPBConditions(solver_general.GenericConditions):
   """Condition defnitions for use with LPBSolver
   Attributes:
-      debye_length = Debye length"""
-  __slots__=['debye_length']
+    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
+    debye_length = Debye length"""
+  __slots__=['dirichlet','debye_length']
 
 class LPBSolver(solver_general.GenericSolver):
   """Solver for linearized Poisson-Boltzmann equation.
@@ -84,6 +85,7 @@ potentialsolverclasses={'linear_pb':LPBSolver}
 class SUConditions(solver_general.GenericConditions):
   """Condition defnitions for use with SUSolver
   Attributes:
+    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
     D_bulk = bulk diffusion constant
     q = electric charge of ion
     beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
@@ -91,7 +93,7 @@ class SUConditions(solver_general.GenericConditions):
     trans_dirichlet = Dirichlet boundary conditions after Slotboom transformation
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['D_bulk','q','beta','potential','trans_dirichlet']
+  __slots__=['dirichlet','D_bulk','q','beta','potential','trans_dirichlet']
   def transform_bcs(self,pdict,beta_q):
     """Apply Slotboom transformation to Dirichlet boundary conditions.
     This function requires that the facets with Dirichlet conditions for the concentration

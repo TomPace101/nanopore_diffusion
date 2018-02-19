@@ -8,7 +8,7 @@
 ---
 modelparamsfile: brainy-media.yaml
 do_collection: True
-collection_exclusions: [bcdict]
+collection_exclusions: [dirichlet]
 collection_plots:
   - &basicplotdef
     figsize: [11, 8.5]

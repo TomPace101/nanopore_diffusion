@@ -8,7 +8,7 @@
 ---
 modelparamsfile: thin-shot.yaml
 do_collection: True
-collection_exclusions: [bcdict, equation]
+collection_exclusions: [dirichlet, equation]
 collection_plots:
   - &collectionplotdef
     figsize: [11, 8.5]

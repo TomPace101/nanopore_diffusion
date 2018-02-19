@@ -95,7 +95,7 @@ model_plots:
     plotname: radial_phi
     plotfunctions:
       - &poreboundary [plot_vline, {locspec: [meshparams, R],kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
-      - [plot_hline, {locspec: [conditions, potential, conditions, bcdict, 11],kwargs: {label: 'Potential at Pore Boundary',color: 'k',linestyle: ":"}}]
+      - [plot_hline, {locspec: [conditions, potential, conditions, dirichlet, 11],kwargs: {label: 'Potential at Pore Boundary',color: 'k',linestyle: ":"}}]
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
     xlabel: 'Radial Distance (nm)'
     ylabel: 'Electric Potential (V)'

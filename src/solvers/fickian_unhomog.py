@@ -14,8 +14,9 @@ import solver_general
 class UnhomogFickianConditions(solver_general.GenericConditions):
   """Condition defnitions for use with UnhomogFickianSolver
   Attributes:
+    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
     D_bulk = bulk diffusion constant"""
-  __slots__=['D_bulk']
+  __slots__=['dirichlet','D_bulk']
 
 class UnhomogFickianSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Fickian Diffusion

@@ -24,10 +24,8 @@ assert fem.DOLFIN_VERSION_STRING == target_fenics_version, fenics_version_msg_te
 class GenericConditions(common.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
   Attributes:
-    elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
-    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
-    neumann = dictionary of Neumann boundary conditions: {physical facet number: normal derivative value, ...}"""
-  __slots__=['elementorder','dirichlet','neumann']
+    elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements"""
+  __slots__=['elementorder']
 
 class OutData(common.ParameterSet):
   """Data from solver to be written to disk.
