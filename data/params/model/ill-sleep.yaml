@@ -11,9 +11,7 @@ meshparamsfile: ill-sleep.yaml
 meshname: ill-sleep_mesh
 equation: tdpnp_unhomog
 customizations:
-  methods:
-    rate_forward: [rxnrates_ill-sleep, rate_forward]
-    rate_backward: [rxnrates_ill-sleep, rate_backward]
+  modules: [output_td, rxnrates_ill-sleep]
   initializations:
     rxnrates_ill-sleep: {BT: 5.0e-6}
 conditions:

@@ -14,6 +14,8 @@ modelname: {{ '%s_model_%03d'|format(fields.hrhash, fields.counter) }}
 meshparamsfile: {{ fields.meshparamsfile }}
 meshname: {{ fields.meshname }}
 equation: smol_unhomog
+customizations:
+  modules: [output_eff]
 conditions:
   elementorder: {{ fields.elementorder }}
   bcdict: { {{- fields.psurf_top }}: {{ fields.dval_top }}, {{ fields.psurf_base }}: {{ fields.dval_base -}} }
@@ -22,6 +24,8 @@ conditions:
   beta: {{ fields.beta}}
   potential:
     equation: linear_pb
+    customizations:
+      modules: [output_eff]
     conditions:
       elementorder: {{ fields.elementorder }}
       bcdict:

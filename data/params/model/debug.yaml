@@ -10,6 +10,8 @@ modelname: debug01
 meshparamsfile: debug.yaml
 meshname: debug
 equation: fickian_unhomog
+customizations:
+  modules: [output_eff]
 conditions:
   elementorder: 2
   bcdict: {4: 5.0, 1: 1.0}
@@ -28,6 +30,8 @@ modelname: debug02
 meshparamsfile: debug.yaml
 meshname: debug
 equation: smol_unhomog
+customizations:
+  modules: [output_eff]
 conditions:
   elementorder: 2
   bcdict: {4: 5.0, 1: 1.0}
@@ -36,6 +40,8 @@ conditions:
   beta: 38.94135
   potential:
     equation: linear_pb
+    customizations:
+      modules: [output_eff]
     conditions:
       elementorder: 2
       bcdict: {2: 25.E-3, 3: 25.E-3, 11: 25.E-3, 15: 25.E-3, 1: 0.0, 4: 0.0}
@@ -74,9 +80,7 @@ meshparamsfile: debug.yaml
 meshname: debug2d
 equation: tdpnp_unhomog
 customizations:
-  methods:
-    rate_forward: [rxnrates_ill-sleep, rate_forward]
-    rate_backward: [rxnrates_ill-sleep, rate_backward]
+  modules: [output_td, rxnrates_ill-sleep]
   initializations:
     rxnrates_ill-sleep: {BT: 5.0e-6}
 conditions:
