@@ -35,28 +35,6 @@ __TODO__
 
 The existing profile outputs should be refactored to use this. __TODO__
 
-_TODO_ refactor solver modules into a package?
-That would group together the various modules in a more logical way.
-But what complications would it cause?
-The package should probably be called "solvers".
-rxn_rate_funcs would need to go in there as well.
-
-_FEATURE_ greater modularity in data extraction functions
-
-Right now, everything is going into solver_general.
-But not all the output functions there are appropriate for that, really.
-This might be a good use case for multiple inheritance.
-Or, maybe even better, have a module of just extraction functions, which are not part of a class.
-Then, in the class definitions, you can just assign them to class members.
-
-The reason for this is that the extraction functions not only depend on the equation,
-but also in some cases on the geometry of the problem as well.
-From an inheritance perspective, there are base classes appropriate for an equation,
-and then derived classes with data extraction methods appropriate to both the equation and the geometry definition (not the parameter values).
-The use of parametric locations could help with this.
-
-This could be handled by customizations.
-
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
 
@@ -66,16 +44,21 @@ p=pathlib.Path(...)
     You could check to see if it is a folder, but that requires checking the disk.
     Your subclass could have a boolean flag for whether it is a file or folder,
     which you'd have to maintain at each operation.
-- base name: p.stem (note that for multiple extensions this only takes off the last one)
+    Or, you could just keep track of it yourself.
+    That is, know what is supposed to be a folder and don't call folder on it.
+    Maybe just checking the disk is the best approach.
+- stem name: p.stem (note that for multiple extensions this only takes off the last one)
     If subclassing, you could create a read-only property that uses p.stem.split('.')[0] to get the base name
 - extension: p.suffix (note that for multiple extensions this only gives the last one, and it does include the dot)
     If subclassing, you could create a read-only property that calculates this
-- file name: p.name
+- file name: p.name0
+    Of course, for a folder, this isn't a file.
 - full path: str(p) (repr(p) is different, and should not be used)
 In fact, any function that needs a string instead of a path object will need
 to get str(p.whatever) instead of just p.whatever.
+  Or maybe the subclass methods could return strings.
 Paths are immutable, but can be concatenated with "/"
-and can get suffixes added wtih p.with_suffix()
+and can get suffixes added by p.with_suffix()
 
 You have to use this class as the appropriate object attribute,
 meaning at initialization it has to be there.
@@ -87,20 +70,26 @@ Conclusion: better than the way I'm doing it now, and part of the standard libra
 This is what I should be doing.
 
 Everything in folderstructure should become a Path (or the subclass).
+If it's going to be the subclass, then that can't be defined in `common`,
+because `common` has to import folderstructure.
 
-Towards that end, maybe the input files should be more consistent.
+Towards that end (initialization), maybe the input files should be more consistent.
 Sometimes they give stem names only, and sometimes they give filenames.
 For paramgen, you even need to specify the folder (since it doesn't know what type of parameter set you want to make otherwise).
 A good compromise would be that the extension should always be included.
 That is, it's always a path relative to the respective location given by folderstructure.
 In many cases, that means all it is is a filename.
 But in the case of paramgen, it needs more than that.
-Alternatively, you could add a folder field to paramgen input files, but that seems unnecessary
+Alternatively, you could add a folder field to paramgen input files, but that seems unnecessary.
+Another challenge is that there are things like meshnames which do get extensions added sometimes, but not always. 
+So maybe we just do what we're already doing, but with Path instead of with just strings.
 
 Then, at object initialization, those filename parameters are converted to Paths,
 by appending the folder specified in `_folders`.
+But sometimes you need to add an extension as well.
 (This could even become an optional step in ParameterSet init: skip it for empty or nonexistent entries.)
-Instead of calling a function to get the full path, you use the appropriate attribute of the Path object.
+Instead of calling a function to get the full path, you use the appropriate attribute of the Path object
+or its subclass.
 
 The catch is that sometimes you really do want a string, and you have to remember to cast it.
 
