@@ -16,7 +16,7 @@ customizations:
     rxnrates_ill-sleep: {BT: 5.0e-6}
 conditions:
   elementorder: 3
-  bcdict: {}
+  dirichlet: {}
   temperature: 298 #Kelvin
   eps_r: 78.5
   species_info:

@@ -56,7 +56,7 @@ class TDPNPUConditions(solver_general.GenericConditions):
   """Condition defnitions for use with TDPNPUSolver
   Attributes:
     elementorder = see base class
-    bcdict = dictionary of Dirichlet boundary conditions:
+    dirichlet = dictionary of Dirichlet boundary conditions:
       {physical facet number: [solution values, None for no condition]}
     temperature = the temperature under consideration, as a number
     eps_r = relative permittivity of the medium
@@ -137,13 +137,15 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Dirichlet boundary conditions
     self.bcs=[]
-    for psurf,vals in self.conditions.bcdict.items():
+    for psurf,vals in self.conditions.dirichlet.items():
       for i,value in enumerate(vals):
         if value is not None:
           self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
     ##TODO
+    if hasattr(self.conditions,'neumann'):
+      raise NotImplementedError
 
     #Initial Conditions and Guess
     guesstup=self.species.initconc+[self.conditions.initial_potential]

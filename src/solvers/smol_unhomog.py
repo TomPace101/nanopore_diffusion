@@ -58,11 +58,13 @@ class LPBSolver(solver_general.GenericSolver):
     ##self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.bcdict.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.dirichlet.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
     ##self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets) ##TODO: specify which facets are Neumann?
+    if hasattr(self.conditions,'neumann'):
+      raise NotImplementedError
 
     #Define variational problem
     self.phi=fem.TrialFunction(self.V)
@@ -86,10 +88,10 @@ class SUConditions(solver_general.GenericConditions):
     q = electric charge of ion
     beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
     potential = dictionary defining solver_run.ModelParameters for electric potential
-    trans_bcdict = Dirichlet boundary conditions after Slotboom transformation
+    trans_dirichlet = Dirichlet boundary conditions after Slotboom transformation
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['D_bulk','q','beta','potential','trans_bcdict']
+  __slots__=['D_bulk','q','beta','potential','trans_dirichlet']
   def transform_bcs(self,pdict,beta_q):
     """Apply Slotboom transformation to Dirichlet boundary conditions.
     This function requires that the facets with Dirichlet conditions for the concentration
@@ -98,11 +100,11 @@ class SUConditions(solver_general.GenericConditions):
       pdict = dictionary of Dirichlet boundary conditions for the potential
       beta_q = product of beta and q
     No return value.
-    trans_bcdict attribute is updated"""
+    trans_dirichlet attribute is updated"""
     transvals={}
-    for psurf,cval in self.bcdict.items():
+    for psurf,cval in self.dirichlet.items():
       transvals[psurf] = cval*math.exp(beta_q*pdict[psurf])
-    self.trans_bcdict=transvals
+    self.trans_dirichlet=transvals
     return
 
 class SUSolver(solver_general.GenericSolver):
@@ -151,11 +153,13 @@ class SUSolver(solver_general.GenericSolver):
     self.outdata.plots=self.potsolv.outdata.plots
 
     #Dirichlet boundary conditions
-    self.conditions.transform_bcs(self.potsolv.conditions.bcdict,self.beta_q) #apply Slotboom transformation
-    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.trans_bcdict.items()]
+    self.conditions.transform_bcs(self.potsolv.conditions.dirichlet,self.beta_q) #apply Slotboom transformation
+    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.trans_dirichlet.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
+    if hasattr(self.conditions,'neumann'):
+      raise NotImplementedError
 
     #Define the Dbar function
     self.Dbar=self.conditions.D_bulk*fem.exp(-self.beta_q*self.potsolv.soln)

@@ -14,7 +14,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -34,7 +34,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1
   q: 1
   beta: 38.94135
@@ -44,7 +44,7 @@ conditions:
       modules: [output_eff]
     conditions:
       elementorder: 2
-      bcdict: {2: 25.E-3, 3: 25.E-3, 11: 25.E-3, 15: 25.E-3, 1: 0.0, 4: 0.0}
+      dirichlet: {2: 25.E-3, 3: 25.E-3, 11: 25.E-3, 15: 25.E-3, 1: 0.0, 4: 0.0}
       debye_length: 1
     dataextraction:
       - [solutionfield, {filename: potentialfield.pvd}]
@@ -85,7 +85,7 @@ customizations:
     rxnrates_ill-sleep: {BT: 5.0e-6}
 conditions:
   elementorder: 3
-  bcdict:
+  dirichlet:
     1222: [null, null, null, 0.02]
     1121: [null, null, null, -0.02]
   temperature: 298 #Kelvin
@@ -120,7 +120,7 @@ datasteps:
 # equation: pnp_unhomog
 # conditions:
 #   elementorder: 2
-#   bcdict: {}
+#   dirichlet: {}
 #   beta: 38.94135
 #   species_info: {'Na+':1}
 # dataextraction:

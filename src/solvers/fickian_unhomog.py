@@ -47,11 +47,13 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.bcdict.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.dirichlet.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
     self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets) ##TODO: specify which facets are Neumann?
+    if hasattr(self.conditions,'neumann'):
+      raise NotImplementedError
 
     #Define variational problem
     self.c=fem.TrialFunction(self.V)

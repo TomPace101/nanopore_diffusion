@@ -25,8 +25,9 @@ class GenericConditions(common.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
   Attributes:
     elementorder = integer specifying equation order (1=1st, 2=2nd, etc) for finite elements
-    bcdict = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}"""
-  __slots__=['elementorder','bcdict']
+    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
+    neumann = dictionary of Neumann boundary conditions: {physical facet number: normal derivative value, ...}"""
+  __slots__=['elementorder','dirichlet','neumann']
 
 class OutData(common.ParameterSet):
   """Data from solver to be written to disk.

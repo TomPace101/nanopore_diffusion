@@ -18,7 +18,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: {{ fields.elementorder }}
-  bcdict: { {{- fields.psurf_top }}: {{ fields.dval_top }}, {{ fields.psurf_base }}: {{ fields.dval_base -}} }
+  dirichlet: { {{- fields.psurf_top }}: {{ fields.dval_top }}, {{ fields.psurf_base }}: {{ fields.dval_base -}} }
   D_bulk: {{ fields.D_bulk }}
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]

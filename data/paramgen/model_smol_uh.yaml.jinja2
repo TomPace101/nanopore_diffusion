@@ -18,7 +18,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: {{ fields.elementorder }}
-  bcdict: { {{- fields.psurf_top }}: {{ fields.dval_top }}, {{ fields.psurf_base }}: {{ fields.dval_base -}} }
+  dirichlet: { {{- fields.psurf_top }}: {{ fields.dval_top }}, {{ fields.psurf_base }}: {{ fields.dval_base -}} }
   D_bulk: {{ fields.D_bulk }}
   q: {{ fields.q }}
   beta: {{ fields.beta}}
@@ -28,7 +28,7 @@ conditions:
       modules: [output_eff]
     conditions:
       elementorder: {{ fields.elementorder }}
-      bcdict:
+      dirichlet:
         {{ fields.psurf_top }}: {{ fields.boundary_potential }}
         {{ fields.psurf_base }}: {{ fields.boundary_potential }}
 {% for psurf in fields.membrane_surfaces %}

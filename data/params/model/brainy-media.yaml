@@ -17,7 +17,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -37,7 +37,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -57,7 +57,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -77,7 +77,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -97,7 +97,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -117,7 +117,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -137,7 +137,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -157,7 +157,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -177,7 +177,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -197,7 +197,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -217,7 +217,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -237,7 +237,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -257,7 +257,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -277,7 +277,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -297,7 +297,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -317,7 +317,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -337,7 +337,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -357,7 +357,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -377,7 +377,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -397,7 +397,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -417,7 +417,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -437,7 +437,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -457,7 +457,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -477,7 +477,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -497,7 +497,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -517,7 +517,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -537,7 +537,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -557,7 +557,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -577,7 +577,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -597,7 +597,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -617,7 +617,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -637,7 +637,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -657,7 +657,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -677,7 +677,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -697,7 +697,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -717,7 +717,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -737,7 +737,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -757,7 +757,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -777,7 +777,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -797,7 +797,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -817,7 +817,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -837,7 +837,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -857,7 +857,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -877,7 +877,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -897,7 +897,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -917,7 +917,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -937,7 +937,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -957,7 +957,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -977,7 +977,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -997,7 +997,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1017,7 +1017,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1037,7 +1037,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1057,7 +1057,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1077,7 +1077,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1097,7 +1097,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1117,7 +1117,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1137,7 +1137,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1157,7 +1157,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1177,7 +1177,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1197,7 +1197,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1217,7 +1217,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1237,7 +1237,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1257,7 +1257,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1277,7 +1277,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1297,7 +1297,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1317,7 +1317,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1337,7 +1337,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1357,7 +1357,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1377,7 +1377,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1397,7 +1397,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1417,7 +1417,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1437,7 +1437,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1457,7 +1457,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1477,7 +1477,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1497,7 +1497,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1517,7 +1517,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1537,7 +1537,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1557,7 +1557,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1577,7 +1577,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1597,7 +1597,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1617,7 +1617,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1637,7 +1637,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1657,7 +1657,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1677,7 +1677,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1697,7 +1697,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1717,7 +1717,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1737,7 +1737,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1757,7 +1757,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1777,7 +1777,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1797,7 +1797,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1817,7 +1817,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1837,7 +1837,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1857,7 +1857,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1877,7 +1877,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1897,7 +1897,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1917,7 +1917,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1937,7 +1937,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1957,7 +1957,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1977,7 +1977,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -1997,7 +1997,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2017,7 +2017,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2037,7 +2037,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2057,7 +2057,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2077,7 +2077,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2097,7 +2097,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2117,7 +2117,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2137,7 +2137,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2157,7 +2157,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2177,7 +2177,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2197,7 +2197,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2217,7 +2217,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2237,7 +2237,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2257,7 +2257,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2277,7 +2277,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2297,7 +2297,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2317,7 +2317,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2337,7 +2337,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2357,7 +2357,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 5.0, 1: 1.0}
+  dirichlet: {4: 5.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2377,7 +2377,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2397,7 +2397,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2417,7 +2417,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2437,7 +2437,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2457,7 +2457,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2477,7 +2477,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2497,7 +2497,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2517,7 +2517,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2537,7 +2537,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2557,7 +2557,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2577,7 +2577,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2597,7 +2597,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2617,7 +2617,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2637,7 +2637,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2657,7 +2657,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2677,7 +2677,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2697,7 +2697,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2717,7 +2717,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2737,7 +2737,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2757,7 +2757,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2777,7 +2777,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2797,7 +2797,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2817,7 +2817,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2837,7 +2837,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2857,7 +2857,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2877,7 +2877,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2897,7 +2897,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2917,7 +2917,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2937,7 +2937,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2957,7 +2957,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2977,7 +2977,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -2997,7 +2997,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3017,7 +3017,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3037,7 +3037,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3057,7 +3057,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3077,7 +3077,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3097,7 +3097,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3117,7 +3117,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3137,7 +3137,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3157,7 +3157,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3177,7 +3177,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3197,7 +3197,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3217,7 +3217,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3237,7 +3237,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3257,7 +3257,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3277,7 +3277,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3297,7 +3297,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3317,7 +3317,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3337,7 +3337,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3357,7 +3357,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3377,7 +3377,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3397,7 +3397,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3417,7 +3417,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3437,7 +3437,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3457,7 +3457,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3477,7 +3477,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3497,7 +3497,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3517,7 +3517,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3537,7 +3537,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3557,7 +3557,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3577,7 +3577,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3597,7 +3597,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3617,7 +3617,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3637,7 +3637,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3657,7 +3657,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3677,7 +3677,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3697,7 +3697,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3717,7 +3717,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3737,7 +3737,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3757,7 +3757,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3777,7 +3777,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3797,7 +3797,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3817,7 +3817,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3837,7 +3837,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3857,7 +3857,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3877,7 +3877,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3897,7 +3897,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3917,7 +3917,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3937,7 +3937,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3957,7 +3957,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3977,7 +3977,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -3997,7 +3997,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4017,7 +4017,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4037,7 +4037,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4057,7 +4057,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4077,7 +4077,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4097,7 +4097,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4117,7 +4117,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4137,7 +4137,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4157,7 +4157,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4177,7 +4177,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4197,7 +4197,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4217,7 +4217,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4237,7 +4237,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4257,7 +4257,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4277,7 +4277,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4297,7 +4297,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4317,7 +4317,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4337,7 +4337,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4357,7 +4357,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4377,7 +4377,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4397,7 +4397,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4417,7 +4417,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4437,7 +4437,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4457,7 +4457,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4477,7 +4477,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4497,7 +4497,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4517,7 +4517,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4537,7 +4537,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4557,7 +4557,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4577,7 +4577,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4597,7 +4597,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4617,7 +4617,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4637,7 +4637,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4657,7 +4657,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4677,7 +4677,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4697,7 +4697,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
@@ -4717,7 +4717,7 @@ customizations:
   modules: [output_eff]
 conditions:
   elementorder: 2
-  bcdict: {4: 10.0, 1: 1.0}
+  dirichlet: {4: 10.0, 1: 1.0}
   D_bulk: 1.0
 dataextraction:
   - [solutionfield, {filename: conc.pvd}]
