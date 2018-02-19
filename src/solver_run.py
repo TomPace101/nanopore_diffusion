@@ -12,7 +12,7 @@ import buildgeom
 import solver_general
 
 #Solver modules
-solver_module_list=['solver_fickian_unhomog','solver_smol_unhomog','solver_tdpnp_unhomog']
+solver_module_list=['fickian_unhomog','smol_unhomog','tdpnp_unhomog']
 
 #Path to this code file (for dependency list)
 thisfile=sys.modules[__name__].__file__

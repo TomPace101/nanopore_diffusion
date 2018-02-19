@@ -6,6 +6,7 @@ import sys
 srcfolder=osp.abspath(osp.split(__file__)[0])
 datafolder=osp.join(osp.split(srcfolder)[0],'data')
 custom_modules_folder=osp.join(srcfolder,'customizations')
+solver_modules_folder=osp.join(srcfolder,'solvers')
 
 #params
 paramsfolder=osp.join(datafolder,'params')
@@ -38,3 +39,5 @@ if not srcfolder in sys.path:
   sys.path.append(srcfolder)
 if not custom_modules_folder in sys.path:
   sys.path.append(custom_modules_folder)
+if not solver_modules_folder in sys.path:
+  sys.path.append(solver_modules_folder)
