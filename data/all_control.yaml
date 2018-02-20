@@ -3,8 +3,8 @@
 
 # Commenting out lines will suppress running those analyses
 ---
-- debug.yaml
+#- debug.yaml
 #- brainy-media.yaml
 #- thin-shot.yaml
-- ill-sleep.yaml
+#- ill-sleep.yaml
 
