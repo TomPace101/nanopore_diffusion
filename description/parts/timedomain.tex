@@ -1,0 +1,62 @@
+%not a stand-alone document; intended for inclusion in a larger document
+
+\section{Time-Domain Simulations}\label{sec:timedomain}
+
+%-------------------------------------------------------------------------------
+\subsection{Introduction}\label{subsec:timedomain_intro}
+
+When the conditions are not constant with respect to time,
+the time-dependent form of the equation for each ionic species must be solved.
+Note that the Poisson equation itself does not contain any time-dependence,
+as it is assumed that the electric potential is immediately in equilibrium with the charge locations.
+That is, the ions are assumed to move sufficiently slowly that the problem
+is electrostatic rather than electrodynamic.
+
+While the diffusion constants $D_s$ fall out of the steady-state equations,
+they must be retained for the time-dependent equations.
+Thus, we write the steady-state form of the equation for a single ion species as
+$WSS_s = 0$,
+corresponding to a time-dependent equation
+
+\begin{equation}
+\frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+= WSS_s
+\end{equation}
+
+Prior to adding these equations together, they must each now be rewritten as
+
+\begin{equation}
+\int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+= D_s WSS_s
+\end{equation}
+
+
+%-------------------------------------------------------------------------------
+\subsection{Backward-Euler Approximation}\label{subsec:backward_euler}
+
+A simple way to solve the time-dependent equation for each ionic species is to use the Backward-Euler
+finite difference approximation for partial derivatives with respect to time.
+In this approximation, we already have a solution for $c_s$ at time-step $k$,
+which shall be denoted as $c_s^k$.
+The solution at time-step $k+1$ shall instead be labeled as simply $c_s$.
+
+The Backward-Euler approximation can then be written as
+\begin{equation}
+\frac{\partial c_s}{\partial t} \approx \frac{c_s - c_s^k}{\Delta t}
+\end{equation}
+
+Using this approximation, the weak form for each ionic species becomes
+\begin{equation}
+\int_\Omega \frac{c_s - c_s^k}{\Delta t} v_s \,\mathrm{d}^3x
+= D_s WSS_s
+\end{equation}
+ 
+Rearranging, we have
+\begin{equation}
+\int_\Omega c_s  v_s \,\mathrm{d}^3x
+- \int_\Omega c_s^k  v_s \,\mathrm{d}^3x
+- \Delta t D_s WSS_s = 0
+\end{equation}
+
+This form is suitable for the addition of all equations into a single
+nonlinear form for solution.

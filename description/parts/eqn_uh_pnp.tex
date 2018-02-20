@@ -105,7 +105,7 @@ and then integrated over the problem domain.
 \int_\Omega v_s \nabla^2 c_s \,\mathrm{d}^3x 
 + \beta z_s \int_\Omega c_s v_s \nabla^2 \Phi \,\mathrm{d}^3x
 + \beta z_s \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
-= \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+= \frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{equation}
 
 Performing an integration by parts on the first two terms
@@ -118,7 +118,7 @@ using the product rule of Equation \ref{eq:product_rule_divergence}, this become
 + \beta z_s \left( \int_\Omega \nabla \cdot \left( c_s v_s \nabla \Phi \right) \,\mathrm{d}^3x
 - \int_\Omega \left( \nabla \left( c_s v_s \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right) 
 + \beta z_s \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
-& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+& = & \frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{aligned}
 \end{equation}
 
@@ -130,7 +130,7 @@ Applying the divergence theorem and grouping the factor $\beta z_s$ on the last 
 + \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s
 - \int_\Omega \left( \nabla \left( c_s v_s \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x
 + \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right) 
-& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+& = & \frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{aligned}
 \end{equation}
 
@@ -148,7 +148,7 @@ Applying this product rule to the necessary terms,
 + \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s 
 - \int_\Omega \left( \left[ c_s \left( \nabla v_s \right) + v_s \left( \nabla c_s \right) \right]  \cdot \nabla \Phi \right) \,\mathrm{d}^3x
 + \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
-& =  & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+& =  & \frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{aligned}
 \end{equation}
 
@@ -160,7 +160,7 @@ Applying this product rule to the necessary terms,
 - \int_\Omega c_s  \left( \nabla v_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right. \\
 \left. - \int_\Omega v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
 + \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
-& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+& = & \frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{aligned}
 \end{equation}
 
@@ -170,7 +170,7 @@ Applying this product rule to the necessary terms,
 - \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x \\
 + \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s
 - \int_\Omega c_s  \left( \nabla v_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
-& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+& = & \frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{aligned}
 \end{equation}
 
@@ -200,17 +200,13 @@ The steady-state weak form is
 \end{aligned}
 \end{equation}
 
-%-------------------------------------------------------------------------------
-\subsection{Time-Domain Simulation}\label{subsec:unhom_pnp_timedomain}
+Note that this equation is nonlinear, as the last two terms include products of the concentration
+with the gradient of the electric potential.
+Consequently, a nonlinear solution method is required in \texttt{FEniCS}.
+In such cases, the definition of a linear and bilinear form, $a$ and $L$,
+is not required.
+Instead, the entire system is denoted as the equation $FF = 0$.
 
-When the conditions are not constant with respect to time,
-the time-dependent form of the equation for each ionic species must be solved.
-Note that the Poisson equation itself does not contain any time-dependence,
-as it is assumed that the electric potential is immediately in equilibrium with the charge locations.
-That is, the ions are assumed to move sufficiently slowly that the problem
-is electrostatic rather than electrodynamic.
+The complete weak form, $FF$, whose roots is sought, is obtained by adding up the equations for the individual species,
+as well as the Poisson equation.
 
-A simple way to solve the time-dependent equation for each ionic species is to use the backwards Euler
-finite difference approximation for partial derivatives with respect to time.
-
-\textcolor{red}{\textbf{TODO}}
