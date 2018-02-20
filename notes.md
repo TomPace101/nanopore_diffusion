@@ -1,7 +1,6 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
-_TODO_ set up boxes in the problem description, like I did in the Iridates calculation.
 
 # ill-sleep (and debug of the PNP-reaction solver)
 Other stuff:
@@ -31,6 +30,22 @@ Maybe that could be done with a custom function in datasteps?
 We could make the condition itself a tuple instead of just a string:
 - the first argument would be the expression string
 - the second could be a dictionary, sent as kwargs
+
+How to deal with the hybrid boundary term in PNP?
+Basically, anywhere I know the gradient of the electric field,
+it needs to be specified.
+But it doesn't just go in the Poisson weak form.
+It goes in EACH species weak form as well.
+So, more generally, how do you know what nonzero boundary terms you need?
+Anywhere the applicable derivative is zero, you don't need it.
+Anywhere the derivative is specified, you do need it.
+But if the derivative is unspecified, you may or may not need it.
+The hybrid term still needs it, but normal boundary terms do not,
+because those are Dirichlet conditions, where the test function is zero.
+Is FEniCS smart enough to handle this itself?
+If I request a normal to the boundary, and dot it with the gradient,
+will that work even in cases where the normal derivative comes from somewhere else?
+
 
 # Code/Misc
 
@@ -271,6 +286,23 @@ Maybe the class docstring could be yaml (with comments for actual text)
 that includes the schema, to reduce redundancy.
 Now that might be enough of an advantage.
 
+Keep in mind that you won't be able to do 2nd-level inheritance very well this way.
+That is, your base class will be a kind of meta-class.
+(Maybe it should be exactly a meta class?)
+But once you have a class built from a schema,
+there's no point having another class inherit from it.
+It can't really add to the schema.
+(Unless, maybe the metaclass teaches it how to?)
+
+So, a metaclass?
+The `__new__` method of the metaclass will accept a string
+which becomes the docstring of the class,
+and is also used to construct its schema.
+Each instance of the metaclass (the schema-based classes)
+have a method that can check their current state against the schema.
+This method should be called at the end of their init.
+You would want them to inherit from ParameterSet or something like it, still.
+
 #Specific Equations
 ## Homogenized Fickian
 
@@ -280,8 +312,10 @@ _ACTION_ look through homogmwe again as well
 # Problem Description
 
 _TODO_ Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
-_TODO_ reaction terms (not written up yet): find a good index name for reactions
 _TODO_ would it be better to use delta_... for test functions (ala variational calculus) instead of v?
+
+boxes around important equations:
+  It's more complicated, because we're using an environment.
 
 It has its own _TODO_ list.
 
@@ -347,7 +381,24 @@ https://tex.stackexchange.com/questions/44195/placeholder-for-figure-includegrap
 
 Also, case-specific inputs should be presented in the relevant results section(s).
 
+So, those aren't really "results" subsections,
+as much as they are specifics of solved problems.
 
+I really think this is needed now,
+but I wonder if these should be promoted to Sections.
+Especially since now we have Time Domain and Reaction-Diffusion problems.
+They can reference all the preceding Sections they need to,
+including the relevant geometry.
+
+So the way to think about this now is that we have general
+sections that could apply to multiple problems,
+and therefore do not contain results.
+But then we have other sections where specific problems are described,
+by references to the relevant sections.
+Some additional inputs are listed,
+and in some cases the specific weak-forms need to be shown as well.
+
+_TODO_ set up boxes in the problem description, like I did in the Iridates calculation.
 
 ## Biblatex reference
 https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX

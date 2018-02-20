@@ -168,9 +168,11 @@ class TDPNPUSolver(solver_general.GenericSolver):
         if value is not None:
           if type(value)==int or type(value)==float:
             ##TODO need to put this somewhere it can go into the weak form
+            pass
           elif type(value)==list:
             exprstr, exprargs = value
             ##TODO
+            pass
             ##=fem.Expression(exprstr,**exprargs)
 
     #Initial Conditions and Guess
