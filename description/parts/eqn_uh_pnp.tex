@@ -3,7 +3,7 @@
 \section{Unhomogenized Poisson-Nernst-Planck Equation}\label{sec:unhom_pnp}
 
 %-------------------------------------------------------------------------------
-\subsection{Governing Differential Equation}\label{subsec:unhom_pnp_gov}
+\subsection{Governing Differential Equations}\label{subsec:unhom_pnp_gov}
 
 
 \textcolor{red}{\textbf{TODO}}: need reference for PNP equation
@@ -20,7 +20,7 @@ The overall volumetric charge density is therefore given by:
 
 From the Poisson equation, the electric potential is therefore governed by:
 
-\begin{equation}
+\begin{equation}\label{eq:Poisson_for_ions}
 -\epsilon_{0}\epsilon_{r} \nabla^2 \Phi = \sum_{s=1}^{N_s}z_s c_s
 \end{equation}
 
@@ -52,7 +52,7 @@ this becomes:
 D_s \left( \nabla^2 c_s + \beta z_s \nabla \cdot \left( c_s \nabla \Phi \right) \right)
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:PNP_timedep}
 \frac{\partial c_s}{\partial t} = 
 D_s \left( \nabla^2 c_s + \beta z_s \left( \nabla c_s \cdot \nabla \Phi \right)  + \beta z_s c_s \nabla^2 \Phi \right)
 \end{equation}
@@ -67,9 +67,37 @@ The steady-state condition is therefore governed by
 %-------------------------------------------------------------------------------
 \subsection{Weak Form}\label{subsec:unhom_pnp_weak}
 
-\textcolor{red}{\textbf{TODO}}: provide weak form of Poisson equation
+The weak form of the Poisson equation is derived by multiplying
+Equation \ref{eq:Poisson_for_ions} by a test function $v_\phi$
+associated with the electric potential,
+and then integrating over the problem domain.
 
-The weak form equation for each ion starts from Equation \ref{eq:PNP_steady_state_gov},
+\begin{equation}
+-\epsilon_{0}\epsilon_{r} \int_\Omega \left( \nabla^2 \Phi \right) v_\phi \,\mathrm{d}^3x
+ = \sum_{s=1}^{N_s} \int_\Omega z_s c_s v_\phi \,\mathrm{d}^3x
+\end{equation}
+
+Performing an integration by parts using the product rule
+of Equation \ref{eq:product_rule_divergence}, this becomes
+
+\begin{equation}
+-\epsilon_{0}\epsilon_{r}
+\left( \int_\Omega \nabla \cdot \left( v_\phi \nabla \Phi \right) \,\mathrm{d}^3x
+- \int_\Omega  \left( \nabla \Phi \cdot \nabla v_\phi \right) \,\mathrm{d}^3x \right)
+- \sum_{s=1}^{N_s} \int_\Omega z_s c_s v_\phi \,\mathrm{d}^3x = 0
+\end{equation}
+
+Applying the divergence theorem yields
+
+\begin{equation}
+-\epsilon_{0}\epsilon_{r} \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) v_\phi \,\mathrm{d}s
++ \epsilon_{0}\epsilon_{r} \int_\Omega  \left( \nabla \Phi \cdot \nabla v_\phi \right) \,\mathrm{d}^3x
+- \sum_{s=1}^{N_s} \int_\Omega z_s c_s v_\phi \,\mathrm{d}^3x = 0
+\end{equation}
+
+As usual, the boundary term is nonzero only for boundaries with Neumann conditions specified.
+
+The weak form equation for each ion starts from Equation \ref{eq:PNP_timedep},
 which is multiplied by a test function $v_s$ associated with the concentration $c_s$,
 and then integrated over the problem domain.
 
@@ -77,7 +105,7 @@ and then integrated over the problem domain.
 \int_\Omega v_s \nabla^2 c_s \,\mathrm{d}^3x 
 + \beta z_s \int_\Omega c_s v_s \nabla^2 \Phi \,\mathrm{d}^3x
 + \beta z_s \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
-= 0
+= \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{equation}
 
 Performing an integration by parts on the first two terms
@@ -90,7 +118,7 @@ using the product rule of Equation \ref{eq:product_rule_divergence}, this become
 + \beta z_s \left( \int_\Omega \nabla \cdot \left( c_s v_s \nabla \Phi \right) \,\mathrm{d}^3x
 - \int_\Omega \left( \nabla \left( c_s v_s \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right) 
 + \beta z_s \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
-& = & 0
+& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{aligned}
 \end{equation}
 
@@ -101,8 +129,8 @@ Applying the divergence theorem and grouping the factor $\beta z_s$ on the last 
 - \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x \\
 + \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s
 - \int_\Omega \left( \nabla \left( c_s v_s \right)  \cdot \nabla \Phi \right) \,\mathrm{d}^3x
-+ \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
-& = & 0
++ \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right) 
+& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
 \end{aligned}
 \end{equation}
 
@@ -111,7 +139,78 @@ The gradient of a product of two scalars is given by
 \nabla(fg) = f(\nabla g) + g (\nabla f)
 \end{equation}
 
-Applying this product rule to the necessary terms
+Applying this product rule to the necessary terms,
 
+\begin{equation}
+\begin{aligned}
+\int_{\partial\Omega} \left( \hat{n} \cdot \nabla c_s \right) v_s \,\mathrm{d}s
+- \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x \\
++ \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s 
+- \int_\Omega \left( \left[ c_s \left( \nabla v_s \right) + v_s \left( \nabla c_s \right) \right]  \cdot \nabla \Phi \right) \,\mathrm{d}^3x
++ \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
+& =  & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+\int_{\partial\Omega} \left( \hat{n} \cdot \nabla c_s \right) v_s \,\mathrm{d}s
+- \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x \\
++ \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s
+- \int_\Omega c_s  \left( \nabla v_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right. \\
+\left. - \int_\Omega v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
++ \int_\Omega  v_s \left( \nabla c_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
+& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+\int_{\partial\Omega} \left( \hat{n} \cdot \nabla c_s \right) v_s \,\mathrm{d}s
+- \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x \\
++ \beta z_s \left( \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s
+- \int_\Omega c_s  \left( \nabla v_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x \right)
+& = & \int_\Omega \frac{1}{D_s} \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+\end{aligned}
+\end{equation}
+
+Note that the boundary term
+$\int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s$
+requires some special care.
+Because $v_s$ is zero anywhere $c_s$ is known,
+the term is zero on the Dirichlet boundaries of $c_s$.
+However, the term does not contain the normal derivative of $c_s$,
+but rather of $\Phi$.
+As such, the term could be nonzero even for Neumann boundaries of $c_s$
+that have a prescribed ionic flux of zero.
+
+The other boundary term, $\int_{\partial\Omega} \left( \hat{n} \cdot \nabla c_s \right) v_s \,\mathrm{d}s$
+is zero where Dirichlet conditions are specified for $c_s$,
+and nonzero only where nonzero Neumann conditions are specified.
+
+The steady-state weak form is
+
+\begin{equation}
+\begin{aligned}
+\int_{\partial\Omega} \left( \hat{n} \cdot \nabla c_s \right) v_s \,\mathrm{d}s
+- \int_\Omega \left( \nabla c_s \cdot \nabla v_s \right) \,\mathrm{d}^3x 
++ \beta z_s \int_{\partial\Omega} \left( \hat{n} \cdot \nabla \Phi \right) c_s v_s \,\mathrm{d}s
+- \beta z_s \int_\Omega c_s  \left( \nabla v_s \cdot \nabla \Phi \right) \,\mathrm{d}^3x
+ = 0
+\end{aligned}
+\end{equation}
+
+%-------------------------------------------------------------------------------
+\subsection{Time-Domain Simulation}\label{subsec:unhom_pnp_timedomain}
+
+When the conditions are not constant with respect to time,
+the time-dependent form of the equation for each ionic species must be solved.
+Note that the Poisson equation itself does not contain any time-dependence,
+as it is assumed that the electric potential is immediately in equilibrium with the charge locations.
+That is, the ions are assumed to move sufficiently slowly that the problem
+is electrostatic rather than electrodynamic.
+
+A simple way to solve the time-dependent equation for each ionic species is to use the backwards Euler
+finite difference approximation for partial derivatives with respect to time.
 
 \textcolor{red}{\textbf{TODO}}
