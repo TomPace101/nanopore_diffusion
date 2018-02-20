@@ -1,0 +1,70 @@
+%not a stand-alone document; intended for inclusion in a larger document
+
+\section{Reaction-Diffusion Systems}\label{sec:reactionterms}
+
+Consider a system in which species concentrations change not only due to diffusion,
+but also due to chemical reactions.
+The chemical reactions add new terms to the equations for $\frac{\partial c_s}{\partial t}$.
+
+In general terms, for $N_r$ chemical reactions indexed by $r$,
+we write each reaction in the form
+
+\begin{equation}
+\sum_{s=1}^{N_s} R_{rs} \mathrm{X}_s \longrightarrow \sum_{s=1}^{N_s} P_{rs} \mathrm{X}_s
+\end{equation}
+
+where $R_{rs}$ and $P_{rs}$ are the stoichiometric coefficients
+of the reactants and products, respectively,
+and $\mathrm{X}_s$ represents species $s$.
+
+Note that reversible reactions must be considered as two separate reactions:
+the forward reaction and reverse reaction.
+
+The rate of each reaction is governed by its rate law.
+Rate laws are defined here by both a rate constant, $k_r$,
+and a rate function, $f_r$, which is a function of the concentration
+of all reactant species for the reaction.
+To provide a consistent set of arguments to these functions,
+we consider the rate functions to potentially depend instead
+on all species concentrations,
+writing them as $f_r\left(\underline{c}\right) = f_r\left(c_0, c_1, \ldots \right)$.
+Typical rate laws include products of the reactant concentrations,
+with each concentration raised to a power known as the order of the reaction
+for the given species.
+
+Using this notation, the change in the concentration of each species
+due to the presence of the chemical reactions alone is written as
+
+\begin{equation}
+\frac{\partial c_s}{\partial t} = 
+\sum_{r=1}^{N_r} \left( P_{rs} - R_{rs} \right) k_r f_r\left(\underline{c}\right)
+\end{equation}
+
+Defining a net stoichiometric coefficient $N_{rs} = P_{rs} - R_{rs}$,
+which will be positive for reactions producing a species and negative
+for reactions consuming it, this becomes
+
+\begin{equation}
+\frac{\partial c_s}{\partial t} = 
+\sum_{r=1}^{N_r} N_{rs} k_r f_r\left(\underline{c}\right)
+\end{equation}
+
+The weak form of this equation is simply
+
+\begin{equation}
+\int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x = 
+\sum_{r=1}^{N_r} N_{rs} k_r \int_\Omega f_r\left(\underline{c}\right) v_s \,\mathrm{d}^3x
+\end{equation}
+
+For systems with both reactions and diffusion,
+the reaction terms on the right side can simply be added to the diffusion
+equation for each species. That is,
+
+\begin{equation}
+\int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x = 
+D_s WSS_s +
+\sum_{r=1}^{N_r} N_{rs} k_r \int_\Omega f_r\left(\underline{c}\right) v_s \,\mathrm{d}^3x
+\end{equation}
+
+Note that one consequence of this is that the species-specific diffusion constants
+must be retained even when seeking a steady-state solution.
