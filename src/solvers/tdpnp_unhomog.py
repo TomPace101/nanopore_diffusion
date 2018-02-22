@@ -111,6 +111,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     u_k = FENiCS Function on the FunctionSpace for the previous timestep
     bcs = FEniCS BCParameters
     ds = FEniCS Measure for facet boundary conditions
+    n = FEniCS FacetNormal for facet boundary conditions
     FF = symbolic functional form, which is set equal to zero in the weak form equation
     J = symbolic Jacobian of FF
     k = current step number, as integer"""
@@ -152,8 +153,9 @@ class TDPNPUSolver(solver_general.GenericSolver):
     vlist=testfuncs[:self.Nspecies]
     vPhi=testfuncs[self.Nspecies]
 
-    #Measure for external boundaries
+    #Measure and normal for external boundaries
     self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets)
+    self.n=fem.FacetNormal(self.mesh)
 
     #Dirichlet boundary conditions
     self.bcs=[]
@@ -163,7 +165,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
           self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
-    for psurf,vals in getattr(self.conditions,'dirichlet',{}).items():
+    for psurf,vals in getattr(self.conditions,'neumann',{}).items():
       for i,value in enumerate(vals):
         if value is not None:
           if type(value)==int or type(value)==float:
