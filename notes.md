@@ -33,7 +33,7 @@ We could make the condition itself a tuple instead of just a string:
 
 How to deal with the hybrid boundary term in PNP?
 Basically, anywhere I know the gradient of the electric field,
-it needs to be specified.
+it needs to be specified. [INCORRECT: see below]
 But it doesn't just go in the Poisson weak form.
 It goes in EACH species weak form as well.
 So, more generally, how do you know what nonzero boundary terms you need?
@@ -45,7 +45,19 @@ because those are Dirichlet conditions, where the test function is zero.
 Is FEniCS smart enough to handle this itself?
 If I request a normal to the boundary, and dot it with the gradient,
 will that work even in cases where the normal derivative comes from somewhere else?
-
+It probably would, but really in this case I do know the normal derivative,
+because I know the charge along the surface.
+So, the only time that term would be nonzero is
+a combination of surface and species where:
+  - (EITHER there is a nonzero charge, OR a specified electric potential), AND
+  - the concentration of the ion is not specified
+In terms of boundary conditions, that is:
+  - (EITHER a nonzero Neumann condition, OR a Dirichlet condition) for the potential, AND
+  - (a Neumann condition (zero OR nonzero)) for the species
+So it seems that the term can be deduced from only Neumann and Dirichlet boundary conditions that are provided.
+The case of a Dirichlet condition for the potential and a Neumann condition for the species
+will require defining the exterior facet normal and constructing a weak form with it.
+Note that this means we WILL get a different answer for the debug problem than we were before.
 
 # Code/Misc
 
