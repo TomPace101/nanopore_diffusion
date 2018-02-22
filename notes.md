@@ -53,7 +53,7 @@ a combination of surface and species where:
   - the concentration of the ion is not specified
 In terms of boundary conditions, that is:
   - (EITHER a nonzero Neumann condition, OR a Dirichlet condition) for the potential, AND
-  - (a Neumann condition (zero OR nonzero)) for the species
+  - (a Neumann condition (zero OR nonzero)) for the species (i.e. no Dirichlet condition provided)
 So it seems that the term can be deduced from only Neumann and Dirichlet boundary conditions that are provided.
 The case of a Dirichlet condition for the potential and a Neumann condition for the species
 will require defining the exterior facet normal and constructing a weak form with it.
