@@ -103,7 +103,7 @@ def volfrac(self,name):
   self.results[name]=np.pi*self.tmplvalues['R']**2/(4*self.tmplvalues['Lx']*self.tmplvalues['Ly'])
   return
 
-#TODO: make use of paramlocs
+#TODO: make use of paramlocs, idx (see output_td.line_profile)
 def profile_centerline(self,spacing,plotname,label,attrname='soln'):
   """Data for plot of solution profile along centerline
   Arguments:
@@ -114,8 +114,6 @@ def profile_centerline(self,spacing,plotname,label,attrname='soln'):
   Required attributes:
     outdata = instance of OutData
     tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
-    modelparams = solver_run.ModelParameters object
-    outdir = path to output directory, as string
   No new attributes.
   Nothing added to results dictionary.
   No return value.
@@ -140,7 +138,7 @@ def profile_centerline(self,spacing,plotname,label,attrname='soln'):
   self.outdata.plots[plotname].append(series)
   return
 
-#TODO: make use of paramlocs
+#TODO: make use of paramlocs, idx
 def profile_radial(self,spacing,plotname,label,theta,attrname='soln'):
   """Data for plot of solution along radial line at model mid-height, in specified direction
   Arguments:
