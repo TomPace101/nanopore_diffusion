@@ -10,7 +10,7 @@ In general terms, for $N_r$ chemical reactions indexed by $r$,
 we write each reaction in the form
 
 \begin{equation}
-\sum_{s=1}^{N_s} R_{rs} \mathrm{X}_s \longrightarrow \sum_{s=1}^{N_s} P_{rs} \mathrm{X}_s
+  \sum_{s=1}^{N_s} R_{rs} \mathrm{X}_s \longrightarrow \sum_{s=1}^{N_s} P_{rs} \mathrm{X}_s
 \end{equation}
 
 where $R_{rs}$ and $P_{rs}$ are the stoichiometric coefficients
@@ -36,8 +36,8 @@ Using this notation, the change in the concentration of each species
 due to the presence of the chemical reactions alone is written as
 
 \begin{equation}
-\frac{\partial c_s}{\partial t} = 
-\sum_{r=1}^{N_r} \left( P_{rs} - R_{rs} \right) k_r f_r\left(\underline{c}\right)
+  \frac{\partial c_s}{\partial t} = 
+  \sum_{r=1}^{N_r} \left( P_{rs} - R_{rs} \right) k_r f_r\left(\underline{c}\right)
 \end{equation}
 
 Defining a net stoichiometric coefficient $N_{rs} = P_{rs} - R_{rs}$,
@@ -45,15 +45,15 @@ which will be positive for reactions producing a species and negative
 for reactions consuming it, this becomes
 
 \begin{equation}
-\frac{\partial c_s}{\partial t} = 
-\sum_{r=1}^{N_r} N_{rs} k_r f_r\left(\underline{c}\right)
+  \frac{\partial c_s}{\partial t} = 
+  \sum_{r=1}^{N_r} N_{rs} k_r f_r\left(\underline{c}\right)
 \end{equation}
 
 The weak form of this equation is simply
 
 \begin{equation}
-\int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x = 
-\sum_{r=1}^{N_r} N_{rs} k_r \int_\Omega f_r\left(\underline{c}\right) v_s \,\mathrm{d}^3x
+  \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x = 
+  \sum_{r=1}^{N_r} N_{rs} k_r \int_\Omega f_r\left(\underline{c}\right) v_s \,\mathrm{d}^3x
 \end{equation}
 
 For systems with both reactions and diffusion,
@@ -61,9 +61,11 @@ the reaction terms on the right side can simply be added to the diffusion
 equation for each species. That is,
 
 \begin{equation}
-\int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x = 
-D_s WSS_s +
-\sum_{r=1}^{N_r} N_{rs} k_r \int_\Omega f_r\left(\underline{c}\right) v_s \,\mathrm{d}^3x
+  \boxed{
+    \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x = 
+    D_s WSS_s +
+    \sum_{r=1}^{N_r} N_{rs} k_r \int_\Omega f_r\left(\underline{c}\right) v_s \,\mathrm{d}^3x
+  }
 \end{equation}
 
 Note that one consequence of this is that the species-specific diffusion constants

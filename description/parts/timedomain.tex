@@ -19,15 +19,15 @@ $WSS_s = 0$,
 corresponding to a time-dependent equation
 
 \begin{equation}
-\frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
-= WSS_s
+  \frac{1}{D_s} \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+  = WSS_s
 \end{equation}
 
 Prior to adding these equations together, they must each now be rewritten as
 
 \begin{equation}
-\int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
-= D_s WSS_s
+  \int_\Omega \frac{\partial c_s}{\partial t} v_s \,\mathrm{d}^3x
+  = D_s WSS_s
 \end{equation}
 
 
@@ -42,20 +42,22 @@ The solution at time-step $k+1$ shall instead be labeled as simply $c_s$.
 
 The Backward-Euler approximation can then be written as
 \begin{equation}
-\frac{\partial c_s}{\partial t} \approx \frac{c_s - c_s^k}{\Delta t}
+  \frac{\partial c_s}{\partial t} \approx \frac{c_s - c_s^k}{\Delta t}
 \end{equation}
 
 Using this approximation, the weak form for each ionic species becomes
 \begin{equation}
-\int_\Omega \frac{c_s - c_s^k}{\Delta t} v_s \,\mathrm{d}^3x
-= D_s WSS_s
+  \int_\Omega \frac{c_s - c_s^k}{\Delta t} v_s \,\mathrm{d}^3x
+  = D_s WSS_s
 \end{equation}
  
 Rearranging, we have
 \begin{equation}
-\int_\Omega c_s  v_s \,\mathrm{d}^3x
-- \int_\Omega c_s^k  v_s \,\mathrm{d}^3x
-- \Delta t D_s WSS_s = 0
+  \boxed{
+    \int_\Omega c_s  v_s \,\mathrm{d}^3x
+    - \int_\Omega c_s^k  v_s \,\mathrm{d}^3x
+    - \Delta t D_s WSS_s = 0
+  }
 \end{equation}
 
 This form is suitable for the addition of all equations into a single

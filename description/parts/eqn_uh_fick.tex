@@ -11,12 +11,12 @@
 For particle flux defined as 
 
 \begin{equation}
-\vec{j} = - D_{\mathrm{bulk}} \vec{\nabla} c
+  \vec{j} = - D_{\mathrm{bulk}} \vec{\nabla} c
 \end{equation}
 
 The Fickian diffusion equation can be written:
 \begin{equation}
-\frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}
+  \frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}
 \end{equation}
 
 where:
@@ -31,15 +31,15 @@ D_{\mathrm{bulk}} & = & \text{the implicit diffusion constant of the solvent (un
 For constant $D_{\mathrm{bulk}}$, this can be written as
 
 \begin{equation}
-\frac{\partial c}{\partial t} = D_{\mathrm{bulk}} \nabla^2 c
+  \frac{\partial c}{\partial t} = D_{\mathrm{bulk}} \nabla^2 c
 \end{equation}
 
 We seek the steady-state solution, defined by
-$\frac{\partial c}{\partial t} = 0$ at all points in the problem domain.
+  $\frac{\partial c}{\partial t} = 0$ at all points in the problem domain.
 Thus, we seek to solve
 
 \begin{equation}
-D_{\mathrm{bulk}} \nabla^2 c = 0
+  D_{\mathrm{bulk}} \nabla^2 c = 0
 \end{equation}
 
 subject to boundary conditions.
@@ -47,7 +47,9 @@ subject to boundary conditions.
 Assuming $D_{\mathrm{bulk}}$ is any nonzero constant, this is clearly the same as
 
 \begin{equation}
-\nabla^2 c = 0
+  \boxed{
+    \nabla^2 c = 0
+  }
 \end{equation}
 
 
@@ -58,37 +60,37 @@ For solution in \texttt{FEniCS}, a weak form of this equation is required.
 Multiplying by a test function $v$ and integrating over the problem domain,
 
 \begin{equation}
-\int_{\Omega} \left(\nabla^2 c \right) v \,\mathrm{d}^3x = 0
+  \int_{\Omega} \left(\nabla^2 c \right) v \,\mathrm{d}^3x = 0
 \end{equation}
 
 Using the product rule
 \begin{equation}
-\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) =
-v \left(\vec{\nabla} \cdot \vec{\nabla} c \right) + \vec{\nabla}c \cdot \vec{\nabla}v =
-v \left(\nabla^2 c \right) + \vec{\nabla}c \cdot \vec{\nabla}v
+  \vec{\nabla} \cdot \left( v \vec{\nabla} c \right) =
+  v \left(\vec{\nabla} \cdot \vec{\nabla} c \right) + \vec{\nabla}c \cdot \vec{\nabla}v =
+  v \left(\nabla^2 c \right) + \vec{\nabla}c \cdot \vec{\nabla}v
 \end{equation}
 
 \begin{equation}\label{eq:product_rule_divergence}
-\left(\nabla^2 c \right) v =
-\vec{\nabla} \cdot \left( v \vec{\nabla} c \right) - \vec{\nabla}c \cdot \vec{\nabla}v
+  \left(\nabla^2 c \right) v =
+  \vec{\nabla} \cdot \left( v \vec{\nabla} c \right) - \vec{\nabla}c \cdot \vec{\nabla}v
 \end{equation}
 
 to integrate by parts, the equation becomes
 \begin{equation}
-\int_{\Omega} \left(\nabla^2 c \right) v \,\mathrm{d}^3x =
-\int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} c \right) \,\mathrm{d}^3x
-- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x =0
+  \int_{\Omega} \left(\nabla^2 c \right) v \,\mathrm{d}^3x =
+  \int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} c \right) \,\mathrm{d}^3x
+  - \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x =0
 \end{equation}
 
 Applying the divergence theorem (Gauss's theorem):
 \begin{equation}
-\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
-- \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x = 0
+  \int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
+  - \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x = 0
 \end{equation}
 
 \begin{equation}
-\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x =
-\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
+  \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x =
+  \int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
 \end{equation}
 
 In this case, we have both Dirichlet and von Neumann boundary conditions:
@@ -100,9 +102,9 @@ Defining $\Gamma_D$ as the Dirichlet boundary surfaces,
 and $\Gamma_N$ as the von Neumann boundary surfaces, we obtain
 
 \begin{equation}
-\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x =
-\int_{\Gamma_D} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
-+\int_{\Gamma_N} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
+  \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x =
+  \int_{\Gamma_D} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
+  +\int_{\Gamma_N} \left( \hat{n} \cdot \vec{\nabla} c \right) v\,\mathrm{d}s
 \end{equation}
 
 For the Dirichlet boundary surfaces (where the concentration is known),
@@ -115,16 +117,18 @@ That is, $\hat{n} \cdot \vec{\nabla} c = 0$ at all points on the von Neumann bou
 
 Therefore, the governing equation is simply
 \begin{equation}
-\int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x = 0
+  \int_{\Omega} \left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x = 0
 \end{equation}
 
 In terms of \texttt{FEniCS}, this means that the bilinear form is
 
 \begin{equation}
-a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x
+  \boxed{
+    a(c,v)=\left( \vec{\nabla}c \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x
+  }
 \end{equation}
 
-and the linear form is constant, zero.
+and the linear form is constant, zero, provided there are no nonzero Neumann boundary conditions.
 
 %-------------------------------------------------------------------------------
 \subsection{Expected Results}\label{subsec:unhom_fick_expected}
@@ -145,15 +149,15 @@ as assumed in the definition of $D_{\mathrm{eff}}$.
 
 Defining the concentration gradient within the pore as
 \begin{equation}
-\vec{\nabla} c = \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}} \hat{n}
+  \vec{\nabla} c = \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}} \hat{n}
 \end{equation}
 
 where $\left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}$ is a constant,
 the integrated flux within the pore is
 
 \begin{equation}
-J_\mathrm{cell} = -D_\mathrm{bulk} \int_\mathrm{cell} \mathrm{d}A\, \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
- = -D_\mathrm{bulk} A_\mathrm{pore} \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
+  J_\mathrm{cell} = -D_\mathrm{bulk} \int_\mathrm{cell} \mathrm{d}A\, \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
+  = -D_\mathrm{bulk} A_\mathrm{pore} \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
 \end{equation}
 
 Note that the area in this formula is the area of the pore only,
@@ -163,32 +167,34 @@ at a cross-section through the pore.
 From equation \ref{eq:Deff_Jcell}, we have
 
 \begin{equation}
-J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \frac{\Delta c}{\Delta s}
+  J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \frac{\Delta c}{\Delta s}
 \end{equation}
 
 But with a constant concentration gradient,
 
 \begin{equation}
-\frac{\Delta c}{\Delta s} = \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
+  \frac{\Delta c}{\Delta s} = \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
 \end{equation}
 
 So,
 
 \begin{equation}
-J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
- = -D_\mathrm{bulk} A_\mathrm{pore} \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
+  J_{\mathrm{cell}} = - D_{\mathrm{eff}} A_{\mathrm{cell}} \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
+  = -D_\mathrm{bulk} A_\mathrm{pore} \left(\frac{\mathrm{d}c}{\mathrm{d}s}\right)_{\mathrm{pore}}
 \end{equation}
 
 This simplifies to
 
 \begin{equation}
-\frac{D_\mathrm{eff}}{D_\mathrm{bulk}} = \frac{A_\mathrm{pore}}{A_\mathrm{cell}}
+  \frac{D_\mathrm{eff}}{D_\mathrm{bulk}} = \frac{A_\mathrm{pore}}{A_\mathrm{cell}}
 \end{equation}
 
 which matches the definition of the free volume fraction from Section \ref{subsec:volfrac}, so
 
 \begin{equation}
-\frac{D_\mathrm{eff}}{D_\mathrm{bulk}} = \phi
+  \boxed{
+    \frac{D_\mathrm{eff}}{D_\mathrm{bulk}} = \phi
+  }
 \end{equation}
 
 for unhomogenized Fickian diffusion.

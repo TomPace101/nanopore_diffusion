@@ -10,13 +10,13 @@
 For an environment free of particle sources and sinks,
 the diffusion equation can still be written as:
 \begin{equation}
-\frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}
+  \frac{\partial c}{\partial t} = - \vec{\nabla} \cdot \vec{j}
 \end{equation}
 
 but for the Smoluchowski equation, the particle flux is defined as
 
 \begin{equation}
-\vec{j} = - D_{\mathrm{bulk}} e^{-\beta \psi} \vec{\nabla} \left( e^{\beta \psi} c \right)
+  \vec{j} = - D_{\mathrm{bulk}} e^{-\beta \psi} \vec{\nabla} \left( e^{\beta \psi} c \right)
 \end{equation}
 
 where:
@@ -33,7 +33,7 @@ D_{\mathrm{bulk}} & = & \text{the implicit diffusion constant of the solvent (un
 Combining these equations, the governing equation for steady-state conditions ($\frac{\partial c}{\partial t} = 0$) is
 
 \begin{equation}
-\vec{\nabla} \cdot \left( D_{\mathrm{bulk}} e^{-\beta \psi} \vec{\nabla} \left( c e^{\beta \psi} \right) \right) = 0
+  \vec{\nabla} \cdot \left( D_{\mathrm{bulk}} e^{-\beta \psi} \vec{\nabla} \left( c e^{\beta \psi} \right) \right) = 0
 \end{equation}
 
 \textcolor{red}{\textbf{TODO}}: need reference for Slotboom transformation
@@ -41,28 +41,30 @@ Combining these equations, the governing equation for steady-state conditions ($
 The mathematics are simplified considerably by making use of the Slotboom transformation:
 
 \begin{equation}\label{eq:SlotboomTrans}
-\begin{array}{rcl}
-\overline{D} & = & D_{\mathrm{bulk}} e^{-\beta \psi} \\
-\overline{c} & = & c e^{\beta \psi}
-\end{array}
+  \begin{array}{rcl}
+    \overline{D} & = & D_{\mathrm{bulk}} e^{-\beta \psi} \\
+    \overline{c} & = & c e^{\beta \psi}
+  \end{array}
 \end{equation}
 
 which results in the governing equation
 
 \begin{equation}
-\vec{\nabla} \cdot \left( \overline{D} \vec{\nabla} \left( \overline{c} \right) \right) = 0
+  \vec{\nabla} \cdot \left( \overline{D} \vec{\nabla} \left( \overline{c} \right) \right) = 0
 \end{equation}
 
 Applying the appropriate product rule for the divergence operator in this case,
 
 \begin{equation}\label{eq:SmolSlotboomDiff}
-\overline{D} \nabla^2 \overline{c} + \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) = 0
+  \boxed{
+    \overline{D} \nabla^2 \overline{c} + \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) = 0
+  }
 \end{equation}
 
 For the diffusion of ions in an electrostatic field, the potential field is given by
 
 \begin{equation}
-\psi=q \Phi
+  \psi=q \Phi
 \end{equation}
 
 where:
@@ -75,10 +77,10 @@ q & = & \text{the electric charge of the ion species} \\
 This means that the Slotboom transformation (Equation \ref{eq:SlotboomTrans}) can be written as
 
 \begin{equation}\label{eq:SlotboomTransWithQ}
-\begin{array}{rcl}
-\overline{D} & = & D_{\mathrm{bulk}} e^{-\beta q \Phi} \\
-\overline{c} & = & c e^{\beta q \Phi}
-\end{array}
+  \begin{array}{rcl}
+    \overline{D} & = & D_{\mathrm{bulk}} e^{-\beta q \Phi} \\
+    \overline{c} & = & c e^{\beta q \Phi}
+  \end{array}
 \end{equation}
 
 Note that the applied boundary conditions must be transformed as well.
@@ -90,19 +92,18 @@ We wish to specify a value of $\frac{\partial c}{\partial n} = \vec{\nabla} c \c
 but solving the transformed equation requires converting this to specification of the value
 $\frac{\partial \overline{c}}{\partial n} = \vec{\nabla} \overline{c} \cdot \hat{n}$.
 
-\begin{equation}
-\begin{array}{rcl}
-\frac{\partial \overline{c}}{\partial n} & = & \vec{\nabla} \overline{c} \cdot \hat{n} \\
-& = & \vec{\nabla} \left( c e^{\beta q \Phi} \right) \cdot \hat{n} \\
-& = & \left( c \vec{\nabla} e^{\beta q \Phi} +  e^{\beta q \Phi} \vec{\nabla} c \right) \cdot \hat{n} \\
-& = & c \vec{\nabla} \left(e^{\beta q \Phi} \right) \cdot \hat{n}
-+ e^{\beta q \Phi} \vec{\nabla} \left( c \right) \cdot \hat{n} \\
-& = & c \beta q e^{\beta q \Phi} \vec{\nabla} \left( \Phi \right) \cdot \hat{n}
-+ e^{\beta q \Phi} \vec{\nabla} \left( c \right) \cdot \hat{n} \\
-& = & c \beta q e^{\beta q \Phi} \frac{\partial \Phi}{\partial n}
-+ e^{\beta q \Phi} \frac{\partial c}{\partial n} \\
-\frac{\partial \overline{c}}{\partial n} & = & e^{\beta q \Phi}
-\left( c \beta q \frac{\partial \Phi}{\partial n} + \frac{\partial c}{\partial n} \right)
+\begin{equation}\begin{array}{rcl}
+  \frac{\partial \overline{c}}{\partial n} & = & \vec{\nabla} \overline{c} \cdot \hat{n} \\
+  & = & \vec{\nabla} \left( c e^{\beta q \Phi} \right) \cdot \hat{n} \\
+  & = & \left( c \vec{\nabla} e^{\beta q \Phi} +  e^{\beta q \Phi} \vec{\nabla} c \right) \cdot \hat{n} \\
+  & = & c \vec{\nabla} \left(e^{\beta q \Phi} \right) \cdot \hat{n}
+  + e^{\beta q \Phi} \vec{\nabla} \left( c \right) \cdot \hat{n} \\
+  & = & c \beta q e^{\beta q \Phi} \vec{\nabla} \left( \Phi \right) \cdot \hat{n}
+  + e^{\beta q \Phi} \vec{\nabla} \left( c \right) \cdot \hat{n} \\
+  & = & c \beta q e^{\beta q \Phi} \frac{\partial \Phi}{\partial n}
+  + e^{\beta q \Phi} \frac{\partial c}{\partial n} \\
+  \frac{\partial \overline{c}}{\partial n} & = & e^{\beta q \Phi}
+  \left( c \beta q \frac{\partial \Phi}{\partial n} + \frac{\partial c}{\partial n} \right)
 \end{array}\end{equation}
 
 Thus, the Neumann boundary conditions on $\overline{c}$ depend not only on
@@ -116,7 +117,7 @@ Finally, after solution of the transformed equation,
 the ionic concentration field is calculated from the inverse transformation,
 
 \begin{equation}
-c = \overline{c} e^{-\beta \psi} = \overline{c} e^{-\beta q \Phi}
+  c = \overline{c} e^{-\beta \psi} = \overline{c} e^{-\beta q \Phi}
 \end{equation}
 
 %-------------------------------------------------------------------------------
@@ -126,60 +127,60 @@ Starting from the governing differential equation (Equation \ref{eq:SmolSlotboom
 multiplying by a test function $v$ and integrating over the problem domain, we have
 
 \begin{equation}\label{eq:SmolWeakStart}
-\int_{\Omega} \overline{D} v \left( \nabla^2 \overline{c} \right) \,\mathrm{d}^3x 
-+ \int_{\Omega} v \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
+  \int_{\Omega} \overline{D} v \left( \nabla^2 \overline{c} \right) \,\mathrm{d}^3x 
+  + \int_{\Omega} v \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
 \end{equation}
 
 Using the same product rule as Equation \ref{eq:product_rule_divergence}, 
 we have
 
 \begin{equation}
-\vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) =
-\overline{D} v \left(\vec{\nabla} \cdot \vec{\nabla} \overline{c} \right)
-+ \vec{\nabla}\overline{c} \cdot \vec{\nabla} \left( \overline{D} v \right) =
-\overline{D} v \left(\nabla^2 \overline{c} \right)
-+ \vec{\nabla}\overline{c} \cdot \vec{\nabla} \left( \overline{D} v \right)
+  \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) =
+  \overline{D} v \left(\vec{\nabla} \cdot \vec{\nabla} \overline{c} \right)
+  + \vec{\nabla}\overline{c} \cdot \vec{\nabla} \left( \overline{D} v \right) =
+  \overline{D} v \left(\nabla^2 \overline{c} \right)
+  + \vec{\nabla}\overline{c} \cdot \vec{\nabla} \left( \overline{D} v \right)
 \end{equation}
 
 And so, applying the product rule for the gradient of two scalars,
 \begin{equation}
-\overline{D} v \left(\nabla^2 \overline{c} \right) =
-\vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right)
-- \vec{\nabla}\overline{c} \cdot \left( \overline{D} \vec{\nabla} v + v \vec{\nabla} \overline{D} \right)
+  \overline{D} v \left(\nabla^2 \overline{c} \right) =
+  \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right)
+  - \vec{\nabla}\overline{c} \cdot \left( \overline{D} \vec{\nabla} v + v \vec{\nabla} \overline{D} \right)
 \end{equation}
 
 \begin{equation}
-\overline{D} v \left(\nabla^2 \overline{c} \right) =
-\vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right)
-- \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)
-- v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right)
+  \overline{D} v \left(\nabla^2 \overline{c} \right) =
+  \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right)
+  - \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)
+  - v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right)
 \end{equation}
 
 Taking the integral over the problem domain, this gives us
 
 \begin{equation}
-\int_{\Omega} \overline{D} v \left(\nabla^2 \overline{c} \right) \,\mathrm{d}^3x=
-\int_{\Omega} \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) \,\mathrm{d}^3x
-- \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
-- \int_{\Omega} v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right) \,\mathrm{d}^3x
+  \int_{\Omega} \overline{D} v \left(\nabla^2 \overline{c} \right) \,\mathrm{d}^3x=
+  \int_{\Omega} \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) \,\mathrm{d}^3x
+  - \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+  - \int_{\Omega} v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right) \,\mathrm{d}^3x
 \end{equation}
 
 Substituting this into Equation \ref{eq:SmolWeakStart},
 the governing equation becomes
 
 \begin{equation}
-\int_{\Omega} \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) \,\mathrm{d}^3x
-- \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
-- \int_{\Omega} v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right) \,\mathrm{d}^3x
-+ \int_{\Omega} v \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
+  \int_{\Omega} \vec{\nabla} \cdot \left( \overline{D} v \vec{\nabla} \overline{c} \right) \,\mathrm{d}^3x
+  - \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+  - \int_{\Omega} v \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}\overline{D}\right) \,\mathrm{d}^3x
+  + \int_{\Omega} v \left( \vec{\nabla} \overline{c} \right) \cdot \left( \vec{\nabla} \overline{D} \right) \,\mathrm{d}^3x = 0
 \end{equation}
 
 The final two terms cancel one another.
 Using the divergence theorem (Gauss's theorem), the result is
 \begin{equation}
-\int_{\partial\Omega} \overline{D} v \left(\hat{n} \cdot \vec{\nabla}\overline{c}\right) \,\mathrm{d}s
-- \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
-= 0
+  \int_{\partial\Omega} \overline{D} v \left(\hat{n} \cdot \vec{\nabla}\overline{c}\right) \,\mathrm{d}s
+  - \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+  = 0
 \end{equation}
 
 The boundary term separates into the Dirichlet boundaries (where $\overline{c}$ is known and therefore $v=0$),
@@ -189,16 +190,18 @@ Thus, the boundary term is zero in its entirety,
 and so the weak form of the transformed Smoluchowski equation in this case is
 
 \begin{equation}
-\int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x = 0
+  \int_{\Omega} \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x = 0
 \end{equation}
 
 In terms of \texttt{FEniCS}, this means that the bilinear form is
 
 \begin{equation}
-a(\overline{c},v)= \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+  \boxed{
+    a(\overline{c},v)= \overline{D} \left(\vec{\nabla}\overline{c}\right) \cdot \left(\vec{\nabla}v\right)\,\mathrm{d}^3x
+  }
 \end{equation}
 
-and the linear form is constant, zero.
+and the linear form is constant, zero, provided there are no nonzero Neumann conditions.
 
 
 %-------------------------------------------------------------------------------
@@ -209,7 +212,7 @@ Here, we will calculate the electric potential using the linearized Poisson-Bolt
 (Equation 15-29 in \cite{McQuarrie-StatMech}).
 
 \begin{equation}\label{eq:PoissonBoltzmann}
-\nabla^2 \Phi = \kappa^2 \Phi
+  \nabla^2 \Phi = \kappa^2 \Phi
 \end{equation}
 
 where the constant $\kappa$ has dimensions of inverse length.
@@ -231,21 +234,21 @@ a weak form of the Poisson-Boltzmann equation (Equation \ref{eq:PoissonBoltzmann
 Multiplying by the test function $v$ and integrating over the problem domain, we obtain
 
 \begin{equation}
-\int_{\Omega} \left(\nabla^2 \Phi \right) v \,\mathrm{d}^3x = \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
+  \int_{\Omega} \left(\nabla^2 \Phi \right) v \,\mathrm{d}^3x = \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
 \end{equation}
 
 Using the same product rule as Equation \ref{eq:product_rule_divergence} for integration by parts, this becomes
 \begin{equation}
-\int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} \Phi \right) \,\mathrm{d}^3x
-- \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
-= \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
+  \int_{\Omega} \vec{\nabla} \cdot \left( v \vec{\nabla} \Phi \right) \,\mathrm{d}^3x
+  - \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
+  = \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
 \end{equation}
 
 Applying the divergence theorem (Gauss's theorem),
 \begin{equation}
-\int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} \Phi \right) v \,\mathrm{d}s
-- \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
-= \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
+  \int_{\partial\Omega} \left( \hat{n} \cdot \vec{\nabla} \Phi \right) v \,\mathrm{d}s
+  - \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
+  = \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
 \end{equation}
 
 The boundary term separates into the Dirichlet boundaries (where $\Phi$ is known and therefore $v=0$),
@@ -255,18 +258,20 @@ and so $\hat{n} \cdot \vec{\nabla} \Phi = 0$ at all points on the von Neumann bo
 Thus, the boundary term is zero in its entirety, and the equation becomes
 
 \begin{equation}
-\frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
-+ \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
-= 0
+  \frac{1}{\lambda_D^2} \int_{\Omega} \Phi v \,\mathrm{d}^3x
+  + \int_{\Omega} \vec{\nabla}\Phi \cdot \vec{\nabla}v \,\mathrm{d}^3x
+  = 0
 \end{equation}
 
 In terms of \texttt{FEniCS}, this means that the bilinear form is
 
 \begin{equation}
-a(\Phi,v)=\left(\frac{1}{\lambda_D^2} \Phi v  + \vec{\nabla}\Phi \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x
+  \boxed{
+    a(\Phi,v)=\left(\frac{1}{\lambda_D^2} \Phi v  + \vec{\nabla}\Phi \cdot \vec{\nabla}v \right) \,\mathrm{d}^3x
+  }
 \end{equation}
 
-and the linear form is constant, zero.
+and the linear form is constant, zero, provided there are no nonzero Neumann conditions.
 
 %-------------------------------------------------------------------------------
 \subsection{Expected Results}\label{subsec:unhom_smol_expected}

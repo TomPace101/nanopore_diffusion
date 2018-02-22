@@ -323,11 +323,8 @@ _ACTION_ look through homogmwe again as well
 
 # Problem Description
 
-_TODO_ Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
-_TODO_ would it be better to use delta_... for test functions (ala variational calculus) instead of v?
-
-boxes around important equations:
-  It's more complicated, because we're using an environment.
+Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
+would it be better to use delta_... for test functions (ala variational calculus) instead of v?
 
 It has its own _TODO_ list.
 
