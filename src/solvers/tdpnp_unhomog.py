@@ -110,7 +110,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     u = FEniCS Function on the FunctionSpace for the current timestep
     u_k = FENiCS Function on the FunctionSpace for the previous timestep
     bcs = FEniCS BCParameters (list of DirichletBC instances)
-    ncs = dictionary: {facet number: Expression or Constant for the condition, ...}
+    nbcs = dictionary of Neumann boundary conditions: {(facet number, variable index): Expression or Constant for the condition, ...}
+    hbcs = dictionary of PNP hybrid boundary term info : {(): } ##TODO
     ds = FEniCS Measure for facet boundary conditions
     n = FEniCS FacetNormal for facet boundary conditions
     FF = symbolic functional form, which is set equal to zero in the weak form equation
@@ -166,18 +167,20 @@ class TDPNPUSolver(solver_general.GenericSolver):
           self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
-    self.ncs = {}
+    self.nbcs = {}
     for psurf,vals in getattr(self.conditions,'neumann',{}).items():
       for i,value in enumerate(vals):
         if value is not None:
           if type(value)==int or type(value)==float:
-            self.ncs[(psurf,i)]=fem.Constant(value)
+            if value != 0: #Neumann conditions of zero can be omitted from the weak form, to the same effect
+              self.ncs[(psurf,i)]=fem.Constant(value)
           elif type(value)==list:
             exprstr, exprargs = value
             self.ncs[(psurf,i)]=fem.Expression(exprstr,element=mele,**exprargs)
 
     #Data for hybrid boundary term (hybrid of potential and species)
-    self.hcs = {}
+    self.hbcs = {}
+    ##TODO
 
     #Initial Conditions and Guess
     guesstup=self.species.initconc+[self.conditions.initial_potential]
@@ -203,11 +206,17 @@ class TDPNPUSolver(solver_general.GenericSolver):
         term2=beta*self.species.z[s]*c*fem.inner(fem.grad(vlist[s]),fem.grad(Phi))*fem.dx
         weakforms.append(-self.species.D[s]*(term1+term2))
     #Boundary terms for Neumann conditions
-    ##TODO
+    for tup,expr in self.nbcs.items():
+      psurf,i = tup
+      if i < self.Nspecies:
+        bterm = expr*vlist[i]*ds(psurf)
+      else:
+        bterm = -UN.eps_0*self.conditions.eps_r*expr*vPhi*ds(psurf)
+      weakforms.append(bterm)
     #Hybrid boundary term
     ##TODO
     #Poisson terms
-    poissonL=fem.inner(UN.eps_0*self.conditions.eps_r*fem.grad(Phi),fem.grad(vPhi))*fem.dx
+    poissonL=UN.eps_0*self.conditions.eps_r*fem.inner(fem.grad(Phi),fem.grad(vPhi))*fem.dx
     terms=[self.species.z[i]*clist[i] for i in range(self.species.N)]
     poissonR=sum(terms)*vPhi*fem.dx
     #Add up to Steady-State PNP

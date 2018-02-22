@@ -3,9 +3,6 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 
 
 # ill-sleep (and debug of the PNP-reaction solver)
-Other stuff:
-- then I need to figure out how to specify the expression for the Neumann boundary condition.
-
 This needs to be documented somewhere:
 Diffusion exclusions:
 just put "null" in as the diffusion constant.
