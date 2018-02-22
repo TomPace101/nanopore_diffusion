@@ -4,11 +4,9 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 
 # ill-sleep (and debug of the PNP-reaction solver)
 Other stuff:
-- I need to figure out how to exclude CaCaM in the weak form for diffusion but not electric potential
 - then I need to figure out how to specify the expression for the Neumann boundary condition.
-- and at some point I need to fix the weak form based on my earlier observations
-- and I need to set up the necessary post-processing routines, to generate plots (only model plots in this case, I think)
 
+This needs to be documented somewhere:
 Diffusion exclusions:
 just put "null" in as the diffusion constant.
 pyyaml will convert that to a None.

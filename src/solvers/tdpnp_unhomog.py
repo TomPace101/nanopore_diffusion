@@ -189,14 +189,19 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.t=0.0
     
     #Weak Form
+    beta=self.conditions.beta
     #Steady-state Nernst-Planck terms for each species
-    ##TODO: use revised weak form
+    #Volumetric terms
     weakforms=[]
-    for i,c in enumerate(clist):
-      if self.species.D[i] is not None:
-        J=-self.species.D[i]*(fem.grad(c)+self.conditions.beta*self.species.z[i]*c*fem.grad(Phi))
-        wkform=fem.inner(J,fem.grad(vlist[i]))*fem.dx
-        weakforms.append(wkform)
+    for s,c in enumerate(clist):
+      if self.species.D[s] is not None:
+        ##old weak form (based on Bin's code)
+        ##J=-self.species.D[s]*(fem.grad(c)+self.conditions.beta*self.species.z[s]*c*fem.grad(Phi))
+        ##wkform=fem.inner(J,fem.grad(vlist[s]))*fem.dx
+        ##weakforms.append(wkform)
+        term1=fem.inner(fem.grad(c),fem.grad(vlist[s]))*fem.dx
+        term2=beta*self.species.z[s]*c*fem.inner(fem.grad(vlist[s]),fem.grad(Phi))*fem.dx
+        weakforms.append(-self.species.D[s]*(term1+term2))
     #Boundary terms for Neumann conditions
     ##TODO
     #Hybrid boundary term
