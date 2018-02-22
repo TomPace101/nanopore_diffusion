@@ -3,6 +3,14 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 
 
 # ill-sleep (and debug of the PNP-reaction solver)
+
+_TODO_ for debug, consider using an expression to specify the initial electric potential.
+How do you do that?
+
+_TODO_ compare midline plots with and without boundar terms (use a notebook)
+
+_TODO_ could we get midline plots at specific points in time?
+
 This needs to be documented somewhere:
 Diffusion exclusions:
 just put "null" in as the diffusion constant.
