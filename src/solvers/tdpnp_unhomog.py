@@ -109,7 +109,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     V = FEniCS FunctionSpace on the mesh
     u = FEniCS Function on the FunctionSpace for the current timestep
     u_k = FENiCS Function on the FunctionSpace for the previous timestep
-    bcs = FEniCS BCParameters
+    bcs = FEniCS BCParameters (list of DirichletBC instances)
+    ncs = dictionary: {facet number: Expression or Constant for the condition, ...}
     ds = FEniCS Measure for facet boundary conditions
     n = FEniCS FacetNormal for facet boundary conditions
     FF = symbolic functional form, which is set equal to zero in the weak form equation
@@ -165,17 +166,18 @@ class TDPNPUSolver(solver_general.GenericSolver):
           self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
+    self.ncs = {}
     for psurf,vals in getattr(self.conditions,'neumann',{}).items():
       for i,value in enumerate(vals):
         if value is not None:
           if type(value)==int or type(value)==float:
-            ##TODO need to put this somewhere it can go into the weak form
-            pass
+            self.ncs[(psurf,i)]=fem.Constant(value)
           elif type(value)==list:
             exprstr, exprargs = value
-            ##TODO
-            pass
-            ##=fem.Expression(exprstr,**exprargs)
+            self.ncs[(psurf,i)]=fem.Expression(exprstr,element=mele,**exprargs)
+
+    #Data for hybrid boundary term (hybrid of potential and species)
+    self.hcs = {}
 
     #Initial Conditions and Guess
     guesstup=self.species.initconc+[self.conditions.initial_potential]
@@ -195,6 +197,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
         J=-self.species.D[i]*(fem.grad(c)+self.conditions.beta*self.species.z[i]*c*fem.grad(Phi))
         wkform=fem.inner(J,fem.grad(vlist[i]))*fem.dx
         weakforms.append(wkform)
+    #Boundary terms for Neumann conditions
+    ##TODO
+    #Hybrid boundary term
+    ##TODO
     #Poisson terms
     poissonL=fem.inner(UN.eps_0*self.conditions.eps_r*fem.grad(Phi),fem.grad(vPhi))*fem.dx
     terms=[self.species.z[i]*clist[i] for i in range(self.species.N)]
