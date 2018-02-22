@@ -161,14 +161,16 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Dirichlet boundary conditions
     self.bcs=[]
-    for psurf,vals in getattr(self.conditions,'dirichlet',{}).items():
+    dirichlet=getattr(self.conditions,'dirichlet',{})
+    for psurf,vals in dirichlet.items():
       for i,value in enumerate(vals):
         if value is not None:
           self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
 
     #Neumann boundary conditions
     self.nbcs = {}
-    for psurf,vals in getattr(self.conditions,'neumann',{}).items():
+    neumann=getattr(self.conditions,'neumann',{})
+    for psurf,vals in neumann.items():
       for i,value in enumerate(vals):
         if value is not None:
           if type(value)==int or type(value)==float:
@@ -180,7 +182,23 @@ class TDPNPUSolver(solver_general.GenericSolver):
 
     #Data for hybrid boundary term (hybrid of potential and species)
     self.hbcs = {}
-    ##TODO
+    #First requirement: only surfaces where the potential has either a nonzero Neumann condition, OR any Dirichlet condition
+    hbcs_psurfs=[psurf for psurf,vals in neumann.items() if (vals[-1] is not None and vals[-1] != 0)]
+    hbcs_psurfs+=[psurf for psurf in dirichlet.keys()]
+    #Next requirement: only combinations of surface and species where the species has NO Dirichlet condition
+    #BOTH this and the first requirement must be met in order for the term to be nonzero
+    for psurf in hbcs_psurfs:
+      for s in range(self.Nspecies):
+        #Finally, don't include this term for any species that aren't allowed to diffuse
+        if self.species.D[s] is not None:
+          if psurf not in dirichlet.keys() or dirichlet[psurf][s] is None: #"if there is NOT a Dirichlet condition for this species on this surface"
+            #If there is a Neumann condition on the potential, use that. Otherwise, the term depends on the solution for the potential
+            if psurf in neumann.keys() and neumann[psurf][-1] is not None: #"if there IS a Neumann condition on the potential for this surface"
+              expr=self.nbcs[(psurf,self.Nspecies)] #use the Neumann condition
+            else:
+              expr=fem.inner(self.n,fem.grad(Phi)) #depends on the solution
+            #Store the expression for this term
+            self.hbcs[(psurf,s)]=expr
 
     #Initial Conditions and Guess
     guesstup=self.species.initconc+[self.conditions.initial_potential]
@@ -209,12 +227,15 @@ class TDPNPUSolver(solver_general.GenericSolver):
     for tup,expr in self.nbcs.items():
       psurf,i = tup
       if i < self.Nspecies:
-        bterm = expr*vlist[i]*ds(psurf)
+        bterm = expr*vlist[i]*self.ds(psurf)
       else:
-        bterm = -UN.eps_0*self.conditions.eps_r*expr*vPhi*ds(psurf)
+        bterm = -UN.eps_0*self.conditions.eps_r*expr*vPhi*self.ds(psurf)
       weakforms.append(bterm)
     #Hybrid boundary term
-    ##TODO
+    for tup,expr in self.hbcs.items():
+      psurf,s=tup
+      bterm = beta*self.species.z[s]*expr*clist[s]*vlist[s]*self.ds(psurf)
+      weakforms.append(bterm)
     #Poisson terms
     poissonL=UN.eps_0*self.conditions.eps_r*fem.inner(fem.grad(Phi),fem.grad(vPhi))*fem.dx
     terms=[self.species.z[i]*clist[i] for i in range(self.species.N)]
