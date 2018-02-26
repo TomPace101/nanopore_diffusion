@@ -33,7 +33,7 @@ conditions:
     constants: [0.0016605390404271642, 1.0e-09]
     functions: [rate_forward, rate_backward]
     stoichio: [[-1,0,1],[1,0,-1]]
-  intial_potential: 0.0
+  initial_potential: 0.0
   timedomain:
     stepsize: 1.0
     stopping:
