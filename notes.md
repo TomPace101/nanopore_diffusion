@@ -2,11 +2,15 @@
 _TODO_ switch to ruamel.yaml, and update the wiki
 
 
+_ISSUE_ if the paramlocs folder doesn't exist, gmsh will error rather than creating it
+So, the geom_mk_msh script needs to ensure that directory exists before calling gmsh.
+
 # ill-sleep (and debug of the PNP-reaction solver)
 
 _TODO_ exponential time steps
 But dt is in the weak form.
 So if it changes, does the weak form need to recompile in FFC?
+If so, that would argue for stepwise variations.
 
 _TODO_ for debug, consider using an expression to specify the initial electric potential.
 Requires code change to allow Expressions for Dirichlet conditions just like they are for Neumann.

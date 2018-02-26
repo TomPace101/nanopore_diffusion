@@ -89,7 +89,7 @@ class TDPNPUConditions(solver_general.GenericConditions):
     initial_potential = initial electric potential, assumed constant over space, as number
     timedomain = instance of solver_general.TimeDomainInfo
     beta = optional, calculated from temperature if not provided"""
-  __slots__=['dirichlet','beta','temperature','eps_r','species_info','reaction_info','initial_potential','timedomain']
+  __slots__=['dirichlet','neumann','beta','temperature','eps_r','species_info','reaction_info','initial_potential','timedomain']
   def __init__(self,**kwargs):
     #Initialization from base class
     super().__init__(**kwargs)

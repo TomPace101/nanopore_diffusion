@@ -18,8 +18,8 @@ conditions:
   elementorder: 3
   neumann: ##TODO: these are test values only
     1113:
-      - ['exp(-t)', {t: 0}]
-      - ['2*exp(-t)', {t: 0}]
+      - ['exp(-0.2*t)', {t: 0}]
+      - ['2*exp(-0.2*t)', {t: 0}]
       - null
       - null
   temperature: 298 #Kelvin
