@@ -71,7 +71,7 @@ class TimeDomainInfo(common.ParameterSet):
   def __init__(self,**kwargs):
     #Initialization from base class
     super().__init__(**kwargs)
-    #Stopping Criterions
+    #Stopping Criterion
     self.stopping=StoppingCriterion(**kwargs['stopping'])
 
 class TDPNPUConditions(solver_general.GenericConditions):
@@ -80,6 +80,8 @@ class TDPNPUConditions(solver_general.GenericConditions):
     elementorder = see base class
     dirichlet = dictionary of Dirichlet boundary conditions:
       {physical facet number: [solution values, None for no condition]}
+    neumann = dictionary of Neumann boundary conditions:
+      {physical facet number: [normal derivative values, None for no condition]}
     temperature = the temperature under consideration, as a number
     eps_r = relative permittivity of the medium
     species_info = dictionary defining a SpeciesInfo object

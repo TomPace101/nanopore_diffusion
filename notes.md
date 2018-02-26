@@ -4,10 +4,14 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
-_TODO_ for debug, consider using an expression to specify the initial electric potential.
-How do you do that?
+_TODO_ exponential time steps
+But dt is in the weak form.
+So if it changes, does the weak form need to recompile in FFC?
 
-_TODO_ compare midline plots with and without boundar terms (use a notebook)
+_TODO_ for debug, consider using an expression to specify the initial electric potential.
+Requires code change to allow Expressions for Dirichlet conditions just like they are for Neumann.
+
+_TODO_ compare midline plots with and without boundary terms (use a notebook)
 
 _TODO_ could we get midline plots at specific points in time?
 
