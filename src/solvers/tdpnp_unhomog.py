@@ -111,6 +111,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     V = FEniCS FunctionSpace on the mesh
     u = FEniCS Function on the FunctionSpace for the current timestep
     u_k = FENiCS Function on the FunctionSpace for the previous timestep
+    timedeps = time-dependent Expressions that need to be updated at each timestep
     bcs = FEniCS BCParameters (list of DirichletBC instances)
     nbcs = dictionary of Neumann boundary conditions: {(facet number, variable index): Expression or Constant for the condition, ...}
     hbcs = dictionary of PNP hybrid boundary term info : {(): } ##TODO
@@ -139,10 +140,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
     non_species_vars=['Phi']
     varlist=self.species.symbol+non_species_vars
     self.Nvars=len(varlist)
-    
-    #Calculate time step size
-    self.dt=self.conditions.timedomain.stepsize
-    
+
+    #Need to keep track of all time-dependent expressions
+    self.timedeps=[]
+
     #Elements and Function space(s)
     ele = fem.FiniteElement('P',self.mesh.ufl_cell(),self.conditions.elementorder)
     mele = fem.MixedElement([ele]*self.Nvars)
@@ -181,6 +182,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
           elif type(value)==list:
             exprstr, exprargs = value
             self.nbcs[(psurf,i)]=fem.Expression(exprstr,element=ele,**exprargs)
+            if 't' in exprargs.keys():
+              self.timedeps.append(self.nbcs[(psurf,i)])
 
     #Data for hybrid boundary term (hybrid of potential and species)
     self.hbcs = {}
@@ -208,9 +211,12 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.u_k=fem.interpolate(fem.Constant(guesstup),self.V)
     u_klist=fem.split(self.u_k)
     c_klist=u_klist[:self.Nspecies]
+    
     #Start time
     self.t=0.0
-    
+    #Calculate time step size
+    self.dt=self.conditions.timedomain.stepsize
+
     #Weak Form
     beta=self.conditions.beta
     #Steady-state Nernst-Planck terms for each species
@@ -287,10 +293,16 @@ class TDPNPUSolver(solver_general.GenericSolver):
     #Do the steps
     self.k=0
     while not self.stopnow():
-      solver.solve()
-      self.k+=1
+      #Time at next step
       self.t+=self.dt
+      for itm in self.timedeps:
+        itm.t=self.t
+      #Solve for next step
+      solver.solve()
+      #Output time-dependent values
       self.process_output_commands('datasteps')
+      #Next step is now previous step
       self.u_k.assign(self.u)
+      self.k+=1
 
 solverclasses={'tdpnp_unhomog':TDPNPUSolver}
