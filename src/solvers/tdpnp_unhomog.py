@@ -180,7 +180,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
               self.ncs[(psurf,i)]=fem.Constant(value)
           elif type(value)==list:
             exprstr, exprargs = value
-            self.ncs[(psurf,i)]=fem.Expression(exprstr,element=mele,**exprargs)
+            self.nbcs[(psurf,i)]=fem.Expression(exprstr,element=ele,**exprargs)
 
     #Data for hybrid boundary term (hybrid of potential and species)
     self.hbcs = {}
