@@ -8,10 +8,12 @@ So, the geom_mk_msh script needs to ensure that directory exists before calling 
 # ill-sleep (and debug of the PNP-reaction solver)
 
 _ISSUE_ behavior with hybrid boundary term
-Try a sign reversal just to see what happens?
+Tried a sign reversal just to see what happens.
+It couldn't converge.
 
 _ISSUE_ change in potential in ill-sleep
 Maybe we should calculate the net volumetric charge density as a scalar quantity and plot it.
+It's not the hybrid boundary term: all boundaries have neumann zero conditions for potential.
 
 _TODO_ exponential time steps
 But dt is in the weak form.
