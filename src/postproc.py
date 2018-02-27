@@ -33,7 +33,7 @@ class PostProcParameters(common.ParameterSet):
   __slots__=['modelparamsfile','modelnames','do_collection','collection_exclusions','model_plots','collection_plots','modellist']
   _required_attrs=['basename','modelparamsfile']
   #Remember loaded models (parameters, not solvers) so we aren't reading the same files over and over
-  loaded_modelfiles={} #{model filename: model name}
+  loaded_modelfiles={} #{model filename: [model names]}
   loaded_models={} #{model name: ModelParametersBase instance}
 
   def __init__(self,**kwd):
@@ -45,6 +45,11 @@ class PostProcParameters(common.ParameterSet):
       modelparams_fpath=osp.join(FS.params_model_folder,self.modelparamsfile)
       modelparams_gen=solver_general.ModelParametersBase.all_from_yaml(modelparams_fpath)
       for mp in modelparams_gen:
+        #Make sure this modelname is not already used
+        if mp.modelname in self.loaded_models.keys():
+          for fname,mlist in self.loaded_modelfiles.items():
+            if mp.modelname in mlist:
+              raise Exception("Duplicate model name: %s in both %s and %s."%(mp.modelname,fname,self.modelparamsfile))
         self.loaded_models[mp.modelname]=mp
         self.loaded_modelfiles[self.modelparamsfile].append(mp.modelname)
     #Get the indicated modelnames
