@@ -27,28 +27,31 @@ class PostProcParameters(common.ParameterSet):
       Each plot defines a plotdata.PlotFigure instance.
     collection_plots = sequence of plots to generate from the collected DataFrame
       Each plot defines a plotdata.PlotFigure instance.
-      If collection_schema is omitted or None, this should be as well, or be an empty sequence."""
+      If collection_schema is omitted or None, this should be as well, or be an empty sequence.
+  Attributes to be created by methods:
+    modellist = list of ModelParametersBase instantaces to postprocess, """
   __slots__=['modelparamsfile','modelnames','do_collection','collection_exclusions','model_plots','collection_plots','modellist']
   _required_attrs=['basename','modelparamsfile']
   #Remember loaded models (parameters, not solvers) so we aren't reading the same files over and over
-  loaded_modelfiles=[]
-  loaded_models={}
+  loaded_modelfiles={} #{model filename: model name}
+  loaded_models={} #{model name: ModelParametersBase instance}
 
   def __init__(self,**kwd):
     #Initialization from base class
     super().__init__(**kwd)
     #Load the model parameters file if not already loaded
-    if not self.modelparamsfile in self.loaded_modelfiles:
+    if not self.modelparamsfile in self.loaded_modelfiles.keys():
+      self.loaded_modelfiles[self.modelparamsfile]=[]
       modelparams_fpath=osp.join(FS.params_model_folder,self.modelparamsfile)
       modelparams_gen=solver_general.ModelParametersBase.all_from_yaml(modelparams_fpath)
       for mp in modelparams_gen:
         self.loaded_models[mp.modelname]=mp
-      self.loaded_modelfiles.append(self.modelparamsfile)
+        self.loaded_modelfiles[self.modelparamsfile].append(mp.modelname)
     #Get the indicated modelnames
     if getattr(self,'modelnames',None) is not None:
       self.modellist=[v for k,v in self.loaded_models.items() if k in self.modelnames]
     else:
-      self.modellist=[m for m in self.loaded_models.values()]
+      self.modellist=[self.loaded_models[mname] for mname in self.loaded_modelfiles[self.modelparamsfile]]
 
   def allsubs(self):
     #Generate model plots, if any
