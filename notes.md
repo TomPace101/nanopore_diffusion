@@ -7,10 +7,20 @@ So, the geom_mk_msh script needs to ensure that directory exists before calling 
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
+_ISSUE_ behavior with hybrid boundary term
+Try a sign reversal just to see what happens?
+
+_ISSUE_ change in potential in ill-sleep
+Maybe we should calculate the net volumetric charge density as a scalar quantity and plot it.
+
 _TODO_ exponential time steps
 But dt is in the weak form.
 So if it changes, does the weak form need to recompile in FFC?
 If so, that would argue for stepwise variations.
+But what if instead we put explicit times into the weak form,
+rather than just dt?
+Actually, it seems to work with dt as an Expression.
+
 
 _TODO_ for debug, consider using an expression to specify the initial electric potential.
 Requires code change to allow Expressions for Dirichlet conditions just like they are for Neumann.
