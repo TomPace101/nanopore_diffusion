@@ -12,6 +12,10 @@ _TODO_ Why does the solver module need MeshParameters? Or does it really just ne
 _ISSUE_ change in potential in ill-sleep
 Maybe we should calculate the net volumetric charge density as a scalar quantity and plot it.
 It's not the hybrid boundary term: all boundaries have neumann zero conditions for potential.
+Adding a dirichlet condition on the potential stopped the "floating",
+but there's still nonzero values at the left end.
+I tried to calculate the net charge density,
+but paraview chokes on the file.
 
 _TODO_ exponential time steps
 But dt is in the weak form.
