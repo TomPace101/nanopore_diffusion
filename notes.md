@@ -5,11 +5,9 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 _ISSUE_ if the paramlocs folder doesn't exist, gmsh will error rather than creating it
 So, the geom_mk_msh script needs to ensure that directory exists before calling gmsh.
 
-# ill-sleep (and debug of the PNP-reaction solver)
+_TODO_ Why does the solver module need MeshParameters? Or does it really just need paramlocs instead?
 
-_ISSUE_ behavior with hybrid boundary term
-Tried a sign reversal just to see what happens.
-It couldn't converge.
+# ill-sleep (and debug of the PNP-reaction solver)
 
 _ISSUE_ change in potential in ill-sleep
 Maybe we should calculate the net volumetric charge density as a scalar quantity and plot it.
@@ -22,26 +20,28 @@ If so, that would argue for stepwise variations.
 But what if instead we put explicit times into the weak form,
 rather than just dt?
 Actually, it seems to work with dt as an Expression.
-
+Well, it worked in a simple example I did in a notebook.
+When I tried to put it into PNP, it didn't converge,
+even for a single step.
+That branch of the code still exists,
+so you can look back at it if necessary.
 
 _TODO_ for debug, consider using an expression to specify the initial electric potential.
 Requires code change to allow Expressions for Dirichlet conditions just like they are for Neumann.
 
-_TODO_ compare midline plots with and without boundary terms (use a notebook)
-
 _TODO_ could we get midline plots at specific points in time?
 
-This needs to be documented somewhere:
+_TODO_ This needs to be documented somewhere:
 Diffusion exclusions:
 just put "null" in as the diffusion constant.
 pyyaml will convert that to a None.
 Then just exclude such terms from your weak form.
 
-Do a check to make sure that the simulation is electrically neutral at first:
+_TODO_ Do a check to make sure that the simulation is electrically neutral at first:
 take sum of initconc*z.
 Maybe you do this in your input generation?
 
-Time-dependent Neumann condition on select surfaces:
+_FEATURE_ Time-dependent Neumann condition on select surfaces:
 Expressions: https://fenicsproject.org/pub/tutorial/html/._ftut1006.html#ch:fundamentals:diffusion
 simpler expressions: https://fenicsproject.org/pub/tutorial/html/._ftut1011.html#ch:poisson0:DN
 restrict surface: https://fenicsproject.org/pub/tutorial/html/._ftut1014.html#ch:poisson0:multi:bc
@@ -53,34 +53,6 @@ Maybe that could be done with a custom function in datasteps?
 We could make the condition itself a tuple instead of just a string:
 - the first argument would be the expression string
 - the second could be a dictionary, sent as kwargs
-
-How to deal with the hybrid boundary term in PNP?
-Basically, anywhere I know the gradient of the electric field,
-it needs to be specified. [INCORRECT: see below]
-But it doesn't just go in the Poisson weak form.
-It goes in EACH species weak form as well.
-So, more generally, how do you know what nonzero boundary terms you need?
-Anywhere the applicable derivative is zero, you don't need it.
-Anywhere the derivative is specified, you do need it.
-But if the derivative is unspecified, you may or may not need it.
-The hybrid term still needs it, but normal boundary terms do not,
-because those are Dirichlet conditions, where the test function is zero.
-Is FEniCS smart enough to handle this itself?
-If I request a normal to the boundary, and dot it with the gradient,
-will that work even in cases where the normal derivative comes from somewhere else?
-It probably would, but really in this case I do know the normal derivative,
-because I know the charge along the surface.
-So, the only time that term would be nonzero is
-a combination of surface and species where:
-  - (EITHER there is a nonzero charge, OR a specified electric potential), AND
-  - the concentration of the ion is not specified
-In terms of boundary conditions, that is:
-  - (EITHER a nonzero Neumann condition, OR a Dirichlet condition) for the potential, AND
-  - (a Neumann condition (zero OR nonzero)) for the species (i.e. no Dirichlet condition provided)
-So it seems that the term can be deduced from only Neumann and Dirichlet boundary conditions that are provided.
-The case of a Dirichlet condition for the potential and a Neumann condition for the species
-will require defining the exterior facet normal and constructing a weak form with it.
-Note that this means we WILL get a different answer for the debug problem than we were before.
 
 # Code/Misc
 
