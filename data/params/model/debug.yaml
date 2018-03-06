@@ -106,10 +106,12 @@ conditions:
       t_end: 10.0
 datasteps:
   - [splitfield, {namewhole: u, namesplit: ulist}]
+  - [calc_netcharge, {solnname: ulist}]
   - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
   - [td_solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
   - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 2}]
   - [td_solutionfield, {filename: Phi.pvd,   attrname: ulist, idx: 3}]
+  - [td_solutionfield, {filename: rho.pvd,   attrname: netcharge}]
   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]

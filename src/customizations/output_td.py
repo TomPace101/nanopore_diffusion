@@ -18,6 +18,23 @@ target_fenics_version='2017.1.0'
 fenics_version_msg_template="This code was written for FEniCS version '%s'. Detected version '%s'. You can try to run it by uncommenting this line, but it may not work, due to FEniCS API changes."
 assert fem.DOLFIN_VERSION_STRING == target_fenics_version, fenics_version_msg_template%(target_fenics_version,fem.DOLFIN_VERSION_STRING)
 
+def calc_netcharge(self,attrname='netcharge',solnname='soln'):
+  """Calculate the net charge distribution in the mesh
+  Arguments:
+    attrname = name of solver attribute to store resulting field
+    solnname = name of attribute storing the solution field as a list (all species and potential, probably created by splitfield)
+  Required attributes:
+  The new attribute is added.
+  No return value.
+  No output files created."""
+  clist = getattr(self,solnname)
+  rho_list=[]
+  for s in range(self.Nspecies):
+    rho_list.append(fem.Constant(self.species.z[s])*clist[s])
+  rho = fem.project(sum(rho_list),mesh=self.mesh)
+  setattr(self,attrname,rho)
+  return
+
 def td_solutionfield(self,filename,attrname='soln',idx=None):
   """Write solution field to VTK file at each timestep
   Arguments:
@@ -27,7 +44,7 @@ def td_solutionfield(self,filename,attrname='soln',idx=None):
     idx = index of the solution field to write out, None (default) if not a sequence
   Required attributes:
     outdir = output directory, as string
-    soln = FEniCS Function containing solution
+    soln (or other given by attrname) = FEniCS Function containing solution
   New attributes:
     td_vtk_files = dictionary of FEniCS File objects, by filename
   No return value.
