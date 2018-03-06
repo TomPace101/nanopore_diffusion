@@ -32,4 +32,7 @@ data/solutions/*/
 *.run.xml
 
 #Post-processing
+data\postproc\manual_gen\*
 *.png
+*.avi
+*.ogv
