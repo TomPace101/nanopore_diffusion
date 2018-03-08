@@ -9,6 +9,8 @@ _TODO_ Why does the solver module need MeshParameters? Or does it really just ne
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
+_TODO_ put some time-domain data into the overleaf paper
+
 _TODO_ provide Dirichlet boundary condition for concentrations at downstream end.
 
 _ISSUE_ change in potential in ill-sleep
