@@ -9,15 +9,18 @@ _TODO_ Why does the solver module need MeshParameters? Or does it really just ne
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
-_ISSUE_ change in potential in ill-sleep
-Maybe we should calculate the net volumetric charge density as a scalar quantity and plot it.
-It's not the hybrid boundary term: all boundaries have neumann zero conditions for potential.
-Adding a dirichlet condition on the potential stopped the "floating",
-but there's still nonzero values at the left end.
-I tried to calculate the net charge density,
-but paraview chokes on the file.
+_TODO_ provide Dirichlet boundary condition for concentrations at downstream end.
 
-_TODO_ exponential time steps
+_ISSUE_ change in potential in ill-sleep
+Adding a dirichlet condition on the potential stopped the "floating",
+but there are still nonzero values at the left end.
+Plot of the charge density shows a temporary net charge in some areas.
+So the question is, why?
+Other things to try:
+  - turn off the reaction and set D_s to the same for all species
+  - try a smaller timestep
+
+_FEATURE_ exponential time steps
 But dt is in the weak form.
 So if it changes, does the weak form need to recompile in FFC?
 If so, that would argue for stepwise variations.

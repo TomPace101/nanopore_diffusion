@@ -31,7 +31,8 @@ def calc_netcharge(self,attrname='netcharge',solnname='soln'):
   rho_list=[]
   for s in range(self.Nspecies):
     rho_list.append(fem.Constant(self.species.z[s])*clist[s])
-  rho = fem.project(sum(rho_list),mesh=self.mesh)
+  rho = fem.project(sum(rho_list),mesh=self.mesh) #V=self.V.sub(0).collapse() would also work
+  rho.rename('rho','charge density') #Without this, the function gets a different name each time it is created, which crashes paraview
   setattr(self,attrname,rho)
   return
 
