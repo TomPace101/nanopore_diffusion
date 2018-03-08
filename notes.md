@@ -7,12 +7,13 @@ So, the geom_mk_msh script needs to ensure that directory exists before calling 
 
 _TODO_ Why does the solver module need MeshParameters? Or does it really just need paramlocs instead?
 
-# homogenization
+# homogenization (exotic-earth)
 
-_TODO_ work out analytical solution to the layered media problem
+_TODO_ create mesh for the layer problem
 
-_TODO_ create solver for unhomogenized fickian diffusion,
-with integration call to calculate effective diffusion constant.
+_TODO_ derive weak form and integral needed for the solver
+
+_THEN_ create solver module
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
