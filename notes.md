@@ -43,6 +43,12 @@ even for a single step.
 That branch of the code still exists,
 so you can look back at it if necessary.
 
+New idea: just put it in the weak form explicitly.
+That is, transform from t to tau by an exponential function,
+and get a weak form that only has tau.
+Then take constant steps in tau.
+(See notes in notebook dated 12-Mar-2018.)
+
 _TODO_ for debug, consider using an expression to specify the initial electric potential.
 Requires code change to allow Expressions for Dirichlet conditions just like they are for Neumann.
 
