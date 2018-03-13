@@ -23,8 +23,6 @@ _TODO_ provide Dirichlet boundary condition for concentrations at downstream end
 
 _TODO_ nonzero Neumann condition for potential (distributed charge) at the membrane
 
-_TODO_ compare Pete's timestep doubling to mine in the notebook
-
 _FEATURE_ exponential time steps
 But dt is in the weak form.
 So if it changes, does the weak form need to recompile in FFC?
@@ -37,6 +35,10 @@ When I tried to put it into PNP, it didn't converge,
 even for a single step.
 That branch of the code still exists,
 so you can look back at it if necessary.
+
+Pete did this in `/net/share/shared/labscripts/dolfin/template_adaptivetime.py`
+using a `Constant` as opposed to the `Expression` I attempted it with.
+Maybe that makes a difference?
 
 New idea: just put it in the weak form explicitly.
 That is, transform from t to tau by an exponential function,
