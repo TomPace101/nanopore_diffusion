@@ -29,6 +29,9 @@ So the question is, why?
 Other things to try:
   - turn off the reaction and set D_s to the same for all species
   - try a smaller timestep
+I tried those things, and indeed we were left with only numerical fluctuation.
+(It kind of makes sense: if the potential really should be constant,
+  then why are we modeling PNP?)
 
 _FEATURE_ exponential time steps
 But dt is in the weak form.
