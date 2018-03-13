@@ -21,6 +21,10 @@ _TODO_ put some time-domain data into the overleaf paper
 
 _TODO_ provide Dirichlet boundary condition for concentrations at downstream end.
 
+_TODO_ nonzero Neumann condition for potential (distributed charge) at the membrane
+
+_TODO_ compare Pete's timestep doubling to mine in the notebook
+
 _FEATURE_ exponential time steps
 But dt is in the weak form.
 So if it changes, does the weak form need to recompile in FFC?
