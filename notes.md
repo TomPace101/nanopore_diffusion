@@ -21,18 +21,6 @@ _TODO_ put some time-domain data into the overleaf paper
 
 _TODO_ provide Dirichlet boundary condition for concentrations at downstream end.
 
-_ISSUE_ change in potential in ill-sleep
-Adding a dirichlet condition on the potential stopped the "floating",
-but there are still nonzero values at the left end.
-Plot of the charge density shows a temporary net charge in some areas.
-So the question is, why?
-Other things to try:
-  - turn off the reaction and set D_s to the same for all species
-  - try a smaller timestep
-I tried those things, and indeed we were left with only numerical fluctuation.
-(It kind of makes sense: if the potential really should be constant,
-  then why are we modeling PNP?)
-
 _FEATURE_ exponential time steps
 But dt is in the weak form.
 So if it changes, does the weak form need to recompile in FFC?
