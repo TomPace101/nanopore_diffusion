@@ -71,3 +71,8 @@ datasteps:
   - [td_pointhistory, {location: [X4, Y1], plotname: back_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
   - [td_pointhistory, {location: [X4, Y1], plotname: back_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]
   - [td_pointhistory, {location: [X4, Y1], plotname: back_phi, label: 'Potential', attrname: ulist, idx: 3}]
+dataextraction:
+  - [line_profile, {startloc: [X3,Y1], endloc: [X3,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [line_profile, {startloc: [X3,Y1], endloc: [X3,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+  - [line_profile, {startloc: [X3,Y1], endloc: [X3,Y2], num: 250, indep: 1, plotname: midline_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]
+  - [line_profile, {startloc: [X3,Y1], endloc: [X3,Y2], num: 250, indep: 1, plotname: midline_phi, label: 'Potential', attrname: ulist, idx: 3}]
