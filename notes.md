@@ -19,8 +19,6 @@ _THEN_ create solver module
 
 _TODO_ put some time-domain data into the overleaf paper
 
-_TODO_ provide Dirichlet boundary condition for concentrations at downstream end.
-
 _TODO_ nonzero Neumann condition for potential (distributed charge) at the membrane
 
 _FEATURE_ exponential time steps
