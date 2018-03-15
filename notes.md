@@ -19,8 +19,6 @@ _THEN_ create solver module
 
 _TODO_ put some time-domain data into the overleaf paper
 
-_TODO_ nonzero Neumann condition for potential (distributed charge) at the membrane
-
 _FEATURE_ exponential time steps
 But dt is in the weak form.
 So if it changes, does the weak form need to recompile in FFC?

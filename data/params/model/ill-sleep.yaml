@@ -17,6 +17,7 @@ customizations:
 conditions:
   elementorder: 3
   dirichlet:
+    1113: [null, null, null, 0.0]
     5153: [0.1, 0.200005, 2.5e-06, 0.0]
   neumann: ##TODO: these are test values only
     1113:
@@ -24,6 +25,16 @@ conditions:
       - ['2*exp(-0.2*t)', {t: 0}]
       - null
       - null
+    2232:
+      - null
+      - null
+      - null
+      - -0.02
+    3242:
+      - null
+      - null
+      - null
+      - -0.02
   temperature: 298 #Kelvin
   eps_r: 78.5
   species_info:

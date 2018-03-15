@@ -178,7 +178,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
         if value is not None:
           if type(value)==int or type(value)==float:
             if value != 0: #Neumann conditions of zero can be omitted from the weak form, to the same effect
-              self.ncs[(psurf,i)]=fem.Constant(value)
+              self.nbcs[(psurf,i)]=fem.Constant(value)
           elif type(value)==list:
             exprstr, exprargs = value
             self.nbcs[(psurf,i)]=fem.Expression(exprstr,element=ele,**exprargs)
