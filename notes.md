@@ -324,13 +324,17 @@ have a method that can check their current state against the schema.
 This method should be called at the end of their init.
 You would want them to inherit from ParameterSet or something like it, still.
 
-#Specific Equations
-## Homogenized Fickian
-
-_ACTION_ see discussion in Auriault
-_ACTION_ look through homogmwe again as well
-
 # Problem Description
+
+_TODO_ bring in references from Zotero.
+(Can we change the reference style from numerical to alphanumerical?)
+
+Can we use a two-column format for the derivation portions?
+Left side (narrower) is text, with equations on the right.
+Maybe an invisible table?
+How would this work with equation numbering?
+Each row of the table should be numbered.
+So could we get the equation numbers in their own column?
 
 Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
 would it be better to use delta_... for test functions (ala variational calculus) instead of v?
