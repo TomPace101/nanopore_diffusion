@@ -251,14 +251,12 @@ class GenericSolver:
     No other side-effects."""
     setattr(self,namesplit,getattr(self,namewhole).split())
 
-  def facet_area(self,pfacet,name,internal=False,normsign=None):
+  def facet_area(self,pfacet,name,internal=False):
     """Compute the area of the specified facet.
     Arguments:
       pfacet = physical facet number of facet to calculate area of
       name = name for storage in the results dictionary
       internal = boolean, default False, True for internal boundary, False for external
-      normsign = '+' or '-' to specify which direction normal to the facet for area calculation
-        Required only if internal==True
     Required attributes:
       mesh = FEniCS Mesh object
       facet = FEniCS MeshFunction object for facet numbers
