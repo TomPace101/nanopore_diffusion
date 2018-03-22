@@ -26,6 +26,8 @@ Some output data is stored in `pandas` DataFrame objects (http://pandas.pydata.o
 
 __TODO__: `matplotlib`
 
+__TODO__: `scipy` (only for unit conversions and physical constants)
+
 The problem description document requires the following software:
 
 - `inkscape` (https://inkscape.org/en/)

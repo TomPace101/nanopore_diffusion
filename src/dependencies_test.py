@@ -9,6 +9,7 @@ assert sys.version_info.major == 3, "Python 3 required."
 import yaml
 import jinja2
 import numpy
+import scipy
 import matplotlib
 import pandas
 import fenics as fem
