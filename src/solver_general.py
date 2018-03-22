@@ -268,6 +268,6 @@ class GenericSolver:
     else:
       integral_type='exterior_facet'
     this_ds=fem.Measure(integral_type,domain=self.mesh,subdomain_data=self.facets)
-    calcarea=fem.assemble(this_ds(pfacet))
+    calcarea=fem.assemble(fem.Constant(1)*this_ds(pfacet))
     self.results[name]=calcarea
     return
