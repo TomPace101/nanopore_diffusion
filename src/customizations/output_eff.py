@@ -43,7 +43,7 @@ def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None)
     fluxsurf = physical facet number for flux measurement
     name = name for storage in the results dictionary
     internal = boolean, default False, True to use internal boundary, False for external
-    fluxsign = '+' or '-' to specify which diretion normal to the facet for flux calculation
+    fluxsign = '+' or '-' to specify which direction normal to the facet for flux calculation
       Required only if internal==True
     normalvar = optional variable name to write the facet normal components to, as a sequence
   Required attributes:
