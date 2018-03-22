@@ -32,7 +32,7 @@ solnfolder=osp.join(datafolder,'solutions')
 postprocfolder=osp.join(datafolder,'postproc')
 
 #parameter generation
-pgtemplates_folder=osp.join(datafolder,'paramgen')
+pgtemplates_folder=osp.join(datafolder,'paramgen_tmpl')
 
 #add python code folder(s) to path
 if not srcfolder in sys.path:
