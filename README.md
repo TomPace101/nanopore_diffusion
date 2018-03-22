@@ -12,6 +12,7 @@ Meshes for the FEM analysis are generated using `gmsh` (http://gmsh.info/).
 
 The FEM analysis and the generation of the problem description document
 have been automated using a python package known as `doit` (http://pydoit.org/).
+The analyses can be run without `doit`, so it is not required.
 
 Many analysis parameters are stored in `yaml` format (https://en.wikipedia.org/wiki/YAML).
 A very brief introduction to the syntax can be found at https://learnxinyminutes.com/docs/yaml/,
@@ -22,6 +23,8 @@ Some output files (such as `gmsh` .geo input files)
 are generated using the `jinja2` template engine (http://jinja.pocoo.org/).
 
 Some output data is stored in `pandas` DataFrame objects (http://pandas.pydata.org/).
+
+__TODO__: `matplotlib`
 
 The problem description document requires the following software:
 
