@@ -149,6 +149,7 @@ class ParameterGenerator(common.ParameterSet):
               fields[fieldname]=val
         #Do calcfields
         calclist=[tuple(*cf.items()) for cf in getattr(self,'calcfields',[])]
+        result = True #needed for case of no calculations to be done
         for funcname,kwargs in calclist:
           result = calcfuncs[funcname](fields,files_docs_dict,**kwargs)
           if not result:
