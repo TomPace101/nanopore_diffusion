@@ -45,6 +45,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - fig_svg: `inkscape` drawings for figures
     - fig_pdf: figures converted to pdf format
 - src: code for FEM analysis
+    - dependencies_test.py: file to test that all required software dependencies are satisfied
     - folderstructure.py: provides information on the folder structure described here to the other modules
     - unitsystem.py: convenience module for converting values to and from model units
     - common.py: functions and classes used by many of the other modules
