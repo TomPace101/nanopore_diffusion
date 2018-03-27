@@ -2,12 +2,12 @@
 dimensions: 2
 
 tmplfile: two_rectangles.geo.jinja2
-tmplvars: ['mscale','mcar','Lx','Ly','alpha1']
+tmplvars: ['mscale','mcarh','mcarl','Lx','Ly','alpha1']
 
 #Dictionary of points and their corresponding mesh density variable
 #(mcarh for high-density regions, mcarl for low-density regions)
-ptdict: {11: mcar, 12: mcar, 13: mcar,
-         21: mcar, 22: mcar, 23: mcar}
+ptdict: {11: mcarl, 12: mcarh, 13: mcarl,
+         21: mcarl, 22: mcarh, 23: mcarl}
 
 #Mapping of surfaces to points
 #In the following table of values, each tuple is a line loop that will be turned into a surface.
