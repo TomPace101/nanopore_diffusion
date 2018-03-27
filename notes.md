@@ -6,6 +6,8 @@ _FEATURE_ port some changes over from the che580-sp18 branch.
 - maybe even the ability to read environment variables to specify the locations of the `src` and `data` folders (and document the variables in the README)
   Or, some other, more flexible way.
 
+_TODO_ be less restrictive with the DOLFIN version.
+
 _ISSUE_ if the paramlocs folder doesn't exist, gmsh will error rather than creating it
 So, the geom_mk_msh script needs to ensure that directory exists before calling gmsh.
 
@@ -13,10 +15,7 @@ _TODO_ Why does the solver module need MeshParameters? Or does it really just ne
 
 # homogenization (exotic-earth)
 
-_TODO_ create mesh for the layer problem
-
-_TODO_ derive weak form and integral needed for the solver
-
+first, get it working in the notebook
 _THEN_ create solver module
 
 # ill-sleep (and debug of the PNP-reaction solver)
