@@ -13,8 +13,11 @@ _TODO_ Why does the solver module need MeshParameters? Or does it really just ne
 
 # homogenization (exotic-earth)
 
-first, get it working in the notebook
-_THEN_ create solver module
+_TODO_ do data extraction so we can actually use the results
+_TODO_ then do data collection and plotting
+
+Then, we need to try to abstract/generalize this more, somehow.
+
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
