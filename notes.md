@@ -1,12 +1,13 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
-_FEATURE_ port some changes over from the che580-sp18 branch.
-- maybe even the ability to read environment variables to specify the locations of the `src` and `data` folders (and document the variables in the README)
-  Or, some other, more flexible way.
-
 _ISSUE_ if the paramlocs folder doesn't exist, gmsh will error rather than creating it
 So, the geom_mk_msh script needs to ensure that directory exists before calling gmsh.
+It actually would do this already if we allowed the parametric locations file to be tracked as an output file.
+We don't currently, because it is not always generated.
+Is there are way we could see if it really will be generated, and add it if so?
+Or, just update all the gmsh templates so that it IS always generated.
+(see related item below on refactoring needed)
 
 _TODO_ Why does the solver module need MeshParameters? Or does it really just need paramlocs instead?
 
@@ -141,6 +142,8 @@ or its subclass.
 
 The catch is that sometimes you really do want a string, and you have to remember to cast it.
 
+So, subclass pathlib.Path, create read-only attributes that return the strings you want.
+That way, you just need to use the correct attribute in all places.
 
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?
