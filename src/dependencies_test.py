@@ -10,7 +10,7 @@ import yaml
 import jinja2
 import numpy
 import scipy
-import matplotlib
+import matplotlib.pyplot as plt
 import pandas
 import fenics as fem
 
