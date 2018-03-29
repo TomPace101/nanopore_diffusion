@@ -1,6 +1,7 @@
 #For generating parameter sets
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import argparse
 import itertools
 import operator
@@ -95,7 +96,7 @@ class ParameterGenerator(common.ParameterSet):
   _taskname_src_attr='outfile'
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(ParameterGenerator, self).__init__(**kwd)
     if getattr(self,'otherfiles',None) is not None:
       #Get full paths for the otherfiles
       folder=self._folders.get('otherfiles','')
@@ -181,7 +182,8 @@ class ParameterGenerator(common.ParameterSet):
 
     #Write output
     outfpath=self.full_path('outfile')
-    os.makedirs(osp.dirname(outfpath),exist_ok=True)
+    if not osp.isdir(osp.dirname(outfpath)):
+      os.makedirs(osp.dirname(outfpath))
     with open(outfpath,'w') as fp:
       fp.write(doc)
 

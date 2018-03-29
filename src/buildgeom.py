@@ -1,6 +1,7 @@
 #Process a jinja2 template into one (or more) gmsh .geo file(s)
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import os
 import os.path as osp
 import sys
@@ -60,7 +61,7 @@ class MeshParameters(common.ParameterSet):
 
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(MeshParameters, self).__init__(**kwd)
     #Get folders
     self._folders={'geomdefname':FS.geomdef_folder,'geofile':osp.join(FS.geofolder,self.basename)}
     #Get name of output file

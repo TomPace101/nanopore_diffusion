@@ -6,6 +6,7 @@
 #The runs requested in control.yaml are used.
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import os
 import os.path as osp
 

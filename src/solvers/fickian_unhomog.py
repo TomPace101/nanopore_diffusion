@@ -37,7 +37,7 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
       meshparams = buildgeom.MeshParameters instance"""
 
     #Load parameters, init output, mesh setup
-    super().__init__(modelparams,meshparams)
+    super(UnhomogFickianSolver, self).__init__(modelparams,meshparams)
     self.loadmesh()
 
     #Get conditions

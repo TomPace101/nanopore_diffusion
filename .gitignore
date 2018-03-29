@@ -1,5 +1,6 @@
 #Miscellaneous
 __pycache__
+*.pyc
 .doit.db.*
 notebooks
 

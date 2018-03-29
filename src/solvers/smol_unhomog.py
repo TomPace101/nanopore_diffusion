@@ -40,7 +40,7 @@ class LPBSolver(solver_general.GenericSolver):
       other = solver to get mesh from"""
 
     #Load parameters, init output, mesh setup
-    super().__init__(modelparams,meshparams)
+    super(LPBSolver, self).__init__(modelparams,meshparams)
 
     #Load mesh and meshfunctions
     self.mesh=other.mesh
@@ -131,7 +131,7 @@ class SUSolver(solver_general.GenericSolver):
       meshparams = buildgeom.MeshParameters instance"""
 
     #Load parameters, init output, mesh setup
-    super().__init__(modelparams,meshparams)
+    super(SUSolver, self).__init__(modelparams,meshparams)
     self.loadmesh()
 
     #Get conditions
@@ -150,7 +150,10 @@ class SUSolver(solver_general.GenericSolver):
     for key in ['modelname','meshname','meshparamsfile','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
     potentialparams=solver_general.ModelParametersBase(**potentialparams_dict)
-    self.potsolv=potentialsolverclasses[potentialparams.equation].complete(potentialparams,meshparams,self,diskwrite=False)
+    self.potsolv=potentialsolverclasses[potentialparams.equation](potentialparams,meshparams,self)
+    self.potsolv.diskwrite=False
+    self.potsolv.solve()
+    self.potsolv.create_output()
     self.info['potential']=self.potsolv.info
     self.outdata.plots=self.potsolv.outdata.plots
 

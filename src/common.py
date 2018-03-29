@@ -19,7 +19,8 @@ except ImportError:
     return arg
 
 #Constants
-pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
+##pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
+pickle_protocol = 2 #For compatibility with the ancient Python 2
 
 #-------------------------------------------------------------------------------
 #Get a value from a nested dictionary
@@ -114,7 +115,7 @@ def add_file_info(d,fpath):
   """Add info from the file path to the dictionary"""
   d.update({'sourcefile':fpath, 'basename':getbasename(fpath)})
 
-class ParameterSet:
+class ParameterSet(object):
   """A base class for defining sets of related parameters.
   Each subclass should use __slots__ to define its parameters.
   This is not intended as a method for storing complicated objects;

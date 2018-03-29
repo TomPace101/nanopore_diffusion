@@ -1,4 +1,5 @@
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import importlib
 import os.path as osp
 import sys
@@ -61,7 +62,7 @@ class ModelParameters(solver_general.ModelParametersBase):
   
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(ModelParameters, self).__init__(**kwd)
     #Load the meshparameters file if not already loaded
     if not self.meshparamsfile in self.loaded_meshfiles:
       meshparams_gen=buildgeom.MeshParameters.all_from_yaml(self.full_path('meshparamsfile'))

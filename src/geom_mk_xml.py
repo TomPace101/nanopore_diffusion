@@ -1,6 +1,7 @@
 #Call dolfin-convert to convert .msh files to .xml, based on derivative of MeshParameters
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import os
 import os.path as osp
 from subprocess import call
@@ -32,7 +33,7 @@ class DolfinConvertRunner(common.ParameterSet):
 
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(DolfinConvertRunner, self).__init__(**kwd)
     #Get folders
     self._folders={'mshfile':osp.join(FS.mshfolder,self.basename),
                    'xmlfile':osp.join(FS.xmlfolder,self.basename)}
@@ -44,7 +45,8 @@ class DolfinConvertRunner(common.ParameterSet):
     print(self.xmlfile)
     #Create directories if necessary
     for oattr in self._outputfile_attrs:
-      os.makedirs(self._folders[oattr],exist_ok=True)
+      if not osp.isdir(self._folders[oattr]):
+        os.makedirs(self._folders[oattr])
     #Run the shell command
     cmd_str=cmd_tmpl%(self.full_path('mshfile'),self.full_path('xmlfile'))
     call(cmd_str,shell=True)

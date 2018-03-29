@@ -1,6 +1,7 @@
 #Functions used by various solvers
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import importlib
 import os
 import os.path as osp
@@ -15,11 +16,6 @@ import numpy as np
 import folderstructure as FS
 import common
 import plotdata
-
-#fenics version check
-target_fenics_version='2017.1.0'
-fenics_version_msg_template="This code was written for FEniCS version '%s'. Detected version '%s'. You can try to run it by uncommenting this line, but it may not work, due to FEniCS API changes."
-assert fem.DOLFIN_VERSION_STRING == target_fenics_version, fenics_version_msg_template%(target_fenics_version,fem.DOLFIN_VERSION_STRING)
 
 class GenericConditions(common.ParameterSet):
   """Condition defnitions, to be subclassed by each equation as needed
@@ -75,14 +71,14 @@ class ModelParametersBase(common.ParameterSet):
 
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(ModelParametersBase, self).__init__(**kwd)
     #Get output directory
     self.outdir=osp.join(FS.solnfolder,self.basename,self.modelname)
     #Load customization info, if present
     if hasattr(self,'customizations'):
       self.customizations=SolverCustomizations(**self.customizations)
 
-class GenericSolver:
+class GenericSolver(object):
   """A generic solver, to be subclassed by solvers for the specific equations
   This class is not directly usable itself.
   Derived classes should, at a minimum:
@@ -108,6 +104,7 @@ class GenericSolver:
     self.meshparams=meshparams
 
     #Initialize output attributes and intermediates
+    self.diskwrite=True
     self.outdir=self.modelparams.outdir
     self.results={}
     self.info=self.modelparams.config_dict
@@ -162,16 +159,13 @@ class GenericSolver:
     return
 
   @classmethod
-  def complete(cls,*args,diskwrite=True):
+  def complete(cls,*args):
     """Convenience function to set up and solve the model, then generate all the requested output.
     Arguments:
-      *args to be passed to the the solver class __init__
-      diskwrite = boolean, True to write info and output data to disk
-    In general, it would be a bad idea to use diskwrite=False and as_action=True,
-    because you'd then have no way to get any results from the solution at all."""
+      *args to be passed to the the solver class __init__"""
     obj=cls(*args)
     obj.solve()
-    obj.create_output(diskwrite)
+    obj.create_output()
     return obj
 
   def solve(self):
@@ -194,10 +188,10 @@ class GenericSolver:
         raise einst
     return
 
-  def create_output(self,diskwrite=True):
+  def create_output(self):
     """Process the data extraction commands for the completed solution
-    Arguments:
-      diskwrite = boolean, optional, True to write the output files.
+    Required attributes:
+      diskwrite = boolean, True to write the output files.
         If false, the output will only be stored in the object itself
     No return value.
     Output files may be generated."""
@@ -214,7 +208,7 @@ class GenericSolver:
     if hasattr(self,'parametric_locations'):
       self.info['parametric_locations']=self.parametric_locations
     #Write output files if requested
-    if diskwrite:
+    if self.diskwrite:
       common.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
       self.outdata.to_pickle(osp.join(self.outdir,'outdata.pkl'))
 

@@ -2,11 +2,8 @@
 _TODO_ switch to ruamel.yaml, and update the wiki
 
 _FEATURE_ port some changes over from the che580-sp18 branch.
-- at least some, if not all, of the Python 2 compatibility (see notes 2018-03-27.md)
 - maybe even the ability to read environment variables to specify the locations of the `src` and `data` folders (and document the variables in the README)
   Or, some other, more flexible way.
-
-_TODO_ be less restrictive with the DOLFIN version.
 
 _ISSUE_ if the paramlocs folder doesn't exist, gmsh will error rather than creating it
 So, the geom_mk_msh script needs to ensure that directory exists before calling gmsh.

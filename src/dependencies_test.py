@@ -1,9 +1,9 @@
 
 """Check that the required software is available."""
 
+from __future__ import print_function, division #Python 2 compatibility
 import subprocess
 import sys
-assert sys.version_info.major == 3, "Python 3 required."
 
 #check required python modules
 import yaml
@@ -15,9 +15,9 @@ import pandas
 import fenics as fem
 
 #fenics version check
-target_fenics_version='2017.1.0'
-fenics_version_msg_template="This code was written for FEniCS version '%s'. Detected version '%s'."
-assert fem.DOLFIN_VERSION_STRING == target_fenics_version, fenics_version_msg_template%(target_fenics_version,fem.DOLFIN_VERSION_STRING)
+target_fenics_versions=[2016, 2017]
+fenics_version_msg_template="This code was written for FEniCS major versions '%s'. Detected major version '%d'."
+assert fem.DOLFIN_VERSION_MAJOR in target_fenics_versions, fenics_version_msg_template%(target_fenics_version,fem.DOLFIN_VERSION_MAJOR)
 
 #check that gmsh runs
 gmsh_cmd="gmsh --version"

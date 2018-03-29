@@ -1,6 +1,7 @@
 #Call gmsh to convert .geo file(s) into .msh, based on derivative of MeshParameters
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import os
 import os.path as osp
 from subprocess import call
@@ -33,7 +34,7 @@ class GmshRunner(common.ParameterSet):
 
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(GmshRunner, self).__init__(**kwd)
     #Get folders
     self._folders={'geofile':osp.join(FS.geofolder,self.basename),
                    'mshfile':osp.join(FS.mshfolder,self.basename),
@@ -49,7 +50,8 @@ class GmshRunner(common.ParameterSet):
     print(self.mshfile)
     #Create directories if necessary
     for oattr in self._outputfile_attrs:
-      os.makedirs(self._folders[oattr],exist_ok=True)
+      if not osp.isdir(self._folders[oattr]):
+        os.makedirs(self._folders[oattr])
     #Run the shell command
     cmd_str=cmd_tmpl%(self.full_path('mshfile'),self.full_path('geofile'),self.full_path('txtfile'))
     call(cmd_str,shell=True)

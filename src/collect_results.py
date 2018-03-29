@@ -1,5 +1,6 @@
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import os
 import os.path as osp
 
@@ -87,7 +88,7 @@ class ResultsCollector(common.ParameterSet):
   
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(ResultsCollector, self).__init__(**kwd)
     #Get the output file
     self.outfpath=osp.join(FS.postprocfolder,self.basename,collected_df_fname)
     #Get the input files
@@ -109,7 +110,8 @@ class ResultsCollector(common.ParameterSet):
   def run(self):
     print(self.outfpath)
     #Make sure the parent folder exists
-    os.makedirs(osp.split(self.outfpath)[0],exist_ok=True)
+    if not osp.isdir(osp.split(self.outfpath)[0]):
+      os.makedirs(osp.split(self.outfpath)[0])
     #Read in all the info files
     alldicts = [common.readyaml(fp) for fp in self.input_files]
     #Convert to dataframe and save

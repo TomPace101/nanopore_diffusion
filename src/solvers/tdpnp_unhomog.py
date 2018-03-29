@@ -27,7 +27,7 @@ class SpeciesInfo(common.ParameterSet):
   __slots__=['symbol','z','initconc','D','N']
   def __init__(self,**kwargs):
     #Initialization from base class
-    super().__init__(**kwargs)
+    super(SpeciesInfo, self).__init__(**kwargs)
     #Check number of species
     nspec_all=[len(l) for l in kwargs.values()]
     assert min(nspec_all)==max(nspec_all), "Inconsistent number of species: %s"%str(nspec_all)
@@ -46,7 +46,7 @@ class ReactionInfo(common.ParameterSet):
   __slots__=['constants','functions','stoichio','N']
   def __init__(self,**kwargs):
     #Initialization from base class
-    super().__init__(**kwargs)
+    super(ReactionInfo, self).__init__(**kwargs)
     #Check number of reactions
     nreac_all=[len(l) for l in kwargs.values()]
     assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)    
@@ -70,7 +70,7 @@ class TimeDomainInfo(common.ParameterSet):
   __slots__=['stepsize','stopping']
   def __init__(self,**kwargs):
     #Initialization from base class
-    super().__init__(**kwargs)
+    super(TimeDomainInfo, self).__init__(**kwargs)
     #Stopping Criterion
     self.stopping=StoppingCriterion(**kwargs['stopping'])
 
@@ -92,7 +92,7 @@ class TDPNPUConditions(solver_general.GenericConditions):
   __slots__=['dirichlet','neumann','beta','temperature','eps_r','species_info','reaction_info','initial_potential','timedomain']
   def __init__(self,**kwargs):
     #Initialization from base class
-    super().__init__(**kwargs)
+    super(TDPNPUConditions, self).__init__(**kwargs)
     #If beta not provided, calculate from temperature
     if not hasattr(self,'beta'):
       self.beta = 1.0/(self.temperature*UN.kB)
@@ -127,7 +127,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
       meshparams = buildgeom.MeshParameters instance"""
       
     #Load parameters, init output, mesh setup
-    super().__init__(modelparams,meshparams)
+    super(TDPNPUSolver, self).__init__(modelparams,meshparams)
     self.loadmesh()
 
     #Get conditions

@@ -1,5 +1,6 @@
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import os
 import os.path as osp
 import sys
@@ -64,7 +65,7 @@ class PlotFigure(common.ParameterSet):
   
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(PlotFigure, self).__init__(**kwd)
     #Find the input and output files
     self.locate_data()
     self.outfpath=osp.join(self.outdir(),self.filename)
@@ -111,7 +112,8 @@ class PlotFigure(common.ParameterSet):
     self.execute_commandseq('plotfunctions')
     
     #Save the figure
-    os.makedirs(self.outdir(),exist_ok=True)
+    if not osp.isdir(self.outdir()):
+      os.makedirs(self.outdir())
     self.fig.savefig(self.outfpath)
     
     #Close the figure

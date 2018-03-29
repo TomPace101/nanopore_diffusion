@@ -38,7 +38,7 @@ class PostProcParameters(common.ParameterSet):
 
   def __init__(self,**kwd):
     #Initialization from base class
-    super().__init__(**kwd)
+    super(PostProcParameters, self).__init__(**kwd)
     #Load the model parameters file if not already loaded
     if not self.modelparamsfile in self.loaded_modelfiles.keys():
       self.loaded_modelfiles[self.modelparamsfile]=[]
