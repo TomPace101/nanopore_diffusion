@@ -1,10 +1,22 @@
 
 #Standard library
+import os
 import os.path as osp
 import sys
 
-srcfolder=osp.abspath(osp.split(__file__)[0])
-datafolder=osp.join(osp.split(srcfolder)[0],'data')
+#Locate source folders
+if 'SRCLOC' in os.environ.keys():
+  srcfolder=osp.normpath(osp.abspath(os.environ['SRCLOC']))
+else:
+  srcfolder=osp.abspath(osp.split(__file__)[0])
+
+#Locate data folder
+if 'DATALOC' in os.environ.keys():
+  datafolder=osp.normpath(osp.abspath(os.environ['DATALOC']))
+else:
+  datafolder=osp.join(osp.split(srcfolder)[0],'data')
+
+#subfolders of src
 custom_modules_folder=osp.join(srcfolder,'customizations')
 solver_modules_folder=osp.join(srcfolder,'solvers')
 
