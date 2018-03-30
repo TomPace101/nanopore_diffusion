@@ -350,7 +350,6 @@ You would want them to inherit from ParameterSet or something like it, still.
 # Problem Description
 
 _TODO_ bring in references from Zotero.
-(Can we change the reference style from numerical to alphanumerical?)
 
 Can we use a two-column format for the derivation portions?
 Left side (narrower) is text, with equations on the right.
