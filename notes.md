@@ -11,6 +11,12 @@ Or, just update all the gmsh templates so that it IS always generated.
 
 _TODO_ Why does the solver module need MeshParameters? Or does it really just need paramlocs instead?
 
+_TODO_ replace osp.isdir os.makedirs calls with a function in common.py
+(Python 3 had an argument to os.makedirs not supported in Python 2)
+I used to have such a function, called 'assure_dir' or something like that.
+If you can find a commit that still had it you could copy it.
+Maybe even the last branch prior to doit refactoring.
+
 # homogenization (exotic-earth)
 
 _TODO_ do data extraction so we can actually use the results
@@ -18,11 +24,11 @@ _TODO_ then do data collection and plotting
 
 Then, we need to try to abstract/generalize this more, somehow.
 
-_TODO_ replace osp.isdir os.makedirs calls with a function in common.py
-(Python 3 had an argument to os.makedirs not supported in Python 2)
-I used to have such a function, called 'assure_dir' or something like that.
-If you can find a commit that still had it you could copy it.
-Maybe even the last branch prior to doit refactoring.
+_TODO_ should we figure out a way to use only periodic boundary conditions,
+and a requirement that the mean of each component of chi is zero?
+(This would need to be a bilinear form: multiply by test function component.)
+Multiple periodic boundary conditions:
+https://fenicsproject.org/qa/262/possible-specify-more-than-one-periodic-boundary-condition/
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
