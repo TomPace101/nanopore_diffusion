@@ -18,6 +18,11 @@ _TODO_ then do data collection and plotting
 
 Then, we need to try to abstract/generalize this more, somehow.
 
+_TODO_ replace osp.isdir os.makedirs calls with a function in common.py
+(Python 3 had an argument to os.makedirs not supported in Python 2)
+I used to have such a function, called 'assure_dir' or something like that.
+If you can find a commit that still had it you could copy it.
+Maybe even the last branch prior to doit refactoring.
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
@@ -76,6 +81,7 @@ We could make the condition itself a tuple instead of just a string:
 
 _FEATURE_ parametric definition of mesh locations
 
+__TODO__
 There is some awkwardness in that buildgeom needs to put the location of this file into the .geo file.
 So both buildgeom and geom_mk_mesh have to calculate the location.
 This also makes the .geo file machine-dependent.
@@ -83,9 +89,20 @@ If you switch to a different computer or move the whole project,
 the .geo files have to be regenerated.
 Maybe gmsh could accept a relative path?
 ie "../../paramlocs/{basename}/{meshname}.yaml"
-__TODO__
+That's still rather ugly.
+What is the path relative to?
+It can't be `src` anymore, as that may now be in a completely different place than `data`
+Aha!
+gmsh has a command line option `-setstring`.
+You can use that to set the paramlocs output file location as a string.
 
 The existing profile outputs should be refactored to use this. __TODO__
+The fact that they are not is what's responsible for this not being listed as an output,
+which means necessary directories are not created.
+Alternatively, you could track which ones do or do not generate the output file.
+For example, your geometry definition file could contain a boolean variable indicating
+wether or not this particular geometry creates the file.
+
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
