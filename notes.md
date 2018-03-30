@@ -23,6 +23,7 @@ _TODO_ do data extraction so we can actually use the results
 _TODO_ then do data collection and plotting
 
 Then, we need to try to abstract/generalize this more, somehow.
+- can we set up a general structure for rectangular periodic boundaries?
 
 _TODO_ should we figure out a way to use only periodic boundary conditions,
 and a requirement that the mean of each component of chi is zero?
@@ -31,6 +32,10 @@ Multiple periodic boundary conditions:
 https://fenicsproject.org/qa/262/possible-specify-more-than-one-periodic-boundary-condition/
 
 # ill-sleep (and debug of the PNP-reaction solver)
+
+_TODO_ refactor out re-usable components
+- processing of dirichlet and neumann boundary conditions
+- stuff that could be used by various PNP solvers
 
 _FEATURE_ exponential time steps
 But dt is in the weak form.
