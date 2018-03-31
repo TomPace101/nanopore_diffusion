@@ -49,7 +49,7 @@ class ReactionInfo(common.ParameterSet):
     super(ReactionInfo, self).__init__(**kwargs)
     #Check number of reactions
     nreac_all=[len(l) for l in kwargs.values()]
-    assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)    
+    assert min(nreac_all)==max(nreac_all), "Inconsistent number of reactions: %s"%str(nreac_all)
     self.N=nreac_all[0]
 
 class StoppingCriterion:
@@ -125,7 +125,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     Arguments:
       modelparams = solver_run.ModelParameters instance
       meshparams = buildgeom.MeshParameters instance"""
-      
+
     #Load parameters, init output, mesh setup
     super(TDPNPUSolver, self).__init__(modelparams,meshparams)
     self.loadmesh()
@@ -211,7 +211,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.u_k=fem.interpolate(fem.Constant(guesstup),self.V)
     u_klist=fem.split(self.u_k)
     c_klist=u_klist[:self.Nspecies]
-    
+
     #Start time
     self.t=0.0
     #Calculate time step size
@@ -266,14 +266,17 @@ class TDPNPUSolver(solver_general.GenericSolver):
           term=termconst*rxf(*clist)*vlist[i]*fem.dx
           rxnweaks.append(term)
     #Put it all together
-    self.FF=sum(tdweaks)-self.dt*FF_ss-self.dt*sum(rxnweaks)
+    if self.reactions.N > 0:
+      self.FF=sum(tdweaks)-self.dt*FF_ss-self.dt*sum(rxnweaks)
+    else:
+      self.FF=sum(tdweaks)-self.dt*FF_ss
     #Take derivative
     self.J=fem.derivative(self.FF,self.u)
 
   def stopnow(self):
     """Check if stopping criterion is met.
     Returns True if time to stop, False otherwise"""
-    
+
     criterion=self.conditions.timedomain.stopping
     if criterion.numsteps is not None:
       return self.k >= criterion.numsteps
