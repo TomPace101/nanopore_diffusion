@@ -16,6 +16,7 @@ _TODO_ replace osp.isdir os.makedirs calls with a function in common.py
 I used to have such a function, called 'assure_dir' or something like that.
 If you can find a commit that still had it you could copy it.
 Maybe even the last branch prior to doit refactoring.
+Maybe this should be part of the sublcass of Path.
 
 # homogenization (exotic-earth)
 
@@ -127,6 +128,9 @@ p=pathlib.Path(...)
     Or, you could just keep track of it yourself.
     That is, know what is supposed to be a folder and don't call folder on it.
     Maybe just checking the disk is the best approach.
+    But what if the path doesn't actually exist yet?
+    Then checking the disk won't tell you anything.
+    (See below for continued discussion.)
 - stem name: p.stem (note that for multiple extensions this only takes off the last one)
     If subclassing, you could create a read-only property that uses p.stem.split('.')[0] to get the base name
 - extension: p.suffix (note that for multiple extensions this only gives the last one, and it does include the dot)
@@ -134,6 +138,10 @@ p=pathlib.Path(...)
 - file name: p.name0
     Of course, for a folder, this isn't a file.
 - full path: str(p) (repr(p) is different, and should not be used)
+- assure_dir: create the necessary directories if they don't already exist.
+    And this means having disk operations is ok.
+    It also requires knowing if the endpoint is a file or folder.
+    (See below.)
 In fact, any function that needs a string instead of a path object will need
 to get str(p.whatever) instead of just p.whatever.
   Or maybe the subclass methods could return strings.
@@ -145,13 +153,6 @@ meaning at initialization it has to be there.
 That doesn't fit with the way ParameterSet works.
 Although we could read in the string, then at initialization change it to the class.
 Or create a different attribute for the class.
-
-Conclusion: better than the way I'm doing it now, and part of the standard library.
-This is what I should be doing.
-
-Everything in folderstructure should become a Path (or the subclass).
-If it's going to be the subclass, then that can't be defined in `common`,
-because `common` has to import folderstructure.
 
 Towards that end (initialization), maybe the input files should be more consistent.
 Sometimes they give stem names only, and sometimes they give filenames.
@@ -175,6 +176,23 @@ The catch is that sometimes you really do want a string, and you have to remembe
 
 So, subclass pathlib.Path, create read-only attributes that return the strings you want.
 That way, you just need to use the correct attribute in all places.
+
+Everything in folderstructure should become a Path (or the subclass).
+If it's going to be the subclass, then folderstructure would have to import common.
+Which means it needs to locate the source directory first.
+
+The only tough spot left seems to be knowing if the final element is a file or just a folder.
+Options:
+  - just assume anything with an extension is a file, otherwise a folder
+  - use boolean to keep track, with classmethods or init args to specify. Default to file.
+
+Path instances are immutable.
+This could cause some difficulties.
+Also, I tried a basic test case and it failed to successfully instantiate.
+
+Note that pathlib is not available under Python 2 without installing `pathlib2` (available through anaconda).
+
+_TODO_ should common be split up into more than one module, possibly inside a package called `common`?
 
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?
