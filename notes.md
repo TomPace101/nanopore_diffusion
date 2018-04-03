@@ -236,6 +236,7 @@ The notebook dated 2017-11-06 is where I was working on this before.
 
 _TODO_ complete the "test" analysis, even without middle surface
 That is, run a face-centered model somewhere, even without the middle surface.
+Or, get rid of it.
 
 _TODO_ wiki page on flux integration over internal boundary
 Should probably document how to do external boundary as well, for comparison.
@@ -427,6 +428,9 @@ So, the options are:
 Note that for automatic generation,
 the macro used for results figures would solve the issue
 of the figures potentially being missing.
+
+Use tikz for generating 2D figures.
+There are plenty of examples using it for 3D drawings as well.
 
 ## Results organization
 
