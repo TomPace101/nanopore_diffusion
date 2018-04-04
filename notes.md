@@ -10,6 +10,16 @@ Or, just update all the gmsh templates so that it IS always generated.
 (see related item below on refactoring needed)
 
 _TODO_ Why does the solver module need MeshParameters? Or does it really just need paramlocs instead?
+Interestingly, ModelParameters now loads the MeshParameters itself.
+It needs the basename in order to calculate the xmlfolder,
+and the location of the parametric locations file.
+The mesh files are used as input files, so there's no need to rely on the meshparams for dependency checking.
+The question is, how do we want this to work if I want to specify a mesh file generated some other way.
+I need to tell it the base name folder and the mesh file name.
+
+The other place it is used is to hold the mesh template values.
+output_eff should be refactored to use parameteric locations for this instead.
+
 
 _TODO_ replace osp.isdir os.makedirs calls with a function in common.py
 (Python 3 had an argument to os.makedirs not supported in Python 2)
