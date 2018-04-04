@@ -46,11 +46,13 @@ def task_gen_report():
   stemname='description'
   infile=stemname+'.tex'
   outfile=stemname+'.pdf'
-  pre_clean_cmd = '; '.join(['rm -f %s.%s'%(stemname,ext) for ext in pre_clean_exts])
-  post_clean_files=['%s.%s'%(stemname,ext) for ext in post_clean_exts]
-  cmdstr='pdflatex -interaction=nonstopmode -halt-on-error %s'%(infile)
-  bibcmd='biber '+stemname
-  return {'actions': [pre_clean_cmd, cmdstr, bibcmd, cmdstr, (do_post_clean,(post_clean_files,))], #clean up first, then run pdflatex twice to get figure references correct, with bibtex in between.
+  pre_clean_cmd = '; '.join(['rm -f %s/%s.%s'%(outdir,stemname,ext) for ext in pre_clean_exts])
+  post_clean_files=['%s/%s.%s'%(outdir,stemname,ext) for ext in post_clean_exts]
+  cmdstr='pdflatex -interaction=nonstopmode -halt-on-error -output-directory %s %s'%(outdir,infile)
+  bibcmd='biber --output-directory %s %s'%(outdir,stemname)
+  copycmd = (shutil.copy2, (osp.join(outdir,outfile),outfile))
+  return {'actions': [pre_clean_cmd, cmdstr, bibcmd, cmdstr, copycmd],
+          #'actions': [pre_clean_cmd, cmdstr, bibcmd, cmdstr, (do_post_clean,(post_clean_files,))], #clean up first, then run pdflatex twice to get figure references correct, with bibtex in between.
           'file_dep': [infile]+fig_outputs+latexinputs,
           'targets': [outfile]}
 
