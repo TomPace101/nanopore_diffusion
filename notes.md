@@ -20,6 +20,11 @@ I need to tell it the base name folder and the mesh file name.
 The other place it is used is to hold the mesh template values.
 output_eff should be refactored to use parameteric locations for this instead.
 
+Maybe instead of taking as an argument the mesh parameters file,
+it should be the folder name (base name) where the file with the given meshname is found.
+You'll need to explain how the various xml file names within that folder are calculated from the meshname,
+since the meshname itself is not a filename.
+
 
 _TODO_ replace osp.isdir os.makedirs calls with a function in common.py
 (Python 3 had an argument to os.makedirs not supported in Python 2)
@@ -44,7 +49,14 @@ https://fenicsproject.org/qa/262/possible-specify-more-than-one-periodic-boundar
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
+_TODO_ allow BT to be an Expression instead of just a float.
+More generally, this is a candidate for refactoring:
+write a function that does the check for strings and returns an Expression or a float accordingly.
+It will need access to the element. Or can it take a FunctionSpace instead?
+Either way, that means it will probably need to be a method of the solver.
+
 _TODO_ refactor out re-usable components
+- Expression/float generation (see above)
 - processing of dirichlet and neumann boundary conditions
 - stuff that could be used by various PNP solvers
 
@@ -124,6 +136,9 @@ which means necessary directories are not created.
 Alternatively, you could track which ones do or do not generate the output file.
 For example, your geometry definition file could contain a boolean variable indicating
 wether or not this particular geometry creates the file.
+Except that geometry definition is part of buildgeom, not geom_mk_msh.
+We could, of course, load the geometry definition file just for that.
+We can get its location pretty easily.
 
 
 _TODO_ use pathlib.Path for paths
