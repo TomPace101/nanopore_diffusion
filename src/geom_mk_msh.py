@@ -12,14 +12,13 @@ import sys
 #Local
 import folderstructure as FS
 import common
-import buildgeom
 
 #Path to this code file (for dependency list)
 thisfile=sys.modules[__name__].__file__
 
 #Template for gmsh command
 #arguments: mshfile, geofile, txtfile
-cmd_tmpl="gmsh -0 -o %s %s >%s"
+cmd_tmpl="gmsh -0 -setstring paramlocsfile %s -o %s %s >%s"
 
 class GmshRunner(common.ParameterSet):
   __slots__=('meshname','geomdefname','tmplvalues','geofile','mshfile','txtfile','paramlocsfile','_folders')
@@ -28,9 +27,10 @@ class GmshRunner(common.ParameterSet):
   #don't need sourcefile as input file due to config
   _inputfile_attrs=['geofile']
   _more_inputfiles=[thisfile,common.__file__]
-  ##_outputfile_attrs=['mshfile','txtfile','paramlocsfile']
-  _outputfile_attrs=['mshfile','txtfile'] ##paramlocsfile is excluded for now because it can create false out-of-date conditions: it's not always generated
+  _outputfile_attrs=['mshfile','txtfile','paramlocsfile']
   _taskname_src_attr='meshname'
+  #Remember loaded geometry definitions so we aren't reading the same files over and over when generating multiple meshes
+  loaded_geomdefs={}
 
   def __init__(self,**kwd):
     #Initialization from base class
@@ -53,7 +53,7 @@ class GmshRunner(common.ParameterSet):
       if not osp.isdir(self._folders[oattr]):
         os.makedirs(self._folders[oattr])
     #Run the shell command
-    cmd_str=cmd_tmpl%(self.full_path('mshfile'),self.full_path('geofile'),self.full_path('txtfile'))
+    cmd_str=cmd_tmpl%(self.full_path('paramlocsfile'),self.full_path('mshfile'),self.full_path('geofile'),self.full_path('txtfile'))
     call(cmd_str,shell=True)
 
 #Support command-line arguments

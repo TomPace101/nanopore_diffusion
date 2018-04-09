@@ -139,7 +139,8 @@ wether or not this particular geometry creates the file.
 Except that geometry definition is part of buildgeom, not geom_mk_msh.
 We could, of course, load the geometry definition file just for that.
 We can get its location pretty easily.
-
+Or, we can just require that they all will do it.
+That's what I decided to go with instead.
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
