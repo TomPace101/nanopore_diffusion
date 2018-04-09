@@ -1,14 +1,6 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
-_ISSUE_ if the paramlocs folder doesn't exist, gmsh will error rather than creating it
-So, the geom_mk_msh script needs to ensure that directory exists before calling gmsh.
-It actually would do this already if we allowed the parametric locations file to be tracked as an output file.
-We don't currently, because it is not always generated.
-Is there are way we could see if it really will be generated, and add it if so?
-Or, just update all the gmsh templates so that it IS always generated.
-(see related item below on refactoring needed)
-
 _TODO_ Why does the solver module need MeshParameters? Or does it really just need paramlocs instead?
 Interestingly, ModelParameters now loads the MeshParameters itself.
 It needs the basename in order to calculate the xmlfolder,
@@ -18,7 +10,10 @@ The question is, how do we want this to work if I want to specify a mesh file ge
 I need to tell it the base name folder and the mesh file name.
 
 The other place it is used is to hold the mesh template values.
-output_eff should be refactored to use parameteric locations for this instead.
+_TODO_ output_eff should be refactored to use parameteric locations for this instead.
+- replace all calls in dataextraction to profile_centerline and profile_radial with line_profile, then delete those two functions
+- effective_diffusion
+- volfrac
 
 Maybe instead of taking as an argument the mesh parameters file,
 it should be the folder name (base name) where the file with the given meshname is found.
@@ -112,35 +107,6 @@ We could make the condition itself a tuple instead of just a string:
 - the second could be a dictionary, sent as kwargs
 
 # Code/Misc
-
-_FEATURE_ parametric definition of mesh locations
-
-__TODO__
-There is some awkwardness in that buildgeom needs to put the location of this file into the .geo file.
-So both buildgeom and geom_mk_mesh have to calculate the location.
-This also makes the .geo file machine-dependent.
-If you switch to a different computer or move the whole project,
-the .geo files have to be regenerated.
-Maybe gmsh could accept a relative path?
-ie "../../paramlocs/{basename}/{meshname}.yaml"
-That's still rather ugly.
-What is the path relative to?
-It can't be `src` anymore, as that may now be in a completely different place than `data`
-Aha!
-gmsh has a command line option `-setstring`.
-You can use that to set the paramlocs output file location as a string.
-
-The existing profile outputs should be refactored to use this. __TODO__
-The fact that they are not is what's responsible for this not being listed as an output,
-which means necessary directories are not created.
-Alternatively, you could track which ones do or do not generate the output file.
-For example, your geometry definition file could contain a boolean variable indicating
-wether or not this particular geometry creates the file.
-Except that geometry definition is part of buildgeom, not geom_mk_msh.
-We could, of course, load the geometry definition file just for that.
-We can get its location pretty easily.
-Or, we can just require that they all will do it.
-That's what I decided to go with instead.
 
 _TODO_ use pathlib.Path for paths
 Or maybe subclass it.
