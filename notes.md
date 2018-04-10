@@ -176,6 +176,7 @@ Decision:
   - use boolean to keep track, with argument to constructor allowed, defaulting to the extension test above
 I got this working in a notebook dated 20180410.
 I did indeed override new, copying a lot of it from the pathlib source.
+_TODO_ concatenate folder+file should give file, folder+folder should give folder, and file cannot be the first argument in a concatenation.
 
 Path instances are immutable.
 But I think I got it figured out.
