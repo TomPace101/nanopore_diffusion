@@ -36,22 +36,6 @@ _TODO_ then do data collection and plotting
 Then, we need to try to abstract/generalize this more, somehow.
 - can we set up a general structure for rectangular periodic boundaries?
 
-_TODO_ should we figure out a way to use only periodic boundary conditions,
-and a requirement that the mean of each component of chi is zero?
-Multiple periodic boundary conditions:
-https://fenicsproject.org/qa/262/possible-specify-more-than-one-periodic-boundary-condition/
-
-The condition on the average would be weird for FEniCS:
-it wouldn't contain the test function at all.
-Multiplying by the test function doesn't help,
-as that would just require the unknown function to be zero.
-In theory what you want is to multiply the integral of the unknown by the test function,
-but FEniCS probably doesn't allow other integrals inside your weak form integral.
-
-So is there a way in FEniCS to provide a point boundary condition?
-https://fenicsproject.org/qa/11078/assigning-dirichlet-boundary-condition-at-a-point/
-
-
 # ill-sleep (and debug of the PNP-reaction solver)
 
 _TODO_ allow BT to be an Expression instead of just a float.
