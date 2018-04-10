@@ -10,7 +10,7 @@ meshname: exotic-earth_mesh_001
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -20,7 +20,7 @@ meshname: exotic-earth_mesh_002
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -30,7 +30,7 @@ meshname: exotic-earth_mesh_003
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -40,7 +40,7 @@ meshname: exotic-earth_mesh_004
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -50,7 +50,7 @@ meshname: exotic-earth_mesh_005
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -60,7 +60,7 @@ meshname: exotic-earth_mesh_006
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -70,7 +70,7 @@ meshname: exotic-earth_mesh_007
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -80,7 +80,7 @@ meshname: exotic-earth_mesh_008
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
@@ -90,7 +90,7 @@ meshname: exotic-earth_mesh_009
 geomdefname: two_rectangles
 tmplvalues:
   mscale: 1.0
-  mcarl: 0.05
+  mcarl: 0.01
   mcarh: 0.01
   Lx: 1.0
   Ly: 1.0
