@@ -38,9 +38,19 @@ Then, we need to try to abstract/generalize this more, somehow.
 
 _TODO_ should we figure out a way to use only periodic boundary conditions,
 and a requirement that the mean of each component of chi is zero?
-(This would need to be a bilinear form: multiply by test function component.)
 Multiple periodic boundary conditions:
 https://fenicsproject.org/qa/262/possible-specify-more-than-one-periodic-boundary-condition/
+
+The condition on the average would be weird for FEniCS:
+it wouldn't contain the test function at all.
+Multiplying by the test function doesn't help,
+as that would just require the unknown function to be zero.
+In theory what you want is to multiply the integral of the unknown by the test function,
+but FEniCS probably doesn't allow other integrals inside your weak form integral.
+
+So is there a way in FEniCS to provide a point boundary condition?
+https://fenicsproject.org/qa/11078/assigning-dirichlet-boundary-condition-at-a-point/
+
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
@@ -177,10 +187,15 @@ The only tough spot left seems to be knowing if the final element is a file or j
 Options:
   - just assume anything with an extension is a file, otherwise a folder
   - use boolean to keep track, with classmethods or init args to specify. Default to file.
+    It's immutable, so no init. You'd have to override `__new__`, which means copying its signature from the pathlib source. (doable, of course)
+Decision:
+  - use boolean to keep track, with argument to constructor allowed, defaulting to the extension test above
+I got this working in a notebook dated 20180410.
+I did indeed override new, copying a lot of it from the pathlib source.
 
 Path instances are immutable.
-This could cause some difficulties.
-Also, I tried a basic test case and it failed to successfully instantiate.
+But I think I got it figured out.
+(Note that they are only immutable by convention. You can actually alter them if you are determined.)
 
 Note that pathlib is not available under Python 2 without installing `pathlib2` (available through anaconda).
 
@@ -191,7 +206,7 @@ Look at all uses of os.* and osp.* to check for more.
 
 Implementation steps:
 - new depcheck on pathlib
-- new class based on pathlib
+- new class based on pathlib (see trial runs in notebooks)
 - use in folderstructure
 - method of ParameterSet to initialize objects from their input strings
 - call that method in all subclasses of ParameterSet
@@ -200,6 +215,14 @@ Implementation steps:
 - delete ParameterSet.full_path
 - for all classes derived from ParameterSet, look at all input/output file attributes, and catch each use, to use the correct object method
 - remove unneeded imports of os and osp
+
+So what should we call this?
+- SmarterPath?
+- SmartPath?
+- EasyPath?
+- EnhancedPath?
+- FPath?
+- fpath?
 
 _TODO_ should common be split up into more than one module, possibly inside a package called `common`?
 
