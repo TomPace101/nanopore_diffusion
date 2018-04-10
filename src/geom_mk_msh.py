@@ -55,6 +55,8 @@ class GmshRunner(common.ParameterSet):
     #Run the shell command
     cmd_str=cmd_tmpl%(self.full_path('paramlocsfile'),self.full_path('mshfile'),self.full_path('geofile'),self.full_path('txtfile'))
     call(cmd_str,shell=True)
+    #Error if the parametric locations file was not generated
+    assert osp.isfile(self.full_path('paramlocsfile')), "Parametric locations file %s was not successfully generated."%self.full_path('paramlocsfile')
 
 #Support command-line arguments
 if __name__ == '__main__':
