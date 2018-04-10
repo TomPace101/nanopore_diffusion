@@ -184,6 +184,23 @@ Also, I tried a basic test case and it failed to successfully instantiate.
 
 Note that pathlib is not available under Python 2 without installing `pathlib2` (available through anaconda).
 
+Other things we want to be easy:
+- assuredir: making sure the containing directory exists
+- existence check for the file itself
+Look at all uses of os.* and osp.* to check for more.
+
+Implementation steps:
+- new depcheck on pathlib
+- new class based on pathlib
+- use in folderstructure
+- method of ParameterSet to initialize objects from their input strings
+- call that method in all subclasses of ParameterSet
+- revise docstring of ParameterSet.file_list
+- replace calls to ParameterSet full_path with appropriate object method
+- delete ParameterSet.full_path
+- for all classes derived from ParameterSet, look at all input/output file attributes, and catch each use, to use the correct object method
+- remove unneeded imports of os and osp
+
 _TODO_ should common be split up into more than one module, possibly inside a package called `common`?
 
 _TODO_ should ParameterSet be split into a base class,
