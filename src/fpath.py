@@ -4,21 +4,22 @@ This module only provides a subclass of a concrete path, not a pure path.
 
 Some portions of this code are based on similar code in the pathlib module itself."""
 
+import os
+import pathlib
 
 #Our base class is the concrete path appropriate for this system
 baseclass = pathlib.WindowsPath if os.name == 'nt' else pathlib.PosixPath
-
 
 class fpath(baseclass):
   __slots__=('isFile')
   def __new__(cls, *args, **kwargs):
     self = cls._from_parts(args, init=False)
-      if not self._flavour.is_supported: #Is this check really needed?
-        raise NotImplementedError("cannot instantiate %r on your system"
-                                  % (cls.__name__,))
-      isFile = kwargs.get('isFile',None)
-      self._init(isFile)
-      return self
+    if not self._flavour.is_supported: #Is this check really needed?
+      raise NotImplementedError("cannot instantiate %r on your system"
+                                % (cls.__name__,))
+    isFile = kwargs.get('isFile',None)
+    self._init(isFile)
+    return self
   def _default_isFile_result(self):
     return len(self.suffix)>0
   def _init(self,isFile=None):
