@@ -102,8 +102,7 @@ We could make the condition itself a tuple instead of just a string:
 
 # Code/Misc
 
-_TODO_ use pathlib.Path for paths
-Or maybe subclass it.
+_TODO_ subclass of pathlib.Path for paths
 
 p=pathlib.Path(...)
 - folder: p.parent
@@ -128,11 +127,6 @@ p=pathlib.Path(...)
     And this means having disk operations is ok.
     It also requires knowing if the endpoint is a file or folder.
     (See below.)
-In fact, any function that needs a string instead of a path object will need
-to get str(p.whatever) instead of just p.whatever.
-  Or maybe the subclass methods could return strings.
-Paths are immutable, but can be concatenated with "/"
-and can get suffixes added by p.with_suffix()
 
 You have to use this class as the appropriate object attribute,
 meaning at initialization it has to be there.
@@ -157,37 +151,17 @@ But sometimes you need to add an extension as well.
 (This could even become an optional step in ParameterSet init: skip it for empty or nonexistent entries.)
 Instead of calling a function to get the full path, you use the appropriate attribute of the Path object
 or its subclass.
-
-The catch is that sometimes you really do want a string, and you have to remember to cast it.
-
-So, subclass pathlib.Path, create read-only attributes that return the strings you want.
-That way, you just need to use the correct attribute in all places.
+Rather than converting, what if we add a `_files` attribute.
+The original entries can remain, and this attribute is a dict (or namespace)
+with fpath versions of the files.
+That's great for direct attributes.
+But what about `_more_inputfiles` and the like?
 
 Everything in folderstructure should become a Path (or the subclass).
 If it's going to be the subclass, then folderstructure would have to import common.
 Which means it needs to locate the source directory first.
 
-The only tough spot left seems to be knowing if the final element is a file or just a folder.
-Options:
-  - just assume anything with an extension is a file, otherwise a folder
-  - use boolean to keep track, with classmethods or init args to specify. Default to file.
-    It's immutable, so no init. You'd have to override `__new__`, which means copying its signature from the pathlib source. (doable, of course)
-Decision:
-  - use boolean to keep track, with argument to constructor allowed, defaulting to the extension test above
-I got this working in a notebook dated 20180410.
-I did indeed override new, copying a lot of it from the pathlib source.
-_TODO_ concatenate folder+file should give file, folder+folder should give folder, and file cannot be the first argument in a concatenation.
-
-Path instances are immutable.
-But I think I got it figured out.
-(Note that they are only immutable by convention. You can actually alter them if you are determined.)
-
 Note that pathlib is not available under Python 2 without installing `pathlib2` (available through anaconda).
-
-Other things we want to be easy:
-- assuredir: making sure the containing directory exists
-- existence check for the file itself
-Look at all uses of os.* and osp.* to check for more.
 
 Implementation steps:
 - new depcheck on pathlib
