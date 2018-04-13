@@ -151,21 +151,24 @@ But sometimes you need to add an extension as well.
 (This could even become an optional step in ParameterSet init: skip it for empty or nonexistent entries.)
 Instead of calling a function to get the full path, you use the appropriate attribute of the Path object
 or its subclass.
-Rather than converting, what if we add a `_files` attribute.
+Rather than converting, what if we add a `_files` or `_fpaths` attribute.
 The original entries can remain, and this attribute is a dict (or namespace)
 with fpath versions of the files.
 That's great for direct attributes.
 But what about `_more_inputfiles` and the like?
+Those are required to be complete paths (as strings),
+so they'll be refactored on a case-by-case basis.
+So the new method can basically work like common.ParameterSet.full_path does now.
+That is, for a given attribute list (which is usually stored in an attribute),
+it prepends the matching entry in `_folders`, if any.
 
 Everything in folderstructure should become a Path (or the subclass).
 If it's going to be the subclass, then folderstructure would have to import common.
 Which means it needs to locate the source directory first.
 
-Note that pathlib is not available under Python 2 without installing `pathlib2` (available through anaconda).
-
 Implementation steps:
-- new depcheck on pathlib
-- new class based on pathlib (see trial runs in notebooks)
+- DONE: new depcheck on pathlib
+- DONE: new class based on pathlib
 - use in folderstructure
 - method of ParameterSet to initialize objects from their input strings
 - call that method in all subclasses of ParameterSet
@@ -173,15 +176,8 @@ Implementation steps:
 - replace calls to ParameterSet full_path with appropriate object method
 - delete ParameterSet.full_path
 - for all classes derived from ParameterSet, look at all input/output file attributes, and catch each use, to use the correct object method
+- check all uses of os and osp (definitely os.makedirs should go)
 - remove unneeded imports of os and osp
-
-So what should we call this?
-- SmarterPath?
-- SmartPath?
-- EasyPath?
-- EnhancedPath?
-- FPath?
-- fpath?
 
 _TODO_ should common be split up into more than one module, possibly inside a package called `common`?
 
