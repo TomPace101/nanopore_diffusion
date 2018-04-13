@@ -52,6 +52,10 @@ class fpath(baseclass):
   >>> f3.parent
   fpath('/usr/local/bin')
   
+  The folder is also available as an fpath if desired.
+  >>> f3.folder_fpath
+  fpath('/usr/local/bin')
+  
   File names are broken into pieces in a slightly different way than pathlib.Path,
   although the pathlib.Path methods are still available.
   >>> f3.filename_parts
@@ -103,11 +107,14 @@ class fpath(baseclass):
   def fullpath(self):
     return str(self)
   @property
-  def folder(self):
+  def folder_fpath(self):
     if self.isFile:
-      return str(self.parent)
+      return self.parent
     else:
-      return str(self)
+      return self
+  @property
+  def folder(self):
+    return str(self.folder_fpath)
   @property
   def foldername(self):
     return self.folder
@@ -131,6 +138,10 @@ class fpath(baseclass):
   def stemname(self):
     #Note how this is different than self.stem if more than one dot is used
     return self.filename_parts[0]
+  def assure_dir(self):
+    f=self.folder_fpath
+    if not f.exists():
+      os.makedirs(f.fullpath)
 
 if __name__ == "__main__":
     import doctest
