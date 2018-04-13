@@ -32,6 +32,38 @@ class fpath(baseclass):
   >>> f3.isFile
   True
   
+  The other major enhancement is a set of attributes to get
+  portions of the path as strings.
+  >>> assert os.name != 'nt', "These doctests were not designed for windows. Sorry."
+  >>> f3
+  fpath('/usr/local/bin/myfile.txt.tar.gz')
+  >>> f3.fullpath #Note that this returns a string
+  '/usr/local/bin/myfile.txt.tar.gz'
+  >>> f3.folder
+  '/usr/local/bin'
+  >>> f3.filename
+  'myfile.txt.tar.gz'
+  
+  Note how this is harder with pathlib.Path.
+  >>> f1.folder
+  '/usr/local/bin'
+  >>> f1.parent #pathlib.Path method
+  fpath('/usr/local')
+  >>> f3.parent
+  fpath('/usr/local/bin')
+  
+  File names are broken into pieces in a slightly different way than pathlib.Path,
+  although the pathlib.Path methods are still available.
+  >>> f3.filename_parts
+  ['myfile', '.txt', '.tar', '.gz']
+  >>> f3.stem #pathlib.Path method
+  'myfile.txt.tar'
+  >>> f3.stemname
+  'myfile'
+  >>> f3.suffix #pathlib.Path method
+  '.gz'
+  >>> f3.ext
+  '.txt.tar.gz'
   """
   __slots__=('isFile')
   def __new__(cls, *args, **kwargs):
@@ -67,6 +99,9 @@ class fpath(baseclass):
     #If self is a file or a folder, teh result will be as well.
     res.isFile=self.isFile
     return res
+  @property
+  def fullpath(self):
+    return str(self)
   @property
   def folder(self):
     if self.isFile:
