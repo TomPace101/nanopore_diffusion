@@ -11,6 +11,28 @@ import pathlib
 baseclass = pathlib.WindowsPath if os.name == 'nt' else pathlib.PosixPath
 
 class fpath(baseclass):
+  """pathlib.Path subclass with enhancements
+  
+  The main enhancement is the distinction between files and folders,
+  through the use of the binary `isFile` attribute.
+  If this attribute is not specified at object creation,
+  it is assumed.
+  
+  >>> f1 = fpath('/usr/local/bin')
+  >>> f1.isFile
+  False
+  >>> f2 = fpath('myfile.txt.tar.gz')
+  >>> f2.isFile
+  True
+  
+  Concatenation works as for pathlib.Path,
+  with interpretation of the isFile attribute.
+  
+  >>> f3 = f1 / f2
+  >>> f3.isFile
+  True
+  
+  """
   __slots__=('isFile')
   def __new__(cls, *args, **kwargs):
     self = cls._from_parts(args, init=False)
@@ -74,3 +96,7 @@ class fpath(baseclass):
   def stemname(self):
     #Note how this is different than self.stem if more than one dot is used
     return self.filename_parts[0]
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
