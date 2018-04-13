@@ -10,15 +10,23 @@ if 'SRCLOC' in os.environ.keys():
 else:
   srcfolder=osp.abspath(osp.split(__file__)[0])
 
+#subfolders of src
+custom_modules_folder=osp.join(srcfolder,'customizations')
+solver_modules_folder=osp.join(srcfolder,'solvers')
+
+#add python code folder(s) to path
+if not srcfolder in sys.path:
+  sys.path.append(srcfolder)
+if not custom_modules_folder in sys.path:
+  sys.path.append(custom_modules_folder)
+if not solver_modules_folder in sys.path:
+  sys.path.append(solver_modules_folder)
+
 #Locate data folder
 if 'DATALOC' in os.environ.keys():
   datafolder=osp.normpath(osp.abspath(os.environ['DATALOC']))
 else:
   datafolder=osp.join(osp.split(srcfolder)[0],'data')
-
-#subfolders of src
-custom_modules_folder=osp.join(srcfolder,'customizations')
-solver_modules_folder=osp.join(srcfolder,'solvers')
 
 #params
 paramsfolder=osp.join(datafolder,'params')
@@ -45,11 +53,3 @@ postprocfolder=osp.join(datafolder,'postproc')
 
 #parameter generation
 pgtemplates_folder=osp.join(datafolder,'paramgen_tmpl')
-
-#add python code folder(s) to path
-if not srcfolder in sys.path:
-  sys.path.append(srcfolder)
-if not custom_modules_folder in sys.path:
-  sys.path.append(custom_modules_folder)
-if not solver_modules_folder in sys.path:
-  sys.path.append(solver_modules_folder)

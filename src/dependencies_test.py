@@ -6,6 +6,7 @@ import subprocess
 import sys
 
 #check required python modules
+import pathlib #standard library in python 3 but not in python 2
 import yaml
 import jinja2
 import numpy
