@@ -20,13 +20,11 @@ it should be the folder name (base name) where the file with the given meshname 
 You'll need to explain how the various xml file names within that folder are calculated from the meshname,
 since the meshname itself is not a filename.
 
-
-_TODO_ replace osp.isdir os.makedirs calls with a function in common.py
-(Python 3 had an argument to os.makedirs not supported in Python 2)
-I used to have such a function, called 'assure_dir' or something like that.
-If you can find a commit that still had it you could copy it.
-Maybe even the last branch prior to doit refactoring.
-Maybe this should be part of the sublcass of Path.
+Maybe paramlocs should have more than just locations.
+For example, maybe we want the cell area and pore area computed.
+They have to be somehow for certain post-processing functions.
+So maybe it just makes the most sense to go ahead and do it in gmsh.
+That also makes sure that you only compute properties that are valid for a given geometry.
 
 # homogenization (exotic-earth)
 
