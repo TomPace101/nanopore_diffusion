@@ -14,13 +14,6 @@ X1=0;
 X2=Lx;
 Y1=0;
 Y2=Ly;
-
-//Mesh metadata output
-Printf("# Mesh metadata output") > meshmetafile;
-Printf("X1: %f", X1) >> meshmetafile;
-Printf("X2: %f", X2) >> meshmetafile;
-Printf("Y1: %f", Y1) >> meshmetafile;
-Printf("Y2: %f", Y2) >> meshmetafile;
-Printf("Xmid: %f", Lx/2) >> meshmetafile;
-Printf("Ymid: %f", Ly/2) >> meshmetafile;
+Xmid=Lx/2;
+Ymid=Ly/2;
 {% endblock %}

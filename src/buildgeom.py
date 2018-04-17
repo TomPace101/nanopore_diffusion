@@ -23,11 +23,12 @@ class GeometryDefinition(common.ParameterSet):
     dimensions = number of spatial dimensions (i.e. 2 for 2D mesh, 3 for 3D mesh)
     tmplfile = geometry template file, usually stored in the location specified by folderstructure.geotemplates_folder.
     tmplvars = mesh parameter variables needed by the geometry template file
+    outvars = list of gmsh variables to be output to the mesh metadata file (note: template variables are not always provided directly to gmsh)
     ptdict = dictionary of points and their corresponding mesh density parameter name
     geomtable = mapping of surfaces to sequence points
     surfloops = mapping of surface loops to sequence of surfaces
     nonplanar = list of surfaces that are not planar surfaces"""
-  __slots__=('dimensions','tmplfile','tmplvars','ptdict','geomtable','surfloops','nonplanar')
+  __slots__=('dimensions','tmplfile','tmplvars','outvars','ptdict','geomtable','surfloops','nonplanar')
   _required_attrs=list(__slots__)
   _folders={'tmplfile':FS.geotemplates_folder}
   _inputfile_attrs=['sourcefile','tmplfile']
@@ -126,6 +127,9 @@ def prepare_template_input(geom, paramdef):
   
   #Put dimensions into mesh
   t_input['dimensions']=geom.dimensions
+
+  #Complete listing of all output variables for mesh metadata
+  t_input['metadata_vars']=geom.outvars ##geom.tmplvars+geom.outvars #can't use tmplvars because gmsh doesn't always see them.
 
   #Dictionary of points
   t_input['ptstrs']=dict([(str(x),y) for x,y in geom.ptdict.items()])

@@ -7,6 +7,12 @@
 
 {% block paramdefs %}{% endblock %}
 
+//Mesh metadata output
+Printf("# Mesh metadata output") > meshmetafile;
+{% for varname in metadata_vars %}
+Printf("{{ varname }}: %f", {{ varname }}) >> meshmetafile;
+{% endfor %}
+
 //Points
 {% for ptnum,meshvar in ptstrs.items() %}
 {% if dimensions==2 %}

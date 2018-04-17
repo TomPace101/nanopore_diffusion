@@ -3,6 +3,7 @@ dimensions: 2
 
 tmplfile: two_rectangles.geo.jinja2
 tmplvars: ['mscale','mcarh','mcarl','Lx','Ly','alpha1']
+outvars:  [mcarh, mcarl, Lx, Ly, alpha1, X1, X2, Y1, Y2, Y3, Xmid]
 
 #Dictionary of points and their corresponding mesh density variable
 #(mcarh for high-density regions, mcarl for low-density regions)
