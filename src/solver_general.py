@@ -89,7 +89,6 @@ class GenericSolver(object):
   Attributes:
     modelparams = solver_run.ModelParameters instance
     meshparams = buildgeom.MeshParameters instance
-    tmplvalues = shortcut attribute for meshparams.tmplvalues
     mesh = FEniCS Mesh
     facets = FEniCS MeshFunction of gmsh Physical Surface number (3D) or Physical Line number (2D)
     cells = FEniCS MeshFunction of gmsh Physical Volume number (3D) or Physical Surface number (2D)
@@ -110,7 +109,6 @@ class GenericSolver(object):
     self.info=self.modelparams.config_dict
     self.info['meshparams']=self.meshparams.config_dict
     self.outdata=OutData(plots={})
-    self.tmplvalues=self.meshparams.tmplvalues
     
     #Apply customizations
     if hasattr(self.modelparams,'customizations'):

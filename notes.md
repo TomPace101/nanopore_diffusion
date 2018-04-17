@@ -14,12 +14,17 @@ it should be the folder name (base name) where the file with the given meshname 
 You'll need to explain how the various xml file names within that folder are calculated from the meshname,
 since the meshname itself is not a filename.
 
+meshparams is also used in plotdata
+removal:
+__TODO__ figure this out
+
 Overall steps:
 - DONE: rename paramlocs and test
 - DONE: refactor output_eff as indicated above
-- remove tmplvalues
+- DONE: remove tmplvalues in solver
 - changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
 - completely remove meshparams from GenericSolver
+- refactor plotdata as indicated above
 - rerun brainy-media and thin-shot to test
 
 # homogenization (exotic-earth)
