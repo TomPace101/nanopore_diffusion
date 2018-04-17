@@ -27,6 +27,7 @@ Overall steps:
 - remove tmplvalues
 - changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
 - completely remove meshparams from GenericSolver
+- rerun brainy-media and thin-shot to test
 
 # homogenization (exotic-earth)
 

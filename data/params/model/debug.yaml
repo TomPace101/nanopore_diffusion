@@ -24,7 +24,7 @@ dataextraction:
   - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-', normalvar: n12}]
   - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
   - [volfrac, {name: free_volume_frac}]
-  - [profile_centerline, {spacing: 0.1, plotname: CL_c, label: 'concentration along centerline'}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: debug02
 meshparamsfile: debug.yaml
@@ -48,7 +48,7 @@ conditions:
       debye_length: 1
     dataextraction:
       - [solutionfield, {filename: potentialfield.pvd}]
-      - [profile_centerline, {spacing: 0.1, plotname: CL_phi, label: 'electric potential along centerline'}]
+      - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_phi, label: 'electric potential along centerline'}]
       - [profile_radial, {spacing: 0.02, plotname: radial_phi, label: 'electric potential along theta=0 deg', theta: 0}]
       - [profile_radial, {spacing: 0.02, plotname: radial_phi, label: 'electric potential along theta=45 deg', theta: 45}]
       - [profile_radial, {spacing: 0.02, plotname: radial_phi, label: 'electric potential along theta=90 deg', theta: 90}]
@@ -62,9 +62,9 @@ dataextraction:
   - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-', normalvar: n12}]
   - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
   - [volfrac, {name: free_volume_frac}]
-  - [profile_centerline, {spacing: 0.1, plotname: CL_c, label: 'concentration along centerline'}]
-  - [profile_centerline, {spacing: 0.1, plotname: CL_cbar, label: 'cbar along centerline', attrname: sb_soln}]
-  - [profile_centerline, {spacing: 0.1, plotname: CL_Dbar, label: 'Dbar along centerline', attrname: Dbar_proj}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_cbar, label: 'cbar along centerline', attrname: sb_soln}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_Dbar, label: 'Dbar along centerline', attrname: Dbar_proj}]
   - [profile_radial, {spacing: 0.02, plotname: radial_c, label: 'concentration along theta=0 deg', theta: 0}]
   - [profile_radial, {spacing: 0.02, plotname: radial_c, label: 'concentration along theta=45 deg', theta: 45}]
   - [profile_radial, {spacing: 0.02, plotname: radial_c, label: 'concentration along theta=90 deg', theta: 90}]

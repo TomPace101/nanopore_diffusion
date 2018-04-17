@@ -48,6 +48,7 @@ class LPBSolver(solver_general.GenericSolver):
     self.cells=other.cells
     self.V = other.V
     self.ds = other.ds
+    self.mesh_metadata = other.mesh_metadata
 
     #Get conditions
     self.conditions=LPBConditions(**modelparams.conditions)

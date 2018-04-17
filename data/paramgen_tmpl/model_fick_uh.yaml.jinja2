@@ -28,5 +28,5 @@ dataextraction:
   - [fluxintegral, {fluxsurf: {{ fields.psurf_mid }}, name: {{ 'totflux_%02d'|format(fields.psurf_mid) }}, internal: True, fluxsign: '-', normalvar: {{ 'n%02d'|format(fields.psurf_mid) -}} }]
   - [effective_diffusion, {name: Deff, totflux_name: {{ 'totflux_%02d'|format(fields.psurf_mid) -}} }]
   - [volfrac, {name: free_volume_frac}]
-  - [profile_centerline, {spacing: 0.1, plotname: CL_c, label: 'concentration along centerline'}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 {% endfor %}
