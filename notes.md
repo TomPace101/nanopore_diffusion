@@ -12,7 +12,6 @@ I need to tell it the base name folder and the mesh file name.
 The other place it is used is to hold the mesh template values.
 _TODO_ output_eff should be refactored to use parameteric locations for this instead.
 - effective_diffusion (needs sampling points specified)
-- volfrac
 Don't forget to update paramgen files as well as model input files.
 
 Maybe instead of taking as an argument the mesh parameters file,

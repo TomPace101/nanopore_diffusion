@@ -90,12 +90,13 @@ def volfrac(self,name):
   Arguments:
     name = name for storage in the results dictionary
   Required attributes:
-    tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
+    mesh_metadata = dictionary of mesh metadata
+      MUST contain 'pore_area' and 'cell_area' keys
   No new attributes.
   New item added to results dictionary.
   No return value.
   No output files."""
-  self.results[name]=np.pi*self.tmplvalues['R']**2/(4*self.tmplvalues['Lx']*self.tmplvalues['Ly'])
+  self.results[name]=self.mesh_metadata['pore_area']/self.mesh_metadata['cell_area']
   return
 
 #We could generalize this by specifying:
