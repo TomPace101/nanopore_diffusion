@@ -77,11 +77,16 @@ def effective_diffusion(self,name,totflux_name):
   No new attributes.
   New item added to results dictionary.
   No return value.
-  No output files."""
-  quarter_area = self.tmplvalues['Lx'] * self.tmplvalues['Ly']
-  samples=[self.soln(0,0,zv) for zv in [self.tmplvalues['H'], self.tmplvalues['H'] + self.tmplvalues['tm']]]
+  No output files.
+  CAUTION: this method is not generalized. It only works for certain geometries.
+  In fact, probably only one: the body-centered nanopore.
+  For the face-centered one, you'd need to sum the results of integration over two facets."""
+  quarter_area = self.mesh_metadata['cell_area']/4
+  zvals=[self.mesh_metadata['Z2'], self.mesh_metadata['Z3']]
+  samples=[self.soln(0,0,zv) for zv in zvals]
   delta=samples[1]-samples[0]
-  Deff=float(self.results[totflux_name]/quarter_area*self.tmplvalues['tm']/delta)
+  delta_z=zvals[1]-zvals[0]
+  Deff=float(self.results[totflux_name]/quarter_area*delta_z/delta)
   self.results[name]=Deff
   return
 

@@ -9,11 +9,6 @@ The mesh files are used as input files, so there's no need to rely on the meshpa
 The question is, how do we want this to work if I want to specify a mesh file generated some other way.
 I need to tell it the base name folder and the mesh file name.
 
-The other place it is used is to hold the mesh template values.
-_TODO_ output_eff should be refactored to use parameteric locations for this instead.
-- effective_diffusion (needs sampling points specified)
-Don't forget to update paramgen files as well as model input files.
-
 Maybe instead of taking as an argument the mesh parameters file,
 it should be the folder name (base name) where the file with the given meshname is found.
 You'll need to explain how the various xml file names within that folder are calculated from the meshname,
@@ -21,7 +16,7 @@ since the meshname itself is not a filename.
 
 Overall steps:
 - DONE: rename paramlocs and test
-- refactor output_eff as indicated above
+- DONE: refactor output_eff as indicated above
 - remove tmplvalues
 - changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
 - completely remove meshparams from GenericSolver
