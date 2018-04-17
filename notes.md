@@ -11,7 +11,6 @@ I need to tell it the base name folder and the mesh file name.
 
 The other place it is used is to hold the mesh template values.
 _TODO_ output_eff should be refactored to use parameteric locations for this instead.
-- replace all calls in dataextraction to profile_centerline and profile_radial with line_profile, then delete those two functions
 - effective_diffusion (needs sampling points specified)
 - volfrac
 Don't forget to update paramgen files as well as model input files.
