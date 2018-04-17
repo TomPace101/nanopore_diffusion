@@ -25,19 +25,8 @@ it should be the folder name (base name) where the file with the given meshname 
 You'll need to explain how the various xml file names within that folder are calculated from the meshname,
 since the meshname itself is not a filename.
 
-Maybe paramlocs should have more than just locations.
-For example, maybe we want the cell area and pore area computed.
-They have to be somehow for certain post-processing functions.
-So maybe it just makes the most sense to go ahead and do it in gmsh.
-That also makes sure that you only compute properties that are valid for a given geometry.
-So maybe we should come up with another name.
-'meshparams' is already taken.
-meshinfo?
-meshvals?
-Mesh metadata: meta
-
 Overall steps:
-- rename paramlocs and test
+- DONE: rename paramlocs and test
 - refactor output_eff as indicated above
 - remove tmplvalues
 - changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).

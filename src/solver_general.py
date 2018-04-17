@@ -137,7 +137,7 @@ class GenericSolver(object):
 
   def loadmesh(self):
     """Load the mesh from the usual file locations
-    Also load the parametric locations file, if present.
+    Also load the mesh metadata file.
     A note on the terminology used in FEniCS and gmsh:
       The FEniCS parts are from page 185-186 of the FEniCS book
       d = number of dimensions in entity, D = number of dimensions in problem (maximum entity dimension)
@@ -153,9 +153,9 @@ class GenericSolver(object):
     self.mesh=fem.Mesh(self.modelparams.mesh_xml)
     self.facets=fem.MeshFunction("size_t", self.mesh, self.modelparams.facet_xml)
     self.cells=fem.MeshFunction("size_t", self.mesh, self.modelparams.cell_xml)
-    #Load parametric locations file
-    assert osp.isfile(self.modelparams.paramlocsfile), "Parametric locations file does not exist: %s"%self.modelparams.paramlocsfile
-    self.parametric_locations=common.readyaml(self.modelparams.paramlocsfile)
+    #Load mesh metadata file
+    assert osp.isfile(self.modelparams.meshmetafile), "Mesh metadata file does not exist: %s"%self.modelparams.meshmetafile
+    self.mesh_metadata=common.readyaml(self.modelparams.meshmetafile)
     return
 
   @classmethod
@@ -204,9 +204,9 @@ class GenericSolver(object):
 
     #Put results into info
     self.info['results']=self.results
-    #If present, add parametric locations
-    if hasattr(self,'parametric_locations'):
-      self.info['parametric_locations']=self.parametric_locations
+    #If present, add mesh metadata
+    if hasattr(self,'mesh_metadata'):
+      self.info['mesh_metadata']=self.mesh_metadata
     #Write output files if requested
     if self.diskwrite:
       common.writeyaml(self.info,osp.join(self.outdir,'info.yaml'))
@@ -266,66 +266,66 @@ class GenericSolver(object):
     self.results[name]=calcarea
     return
 
-def get_pointcoords(self,location):
-  """Process a location specifier.
-  Arguments:
-    location = specifier of location within the mesh
-      This should be a tuple, with length matching the problem dimensions.
-      Each entry is either a number or a string.
-      Numbers represent physical coordinates within the mesh.
-      Strings are replaced with the corresponding entry from the parametric locations dictionary.
-        (which is a required attributed in that case)
-  Required attributes:
-    parametric_locations = only required if needed by location specifiers, dictionary of parametric locations
-  Returns:
-    coords = the converted tuple"""
-  coords=tuple()
-  for v in location:
-    if type(v)==str:
-      v=self.parametric_locations[v]
-    coords+=(v,)
-  return coords
+  def get_pointcoords(self,location):
+    """Process a location specifier.
+    Arguments:
+      location = specifier of location within the mesh
+        This should be a tuple, with length matching the problem dimensions.
+        Each entry is either a number or a string.
+        Numbers represent physical coordinates within the mesh.
+        Strings are replaced with the corresponding entry from the mesh metadata dictionary.
+          (which is a required attributed in that case)
+    Required attributes:
+      mesh_metadata = only required if needed by location specifiers, dictionary of mesh metadata
+    Returns:
+      coords = the converted tuple"""
+    coords=tuple()
+    for v in location:
+      if type(v)==str:
+        v=self.mesh_metadata[v]
+      coords+=(v,)
+    return coords
 
-def line_profile(self,startloc,endloc,num,indep,plotname,label,attrname='soln',idx=None):
-  """Get data to plot a result along the midline at a single point in time
-  Arguments:
-    startloc = argument to get_pointcoords for start of line
-    endloc = argument to get_pointcoords for end of line
-    num = number of sampled points
-    indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based)
-    plotname = name of plot in outdata.plots, as string
-    label = series label to assign, as string
-    attrname = name of attribute to output, as string, defaults to 'soln'
-  Required attributes:
-    outdata = instance of OutData
-    parametric_locations = only required if needed by location specifiers, dictionary of parametric locations
-  No new attributes.
-  Nothing added to results dictionary.
-  No return value.
-  Series is added to `outdata.plots`."""
-  #Get the object with the data
-  vals=getattr(self,attrname)
-  if idx is not None:
-    vals = vals[idx]
-  #Get the points for data extraction
-  assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
-  startcoords=self.get_pointcoords(startloc)
-  endcoords=self.get_pointcoords(endloc)
-  start_ends=[itm for itm in zip(startcoords,endcoords)]
-  ranges=[np.linspace(start,end,num) for start,end in start_ends]
-  points=[t for t in zip(*ranges)]
-  #Extract data points
-  llist=[]
-  vlist=[]
-  for pt in points:
-    llist.append(pt[indep])
-    vlist.append(vals(*pt))
-  #Create PlotSeries
-  larr=np.array(llist)
-  varr=np.array(vlist)
-  series=plotdata.PlotSeries(xvals=larr,yvals=varr,label=label)
-  #Store data
-  if not plotname in self.outdata.plots.keys():
-    self.outdata.plots[plotname]=[]
-  self.outdata.plots[plotname].append(series)
-  return
+  def line_profile(self,startloc,endloc,num,indep,plotname,label,attrname='soln',idx=None):
+    """Get data to plot a result along the midline at a single point in time
+    Arguments:
+      startloc = argument to get_pointcoords for start of line
+      endloc = argument to get_pointcoords for end of line
+      num = number of sampled points
+      indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based)
+      plotname = name of plot in outdata.plots, as string
+      label = series label to assign, as string
+      attrname = name of attribute to output, as string, defaults to 'soln'
+    Required attributes:
+      outdata = instance of OutData
+      mesh_metadata = only required if needed by location specifiers, dictionary of mesh metadata
+    No new attributes.
+    Nothing added to results dictionary.
+    No return value.
+    Series is added to `outdata.plots`."""
+    #Get the object with the data
+    vals=getattr(self,attrname)
+    if idx is not None:
+      vals = vals[idx]
+    #Get the points for data extraction
+    assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
+    startcoords=self.get_pointcoords(startloc)
+    endcoords=self.get_pointcoords(endloc)
+    start_ends=[itm for itm in zip(startcoords,endcoords)]
+    ranges=[np.linspace(start,end,num) for start,end in start_ends]
+    points=[t for t in zip(*ranges)]
+    #Extract data points
+    llist=[]
+    vlist=[]
+    for pt in points:
+      llist.append(pt[indep])
+      vlist.append(vals(*pt))
+    #Create PlotSeries
+    larr=np.array(llist)
+    varr=np.array(vlist)
+    series=plotdata.PlotSeries(xvals=larr,yvals=varr,label=label)
+    #Store data
+    if not plotname in self.outdata.plots.keys():
+      self.outdata.plots[plotname]=[]
+    self.outdata.plots[plotname].append(series)
+    return

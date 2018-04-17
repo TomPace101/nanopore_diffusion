@@ -12,7 +12,7 @@ data/mesh/geo/*/
 data/mesh/msh/*/
 data/mesh/xml/*/
 data/mesh/gmsh_out/*/
-data/mesh/paramlocs/*/
+data/mesh/metadata/*/
 
 #FEM output
 data/solutions/*/

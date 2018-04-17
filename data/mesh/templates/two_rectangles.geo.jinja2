@@ -18,12 +18,12 @@ Y1=0;
 Y2=(1-alpha1)*Ly;
 Y3=Ly;
 
-//Parametric locations output
-Printf("# Parametric locations output") > paramlocsfile;
-Printf("X1: %f", X1) >> paramlocsfile;
-Printf("X2: %f", X2) >> paramlocsfile;
-Printf("Y1: %f", Y1) >> paramlocsfile;
-Printf("Y2: %f", Y2) >> paramlocsfile;
-Printf("Y3: %f", Y3) >> paramlocsfile;
-Printf("Xmid: %f", Lx/2) >> paramlocsfile;
+//Mesh metadata output
+Printf("# Mesh metadata output") > meshmetafile;
+Printf("X1: %f", X1) >> meshmetafile;
+Printf("X2: %f", X2) >> meshmetafile;
+Printf("Y1: %f", Y1) >> meshmetafile;
+Printf("Y2: %f", Y2) >> meshmetafile;
+Printf("Y3: %f", Y3) >> meshmetafile;
+Printf("Xmid: %f", Lx/2) >> meshmetafile;
 {% endblock %}

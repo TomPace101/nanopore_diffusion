@@ -44,8 +44,8 @@ class ModelParameters(solver_general.ModelParametersBase):
     meshparams = instance of buildgeom.MeshParameters
     xmlfolder = path to xml input files for mesh
     mesh_xml, facet_xml, cell_xml = various mesh input xml files, full paths, as strings
-    paramlocsfile = parametric locations file"""
-  __slots__=('solverclass','meshparams','xmlfolder','mesh_xml','facet_xml','cell_xml','paramlocsfile','_more_inputfiles','_more_outputfiles')
+    meshmetafile = mesh metadata file"""
+  __slots__=('solverclass','meshparams','xmlfolder','mesh_xml','facet_xml','cell_xml','meshmetafile','_more_inputfiles','_more_outputfiles')
   _folders={'meshparamsfile':FS.params_mesh_folder}
   #don't need sourcefile as input file due to config
   _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml']
@@ -85,10 +85,9 @@ class ModelParameters(solver_general.ModelParametersBase):
     self.mesh_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'.xml')
     self.facet_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_facet_region.xml')
     self.cell_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_physical_region.xml')
-    #Get parametric locations file
-    self.paramlocsfile=osp.join(FS.paramlocs_outfolder,self.meshparams.basename,self.meshparams.meshname+'.yaml')
-    if osp.isfile(self.paramlocsfile):
-      self._more_inputfiles.append(self.paramlocsfile)
+    #Get mesh metadata file
+    self.meshmetafile=osp.join(FS.meshmeta_outfolder,self.meshparams.basename,self.meshparams.meshname+'.yaml')
+    self._more_inputfiles.append(self.meshmetafile)
     #Get output files
     outfiles=['info.yaml']
     outfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
