@@ -74,7 +74,7 @@ will have a '.keep' file to force `git` to include the directory itself.
         - gmsh_out: storage place for `gmsh` terminal output
         - msh: storage place for `gmsh` .msh files
         - xml: storage place for xml files readable by `FEniCS`
-    - paramgen: storage place for templates used in parameter generation
+    - paramgen_tmpl: storage place for templates used in parameter generation
     - params: storage place for parameter sets
         - mesh: storage place for mesh definition parameters
         - model: storage place for model definition parameters

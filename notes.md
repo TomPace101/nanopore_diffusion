@@ -25,6 +25,9 @@ For example, maybe we want the cell area and pore area computed.
 They have to be somehow for certain post-processing functions.
 So maybe it just makes the most sense to go ahead and do it in gmsh.
 That also makes sure that you only compute properties that are valid for a given geometry.
+So maybe we should come up with another name.
+'meshparams' is already taken.
+meshinfo?
 
 # homogenization (exotic-earth)
 
