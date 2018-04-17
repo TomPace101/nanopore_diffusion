@@ -23,6 +23,7 @@ class VaryingPropertyByCell(fem.Expression):
       for j in range(2):
         values[2*j+i]=self.prop_map[key][i,j]
 
+##TODO: replace with fully periodic boundary condition using `near`
 class PeriodicBoundary(fem.SubDomain):
   "Copied from FEniCS example"
   # Left boundary is "target domain" G

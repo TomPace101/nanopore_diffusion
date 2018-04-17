@@ -12,8 +12,13 @@ I need to tell it the base name folder and the mesh file name.
 The other place it is used is to hold the mesh template values.
 _TODO_ output_eff should be refactored to use parameteric locations for this instead.
 - replace all calls in dataextraction to profile_centerline and profile_radial with line_profile, then delete those two functions
-- effective_diffusion
+- effective_diffusion (needs sampling points specified)
 - volfrac
+These last two require new values:
+- pore area (full and model)
+- cell area (full and model)
+- maybe just go ahead and put the original parameters in there as well
+Don't forget to update paramgen files as well as model input files.
 
 Maybe instead of taking as an argument the mesh parameters file,
 it should be the folder name (base name) where the file with the given meshname is found.
@@ -28,6 +33,15 @@ That also makes sure that you only compute properties that are valid for a given
 So maybe we should come up with another name.
 'meshparams' is already taken.
 meshinfo?
+meshvals?
+Mesh metadata: meta
+
+Overall steps:
+- rename paramlocs and test
+- refactor output_eff as indicated above
+- remove tmplvalues
+- changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
+- completely remove meshparams from GenericSolver
 
 # homogenization (exotic-earth)
 
@@ -36,6 +50,7 @@ _TODO_ then do data collection and plotting
 
 Then, we need to try to abstract/generalize this more, somehow.
 - can we set up a general structure for rectangular periodic boundaries?
+- spatial variation in diffusion matrices? or properties that vary by cell as a generalization of that?
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
@@ -364,6 +379,10 @@ Each instance of the metaclass (the schema-based classes)
 have a method that can check their current state against the schema.
 This method should be called at the end of their init.
 You would want them to inherit from ParameterSet or something like it, still.
+
+_MAYBE_ can we come up with a better name for paramgen_tmpl?
+- 'templates' is too generic: these are specifically for paramgen
+- but we don't want anything that starts with 'paramgen' as its too close to 'params'
 
 # Problem Description
 
