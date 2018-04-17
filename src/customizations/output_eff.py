@@ -98,43 +98,38 @@ def volfrac(self,name):
   self.results[name]=np.pi*self.tmplvalues['R']**2/(4*self.tmplvalues['Lx']*self.tmplvalues['Ly'])
   return
 
-#TODO: make use of paramlocs, idx (see output_td.line_profile)
-def profile_centerline(self,spacing,plotname,label,attrname='soln'):
-  """Data for plot of solution profile along centerline
+#We could generalize this by specifying:
+# - a center point
+# - an axis of rotation defining the plane
+# - a point to define the orientation of theta=0
+def profile_radial(self,zval,theta,num,plotname,label,attrname='soln',idx=None):
+  """Data for plot of solution along radial line at specified Z, in specified direction
   Arguments:
-    spacing = distance between sampled points for line plots
+    zval = 
+    theta = theta-angle in degrees from x-axis, as float
+    num = number of sampled points
+    indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based)
     plotname = name of plot in outdata.plots, as string
     label = series label to assign, as string
     attrname = name of attribute to output, as string, defaults to 'soln'
   Required attributes:
     outdata = instance of OutData
-    tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
+    mesh_metadata = dictionary of mesh metadata
+      MUST contain radius under key 'R'
   No new attributes.
   Nothing added to results dictionary.
   No return value.
   Series is added to `outdata.plots`."""
-  #Get the object with the data
-  vals=getattr(self,attrname)
-  #Extract data points
-  zr=np.arange(0, 2*self.tmplvalues['H'] + self.tmplvalues['tm'], spacing)
-  zlist=[]
-  vlist=[]
-  for z in zr:
-    zlist.append(z)
-    tup=(0,0,z)
-    vlist.append(vals(*tup))
-  #Create PlotSeries
-  zarr=np.array(zlist)
-  varr=np.array(vlist)
-  series=plotdata.PlotSeries(xvals=zarr,yvals=varr,label=label)
-  #Store data
-  if not plotname in self.outdata.plots.keys():
-    self.outdata.plots[plotname]=[]
-  self.outdata.plots[plotname].append(series)
-  return
+  #Calculate start and end locations
+  startloc=(0,0,zval)
+  rads=np.radians(theta)
+  xend=self.mesh_metadata['R']*np.cos(rads)
+  yend=self.mesh_metadata['R']*np.sin(rads)
+  endloc=(xend,yend,zval)
+  #Call line_profile to finish
+  self.line_profile(startloc,endloc,num,plotname,label,attrname,None,idx)
 
-#TODO: make use of paramlocs, idx
-def profile_radial(self,spacing,plotname,label,theta,attrname='soln'):
+def OLD_profile_radial(self,spacing,plotname,label,theta,attrname='soln'):
   """Data for plot of solution along radial line at model mid-height, in specified direction
   Arguments:
     spacing = distance between sampled points for line plots

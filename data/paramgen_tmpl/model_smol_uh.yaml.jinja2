@@ -44,7 +44,7 @@ dataextraction:
   - [effective_diffusion, {name: Deff, totflux_name: {{ 'totflux_%02d'|format(fields.psurf_mid) -}} }]
   - [volfrac, {name: free_volume_frac}]
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
-  - [profile_radial, {spacing: 0.02, plotname: radial_c, label: 'concentration along theta=0 deg', theta: 0}]
-  - [profile_radial, {spacing: 0.02, plotname: radial_c, label: 'concentration along theta=45 deg', theta: 45}]
-  - [profile_radial, {spacing: 0.02, plotname: radial_c, label: 'concentration along theta=90 deg', theta: 90}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: 'concentration along theta=0 deg', theta: 0, zval: Z5}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: 'concentration along theta=45 deg', theta: 45, zval: Z5}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: 'concentration along theta=90 deg', theta: 90, zval: Z5}]
 {% endfor %}

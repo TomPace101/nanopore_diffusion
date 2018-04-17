@@ -286,13 +286,13 @@ class GenericSolver(object):
       coords+=(v,)
     return coords
 
-  def line_profile(self,startloc,endloc,num,indep,plotname,label,attrname='soln',idx=None):
+  def line_profile(self,startloc,endloc,num,plotname,label,attrname='soln',indep=None,idx=None):
     """Get data to plot a result along the midline at a single point in time
     Arguments:
       startloc = argument to get_pointcoords for start of line
       endloc = argument to get_pointcoords for end of line
       num = number of sampled points
-      indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based)
+      indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based) (omit to use distance from start point)
       plotname = name of plot in outdata.plots, as string
       label = series label to assign, as string
       attrname = name of attribute to output, as string, defaults to 'soln'
@@ -314,12 +314,20 @@ class GenericSolver(object):
     start_ends=[itm for itm in zip(startcoords,endcoords)]
     ranges=[np.linspace(start,end,num) for start,end in start_ends]
     points=[t for t in zip(*ranges)]
+    #Function to calculate independent variable for a given point
+    if indep is None:
+      indep_f = lambda pt: np.sqrt(sum([(startcoords[i]-c)**2 for i,c in enumerate(pt)]))
+    else:
+      indep_f = lambda pt: pt[indep]
     #Extract data points
     llist=[]
     vlist=[]
     for pt in points:
-      llist.append(pt[indep])
-      vlist.append(vals(*pt))
+      try:
+        vlist.append(vals(*pt))
+        llist.append(indep_f(pt))
+      except RuntimeError:
+        pass #point is not inside mesh; skip
     #Create PlotSeries
     larr=np.array(llist)
     varr=np.array(vlist)
