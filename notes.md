@@ -185,8 +185,6 @@ _TODO_ should common be split up into more than one module, possibly inside a pa
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?
 
-_TODO_ in buildgeom, validate geometric inputs (different formulas for different geometries)
-
 _TODO_ the LPB solver dataextraction output files don't get listed as targets currently.
 Search conditions (actually, it's immediate children) for dataextraction.
 

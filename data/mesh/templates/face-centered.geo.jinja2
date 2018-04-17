@@ -24,6 +24,17 @@ R={{ R }};
 H={{ H }};
 tm={{ tm }};
 
+//Check input validity
+If (R<=0 || H<=0 || tm <= 0)
+  Error("Geometric inputs must be positive: R=%f, H=%f, tm=%f",R,H,tm)
+EndIf
+If (Lx <= R || Ly <= R)
+  Error("Cell half-sides must be larger than radius: Lx=%f, Ly=%f, R=%f",Lx,Ly,R)
+EndIf
+If (Lx^2 + Ly^2 <= 4*R^2)
+  Error("Pores would overlap: Lx=%f, Ly=%f, R=%f",Lx,Ly,R)
+EndIf
+
 //Point ordinates
 X1=0;
 X2=R;
