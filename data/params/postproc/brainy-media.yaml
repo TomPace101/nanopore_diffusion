@@ -34,12 +34,10 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_c.pdf
     plotname: CL_c
-    prepfunctions:
-      - [prep_porelimits, {}]
     plotfunctions:
       - [plot_axmethod, {method: invert_xaxis}]
-      - [plot_vline, {locspec: [meshparams, H],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
-      - [plot_vline, {locspec: [meshparams, poretop_z],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+      - [plot_vline, {locspec: [mesh_metadata, Z2],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+      - [plot_vline, {locspec: [mesh_metadata, Z3],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
     xlabel: 'z (nm)'
     ylabel: 'concentration (mM)'
     title: 'Concentration Profile along Pore Centerline'

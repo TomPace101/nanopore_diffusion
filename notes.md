@@ -15,16 +15,17 @@ You'll need to explain how the various xml file names within that folder are cal
 since the meshname itself is not a filename.
 
 meshparams is also used in plotdata
-removal:
-__TODO__ figure this out
+- DONE: all postproc input files should switch from meshparams to mesh_metadata
+- DONE: all postproc input files: remove use of prep_porelimits
+- DONE: then edit plotdata.py to remove the few lines referencing meshparams
 
 Overall steps:
 - DONE: rename paramlocs and test
 - DONE: refactor output_eff as indicated above
 - DONE: remove tmplvalues in solver
+- DONE: refactor plotdata as indicated above
 - changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
 - completely remove meshparams from GenericSolver
-- refactor plotdata as indicated above
 - rerun brainy-media and thin-shot to test
 
 # homogenization (exotic-earth)

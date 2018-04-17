@@ -11,12 +11,10 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_phi.pdf
     plotname: CL_phi
-    prepfunctions:
-      - [prep_porelimits, {}]
     plotfunctions: &cl_plotfuncs
       - [plot_axmethod, {method: invert_xaxis}]
-      - [plot_vline, {locspec: [meshparams, H], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
-      - [plot_vline, {locspec: [meshparams, poretop_z], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+      - [plot_vline, {locspec: [mesh_metadata, Z2], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+      - [plot_vline, {locspec: [mesh_metadata, Z3], kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
     xlabel: 'z (nm)'
     ylabel: 'Electric Potential (V)'
     title: 'Electric Field Profile along Pore Centerline'
@@ -24,12 +22,10 @@ model_plots:
   - figsize: [11, 8.5]
     filename: profile_CL_c.pdf
     plotname: CL_c
-    prepfunctions:
-      - [prep_porelimits, {}]
     plotfunctions:
       - [plot_axmethod, {method: invert_xaxis}]
-      - [plot_vline, {locspec: [meshparams, H],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
-      - [plot_vline, {locspec: [meshparams, poretop_z],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+      - [plot_vline, {locspec: [mesh_metadata, Z2],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
+      - [plot_vline, {locspec: [mesh_metadata, Z3],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
     xlabel: 'z (nm)'
     ylabel: 'concentration (count/nm^3)'
     title: 'Concentration Profile along Pore Centerline'
@@ -38,7 +34,7 @@ model_plots:
     filename: radial_phi.pdf
     plotname: radial_phi
     plotfunctions:
-      - &poreboundary [plot_vline, {locspec: [meshparams, R],kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
+      - &poreboundary [plot_vline, {locspec: [mesh_metadata, R], kwargs: {label: 'Pore Boundary',color: 'k',linestyle: '--'}}]
       - [plot_hline, {locspec: [conditions, potential, conditions, dirichlet, 11],kwargs: {label: 'Potential at Pore Boundary',color: 'k',linestyle: ":"}}]
       - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
     xlabel: 'Radial Distance (nm)'
