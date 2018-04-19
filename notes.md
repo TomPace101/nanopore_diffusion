@@ -1,36 +1,6 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
-_TODO_ Why does the solver module need MeshParameters? Or does it really just need paramlocs instead?
-Interestingly, ModelParameters now loads the MeshParameters itself.
-It needs the basename in order to calculate the xmlfolder,
-and the location of the parametric locations file.
-The mesh files are used as input files, so there's no need to rely on the meshparams for dependency checking.
-The question is, how do we want this to work if I want to specify a mesh file generated some other way.
-I need to tell it the base name folder and the mesh file name.
-
-Maybe instead of taking as an argument the mesh parameters file,
-it should be the folder name (base name) where the file with the given meshname is found.
-You'll need to explain how the various xml file names within that folder are calculated from the meshname,
-since the meshname itself is not a filename.
-OR, we could just assume that the basename for the mesh is the same as the basename for the model.
-Then there's no need for a parameter at all.
-When would that fail?
-It would fail if there was a case where a single model file with multiple models
-(which will all have the same basename)
-required meshes that were in different folders.
-Not impossible, but it seems unlikely.
-DECISION: go with same basename for now.
-
-Overall steps:
-- DONE: rename paramlocs and test
-- DONE: refactor output_eff as indicated above
-- DONE: remove tmplvalues in solver
-- DONE: refactor plotdata as indicated above
-- DONE: changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
-- DONE: completely remove meshparams from GenericSolver and all derived solvers
-- DONE: rerun brainy-media and thin-shot to test
-
 # homogenization (exotic-earth)
 
 _TODO_ do data extraction so we can actually use the results
@@ -372,8 +342,53 @@ _MAYBE_ can we come up with a better name for paramgen_tmpl?
 
 # Problem Description
 
-We need to reconsider this whole approach.
+We need to reconsider this whole approach to the document.
+The various goals are:
+- document the math behind the code
+- document the code itself
+- document the specific analyses performed with the code, including possibly validation problems
 
+This suggests that perhaps we should be using sphinx.
+Of course, it can't take latex files as input.
+(except when building latex output:
+  https://stackoverflow.com/questions/45064321/sphinx-including-tex-file-via-raw-latex?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+There is a possibility of citing references from sphinx:
+https://sphinxcontrib-bibtex.readthedocs.io
+
+We really want this to be modular.
+Right now it's kind of all mixed together.
+
+Documentation of specific analyses:
+- geometry
+- mesh (see below)
+- specifics of general equations from the math derivation (e.g. specific reaction rate functions)
+- input values of constants, in some cases (e.g. eps_r, beta or T, etc.)
+- expected results
+- actual results (which require that the model has been run)
+
+So how do we modularize weak forms, time-domain calculations, etc.
+For example, sometimes we have special cases:
+- steady-state instead of time-domain
+- isotropic instead of general diffusion matrix
+- linearization of a nonlinear equation
+
+So maybe we start with a general equation, and then do special cases?
+Really, it's more like we want to specify re-usable elements of equations.
+For example, I only want to derive the PNP weak form from the PDE once.
+I want to be able to re-use that same weak form in steady-state problems,
+and time-domain problems.
+I may do different linearizations on it.
+So where does a particular linearization of a particular weak form,
+particularly steady-state or with a particular time discretization go?
+We need general forms of all these things,
+which those special cases then reference.
+So in terms of order, we need the most general concepts first,
+followed by special cases.
+That is, we need general discussion of linearization
+before we linearize a particular equation.
+
+The first step in this process would be to just start using sphinx in general to document the code.
+Then you can figure out how to bring the other materials in.
 
 _TODO_ bring in references from Zotero.
 
