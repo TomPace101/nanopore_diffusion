@@ -1,6 +1,15 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
+_TODO_ set up validation tests
+These are problems where you know the right answer,
+used as regression testing for the code overall.
+exotic-earth is such.
+In particular, we need code to compare the output of such a test to expected values.
+
+_TODO_ start using sphinx
+(there is discussion below about what to do after this)
+
 # homogenization (exotic-earth)
 
 _TODO_ do data extraction so we can actually use the results
@@ -9,6 +18,8 @@ _TODO_ then do data collection and plotting
 Then, we need to try to abstract/generalize this more, somehow.
 - can we set up a general structure for rectangular periodic boundaries?
 - spatial variation in diffusion matrices? or properties that vary by cell as a generalization of that?
+
+_TODO_ set up as a validation test (see above)
 
 # ill-sleep (and debug of the PNP-reaction solver)
 
