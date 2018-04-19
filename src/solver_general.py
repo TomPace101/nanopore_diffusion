@@ -83,7 +83,7 @@ class GenericSolver(object):
   Derived classes should, at a minimum:
     - override __init__ to set up the variational problem (it's ok to use super() to set up the mesh)
     - implement a "solve" method to generate the solution
-  and other data needed by their data extraction functions.
+      and other data needed by their data extraction functions.
   Subclasses may choose to override the extraction functions provided here.
   Attributes:
     modelparams = solver_run.ModelParameters instance
