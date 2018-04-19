@@ -46,7 +46,6 @@ class ModelParametersBase(common.ParameterSet):
   Attributes:
     To be read in from file:
       modelname = stem name for output files
-      meshparamsfile = name of yaml file containing the mesh defined by meshname (include .yaml extension)
       meshname = stem name for mesh files
       equation = name of equation to be solved
       properties = dictionary of property values
@@ -64,8 +63,8 @@ class ModelParametersBase(common.ParameterSet):
       customizations = parameters specifying an instance of SolverCustomizations
     To be calculated from methods:
       outdir = folder containing output files"""
-  __slots__=('modelname','meshparamsfile','meshname','equation','conditions','dataextraction','datasteps','customizations','outdir')
-  _required_attrs=['modelname','meshparamsfile','meshname','equation','conditions']
+  __slots__=('modelname','meshname','equation','conditions','dataextraction','datasteps','customizations','outdir')
+  _required_attrs=['modelname','meshname','equation','conditions']
   _config_attrs=['basename']+_required_attrs+['dataextraction','datasteps']
   _taskname_src_attr='modelname'
 
@@ -88,26 +87,22 @@ class GenericSolver(object):
   Subclasses may choose to override the extraction functions provided here.
   Attributes:
     modelparams = solver_run.ModelParameters instance
-    meshparams = buildgeom.MeshParameters instance
     mesh = FEniCS Mesh
     facets = FEniCS MeshFunction of gmsh Physical Surface number (3D) or Physical Line number (2D)
     cells = FEniCS MeshFunction of gmsh Physical Volume number (3D) or Physical Surface number (2D)
   """
-  def __init__(self,modelparams,meshparams):
+  def __init__(self,modelparams):
     """Initialize the solver by loading the Mesh and MeshFunctions.
     Arguments:
-      modelparams = solver_run.ModelParameters instance
-      meshparams = buildgeom.MeshParameters instance"""
+      modelparams = solver_run.ModelParameters instance"""
     #Store defining ParameterSet objects
     self.modelparams=modelparams
-    self.meshparams=meshparams
 
     #Initialize output attributes and intermediates
     self.diskwrite=True
     self.outdir=self.modelparams.outdir
     self.results={}
     self.info=self.modelparams.config_dict
-    self.info['meshparams']=self.meshparams.config_dict
     self.outdata=OutData(plots={})
     
     #Apply customizations

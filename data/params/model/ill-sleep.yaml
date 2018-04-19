@@ -7,7 +7,6 @@
 #Each document defines an instance of solver_general.ModelParameters
 ---
 modelname: ill-sleep_model
-meshparamsfile: ill-sleep.yaml
 meshname: ill-sleep_mesh
 equation: tdpnp_unhomog
 customizations:

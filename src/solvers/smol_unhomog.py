@@ -32,15 +32,14 @@ class LPBSolver(solver_general.GenericSolver):
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
-  def __init__(self,modelparams,meshparams,other):
+  def __init__(self,modelparams,other):
     """Initialize the model.
     Arguments:
       modelparams = solver_run.ModelParameters instance
-      meshparams = buildgeom.MeshParameters instance
       other = solver to get mesh from"""
 
     #Load parameters, init output, mesh setup
-    super(LPBSolver, self).__init__(modelparams,meshparams)
+    super(LPBSolver, self).__init__(modelparams)
 
     #Load mesh and meshfunctions
     self.mesh=other.mesh
@@ -125,14 +124,13 @@ class SUSolver(solver_general.GenericSolver):
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
-  def __init__(self,modelparams,meshparams):
+  def __init__(self,modelparams):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance
-      meshparams = buildgeom.MeshParameters instance"""
+      modelparams = solver_run.ModelParameters instance"""
 
     #Load parameters, init output, mesh setup
-    super(SUSolver, self).__init__(modelparams,meshparams)
+    super(SUSolver, self).__init__(modelparams)
     self.loadmesh()
 
     #Get conditions
@@ -148,10 +146,10 @@ class SUSolver(solver_general.GenericSolver):
 
     #Set up electric potential field
     potentialparams_dict=self.conditions.potential
-    for key in ['modelname','meshname','meshparamsfile','basename']:
+    for key in ['modelname','meshname','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
     potentialparams=solver_general.ModelParametersBase(**potentialparams_dict)
-    self.potsolv=potentialsolverclasses[potentialparams.equation](potentialparams,meshparams,self)
+    self.potsolv=potentialsolverclasses[potentialparams.equation](potentialparams,self)
     self.potsolv.diskwrite=False
     self.potsolv.solve()
     self.potsolv.create_output()

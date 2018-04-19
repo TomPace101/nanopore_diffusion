@@ -7,7 +7,6 @@
 #Each document defines an instance of solver_general.ModelParameters
 ---
 modelname: debug01
-meshparamsfile: debug.yaml
 meshname: debug
 equation: fickian_unhomog
 customizations:
@@ -27,7 +26,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: debug02
-meshparamsfile: debug.yaml
 meshname: debug
 equation: smol_unhomog
 customizations:
@@ -76,7 +74,6 @@ dataextraction:
   - [profile_radial, {num: 1000, plotname: radial_Dbar, label: 'Dbar along theta=90 deg', theta: 90, attrname: Dbar_proj, zval: Z5}]
 ---
 modelname: debug03
-meshparamsfile: debug.yaml
 meshname: debug2d
 equation: tdpnp_unhomog
 customizations:

@@ -34,7 +34,6 @@ outfile: model/thin-shot.yaml
 tmplfile: model_smol_uh.yaml.jinja2
 constfields:
   hrhash: thin-shot
-  meshparamsfile: thin-shot.yaml
   D_bulk: 1.0
   elementorder: 2
   psurf_top: 4

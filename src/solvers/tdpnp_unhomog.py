@@ -120,14 +120,13 @@ class TDPNPUSolver(solver_general.GenericSolver):
     FF = symbolic functional form, which is set equal to zero in the weak form equation
     J = symbolic Jacobian of FF
     k = current step number, as integer"""
-  def __init__(self,modelparams,meshparams):
+  def __init__(self,modelparams):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance
-      meshparams = buildgeom.MeshParameters instance"""
+      modelparams = solver_run.ModelParameters instance"""
 
     #Load parameters, init output, mesh setup
-    super(TDPNPUSolver, self).__init__(modelparams,meshparams)
+    super(TDPNPUSolver, self).__init__(modelparams)
     self.loadmesh()
 
     #Get conditions

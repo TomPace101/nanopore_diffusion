@@ -41,17 +41,12 @@ class ModelParameters(solver_general.ModelParametersBase):
   """Extend ModelParametersBase to allow for task generation and execution
   Attributes:
     solverclass = the class used to solve the model
-    meshparams = instance of buildgeom.MeshParameters
     xmlfolder = path to xml input files for mesh
     mesh_xml, facet_xml, cell_xml = various mesh input xml files, full paths, as strings
     meshmetafile = mesh metadata file"""
-  __slots__=('solverclass','meshparams','xmlfolder','mesh_xml','facet_xml','cell_xml','meshmetafile','_more_inputfiles','_more_outputfiles')
-  _folders={'meshparamsfile':FS.params_mesh_folder}
+  __slots__=('solverclass','xmlfolder','mesh_xml','facet_xml','cell_xml','meshmetafile','_more_inputfiles','_more_outputfiles')
   #don't need sourcefile as input file due to config
   _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml']
-  #Remember loaded meshes (parameters, not xml) so we aren't reading the same files over and over when solving multiple models
-  loaded_meshfiles=[]
-  loaded_meshes={}
   #Load the solver modules and map equation names to their solver classes
   #Mapping from ModelParameters.equation to the appropriate solver classes
   #Each module implementing a solver should define a solverclasses dictionary, so we just need to put them all together
@@ -63,14 +58,6 @@ class ModelParameters(solver_general.ModelParametersBase):
   def __init__(self,**kwd):
     #Initialization from base class
     super(ModelParameters, self).__init__(**kwd)
-    #Load the meshparameters file if not already loaded
-    if not self.meshparamsfile in self.loaded_meshfiles:
-      meshparams_gen=buildgeom.MeshParameters.all_from_yaml(self.full_path('meshparamsfile'))
-      for mp in meshparams_gen:
-        self.loaded_meshes[mp.meshname]=mp
-      self.loaded_meshfiles.append(self.meshparamsfile)
-    #Get the requested mesh
-    self.meshparams=self.loaded_meshes[self.meshname]
     #Now get the location of the XML 
     #Get the solver class
     self.solverclass=self.solverclasses[self.equation]
@@ -81,12 +68,12 @@ class ModelParameters(solver_general.ModelParametersBase):
       for modname in getattr(self.customizations,'modules',[]):
         self._more_inputfiles.append(osp.join(FS.custom_modules_folder,modname+'.py'))
     #Get XML files
-    self.xmlfolder=osp.join(FS.xmlfolder,self.meshparams.basename)
-    self.mesh_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'.xml')
-    self.facet_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_facet_region.xml')
-    self.cell_xml=osp.join(self.xmlfolder,self.meshparams.meshname+'_physical_region.xml')
+    self.xmlfolder=osp.join(FS.xmlfolder,self.basename)
+    self.mesh_xml=osp.join(self.xmlfolder,self.meshname+'.xml')
+    self.facet_xml=osp.join(self.xmlfolder,self.meshname+'_facet_region.xml')
+    self.cell_xml=osp.join(self.xmlfolder,self.meshname+'_physical_region.xml')
     #Get mesh metadata file
-    self.meshmetafile=osp.join(FS.meshmeta_outfolder,self.meshparams.basename,self.meshparams.meshname+'.yaml')
+    self.meshmetafile=osp.join(FS.meshmeta_outfolder,self.basename,self.meshname+'.yaml')
     self._more_inputfiles.append(self.meshmetafile)
     #Get output files
     outfiles=['info.yaml']
@@ -98,8 +85,7 @@ class ModelParameters(solver_general.ModelParametersBase):
     """Run the loaded model."""
     #Run the solver
     print(self.modelname)
-    self.solverclass.complete(self,self.meshparams)
-
+    self.solverclass.complete(self)
 
 #Support command-line arguments
 if __name__ == '__main__':

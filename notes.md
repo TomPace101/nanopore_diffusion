@@ -13,19 +13,22 @@ Maybe instead of taking as an argument the mesh parameters file,
 it should be the folder name (base name) where the file with the given meshname is found.
 You'll need to explain how the various xml file names within that folder are calculated from the meshname,
 since the meshname itself is not a filename.
-
-meshparams is also used in plotdata
-- DONE: all postproc input files should switch from meshparams to mesh_metadata
-- DONE: all postproc input files: remove use of prep_porelimits
-- DONE: then edit plotdata.py to remove the few lines referencing meshparams
+OR, we could just assume that the basename for the mesh is the same as the basename for the model.
+Then there's no need for a parameter at all.
+When would that fail?
+It would fail if there was a case where a single model file with multiple models
+(which will all have the same basename)
+required meshes that were in different folders.
+Not impossible, but it seems unlikely.
+DECISION: go with same basename for now.
 
 Overall steps:
 - DONE: rename paramlocs and test
 - DONE: refactor output_eff as indicated above
 - DONE: remove tmplvalues in solver
 - DONE: refactor plotdata as indicated above
-- changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
-- completely remove meshparams from GenericSolver
+- DONE: changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
+- DONE: completely remove meshparams from GenericSolver and all derived solvers
 - rerun brainy-media and thin-shot to test
 
 # homogenization (exotic-earth)

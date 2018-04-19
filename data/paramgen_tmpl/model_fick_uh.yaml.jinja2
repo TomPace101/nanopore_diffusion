@@ -11,7 +11,6 @@
 {% for fields in allfields %}
 ---
 modelname: {{ '%s_model_%03d'|format(fields.hrhash, fields.counter) }}
-meshparamsfile: {{ fields.meshparamsfile }}
 meshname: {{ fields.meshname }}
 equation: fickian_unhomog
 customizations:

@@ -14,7 +14,7 @@ rangefields:
 ---
 outfile: model/exotic-earth.yaml
 tmplfile: model_exotic-earth.yaml.jinja2
-constfields: {hrhash: exotic-earth, meshparamsfile: exotic-earth.yaml, elementorder: 3}
+constfields: {hrhash: exotic-earth, elementorder: 3}
 otherfiles:
   mesh/exotic-earth.yaml:
     meshname: [meshname]

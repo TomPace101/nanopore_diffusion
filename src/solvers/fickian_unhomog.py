@@ -30,14 +30,13 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     v = FEniCS TestFunction on V
     a = bilinear form in variational problem
     L = linear form in variational problem"""
-  def __init__(self,modelparams,meshparams):
+  def __init__(self,modelparams):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance
-      meshparams = buildgeom.MeshParameters instance"""
+      modelparams = solver_run.ModelParameters instance"""
 
     #Load parameters, init output, mesh setup
-    super(UnhomogFickianSolver, self).__init__(modelparams,meshparams)
+    super(UnhomogFickianSolver, self).__init__(modelparams)
     self.loadmesh()
 
     #Get conditions
