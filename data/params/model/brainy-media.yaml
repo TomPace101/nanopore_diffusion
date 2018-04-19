@@ -10,7 +10,6 @@
 
 ---
 modelname: brainy-media_model_001
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_001
 equation: fickian_unhomog
 customizations:
@@ -30,7 +29,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_002
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_002
 equation: fickian_unhomog
 customizations:
@@ -50,7 +48,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_003
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_003
 equation: fickian_unhomog
 customizations:
@@ -70,7 +67,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_004
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_004
 equation: fickian_unhomog
 customizations:
@@ -90,7 +86,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_005
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_005
 equation: fickian_unhomog
 customizations:
@@ -110,7 +105,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_006
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_006
 equation: fickian_unhomog
 customizations:
@@ -130,7 +124,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_007
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_007
 equation: fickian_unhomog
 customizations:
@@ -150,7 +143,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_008
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_008
 equation: fickian_unhomog
 customizations:
@@ -170,7 +162,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_009
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_009
 equation: fickian_unhomog
 customizations:
@@ -190,7 +181,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_010
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_010
 equation: fickian_unhomog
 customizations:
@@ -210,7 +200,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_011
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_011
 equation: fickian_unhomog
 customizations:
@@ -230,7 +219,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_012
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_012
 equation: fickian_unhomog
 customizations:
@@ -250,7 +238,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_013
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_013
 equation: fickian_unhomog
 customizations:
@@ -270,7 +257,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_014
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_014
 equation: fickian_unhomog
 customizations:
@@ -290,7 +276,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_015
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_015
 equation: fickian_unhomog
 customizations:
@@ -310,7 +295,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_016
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_016
 equation: fickian_unhomog
 customizations:
@@ -330,7 +314,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_017
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_017
 equation: fickian_unhomog
 customizations:
@@ -350,7 +333,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_018
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_018
 equation: fickian_unhomog
 customizations:
@@ -370,7 +352,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_019
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_019
 equation: fickian_unhomog
 customizations:
@@ -390,7 +371,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_020
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_020
 equation: fickian_unhomog
 customizations:
@@ -410,7 +390,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_021
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_021
 equation: fickian_unhomog
 customizations:
@@ -430,7 +409,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_022
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_022
 equation: fickian_unhomog
 customizations:
@@ -450,7 +428,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_023
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_023
 equation: fickian_unhomog
 customizations:
@@ -470,7 +447,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_024
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_024
 equation: fickian_unhomog
 customizations:
@@ -490,7 +466,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_025
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_025
 equation: fickian_unhomog
 customizations:
@@ -510,7 +485,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_026
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_026
 equation: fickian_unhomog
 customizations:
@@ -530,7 +504,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_027
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_027
 equation: fickian_unhomog
 customizations:
@@ -550,7 +523,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_028
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_028
 equation: fickian_unhomog
 customizations:
@@ -570,7 +542,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_029
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_029
 equation: fickian_unhomog
 customizations:
@@ -590,7 +561,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_030
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_030
 equation: fickian_unhomog
 customizations:
@@ -610,7 +580,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_031
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_031
 equation: fickian_unhomog
 customizations:
@@ -630,7 +599,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_032
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_032
 equation: fickian_unhomog
 customizations:
@@ -650,7 +618,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_033
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_033
 equation: fickian_unhomog
 customizations:
@@ -670,7 +637,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_034
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_034
 equation: fickian_unhomog
 customizations:
@@ -690,7 +656,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_035
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_035
 equation: fickian_unhomog
 customizations:
@@ -710,7 +675,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_036
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_036
 equation: fickian_unhomog
 customizations:
@@ -730,7 +694,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_037
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_037
 equation: fickian_unhomog
 customizations:
@@ -750,7 +713,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_038
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_038
 equation: fickian_unhomog
 customizations:
@@ -770,7 +732,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_039
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_039
 equation: fickian_unhomog
 customizations:
@@ -790,7 +751,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_040
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_040
 equation: fickian_unhomog
 customizations:
@@ -810,7 +770,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_041
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_041
 equation: fickian_unhomog
 customizations:
@@ -830,7 +789,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_042
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_042
 equation: fickian_unhomog
 customizations:
@@ -850,7 +808,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_043
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_043
 equation: fickian_unhomog
 customizations:
@@ -870,7 +827,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_044
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_044
 equation: fickian_unhomog
 customizations:
@@ -890,7 +846,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_045
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_045
 equation: fickian_unhomog
 customizations:
@@ -910,7 +865,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_046
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_046
 equation: fickian_unhomog
 customizations:
@@ -930,7 +884,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_047
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_047
 equation: fickian_unhomog
 customizations:
@@ -950,7 +903,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_048
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_048
 equation: fickian_unhomog
 customizations:
@@ -970,7 +922,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_049
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_049
 equation: fickian_unhomog
 customizations:
@@ -990,7 +941,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_050
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_050
 equation: fickian_unhomog
 customizations:
@@ -1010,7 +960,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_051
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_051
 equation: fickian_unhomog
 customizations:
@@ -1030,7 +979,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_052
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_052
 equation: fickian_unhomog
 customizations:
@@ -1050,7 +998,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_053
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_053
 equation: fickian_unhomog
 customizations:
@@ -1070,7 +1017,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_054
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_054
 equation: fickian_unhomog
 customizations:
@@ -1090,7 +1036,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_055
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_055
 equation: fickian_unhomog
 customizations:
@@ -1110,7 +1055,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_056
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_056
 equation: fickian_unhomog
 customizations:
@@ -1130,7 +1074,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_057
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_057
 equation: fickian_unhomog
 customizations:
@@ -1150,7 +1093,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_058
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_058
 equation: fickian_unhomog
 customizations:
@@ -1170,7 +1112,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_059
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_059
 equation: fickian_unhomog
 customizations:
@@ -1190,7 +1131,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_060
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_060
 equation: fickian_unhomog
 customizations:
@@ -1210,7 +1150,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_061
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_061
 equation: fickian_unhomog
 customizations:
@@ -1230,7 +1169,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_062
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_062
 equation: fickian_unhomog
 customizations:
@@ -1250,7 +1188,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_063
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_063
 equation: fickian_unhomog
 customizations:
@@ -1270,7 +1207,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_064
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_064
 equation: fickian_unhomog
 customizations:
@@ -1290,7 +1226,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_065
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_065
 equation: fickian_unhomog
 customizations:
@@ -1310,7 +1245,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_066
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_066
 equation: fickian_unhomog
 customizations:
@@ -1330,7 +1264,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_067
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_067
 equation: fickian_unhomog
 customizations:
@@ -1350,7 +1283,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_068
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_068
 equation: fickian_unhomog
 customizations:
@@ -1370,7 +1302,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_069
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_069
 equation: fickian_unhomog
 customizations:
@@ -1390,7 +1321,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_070
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_070
 equation: fickian_unhomog
 customizations:
@@ -1410,7 +1340,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_071
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_071
 equation: fickian_unhomog
 customizations:
@@ -1430,7 +1359,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_072
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_072
 equation: fickian_unhomog
 customizations:
@@ -1450,7 +1378,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_073
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_073
 equation: fickian_unhomog
 customizations:
@@ -1470,7 +1397,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_074
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_074
 equation: fickian_unhomog
 customizations:
@@ -1490,7 +1416,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_075
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_075
 equation: fickian_unhomog
 customizations:
@@ -1510,7 +1435,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_076
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_076
 equation: fickian_unhomog
 customizations:
@@ -1530,7 +1454,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_077
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_077
 equation: fickian_unhomog
 customizations:
@@ -1550,7 +1473,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_078
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_078
 equation: fickian_unhomog
 customizations:
@@ -1570,7 +1492,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_079
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_079
 equation: fickian_unhomog
 customizations:
@@ -1590,7 +1511,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_080
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_080
 equation: fickian_unhomog
 customizations:
@@ -1610,7 +1530,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_081
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_081
 equation: fickian_unhomog
 customizations:
@@ -1630,7 +1549,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_082
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_082
 equation: fickian_unhomog
 customizations:
@@ -1650,7 +1568,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_083
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_083
 equation: fickian_unhomog
 customizations:
@@ -1670,7 +1587,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_084
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_084
 equation: fickian_unhomog
 customizations:
@@ -1690,7 +1606,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_085
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_085
 equation: fickian_unhomog
 customizations:
@@ -1710,7 +1625,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_086
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_086
 equation: fickian_unhomog
 customizations:
@@ -1730,7 +1644,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_087
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_087
 equation: fickian_unhomog
 customizations:
@@ -1750,7 +1663,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_088
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_088
 equation: fickian_unhomog
 customizations:
@@ -1770,7 +1682,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_089
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_089
 equation: fickian_unhomog
 customizations:
@@ -1790,7 +1701,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_090
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_090
 equation: fickian_unhomog
 customizations:
@@ -1810,7 +1720,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_091
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_091
 equation: fickian_unhomog
 customizations:
@@ -1830,7 +1739,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_092
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_092
 equation: fickian_unhomog
 customizations:
@@ -1850,7 +1758,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_093
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_093
 equation: fickian_unhomog
 customizations:
@@ -1870,7 +1777,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_094
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_094
 equation: fickian_unhomog
 customizations:
@@ -1890,7 +1796,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_095
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_095
 equation: fickian_unhomog
 customizations:
@@ -1910,7 +1815,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_096
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_096
 equation: fickian_unhomog
 customizations:
@@ -1930,7 +1834,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_097
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_097
 equation: fickian_unhomog
 customizations:
@@ -1950,7 +1853,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_098
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_098
 equation: fickian_unhomog
 customizations:
@@ -1970,7 +1872,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_099
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_099
 equation: fickian_unhomog
 customizations:
@@ -1990,7 +1891,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_100
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_100
 equation: fickian_unhomog
 customizations:
@@ -2010,7 +1910,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_101
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_101
 equation: fickian_unhomog
 customizations:
@@ -2030,7 +1929,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_102
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_102
 equation: fickian_unhomog
 customizations:
@@ -2050,7 +1948,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_103
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_103
 equation: fickian_unhomog
 customizations:
@@ -2070,7 +1967,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_104
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_104
 equation: fickian_unhomog
 customizations:
@@ -2090,7 +1986,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_105
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_105
 equation: fickian_unhomog
 customizations:
@@ -2110,7 +2005,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_106
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_106
 equation: fickian_unhomog
 customizations:
@@ -2130,7 +2024,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_107
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_107
 equation: fickian_unhomog
 customizations:
@@ -2150,7 +2043,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_108
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_108
 equation: fickian_unhomog
 customizations:
@@ -2170,7 +2062,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_109
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_109
 equation: fickian_unhomog
 customizations:
@@ -2190,7 +2081,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_110
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_110
 equation: fickian_unhomog
 customizations:
@@ -2210,7 +2100,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_111
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_111
 equation: fickian_unhomog
 customizations:
@@ -2230,7 +2119,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_112
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_112
 equation: fickian_unhomog
 customizations:
@@ -2250,7 +2138,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_113
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_113
 equation: fickian_unhomog
 customizations:
@@ -2270,7 +2157,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_114
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_114
 equation: fickian_unhomog
 customizations:
@@ -2290,7 +2176,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_115
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_115
 equation: fickian_unhomog
 customizations:
@@ -2310,7 +2195,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_116
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_116
 equation: fickian_unhomog
 customizations:
@@ -2330,7 +2214,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_117
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_117
 equation: fickian_unhomog
 customizations:
@@ -2350,7 +2233,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_118
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_118
 equation: fickian_unhomog
 customizations:
@@ -2370,7 +2252,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_119
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_001
 equation: fickian_unhomog
 customizations:
@@ -2390,7 +2271,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_120
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_002
 equation: fickian_unhomog
 customizations:
@@ -2410,7 +2290,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_121
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_003
 equation: fickian_unhomog
 customizations:
@@ -2430,7 +2309,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_122
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_004
 equation: fickian_unhomog
 customizations:
@@ -2450,7 +2328,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_123
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_005
 equation: fickian_unhomog
 customizations:
@@ -2470,7 +2347,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_124
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_006
 equation: fickian_unhomog
 customizations:
@@ -2490,7 +2366,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_125
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_007
 equation: fickian_unhomog
 customizations:
@@ -2510,7 +2385,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_126
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_008
 equation: fickian_unhomog
 customizations:
@@ -2530,7 +2404,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_127
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_009
 equation: fickian_unhomog
 customizations:
@@ -2550,7 +2423,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_128
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_010
 equation: fickian_unhomog
 customizations:
@@ -2570,7 +2442,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_129
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_011
 equation: fickian_unhomog
 customizations:
@@ -2590,7 +2461,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_130
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_012
 equation: fickian_unhomog
 customizations:
@@ -2610,7 +2480,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_131
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_013
 equation: fickian_unhomog
 customizations:
@@ -2630,7 +2499,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_132
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_014
 equation: fickian_unhomog
 customizations:
@@ -2650,7 +2518,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_133
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_015
 equation: fickian_unhomog
 customizations:
@@ -2670,7 +2537,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_134
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_016
 equation: fickian_unhomog
 customizations:
@@ -2690,7 +2556,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_135
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_017
 equation: fickian_unhomog
 customizations:
@@ -2710,7 +2575,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_136
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_018
 equation: fickian_unhomog
 customizations:
@@ -2730,7 +2594,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_137
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_019
 equation: fickian_unhomog
 customizations:
@@ -2750,7 +2613,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_138
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_020
 equation: fickian_unhomog
 customizations:
@@ -2770,7 +2632,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_139
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_021
 equation: fickian_unhomog
 customizations:
@@ -2790,7 +2651,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_140
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_022
 equation: fickian_unhomog
 customizations:
@@ -2810,7 +2670,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_141
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_023
 equation: fickian_unhomog
 customizations:
@@ -2830,7 +2689,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_142
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_024
 equation: fickian_unhomog
 customizations:
@@ -2850,7 +2708,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_143
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_025
 equation: fickian_unhomog
 customizations:
@@ -2870,7 +2727,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_144
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_026
 equation: fickian_unhomog
 customizations:
@@ -2890,7 +2746,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_145
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_027
 equation: fickian_unhomog
 customizations:
@@ -2910,7 +2765,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_146
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_028
 equation: fickian_unhomog
 customizations:
@@ -2930,7 +2784,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_147
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_029
 equation: fickian_unhomog
 customizations:
@@ -2950,7 +2803,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_148
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_030
 equation: fickian_unhomog
 customizations:
@@ -2970,7 +2822,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_149
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_031
 equation: fickian_unhomog
 customizations:
@@ -2990,7 +2841,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_150
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_032
 equation: fickian_unhomog
 customizations:
@@ -3010,7 +2860,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_151
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_033
 equation: fickian_unhomog
 customizations:
@@ -3030,7 +2879,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_152
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_034
 equation: fickian_unhomog
 customizations:
@@ -3050,7 +2898,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_153
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_035
 equation: fickian_unhomog
 customizations:
@@ -3070,7 +2917,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_154
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_036
 equation: fickian_unhomog
 customizations:
@@ -3090,7 +2936,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_155
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_037
 equation: fickian_unhomog
 customizations:
@@ -3110,7 +2955,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_156
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_038
 equation: fickian_unhomog
 customizations:
@@ -3130,7 +2974,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_157
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_039
 equation: fickian_unhomog
 customizations:
@@ -3150,7 +2993,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_158
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_040
 equation: fickian_unhomog
 customizations:
@@ -3170,7 +3012,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_159
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_041
 equation: fickian_unhomog
 customizations:
@@ -3190,7 +3031,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_160
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_042
 equation: fickian_unhomog
 customizations:
@@ -3210,7 +3050,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_161
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_043
 equation: fickian_unhomog
 customizations:
@@ -3230,7 +3069,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_162
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_044
 equation: fickian_unhomog
 customizations:
@@ -3250,7 +3088,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_163
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_045
 equation: fickian_unhomog
 customizations:
@@ -3270,7 +3107,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_164
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_046
 equation: fickian_unhomog
 customizations:
@@ -3290,7 +3126,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_165
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_047
 equation: fickian_unhomog
 customizations:
@@ -3310,7 +3145,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_166
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_048
 equation: fickian_unhomog
 customizations:
@@ -3330,7 +3164,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_167
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_049
 equation: fickian_unhomog
 customizations:
@@ -3350,7 +3183,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_168
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_050
 equation: fickian_unhomog
 customizations:
@@ -3370,7 +3202,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_169
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_051
 equation: fickian_unhomog
 customizations:
@@ -3390,7 +3221,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_170
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_052
 equation: fickian_unhomog
 customizations:
@@ -3410,7 +3240,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_171
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_053
 equation: fickian_unhomog
 customizations:
@@ -3430,7 +3259,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_172
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_054
 equation: fickian_unhomog
 customizations:
@@ -3450,7 +3278,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_173
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_055
 equation: fickian_unhomog
 customizations:
@@ -3470,7 +3297,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_174
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_056
 equation: fickian_unhomog
 customizations:
@@ -3490,7 +3316,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_175
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_057
 equation: fickian_unhomog
 customizations:
@@ -3510,7 +3335,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_176
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_058
 equation: fickian_unhomog
 customizations:
@@ -3530,7 +3354,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_177
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_059
 equation: fickian_unhomog
 customizations:
@@ -3550,7 +3373,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_178
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_060
 equation: fickian_unhomog
 customizations:
@@ -3570,7 +3392,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_179
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_061
 equation: fickian_unhomog
 customizations:
@@ -3590,7 +3411,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_180
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_062
 equation: fickian_unhomog
 customizations:
@@ -3610,7 +3430,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_181
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_063
 equation: fickian_unhomog
 customizations:
@@ -3630,7 +3449,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_182
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_064
 equation: fickian_unhomog
 customizations:
@@ -3650,7 +3468,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_183
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_065
 equation: fickian_unhomog
 customizations:
@@ -3670,7 +3487,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_184
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_066
 equation: fickian_unhomog
 customizations:
@@ -3690,7 +3506,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_185
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_067
 equation: fickian_unhomog
 customizations:
@@ -3710,7 +3525,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_186
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_068
 equation: fickian_unhomog
 customizations:
@@ -3730,7 +3544,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_187
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_069
 equation: fickian_unhomog
 customizations:
@@ -3750,7 +3563,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_188
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_070
 equation: fickian_unhomog
 customizations:
@@ -3770,7 +3582,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_189
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_071
 equation: fickian_unhomog
 customizations:
@@ -3790,7 +3601,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_190
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_072
 equation: fickian_unhomog
 customizations:
@@ -3810,7 +3620,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_191
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_073
 equation: fickian_unhomog
 customizations:
@@ -3830,7 +3639,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_192
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_074
 equation: fickian_unhomog
 customizations:
@@ -3850,7 +3658,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_193
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_075
 equation: fickian_unhomog
 customizations:
@@ -3870,7 +3677,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_194
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_076
 equation: fickian_unhomog
 customizations:
@@ -3890,7 +3696,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_195
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_077
 equation: fickian_unhomog
 customizations:
@@ -3910,7 +3715,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_196
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_078
 equation: fickian_unhomog
 customizations:
@@ -3930,7 +3734,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_197
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_079
 equation: fickian_unhomog
 customizations:
@@ -3950,7 +3753,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_198
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_080
 equation: fickian_unhomog
 customizations:
@@ -3970,7 +3772,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_199
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_081
 equation: fickian_unhomog
 customizations:
@@ -3990,7 +3791,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_200
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_082
 equation: fickian_unhomog
 customizations:
@@ -4010,7 +3810,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_201
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_083
 equation: fickian_unhomog
 customizations:
@@ -4030,7 +3829,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_202
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_084
 equation: fickian_unhomog
 customizations:
@@ -4050,7 +3848,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_203
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_085
 equation: fickian_unhomog
 customizations:
@@ -4070,7 +3867,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_204
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_086
 equation: fickian_unhomog
 customizations:
@@ -4090,7 +3886,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_205
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_087
 equation: fickian_unhomog
 customizations:
@@ -4110,7 +3905,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_206
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_088
 equation: fickian_unhomog
 customizations:
@@ -4130,7 +3924,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_207
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_089
 equation: fickian_unhomog
 customizations:
@@ -4150,7 +3943,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_208
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_090
 equation: fickian_unhomog
 customizations:
@@ -4170,7 +3962,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_209
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_091
 equation: fickian_unhomog
 customizations:
@@ -4190,7 +3981,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_210
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_092
 equation: fickian_unhomog
 customizations:
@@ -4210,7 +4000,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_211
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_093
 equation: fickian_unhomog
 customizations:
@@ -4230,7 +4019,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_212
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_094
 equation: fickian_unhomog
 customizations:
@@ -4250,7 +4038,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_213
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_095
 equation: fickian_unhomog
 customizations:
@@ -4270,7 +4057,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_214
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_096
 equation: fickian_unhomog
 customizations:
@@ -4290,7 +4076,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_215
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_097
 equation: fickian_unhomog
 customizations:
@@ -4310,7 +4095,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_216
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_098
 equation: fickian_unhomog
 customizations:
@@ -4330,7 +4114,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_217
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_099
 equation: fickian_unhomog
 customizations:
@@ -4350,7 +4133,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_218
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_100
 equation: fickian_unhomog
 customizations:
@@ -4370,7 +4152,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_219
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_101
 equation: fickian_unhomog
 customizations:
@@ -4390,7 +4171,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_220
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_102
 equation: fickian_unhomog
 customizations:
@@ -4410,7 +4190,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_221
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_103
 equation: fickian_unhomog
 customizations:
@@ -4430,7 +4209,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_222
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_104
 equation: fickian_unhomog
 customizations:
@@ -4450,7 +4228,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_223
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_105
 equation: fickian_unhomog
 customizations:
@@ -4470,7 +4247,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_224
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_106
 equation: fickian_unhomog
 customizations:
@@ -4490,7 +4266,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_225
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_107
 equation: fickian_unhomog
 customizations:
@@ -4510,7 +4285,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_226
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_108
 equation: fickian_unhomog
 customizations:
@@ -4530,7 +4304,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_227
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_109
 equation: fickian_unhomog
 customizations:
@@ -4550,7 +4323,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_228
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_110
 equation: fickian_unhomog
 customizations:
@@ -4570,7 +4342,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_229
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_111
 equation: fickian_unhomog
 customizations:
@@ -4590,7 +4361,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_230
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_112
 equation: fickian_unhomog
 customizations:
@@ -4610,7 +4380,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_231
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_113
 equation: fickian_unhomog
 customizations:
@@ -4630,7 +4399,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_232
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_114
 equation: fickian_unhomog
 customizations:
@@ -4650,7 +4418,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_233
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_115
 equation: fickian_unhomog
 customizations:
@@ -4670,7 +4437,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_234
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_116
 equation: fickian_unhomog
 customizations:
@@ -4690,7 +4456,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_235
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_117
 equation: fickian_unhomog
 customizations:
@@ -4710,7 +4475,6 @@ dataextraction:
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
 modelname: brainy-media_model_236
-meshparamsfile: brainy-media.yaml
 meshname: brainy-media_mesh_118
 equation: fickian_unhomog
 customizations:

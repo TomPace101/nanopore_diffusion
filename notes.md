@@ -29,7 +29,7 @@ Overall steps:
 - DONE: refactor plotdata as indicated above
 - DONE: changes to modelparams `meshfile` attribute, to locate mesh files without loading meshparams (see above).
 - DONE: completely remove meshparams from GenericSolver and all derived solvers
-- rerun brainy-media and thin-shot to test
+- DONE: rerun brainy-media and thin-shot to test
 
 # homogenization (exotic-earth)
 
@@ -372,19 +372,22 @@ _MAYBE_ can we come up with a better name for paramgen_tmpl?
 
 # Problem Description
 
+We need to reconsider this whole approach.
+
+
 _TODO_ bring in references from Zotero.
 
-Can we use a two-column format for the derivation portions?
+It has its own _TODO_ list.
+
+_MAYBE_ Can we use a two-column format for the derivation portions?
 Left side (narrower) is text, with equations on the right.
 Maybe an invisible table?
 How would this work with equation numbering?
 Each row of the table should be numbered.
 So could we get the equation numbers in their own column?
 
-Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
-would it be better to use delta_... for test functions (ala variational calculus) instead of v?
-
-It has its own _TODO_ list.
+_MAYBE_ Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
+_MAYBE_ would it be better to use delta_... for test functions (ala variational calculus) instead of v?
 
 ## Physical Surface/Volume Figures
 
