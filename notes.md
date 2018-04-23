@@ -532,9 +532,8 @@ it seems you can export plots in raw text.)
 In any case, this is pretty low-priority right now.
 
 # Mesh
-_ACTION_ Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
+(Looks like the new gmsh version resolved this.) Look up "field" in gmsh tutorials to try to resolve issue with centerline. (tutorial 10, and the manual discussion on controlling mesh size)
 _ACTION_ check for compatibility of gmsh version (eg Ruled Surface vs Surface)
-_ACTION_ add validation of geometric inputs
 
 # Someday/maybe
 

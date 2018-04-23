@@ -39,7 +39,7 @@ Line Loop({{ lpnum }})={ {{- lents -}} };
 
 //Surfaces (each is a physical surface)
 {% for lpnum, stype in surftypes.items() %}
-{{ stype }} Surface({{ lpnum }})={ {{- lpnum -}} };
+{{ stype }}({{ lpnum }})={ {{- lpnum -}} };
 Physical Surface({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
 

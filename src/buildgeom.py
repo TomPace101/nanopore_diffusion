@@ -172,7 +172,8 @@ def prepare_template_input(geom, paramdef):
   t_input['loops']=loopmap
 
   #Apply surface types
-  surftypes=dict([(x,'Ruled' if x in geom.nonplanar else 'Plane') for x in geom.geomtable.keys()])
+  # surftypes=dict([(x,'Ruled Surface' if x in geom.nonplanar else 'Plane Surface') for x in geom.geomtable.keys()]) #for older version of gmsh
+  surftypes=dict([(x,'Surface' if x in geom.nonplanar else 'Plane Surface') for x in geom.geomtable.keys()])
   t_input['surftypes']=surftypes
 
   #Dictionary of surface loops (and volumes)
