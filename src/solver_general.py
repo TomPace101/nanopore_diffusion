@@ -253,9 +253,8 @@ class GenericSolver(object):
 
     #Put results into info
     self.info['results']=self.results
-    #If present, add mesh metadata
-    if hasattr(self,'mesh_metadata'):
-      self.info['mesh_metadata']=self.meshinfo.metadata
+    #Add mesh metadata
+    self.info['mesh_metadata']=self.meshinfo.metadata
     #Write output files if requested
     if self.diskwrite:
       common.writeyaml(self.info,osp.join(self.outdir,FS.infofile))
