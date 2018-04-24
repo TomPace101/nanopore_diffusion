@@ -12,7 +12,6 @@ import folderstructure as FS
 import common
 
 #Constants
-infofile='info.yaml'
 collected_df_fname='collected_results.pkl.gz'
 
 def get_columns(d,exclusions):
@@ -75,7 +74,7 @@ def dicts_to_dataframe(alldicts,exclusions):
   df=pd.DataFrame(columns=columns)
   #Add the data to the dataframe
   for d in alldicts:
-    fd=flatdict(d,columns,infofile,exclusions)
+    fd=flatdict(d,columns,FS.infofile,exclusions)
     df=df.append(fd,ignore_index=True)
   return df
   
@@ -97,7 +96,7 @@ class ResultsCollector(common.ParameterSet):
     for modelparams in self.modellist:
       if modelparams.basename==self.basename:
         #Add this one to the list
-        self.input_files.append(osp.join(basedir,modelparams.modelname,infofile))
+        self.input_files.append(osp.join(basedir,modelparams.modelname,FS.infofile))
 
   @property
   def taskname(self):

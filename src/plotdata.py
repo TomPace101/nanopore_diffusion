@@ -187,7 +187,7 @@ class ModelPlotFigure(PlotFigure):
 
   def locate_data(self):
     datadir=self.datadir()
-    self.datafiles={'pklfile':osp.join(datadir,'outdata.pkl'), 'infofile':osp.join(datadir,'info.yaml')}
+    self.datafiles={'pklfile':osp.join(datadir,'outdata.pkl'), 'infofile':osp.join(datadir,FS.infofile)}
 
   def load_data(self):
     """Load the data for the plot."""

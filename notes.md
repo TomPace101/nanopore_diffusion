@@ -181,8 +181,6 @@ and a derived class that includes all the doit support?
 _TODO_ the LPB solver dataextraction output files don't get listed as targets currently.
 Search conditions (actually, it's immediate children) for dataextraction.
 
-_TODO_ the name of info.yaml appears in several places
-
 _TODO_ debug01 postproc needs to make PDF as well as PNG
 
 _TODO_ code from notebooks into modules

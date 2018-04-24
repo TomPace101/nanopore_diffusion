@@ -47,6 +47,7 @@ meshmeta_outfolder=osp.join(meshfolder,'metadata')
 
 #solutions
 solnfolder=osp.join(datafolder,'solutions')
+infofile="info.yaml" #Output file describing the run, including select results
 
 #post-processing
 postprocfolder=osp.join(datafolder,'postproc')
