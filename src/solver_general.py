@@ -221,6 +221,48 @@ class GenericSolver(object):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'solve' method."%str(type(self)))
 
+  def convert_input_value(self,arg,element,expclass=fem.Expression,classargs=None):
+    """Convert the input value into an appropriate FEniCS object: Constant or Expression.
+    If the argument is an integer or float, a Constant is returned.
+    Otherwise, the argument must be a list or tuple, with length 2:
+      (exprstr, exprargs), where
+        exprstr = expression string or tuple (see FEniCS Expression documentation)
+        exprargs = dictionary of keyword arguments to FEniCS Expression, the user_parameters
+    Arguments:
+      arg = input value to process
+      element = FEniCS FiniteElement to use for Expression
+      expclass = optional, subclass of Expression to use instead
+      classargs = optional, sequence of positional arguments to provide to constructor of Expression subclass
+    Returns:
+      out = converted object
+    Attributes (created if necessary):
+      all_expressions = dictionary of created expressions: {expression: arguments}
+      all_expr_args = dictionary containing all expression arguments: {argument: value}
+    These attributes are used by update_expressions."""
+    if type(arg)==int or type(arg)==float:
+      out = fem.Constant(arg)
+    elif type(arg)==list or type(arg)==tuple:
+      assert len(arg)==2, "Invalid sequence for conversion to expression: %s"%arg
+      exprstr, exprargs = value
+      classargs = [] if classargs is None else classargs
+      out = expclass(exprstr, *classargs, element=element, **exprargs)
+      #Argument tracking for later updates
+      if not hasattr(self, 'all_expressions'):
+        self.all_expressions={}
+      self.all_expressions[out]=tuple(exprargs.keys())
+      if not hasattr(self, 'all_expr_args'):
+        self.all_expr_args={}
+      self.all_expr_args.update(exprargs)
+    else:
+      raise Exception("Cannot process input value %s"%arg)
+    return out
+
+  def update_expressions(self):
+    """Update expressions created with convert_input_value"""
+    for expr,argnames in self.all_expressions.items():
+      current=dict([(k,self.all_expr_args[k]) for k in argnames])
+      expr.user_parameters.update(current)
+
   def process_output_commands(self,attrname='dataextraction'):
     """Process a list of data extraction commands
     Arguments:

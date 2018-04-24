@@ -25,14 +25,24 @@ _TODO_ set up as a validation test (see above)
 
 _TODO_ allow BT to be an Expression instead of just a float.
 More generally, this is a candidate for refactoring:
-write a function that does the check for strings and returns an Expression or a float accordingly.
+write a function that does the check for parameters as lists and returns an Expression or a float accordingly.
 It will need access to the element. Or can it take a FunctionSpace instead?
 Either way, that means it will probably need to be a method of the solver.
+Actually, let's just pass the element, as there could be times we need different elements in different cases.
+It still needs to be a solver method, though, because
+it will require a more general way to track the expression arguments,
+and make sure they are updated as needed.
+
+Argument tracking:
+all_expressions = {expression: arguments}
+expression_argument_values = {argument: value}
 
 _TODO_ refactor out re-usable components
 - Expression/float generation (see above)
 - processing of dirichlet and neumann boundary conditions
-- stuff that could be used by various PNP solvers
+- weak form portions that could be used by various PNP solvers
+  Imagine we have multiple ways of solving PNP, and they have a lot of basics in common.
+  This may need to wait until that's actually the case, as that will make it more clear what's reusable and what isn't.
 
 _FEATURE_ exponential time steps
 But dt is in the weak form.
