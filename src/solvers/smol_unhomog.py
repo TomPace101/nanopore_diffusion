@@ -42,12 +42,9 @@ class LPBSolver(solver_general.GenericSolver):
     super(LPBSolver, self).__init__(modelparams)
 
     #Load mesh and meshfunctions
-    self.mesh=other.mesh
-    self.facets=other.facets
-    self.cells=other.cells
+    self.meshinfo=other.meshinfo
     self.V = other.V
     self.ds = other.ds
-    self.mesh_metadata = other.mesh_metadata
 
     #Get conditions
     self.conditions=LPBConditions(**modelparams.conditions)
@@ -56,14 +53,14 @@ class LPBSolver(solver_general.GenericSolver):
     self.lambda_D = self.conditions.debye_length
 
     #Function space for scalars and vectors
-    ##self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    ##self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.dirichlet.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in self.conditions.dirichlet.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
-    ##self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets) ##TODO: specify which facets are Neumann?
+    ##self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets) ##TODO: specify which facets are Neumann?
     if hasattr(self.conditions,'neumann'):
       raise NotImplementedError
 
@@ -129,20 +126,19 @@ class SUSolver(solver_general.GenericSolver):
     Arguments:
       modelparams = solver_run.ModelParameters instance"""
 
-    #Load parameters, init output, mesh setup
+    #Load parameters, init output, load mesh
     super(SUSolver, self).__init__(modelparams)
-    self.loadmesh()
 
     #Get conditions
     self.conditions=SUConditions(**modelparams.conditions)
     self.beta_q = self.conditions.beta * self.conditions.q
 
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
+    self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = fem.VectorFunctionSpace(self.meshinfo.mesh, "CG", self.conditions.elementorder)
 
     #Measure for external boundaries
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets)
+    self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
 
     #Set up electric potential field
     potentialparams_dict=self.conditions.potential
@@ -158,7 +154,7 @@ class SUSolver(solver_general.GenericSolver):
 
     #Dirichlet boundary conditions
     self.conditions.transform_bcs(self.potsolv.conditions.dirichlet,self.beta_q) #apply Slotboom transformation
-    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.trans_dirichlet.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in self.conditions.trans_dirichlet.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
@@ -170,7 +166,7 @@ class SUSolver(solver_general.GenericSolver):
     self.Dbar_proj=fem.project(self.Dbar,self.V)
 
     #Define variational problem
-    self.d3x = fem.Measure('cell',domain=self.mesh)
+    self.d3x = fem.Measure('cell',domain=self.meshinfo.mesh)
     self.cbar=fem.TrialFunction(self.V)
     self.v=fem.TestFunction(self.V)
     self.a=self.Dbar*fem.dot(fem.grad(self.cbar),fem.grad(self.v))*self.d3x

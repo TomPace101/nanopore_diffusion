@@ -124,6 +124,34 @@ class ModelParametersBase(common.ParameterSet):
     outfiles+=list_outputfiles(getattr(self,'datasteps',[]))
     self._more_outputfiles=[osp.join(self.outdir,f) for f in outfiles]
 
+class MeshInfo:
+  """Bunch of mesh-related data
+  Attributes:
+    mesh = FEniCS Mesh
+    facets = FEniCS MeshFunction of gmsh Physical Surface number (3D) or Physical Line number (2D)
+    cells = FEniCS MeshFunction of gmsh Physical Volume number (3D) or Physical Surface number (2D)
+    metadata = dictionary of metadata about the mesh, such as parametric locations
+  A note on the terminology used in FEniCS and gmsh:
+    The FEniCS information below is from page 185-186 of the FEniCS book
+    d = number of dimensions in entity, D = number of dimensions in problem (maximum entity dimension)
+    D-d = "codimension" of entity
+    Terms:
+      D=2, d=1: fenics facet (facet_region xml) = fenics edge = gmsh physical line
+      D=2, d=2: fenics cell (physical_region xml) = fenics face = gmsh physical surface
+      D=3, d=2: fenics facet (facet_region xml) = fenics face = gmsh physical surface
+      D=3, d=3: fenics cell (physical_region xml) = fenics ____ = gmsh physical volume
+      also, d=0 is a fenics vertex"""
+
+  def __init__(self,modelparams):
+    #Load mesh and meshfunctions
+    self.mesh=fem.Mesh(modelparams.mesh_xml)
+    self.facets=fem.MeshFunction("size_t", self.mesh, modelparams.facet_xml)
+    self.cells=fem.MeshFunction("size_t", self.mesh, modelparams.cell_xml)
+    #Load mesh metadata file
+    assert osp.isfile(modelparams.meshmetafile), "Mesh metadata file does not exist: %s"%self.modelparams.meshmetafile
+    self.metadata=common.readyaml(modelparams.meshmetafile)
+
+
 class GenericSolver(object):
   """A generic solver, to be subclassed by solvers for the specific equations
   This class is not directly usable itself.
@@ -134,10 +162,11 @@ class GenericSolver(object):
   Subclasses may choose to override the extraction functions provided here.
   Attributes:
     modelparams = solver_run.ModelParameters instance
-    mesh = FEniCS Mesh
-    facets = FEniCS MeshFunction of gmsh Physical Surface number (3D) or Physical Line number (2D)
-    cells = FEniCS MeshFunction of gmsh Physical Volume number (3D) or Physical Surface number (2D)
-  """
+    diskwrite = boolean, True to write results to disk.
+    outdir = directory for output data
+    results = dictionary of results used in data extraction calculations
+    info = dictionary of input and output data, stored to infofile as defined in folderstructure
+    outdata = instance of OutData"""
   def __init__(self,modelparams):
     """Initialize the solver by loading the Mesh and MeshFunctions.
     Arguments:
@@ -151,6 +180,9 @@ class GenericSolver(object):
     self.results={}
     self.info=self.modelparams.config_dict
     self.outdata=OutData(plots={})
+    
+    #Load mesh
+    self.meshinfo=MeshInfo(modelparams)
     
     #Apply customizations
     if hasattr(self.modelparams,'customizations'):
@@ -174,29 +206,6 @@ class GenericSolver(object):
       #Assign extra attributes
       for k,v in getattr(self.modelparams.customizations,'extra',{}).items():
         setattr(self,k,v)
-
-  def loadmesh(self):
-    """Load the mesh from the usual file locations
-    Also load the mesh metadata file.
-    A note on the terminology used in FEniCS and gmsh:
-      The FEniCS parts are from page 185-186 of the FEniCS book
-      d = number of dimensions in entity, D = number of dimensions in problem (maximum entity dimension)
-      D-d = "codimension" of entity
-      Terms:
-        D=2, d=1: fenics facet (facet_region xml) = fenics edge = gmsh physical line
-        D=2, d=2: fenics cell (physical_region xml) = fenics face = gmsh physical surface
-        D=3, d=2: fenics facet (facet_region xml) = fenics face = gmsh physical surface
-        D=3, d=3: fenics cell (physical_region xml) = fenics ____ = gmsh physical volume
-        also, d=0 is a fenics vertex
-      """
-    #Load mesh and meshfunctions
-    self.mesh=fem.Mesh(self.modelparams.mesh_xml)
-    self.facets=fem.MeshFunction("size_t", self.mesh, self.modelparams.facet_xml)
-    self.cells=fem.MeshFunction("size_t", self.mesh, self.modelparams.cell_xml)
-    #Load mesh metadata file
-    assert osp.isfile(self.modelparams.meshmetafile), "Mesh metadata file does not exist: %s"%self.modelparams.meshmetafile
-    self.mesh_metadata=common.readyaml(self.modelparams.meshmetafile)
-    return
 
   @classmethod
   def complete(cls,*args):
@@ -246,7 +255,7 @@ class GenericSolver(object):
     self.info['results']=self.results
     #If present, add mesh metadata
     if hasattr(self,'mesh_metadata'):
-      self.info['mesh_metadata']=self.mesh_metadata
+      self.info['mesh_metadata']=self.meshinfo.metadata
     #Write output files if requested
     if self.diskwrite:
       common.writeyaml(self.info,osp.join(self.outdir,FS.infofile))
@@ -301,7 +310,7 @@ class GenericSolver(object):
       integral_type='interior_facet'
     else:
       integral_type='exterior_facet'
-    this_ds=fem.Measure(integral_type,domain=self.mesh,subdomain_data=self.facets)
+    this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
     calcarea=fem.assemble(fem.Constant(1)*this_ds(pfacet))
     self.results[name]=calcarea
     return
@@ -322,7 +331,7 @@ class GenericSolver(object):
     coords=tuple()
     for v in location:
       if type(v)==str:
-        v=self.mesh_metadata[v]
+        v=self.meshinfo.metadata[v]
       coords+=(v,)
     return coords
 

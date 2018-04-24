@@ -57,9 +57,8 @@ class ExoticEarthSolver(solver_general.GenericSolver):
     Arguments:
       modelparams = solver_run.ModelParameters instance"""
 
-    #Load parameters, init output, mesh setup
+    #Load parameters, init output, load mesh
     super(ExoticEarthSolver, self).__init__(modelparams)
-    self.loadmesh()
 
     #Get conditions
     self.conditions=UnhomogFickianConditions(**modelparams.conditions)
@@ -99,7 +98,7 @@ class ExoticEarthSolver(solver_general.GenericSolver):
     dirichlet=getattr(self.conditions,'dirichlet',{})
     for psurf,tup in dirichlet.items():
       vec=fem.Constant(tup)
-      self.bclist.append(fem.DirichletBC(self.V,vec,self.facets,psurf))
+      self.bclist.append(fem.DirichletBC(self.V,vec,self.meshinfo.facets,psurf))
 
     #Weak Form
     gradmat=fem.dot(fem.grad(self.v).T,fem.grad(self.chi))
@@ -115,7 +114,7 @@ class ExoticEarthSolver(solver_general.GenericSolver):
  def calc_Dmacro(self):
     """Do the integral for the effective diffusion constant"""
     #TODO: documentation
-    d3x = fem.Measure('cell',domain=self.mesh)
+    d3x = fem.Measure('cell',domain=self.meshinfo.mesh)
     volume=fem.assemble(fem.Constant(1)*d3x)
     int_mat=fem.dot(Darr,fem.grad(self.soln).T)
     matr=[]

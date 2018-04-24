@@ -50,7 +50,7 @@ def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None)
   New item(s) added to results dictionary.
   No return value.
   No output files."""
-  n=fem.FacetNormal(self.mesh)
+  n=fem.FacetNormal(self.meshinfo.mesh)
   if internal:
     integral_type='interior_facet'
     assert fluxsign=='+' or fluxsign=='-', "Invalid fluxsign: %s"%str(fluxsign)
@@ -60,7 +60,7 @@ def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None)
     this_n=n
   if normalvar is not None:
     self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the facet normal
-  this_ds=fem.Measure(integral_type,domain=self.mesh,subdomain_data=self.facets)
+  this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
   totflux=fem.assemble(fem.dot(self.flux,this_n)*this_ds(fluxsurf))
   self.results[name]=totflux
   return
@@ -81,8 +81,8 @@ def effective_diffusion(self,name,totflux_name):
   CAUTION: this method is not generalized. It only works for certain geometries.
   In fact, probably only one: the body-centered nanopore.
   For the face-centered one, you'd need to sum the results of integration over two facets."""
-  quarter_area = self.mesh_metadata['cell_area']/4
-  zvals=[self.mesh_metadata['Z2'], self.mesh_metadata['Z3']]
+  quarter_area = self.meshinfo.metadata['cell_area']/4
+  zvals=[self.meshinfo.metadata['Z2'], self.meshinfo.metadata['Z3']]
   samples=[self.soln(0,0,zv) for zv in zvals]
   delta=samples[1]-samples[0]
   delta_z=zvals[1]-zvals[0]
@@ -101,7 +101,7 @@ def volfrac(self,name):
   New item added to results dictionary.
   No return value.
   No output files."""
-  self.results[name]=self.mesh_metadata['pore_area']/self.mesh_metadata['cell_area']
+  self.results[name]=self.meshinfo.metadata['pore_area']/self.meshinfo.metadata['cell_area']
   return
 
 #We could generalize this by specifying:
@@ -129,8 +129,8 @@ def profile_radial(self,zval,theta,num,plotname,label,attrname='soln',idx=None):
   #Calculate start and end locations
   startloc=(0,0,zval)
   rads=np.radians(theta)
-  xend=self.mesh_metadata['R']*np.cos(rads)
-  yend=self.mesh_metadata['R']*np.sin(rads)
+  xend=self.meshinfo.metadata['R']*np.cos(rads)
+  yend=self.meshinfo.metadata['R']*np.sin(rads)
   endloc=(xend,yend,zval)
   #Call line_profile to finish
   self.line_profile(startloc,endloc,num,plotname,label,attrname,None,idx)

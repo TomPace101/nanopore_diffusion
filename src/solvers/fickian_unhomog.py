@@ -21,6 +21,7 @@ class UnhomogFickianConditions(solver_general.GenericConditions):
 class UnhomogFickianSolver(solver_general.GenericSolver):
   """Solver for Unhomogenized Fickian Diffusion
   Additional attributes not inherited from GenericSolver:
+    meshinfo = instance of solver_general.MeshInfo
     conditions = instance of UnhomogFickianConditions
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
@@ -35,23 +36,22 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     Arguments:
       modelparams = solver_run.ModelParameters instance"""
 
-    #Load parameters, init output, mesh setup
+    #Load parameters, init output, load mesh
     super(UnhomogFickianSolver, self).__init__(modelparams)
-    self.loadmesh()
 
     #Get conditions
     self.conditions=UnhomogFickianConditions(**modelparams.conditions)
 
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = fem.VectorFunctionSpace(self.mesh, "CG", self.conditions.elementorder)
+    self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = fem.VectorFunctionSpace(self.meshinfo.mesh, "CG", self.conditions.elementorder)
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.facets,psurf) for psurf,val in self.conditions.dirichlet.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in self.conditions.dirichlet.items()]
 
     #Neumann boundary conditions
     #they are all zero in this case
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets) ##TODO: specify which facets are Neumann?
+    self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets) ##TODO: specify which facets are Neumann?
     if hasattr(self.conditions,'neumann'):
       raise NotImplementedError
 

@@ -125,9 +125,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     Arguments:
       modelparams = solver_run.ModelParameters instance"""
 
-    #Load parameters, init output, mesh setup
+    #Load parameters, init output, load mesh
     super(TDPNPUSolver, self).__init__(modelparams)
-    self.loadmesh()
 
     #Get conditions
     self.conditions=TDPNPUConditions(**modelparams.conditions)
@@ -144,9 +143,9 @@ class TDPNPUSolver(solver_general.GenericSolver):
     self.timedeps=[]
 
     #Elements and Function space(s)
-    ele = fem.FiniteElement('P',self.mesh.ufl_cell(),self.conditions.elementorder)
+    ele = fem.FiniteElement('P',self.meshinfo.mesh.ufl_cell(),self.conditions.elementorder)
     mele = fem.MixedElement([ele]*self.Nvars)
-    self.V = fem.FunctionSpace(self.mesh,mele)
+    self.V = fem.FunctionSpace(self.meshinfo.mesh,mele)
 
     #Test and trial functions
     self.u = fem.Function(self.V)
@@ -158,8 +157,8 @@ class TDPNPUSolver(solver_general.GenericSolver):
     vPhi=testfuncs[self.Nspecies]
 
     #Measure and normal for external boundaries
-    self.ds = fem.Measure("ds",domain=self.mesh,subdomain_data=self.facets)
-    self.n=fem.FacetNormal(self.mesh)
+    self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
+    self.n=fem.FacetNormal(self.meshinfo.mesh)
 
     #Dirichlet boundary conditions
     self.bcs=[]
@@ -167,7 +166,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     for psurf,vals in dirichlet.items():
       for i,value in enumerate(vals):
         if value is not None:
-          self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.facets,psurf))
+          self.bcs.append(fem.DirichletBC(self.V.sub(i),fem.Constant(value),self.meshinfo.facets,psurf))
 
     #Neumann boundary conditions
     self.nbcs = {}

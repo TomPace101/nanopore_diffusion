@@ -10,15 +10,6 @@ In particular, we need code to compare the output of such a test to expected val
 _TODO_ start using sphinx
 (there is discussion below about what to do after this)
 
-_maybe_ refactor out mesh information as MeshInfo class in solver_general
-Basically, loadmesh becomes its init.
-In the solver, it can be self.meshinfo .
-The major refactoring effort is that this is an API change for the solver modules.
-- self.mesh = self.meshinfo.mesh
-- self.facets = self.meshinfo.facets
-- self.cells = self.meshinfo.cells
-- self.mesh_metadata = self.meshinfo.metadata
-
 # homogenization (exotic-earth)
 
 _TODO_ do data extraction so we can actually use the results
