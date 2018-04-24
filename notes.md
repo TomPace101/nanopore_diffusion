@@ -38,11 +38,15 @@ all_expressions = {expression: arguments}
 expression_argument_values = {argument: value}
 
 _TODO_ refactor out re-usable components
-- Expression/float generation (see above)
-- processing of dirichlet and neumann boundary conditions
-- weak form portions that could be used by various PNP solvers
-  Imagine we have multiple ways of solving PNP, and they have a lot of basics in common.
-  This may need to wait until that's actually the case, as that will make it more clear what's reusable and what isn't.
+Weak form portions that could be used by various PNP solvers:
+Imagine we have multiple ways of solving PNP, and they have a lot of basics in common.
+This may need to wait until that's actually the case, as that will make it more clear what's reusable and what isn't.
+
+Neumann and Dirichlet boundary conditions:
+  - store in attribute, or return value?
+  - take argument, or get directly from conditions?
+  - how to handle mixed and non-mixed elements?
+
 
 _FEATURE_ exponential time steps
 But dt is in the weak form.
