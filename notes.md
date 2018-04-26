@@ -1,14 +1,28 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
-_TODO_ set up validation tests
-These are problems where you know the right answer,
-used as regression testing for the code overall.
-exotic-earth is such.
-In particular, we need code to compare the output of such a test to expected values.
-
 _TODO_ start using sphinx
 (there is discussion below about what to do after this)
+
+# validation tests
+set up problems on the unit square for
+- fick's law
+- smoluchowski
+where the solutions are known.
+
+Don't overwrite debug, but rather create a new stem: validation
+
+_TODO_ Need a script to compare output to expected values
+`validate.py`
+
+Then, eventually, use a single mesh from exotic-earth as a case as well,
+once you get a homogenized fickian solver workinng.
+
+# anisotropy
+- fickian_unhomog
+- smol_unhomog
+- fickian_homog
+
 
 # homogenization (exotic-earth)
 
@@ -22,6 +36,10 @@ Then, we need to try to abstract/generalize this more, somehow.
 _TODO_ set up as a validation test (see above)
 
 # ill-sleep (and debug of the PNP-reaction solver)
+
+_TODO_ linearization
+What is the argument structure now for the linearized reaction rate functions?
+They need the whole vector at both steps.
 
 _TODO_ allow BT to be an Expression instead of just a float.
 More generally, this is a candidate for refactoring:
