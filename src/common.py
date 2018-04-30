@@ -159,7 +159,7 @@ class ParameterSet(object):
     return cls.from_dict(d)
   @classmethod
   def all_from_yaml(cls,fpath):
-    """Generator to read a list of ParameterSet objects from a yaml file.
+    """Generator to read a series of ParameterSet objects from a yaml file.
     Arguments:
       fpath = path to the yaml file to read in
         This must be a multi-document yaml file,
@@ -172,6 +172,37 @@ class ParameterSet(object):
     for d in gen:
       add_file_info(d,fpath)
       yield cls.from_dict(d)
+  @classmethod
+  def select_from_yaml(cls,fpath,criteria):
+    """Generator to read ParameterSet objects matching criteria from a yaml file.
+    Arguments:
+      fpath = path to the yaml file to read in
+        This must be a multi-document yaml file,
+        and each document is assumed to be structured as a single dictionary at the top level.
+      criteria = dictionary of criteria
+        Each key in this dictionary must have a matching attribute in the ParameterSet.
+        Only objects whose attribute values match those specified by this dictionary are yielded.
+    Each call yields:
+      pset = a ParameterSet object as defined by one document in the yaml file"""
+    for pset in cls.all_from_yaml(fpath):
+      for k,v in criteria.items():
+        if getattr(pset,k,None) == v:
+          yield pset
+  @classmethod
+  def select_one_from_yaml(cls,fpath,criteria):
+    """To return a single ParameterSet object matching criteria from a yaml file
+    Arguments:
+      fpath = path to the yaml file to read in
+        This must be a multi-document yaml file,
+        and each document is assumed to be structured as a single dictionary at the top level.
+      criteria = dictionary of criteria
+        Each key in this dictionary must have a matching attribute in the ParameterSet.
+        Only objects whose attribute values match those specified by this dictionary are yielded.
+    Each call yields:
+      pset = a ParameterSet object as defined by one document in the yaml file"""
+    psets=[p for p in cls.select_from_yaml(fpath,criteria)]
+    assert len(psets)==1, "Expected only one result, but instead got %d"%len(psets)
+    return psets[0]
   def to_yaml(self,fpath):
     """Write ParameterSet to a yaml file.
     Arguments:
