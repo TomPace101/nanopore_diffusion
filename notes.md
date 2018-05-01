@@ -5,7 +5,11 @@ _TODO_ start using sphinx
 (there is discussion below about what to do after this)
 
 _TODO_ change nomenclature from 'solver' to 'simulator'
-filenames, classnames, attribute and variable names, readme file,
+filenames, classnames, attribute and variable names, readme file
+Similarly, we should probably change 'modelparameters' to 'simparameters'
+'data/params/simulation'
+The parameters are for a simulation.
+The code that runs the simulation is a simulator.
 
 # Formula derivations
 - _TODO_ NP linearization notebook
@@ -17,6 +21,12 @@ set up problems on the unit square with known solutions:
 - smoluchowski: such that correct solution is a Maxwell-Boltzmann distribution
 - PNP: probably need to set up a problem that can be solved analytically, and do so. Or is there one already published?
 - hom. fick: use a single mesh from exotic-earth, or maybe the whole thing?
+
+What about reactions?
+Have a reaction-only simulation, without diffusion?
+It depends on what your simulators are capable of.
+Maybe a Fickian reaction-diffusion simulation could be contrived to be solvable.
+Beyond that, maybe not.
 
 Don't overwrite debug, but rather create a new stem: validation
 
@@ -39,6 +49,10 @@ for comparison to what will be generated in data/postproc/validation.
 - fickian_homog
 On hold for now per Pete's request.
 
+Accept diffusion constants in three forms:
+- single value for isotropic conditions
+- list of values (length matching dimensions) for diagonal matrix (order x,y,z)
+- full matrix (user must do any coordinate transformations themselves)
 
 # homogenization (exotic-earth)
 
