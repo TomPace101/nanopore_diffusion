@@ -2,10 +2,6 @@
 #and extract the data needed for post-processing efforts
 
 #Standard library
-import argparse
-import math
-import os
-import os.path as osp
 
 #Site packages
 import fenics as fem
