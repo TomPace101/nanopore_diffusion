@@ -4,6 +4,9 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 _TODO_ start using sphinx
 (there is discussion below about what to do after this)
 
+_TODO_ change nomenclature from 'solver' to 'simulator'
+filenames, classnames, attribute and variable names, readme file,
+
 # Formula derivations
 - _TODO_ NP linearization notebook
 - _TODO_ start reaction rate function linearization notebook
