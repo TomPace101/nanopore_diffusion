@@ -9,23 +9,32 @@ _TODO_ start using sphinx
 - _TODO_ start reaction rate function linearization notebook
 
 # validation tests
-set up problems on the unit square for
-- fick's law
-- smoluchowski
-where the solutions are known.
+set up problems on the unit square with known solutions:
+- fick's law: such that correct solution is a simple gradient
+- smoluchowski: such that correct solution is a Maxwell-Boltzmann distribution
+- PNP: probably need to set up a problem that can be solved analytically, and do so. Or is there one already published?
+- hom. fick: use a single mesh from exotic-earth, or maybe the whole thing?
 
 Don't overwrite debug, but rather create a new stem: validation
 
 _TODO_ Need a script to compare output to expected values
 `validate.py`
-
-Then, eventually, use a single mesh from exotic-earth as a case as well,
-once you get a homogenized fickian solver workinng.
+Rather than storing the validation data in the script,
+store it in a dedicated (tracked) location,
+and have the script just make the comparisons.
+This may require some post-processing of the model runs,
+to generate a comparable data file.
+And potentially, then, some separate scripts to generate the data files with the expected results.
+So, maybe we need a separate "validation" directory in src
+to contain these scripts (and the comparison script),
+and a "validation" directory in data to hold the expected results,
+for comparison to what will be generated in data/postproc/validation.
 
 # anisotropy
 - fickian_unhomog
 - smol_unhomog
 - fickian_homog
+On hold for now per Pete's request.
 
 
 # homogenization (exotic-earth)
