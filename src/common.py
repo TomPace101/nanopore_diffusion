@@ -334,7 +334,9 @@ def run_cmd_line(program_description,input_file_description,objtype,process_meth
   parser.add_argument('params_yaml', help=input_file_description)
   parser.add_argument('--select',nargs="+",help="""Only process selected elements of the input yaml file.
     This option must be followed by an attribute name, and then a sequence of values for that attribute.
-    Only those entries in the yaml file where the attribute matches one of these values will be processed.""")
+    Only those entries in the yaml file where the attribute matches one of these values will be processed.
+    If the attribute in question will be cast to a string, for comparison to the string read from the command line.
+    Note, in particular, this means you may need to explicitly provide escaped quotes in some cases.""")
   cmdline=parser.parse_args()
   
   #Set up dictionary for object selection by attribute
@@ -346,7 +348,7 @@ def run_cmd_line(program_description,input_file_description,objtype,process_meth
     requirements[cmdline.select[0]]=cmdline.select[1:]
 
   #Go
-  common_run(cmdline.params_yaml,objtype,process_method,other_selection,f_args)
+  common_run(cmdline.params_yaml,objtype,process_method,requirements,f_args)
 
 
 def common_run(input_file,objtype,process_method="run",requirements=None,f_args=None):
@@ -370,7 +372,7 @@ def common_run(input_file,objtype,process_method="run",requirements=None,f_args=
     #Is this document selected? (if no selection list provided, process all documents)
     selected=True
     for selattr,allowed in requirements.items():
-       selected = selected and (getattr(obj,selattr,None) in allowed)
+       selected = selected and (str(getattr(obj,selattr,None)) in allowed)
        if not selected:
          break
     if selected:
