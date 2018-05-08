@@ -11,6 +11,9 @@ Similarly, we should probably change 'modelparameters' to 'simparameters'
 The parameters are for a simulation.
 The code that runs the simulation is a simulator.
 
+_BUG_ command line attribute selection isn't working.
+`python postproc.py ../data/params/postproc/debug.yaml --select modelname debug03`
+
 # Formula derivations
 - _TODO_ NP linearization notebook
 - _TODO_ start reaction rate function linearization notebook
