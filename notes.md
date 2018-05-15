@@ -1,7 +1,13 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
-_TODO_ start using sphinx
+_TODO_ sphinx startup
+- move source to src in Makefile and copy files
+- rename Makefile
+- rename conf.py?
+- other files in current source?
+- docstrings in markdown format? the other documents? toctree?
+- formatting of docstrings
 (there is discussion below about what to do after this)
 
 _TODO_ change nomenclature from 'solver' to 'simulator'
@@ -10,6 +16,15 @@ Similarly, we should probably change 'modelparameters' to 'simparameters'
 'data/params/simulation'
 The parameters are for a simulation.
 The code that runs the simulation is a simulator.
+
+_TODO_ The ability to resume time-step jobs would be nice,
+but this requires being able to save out the complete state.
+Or maybe just be able to load the uknowns, I guess.
+You can reload the mesh and BCs, etc, from scratch.
+In fact, based on Pete's suggestions, we might even switch equations.
+But somehow, you need enough values to get back the original functions.
+Would it work to just store the nodal values?
+I'd have to do a test to see.
 
 # Formula derivations
 - _TODO_ NP linearization notebook
@@ -66,6 +81,10 @@ Then, we need to try to abstract/generalize this more, somehow.
 _TODO_ set up as a validation test (see above)
 
 # ill-sleep (and debug of the PNP-reaction solver)
+
+_TODO_ compute integrated total charge for each step
+For problems with reactions or neumann BCs on the species this might not be conserved,
+but it could still provide insight.
 
 _TODO_ linearization
 What is the argument structure now for the linearized reaction rate functions?
