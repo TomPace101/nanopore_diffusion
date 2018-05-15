@@ -26,6 +26,8 @@ But somehow, you need enough values to get back the original functions.
 Would it work to just store the nodal values?
 I'd have to do a test to see.
 
+_TOOD_ zipping large data sets may need to come under control of doit
+
 # Formula derivations
 - _TODO_ NP linearization notebook
 - _TODO_ start reaction rate function linearization notebook
