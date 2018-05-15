@@ -2,10 +2,15 @@
 _TODO_ switch to ruamel.yaml, and update the wiki
 
 _TODO_ sphinx startup
-- move source to src in Makefile and copy files
-- rename Makefile
-- rename conf.py?
-- other files in current source?
+- DONE: move source to src in Makefile and copy files
+- DONE: rename Makefile: use the -f option in make
+- DONE: rename conf.py?
+  You can't rename it, but you can move it:
+  http://www.sphinx-doc.org/en/master/glossary.html#term-configuration-directory
+- other files in current source:
+  - index.rst
+  - DONE: `_static` folder: in conf folder
+  - DONE: `_templates` folder: in conf folder
 - docstrings in markdown format? the other documents? toctree?
   http://www.sphinx-doc.org/en/master/usage/markdown.html
   https://github.com/jxltom/sphinx-markdown-extension
