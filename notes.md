@@ -47,11 +47,13 @@ We could have the mapping to argument locations specified in the input file.
 
 
 # Fick's Law with Reactions
-- set up an example problem (in debug, I guess, base it on debug03)
-- copy the latest PNP linearization notebook
+- DONE: set up an example problem (in debug, I guess, base it on debug03)
+- DONE: only 2 species: Ca and CaCaM
+- DONE: reaction rate code based on the one for ill-sleep
+- DONE: copy the latest PNP linearization notebook
+- work out correct weak form
 - revise the weak form to take out all PNP
 - I think I did a TD Fick's Law simulation in a notebook once, so you could borrow from that
-- only 2 species: Ca and CaCaM
 - get the reaction stuff from the TDPNP module
 - switch to nonlinear problem and solver
 - once it is working, create a module for it
