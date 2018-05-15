@@ -7,6 +7,8 @@ _TODO_ sphinx startup
 - rename conf.py?
 - other files in current source?
 - docstrings in markdown format? the other documents? toctree?
+  http://www.sphinx-doc.org/en/master/usage/markdown.html
+  https://github.com/jxltom/sphinx-markdown-extension
 - formatting of docstrings
 (there is discussion below about what to do after this)
 
@@ -28,9 +30,33 @@ I'd have to do a test to see.
 
 _TOOD_ zipping large data sets may need to come under control of doit
 
+_TODO_ more general reaction functions approach
+- simulations with different species overall may still contain the same reactions
+- sometimes we need to distinguish between previous and current step, but not always.
+Ideas:
+- use a dictionary? Seems excessive, and doesn't resolve the issue of multiple steps.
+- specify a mapping to the arguments. But what is that in terms of?
+Multiple steps seems like it will always require a separate function set up for such.
+So maybe we just want a way to keep straight which species is which.
+We could have the mapping to argument locations specified in the input file.
+
+
 # Formula derivations
 - _TODO_ NP linearization notebook
 - _TODO_ start reaction rate function linearization notebook
+
+
+# Fick's Law with Reactions
+- set up an example problem (in debug, I guess, base it on debug03)
+- copy the latest PNP linearization notebook
+- revise the weak form to take out all PNP
+- I think I did a TD Fick's Law simulation in a notebook once, so you could borrow from that
+- only 2 species: Ca and CaCaM
+- get the reaction stuff from the TDPNP module
+- switch to nonlinear problem and solver
+- once it is working, create a module for it
+- then finish the documentation
+
 
 # validation tests
 set up problems on the unit square with known solutions:
