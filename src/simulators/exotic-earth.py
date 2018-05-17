@@ -8,7 +8,7 @@ import numpy as np
 import fenics as fem
 
 #Local
-import solver_general
+import simulator_general
 
 class VaryingPropertyByCell(fem.Expression):
   """TODO: document"""
@@ -34,16 +34,16 @@ class PeriodicBoundary(fem.SubDomain):
     y[0] = x[0] - 1.0
     y[1] = x[1]
 
-class ExoticEarthConditions(solver_general.GenericConditions):
-  """Condition defnitions for use with ExoticEarthSolver
+class ExoticEarthConditions(simulator_general.GenericConditions):
+  """Condition defnitions for use with ExoticEarthSimulator
   Attributes:
     dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
     isotropic_D_values = pair of diffusion constants: regions 1 and 2, respectively"""
   __slots__=['dirichlet','isotropic_D_values']
 
-class ExoticEarthSolver(solver_general.GenericSolver):
-  """Solver for Homogenized Fickian Diffusion, special case
-  Additional attributes not inherited from GenericSolver:
+class ExoticEarthSimulator(simulator_general.GenericSimulator):
+  """Simulator for Homogenized Fickian Diffusion, special case
+  Additional attributes not inherited from GenericSimulator:
     conditions = instance of ExoticEarthConditions
     V = FEniCS FunctionSpace on the mesh
     bclist = list of FEniCS DirichletBC instances
@@ -55,10 +55,10 @@ class ExoticEarthSolver(solver_general.GenericSolver):
   def __init__(self,modelparams):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance"""
+      modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
-    super(ExoticEarthSolver, self).__init__(modelparams)
+    super(ExoticEarthSimulator, self).__init__(modelparams)
 
     #Get conditions
     self.conditions=UnhomogFickianConditions(**modelparams.conditions)
@@ -105,7 +105,7 @@ class ExoticEarthSolver(solver_general.GenericSolver):
     A=fem.inner(Darr,gradmat)*fem.dx
     L=fem.inner(Darr,fem.grad(self.v).T)*fem.dx
 
-  def solve(self):
+  def run(self):
     "Do the step of solving this equation"
     self.soln=fem.Function(self.V)
     fem.solve(self.a==self.L, self.soln, self.bclist)
@@ -126,4 +126,4 @@ class ExoticEarthSolver(solver_general.GenericSolver):
       matr.append(row)
     self.Dmacro=np.array(matr)
 
-solverclasses={'exotic-earth':ExoticEearthSolver}
+simulatorclasses={'exotic-earth':ExoticEearthSimulator}

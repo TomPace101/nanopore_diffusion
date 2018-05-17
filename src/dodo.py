@@ -1,7 +1,7 @@
 #Doit file for model runs
 
 #Discussion
-#This file is intended to automate the process from mesh generation, through running the solver, through post-processing.
+#This file is intended to automate the process from mesh generation, through running the simulator, through post-processing.
 #As such, it relies on scripts specific to each of those to generate the necessary tasks.
 #The runs requested in control.yaml are used.
 
@@ -20,7 +20,7 @@ import paramgen
 import buildgeom
 import geom_mk_msh
 import geom_mk_xml
-import solver_run
+import simulator_run
 import postproc
 
 #Constants
@@ -63,10 +63,10 @@ def task_make_msh():
 def task_make_xml():
   return generic_task_generator(FS.params_mesh_folder,geom_mk_xml.DolfinConvertRunner)
 
-#Solver tasks
+#Simulator tasks
 @create_after('paramgen')
 def task_solve():
-  return generic_task_generator(FS.params_model_folder,solver_run.ModelParameters)
+  return generic_task_generator(FS.params_model_folder,simulator_run.ModelParameters)
 
 #Post-processing tasks
 @create_after('paramgen')

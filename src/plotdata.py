@@ -13,7 +13,7 @@ import pandas as pd
 #Local
 import folderstructure as FS
 import common
-import solver_general
+import simulator_general
 import collect_results
 
 class PlotSeries(common.ParameterSet):
@@ -193,7 +193,7 @@ class ModelPlotFigure(PlotFigure):
     """Load the data for the plot."""
     
     #Load the data series
-    outdata=solver_general.OutData.from_pickle(self.datafiles['pklfile'])
+    outdata=simulator_general.OutData.from_pickle(self.datafiles['pklfile'])
     self.series=outdata.plots[self.plotname]
     
     #Load the info

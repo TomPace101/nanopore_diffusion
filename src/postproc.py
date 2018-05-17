@@ -7,7 +7,7 @@ import os.path as osp
 
 #Local
 import folderstructure as FS
-import solver_general
+import simulator_general
 import plotdata
 import collect_results
 import common
@@ -32,7 +32,7 @@ class PostProcParameters(common.ParameterSet):
     modellist = list of ModelParametersBase instantaces to postprocess, """
   __slots__=['modelparamsfile','modelnames','do_collection','collection_exclusions','model_plots','collection_plots','modellist']
   _required_attrs=['basename','modelparamsfile']
-  #Remember loaded models (parameters, not solvers) so we aren't reading the same files over and over
+  #Remember loaded models (parameters, not simulators) so we aren't reading the same files over and over
   loaded_modelfiles={} #{model filename: [model names]}
   loaded_models={} #{model name: ModelParametersBase instance}
 
@@ -43,7 +43,7 @@ class PostProcParameters(common.ParameterSet):
     if not self.modelparamsfile in self.loaded_modelfiles.keys():
       self.loaded_modelfiles[self.modelparamsfile]=[]
       modelparams_fpath=osp.join(FS.params_model_folder,self.modelparamsfile)
-      modelparams_gen=solver_general.ModelParametersBase.all_from_yaml(modelparams_fpath)
+      modelparams_gen=simulator_general.ModelParametersBase.all_from_yaml(modelparams_fpath)
       for mp in modelparams_gen:
         #Make sure this modelname is not already used
         if mp.modelname in self.loaded_models.keys():

@@ -12,15 +12,15 @@ else:
 
 #subfolders of src
 custom_modules_folder=osp.join(srcfolder,'customizations')
-solver_modules_folder=osp.join(srcfolder,'solvers')
+simulator_modules_folder=osp.join(srcfolder,'simulators')
 
 #add python code folder(s) to path
 if not srcfolder in sys.path:
   sys.path.append(srcfolder)
 if not custom_modules_folder in sys.path:
   sys.path.append(custom_modules_folder)
-if not solver_modules_folder in sys.path:
-  sys.path.append(solver_modules_folder)
+if not simulator_modules_folder in sys.path:
+  sys.path.append(simulator_modules_folder)
 
 #Locate data folder
 if 'DATALOC' in os.environ.keys():

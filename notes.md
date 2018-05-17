@@ -4,6 +4,7 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 _TODO_ sphinx startup
 - DONE: move source to src in Makefile and copy files
 - DONE: rename Makefile: use the -f option in make
+  OR can we move it to the conf directory?
 - DONE: rename conf.py?
   You can't rename it, but you can move it:
   http://www.sphinx-doc.org/en/master/glossary.html#term-configuration-directory
@@ -17,12 +18,19 @@ _TODO_ sphinx startup
 - formatting of docstrings
 (there is discussion below about what to do after this)
 
-_TODO_ change nomenclature from 'solver' to 'simulator'
+_TODO_ IN PROGRESS: change nomenclature from 'solver' to 'simulator'
 filenames, classnames, attribute and variable names, readme file
 Similarly, we should probably change 'modelparameters' to 'simparameters'
 'data/params/simulation'
 The parameters are for a simulation.
 The code that runs the simulation is a simulator.
+Or, in fact, perhaps this points out that we should make a distinction between
+"model" parameters and "simulation" parameters.
+For example, a simulation timestep would be a simulation parameter.
+A boundary condition would be a model parameter.
+Maybe time-domain or steady-state is even a simulation parameter rather than a model parameter.
+(Although that could get tricky, with time-dependent boundary conditions.)
+So it's not a change, but an addition.
 
 _TODO_ The ability to resume time-step jobs would be nice,
 but this requires being able to save out the complete state.
@@ -115,7 +123,7 @@ Then, we need to try to abstract/generalize this more, somehow.
 
 _TODO_ set up as a validation test (see above)
 
-# ill-sleep (and debug of the PNP-reaction solver)
+# ill-sleep (and debug of the PNP-reaction simulator)
 
 _TODO_ compute integrated total charge for each step
 For problems with reactions or neumann BCs on the species this might not be conserved,
@@ -129,9 +137,9 @@ _TODO_ allow BT to be an Expression instead of just a float.
 More generally, this is a candidate for refactoring:
 write a function that does the check for parameters as lists and returns an Expression or a float accordingly.
 It will need access to the element. Or can it take a FunctionSpace instead?
-Either way, that means it will probably need to be a method of the solver.
+Either way, that means it will probably need to be a method of the simulator.
 Actually, let's just pass the element, as there could be times we need different elements in different cases.
-It still needs to be a solver method, though, because
+It still needs to be a simulator method, though, because
 it will require a more general way to track the expression arguments,
 and make sure they are updated as needed.
 
@@ -140,7 +148,7 @@ all_expressions = {expression: arguments}
 expression_argument_values = {argument: value}
 
 _TODO_ refactor out re-usable components
-Weak form portions that could be used by various PNP solvers:
+Weak form portions that could be used by various PNP simulators:
 Imagine we have multiple ways of solving PNP, and they have a lot of basics in common.
 This may need to wait until that's actually the case, as that will make it more clear what's reusable and what isn't.
 
@@ -285,7 +293,7 @@ _TODO_ should common be split up into more than one module, possibly inside a pa
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?
 
-_TODO_ the LPB solver dataextraction output files don't get listed as targets currently.
+_TODO_ the LPB simulator dataextraction output files don't get listed as targets currently.
 Search conditions (actually, it's immediate children) for dataextraction.
 
 _TODO_ debug01 postproc needs to make PDF as well as PNG
@@ -655,7 +663,7 @@ _maybe_ solve with flux as another primary variable
 _maybe_ calculate potential for Smoluchowski using nonlinear Poisson-Boltzmann
 
 _maybe_ doctests? some other kind of test?
-Maybe just create scripts to do the basic validation on buildgeom and the solvers.
+Maybe just create scripts to do the basic validation on buildgeom and the simulators.
 
 _maybe_ mesh refinement study
 _maybe_ study of required H value

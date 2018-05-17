@@ -9,19 +9,19 @@ import os.path as osp
 import fenics as fem
 
 #Local
-import solver_general
+import simulator_general
 
-class UnhomogFickianConditions(solver_general.GenericConditions):
-  """Condition defnitions for use with UnhomogFickianSolver
+class UnhomogFickianConditions(simulator_general.GenericConditions):
+  """Condition defnitions for use with UnhomogFickianSimulator
   Attributes:
     dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
     D_bulk = bulk diffusion constant"""
   __slots__=['dirichlet','D_bulk']
 
-class UnhomogFickianSolver(solver_general.GenericSolver):
-  """Solver for Unhomogenized Fickian Diffusion
-  Additional attributes not inherited from GenericSolver:
-    meshinfo = instance of solver_general.MeshInfo
+class UnhomogFickianSimulator(simulator_general.GenericSimulator):
+  """Simulator for Unhomogenized Fickian Diffusion
+  Additional attributes not inherited from GenericSimulator:
+    meshinfo = instance of simulator_general.MeshInfo
     conditions = instance of UnhomogFickianConditions
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
@@ -34,10 +34,10 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
   def __init__(self,modelparams):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance"""
+      modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
-    super(UnhomogFickianSolver, self).__init__(modelparams)
+    super(UnhomogFickianSimulator, self).__init__(modelparams)
 
     #Get conditions
     self.conditions=UnhomogFickianConditions(**modelparams.conditions)
@@ -61,10 +61,10 @@ class UnhomogFickianSolver(solver_general.GenericSolver):
     self.a=fem.dot(fem.grad(self.c),fem.grad(self.v))*fem.dx
     self.L=fem.Constant(0)*self.v*self.ds
 
-  def solve(self):
-    "Do the step of solving this equation"
+  def run(self):
+    "Run this simulation."
     self.soln=fem.Function(self.V)
     fem.solve(self.a==self.L, self.soln, self.bcs)
     return
 
-solverclasses={'fickian_unhomog':UnhomogFickianSolver}
+simulatorclasses={'fickian_unhomog':UnhomogFickianSimulator}

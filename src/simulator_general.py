@@ -1,4 +1,4 @@
-#Functions used by various solvers
+#Functions used by various simulators
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
@@ -25,7 +25,7 @@ def list_outputfiles(cmdlist):
   Arguments:
     cmdlist = list of data extraction commands,
       each command consists of pair (cmdname, arguments):
-        cmdname = name of data extraction method of the solver class
+        cmdname = name of data extraction method of the simulator class
         arguments = dictionary of all arguments needed by the extraction method
   Return:
     outfiles = list of generated output files (names only, not including their folder)"""
@@ -45,29 +45,29 @@ class GenericConditions(common.ParameterSet):
   __slots__=['elementorder']
 
 class OutData(common.ParameterSet):
-  """Data from solver to be written to disk.
+  """Data from simulator to be written to disk.
   Attributes:
     plots = Dictionary of plot data, {plotname: [plotdata.PlotSeries, ...], ...}"""
   __slots__=['plots']
 
-class SolverCustomizations(common.ParameterSet):
-  """Information about custom methods and attributes for the solver class
+class SimulatorCustomizations(common.ParameterSet):
+  """Information about custom methods and attributes for the simulator class
   Attributes:
-    modules = a sequence of modules to be imported. All functions defined inside become methods of the solver.
+    modules = a sequence of modules to be imported. All functions defined inside become methods of the simulator.
       (Technically, all functions whose names appear in dir(module), which could be tailored by defining __dir__ if desired.)
     initializations = a dictionary {module name: {variable: value}}
       Upon loading the module, the values in this dictionary will be passed as keyword arguments
         to the function `initialize_module`, if present, within the module.
       Modules listed here but not in `modules` are silently ignored.
-    extra = dictionary {additional solver attributes: initial value}"""
+    extra = dictionary {additional simulator attributes: initial value}"""
   __slots__=['modules','initializations','extra']
 
 class ModelParametersBase(common.ParameterSet):
-  """Subclass of common.ParameterSet to store generic solver parameters
+  """Subclass of common.ParameterSet to store generic simulator parameters
   Note that this class does not have a 'run' method,
-  because it doesn't have the solver class to be used for the specified equation.
+  because it doesn't have the simulator class to be used for the specified equation.
   It can't, because those modules need to import this one, and circular dependency is not allowed.
-  See module 'solver_run.py' for the derived class that has a 'run' method.
+  See module 'simulator_run.py' for the derived class that has a 'run' method.
   Attributes:
     To be read in from file:
       modelname = stem name for output files
@@ -80,12 +80,12 @@ class ModelParametersBase(common.ParameterSet):
         which will usually inherit from GenericConditions.
       dataextraction = a sequence of data extraction commands to execute after solving the model
         Each command is a pair (cmdname, arguments), where
-          cmdname = name of the solver object's method to call, as a string
+          cmdname = name of the simulator object's method to call, as a string
           arguments = dictionary of arguments to the method: {argname: value,...}
       datasteps = a sequence of data extraction commands to execute at each time step
-        Note: Not all solvers will support this argument. It is mainly intended for time-domain equations.
+        Note: Not all simulators will support this argument. It is mainly intended for time-domain equations.
         The command structure is the same as for dataextraction.
-      customizations = parameters specifying an instance of SolverCustomizations
+      customizations = parameters specifying an instance of SimulatorCustomizations
     To be calculated from methods:
       outdir = folder containing output files
       xmlfolder = path to xml input files for mesh
@@ -107,7 +107,7 @@ class ModelParametersBase(common.ParameterSet):
     self._more_inputfiles=[thisfile, common.__file__]
     #Load customization info, if present
     if hasattr(self,'customizations'):
-      self.customizations=SolverCustomizations(**self.customizations)
+      self.customizations=SimulatorCustomizations(**self.customizations)
       for modname in getattr(self.customizations,'modules',[]):
         self._more_inputfiles.append(osp.join(FS.custom_modules_folder,modname+'.py'))
     #Get XML files
@@ -152,8 +152,8 @@ class MeshInfo:
     self.metadata=common.readyaml(modelparams.meshmetafile)
 
 
-class GenericSolver(object):
-  """A generic solver, to be subclassed by solvers for the specific equations
+class GenericSimulator(object):
+  """A generic simulator, to be subclassed by simulators for the specific equations
   This class is not directly usable itself.
   Derived classes should, at a minimum:
     - override __init__ to set up the variational problem (it's ok to use super() to set up the mesh)
@@ -161,16 +161,16 @@ class GenericSolver(object):
       and other data needed by their data extraction functions.
   Subclasses may choose to override the extraction functions provided here.
   Attributes:
-    modelparams = solver_run.ModelParameters instance
+    modelparams = simulator_run.ModelParameters instance
     diskwrite = boolean, True to write results to disk.
     outdir = directory for output data
     results = dictionary of results used in data extraction calculations
     info = dictionary of input and output data, stored to infofile as defined in folderstructure
     outdata = instance of OutData"""
   def __init__(self,modelparams):
-    """Initialize the solver by loading the Mesh and MeshFunctions.
+    """Initialize the simulator by loading the Mesh and MeshFunctions.
     Arguments:
-      modelparams = solver_run.ModelParameters instance"""
+      modelparams = simulator_run.ModelParameters instance"""
     #Store defining ParameterSet objects
     self.modelparams=modelparams
 
@@ -198,7 +198,7 @@ class GenericSolver(object):
           kwargs = module_initializations[modname]
           if (kwargs is not None) and hasattr(themod,'initialize_module'):
             themod.initialize_module(**kwargs)
-        #Assign all module functions as solver methods
+        #Assign all module functions as simulator methods
         mod_contents=dict([(f,getattr(themod,f)) for f in dir(themod)])
         for nm, itm in mod_contents.items():
           if isinstance(itm,types.FunctionType):
@@ -211,15 +211,15 @@ class GenericSolver(object):
   def complete(cls,*args):
     """Convenience function to set up and solve the model, then generate all the requested output.
     Arguments:
-      *args to be passed to the the solver class __init__"""
+      *args to be passed to the the simulator class __init__"""
     obj=cls(*args)
-    obj.solve()
+    obj.run()
     obj.create_output()
     return obj
 
-  def solve(self):
+  def run(self):
     "Method to be overridden by derived classes"
-    raise NotImplementedError("%s did not override 'solve' method."%str(type(self)))
+    raise NotImplementedError("%s did not override 'run' method."%str(type(self)))
 
   def convert_input_value(self,arg,element,expclass=fem.Expression,classargs=None):
     """Convert the input value into an appropriate FEniCS object: Constant or Expression.

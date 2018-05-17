@@ -11,18 +11,18 @@ import os.path as osp
 import fenics as fem
 
 #Local
-import solver_general
+import simulator_general
 
-class LPBConditions(solver_general.GenericConditions):
-  """Condition defnitions for use with LPBSolver
+class LPBConditions(simulator_general.GenericConditions):
+  """Condition defnitions for use with LPBSimulator
   Attributes:
     dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
     debye_length = Debye length"""
   __slots__=['dirichlet','debye_length']
 
-class LPBSolver(solver_general.GenericSolver):
-  """Solver for linearized Poisson-Boltzmann equation.
-  Additional attributes not inherited from GenericSolver:
+class LPBSimulator(simulator_general.GenericSimulator):
+  """Simulator for linearized Poisson-Boltzmann equation.
+  Additional attributes not inherited from GenericSimulator:
     conditions = instance of LPBConditions
     lambda_D = Debye length
     V = FEniCS FunctionSpace on the mesh
@@ -35,11 +35,11 @@ class LPBSolver(solver_general.GenericSolver):
   def __init__(self,modelparams,other):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance
-      other = solver to get mesh from"""
+      modelparams = simulator_run.ModelParameters instance
+      other = simulator to get mesh from"""
 
     #Load parameters, init output, mesh setup
-    super(LPBSolver, self).__init__(modelparams)
+    super(LPBSimulator, self).__init__(modelparams)
 
     #Load mesh and meshfunctions
     self.meshinfo=other.meshinfo
@@ -70,23 +70,23 @@ class LPBSolver(solver_general.GenericSolver):
     self.a=((1/self.lambda_D**2)*self.phi*self.v + fem.dot(fem.grad(self.phi),fem.grad(self.v)))*fem.dx
     self.L=fem.Constant(0)*self.v*self.ds
 
-  def solve(self):
-    "Do the step of solving this equation"
+  def run(self):
+    "Run this simulation"
     self.soln=fem.Function(self.V)
     fem.solve(self.a==self.L, self.soln, self.bcs)
     return
 
-#Lookup of electric potential solvers by name
-potentialsolverclasses={'linear_pb':LPBSolver}
+#Lookup of electric potential simulators by name
+potentialsimulatorclasses={'linear_pb':LPBSimulator}
 
-class SUConditions(solver_general.GenericConditions):
-  """Condition defnitions for use with SUSolver
+class SUConditions(simulator_general.GenericConditions):
+  """Condition defnitions for use with SUSimulator
   Attributes:
     dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
     D_bulk = bulk diffusion constant
     q = electric charge of ion
     beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
-    potential = dictionary defining solver_run.ModelParameters for electric potential
+    potential = dictionary defining simulator_run.ModelParameters for electric potential
     trans_dirichlet = Dirichlet boundary conditions after Slotboom transformation
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
@@ -106,16 +106,16 @@ class SUConditions(solver_general.GenericConditions):
     self.trans_dirichlet=transvals
     return
 
-class SUSolver(solver_general.GenericSolver):
-  """Solver for Unhomogenized Smoluchowski Diffusion
-  Additional attributes not inherited from GenericSolver:
+class SUSimulator(simulator_general.GenericSimulator):
+  """Simulator for Unhomogenized Smoluchowski Diffusion
+  Additional attributes not inherited from GenericSimulator:
     conditions = instance of SUConditions
     beta_q = product of beta and q (for convenience)
     V = FEniCS FunctionSpace on the mesh
     V_vec = FEniCS VectorFunctionSpace on the mesh
     bcs = FEniCS BCParameters
     ds = FEniCS Measure for facet boundary conditions
-    potsolv = instance of solver for the electric potential
+    potsim = instance of simulator for the electric potential
     Dbar = FEniCS Function
     cbar = FEniCS TrialFunction on V
     v = FEniCS TestFunction on V
@@ -124,10 +124,10 @@ class SUSolver(solver_general.GenericSolver):
   def __init__(self,modelparams):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance"""
+      modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
-    super(SUSolver, self).__init__(modelparams)
+    super(SUSimulator, self).__init__(modelparams)
 
     #Get conditions
     self.conditions=SUConditions(**modelparams.conditions)
@@ -144,16 +144,16 @@ class SUSolver(solver_general.GenericSolver):
     potentialparams_dict=self.conditions.potential
     for key in ['modelname','meshname','basename']:
       potentialparams_dict[key]=getattr(modelparams,key)
-    potentialparams=solver_general.ModelParametersBase(**potentialparams_dict)
-    self.potsolv=potentialsolverclasses[potentialparams.equation](potentialparams,self)
-    self.potsolv.diskwrite=False
-    self.potsolv.solve()
-    self.potsolv.create_output()
-    self.info['potential']=self.potsolv.info
-    self.outdata.plots=self.potsolv.outdata.plots
+    potentialparams=simulator_general.ModelParametersBase(**potentialparams_dict)
+    self.potsim=potentialsimulatorclasses[potentialparams.equation](potentialparams,self)
+    self.potsim.diskwrite=False
+    self.potsim.run()
+    self.potsim.create_output()
+    self.info['potential']=self.potsim.info
+    self.outdata.plots=self.potsim.outdata.plots
 
     #Dirichlet boundary conditions
-    self.conditions.transform_bcs(self.potsolv.conditions.dirichlet,self.beta_q) #apply Slotboom transformation
+    self.conditions.transform_bcs(self.potsim.conditions.dirichlet,self.beta_q) #apply Slotboom transformation
     self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in self.conditions.trans_dirichlet.items()]
 
     #Neumann boundary conditions
@@ -162,7 +162,7 @@ class SUSolver(solver_general.GenericSolver):
       raise NotImplementedError
 
     #Define the Dbar function
-    self.Dbar=self.conditions.D_bulk*fem.exp(-self.beta_q*self.potsolv.soln)
+    self.Dbar=self.conditions.D_bulk*fem.exp(-self.beta_q*self.potsim.soln)
     self.Dbar_proj=fem.project(self.Dbar,self.V)
 
     #Define variational problem
@@ -172,13 +172,13 @@ class SUSolver(solver_general.GenericSolver):
     self.a=self.Dbar*fem.dot(fem.grad(self.cbar),fem.grad(self.v))*self.d3x
     self.L=fem.Constant(0)*self.v*self.ds
 
-  def solve(self):
-    "Do the step of solving this equation"
+  def run(self):
+    "Run this simulation"
     #Solve for cbar
     self.sb_soln=fem.Function(self.V)
     fem.solve(self.a==self.L, self.sb_soln, self.bcs)
     #Transform back to concentration
-    self.soln=fem.project(self.sb_soln*fem.exp(-self.beta_q*self.potsolv.soln),self.V)
+    self.soln=fem.project(self.sb_soln*fem.exp(-self.beta_q*self.potsim.soln),self.V)
     return
 
-solverclasses={'smol_unhomog':SUSolver}
+simulatorclasses={'smol_unhomog':SUSimulator}

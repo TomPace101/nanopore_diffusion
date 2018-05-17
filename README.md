@@ -52,19 +52,19 @@ will have a '.keep' file to force `git` to include the directory itself.
     - unitsystem.py: convenience module for converting values to and from model units
     - common.py: functions and classes used by many of the other modules
     - buildgeom.py: code for generating `gmsh` .geo files from input data
-    - solver_general.py: functions and classes used by many of the solver modules
-    - solver_run.py: top-level module for running solvers
-    - solvers: equation-specific solver modules:
-        - solver_fickian_unhomog.py: solver for Fick's Law, unhomogenized
-        - solver_smol_unhomog.py: solver for Smoluchowski equation, unhomogenized
-        - solver_tdpnp_unhomog.py: solver for time-dependent Poisson-Nernst-Planck equation, unhomogenized
+    - simulator_general.py: functions and classes used by many of the simulator modules
+    - simulator_run.py: top-level module for running simulators
+    - simulators: equation-specific simulator modules:
+        - simulator_fickian_unhomog.py: simulator for Fick's Law, unhomogenized
+        - simulator_smol_unhomog.py: simulator for Smoluchowski equation, unhomogenized
+        - simulator_tdpnp_unhomog.py: simulator for time-dependent Poisson-Nernst-Planck equation, unhomogenized
         - __TODO__: more to come
     - collect_results.py: generate `pandas` DataFrame from FEM results, and store.
     - plotdata.py: for generating plots
     - postproc.py: code for handling post-processing requests
     - dodo.py: `doit` input file for the FEM analysis
     - paramgen.py: code for generating parameter sets from templates and input data
-    - customizations: modules used to customize the equation solvers for specific problems
+    - customizations: modules used to customize the equation simulators for specific problems
 - data: input and output data from FEM analysis
     - control.yaml: list of analyses to be run with `doit` (see description below)
     - mesh: data for mesh generation using `gmsh`
@@ -109,8 +109,8 @@ Misc. things to note:
   - generally, you could think of it as initialization reads in everything that needs to be read, and running is when output is actually generated
   - also, any quick and simple calculations can be done at initialization, but any time-consuming ones need to wait for running
   - for classes derived from common.ParameterSet, initialization gives all the information needed to create a task in doit, running actually performs the task
-  - for classes derived from solver_general.GenericSolver, initialization stops just before asking FEniCS to solve the problem, running solves and generates output
-- solver_general defines base classes used by other solver_modules, and solver_run uses those to define tasks and run analyses.
+  - for classes derived from simulator_general.GenericSimulator, initialization stops just before asking FEniCS to solve the problem, running solves and generates output
+- simulator_general defines base classes used by other simulator modules, and simulator_run uses those to define tasks and run analyses.
 - how files are located (e.g. the `_folders` attribute, etc.)
 
 Discuss how to use unitsystem.py

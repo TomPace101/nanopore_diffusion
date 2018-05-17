@@ -16,7 +16,7 @@ import plotdata
 def calc_netcharge(self,attrname='netcharge',solnname='soln'):
   """Calculate the net charge distribution in the mesh
   Arguments:
-    attrname = name of solver attribute to store resulting field
+    attrname = name of simulator attribute to store resulting field
     solnname = name of attribute storing the solution field as a list (all species and potential, probably created by splitfield)
   Required attributes:
   The new attribute is added.

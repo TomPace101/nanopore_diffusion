@@ -9,7 +9,7 @@ import fenics as fem
 #Local
 import unitsystem as UN
 import common
-import solver_general
+import simulator_general
 
 class SpeciesInfo(common.ParameterSet):
   """Information on each species
@@ -33,7 +33,7 @@ class ReactionInfo(common.ParameterSet):
   """Information on each reaction
   Attributes:
     constants: [list of reaction rate constants],
-    functions: [list of reaction rate function ....] (all functions must be assigned as methods of the solver through `customizations`)
+    functions: [list of reaction rate function ....] (all functions must be assigned as methods of the simulator through `customizations`)
     stoichio: [list of stoichiometric coefficients lists, negative for reactants, positive for products]
       each entry for stoichiometric coefficients is itself a list (one such list for each reaction), with one number for each species in the list for each reaction
       Thus, the total number of stoichiometric coefficients is the product of the number of reactions and the number of species.
@@ -70,8 +70,8 @@ class TimeDomainInfo(common.ParameterSet):
     #Stopping Criterion
     self.stopping=StoppingCriterion(**kwargs['stopping'])
 
-class TDPNPUConditions(solver_general.GenericConditions):
-  """Condition defnitions for use with TDPNPUSolver
+class TDPNPUConditions(simulator_general.GenericConditions):
+  """Condition defnitions for use with TDPNPUSimulator
   Attributes:
     elementorder = see base class
     dirichlet = dictionary of Dirichlet boundary conditions:
@@ -83,7 +83,7 @@ class TDPNPUConditions(solver_general.GenericConditions):
     species_info = dictionary defining a SpeciesInfo object
     reaction_info = dictionary defining a ReactionInfo object
     initial_potential = initial electric potential, assumed constant over space, as number
-    timedomain = instance of solver_general.TimeDomainInfo
+    timedomain = instance of simulator_general.TimeDomainInfo
     beta = optional, calculated from temperature if not provided"""
   __slots__=['dirichlet','neumann','beta','temperature','eps_r','species_info','reaction_info','initial_potential','timedomain']
   def __init__(self,**kwargs):
@@ -95,9 +95,9 @@ class TDPNPUConditions(solver_general.GenericConditions):
     #Get TimeDomainInfo instance
     self.timedomain=TimeDomainInfo(**self.timedomain)
 
-class TDPNPUSolver(solver_general.GenericSolver):
-  """Solver for Unhomogenized Time-Domain Poisson-Nernst-Planck Diffusion
-  Additional attributes not inherited from GenericSolver:
+class TDPNPUSimulator(simulator_general.GenericSimulator):
+  """Simulator for Unhomogenized Time-Domain Poisson-Nernst-Planck Diffusion
+  Additional attributes not inherited from GenericSimulator:
     conditions = instance of TDPNPUConditions
     species = instance of SpeciesInfo
     reactions = instance of ReactionInfo
@@ -119,10 +119,10 @@ class TDPNPUSolver(solver_general.GenericSolver):
   def __init__(self,modelparams):
     """Initialize the model.
     Arguments:
-      modelparams = solver_run.ModelParameters instance"""
+      modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
-    super(TDPNPUSolver, self).__init__(modelparams)
+    super(TDPNPUSimulator, self).__init__(modelparams)
 
     #Get conditions
     self.conditions=TDPNPUConditions(**modelparams.conditions)
@@ -279,7 +279,7 @@ class TDPNPUSolver(solver_general.GenericSolver):
     else:
       raise Exception("Unknown stopping criterion.")
 
-  def solve(self):
+  def run(self):
     """Do the time steps"""
 
     #Formulate problem and solver
@@ -302,4 +302,4 @@ class TDPNPUSolver(solver_general.GenericSolver):
       self.u_k.assign(self.u)
       self.k+=1
 
-solverclasses={'tdpnp_unhomog':TDPNPUSolver}
+simulatorclasses={'tdpnp_unhomog':TDPNPUSimulator}
