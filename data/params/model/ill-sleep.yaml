@@ -4,7 +4,7 @@
 #Blank (bare) documents are skipped
 
 #Model definition
-#Each document defines an instance of solver_general.ModelParameters
+#Each document defines an instance of simulator_general.ModelParameters
 ---
 modelname: ill-sleep_model
 meshname: ill-sleep_mesh

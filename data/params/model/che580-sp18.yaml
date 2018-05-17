@@ -4,7 +4,7 @@
 #Blank (bare) documents are skipped
 
 #Model definition
-#Each document defines an instance of solver_general.ModelParameters
+#Each document defines an instance of simulator_general.ModelParameters
 ---
 modelname: che580-sp18
 meshname: che580-sp18
