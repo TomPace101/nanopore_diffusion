@@ -1,4 +1,4 @@
-#Process a jinja2 template into one (or more) gmsh .geo file(s)
+"""Geneate gmsh .geo file(s) from a jinja2 template and data read in from a yaml file."""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
