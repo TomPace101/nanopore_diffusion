@@ -68,6 +68,8 @@ Mesh Generation
 
 This process creates a ``.geo`` file, which ``gmsh`` then processes into ``.msh`` format,
 which is then converted to ``.xml`` usable by ``FEniCS`` with ``dolfin-convert``.
+But sometimes we want to run code in parallel,
+so we also have to use ``FEniCS`` to convert the mesh to HDF5 format.
 
 buildgeom.py
 ------------
@@ -85,6 +87,12 @@ geom_mk_xml.py
 --------------
 
 .. automodule:: geom_mk_xml
+   :members:
+
+geom_mk_hdf5.py
+---------------
+
+.. automodule:: geom_mk_hdf5
    :members:
 
 .. _Simulation:
