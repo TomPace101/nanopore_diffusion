@@ -381,7 +381,21 @@ happen multiple times instead.
 
 Pete mentioned on Slack that he has an example code that does this correctly.
 (Thursday, February 15, between 12pm and 12:30 pm)
-He also said it's in `template_timedep.py`
+He also said it's in `template_timedep.py`.
+
+Turns out the key part is having the mesh in HDF5 format.
+See log 2018-05-17.md.
+There is an example of how to do that here:
+https://fenicsproject.org/qa/2409/gmsh-to-hdf5/
+And to include MeshFunctions here:
+https://fenicsproject.org/qa/274/consistent-io-of-mesh-and-function-in-parallel/
+Also, here is a very simple example by Garth N. Wells:
+https://bitbucket.org/garth-wells/dolfin-xml-hdf5-converter/src/master/dolfin-mesh.py
+
+So it sounds like we need `geom_mk_hdf5`
+to read in the xml files the same way the simulator does right now,
+then generate the hdf5.
+Then the simulator needs to read in the hdf5 file instead.
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
