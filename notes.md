@@ -456,7 +456,9 @@ _TODO_ sphinx documentation
   https://github.com/jxltom/sphinx-markdown-extension
 - include latex files (only for latex output): use `raw`
   https://stackoverflow.com/questions/45064321/sphinx-including-tex-file-via-raw-latex?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-- formatting of docstrings
+- cross-references
+  https://stackoverflow.com/questions/21289806/link-to-class-method-in-python-docstring?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+- formatting of docstrings (ongoing)
 
 We need to reconsider this whole approach to the document.
 The various goals are:

@@ -15,28 +15,34 @@ import simulator_general
 
 class LPBConditions(simulator_general.GenericConditions):
   """Condition defnitions for use with LPBSimulator
+
   Attributes:
-    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
-    debye_length = Debye length"""
+
+    - dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
+    - debye_length = Debye length"""
   __slots__=['dirichlet','debye_length']
 
 class LPBSimulator(simulator_general.GenericSimulator):
   """Simulator for linearized Poisson-Boltzmann equation.
+
   Additional attributes not inherited from GenericSimulator:
-    conditions = instance of LPBConditions
-    lambda_D = Debye length
-    V = FEniCS FunctionSpace on the mesh
-    bcs = list of FEniCS DirichletBC instances
-    ds = FEniCS Measure for facet boundary conditions
-    phi = FEniCS TrialFunction on V
-    v = FEniCS TestFunction on V
-    a = bilinear form in variational problem
-    L = linear form in variational problem"""
+
+    - conditions = instance of LPBConditions
+    - lambda_D = Debye length
+    - V = FEniCS FunctionSpace on the mesh
+    - bcs = list of FEniCS DirichletBC instances
+    - ds = FEniCS Measure for facet boundary conditions
+    - phi = FEniCS TrialFunction on V
+    - v = FEniCS TestFunction on V
+    - a = bilinear form in variational problem
+    - L = linear form in variational problem"""
   def __init__(self,modelparams,other):
     """Initialize the model.
+
     Arguments:
-      modelparams = simulator_run.ModelParameters instance
-      other = simulator to get mesh from"""
+
+      - modelparams = simulator_run.ModelParameters instance
+      - other = simulator to get mesh from"""
 
     #Load parameters, init output, mesh setup
     super(LPBSimulator, self).__init__(modelparams)
@@ -81,24 +87,32 @@ potentialsimulatorclasses={'linear_pb':LPBSimulator}
 
 class SUConditions(simulator_general.GenericConditions):
   """Condition defnitions for use with SUSimulator
+
   Attributes:
-    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
-    D_bulk = bulk diffusion constant
-    q = electric charge of ion
-    beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
-    potential = dictionary defining simulator_run.ModelParameters for electric potential
-    trans_dirichlet = Dirichlet boundary conditions after Slotboom transformation
+
+    - dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
+    - D_bulk = bulk diffusion constant
+    - q = electric charge of ion
+    - beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
+    - potential = dictionary defining simulator_run.ModelParameters for electric potential
+    - trans_dirichlet = Dirichlet boundary conditions after Slotboom transformation
+
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
   __slots__=['dirichlet','D_bulk','q','beta','potential','trans_dirichlet']
   def transform_bcs(self,pdict,beta_q):
     """Apply Slotboom transformation to Dirichlet boundary conditions.
+
     This function requires that the facets with Dirichlet conditions for the concentration
       must also have Dirichlet conditions for the potential. (The reverse is not required.)
+
     Arguments:
-      pdict = dictionary of Dirichlet boundary conditions for the potential
-      beta_q = product of beta and q
+
+      - pdict = dictionary of Dirichlet boundary conditions for the potential
+      - beta_q = product of beta and q
+
     No return value.
+
     trans_dirichlet attribute is updated"""
     transvals={}
     for psurf,cval in self.dirichlet.items():
@@ -108,23 +122,27 @@ class SUConditions(simulator_general.GenericConditions):
 
 class SUSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Smoluchowski Diffusion
+
   Additional attributes not inherited from GenericSimulator:
-    conditions = instance of SUConditions
-    beta_q = product of beta and q (for convenience)
-    V = FEniCS FunctionSpace on the mesh
-    V_vec = FEniCS VectorFunctionSpace on the mesh
-    bcs = FEniCS BCParameters
-    ds = FEniCS Measure for facet boundary conditions
-    potsim = instance of simulator for the electric potential
-    Dbar = FEniCS Function
-    cbar = FEniCS TrialFunction on V
-    v = FEniCS TestFunction on V
-    a = bilinear form in variational problem
-    L = linear form in variational problem"""
+
+    - conditions = instance of SUConditions
+    - beta_q = product of beta and q (for convenience)
+    - V = FEniCS FunctionSpace on the mesh
+    - V_vec = FEniCS VectorFunctionSpace on the mesh
+    - bcs = FEniCS BCParameters
+    - ds = FEniCS Measure for facet boundary conditions
+    - potsim = instance of simulator for the electric potential
+    - Dbar = FEniCS Function
+    - cbar = FEniCS TrialFunction on V
+    - v = FEniCS TestFunction on V
+    - a = bilinear form in variational problem
+    - L = linear form in variational problem"""
   def __init__(self,modelparams):
     """Initialize the model.
+
     Arguments:
-      modelparams = simulator_run.ModelParameters instance"""
+
+      - modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
     super(SUSimulator, self).__init__(modelparams)

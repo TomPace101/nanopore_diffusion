@@ -13,12 +13,15 @@ import simulator_general
 
 class SpeciesInfo(common.ParameterSet):
   """Information on each species
+
   Attributes:
-    symbol: [list of chemical symbols as strings],
-    z: [list of ionic charges as numbers],
-    initconc: [list of initial concentrations as numbers],
-    D: [list of diffusion constants]
-    N: number of species (calculated)
+
+    - symbol: [list of chemical symbols as strings],
+    - z: [list of ionic charges as numbers],
+    - initconc: [list of initial concentrations as numbers],
+    - D: [list of diffusion constants]
+    - N: number of species (calculated)
+
   Each list must have 1 entry per diffusing chemical species"""
   __slots__=['symbol','z','initconc','D','N']
   def __init__(self,**kwargs):
@@ -31,13 +34,18 @@ class SpeciesInfo(common.ParameterSet):
 
 class ReactionInfo(common.ParameterSet):
   """Information on each reaction
+
   Attributes:
-    constants: [list of reaction rate constants],
-    functions: [list of reaction rate function ....] (all functions must be assigned as methods of the simulator through `customizations`)
-    stoichio: [list of stoichiometric coefficients lists, negative for reactants, positive for products]
-      each entry for stoichiometric coefficients is itself a list (one such list for each reaction), with one number for each species in the list for each reaction
+
+    - constants: [list of reaction rate constants],
+    - functions: [list of reaction rate function ....] (all functions must be assigned as methods of the simulator through `customizations`)
+    - stoichio: [list of stoichiometric coefficients lists, negative for reactants, positive for products]
+
+      Each entry for stoichiometric coefficients is itself a list (one such list for each reaction),
+      with one number for each species in the list for each reaction.
       Thus, the total number of stoichiometric coefficients is the product of the number of reactions and the number of species.
-    N: number of reactions (calculated)
+    - N: number of reactions (calculated)
+
   Each list must have 1 entry per uni-directional reaction (bidirectional reactions are considered as 2 uni-directional reactions each)"""
   __slots__=['constants','functions','stoichio','N']
   def __init__(self,**kwargs):
@@ -50,9 +58,11 @@ class ReactionInfo(common.ParameterSet):
 
 class StoppingCriterion:
   """Define stopping criterion for time-domain simulation.
+
   Possible attributes:
-    numsteps = number of steps to stop after
-    t_end = time to stop after"""
+
+    - numsteps = number of steps to stop after
+    - t_end = time to stop after"""
   def __init__(self,**kwargs):
     assert len(kwargs.keys())==1, "Must specify exactly one stopping criterion, got %d in args: %s"%(len(kwargs.keys()),str(kwargs))
     self.numsteps=kwargs.get('numsteps',None)
@@ -60,9 +70,11 @@ class StoppingCriterion:
 
 class TimeDomainInfo(common.ParameterSet):
   """"Specify time steps and stopping criterion
+
   Attributes:
-    stepsize: Specification of time step size, as float
-    stopping: instance of StoppingCriterion"""
+
+    - stepsize: Specification of time step size, as float
+    - stopping: instance of StoppingCriterion"""
   __slots__=['stepsize','stopping']
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -72,19 +84,21 @@ class TimeDomainInfo(common.ParameterSet):
 
 class TDPNPUConditions(simulator_general.GenericConditions):
   """Condition defnitions for use with TDPNPUSimulator
+
   Attributes:
-    elementorder = see base class
-    dirichlet = dictionary of Dirichlet boundary conditions:
+
+    - elementorder = see base class
+    - dirichlet = dictionary of Dirichlet boundary conditions:
       {physical facet number: [solution values, None for no condition]}
-    neumann = dictionary of Neumann boundary conditions:
+    - neumann = dictionary of Neumann boundary conditions:
       {physical facet number: [normal derivative values, None for no condition]}
-    temperature = the temperature under consideration, as a number
-    eps_r = relative permittivity of the medium
-    species_info = dictionary defining a SpeciesInfo object
-    reaction_info = dictionary defining a ReactionInfo object
-    initial_potential = initial electric potential, assumed constant over space, as number
-    timedomain = instance of simulator_general.TimeDomainInfo
-    beta = optional, calculated from temperature if not provided"""
+    - temperature = the temperature under consideration, as a number
+    - eps_r = relative permittivity of the medium
+    - species_info = dictionary defining a SpeciesInfo object
+    - reaction_info = dictionary defining a ReactionInfo object
+    - initial_potential = initial electric potential, assumed constant over space, as number
+    - timedomain = instance of simulator_general.TimeDomainInfo
+    - beta = optional, calculated from temperature if not provided"""
   __slots__=['dirichlet','neumann','beta','temperature','eps_r','species_info','reaction_info','initial_potential','timedomain']
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -97,29 +111,33 @@ class TDPNPUConditions(simulator_general.GenericConditions):
 
 class TDPNPUSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Time-Domain Poisson-Nernst-Planck Diffusion
+
   Additional attributes not inherited from GenericSimulator:
-    conditions = instance of TDPNPUConditions
-    species = instance of SpeciesInfo
-    reactions = instance of ReactionInfo
-    Nspecies = number of chemical species
-    Nvars = number of field variables to solve for
-    dt = timestep
-    V = FEniCS FunctionSpace on the mesh
-    u = FEniCS Function on the FunctionSpace for the current timestep
-    u_k = FENiCS Function on the FunctionSpace for the previous timestep
-    timedeps = time-dependent Expressions that need to be updated at each timestep
-    bcs = FEniCS BCParameters (list of DirichletBC instances)
-    nbcs = dictionary of Neumann boundary conditions: {(facet number, variable index): Expression or Constant for the condition, ...}
-    hbcs = dictionary of PNP hybrid boundary term info : {(): } ##TODO
-    ds = FEniCS Measure for facet boundary conditions
-    n = FEniCS FacetNormal for facet boundary conditions
-    FF = symbolic functional form, which is set equal to zero in the weak form equation
-    J = symbolic Jacobian of FF
-    k = current step number, as integer"""
+
+    - conditions = instance of TDPNPUConditions
+    - species = instance of SpeciesInfo
+    - reactions = instance of ReactionInfo
+    - Nspecies = number of chemical species
+    - Nvars = number of field variables to solve for
+    - dt = timestep
+    - V = FEniCS FunctionSpace on the mesh
+    - u = FEniCS Function on the FunctionSpace for the current timestep
+    - u_k = FENiCS Function on the FunctionSpace for the previous timestep
+    - timedeps = time-dependent Expressions that need to be updated at each timestep
+    - bcs = FEniCS BCParameters (list of DirichletBC instances)
+    - nbcs = dictionary of Neumann boundary conditions: {(facet number, variable index): Expression or Constant for the condition, ...}
+    - hbcs = dictionary of PNP hybrid boundary term info : {(): } ##TODO
+    - ds = FEniCS Measure for facet boundary conditions
+    - n = FEniCS FacetNormal for facet boundary conditions
+    - FF = symbolic functional form, which is set equal to zero in the weak form equation
+    - J = symbolic Jacobian of FF
+    - k = current step number, as integer"""
   def __init__(self,modelparams):
     """Initialize the model.
+
     Arguments:
-      modelparams = simulator_run.ModelParameters instance"""
+
+      - modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
     super(TDPNPUSimulator, self).__init__(modelparams)
@@ -269,6 +287,7 @@ class TDPNPUSimulator(simulator_general.GenericSimulator):
 
   def stopnow(self):
     """Check if stopping criterion is met.
+
     Returns True if time to stop, False otherwise"""
 
     criterion=self.conditions.timedomain.stopping

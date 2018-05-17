@@ -32,9 +32,7 @@ class ModelParameters(simulator_general.ModelParametersBase):
   #Each module implementing a simulator should define a simulatorclasses dictionary, so we just need to put them all together
   simulatorclasses={}
   for sm_name in simulator_module_list:
-    sm=importlib.import_module(sm_name)
-    simulatorclasses.update(sm.simulatorclasses)
-  del sm
+    simulatorclasses.update(importlib.import_module(sm_name).simulatorclasses)
   
   def __init__(self,**kwd):
     #Initialization from base class

@@ -45,6 +45,9 @@ The documentation of each class will indicate any attributes which are converted
 
 Thus, the key to understanding the input files is to look at the appropriate class definitions in this documentation.
 
+In particular, note that many parameters for a simulation are defined in the simulator module it uses,
+not in ``simulator_general.py`` or ``simulator_run.py``.
+
 Command-Line Execution
 ----------------------
 

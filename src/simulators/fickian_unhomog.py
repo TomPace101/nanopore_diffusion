@@ -13,28 +13,34 @@ import simulator_general
 
 class UnhomogFickianConditions(simulator_general.GenericConditions):
   """Condition defnitions for use with UnhomogFickianSimulator
+
   Attributes:
-    dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
-    D_bulk = bulk diffusion constant"""
+
+    - dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
+    - D_bulk = bulk diffusion constant"""
   __slots__=['dirichlet','D_bulk']
 
 class UnhomogFickianSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Fickian Diffusion
+
   Additional attributes not inherited from GenericSimulator:
-    meshinfo = instance of simulator_general.MeshInfo
-    conditions = instance of UnhomogFickianConditions
-    V = FEniCS FunctionSpace on the mesh
-    V_vec = FEniCS VectorFunctionSpace on the mesh
-    bcs = FEniCS BCParameters
-    ds = FEniCS Measure for facet boundary conditions
-    c = FEniCS TrialFunction on V
-    v = FEniCS TestFunction on V
-    a = bilinear form in variational problem
-    L = linear form in variational problem"""
+
+    - meshinfo = instance of simulator_general.MeshInfo
+    - conditions = instance of UnhomogFickianConditions
+    - V = FEniCS FunctionSpace on the mesh
+    - V_vec = FEniCS VectorFunctionSpace on the mesh
+    - bcs = FEniCS BCParameters
+    - ds = FEniCS Measure for facet boundary conditions
+    - c = FEniCS TrialFunction on V
+    - v = FEniCS TestFunction on V
+    - a = bilinear form in variational problem
+    - L = linear form in variational problem"""
   def __init__(self,modelparams):
     """Initialize the model.
+
     Arguments:
-      modelparams = simulator_run.ModelParameters instance"""
+
+      - modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
     super(UnhomogFickianSimulator, self).__init__(modelparams)
