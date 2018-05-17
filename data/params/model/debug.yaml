@@ -151,8 +151,8 @@ conditions:
 datasteps:
   - [splitfield, {namewhole: u, namesplit: ulist}]
   - [calc_netcharge, {solnname: ulist}]
-  - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
-  - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 1}]
+  # - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  # - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 1}]
   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'CaCaM', attrname: ulist, idx: 1}]
 dataextraction:
