@@ -36,6 +36,8 @@ The problem description document requires the following software:
 
 The code is hosted in a `git` repository (https://git-scm.com/).
 
+__TODO__ sphinx and all of its requirements.
+
 # Files and Folders
 
 Otherwise empty directories (eg directories containing only untracked files or subdirectories)

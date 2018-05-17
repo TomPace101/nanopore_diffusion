@@ -1,3 +1,4 @@
+"""Classes and functions used in many of the other modules"""
 
 #Standard library
 import argparse
@@ -121,19 +122,23 @@ class ParameterSet(object):
   This is not intended as a method for storing complicated objects;
   all attributes should have values that are numbers, strings, sequences, or dictionaries
   whose items follow the same rules.
+  
   Attributes:
-    basename = a base name which may be shared by a group of instances (usually the stem name of the source file)
-    sourcefile = file from which the object was read, if any
+  
+    - basename = a base name which may be shared by a group of instances (usually the stem name of the source file)
+    - sourcefile = file from which the object was read, if any
+
   Frequently, derived classes will add slots for some of the following attributes, which this class supports:
-    _inputfile_attrs: list of attributes containing input file paths
-    _more_inputfiles: list of additional input file paths not contained in other attributes
-    _outputfile_attrs: list of attributes containing output file paths
-    _more_outputfiles: list of additional output file paths not contained in other attributes
-    _folders: dictionary {attribute name: folder path} used to find the folders for prepending to file names specified in other attributes
-    _required_attrs: list of attribute names that must be defined when the object is first loaded
-    _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
-    _taskname_src_attr: string that is the name of the attribute that contains the task name for the object
-    _child_attrs: list of attributes that contain other subclasses of ParameterSet,
+
+    - _inputfile_attrs: list of attributes containing input file paths
+    - _more_inputfiles: list of additional input file paths not contained in other attributes
+    - _outputfile_attrs: list of attributes containing output file paths
+    - _more_outputfiles: list of additional output file paths not contained in other attributes
+    - _folders: dictionary {attribute name: folder path} used to find the folders for prepending to file names specified in other attributes
+    - _required_attrs: list of attribute names that must be defined when the object is first loaded
+    - _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
+    - _taskname_src_attr: string that is the name of the attribute that contains the task name for the object
+    - _child_attrs: list of attributes that contain other subclasses of ParameterSet,
       which should be visted recursively when collecting all the input and output files"""
   __slots__=('basename','sourcefile') #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwd):
@@ -148,12 +153,15 @@ class ParameterSet(object):
   @classmethod
   def from_yaml(cls,fpath):
     """Read ParameterSet from a yaml file.
+
     Arguments:
-      fpath = path to the yaml file to read in
+
+      - fpath = path to the yaml file to read in
         This must be a single-document yaml file,
         and it is assumed to be structured as a single dictionary at the top level.
     Returns:
-      pset = a ParameterSet object as defined by the contents of the yaml file"""
+    
+      - pset = a ParameterSet object as defined by the contents of the yaml file"""
     d=readyaml(fpath)
     add_file_info(d,fpath)
     return cls.from_dict(d)

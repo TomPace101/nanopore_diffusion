@@ -1,3 +1,4 @@
+"""For collecting results from multiple simulations"""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

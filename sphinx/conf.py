@@ -15,6 +15,8 @@
 
 import os.path as osp
 import sys
+sys.path.insert(0, osp.abspath('../src/customizations'))
+sys.path.insert(0, osp.abspath('../src/simulators'))
 sys.path.insert(0, osp.abspath('../src'))
 
 

@@ -1,4 +1,4 @@
-#Functions used by various simulators
+"""Functions used by various simulators"""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

@@ -1,4 +1,4 @@
-#Call dolfin-convert to convert .msh files to .xml, based on derivative of MeshParameters
+"""Call dolfin-convert to convert .msh files to .xml, based on derivative of MeshParameters"""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

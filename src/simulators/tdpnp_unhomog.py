@@ -1,5 +1,5 @@
-#Solve the unhomogenized PNP diffusion problem
-#and extract the data needed for post-processing efforts
+"""Solve the time-domain unhomogenized PNP diffusion problem
+and extract the data needed for post-processing efforts"""
 
 #Standard library
 

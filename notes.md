@@ -1,34 +1,7 @@
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
-_TODO_ sphinx startup
-- DONE: move source to src in Makefile and copy files
-- DONE: rename Makefile: use the -f option in make
-  OR can we move it to the conf directory?
-- DONE: rename conf.py?
-  You can't rename it, but you can move it:
-  http://www.sphinx-doc.org/en/master/glossary.html#term-configuration-directory
-- other files in current source:
-  - index.rst
-  - DONE: `_static` folder: in conf folder
-  - DONE: `_templates` folder: in conf folder
-- docstrings in markdown format? the other documents? toctree?
-  http://www.sphinx-doc.org/en/master/usage/markdown.html
-  https://github.com/jxltom/sphinx-markdown-extension
-- formatting of docstrings
-(there is discussion below about what to do after this)
-
 _TOOD_ zipping large data sets may need to come under control of doit
-
-_TODO_ more general reaction functions approach
-- simulations with different species overall may still contain the same reactions
-- sometimes we need to distinguish between previous and current step, but not always.
-Ideas:
-- use a dictionary? Seems excessive, and doesn't resolve the issue of multiple steps.
-- specify a mapping to the arguments. But what is that in terms of?
-Multiple steps seems like it will always require a separate function set up for such.
-So maybe we just want a way to keep straight which species is which.
-We could have the mapping to argument locations specified in the input file.
 
 
 # Formula derivations
@@ -187,6 +160,16 @@ We could make the condition itself a tuple instead of just a string:
 - the second could be a dictionary, sent as kwargs
 
 # Code/Misc
+
+_TODO_ more general reaction functions approach
+- simulations with different species overall may still contain the same reactions
+- sometimes we need to distinguish between previous and current step, but not always.
+Ideas:
+- use a dictionary? Seems excessive, and doesn't resolve the issue of multiple steps.
+- specify a mapping to the arguments. But what is that in terms of?
+Multiple steps seems like it will always require a separate function set up for such.
+So maybe we just want a way to keep straight which species is which.
+We could have the mapping to argument locations specified in the input file.
 
 _TODO_ Separate "model" parameters and "simulation" parameters
 For example, a simulation timestep would be a simulation parameter.
@@ -466,6 +449,12 @@ _MAYBE_ can we come up with a better name for paramgen_tmpl?
 - but we don't want anything that starts with 'paramgen' as its too close to 'params'
 
 # Problem Description
+
+_TODO_ sphinx documentation
+- docstrings in markdown format? the other documents? toctree?
+  http://www.sphinx-doc.org/en/master/usage/markdown.html
+  https://github.com/jxltom/sphinx-markdown-extension
+- formatting of docstrings
 
 We need to reconsider this whole approach to the document.
 The various goals are:

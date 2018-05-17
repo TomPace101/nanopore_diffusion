@@ -1,5 +1,5 @@
-#Solve the unhomogenized Fickian diffusion problem
-#and extract the data needed for post-processing efforts
+"""Solve the unhomogenized Fickian diffusion problem
+and extract the data needed for post-processing efforts"""
 
 #Standard library
 import os

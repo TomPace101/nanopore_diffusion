@@ -1,3 +1,4 @@
+"""Define the expected folder structure"""
 
 #Standard library
 import os

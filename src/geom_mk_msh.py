@@ -1,4 +1,4 @@
-#Call gmsh to convert .geo file(s) into .msh, based on derivative of MeshParameters
+"""Call gmsh to convert .geo file(s) into .msh, based derivative of MeshParameters"""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

@@ -1,3 +1,4 @@
+"""For generating plots from simulation data"""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

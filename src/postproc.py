@@ -1,4 +1,4 @@
-#Apply post-processing defintions
+"""Post-processing to generate additional data and graphics"""
 
 #Standard library
 import os.path as osp

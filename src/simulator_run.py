@@ -1,3 +1,5 @@
+"""For running simulations from the input yaml file(s)"""
+
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 import importlib
