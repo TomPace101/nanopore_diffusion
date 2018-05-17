@@ -223,3 +223,49 @@ model_plots:
   - <<: *plot8def #reuse definition
     figsize: [9, 7]
     filename: midline_phi.png
+---
+modelparamsfile: debug.yaml
+modelnames: [debug03_no_charge]
+model_plots:
+  - &plot1def
+    figsize: [11, 8.5]
+    filename: midpoint_conc_0_hist.pdf
+    plotname: midpoint_conc_0
+    xlabel: 'time (ns)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Ca2+ Concentration History at Midpoint'
+    fmts: ['k-']
+  - <<: *plot1def #reuse definition
+    figsize: [9, 7]
+    filename: midpoint_conc_0_hist.png
+  - &plot2def
+    <<: *plot1def #reuse definition
+    filename: midpoint_conc_1_hist.pdf
+    plotname: midpoint_conc_1
+    title: 'CaCaM Concentration History at Midpoint'
+  - <<: *plot2def #reuse definition
+    figsize: [9, 7]
+    filename: midpoint_conc_1_hist.png
+
+  - &plot5def
+    figsize: [11, 8.5]
+    filename: midline_conc_0.pdf
+    plotname: midline_conc_0
+    xlabel: 'Y (nm)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Midline Ca2+ Concentration at End of Simulation'
+    fmts: ['k-']
+  - <<: *plot5def #reuse definition
+    figsize: [9, 7]
+    filename: midline_conc_0.png
+  - &plot6def
+    figsize: [11, 8.5]
+    filename: midline_conc_1.pdf
+    plotname: midline_conc_1
+    xlabel: 'Y (nm)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Midline CaCaM Concentration at End of Simulation'
+    fmts: ['k-']
+  - <<: *plot6def #reuse definition
+    figsize: [9, 7]
+    filename: midline_conc_1.png

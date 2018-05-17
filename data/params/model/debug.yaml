@@ -119,6 +119,45 @@ dataextraction:
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_2, label: 'CaCaM', attrname: ulist, idx: 2}]
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_phi, label: 'Potential', attrname: ulist, idx: 3}]
+---
+modelname: debug03_no_charge
+meshname: debug2d
+equation: tdpnp_unhomog
+customizations:
+  modules: [output_td, rxnrates_CaM]
+  initializations:
+    rxnrates_CaM: {BT: 5.0e-6}
+conditions:
+  elementorder: 3
+  dirichlet:
+    1222: [null, null, 0]
+    1121: [null, null, 0]
+  temperature: 298 #Kelvin
+  eps_r: 78.5
+  species_info:
+    symbol:   [Ca2+, CaCaM]
+    z:        [0,    0]
+    initconc: [0.1,  2.5e-06]
+    D:        [1.9,  null]
+  reaction_info:
+    constants: [0.0016605390404271642, 1.0e-09]
+    functions: [rate_forward, rate_backward]
+    stoichio: [[-1,1],[1,-1]]
+  initial_potential: 0.0
+  timedomain:
+    stepsize: 500.0
+    stopping:
+      numsteps: 10
+datasteps:
+  - [splitfield, {namewhole: u, namesplit: ulist}]
+  - [calc_netcharge, {solnname: ulist}]
+  - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 1}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'CaCaM', attrname: ulist, idx: 1}]
+dataextraction:
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'CaCaM', attrname: ulist, idx: 1}]
 # ---
 # modelname: debug04
 # meshname: debug2d
@@ -126,7 +165,7 @@ dataextraction:
 # customizations:
 #   modules: [output_td, rxnrates_CaM]
 #   initializations:
-#     rxnrates_ill-sleep: {BT: 5.0e-6}
+#     rxnrates_CaM: {BT: 5.0e-6}
 # conditions:
 #   elementorder: 3
 #   dirichlet:
@@ -150,10 +189,10 @@ dataextraction:
 #   - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
 #   - [td_solutionfield, {filename: CaCaM.pvd, attrname: ulist, idx: 1}]
 #   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
-#   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_2, label: 'CaCaM', attrname: ulist, idx: 1}]
+#   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'CaCaM', attrname: ulist, idx: 1}]
 # dataextraction:
 #   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
-#   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_2, label: 'CaCaM', attrname: ulist, idx: 1}]
+#   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'CaCaM', attrname: ulist, idx: 1}]
 # 
 #---
 # modelname: debug05

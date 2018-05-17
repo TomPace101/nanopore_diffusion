@@ -241,8 +241,11 @@ class TDPNPUSimulator(simulator_general.GenericSimulator):
         ##wkform=fem.inner(J,fem.grad(vlist[s]))*fem.dx
         ##weakforms.append(wkform)
         term1=fem.inner(fem.grad(c),fem.grad(vlist[s]))*fem.dx
-        term2=beta*self.species.z[s]*c*fem.inner(fem.grad(vlist[s]),fem.grad(Phi))*fem.dx
-        weakforms.append(-self.species.D[s]*(term1+term2))
+        if self.species.z[s] != 0:
+          term2=beta*self.species.z[s]*c*fem.inner(fem.grad(vlist[s]),fem.grad(Phi))*fem.dx
+          weakforms.append(-self.species.D[s]*(term1+term2))
+        else:
+          weakforms.append(-self.species.D[s]*term1)
     #Boundary terms for Neumann conditions
     for tup,expr in self.nbcs.items():
       psurf,i = tup
@@ -254,14 +257,18 @@ class TDPNPUSimulator(simulator_general.GenericSimulator):
     #Hybrid boundary term
     for tup,expr in self.hbcs.items():
       psurf,s=tup
-      bterm = beta*self.species.z[s]*expr*clist[s]*vlist[s]*self.ds(psurf)
-      weakforms.append(bterm)
+      if self.species.z[s] != 0:
+        bterm = beta*self.species.z[s]*expr*clist[s]*vlist[s]*self.ds(psurf)
+        weakforms.append(bterm)
     #Poisson terms
     poissonL=UN.eps_0*self.conditions.eps_r*fem.inner(fem.grad(Phi),fem.grad(vPhi))*fem.dx
-    terms=[self.species.z[i]*clist[i] for i in range(self.species.N)]
-    poissonR=sum(terms)*vPhi*fem.dx
-    #Add up to Steady-State PNP
-    FF_ss=sum(weakforms)+poissonL-poissonR
+    terms=[self.species.z[i]*clist[i] for i in range(self.species.N) if self.species.z[i] != 0]
+    if len(terms)>0:
+      poissonR=sum(terms)*vPhi*fem.dx
+      #Add up to Steady-State PNP
+      FF_ss=sum(weakforms)+poissonL-poissonR
+    else:
+      FF_ss=sum(weakforms)+poissonL
     #Time-dependent terms
     tdweaks=[]
     for i,c in enumerate(clist):
