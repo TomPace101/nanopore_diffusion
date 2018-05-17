@@ -16,20 +16,29 @@ import common
 
 class PostProcParameters(common.ParameterSet):
   """Definition of post-processing requests
+
   Attributes:
-    modelparamsfile = name of yaml file containing the models to post-process (include .yaml extension)
-    modelnames = sequence of model names that this post-processing definition applies to
+
+    - modelparamsfile = name of yaml file containing the models to post-process (include .yaml extension)
+    - modelnames = sequence of model names that this post-processing definition applies to
+
       Omit or set to None to apply to all model names for the basename.
       An empty list will result in no post-processing being done.
-    do_collection = boolean, True to collect output infofiles into a Pandas DataFrame (see folderstructure for definition of infofile)
-    collection_exclusions = list of keys in output infofile to be excluded from DataFrame (see folderstructure for definition of infofile)
-    model_plots = sequence of plots to generate for each model
+
+    - do_collection = boolean, True to collect output infofiles into a Pandas DataFrame (see folderstructure for definition of infofile)
+    - collection_exclusions = list of keys in output infofile to be excluded from DataFrame (see folderstructure for definition of infofile)
+    - model_plots = sequence of plots to generate for each model
+
       Each plot defines a plotdata.PlotFigure instance.
-    collection_plots = sequence of plots to generate from the collected DataFrame
+
+    - collection_plots = sequence of plots to generate from the collected DataFrame
+
       Each plot defines a plotdata.PlotFigure instance.
       If collection_schema is omitted or None, this should be as well, or be an empty sequence.
+
   Attributes to be created by methods:
-    modellist = list of ModelParametersBase instantaces to postprocess, """
+
+    - modellist = list of ModelParametersBase instantaces to postprocess, """
   __slots__=['modelparamsfile','modelnames','do_collection','collection_exclusions','model_plots','collection_plots','modellist']
   _required_attrs=['basename','modelparamsfile']
   #Remember loaded models (parameters, not simulators) so we aren't reading the same files over and over

@@ -59,16 +59,22 @@ def flatdict(d,cols,name,exclusions):
 
 def dicts_to_dataframe(alldicts,exclusions):
   """Create a pandas dataframe from an iterable of dictionaries.
+
   Arguments:
-    alldicts = iterable of dictionaries
-    exclusions = list of keys to exlcude
+
+    - alldicts = iterable of dictionaries
+    - exclusions = list of keys to exlcude
+
   Return value:
-    df = pandas dataframe
+
+    - df = pandas dataframe
+
   For each dictionary:
-    Anything that is a number or string is added directly.
-    Anything that is a dictionary has its items treated the same way.
+
+    - Anything that is a number or string is added directly.
+    - Anything that is a dictionary has its items treated the same way.
       (More specifically, anything that has an 'items' attribute.)
-    Everything else is ignored, including any sequences."""
+    - Everything else is ignored, including any sequences."""
   #Get the list of columns for the dataframe, and make it works for all the dictionaries
   columns=get_all_columns(alldicts,exclusions)
   #Set up dataframe with required columns

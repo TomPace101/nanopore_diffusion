@@ -22,8 +22,10 @@ thisfile=sys.modules[__name__].__file__
 
 class ModelParameters(simulator_general.ModelParametersBase):
   """Extend ModelParametersBase to allow for task generation and execution of arbitrary simulator module
+
   Attributes:
-    simulatorclass = the class used to run the simulation"""
+
+    - simulatorclass = the class used to run the simulation"""
   __slots__=('simulatorclass',)
   #Load the simulator modules and map equation names to their simulator classes
   #Mapping from ModelParameters.equation to the appropriate simulator classes
@@ -32,6 +34,7 @@ class ModelParameters(simulator_general.ModelParametersBase):
   for sm_name in simulator_module_list:
     sm=importlib.import_module(sm_name)
     simulatorclasses.update(sm.simulatorclasses)
+  del sm
   
   def __init__(self,**kwd):
     #Initialization from base class

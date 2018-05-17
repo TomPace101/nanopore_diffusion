@@ -19,46 +19,63 @@ import collect_results
 
 class PlotSeries(common.ParameterSet):
   """Data for a single series on a plot
+
   Attributes:
-    xvals = array of x-values
-    yvals = array of y-values
-    label = legend label
-    metadata = other parameters needed to identify the data series
+
+    - xvals = array of x-values
+    - yvals = array of y-values
+    - label = legend label
+    - metadata = other parameters needed to identify the data series
   """
   __slots__=['xvals','yvals','label','metadata']
   def add_to_axes(self,ax,fmt,**kwd):
     """Plot this series on the specified axes
+
     This is a wrapper for ax.plot
+
     Arguments:
-      ax = matplotlib Axes object
-      fmt = matplotlib format string
-      **kwd = other keyword arguments for Axes.plot
+
+      - ax = matplotlib Axes object
+      - fmt = matplotlib format string
+      - \**kwd = other keyword arguments for Axes.plot
+
     Returns:
-      The result of call to ax.plot"""
+
+      - The result of call to ax.plot"""
     return ax.plot(self.xvals,self.yvals,fmt,label=self.label,**kwd)
 
 class PlotFigure(common.ParameterSet):
   """Data for a single matplotlib figure
+
   This is for a plot with a single set of axes.
+
   Attributes:
+
     To be read in from yaml file:
-      figsize = pair of numbers representing figure size, in inches: (Width, Height)
-      filename = name of the output file to be created, as string
-      prepfunctions = sequence of method calls used to generate additional data, etc.
+
+      - figsize = pair of numbers representing figure size, in inches: (Width, Height)
+      - filename = name of the output file to be created, as string
+      - prepfunctions = sequence of method calls used to generate additional data, etc.
+
         The available method names usually start with 'prep_'
-      plotfunctions = sequence of method calls used to generate plot
+
+      - plotfunctions = sequence of method calls used to generate plot
+
         The available method names usually start with 'plot_'
-      xlabel = x-axis label, as string
-      ylabel = y-axis label, as string
-      title = plot title, as string
-      fmts = list of format specifier strings
+
+      - xlabel = x-axis label, as string
+      - ylabel = y-axis label, as string
+      - title = plot title, as string
+      - fmts = list of format specifier strings
+
     To be created by methods:
-      datafiles = dictionary of loaded data files
-      outfpath = path to output file
-      series = sequence of PlotSeries instances
-      fig = matplotlib Figure for the generated plot
-      ax = matplotlib Axes for the plot
-      info = dictionary of miscellaneous data"""
+
+      - datafiles = dictionary of loaded data files
+      - outfpath = path to output file
+      - series = sequence of PlotSeries instances
+      - fig = matplotlib Figure for the generated plot
+      - ax = matplotlib Axes for the plot
+      - info = dictionary of miscellaneous data"""
   __slots__=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts','outfpath','datafiles','series','fig','ax','info']
   _config_attrs=['figsize','filename','prepfunctions','plotfunctions','xlabel','ylabel','title','fmts']
   _outputfile_attrs=['outfpath']
@@ -77,8 +94,10 @@ class PlotFigure(common.ParameterSet):
   
   def execute_commandseq(self,attrname):
     """Execute the command sequence
+
     Arguments:
-      attrname = name of attribute containing the command sequence"""
+
+      - attrname = name of attribute containing the command sequence"""
     if getattr(self,attrname,None) is not None:
       for cmd in getattr(self,attrname,[]):
         #Function name and arguments
@@ -137,9 +156,11 @@ class PlotFigure(common.ParameterSet):
 
   def plot_axmethod(self,method,kwargs=None):
     """Call a method of the axes.
+
     Arguments:
-      method = name of Axes method to call, as string
-      kwargs = arguments dictionary for the method"""
+
+      - method = name of Axes method to call, as string
+      - kwargs = arguments dictionary for the method"""
     f=getattr(self.ax,method)
     if kwargs is None:
       kwargs = {}
@@ -148,9 +169,11 @@ class PlotFigure(common.ParameterSet):
 
   def plot_hline(self,locspec,kwargs=None):
     """Add a horizontal line with a value from info
+
     Arguments:
-      locspec = sequence of keys in the info dictionary to locate the y-value
-      kwargs = keyword arguments for ax.axhline"""
+
+      - locspec = sequence of keys in the info dictionary to locate the y-value
+      - kwargs = keyword arguments for ax.axhline"""
     yval=common.nested_location(self.info,locspec)
     if kwargs is None:
       kwargs = {}
@@ -159,9 +182,11 @@ class PlotFigure(common.ParameterSet):
 
   def plot_vline(self,locspec,kwargs=None):
     """Add a vertical line with a value from info
+
     Arguments:
-      locspec = sequence of keys in the info dictionary to locate the x-value
-      kwargs = keyword arguments for ax.axvline"""
+
+      - locspec = sequence of keys in the info dictionary to locate the x-value
+      - kwargs = keyword arguments for ax.axvline"""
     xval=common.nested_location(self.info,locspec)
     if kwargs is None:
       kwargs = {}
@@ -171,11 +196,16 @@ class PlotFigure(common.ParameterSet):
 
 class ModelPlotFigure(PlotFigure):
   """Data for a single model plot
+
   Attributes:
+
     To be read in from yaml file:
-      plotname = plot name in outdata file holding data series
-      modelname = name of model
+
+      - plotname = plot name in outdata file holding data series
+      - modelname = name of model
+
     To be created by methods:
+
       (none)"""
   __slots__=['plotname','modelname']
   _config_attrs=PlotFigure._config_attrs+['plotname','modelname']
@@ -204,14 +234,19 @@ class ModelPlotFigure(PlotFigure):
 
 class CollectionPlotFigure(PlotFigure):
   """Data for a single collection plot
+
   Attributes:
+
     To be read in from yaml file:
-      calcfunctions = sequence of calculation functions to be called before generating plot
-      seriesdefs = sequence of series definitions (xcol, ycol, label),
-        where the columns specify the DataFrame columns containing values for the series
+
+      - calcfunctions = sequence of calculation functions to be called before generating plot
+      - seriesdefs = sequence of series definitions (xcol, ycol, label),
+        where the columns specify the DataFrame columns containing values for the series.
         The label is optional.
+
     To be created by methods:
-      df = the DataFrame"""
+
+      - df = the DataFrame"""
   __slots__=['calcfunctions','seriesdefs','df']
   _config_attrs=PlotFigure._config_attrs+['calcfunctions','seriesdfs']
 

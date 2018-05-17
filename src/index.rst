@@ -1,9 +1,6 @@
-.. Nanoscale Diffusion documentation master file, created by
-   sphinx-quickstart on Mon May 14 16:39:45 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. sphinx documentation fie
 
-Welcome to Nanoscale Diffusion's documentation!
+Code Docmentation
 ===============================================
 
 .. toctree::
@@ -13,25 +10,56 @@ Welcome to Nanoscale Diffusion's documentation!
 General Overview
 ================
 
-This collection of scripts makes extensive use of ``yaml`` format (https://en.wikipedia.org/wiki/YAML) for input files,
-and even some output files as well.
-A very brief introduction to the syntax can be found at https://learnxinyminutes.com/docs/yaml/,
-and its official site is http://yaml.org/.
-
 This collection of scripts can perform the following steps:
 
-#. Generate meshes for FEM simulation: MeshGeneration_
+#. Generate meshes for FEM simulation: `Mesh Generation`_
 #. Run simulations in ``FEniCS`` and extract selected data: Simulation_
-#. Post-process the simulation results to generate graphics: PostProc_
-#. Generate input parameter files for the steps above from simpler input files: ParamGen_
+#. Post-process the simulation results to generate graphics: `Post-Processing`_
+#. Generate lengthy input files for the steps above containing parametric combinations of input values: `Parameter Generation`_
 
-There are other additional MiscModules_ as well.
+There are other additional `Miscellaneous Modules`_ as well.
 
 **TODO**: list required software, as in README
 
 **TODO**: describe expected folder structure, as in README
 
-.. _MeshGeneration:
+**TODO**: maybe some other stuff to pull in from README as well
+
+Input Files
+-----------
+
+The scripts makes extensive use of ``yaml`` format (https://en.wikipedia.org/wiki/YAML) for input files,
+and even some output files as well.
+A very brief introduction to the syntax can be found at https://learnxinyminutes.com/docs/yaml/,
+and its official site is http://yaml.org/.
+
+Each yaml input file can contain one or more documents.
+Each document defines a single instance of a class defined by one of the python modules,
+usually (but not always) the same module which accepts the yaml file as input.
+The yaml files should contain a comment indicating which class each document is converted to.
+
+The attributes of the class are set by the dictionary values defined in each yaml document.
+Some of these attributes will be set to numerical values, strings, or other python built-in data types like lists and dictionaries.
+Some of them, however, are further processed into other classes defined by the python module.
+The documentation of each class will indicate any attributes which are converted to other classes.
+
+Thus, the key to understanding the input files is to look at the appropriate class definitions in this documentation.
+
+Command-Line Execution
+----------------------
+
+Each of the 4 steps in the input process has a script that can be executed from the command line.
+The first argument should be the input yaml file.
+Generally, these scripts also accept the argument ``--help`` to provide more information on their usage.
+
+**TODO**: explain other arguments supported by the common module.
+
+Task Automation with DoIt
+-------------------------
+
+**TODO** this section, including explanation of ``dodo.py``
+
+.. _`Mesh Generation`:
 Mesh Generation
 ===============
 
@@ -100,7 +128,7 @@ tdpnp_unhomog.py
 .. automodule:: tdpnp_unhomog
    :members:
 
-.. _PostProc:
+.. _`Post-Processing`:
 Post-Processing
 ===============
 
@@ -127,7 +155,7 @@ plotdata.py
 .. automodule:: plotdata
    :members:
 
-.. _ParamGen:
+.. _`Parameter Generation`:
 Parameter Generation
 ====================
 
@@ -137,7 +165,7 @@ paramgen.py
 .. automodule:: paramgen
    :members:
 
-.. _MiscModules:
+.. _`Miscellaneous Modules`:
 Miscellaneous Modules
 =====================
 
