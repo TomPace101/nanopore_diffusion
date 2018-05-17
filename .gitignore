@@ -4,6 +4,10 @@ __pycache__
 .doit.db.*
 notebooks
 
+#Sphinx build subdirectories
+sphinx/build/doctrees
+sphinx/build/latex
+
 #Don't track control.yaml itself: only an example of it
 data/control.yaml
 
