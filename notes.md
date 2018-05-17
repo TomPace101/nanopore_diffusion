@@ -18,29 +18,6 @@ _TODO_ sphinx startup
 - formatting of docstrings
 (there is discussion below about what to do after this)
 
-_TODO_ IN PROGRESS: change nomenclature from 'solver' to 'simulator'
-filenames, classnames, attribute and variable names, readme file
-Similarly, we should probably change 'modelparameters' to 'simparameters'
-'data/params/simulation'
-The parameters are for a simulation.
-The code that runs the simulation is a simulator.
-Or, in fact, perhaps this points out that we should make a distinction between
-"model" parameters and "simulation" parameters.
-For example, a simulation timestep would be a simulation parameter.
-A boundary condition would be a model parameter.
-Maybe time-domain or steady-state is even a simulation parameter rather than a model parameter.
-(Although that could get tricky, with time-dependent boundary conditions.)
-So it's not a change, but an addition.
-
-_TODO_ The ability to resume time-step jobs would be nice,
-but this requires being able to save out the complete state.
-Or maybe just be able to load the uknowns, I guess.
-You can reload the mesh and BCs, etc, from scratch.
-In fact, based on Pete's suggestions, we might even switch equations.
-But somehow, you need enough values to get back the original functions.
-Would it work to just store the nodal values?
-I'd have to do a test to see.
-
 _TOOD_ zipping large data sets may need to come under control of doit
 
 _TODO_ more general reaction functions approach
@@ -210,6 +187,21 @@ We could make the condition itself a tuple instead of just a string:
 - the second could be a dictionary, sent as kwargs
 
 # Code/Misc
+
+_TODO_ Separate "model" parameters and "simulation" parameters
+For example, a simulation timestep would be a simulation parameter.
+A boundary condition would be a model parameter.
+Maybe time-domain or steady-state is even a simulation parameter rather than a model parameter.
+(Although that could get tricky, with time-dependent boundary conditions.)
+
+_TODO_ The ability to resume time-step jobs would be nice,
+but this requires being able to save out the complete state.
+Or maybe just be able to load the uknowns, I guess.
+You can reload the mesh and BCs, etc, from scratch.
+In fact, based on Pete's suggestions, we might even switch equations.
+But somehow, you need enough values to get back the original functions.
+Would it work to just store the nodal values?
+I'd have to do a test to see.
 
 _TODO_ subclass of pathlib.Path for paths
 
