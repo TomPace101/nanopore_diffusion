@@ -9,6 +9,24 @@ _TOOD_ zipping large data sets may need to come under control of doit
 - _TODO_ start reaction rate function linearization notebook
 
 
+# Equation Builder
+
+Rather than having separate codes with hard-wired weak forms,
+maybe we want to be able to select weak form components.
+The PNP linearization notebook (which otherwise doesn't work yet)
+does some of this.
+To solve Smoluchowski instead of PNP, just solve an initial potential,
+then no longer include the Poisson equation.
+(And more generally, establishing initial conditions should always happen for time-domain problems,
+  and for iterated attempts at steady-state.)
+For Fick's law, omit the terms with charge.
+(The TDPNP simulation now does this for cases of zero charge.
+  We could do it better, though.)
+
+Or maybe we allow the 'equation' argument to be more than just a string.
+Maybe that's where we specify what is and is not included in the equation.
+Maybe there's even a way to allow customizations to contribute equation terms.
+
 # Fick's Law with Reactions
 - DONE: set up an example problem (in debug, I guess, base it on debug03)
 - DONE: only 2 species: Ca and CaCaM
@@ -22,6 +40,7 @@ _TOOD_ zipping large data sets may need to come under control of doit
 - once it is working, create a module for it
 - then finish the documentation
 
+Or do we want the equation builder instead?
 
 # validation tests
 set up problems on the unit square with known solutions:
@@ -101,6 +120,8 @@ _TODO_ refactor out re-usable components
 Weak form portions that could be used by various PNP simulators:
 Imagine we have multiple ways of solving PNP, and they have a lot of basics in common.
 This may need to wait until that's actually the case, as that will make it more clear what's reusable and what isn't.
+
+Maybe some of this is the equation builder instead.
 
 Neumann and Dirichlet boundary conditions:
   - store in attribute, or return value?
@@ -383,19 +404,18 @@ Pete mentioned on Slack that he has an example code that does this correctly.
 (Thursday, February 15, between 12pm and 12:30 pm)
 He also said it's in `template_timedep.py`.
 
-Turns out the key part is having the mesh in HDF5 format.
-See log 2018-05-17.md.
-There is an example of how to do that here:
-https://fenicsproject.org/qa/2409/gmsh-to-hdf5/
-And to include MeshFunctions here:
-https://fenicsproject.org/qa/274/consistent-io-of-mesh-and-function-in-parallel/
-Also, here is a very simple example by Garth N. Wells:
-https://bitbucket.org/garth-wells/dolfin-xml-hdf5-converter/src/master/dolfin-mesh.py
+Got things working to generate meshes in HDF5 format,
+and to have the simulator read those in.
+But now the issue is data extraction: each process only has part of the mesh.
+See log 2018-05-29.md
 
-So it sounds like we need `geom_mk_hdf5`
-to read in the xml files the same way the simulator does right now,
-then generate the hdf5.
-Then the simulator needs to read in the hdf5 file instead.
+So, what will it take to get this working:
+- non-anaconda FEniCS on CP233 (maybe just upgrade to 18.04)
+- install fenicstools
+- use fenicstools Probes to extract data
+- MPI gather results from different processes (or does Probes do this for you?)
+- only rank 0 process should write output file
+
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
