@@ -116,13 +116,12 @@ class ModelParametersBase(common.ParameterSet):
     To be calculated from methods:
 
       - outdir = folder containing output files
-      - xmlfolder = path to xml input files for mesh
-      - mesh_xml, facet_xml, cell_xml = various mesh input xml files, full paths, as strings
+      - mesh_hdf5 = mesh input hdf5 file, as string
       - meshmetafile = mesh metadata file"""
   __slots__=('modelname','meshname','equation','conditions','dataextraction','datasteps','customizations',
-             'outdir','xmlfolder','mesh_xml','facet_xml','cell_xml','meshmetafile','_more_inputfiles','_more_outputfiles')
+             'outdir','mesh_hdf5','meshmetafile','_more_inputfiles','_more_outputfiles')
   _required_attrs=['modelname','meshname','equation','conditions']
-  _inputfile_attrs=['mesh_xml', 'facet_xml', 'cell_xml'] #don't need sourcefile as input file due to config
+  _inputfile_attrs=['mesh_hdf5'] #don't need sourcefile as input file due to config
   _config_attrs=['basename']+_required_attrs+['dataextraction','datasteps']
   _taskname_src_attr='modelname'
 
@@ -138,11 +137,8 @@ class ModelParametersBase(common.ParameterSet):
       self.customizations=SimulatorCustomizations(**self.customizations)
       for modname in getattr(self.customizations,'modules',[]):
         self._more_inputfiles.append(osp.join(FS.custom_modules_folder,modname+'.py'))
-    #Get XML files
-    self.xmlfolder=osp.join(FS.xmlfolder,self.basename)
-    self.mesh_xml=osp.join(self.xmlfolder,self.meshname+'.xml')
-    self.facet_xml=osp.join(self.xmlfolder,self.meshname+'_facet_region.xml')
-    self.cell_xml=osp.join(self.xmlfolder,self.meshname+'_physical_region.xml')
+    #Get HDF5 file
+    self.mesh_hdf5=osp.join(FS.mesh_hdf5_folder,self.basename,self.meshname+'.hdf5')
     #Get mesh metadata file
     self.meshmetafile=osp.join(FS.meshmeta_outfolder,self.basename,self.meshname+'.yaml')
     self._more_inputfiles.append(self.meshmetafile)
@@ -176,10 +172,16 @@ class MeshInfo:
   |    also, d=0 is a fenics vertex"""
 
   def __init__(self,modelparams):
-    #Load mesh and meshfunctions
-    self.mesh=fem.Mesh(modelparams.mesh_xml)
-    self.facets=fem.MeshFunction("size_t", self.mesh, modelparams.facet_xml)
-    self.cells=fem.MeshFunction("size_t", self.mesh, modelparams.cell_xml)
+    "Load Mesh and MeshFunctions from HDF5 file, and mesh metadata from yaml"
+    #Initialize empty objects
+    self.mesh=fem.Mesh()
+    self.facets=fem.MeshFunction("size_t", self.mesh)
+    self.cells=fem.MeshFunction("size_t", self.mesh)
+    #Read in data from HDF5 file
+    hdf5=fem.HDF5File(self.mesh.mpi_comm(),modelparams.mesh_hdf5,'r')
+    hdf5.read(self.mesh,'mesh',False)
+    hdf5.read(self.facets,'facets')
+    hdf5.read(self.cells,'cells')
     #Load mesh metadata file
     assert osp.isfile(modelparams.meshmetafile), "Mesh metadata file does not exist: %s"%self.modelparams.meshmetafile
     self.metadata=common.readyaml(modelparams.meshmetafile)
