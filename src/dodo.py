@@ -21,6 +21,7 @@ import paramgen
 import buildgeom
 import geom_mk_msh
 import geom_mk_xml
+import geom_mk_hdf5
 import simulator_run
 import postproc
 
@@ -63,6 +64,10 @@ def task_make_msh():
 @create_after('paramgen')
 def task_make_xml():
   return generic_task_generator(FS.params_mesh_folder,geom_mk_xml.DolfinConvertRunner)
+
+@create_after('paramgen')
+def task_make_hdf5():
+  return generic_task_generator(FS.params_mesh_folder,geom_mk_hdf5.HDF5Converter)
 
 #Simulator tasks
 @create_after('paramgen')
