@@ -17,6 +17,7 @@ data/mesh/msh/*/
 data/mesh/xml/*/
 data/mesh/gmsh_out/*/
 data/mesh/metadata/*/
+data/mesh/hdf5/*/
 
 #FEM output
 data/solutions/*/

@@ -43,6 +43,7 @@ geotemplates_folder=osp.join(meshfolder,'templates')
 geofolder=osp.join(meshfolder,'geo')
 mshfolder=osp.join(meshfolder,'msh')
 xmlfolder=osp.join(meshfolder,'xml')
+mesh_hdf5_folder=osp.join(meshfolder,'hdf5')
 gmsh_outfolder=osp.join(meshfolder,'gmsh_out')
 meshmeta_outfolder=osp.join(meshfolder,'metadata')
 
