@@ -1,4 +1,6 @@
-"""Units and physical constants"""
+"""Units and physical constants
+
+**TODO**: list defined units and constants"""
 
 import scipy.constants
 
