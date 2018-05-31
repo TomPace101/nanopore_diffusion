@@ -484,28 +484,12 @@ _MAYBE_ can we come up with a better name for paramgen_tmpl?
 
 # Problem Description
 
-_TODO_ sphinx documentation
-- docstrings in markdown format? the other documents? toctree?
-  http://www.sphinx-doc.org/en/master/usage/markdown.html
-  https://github.com/jxltom/sphinx-markdown-extension
-- include latex files (only for latex output): use `raw`
-  https://stackoverflow.com/questions/45064321/sphinx-including-tex-file-via-raw-latex?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-- cross-references
-  https://stackoverflow.com/questions/21289806/link-to-class-method-in-python-docstring?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-- formatting of docstrings (ongoing)
-
 We need to reconsider this whole approach to the document.
 The various goals are:
-- document the math behind the code
+- document the math behind the code at a high level
+- document extensive formula derivations (in a appendix, referenced in the Part above)
 - document the code itself
 - document the specific analyses performed with the code, including possibly validation problems
-
-This suggests that perhaps we should be using sphinx.
-Of course, it can't take latex files as input.
-(except when building latex output:
-  https://stackoverflow.com/questions/45064321/sphinx-including-tex-file-via-raw-latex?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
-There is a possibility of citing references from sphinx:
-https://sphinxcontrib-bibtex.readthedocs.io
 
 We really want this to be modular.
 Right now it's kind of all mixed together.
@@ -539,9 +523,6 @@ followed by special cases.
 That is, we need general discussion of linearization
 before we linearize a particular equation.
 
-The first step in this process would be to just start using sphinx in general to document the code.
-Then you can figure out how to bring the other materials in.
-
 _TODO_ bring in references from Zotero.
 
 It has its own _TODO_ list.
@@ -555,6 +536,23 @@ So could we get the equation numbers in their own column?
 
 _MAYBE_ Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
 _MAYBE_ would it be better to use delta_... for test functions (ala variational calculus) instead of v?
+
+Sphinx tips:
+- docstrings in markdown format? the other documents? toctree?
+  http://www.sphinx-doc.org/en/master/usage/markdown.html
+  https://github.com/jxltom/sphinx-markdown-extension
+- include latex files (only for latex output): use `raw`
+  https://stackoverflow.com/questions/45064321/sphinx-including-tex-file-via-raw-latex?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+- cross-references
+  https://stackoverflow.com/questions/21289806/link-to-class-method-in-python-docstring?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+- Changing the top level of the toctree to "parts" in latex.
+  https://github.com/sphinx-doc/sphinx/pull/4733
+- Citing references
+  https://sphinxcontrib-bibtex.readthedocs.io
+- genindex and modindex
+  (only slightly helpful)
+  https://stackoverflow.com/questions/36235578/how-can-i-include-the-genindex-in-a-sphinx-toc?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+  https://stackoverflow.com/questions/25243482/how-to-add-sphinx-generated-index-to-the-sidebar-when-using-read-the-docs-theme
 
 ## Physical Surface/Volume Figures
 
