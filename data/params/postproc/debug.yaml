@@ -269,3 +269,52 @@ model_plots:
   - <<: *plot6def #reuse definition
     figsize: [9, 7]
     filename: midline_conc_1.png
+---
+modelparamsfile: debug.yaml
+modelnames: [debug03_lintest]
+model_plots:
+  - &plot1def
+    figsize: [11, 8.5]
+    filename: midpoint_conc_0_hist.pdf
+    plotname: midpoint_conc_0
+    xlabel: 'time (ns)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Ca2+ Concentration History at Midpoint'
+    fmts: ['k-']
+  - <<: *plot1def #reuse definition
+    figsize: [9, 7]
+    filename: midpoint_conc_0_hist.png
+  - &plot4def
+    figsize: [11, 8.5]
+    filename: midpoint_phi_hist.pdf
+    plotname: midpoint_phi
+    xlabel: 'time (ns)'
+    ylabel: 'Electric Potential (V)'
+    title: 'Electric Potential History at Midpoint'
+    fmts: ['k-']
+  - <<: *plot4def #reuse definition
+    figsize: [9, 7]
+    filename: midpoint_phi_hist.png
+
+  - &plot5def
+    figsize: [11, 8.5]
+    filename: midline_conc_0.pdf
+    plotname: midline_conc_0
+    xlabel: 'Y (nm)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Midline Ca2+ Concentration at End of Simulation'
+    fmts: ['k-']
+  - <<: *plot5def #reuse definition
+    figsize: [9, 7]
+    filename: midline_conc_0.png
+  - &plot8def
+    figsize: [11, 8.5]
+    filename: midline_phi.pdf
+    plotname: midline_phi
+    xlabel: 'Y (nm)'
+    ylabel: 'Electric Potential (V)'
+    title: 'Midline Electric Potential at End of Simulation'
+    fmts: ['k-']
+  - <<: *plot8def #reuse definition
+    figsize: [9, 7]
+    filename: midline_phi.png

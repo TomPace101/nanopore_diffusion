@@ -158,6 +158,47 @@ datasteps:
 dataextraction:
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'CaCaM', attrname: ulist, idx: 1}]
+---
+modelname: debug03_lintest
+meshname: debug2d
+equation: tdpnp_unhomog
+customizations:
+  modules: [output_td, rxnrates_ill-sleep]
+  initializations:
+    rxnrates_ill-sleep: {BT: 5.0e-6}
+conditions:
+  elementorder: 3
+  dirichlet:
+    1222: [0.1, 0.02]
+    1121: [0.3, -0.02]
+  temperature: 298 #Kelvin
+  eps_r: 78.5
+  species_info:
+    symbol:   [Ca2+]
+    z:        [2]
+    initconc: [0.1]
+    D:        [1.9]
+  reaction_info:
+    constants: []
+    functions: []
+    stoichio: []
+  initial_potential: 0.0
+  timedomain:
+    stepsize: 1.0
+    stopping:
+      t_end: 10.0
+datasteps:
+  # - [splitfield, {namewhole: u, namesplit: ulist}] ##the tdpnp simulation module still uses u for namewhole
+  - [splitfield, {namewhole: soln, namesplit: ulist}] ##the notebook test uses soln for namewhole
+  - [calc_netcharge, {solnname: ulist}]
+  - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  - [td_solutionfield, {filename: Phi.pvd,   attrname: ulist, idx: 1}]
+  - [td_solutionfield, {filename: rho.pvd,   attrname: netcharge}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_phi, label: 'Potential', attrname: ulist, idx: 1}]
+dataextraction:
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_phi, label: 'Potential', attrname: ulist, idx: 1}]
 # ---
 # modelname: debug04
 # meshname: debug2d
