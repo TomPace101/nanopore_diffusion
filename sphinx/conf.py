@@ -132,6 +132,7 @@ latex_documents = [
     (master_doc, 'NanoscaleDiffusion.tex', 'Nanoscale Diffusion Code',
      'PKH Lab', 'manual'),
 ]
+latex_toplevel_sectioning='part'
 
 
 # -- Options for manual page output ---------------------------------------

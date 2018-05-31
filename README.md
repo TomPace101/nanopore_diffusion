@@ -1,7 +1,7 @@
 
 # Description
 
-Source code and problem description document for FEM solution of diffusion through a nanoporous membrane.
+Source code and problem description document for FEM solution of diffusion problems at the nanoscale.
 
 # Required Software
 
@@ -28,6 +28,13 @@ Some output data is stored in `pandas` DataFrame objects (http://pandas.pydata.o
 
 `scipy` (https://www.scipy.org/) is used only for unit conversions and physical constants.
 
+Documentation of the code is set up to be compiled with Sphinx: http://www.sphinx-doc.org/en/master/.
+__TODO__ what other software does sphinx require?
+  - latex (listed below)
+  - pandoc? (I think this was only if you used markdown)
+  
+The sphinx documentation is built by running the command `make latexpdf` from within the `sphinx` directory.
+
 The problem description document requires the following software:
 
 - `inkscape` (https://inkscape.org/en/)
@@ -35,8 +42,6 @@ The problem description document requires the following software:
 - python package `doit`, as described above.
 
 The code is hosted in a `git` repository (https://git-scm.com/).
-
-__TODO__ sphinx and all of its requirements.
 
 # Files and Folders
 
