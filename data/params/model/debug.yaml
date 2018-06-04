@@ -25,6 +25,26 @@ dataextraction:
   - [volfrac, {name: free_volume_frac}]
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
+modelname: debug01_2D
+meshname: debug2d
+equation: fickian_unhomog
+conditions:
+  elementorder: 2
+  dirichlet:
+    1222: [5.0, 2.0]
+    1121: [1.0, 10.0]
+  species_info:
+    symbol:   [Ca2+, Cl-]
+    z:        [2,    -1]
+    D:        [1.9,  2.03]
+dataextraction:
+  - [splitfield, {namewhole: soln, namesplit: ulist}] ##the notebook test uses soln for namewhole
+  # - [calc_netcharge, {solnname: ulist}]
+  - [solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  - [solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+---
 modelname: debug02
 meshname: debug
 equation: smol_unhomog
