@@ -435,8 +435,7 @@ class GenericSimulator(object):
     #Done
     return
 
-  ##TODO: support index argument for split fields
-  def solutionfield(self,filename,attrname='soln'):
+  def solutionfield(self,filename,attrname='soln',idx=None):
     """Write solution field to VTK file
 
     Arguments:
@@ -446,6 +445,8 @@ class GenericSimulator(object):
         File will be created in the output directory (self.outdir)
 
       - attrname = name of attribute to output, as string, defaults to 'soln'
+      
+      - idx = index of the solution field to write out, None (default) if not a sequence
 
     Required attributes:
 
@@ -458,7 +459,10 @@ class GenericSimulator(object):
 
     Output file is written."""
     vtk_file=fem.File(osp.join(self.outdir,filename))
-    vtk_file << getattr(self,attrname)
+    output = getattr(self,attrname)
+    if idx is not None:
+      output = output[idx]
+    vtk_file << output
     return
 
   def splitfield(self,namewhole,namesplit):
