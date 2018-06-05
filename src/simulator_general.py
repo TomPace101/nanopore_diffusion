@@ -542,7 +542,7 @@ class GenericSimulator(object):
     return coords
 
   def line_profile(self,startloc,endloc,num,plotname,label,attrname='soln',indep=None,idx=None):
-    """Get data to plot a result along the midline at a single point in time
+    """Get data to plot a result along the specified line at a single point in time
 
     Arguments:
 
@@ -553,6 +553,9 @@ class GenericSimulator(object):
       - plotname = name of plot in outdata.plots, as string
       - label = series label to assign, as string
       - attrname = name of attribute to output, as string, defaults to 'soln'
+      - indep = identifier for independent variable:
+          integer 0-d to use that coordinate of the point, or
+          None (default) to use distance from the start point
       - idx = index of the solution field to write out, None (default) if not a sequence
 
     Required attributes:
