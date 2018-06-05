@@ -27,7 +27,7 @@ dataextraction:
 ---
 modelname: debug01_2D
 meshname: debug2d
-equation: fickian_unhomog
+equation: notebook
 conditions:
   elementorder: 2
   dirichlet:
@@ -49,7 +49,7 @@ modelname: debug01_2D_td
 meshname: debug2d
 customizations:
   modules: [output_td]
-equation: fickian_unhomog
+equation: notebook
 conditions:
   elementorder: 2
   dirichlet:
@@ -74,6 +74,40 @@ datasteps:
   - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
   - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, labeltmpl: 'Ca2+, t=%.02f ns', attrname: ulist, idx: 0}]
   - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, labeltmpl: 'Cl-, t=%0.2f ns', attrname: ulist, idx: 1}]
+---
+modelname: debug_2D_Poisson
+meshname: debug2d
+equation: notebook
+conditions:
+  elementorder: 2
+  dirichlet:
+    1222: 0.02
+    1121: -0.02
+dataextraction:
+  - [solutionfield, {filename: phi.pvd,  attrname: soln}]
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: phi, label: 'phi', attrname: soln}]
+---
+modelname: debug_2D_SS_NP_FP
+meshname: debug2d
+equation: notebook
+conditions:
+  elementorder: 2
+  temperature: 298 #Kelvin
+  dirichlet:
+    1222: [1.0, 5.0]
+    1121: [10.0, 2.0]
+  potential: debug/debug_2D_Poisson/phi.hdf5
+  species_info:
+    symbol:   [Ca2+, Cl-]
+    z:        [2,    -1]
+    D:        [1.9,  2.03]
+dataextraction:
+  - [splitfield, {namewhole: soln, namesplit: ulist}] ##the notebook test uses soln for namewhole
+  # - [calc_netcharge, {solnname: ulist}]
+  - [solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  - [solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
 ---
 modelname: debug02
 meshname: debug
