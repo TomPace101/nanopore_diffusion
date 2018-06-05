@@ -52,6 +52,36 @@ model_plots:
     filename: midline_conc_1.png
 ---
 modelparamsfile: debug.yaml
+modelnames: [debug01_2D_td]
+model_plots:
+  - &plot5def
+    figsize: [11, 8.5]
+    filename: midline_conc_0.pdf
+    plotname: midline_conc_0
+    xlabel: 'Y (nm)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Midline Ca2+ Concentration'
+    fmts: ['0.95','0.9','0.8','0.7','0.6','0.5','0.4','0.3','0.2','0.1','k-']
+    plotfunctions:
+      - [plot_axmethod, {method: legend, kwargs: {loc: 'upper left'}}]
+  - <<: *plot5def #reuse definition
+    figsize: [9, 7]
+    filename: midline_conc_0.png
+  - &plot6def
+    figsize: [11, 8.5]
+    filename: midline_conc_1.pdf
+    plotname: midline_conc_1
+    xlabel: 'Y (nm)'
+    ylabel: 'Concentration (count/nm^3)'
+    title: 'Midline Cl- Concentration'
+    fmts: ['0.95','0.9','0.8','0.7','0.6','0.5','0.4','0.3','0.2','0.1','k-']
+    plotfunctions:
+      - [plot_axmethod, {method: legend, kwargs: {loc: 'upper right'}}]
+  - <<: *plot6def #reuse definition
+    figsize: [9, 7]
+    filename: midline_conc_1.png
+---
+modelparamsfile: debug.yaml
 modelnames: [debug02]
 model_plots:
   - &plot1def

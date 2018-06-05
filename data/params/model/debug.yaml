@@ -45,6 +45,36 @@ dataextraction:
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
 ---
+modelname: debug01_2D_td
+meshname: debug2d
+customizations:
+  modules: [output_td]
+equation: fickian_unhomog
+conditions:
+  elementorder: 2
+  dirichlet:
+    1222: [5.0, 2.0]
+    1121: [1.0, 10.0]
+  species_info:
+    symbol:   [Ca2+, Cl-]
+    z:        [2,    -1]
+    D:        [1.9,  2.03]
+  timedomain:
+    stepsize: 1.0
+    numsteps: 10
+    # t_end: 10.0
+datasteps:
+  # - [splitfield, {namewhole: u, namesplit: ulist}] ##the tdpnp simulation module still uses u for namewhole
+  - [splitfield, {namewhole: soln, namesplit: ulist}] ##the notebook test uses soln for namewhole
+  - [calc_netcharge, {solnname: ulist}]
+  - [td_solutionfield, {filename: Ca2+.pvd,  attrname: ulist, idx: 0}]
+  - [td_solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
+  - [td_solutionfield, {filename: rho.pvd,   attrname: netcharge}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+  - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, labeltmpl: 'Ca2+, t=%.02f ns', attrname: ulist, idx: 0}]
+  - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, labeltmpl: 'Cl-, t=%0.2f ns', attrname: ulist, idx: 1}]
+---
 modelname: debug02
 meshname: debug
 equation: smol_unhomog
