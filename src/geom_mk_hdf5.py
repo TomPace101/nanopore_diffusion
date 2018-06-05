@@ -68,6 +68,7 @@ class HDF5Converter(common.ParameterSet):
     hdf5.write(mesh,'mesh')
     hdf5.write(facets,'facets')
     hdf5.write(cells,'cells')
+    hdf5.close()
 
 #Support command-line arguments
 if __name__ == '__main__':
