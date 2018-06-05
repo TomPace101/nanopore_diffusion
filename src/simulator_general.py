@@ -553,6 +553,7 @@ class GenericSimulator(object):
       - plotname = name of plot in outdata.plots, as string
       - label = series label to assign, as string
       - attrname = name of attribute to output, as string, defaults to 'soln'
+      - idx = index of the solution field to write out, None (default) if not a sequence
 
     Required attributes:
 
