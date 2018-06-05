@@ -3,6 +3,10 @@ _TODO_ switch to ruamel.yaml, and update the wiki
 
 _TOOD_ zipping large data sets may need to come under control of doit
 
+_TODO_ saving out states to HDF5
+to reload as initial conditions,
+as checkpoints in case of a crash,
+for further post-processing, etc.
 
 # Formula derivations
 - _TODO_ NP linearization notebook
@@ -155,7 +159,32 @@ Then take constant steps in tau.
 _TODO_ for debug, consider using an expression to specify the initial electric potential.
 Requires code change to allow Expressions for Dirichlet conditions just like they are for Neumann.
 
-_TODO_ could we get midline plots at specific points in time?
+_TODO_ automatic color selection for the plots with lots of time-steps as different series
+
+_TODO_ time-selection wrapper for datasteps
+The catch is how to specify those times.
+(Because doing all of them is too much.)
+You need to specify some attribute that will be used.
+You could try just a list of values for that attribute.
+But in some cases that might mean a very long list.
+And, if the values are floats, they'll never match exactly.
+So that approach could work for short sets of integer (or string) values.
+But for time steps, we need something else.
+
+You could keep track of a "next snapshot time",
+and whenever the current value is found greater than that one,
+you take a snapshot, and then update the next time.
+So the specification needs to include the delta.
+Or, a list of floats could work this way, as long as it wasn't too long.
+
+Basically, this issue of selecting steps for output, rather than doing every one of them,
+could be a wrapper around any of the time-dependent stuff.
+So maybe what we need is a wrapper function,
+which defines when to generate output,
+and then accepts a command list.
+Or maybe datasteps itself is that wrapper.
+It takes a series of pairs.
+Item 0 is the definition of when to perform the list of commands in item 1.
 
 _TODO_ This needs to be documented somewhere:
 Diffusion exclusions:
@@ -481,6 +510,19 @@ You would want them to inherit from ParameterSet or something like it, still.
 _MAYBE_ can we come up with a better name for paramgen_tmpl?
 - 'templates' is too generic: these are specifically for paramgen
 - but we don't want anything that starts with 'paramgen' as its too close to 'params'
+
+_MAYBE_ maybe EquationTerm, rather than having boolean attributes, should just have an attribute sequence.
+Individual attributes can be added to this sequence.
+You may want to set up a singleton that defines the attributes you want, so you don't always have to quote them.
+Selection then just looks for those attributes in the sequence.
+I suppose it does make nonsensical states more possible:
+eg, you could accidentally set both 'linear' and 'bilinear' attributes on a term.
+So, what's the advantage over the current approach:
+no kwargs, so no slots, no subclassing
+But then we do need the attribute class.
+Also, right now we can do more than just booleans with the attributes.
+To some extent, they can do what I was thinking about doing with the names.
+Conclusion: leave it as-is for now.
 
 # Problem Description
 
