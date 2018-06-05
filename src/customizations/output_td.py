@@ -65,6 +65,7 @@ def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None):
     plotname = name of plot in outdata.plots, as string
     label = series label to assign, as string
     attrname = name of attribute to output, as string, defaults to 'soln'
+    idx = index of the solution field to write out, None (default) if not a sequence
   Required attributes:
     outdata = instance of OutData
     parametric_locations = only required if needed by location specifier, dictionary of parametric locations
@@ -93,3 +94,34 @@ def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None):
   series.xvals=np.append(series.xvals,self.t)
   series.yvals=np.append(series.yvals,outval)
 
+def td_line_history(self,startloc,endloc,num,plotname,labeltmpl,attrname='soln',labelattr='t',indep=None,idx=None):
+  """Get data to plot a result along the specified line at each point in time
+  
+  This is basically a wrapper around simulator_general.line_profile,
+  which just computes the label from a template string and a specified simulator attribute.
+
+  Arguments:
+
+    - startloc = as for line_profile
+    - endloc = as for line_profile
+    - num = as for line_profile
+    - indep = as for line_profile
+    - plotname = as for line_profile
+    - labeltmpl = string template for series label to assign
+    - attrname = as for line_profile
+    - labelattr = name of attribute to go into the label template, as string
+    - indep = as for line_profile
+    - idx = as for line_profile
+
+  Required attributes: as for line_profile
+
+  No new attributes.
+
+  Nothing added to results dictionary.
+
+  No return value.
+
+  Series is added to ``outdata.plots``."""
+  label=labeltmpl%getattr(self,labelattr)
+  self.line_profile(startloc,endloc,num,plotname,label,attrname,indep,idx)
+  return
