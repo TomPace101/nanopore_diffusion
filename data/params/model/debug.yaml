@@ -94,8 +94,8 @@ conditions:
   elementorder: 2
   temperature: 298 #Kelvin
   dirichlet:
-    1222: [1.0, 5.0]
-    1121: [10.0, 2.0]
+    1222: [1.0, 10.0]
+    1121: [5.0, 2.0]
   potential: debug/debug_2D_Poisson/phi.hdf5
   species_info:
     symbol:   [Ca2+, Cl-]
@@ -108,6 +108,39 @@ dataextraction:
   - [solutionfield, {filename: Cl-.pvd,   attrname: ulist, idx: 1}]
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, label: 'Cl-', attrname: ulist, idx: 1}]
+---
+modelname: debug_2D_SS_PNP
+meshname: debug2d
+equation: notebook
+customizations:
+  modules: [output_td]
+conditions:
+  elementorder: 3
+  temperature: 298 #Kelvin
+  eps_r: 78.5
+  dirichlet:
+    1222: [0.02, 1.0, 2.0]
+    1121: [-0.02, 5.0, 10.0]
+  species_info:
+    symbol:   [Ca2+, Cl-]
+    z:        [2,    -1]
+    D:        [1.9,  2.03]
+  stopping:
+    numsteps: 4
+datasteps:
+  - [splitfield, {namewhole: soln_c, namesplit: soln_clist}]
+  - [calc_netcharge, {solnname: soln_clist}]
+  - [td_solutionfield, {filename: Ca2+.pvd,  attrname: soln_clist, idx: 0, keyattr: k}]
+  - [td_solutionfield, {filename: Cl-.pvd,   attrname: soln_clist, idx: 1, keyattr: k}]
+  - [td_solutionfield, {filename: Phi.pvd,   attrname: soln_Phi, keyattr: k}]
+  - [td_solutionfield, {filename: rho.pvd,   attrname: netcharge, keyattr: k}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_0, label: 'Ca2+', attrname: soln_clist, idx: 0, keyattr: k}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_conc_1, label: 'Cl-', attrname: soln_clist, idx: 1, keyattr: k}]
+  - [td_pointhistory, {location: [Xmid, Ymid], plotname: midpoint_phi, label: 'Potential', attrname: soln_Phi, keyattr: k}]
+  - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, labeltmpl: 'Ca2+, k=%d', attrname: soln_clist, idx: 0, labelattr: 'k'}]
+  - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, labeltmpl: 'Cl-, k=%d',  attrname: soln_clist, idx: 1, labelattr: 'k'}]
+  - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_phi, labeltmpl: 'Potential, k=%d',  attrname: soln_Phi, labelattr: 'k'}]
+  - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_rho, labeltmpl: 'Charge Density, k=%d',  attrname: netcharge, labelattr: 'k'}]
 ---
 modelname: debug02
 meshname: debug
