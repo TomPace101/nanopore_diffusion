@@ -31,16 +31,18 @@ def calc_netcharge(self,attrname='netcharge',solnname='soln'):
   setattr(self,attrname,rho)
   return
 
-def td_solutionfield(self,filename,attrname='soln',idx=None):
+def td_solutionfield(self,filename,attrname='soln',idx=None,keyattr='t'):
   """Write solution field to VTK file at each timestep
   Arguments:
     filename = name of output file, as string
       File will be created in the output directory (self.outdir)
     attrname = name of attribute to output, as string, defaults to 'soln'
     idx = index of the solution field to write out, None (default) if not a sequence
+    keyattr = name of attribute to use as a label in the output file for this solution step, as string, defaults to 't'
   Required attributes:
     outdir = output directory, as string
     soln (or other given by attrname) = FEniCS Function containing solution
+    the attribute given by `keyattr`
   New attributes:
     td_vtk_files = dictionary of FEniCS File objects, by filename
   No return value.
@@ -55,10 +57,11 @@ def td_solutionfield(self,filename,attrname='soln',idx=None):
   output = getattr(self,attrname)
   if idx is not None:
     output = output[idx]
-  self.td_vtk_files[filename] << (output,self.t)
+  lb=getattr(self,keyattr)
+  self.td_vtk_files[filename] << (output,lb)
   return
 
-def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None):
+def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None,keyattr='t'):
   """Get solution value at a single model point at each timestep
   Arguments:
     specifier = argument to get_pointcoords
@@ -66,6 +69,7 @@ def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None):
     label = series label to assign, as string
     attrname = name of attribute to output, as string, defaults to 'soln'
     idx = index of the solution field to write out, None (default) if not a sequence
+    keyattr = name of attribute to use as a label in the output file for this solution step, as string, defaults to 't'
   Required attributes:
     outdata = instance of OutData
     parametric_locations = only required if needed by location specifier, dictionary of parametric locations
@@ -91,7 +95,8 @@ def td_pointhistory(self,location,plotname,label,attrname='soln',idx=None):
     datafunction = datafunction[idx]
   outval=datafunction(*coords)
   series=self.td_point_series[(plotname,label)]
-  series.xvals=np.append(series.xvals,self.t)
+  lb=getattr(self,keyattr)
+  series.xvals=np.append(series.xvals,lb)
   series.yvals=np.append(series.yvals,outval)
 
 def td_line_history(self,startloc,endloc,num,plotname,labeltmpl,attrname='soln',labelattr='t',indep=None,idx=None):
