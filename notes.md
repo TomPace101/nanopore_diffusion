@@ -8,6 +8,8 @@ to reload as initial conditions,
 as checkpoints in case of a crash,
 for further post-processing, etc.
 
+_TODO_ change species_info to a list of species dictionaries, which become species objects
+
 # Formula derivations
 - _TODO_ NP linearization notebook
 - _TODO_ start reaction rate function linearization notebook
