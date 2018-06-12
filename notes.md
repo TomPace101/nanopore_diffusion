@@ -2,11 +2,18 @@
 _TODO_ switch to ruamel.yaml, and update the wiki
 
 _TOOD_ zipping large data sets may need to come under control of doit
+Or should it be available in the simulator?
+What if we're not using doit?
+The trouble is it's a command-line thing, not python.
 
-_TODO_ saving out states to HDF5
+_TODO_ loading/saving states to/from HDF5
 to reload as initial conditions,
 as checkpoints in case of a crash,
 for further post-processing, etc.
+There is an example of saving in `p20180605_Poisson.ipynb`,
+and an example of loading in `p20180605_SS_NP_fixed_Phi.ipynb`.
+Loading: this should be an option in conditions. Give a filename (path relative to data), and an attribute name to store it in.
+Saving: a function for datasteps/dataextraction, which accepts an attribute name, and a filename (goes with all the other stuff in solutions).
 
 _TODO_ change species_info to a list of species dictionaries, which become species objects
 
