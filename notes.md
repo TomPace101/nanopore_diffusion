@@ -441,12 +441,13 @@ But now the issue is data extraction: each process only has part of the mesh.
 See log 2018-05-29.md
 
 So, what will it take to get this working:
-- non-anaconda FEniCS on CP233 (maybe just upgrade to 18.04)
 - install fenicstools
 - use fenicstools Probes to extract data
 - MPI gather results from different processes (or does Probes do this for you?)
 - only rank 0 process should write output file
 
+Alteneratively, I could try to see how Probes in fenicstools works,
+and write similar python code.
 
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
