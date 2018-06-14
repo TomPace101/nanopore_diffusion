@@ -126,7 +126,7 @@ conditions:
     z:        [2,    -1]
     D:        [1.9,  2.03]
   stopping:
-    numsteps: 4
+    numsteps: 10
 datasteps:
   - [splitfield, {namewhole: soln_c, namesplit: soln_clist}]
   - [calc_netcharge, {solnname: soln_clist}]
