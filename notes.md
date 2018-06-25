@@ -61,6 +61,14 @@ Toward this end, a "library" of weak forms might be helpful.
 But they'd need to be functions, instead of UFL forms,
 to be passed in arguments such as the TrialFunction or Function, and TestFunction.
 
+The goal is to reduce redundancy.
+If I have a steady-state Smoluchowski equation solver, and a time-domain one,
+and then the same for PNP, all of them need the Smoluchowski weak forms.
+So maybe we want functions that return the terms for an entire equation.
+No, then time-domain and steady-state would be different.
+We want what I've called the steady-state weak forms.
+Steady-state simulators just set this equal to zero in their equation.
+
 # Fick's Law with Reactions
 - DONE: set up an example problem (in debug, I guess, base it on debug03)
 - DONE: only 2 species: Ca and CaCaM
@@ -220,6 +228,9 @@ Maybe this could work something like stopping criteria.
 You provide trigger values, and step values.
 The triggers a just like stopping criteria.
 But after each trigger, the step is added to get the next trigger.
+
+See the `stopnow` simulator method and `StoppingCriterion` class in tdpnp_unhomog,
+and also the enhancements in a notebook such as `p20180607_SS_PNP_opsplit`.
 
 _TODO_ This needs to be documented somewhere:
 Diffusion exclusions:
