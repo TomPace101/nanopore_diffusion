@@ -6,14 +6,7 @@ Or should it be available in the simulator?
 What if we're not using doit?
 The trouble is it's a command-line thing, not python.
 
-_TODO_ loading/saving states to/from HDF5
-to reload as initial conditions,
-as checkpoints in case of a crash,
-for further post-processing, etc.
-There is an example of saving in `p20180605_Poisson.ipynb`,
-and an example of loading in `p20180605_SS_NP_fixed_Phi.ipynb`.
-Loading: this should be an option in conditions. Give a filename (path relative to data), and an attribute name to store it in.
-Saving: a function for datasteps/dataextraction, which accepts an attribute name, and a filename (goes with all the other stuff in solutions).
+_TODO_ time-selection wrapper for datasteps (see below)
 
 _TODO_ change species_info to a list of species dictionaries, which become species objects
 
@@ -22,7 +15,7 @@ _TODO_ change species_info to a list of species dictionaries, which become speci
 - _TODO_ start reaction rate function linearization notebook
 
 
-# Equation Builder
+# Equation Builder & Loading States
 
 Rather than having separate codes with hard-wired weak forms,
 maybe we want to be able to select weak form components.
@@ -39,6 +32,34 @@ For Fick's law, omit the terms with charge.
 Or maybe we allow the 'equation' argument to be more than just a string.
 Maybe that's where we specify what is and is not included in the equation.
 Maybe there's even a way to allow customizations to contribute equation terms.
+
+Or maybe one allowed "equation" is 'builder',
+which allows the equation terms to be specified in the conditions field.
+Maybe "equation" should be changed to 'sim_module' for clarity.
+
+In fact, more generally, we'd like to be able to build models up from commands,
+similar to the way the data extraction takes place.
+That makes the input files something like a DSL.
+Which ultimately means what we want is a library of tools,
+which we can call from a python script.
+So we're just creating abstractions on top of FEniCS.
+And yet, we do still need data files.
+Where do we draw the line between code and data?
+
+To some extent, that's what the simulator modules already do.
+And it's what the most recent notebooks do as well.
+For right now, just focus on tools to make doing those things easier.
+
+This will also require doing some verification of the input.
+Check to make sure there are sufficient equations for each unknown, etc.
+How could that be done?
+For example, anything that doesn't have a diffusion constant must be involved in a reaction equation.
+And vice-versa.
+
+Maybe as a first step, we just need to make it easier for simulator modules to construct weak forms.
+Toward this end, a "library" of weak forms might be helpful.
+But they'd need to be functions, instead of UFL forms,
+to be passed in arguments such as the TrialFunction or Function, and TestFunction.
 
 # Fick's Law with Reactions
 - DONE: set up an example problem (in debug, I guess, base it on debug03)
@@ -194,6 +215,11 @@ and then accepts a command list.
 Or maybe datasteps itself is that wrapper.
 It takes a series of pairs.
 Item 0 is the definition of when to perform the list of commands in item 1.
+
+Maybe this could work something like stopping criteria.
+You provide trigger values, and step values.
+The triggers a just like stopping criteria.
+But after each trigger, the step is added to get the next trigger.
 
 _TODO_ This needs to be documented somewhere:
 Diffusion exclusions:
