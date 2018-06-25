@@ -6,6 +6,13 @@
 #Model definition
 
 ---
+modelname: exotic-earth_test
+meshname: exotic-earth_mesh_005
+equation: exotic-earth
+conditions:
+  elementorder: 3
+  isotropic_D_values: [1.0, 2.0]
+---
 modelname: exotic-earth_model_001
 meshname: exotic-earth_mesh_001
 equation: exotic-earth
