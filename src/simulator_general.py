@@ -317,6 +317,30 @@ class GenericSimulator(object):
       for k,v in getattr(self.modelparams.customizations,'extra',{}).items():
         setattr(self,k,v)
 
+  def loadfield(self,infpath,fieldtag,attrname,idx=None):
+    """Load data into the simulator from an HDF5 input file
+    
+    Arguments:
+    
+      - infpath = path to input file, as string, relative to folderstructure.datafolder
+      
+      - fieldtag = string identifying the HDF5 field name to load
+      
+      - attrname = attribute name to load the data into, as string
+      
+        Note that this attribute must already exist, and be of the proper type to receive the requested data.
+      
+      - idx = index number (as integer) speciying location within the given attribute, None (default) if not the attribute itself is not a sequence
+    
+    No return value."""
+    fullpath=osp.join(FS.datafolder,infpath)
+    inputval = getattr(self,attrname)
+    if idx is not None:
+      inputval = inputval[idx]
+    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),fullpath,'r')
+    hdf5.read(inputval,fieldtag)
+    hdf5.close()
+
   @classmethod
   def complete(cls,*args):
     """Convenience function to set up and solve the model, then generate all the requested output.
@@ -435,18 +459,24 @@ class GenericSimulator(object):
     #Done
     return
 
-  def solutionfield(self,filename,attrname='soln',idx=None):
+  def solutionfield(self,filename,attrname='soln',idx=None,outname=None):
     """Write solution field to VTK file
 
     Arguments:
 
       - filename = name of output file, as string
 
-        File will be created in the output directory (self.outdir)
+        File will be created in the output directory (self.outdir).
+        If the filename ends with ".hdf5" (case insensitive), and HDF5 file is created.
+        Otherwise, the filetype is selected by FEniCS.
 
       - attrname = name of attribute to output, as string, defaults to 'soln'
       
-      - idx = index of the solution field to write out, None (default) if not a sequence
+      - idx = index number (as integer) of the solution field to write out, None (default) if not a sequence
+      
+      - outname = optional output field name within output file, as string, supported only for HDF5 format.
+      
+        If not provided, output field name defaults to value calculated from attrname and idx.
 
     Required attributes:
 
@@ -458,11 +488,25 @@ class GenericSimulator(object):
     No return value.
 
     Output file is written."""
-    vtk_file=fem.File(osp.join(self.outdir,filename))
     output = getattr(self,attrname)
     if idx is not None:
       output = output[idx]
-    vtk_file << output
+    outfpath=osp.join(self.outdir,filename)
+    if osp.splitext(filename)[1].lower()=='.hdf5':
+      #HDF5 format
+      if outname is None:
+        fieldtag=attrname
+        if idx is not None:
+          fieldtag+='_%d'%idx
+      else:
+        fieldtag = outname
+      hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),outfpath,'w')
+      hdf5.write(output,fieldtag)
+      hdf5.close()
+    else:
+      #Format controlled by FEniCS (including VTK files: .pvd, etc.)
+      out_file=fem.File(outfpath)
+      out_file << output
     return
 
   def splitfield(self,namewhole,namesplit):
