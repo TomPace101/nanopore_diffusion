@@ -10,6 +10,11 @@ _TODO_ time-selection wrapper for datasteps (see below)
 
 _TODO_ change species_info to a list of species dictionaries, which become species objects
 
+_TODO_ see note in output_eff.fluxfield
+
+_TODO_ command line "select" argument: apply more directly - don't instantiate objects first
+This is actually not easy to do.
+
 # Formula derivations
 - _TODO_ NP linearization notebook
 - _TODO_ start reaction rate function linearization notebook
