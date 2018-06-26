@@ -12,6 +12,7 @@ import numpy as np
 import folderstructure as FS
 import plotdata
 
+#TODO: change this to store the flux in a specified attribute, use another function to save to VTK file
 def fluxfield(self,filename):
   """Flux as vector field (new attribute, and VTK file)
   Arguments:
