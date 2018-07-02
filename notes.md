@@ -1,6 +1,4 @@
 
-_TODO_ separate out the models meant to be run from a notebook from the actual debug model file
-
 _TODO_ switch to ruamel.yaml, and update the wiki
 
 _TOOD_ zipping large data sets may need to come under control of doit
@@ -20,6 +18,7 @@ This is actually not easy to do.
 _ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
 - The input yaml file's own name defines the basename.
   Maybe that feature should be removed, requiring the basename to be specified.
+  And call it something more specific, like "basefolder".
 - "meshname" is used to compute filenames.
   Maybe instead the file names themselves should be listed.
   I already had some discussion about this under the notes on pathlib.Path below.
