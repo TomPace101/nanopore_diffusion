@@ -113,13 +113,20 @@ class ModelParametersBase(common.ParameterSet):
         The command structure is the same as for dataextraction.
 
       - customizations = parameters specifying an instance of SimulatorCustomizations
+      - loaddata = a sequence of data loading commands to execute at simulator initialization
+      
+        Each command is a triple (attrname, filepath, fieldtag), where:
+        
+          - attrname = the name of the simulator attribute, as a string, to store the loaded data
+          - filepath = path to the data file to load, as string, relative to folderstructure.datafolder
+          - fieldtag = string identifying the HDF5 field name to load
 
     To be calculated from methods:
 
       - outdir = folder containing output files
       - mesh_hdf5 = mesh input hdf5 file, as string
       - meshmetafile = mesh metadata file"""
-  __slots__=('modelname','meshname','equation','conditions','dataextraction','datasteps','customizations',
+  __slots__=('modelname','meshname','equation','conditions','dataextraction','datasteps','customizations','loaddata',
              'outdir','mesh_hdf5','meshmetafile','_more_inputfiles','_more_outputfiles')
   _required_attrs=['modelname','meshname','equation','conditions']
   _inputfile_attrs=['mesh_hdf5'] #don't need sourcefile as input file due to config
@@ -138,11 +145,14 @@ class ModelParametersBase(common.ParameterSet):
       self.customizations=SimulatorCustomizations(**self.customizations)
       for modname in getattr(self.customizations,'modules',[]):
         self._more_inputfiles.append(osp.join(FS.custom_modules_folder,modname+'.py'))
-    #Get HDF5 file
+    #Get mesh HDF5 file
     self.mesh_hdf5=osp.join(FS.mesh_hdf5_folder,self.basename,self.meshname+'.hdf5')
     #Get mesh metadata file
     self.meshmetafile=osp.join(FS.meshmeta_outfolder,self.basename,self.meshname+'.yaml')
     self._more_inputfiles.append(self.meshmetafile)
+    #Get input files from load data commands
+    for aname,fpath,ftag in getattr(self,'loaddata',[]):
+      self._more_inputfiles.append(osp.join(FS.datafolder,fpath))
     #Get output files
     outfiles=[FS.infofile]
     outfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
@@ -337,9 +347,28 @@ class GenericSimulator(object):
     inputval = getattr(self,attrname)
     if idx is not None:
       inputval = inputval[idx]
-    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),fullpath,'r')
+    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),infpath,'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
+
+  def process_load_commands(self,attrname='loaddata'):
+    """Process a list of load data commands
+
+    Arguments:
+
+      - attrname = attribute name of self.modelparams containing the command list
+
+    No return value."""
+    for cmd in getattr(self.modelparams,attrname,[]):
+      #Function arguments
+      aname, fpath, ftag = cmd
+      #Call it
+      try:
+        self.loadfield(fpath,ftag,aname)
+      except Exception as einst:
+        print("Exception occured in %s for command: %s"%(attrname,str(cmd)), file=sys.stderr)
+        raise einst
+    return
 
   @classmethod
   def complete(cls,*args):
