@@ -30,6 +30,13 @@ Human-readable hash of `Time-dependent PNP-reaction system for 2D geometry with 
 A first attempt at a PNP-reaction simulation, with 2D geometry.
 As yet not complete.
 
+# notebook
+
+Data file used for testing purposes while developing code.
+
+Intended to be loaded only from the appropriate Jupyter notebooks,
+not from `solver_run.py` or similar scripts.
+
 # shashank
 
 Example input files given to Shashank.
