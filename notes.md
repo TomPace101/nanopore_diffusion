@@ -74,6 +74,17 @@ No, then time-domain and steady-state would be different.
 We want what I've called the steady-state weak forms.
 Steady-state simulators just set this equal to zero in their equation.
 
+Once we have such a library (module),
+the next thing we need are fields under "conditions" that specify which forms to include.
+We also need a good way to support construction of zeros for the linear forms.
+
+We also need a field in conditions that allow functions to be loaded from HDF5.
+It should be able to load multiple functions, each into a named attribute.
+Or perhaps this doesn't go in conditions. That's for simulator-specific stuff.
+Maybe it's a new ModelParamters attribute.
+
+
+
 # Fick's Law with Reactions
 - DONE: set up an example problem (in debug, I guess, base it on debug03)
 - DONE: only 2 species: Ca and CaCaM
