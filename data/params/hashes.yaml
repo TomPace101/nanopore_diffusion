@@ -1,7 +1,0 @@
-#Human readable hashes of text descriptions used for parameter sets
-#hash: description
-#The human readable hashes are generated from `codenamize(description,1,6)`
-#Where the description has been revised after hash generation,
-#the original description is retained in a comment
-
-brainy-media: Figure of D_eff vs \phi for body-centered geometry #Figure of D_eff vs \phi
