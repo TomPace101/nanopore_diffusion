@@ -52,3 +52,8 @@ Human-readable hash of `D_eff vs \phi for Smoluchowski equation`.
 
 Used to generate the figure of $D_eff$ vs $\phi$ for different pore electric potentials,
 using the Smoluchowski equation.
+
+# validation
+
+Used for validation problems: simulate a system where the correct result can be obtained by other means.
+
