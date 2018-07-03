@@ -19,10 +19,15 @@ _ISSUE_ the data folder structure, and how different attributes specify differen
 - The input yaml file's own name defines the basename.
   Maybe that feature should be removed, requiring the basename to be specified.
   And call it something more specific, like "basefolder".
+  Actually, the basename could be included in the yaml file already, but:
+    - currently, it would be overwritten by the file's basename
+    - that doesn't help with the case where the model and mesh have different basenames
 - "meshname" is used to compute filenames.
   Maybe instead the file names themselves should be listed.
   I already had some discussion about this under the notes on pathlib.Path below.
 
+_TODO_ rename paramgen to genparams everywhere
+Not just directory and filenames, but in the code itself.
 
 # Formula derivations
 - _TODO_ NP linearization notebook
@@ -143,6 +148,8 @@ So, maybe we need a separate "validation" directory in src
 to contain these scripts (and the comparison script),
 and a "validation" directory in data to hold the expected results,
 for comparison to what will be generated in data/postproc/validation.
+Not in src: we probably just need a "scripts" directory in general,
+for other cases where I have to generate data.
 
 # anisotropy
 - fickian_unhomog

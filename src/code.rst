@@ -15,7 +15,7 @@ There are other additional `Miscellaneous Modules`_ as well.
 
 **TODO**: list required software, as in README
 
-**TODO**: describe expected folder structure, as in README
+**TODO**: describe expected folder structure, as in README (including environment variables)
 
 **TODO**: maybe some other stuff to pull in from README as well
 
