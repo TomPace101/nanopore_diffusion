@@ -126,3 +126,9 @@ datasteps:
   - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_1, labeltmpl: 'Cl-, k=%d',  attrname: soln_clist, idx: 1, labelattr: 'k'}]
   - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_phi, labeltmpl: 'Potential, k=%d',  attrname: soln_Phi, labelattr: 'k'}]
   - [td_line_history, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_rho, labeltmpl: 'Charge Density, k=%d',  attrname: netcharge, labelattr: 'k'}]
+---
+modelname: hom_vary_test
+meshname: square50
+equation: notebook
+conditions:
+  elementorder: 3
