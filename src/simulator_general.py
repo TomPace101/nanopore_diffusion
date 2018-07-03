@@ -347,7 +347,7 @@ class GenericSimulator(object):
     inputval = getattr(self,attrname)
     if idx is not None:
       inputval = inputval[idx]
-    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),infpath,'r')
+    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),fullpath,'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
 
