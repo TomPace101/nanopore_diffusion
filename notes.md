@@ -22,9 +22,16 @@ _ISSUE_ the data folder structure, and how different attributes specify differen
   Actually, the basename could be included in the yaml file already, but:
     - currently, it would be overwritten by the file's basename
     - that doesn't help with the case where the model and mesh have different basenames
+        This suggests just providing the mesh name and directory.
 - "meshname" is used to compute filenames.
   Maybe instead the file names themselves should be listed.
   I already had some discussion about this under the notes on pathlib.Path below.
+The fundamental question is:
+Should we get rid of folderstructure, and require the input files to use hard-coded paths instead?
+Yes, this will increase the number of input parameters, by making everything more explicit.
+It could also make the input files more machine-dependent.
+Unless we keep the datafolder, which can come from an environment variable if necessary,
+and make all paths relative to that.
 
 _TODO_ rename paramgen to genparams everywhere
 Not just directory and filenames, but in the code itself.
