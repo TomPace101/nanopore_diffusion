@@ -496,7 +496,7 @@ class GenericSimulator(object):
       - filename = name of output file, as string
 
         File will be created in the output directory (self.outdir).
-        If the filename ends with ".hdf5" (case insensitive), and HDF5 file is created.
+        If the filename ends with ".hdf5" (case insensitive), an HDF5 file is created.
         Otherwise, the filetype is selected by FEniCS.
 
       - attrname = name of attribute to output, as string, defaults to 'soln'
