@@ -1,4 +1,6 @@
 
+_TODO_ add number of dimensions to geometry defnition file, and from there to mesh metadata
+
 _TODO_ switch to ruamel.yaml, and update the wiki
 
 _TOOD_ zipping large data sets may need to come under control of doit
