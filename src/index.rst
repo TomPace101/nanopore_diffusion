@@ -11,7 +11,7 @@ User Manual
    code
    problems
 
-Indices and tables
+Indices
 ################################################################################
 
 **TODO**: this part needs some work
