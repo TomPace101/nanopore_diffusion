@@ -130,5 +130,8 @@ datasteps:
 modelname: hom_vary_test
 meshname: square50
 equation: notebook
+loaddata:
+   - [D, solutions/notebook/hom_vary_test/spatial_D.hdf5, spatial_D]
 conditions:
   elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]

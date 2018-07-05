@@ -11,6 +11,6 @@ meshname: square50
 geomdefname: rectangle
 tmplvalues:
   mscale: 1.0
-  mcar: 1.0
-  Lx: 50
-  Ly: 50
+  mcar: 0.02
+  Lx: 1
+  Ly: 1
