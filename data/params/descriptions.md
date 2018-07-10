@@ -57,3 +57,8 @@ using the Smoluchowski equation.
 
 Used for validation problems: simulate a system where the correct result can be obtained by other means.
 
+# yummy-press
+
+Human-readable hash of `Homogenization of spatially varying diffusion constant from molecular dynamics simulations`.
+
+Used for simulations conducting homogenization with a spatially-varying diffusion constant taken from MD simulations.
