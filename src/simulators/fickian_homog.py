@@ -61,15 +61,14 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
 
     - meshinfo = instance of simulator_general.MeshInfo
     - conditions = instance of HomogFickianConditions
-    - V = 
-    - scalar_V = 
-    - soln =
-    - D = 
-    - n
-    - ds
-    - dx
-    - solver
-    """
+    - V = FEniCS FunctionSpace on the mesh for chi
+    - scalar_V = FEniCS FunctionSpace on the mesh for the diffusion constant
+    - soln = FEniCS Function to store the result for chi
+    - D = FEniCS Function to store the spatially varying diffusion constant
+    - n = FEniCS FacetNormal
+    - ds = FEniCS Measure for exterior facets
+    - dx = FEniCS Measure for cells
+    - solver = FEniCS LinearVariationalSolver"""
   def __init__(self,modelparams):
     """Initialize the model.
 
@@ -172,8 +171,8 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
     Required attributes (other than those from simulator_general):
     
       - the attribute given by attrname
-      - dx = 
-      - D = 
+      - dx = FEniCS Measure for cells
+      - D = FEniCS Function to store the spatially varying diffusion constant
     
     No new attributes.
     New item added to results dictionary.
