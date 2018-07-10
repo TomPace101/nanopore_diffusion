@@ -58,6 +58,8 @@ def point_bc_boundary(x, on_boundary):
   
 class HomogFickianSimulator(simulator_general.GenericSimulator):
   """Simulator for Homogenized Fickian Diffusion
+  
+  Isotropy of the input diffusion constant is assumed.
 
   Additional attributes not inherited from GenericSimulator:
 
@@ -156,5 +158,40 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
   def run(self):
     "Run this simulation."
     self.solver.solve()
+
+  def macroscale_diffusion(self,name="D_macro",name="soln"):
+    """Perform the integral to obtain the homogenized diffusion constant
+    
+    Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
+
+    Arguments:
+
+      - name = optional, name for storage in the results dictionary, as string
+      - attrname = optional, name for the attribute storing the solution (the result for chi)
+
+    Required attributes (other than those from simulator_general):
+    
+      - the attribute given by attrname
+      - dx = 
+      - D = 
+    
+    No new attributes.
+    New item added to results dictionary.
+    No return value.
+    No output files."""
+    volume=fem.assemble(fem.Constant(1)*self.dx)
+    kdelta = lambda i,j: 1 if i==j else 0 #Kronecker delta
+    soln=getattr(self,attrname)
+    gradchi=fem.grad(soln)
+    matr=[]
+    for ii in range(2):
+      row=[]
+      for jj in range(2):
+        term1=kdelta(ii,jj)*fem.assemble(self.D*self.dx)
+        term2=fem.assemble(self.D*gradchi[jj,ii]*self.dx)
+        val=(term1-term2)/volume
+        row.append(val)
+      matr.append(row)
+    self.results[name]=matr
 
 simulatorclasses={'fickian_homog':HomogFickianSimulatorSimulator}
