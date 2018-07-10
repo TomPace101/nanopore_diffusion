@@ -260,6 +260,7 @@ class MeshInfo:
     hdf5.read(self.mesh,'mesh',False)
     hdf5.read(self.facets,'facets')
     hdf5.read(self.cells,'cells')
+    hdf5.close()
     #Load mesh metadata file
     assert osp.isfile(modelparams.meshmetafile), "Mesh metadata file does not exist: %s"%modelparams.meshmetafile
     self.metadata=common.readyaml(modelparams.meshmetafile)
