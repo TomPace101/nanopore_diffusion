@@ -52,10 +52,6 @@ class PeriodicBoundary(fem.SubDomain):
       y[0] = x[0]
       y[1] = x[1] - self.yspan
 
-def point_bc_boundary(x, on_boundary):
-  """Function for point Dirichlet boundary condition, as required by FEniCS"""
-  return fem.near(x[0],xlims[1]) and fem.near(x[1],ylims[1])
-  
 class HomogFickianSimulator(simulator_general.GenericSimulator):
   """Simulator for Homogenized Fickian Diffusion
   
@@ -107,9 +103,13 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
     self.soln=fem.Function(self.V)
 
     #Point Dirichlet Boundary Condition
-    vec0=fem.Constant((0,0))
-    pointbc=fem.DirichletBC(self.V,vec0,point_bc_boundary,method='pointwise') 
-    self.bcs=[pointbc]
+    # def point_bc_boundary(x, on_boundary):
+    #   """Function for point Dirichlet boundary condition, as required by FEniCS"""
+    #   return fem.near(x[0],xlims[1]/2.0) and fem.near(x[1],ylims[1]/2.0)
+    # vec0=fem.Constant((0,0))
+    # pointbc=fem.DirichletBC(self.V,vec0,point_bc_boundary,method='pointwise') 
+    # self.bcs=[pointbc]
+    self.bcs=[]
 
     #Load diffusion constant as a Function
     self.D=fem.Function(self.scalar_V)
@@ -159,7 +159,7 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
     "Run this simulation."
     self.solver.solve()
 
-  def macroscale_diffusion(self,name="D_macro",name="soln"):
+  def macroscale_diffusion(self,name="D_macro",attrname="soln"):
     """Perform the integral to obtain the homogenized diffusion constant
     
     Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
@@ -194,4 +194,4 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
       matr.append(row)
     self.results[name]=matr
 
-simulatorclasses={'fickian_homog':HomogFickianSimulatorSimulator}
+simulatorclasses={'fickian_homog':HomogFickianSimulator}
