@@ -1,4 +1,7 @@
 
+__TODO__ scripts or models to generate the spatial_D output file
+also, move it to a more appropriate location
+
 _TODO_ add number of dimensions to geometry defnition file, and from there to mesh metadata
 
 _TODO_ switch to ruamel.yaml, and update the wiki
