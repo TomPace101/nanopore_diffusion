@@ -73,7 +73,6 @@ def effective_diffusion(self,name,totflux_name):
     totflux_name = name of previously calculated total flux in results dictionary
       This requires a previous call to fluxintegral.
   Required attributes:
-    tmplvalues = tmplvalues attribute of buildgeom.MeshParameters object
     results[toflux_name] = result from previous call to fluxintegral
   No new attributes.
   New item added to results dictionary.
@@ -88,6 +87,51 @@ def effective_diffusion(self,name,totflux_name):
   delta=samples[1]-samples[0]
   delta_z=zvals[1]-zvals[0]
   Deff=float(self.results[totflux_name]/quarter_area*delta_z/delta)
+  self.results[name]=Deff
+  return
+
+def effective_D(self,name,totflux_name,area_name,startloc,endloc,attrname='soln',idx=None):
+  """Calculate effective diffusion constant
+
+  Arguments:
+
+    - name = name for storage in the results dictionary
+    - totflux_name = name of previously calculated total flux in results dictionary
+
+        This requires a previous call to fluxintegral.
+
+    - area_name = name of previously claculated area in results dictionary.
+
+        This requires a previous call to facet_area.
+
+    - startloc = argument to get_pointcoords for start of line
+    - endloc = argument to get_pointcoords for end of line
+    - attrname = optional, name of attribute containing concentration solution, as string
+    - idx = index of the solution field to write out, None (default) if not a sequence
+
+  Required attributes:
+
+    - results[toflux_name] = result from previous call to fluxintegral
+
+  No new attributes.
+  New item added to results dictionary.
+  No return value.
+  No output files."""
+  #Get the object with the data
+  vals=getattr(self,attrname)
+  if idx is not None:
+    vals = vals[idx]
+  #Get the points for data extraction
+  assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
+  startcoords=self.get_pointcoords(startloc)
+  endcoords=self.get_pointcoords(endloc)
+  #Calculate distance between the two points
+  deltas=[p[1]-p[0] for p in zip(startcoords,endcoords)]
+  delta_s=np.sqrt(sum([d**2 for d in deltas]))
+  #Calculate the change in concentration between the two points
+  delta_c=vals(*endcoords)-vals(*startcoords)
+  #Calculate diffusion constant
+  Deff=float(self.results[totflux_name]/self.results[area_name]*delta_s/delta_c)
   self.results[name]=Deff
   return
 

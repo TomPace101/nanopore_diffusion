@@ -25,6 +25,27 @@ dataextraction:
   - [volfrac, {name: free_volume_frac}]
   - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
 ---
+modelname: debug01_test
+meshname: debug
+equation: fickian_unhomog
+customizations:
+  modules: [output_eff]
+conditions:
+  elementorder: 2
+  dirichlet: {4: 5.0, 1: 1.0}
+  D_bulk: 1
+dataextraction:
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1, name: totflux_01, normalvar: n01}]
+  - [fluxintegral, {fluxsurf: 4, name: totflux_04, normalvar: n04}]
+  - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-', normalvar: n12}]
+  - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
+  - [facet_area, {pfacet: 4, name: area_04}]
+  - [effective_D, {name: D_eff, totflux_name: totflux_12, area_name: area_04, startloc: [0,0,Z2], endloc: [0,0,Z3]}]
+  - [volfrac, {name: free_volume_frac}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c, label: 'concentration along centerline'}]
+---
 modelname: debug02
 meshname: debug
 equation: smol_unhomog
