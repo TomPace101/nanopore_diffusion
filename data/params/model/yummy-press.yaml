@@ -82,3 +82,123 @@ dataextraction:
   - [facet_area, {pfacet: 5153, name: area_right}]
   - [effective_D, {name: D_eff, totflux_name: totflux_inner, area_name: area_right, startloc: [X2,Y1], endloc: [X4,Y1]}]
   - [line_profile, {startloc: [X1,Y1], endloc: [X5,Y1], num: 1000, indep: 0, plotname: CL_c, label: 'concentration along centerline'}]
+---
+modelname: yummy-press_homog_05_const
+meshname: yummy-press_homog_05
+equation: fickian_homog
+metadata:
+  full_volume: 18.55
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_05_const/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
+---
+modelname: yummy-press_homog_10_const
+meshname: yummy-press_homog_10
+equation: fickian_homog
+metadata:
+  full_volume: 20.3
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_10_const/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
+---
+modelname: yummy-press_homog_15_const
+meshname: yummy-press_homog_15
+equation: fickian_homog
+metadata:
+  full_volume: 22.05
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_15_const/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
+---
+modelname: yummy-press_homog_20_const
+meshname: yummy-press_homog_20
+equation: fickian_homog
+metadata:
+  full_volume: 23.8
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_20_const/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
+---
+modelname: yummy-press_homog_05_vary
+meshname: yummy-press_homog_05
+equation: fickian_homog
+metadata:
+  full_volume: 18.55
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_05_vary/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
+---
+modelname: yummy-press_homog_10_vary
+meshname: yummy-press_homog_10
+equation: fickian_homog
+metadata:
+  full_volume: 20.3
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_10_vary/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
+---
+modelname: yummy-press_homog_15_vary
+meshname: yummy-press_homog_15
+equation: fickian_homog
+metadata:
+  full_volume: 22.05
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_15_vary/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
+---
+modelname: yummy-press_homog_20_vary
+meshname: yummy-press_homog_20
+equation: fickian_homog
+metadata:
+  full_volume: 23.8
+  D_bulk: 1
+loaddata:
+   - [D, solutions/yummy-press/yummy-press_homog_20_vary/spatial_D.hdf5, spatial_D]
+conditions:
+  elementorder: 3
+  boundaries: [1121, 2122, 1222, 1112]
+dataextraction:
+  - [macroscale_diffusion, {usevolume: full_volume}]
+  - [solutionfield, {filename: chi.pvd}]
