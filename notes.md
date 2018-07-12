@@ -1,4 +1,10 @@
 
+__ISSUE__ for some reason, doit is running everything.
+It thinks the configuration has changed.
+
+__ISSUE__ simply rerunning the mesh, even without changing its input,
+changes the function space in a way that makes the hdf5 files for functions on it invalid.
+
 __ISSUE__ where loaddata comes from
 So far I've been using notebooks to generate the data loaded with loaddata.
 Ultimately these need to come from somewhere tracked in git and executable from the command line and maybe even doit.
