@@ -11,6 +11,9 @@ And can we get rid of the exotic-earth simulator now?
 And I guess the data files that went with it?
 Or do we want to run that with the new homogenization module instead?
 
+_TODO_ some plots say concentration is in units of mM
+I found this in debug, but it may exist in brainy-media, thin-shot, etc.
+
 _TODO_ add number of dimensions to geometry defnition file, and from there to mesh metadata
 
 _TODO_ switch to ruamel.yaml, and update the wiki
@@ -60,6 +63,11 @@ Right now we have collection tasks and plotting tasks.
 But sometimes we need to do calculations as well.
 These should allow for scripts,
 or customization modules the way the solvers do.
+I guess the question is, where do the calculation results go?
+If you modify the files in `solutions`, that will force a simulation rerun even if unnecessary.
+If you put it in `postproc`, it will hold potentially a lot of duplicate data.
+You could store just the newly generated data in `postproc`, I guess,
+but that complicates handling the data, as you always have to put them back together.
 
 Sometimes these calculations will need to refer to model metadata,
 so we should set up a way to have that just like we do for meshes.
