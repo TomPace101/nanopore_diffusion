@@ -13,8 +13,8 @@ tmplvalues:
   mscale: 1.0
   mcarh: 0.1
   mcarl: 2.0
-  R: 0.5
-  L: 2.4
+  R: 0.25
+  L: 2.65
   H: 90
   tm: 90
 ---
@@ -24,8 +24,8 @@ tmplvalues:
   mscale: 1.0
   mcarh: 0.1
   mcarl: 2.0
-  R: 1.0
-  L: 2.9
+  R: 0.5
+  L: 2.90
   H: 90
   tm: 90
 ---
@@ -35,8 +35,8 @@ tmplvalues:
   mscale: 1.0
   mcarh: 0.1
   mcarl: 2.0
-  R: 1.5
-  L: 3.4
+  R: 0.75
+  L: 3.15
   H: 90
   tm: 90
 ---
@@ -46,7 +46,7 @@ tmplvalues:
   mscale: 1.0
   mcarh: 0.1
   mcarl: 2.0
-  R: 2.0
-  L: 3.9
+  R: 1.0
+  L: 3.40
   H: 90
   tm: 90
