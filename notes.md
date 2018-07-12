@@ -69,7 +69,8 @@ is written by a human.
 This other file could be created by something else.
 For example, it could come from the same script that generated an hdf5 file.
 Well, then, maybe it should just be loaded from the hdf5 file as well?
-(That means that function should be able to take a sequence of field tags, not just one.)
+(That means that function should be able to take a sequence of field tags, not just one.
+  OR, we group together all the commands that use a particular file, so we only open it once.)
 But then, what if I do want it written by a human?
 Then, it should go in modelparameters somehow.
 
