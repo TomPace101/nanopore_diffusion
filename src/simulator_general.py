@@ -93,7 +93,6 @@ class ModelParametersBase(common.ParameterSet):
       - modelname = stem name for output files
       - meshname = stem name for mesh files
       - equation = name of equation to be solved
-      - properties = dictionary of property values
       - conditions = parameters specifying boundary conditions, initial conditions, property values, etc.
 
         The parameters specified are specific to the equation being solved.
@@ -120,13 +119,15 @@ class ModelParametersBase(common.ParameterSet):
           - attrname = the name of the simulator attribute, as a string, to store the loaded data
           - filepath = path to the data file to load, as string, relative to folderstructure.datafolder
           - fieldtag = string identifying the HDF5 field name to load
+      
+      - metadata = dictionary of metadata about the model, for use in post-processing
 
     To be calculated from methods:
 
       - outdir = folder containing output files
       - mesh_hdf5 = mesh input hdf5 file, as string
       - meshmetafile = mesh metadata file"""
-  __slots__=('modelname','meshname','equation','conditions','dataextraction','datasteps','customizations','loaddata',
+  __slots__=('modelname','meshname','equation','conditions','dataextraction','datasteps','customizations','loaddata','metadata',
              'outdir','mesh_hdf5','meshmetafile','_more_inputfiles','_more_outputfiles')
   _required_attrs=['modelname','meshname','equation','conditions']
   _inputfile_attrs=['mesh_hdf5'] #don't need sourcefile as input file due to config
@@ -300,6 +301,7 @@ class GenericSimulator(object):
     self.outdir=self.modelparams.outdir
     self.results={}
     self.info=self.modelparams.config_dict
+    self.info.update(getattr(self.modelparams,'metadata',{}))
     self.outdata=OutData(plots={})
     
     #Load mesh

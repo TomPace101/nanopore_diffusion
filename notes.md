@@ -70,18 +70,20 @@ If you put it in `postproc`, it will hold potentially a lot of duplicate data.
 You could store just the newly generated data in `postproc`, I guess,
 but that complicates handling the data, as you always have to put them back together.
 
-Sometimes these calculations will need to refer to model metadata,
-so we should set up a way to have that just like we do for meshes.
-That is, there's a yaml file the simulator loads OTHER than the model parameters.
-It doesn't belong in modelparameters because the intention is that modelparameters
-is written by a human.
-This other file could be created by something else.
-For example, it could come from the same script that generated an hdf5 file.
-Well, then, maybe it should just be loaded from the hdf5 file as well?
-(That means that function should be able to take a sequence of field tags, not just one.
-  OR, we group together all the commands that use a particular file, so we only open it once.)
-But then, what if I do want it written by a human?
-Then, it should go in modelparameters somehow.
+_TODO_ refactor simulator data output
+What's in an attribute, what's in info, and what's in results?
+In the end, results is added to info as an entry (not as an update).
+And all the modelparameters go directly into info.
+Now all the metadata goes there too.
+Should we get rid of results and just use info directly?
+Or go the other way and put modelparameters as one entry, metadata as another, etc?
+It's certainly easier for the program to make use of the data in one big bucket,
+but of course that increases the chancse of a collision.
+Maybe we need something like in postproc, where it can drill down?
+
+_IDEA_ for loaddata, do we want to be able to load more than one item from a single hdf5 file?
+That means that function should be able to take a sequence of field tags, not just one.
+  OR, we group together all the commands that use a particular file, so we only open it once.
 
 _TODO_ solutionfield should be renamed
 
