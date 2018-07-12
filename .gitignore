@@ -2,6 +2,7 @@
 __pycache__
 *.pyc
 .doit.db.*
+.doit.db
 notebooks
 
 #Sphinx build subdirectories

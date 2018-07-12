@@ -50,3 +50,35 @@ tmplvalues:
   L: 3.40
   H: 90
   tm: 90
+---
+meshname: yummy-press_homog_05
+geomdefname: rectangle
+tmplvalues:
+  mscale: 1.0
+  mcar: 0.05 
+  Lx: 3.5
+  Ly: 0.5
+---
+meshname: yummy-press_homog_10
+geomdefname: rectangle
+tmplvalues:
+  mscale: 1.0
+  mcar: 0.05 
+  Lx: 3.5
+  Ly: 1.0
+---
+meshname: yummy-press_homog_15
+geomdefname: rectangle
+tmplvalues:
+  mscale: 1.0
+  mcar: 0.05 
+  Lx: 3.5
+  Ly: 1.5
+---
+meshname: yummy-press_homog_20
+geomdefname: rectangle
+tmplvalues:
+  mscale: 1.0
+  mcar: 0.05 
+  Lx: 3.5
+  Ly: 2.0
