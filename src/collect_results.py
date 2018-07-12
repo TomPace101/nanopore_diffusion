@@ -17,18 +17,25 @@ collected_df_fname='collected_results.pkl.gz'
 
 def get_columns(d,exclusions):
   """Return list of all keys where the values are integers, floats, or strings,
-  and call recursively on any value that has its own 'items' attribute."""
+  and call recursively on any value that has its own 'items' attribute.
+  Sequences are now accepted as well, with an index added to the name of their parent"""
   cols=[]
+  newcols=[]
   for k,v in d.items():
     if not k in exclusions:
       if type(v)==int or type(v)==float or type(v)==str:
         if not k in cols:
           cols.append(k)
+      elif hasattr(v,'index'):
+        for idx,itm in enumerate(v):
+          sub_dict={k+"_%d"%idx: itm}
+          newcols+=get_columns(sub_dict,exclusions)
       elif hasattr(v,'items'):
         newcols=get_columns(v,exclusions)
-        for c in newcols:
-          if c not in cols:
-            cols.append(c)
+      for c in newcols:
+        if c not in cols:
+          cols.append(c)
+      newcols=[]
   return cols
 
 def get_all_columns(dlist,exclusions):
@@ -44,17 +51,27 @@ def get_all_columns(dlist,exclusions):
 def flatdict(d,cols,name,exclusions):
   """Flatten a potentially nested dictionary so it can be added to a DataFrame with the specified columns."""
   fd={}
+  subdict={}
   for k,v in d.items():
     if not k in exclusions:
       if k in cols and (type(v)==int or type(v)==float or type(v)==str):
         fd[k]=v
+      elif hasattr(v,'index'):
+        subdict={}
+        for idx,itm in enumerate(v):
+          newk=k+"_%d"%idx
+          newname=name+'->'+newk
+          sd={newk: itm}
+          subdict.update(flatdict(sd,cols,newname,exclusions))
       elif hasattr(v,'items'):
         newname=name+'->'+k
-        for newk, newv in flatdict(v,cols,newname,exclusions).items():
-          if newk in fd.keys():
-            assert newv==fd[newk], "In %s, unequal assignments to %s: previously had %s, but %s wants to change it to %s"%(name,str(newk),str(fd[newk]),str(k),str(newv))
-          else:
-            fd[newk]=newv
+        subdict=flatdict(v,cols,newname,exclusions)
+      for newk, newv in subdict.items():
+        if newk in fd.keys():
+          assert newv==fd[newk], "In %s, unequal assignments to %s: previously had %s, but %s wants to change it to %s"%(name,str(newk),str(fd[newk]),str(k),str(newv))
+        else:
+          fd[newk]=newv
+      subdict={}
   return fd
 
 def dicts_to_dataframe(alldicts,exclusions):
