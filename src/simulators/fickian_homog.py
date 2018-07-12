@@ -158,7 +158,7 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
     "Run this simulation."
     self.solver.solve()
 
-  def macroscale_diffusion(self,name="D_macro",attrname="soln"):
+  def macroscale_diffusion(self,name="D_macro",attrname="soln",usevolume=None):
     """Perform the integral to obtain the homogenized diffusion constant
     
     Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
@@ -167,6 +167,9 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
 
       - name = optional, name for storage in the results dictionary, as string
       - attrname = optional, name for the attribute storing the solution (the result for chi)
+      - usevolume = optional, name for the result key storing the volume to be used.
+          
+          If not provided, or ``None``, the volume will be taken as the total model volume.
 
     Required attributes (other than those from simulator_general):
     
@@ -178,7 +181,10 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
     New item added to results dictionary.
     No return value.
     No output files."""
-    volume=fem.assemble(fem.Constant(1)*self.dx)
+    if volume is None:
+      volume=fem.assemble(fem.Constant(1)*self.dx)
+    else:
+      volume=self.results[usevolume]
     kdelta = lambda i,j: 1 if i==j else 0 #Kronecker delta
     soln=getattr(self,attrname)
     gradchi=fem.grad(soln)
