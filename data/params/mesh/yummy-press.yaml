@@ -7,3 +7,46 @@
 #Each document defines an instance of buildgeom.MeshParameters
 
 ---
+meshname: yummy-press_nonhomog_05
+geomdefname: slot2d
+tmplvalues:
+  mscale: 1.0
+  mcarh: 0.1
+  mcarl: 2.0
+  R: 0.5
+  L: 2.4
+  H: 90
+  tm: 90
+---
+meshname: yummy-press_nonhomog_10
+geomdefname: slot2d
+tmplvalues:
+  mscale: 1.0
+  mcarh: 0.1
+  mcarl: 2.0
+  R: 1.0
+  L: 2.9
+  H: 90
+  tm: 90
+---
+meshname: yummy-press_nonhomog_15
+geomdefname: slot2d
+tmplvalues:
+  mscale: 1.0
+  mcarh: 0.1
+  mcarl: 2.0
+  R: 1.5
+  L: 3.4
+  H: 90
+  tm: 90
+---
+meshname: yummy-press_nonhomog_20
+geomdefname: slot2d
+tmplvalues:
+  mscale: 1.0
+  mcarh: 0.1
+  mcarl: 2.0
+  R: 2.0
+  L: 3.9
+  H: 90
+  tm: 90
