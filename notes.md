@@ -2,6 +2,15 @@
 __TODO__ scripts or models to generate the spatial_D output file
 also, move it to a more appropriate location
 
+_TODO_ refactor this TODO list!
+
+_TODO_ clean up data
+The data folder has lots of junk now.
+Particularly in debug.
+And can we get rid of the exotic-earth simulator now?
+And I guess the data files that went with it?
+Or do we want to run that with the new homogenization module instead?
+
 _TODO_ add number of dimensions to geometry defnition file, and from there to mesh metadata
 
 _TODO_ switch to ruamel.yaml, and update the wiki
@@ -19,6 +28,7 @@ _TODO_ see note in output_eff.fluxfield
 
 _TODO_ command line "select" argument: apply more directly - don't instantiate objects first
 This is actually not easy to do.
+What would be nice would be if the modelparameters got instantiated, but not the simulators.
 
 _ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
 - The input yaml file's own name defines the basename.
@@ -43,6 +53,27 @@ Not just directory and filenames, but in the code itself.
 
 _TODO_ use output_eff effective_D in place of effective_diffusion in all locations.
 See log 2018-07-10 for more information.
+
+_TODO_ refactor post-processing
+Think of post-processing in terms of tasks to complete.
+Right now we have collection tasks and plotting tasks.
+But sometimes we need to do calculations as well.
+These should allow for scripts,
+or customization modules the way the solvers do.
+
+Sometimes these calculations will need to refer to model metadata,
+so we should set up a way to have that just like we do for meshes.
+That is, there's a yaml file the simulator loads OTHER than the model parameters.
+It doesn't belong in modelparameters because the intention is that modelparameters
+is written by a human.
+This other file could be created by something else.
+For example, it could come from the same script that generated an hdf5 file.
+Well, then, maybe it should just be loaded from the hdf5 file as well?
+(That means that function should be able to take a sequence of field tags, not just one.)
+But then, what if I do want it written by a human?
+Then, it should go in modelparameters somehow.
+
+_TODO_ solutionfield should be renamed
 
 # Formula derivations
 - _TODO_ NP linearization notebook
