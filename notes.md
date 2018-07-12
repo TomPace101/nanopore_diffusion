@@ -42,7 +42,7 @@ _TODO_ rename paramgen to genparams everywhere
 Not just directory and filenames, but in the code itself.
 
 _TODO_ use output_eff effective_D in place of effective_diffusion in all locations.
-See log 2018-07-09 for more information.
+See log 2018-07-10 for more information.
 
 # Formula derivations
 - _TODO_ NP linearization notebook
