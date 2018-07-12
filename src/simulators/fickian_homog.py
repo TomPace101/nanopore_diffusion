@@ -182,7 +182,7 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
     New item added to results dictionary.
     No return value.
     No output files."""
-    if volume is None:
+    if usevolume is None:
       volume=fem.assemble(fem.Constant(1)*self.dx)
     else:
       volume=self.info[usevolume]
