@@ -1,6 +1,15 @@
 
-__TODO__ scripts or models to generate the spatial_D output file
-also, move it to a more appropriate location
+__ISSUE__ where loaddata comes from
+So far I've been using notebooks to generate the data loaded with loaddata.
+Ultimately these need to come from somewhere tracked in git and executable from the command line and maybe even doit.
+How?
+One idea was a script.
+But that would mean a lot of very similar scripts.
+One idea was an equation module that just projects expressions.
+But then it would need a separate model name from the model that loads it,
+even though in some cases it will be the only one.
+Maybe that's ok.
+Decision: try an "expression projector" simulator module.
 
 _TODO_ refactor this TODO list!
 
