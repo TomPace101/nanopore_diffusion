@@ -15,6 +15,7 @@ _TODO_ some plots say concentration is in units of mM
 I found this in debug, but it may exist in brainy-media, thin-shot, etc.
 
 _TODO_ add number of dimensions to geometry defnition file, and from there to mesh metadata
+For that matter, putting the geometry definition name in mesh metadata might be nice.
 
 _TODO_ switch to ruamel.yaml, and update the wiki
 
