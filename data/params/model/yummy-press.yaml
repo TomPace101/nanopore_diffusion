@@ -7,3 +7,78 @@
 #Each document defines an instance of simulator_general.ModelParameters
 
 ---
+modelname: yummy-press_nonhomog_05
+meshname: yummy-press_nonhomog_05
+equation: fickian_unhomog
+customizations:
+  modules: [output_eff]
+conditions:
+  elementorder: 2
+  dirichlet: {1113: 5.0, 5153: 1.0}
+  D_bulk: 1
+dataextraction:
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1113, name: totflux_left}]
+  - [fluxintegral, {fluxsurf: 5153, name: totflux_right}]
+  - [fluxintegral, {fluxsurf: 3132, name: totflux_inner, internal: True, fluxsign: '-'}]
+  - [facet_area, {pfacet: 5153, name: area_right}]
+  - [effective_D, {name: D_eff, totflux_name: totflux_inner, area_name: area_right, startloc: [X2,Y1], endloc: [X4,Y1]}]
+  - [line_profile, {startloc: [X1,Y1], endloc: [X5,Y1], num: 1000, indep: 0, plotname: CL_c, label: 'concentration along centerline'}]
+---
+modelname: yummy-press_nonhomog_10
+meshname: yummy-press_nonhomog_10
+equation: fickian_unhomog
+customizations:
+  modules: [output_eff]
+conditions:
+  elementorder: 2
+  dirichlet: {1113: 5.0, 5153: 1.0}
+  D_bulk: 1
+dataextraction:
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1113, name: totflux_left}]
+  - [fluxintegral, {fluxsurf: 5153, name: totflux_right}]
+  - [fluxintegral, {fluxsurf: 3132, name: totflux_inner, internal: True, fluxsign: '-'}]
+  - [facet_area, {pfacet: 5153, name: area_right}]
+  - [effective_D, {name: D_eff, totflux_name: totflux_inner, area_name: area_right, startloc: [X2,Y1], endloc: [X4,Y1]}]
+  - [line_profile, {startloc: [X1,Y1], endloc: [X5,Y1], num: 1000, indep: 0, plotname: CL_c, label: 'concentration along centerline'}]
+---
+modelname: yummy-press_nonhomog_15
+meshname: yummy-press_nonhomog_15
+equation: fickian_unhomog
+customizations:
+  modules: [output_eff]
+conditions:
+  elementorder: 2
+  dirichlet: {1113: 5.0, 5153: 1.0}
+  D_bulk: 1
+dataextraction:
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1113, name: totflux_left}]
+  - [fluxintegral, {fluxsurf: 5153, name: totflux_right}]
+  - [fluxintegral, {fluxsurf: 3132, name: totflux_inner, internal: True, fluxsign: '-'}]
+  - [facet_area, {pfacet: 5153, name: area_right}]
+  - [effective_D, {name: D_eff, totflux_name: totflux_inner, area_name: area_right, startloc: [X2,Y1], endloc: [X4,Y1]}]
+  - [line_profile, {startloc: [X1,Y1], endloc: [X5,Y1], num: 1000, indep: 0, plotname: CL_c, label: 'concentration along centerline'}]
+---
+modelname: yummy-press_nonhomog_20
+meshname: yummy-press_nonhomog_20
+equation: fickian_unhomog
+customizations:
+  modules: [output_eff]
+conditions:
+  elementorder: 2
+  dirichlet: {1113: 5.0, 5153: 1.0}
+  D_bulk: 1
+dataextraction:
+  - [solutionfield, {filename: conc.pvd}]
+  - [fluxfield, {filename: flux.pvd}]
+  - [fluxintegral, {fluxsurf: 1113, name: totflux_left}]
+  - [fluxintegral, {fluxsurf: 5153, name: totflux_right}]
+  - [fluxintegral, {fluxsurf: 3132, name: totflux_inner, internal: True, fluxsign: '-'}]
+  - [facet_area, {pfacet: 5153, name: area_right}]
+  - [effective_D, {name: D_eff, totflux_name: totflux_inner, area_name: area_right, startloc: [X2,Y1], endloc: [X4,Y1]}]
+  - [line_profile, {startloc: [X1,Y1], endloc: [X5,Y1], num: 1000, indep: 0, plotname: CL_c, label: 'concentration along centerline'}]
