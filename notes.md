@@ -2,6 +2,10 @@
 __ISSUE__ simply rerunning the mesh, even without changing its input,
 changes the function space in a way that makes the hdf5 files for functions on it invalid.
 
+If this can't be resolved, then anything that saves data to HDF5 file must depend on the mesh file itself.
+
+((bitbucket issue 5))
+
 __ISSUE__ where loaddata comes from
 So far I've been using notebooks to generate the data loaded with loaddata.
 Ultimately these need to come from somewhere tracked in git and executable from the command line and maybe even doit.
