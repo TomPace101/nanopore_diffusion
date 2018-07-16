@@ -7,6 +7,7 @@ from itertools import chain
 import operator
 import os.path as osp
 import pickle
+import pprint
 
 #Site packages
 import yaml
@@ -325,7 +326,8 @@ class ParameterSet(object):
   @property
   def config(self):
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
-    return(str(self.config_dict))
+    # return(str(self.config_dict))
+    return(pprint.pformat(self.config_dict))
   @property
   def taskname(self):
     """A string representing the task name in doit"""

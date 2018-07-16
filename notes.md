@@ -1,7 +1,4 @@
 
-__ISSUE__ for some reason, doit is running everything.
-It thinks the configuration has changed.
-
 __ISSUE__ simply rerunning the mesh, even without changing its input,
 changes the function space in a way that makes the hdf5 files for functions on it invalid.
 
