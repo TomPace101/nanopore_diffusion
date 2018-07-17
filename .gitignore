@@ -4,6 +4,7 @@ __pycache__
 .doit.db.*
 .doit.db
 notebooks
+spreadsheets
 
 #Sphinx build subdirectories
 sphinx/build/doctrees
