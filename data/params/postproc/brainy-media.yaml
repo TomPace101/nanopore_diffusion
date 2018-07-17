@@ -39,6 +39,6 @@ model_plots:
       - [plot_vline, {locspec: [mesh_metadata, Z2],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
       - [plot_vline, {locspec: [mesh_metadata, Z3],kwargs: {label: 'Pore Limits',color: 'k',linestyle: '--'}}]
     xlabel: 'z (nm)'
-    ylabel: 'concentration (mM)'
+    ylabel: 'concentration (count/nm^3)'
     title: 'Concentration Profile along Pore Centerline'
     fmts: ['k-']
