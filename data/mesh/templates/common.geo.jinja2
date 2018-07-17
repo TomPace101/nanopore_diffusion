@@ -14,7 +14,7 @@ Printf("{{ varname }}: %f", {{ varname }}) >> meshmetafile;
 {% endfor %}
 
 //Points
-{% for ptnum,meshvar in ptstrs.items() %}
+{% for ptnum,meshvar in ptstrs.items()|sort %}
 {% if dimensions==2 %}
 p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},0,{{ meshvar }}};
 {% elif dimensions==3 %}
@@ -23,29 +23,29 @@ p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnu
 {% endfor %}
 
 //Lines
-{% for lname, lptstr in lines.items() %}
+{% for lname, lptstr in lines.items()|sort %}
 {{ lname }}=newl; Line({{ lname }})={ {{- lptstr -}} };
 {% endfor %}
 
 //Circles
-{% for cname, cptstr in circles.items() %}
+{% for cname, cptstr in circles.items()|sort %}
 {{ cname }}=newl; Circle({{ cname }})={ {{- cptstr -}} };
 {% endfor %}
 
 //Line Loops
-{% for lpnum, lents in loops.items() %}
+{% for lpnum, lents in loops.items()|sort %}
 Line Loop({{ lpnum }})={ {{- lents -}} };
 {% endfor %}
 
 //Surfaces (each is a physical surface)
-{% for lpnum, stype in surftypes.items() %}
+{% for lpnum, stype in surftypes.items()|sort %}
 {{ stype }}({{ lpnum }})={ {{- lpnum -}} };
 Physical Surface({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
 
 {% if dimensions==2 %}
 //Physical Lines
-{% for lnum,lname in phys_lines.items() %}
+{% for lnum,lname in phys_lines.items()|sort %}
 Physical Line({{ lnum }})={ {{- lname -}} };
 {% endfor %}
 
@@ -53,12 +53,12 @@ Physical Line({{ lnum }})={ {{- lname -}} };
 Mesh 2;
 {% elif dimensions==3 %}
 //Surface Loops
-{% for lpnum, sents in surfloops.items() %}
+{% for lpnum, sents in surfloops.items()|sort %}
 Surface Loop({{ lpnum }})={ {{- sents -}} };
 {% endfor %}
 
 //Volumes
-{% for lpnum in surfloops.keys() %}
+{% for lpnum in surfloops.keys()|sort %}
 Volume({{ lpnum }})={ {{- lpnum -}} };
 Physical Volume({{ lpnum }})={ {{- lpnum -}} };
 {% endfor %}
