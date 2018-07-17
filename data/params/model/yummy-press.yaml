@@ -184,7 +184,8 @@ meshname: yummy-press_homog_05
 equation: projector
 conditions:
   elementorder: 3
-  expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  expression: ''
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
 ---
@@ -208,7 +209,8 @@ meshname: yummy-press_homog_10
 equation: projector
 conditions:
   elementorder: 3
-  expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  expression: ''
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
 ---
@@ -232,7 +234,8 @@ meshname: yummy-press_homog_15
 equation: projector
 conditions:
   elementorder: 3
-  expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  expression: ''
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
 ---
@@ -256,7 +259,8 @@ meshname: yummy-press_homog_20
 equation: projector
 conditions:
   elementorder: 3
-  expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
+  expression: ''
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
 ---
