@@ -25,7 +25,6 @@ class UnhomogFickianSimulator(simulator_general.GenericSimulator):
 
   Additional attributes not inherited from GenericSimulator:
 
-    - meshinfo = instance of simulator_general.MeshInfo
     - conditions = instance of UnhomogFickianConditions
     - V = FEniCS FunctionSpace on the mesh
     - V_vec = FEniCS VectorFunctionSpace on the mesh

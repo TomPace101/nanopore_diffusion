@@ -282,6 +282,7 @@ class GenericSimulator(object):
   Attributes:
 
     - modelparams = simulator_run.ModelParameters instance
+    - meshinfo = instance of MeshInfo
     - diskwrite = boolean, True to write results to disk.
     - outdir = directory for output data
     - results = dictionary of results used in data extraction calculations
