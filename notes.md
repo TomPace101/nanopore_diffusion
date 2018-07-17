@@ -66,6 +66,82 @@ If you modify the files in `solutions`, that will force a simulation rerun even 
 If you put it in `postproc`, it will hold potentially a lot of duplicate data.
 You could store just the newly generated data in `postproc`, I guess,
 but that complicates handling the data, as you always have to put them back together.
+The answer is the following:
+- don't alter the files in `solutions`, but add new files in `postproc` instead
+- when possible, only put new data in `postproc`; don't duplicate
+- it won't always be possible. Some duplication is ok.
+
+I think a script-based approach is probably best.
+But we can provide objects to support those scripts.
+For example, we should distinguish between scripts that generate data for plots
+and then scripts that generate actual plots.
+Then, you also need doit tasks for these scripts.
+And those tasks have to include the script arguments,
+so it can identify input and output files.
+
+Alternatively, we could try the "module" approach.
+Just like for the simulators,
+there's a generic class,
+subclasses that are set up for particular purposes,
+and also data that is loaded.
+In this case, both "control" data
+and the data output by the simulation.
+Also, customization modules could be used in place of scripts.
+We're actually pretty close to this approach already, aren't we?
+
+Customization adds methods.
+In the simulators, we have a list of commands that can include such methods.
+So we'd need something similar here.
+The plots already have this: prepfunctions and plotfunctions.
+And in fact, prepfunctions is intended as a way of setting up new data.
+
+So what's the bigger pattern we have here?
+The one that applies to mesh generation, simulation, collecting, and plotting.
+The object is initialized from yaml.
+The yaml can direct the object where to load data from,
+and where to obtain new methods.
+The object is set up in order to locate all its input and output files,
+to predict if it's state has changed.
+Then it's action is executed. (Or if it's state won't have changed, this isn't necessary.)
+This action can include one (or more) command sequence(s).
+Basically, these are sets of commands that can be run at different points in time.
+- prepcommands are run to set up data series before plotting
+- plotcommands are run after the series have been added to the axis
+- loaddata commands are run during simulator initialization
+- dataextraction commands are run after the simulation is complete
+- datasteps commands are run more than once during a simulation, after each iteration (or some multiple thereof)
+
+The post-processing yaml is different from the simulators in that
+one yaml file contains information to instantiate 3 different classes:
+collectors, collection plots, and model plots.
+The mesh generation is different from the simulators in that
+one yaml file contains data used by several different steps in the process.
+
+But here's some things that can help:
+customization allows new plotfunctions and prepfunctions for plotting.
+For collection, we could have a command list which can add columns.
+Customizaton adds to the available methods.
+
+This means we need to organize the customizations a little more.
+
+An Actor is initialized from a subclass of common.ParameterSet.
+Actors know how to:
+- load their customizations from data in the ParameterSet
+- process a command list in the ParameterSet
+
+ParameterSets know what Actor to try to initialize based on their own data.
+Or do all instances of a given ParameterSet subclass initialize the same subclass of Actor?
+Probably not.
+
+(This also argues for breaking up common.py, as discussed elsewhere.)
+
+Is there ever a time when you _won't_ run an Actor once initialized?
+And yet they can't just be functions: we need the attributes and methods.
+But maybe they don't need the "complete" classmethod.
+Is there ever a time when you want an Actor loaded and ready to run, but not to run it?
+Prototyping and debugging? That's not a good enough reason.
+Really, what we want is to be able to set up the proper hooks,
+to allow the right methods (custom or otherwise) to be called at the right time.
 
 _TODO_ refactor simulator data output
 What's in an attribute, what's in info, and what's in results?
@@ -75,7 +151,7 @@ Now all the metadata goes there too.
 Should we get rid of results and just use info directly?
 Or go the other way and put modelparameters as one entry, metadata as another, etc?
 It's certainly easier for the program to make use of the data in one big bucket,
-but of course that increases the chancse of a collision.
+but of course that increases the chance of a collision.
 Maybe we need something like in postproc, where it can drill down?
 
 The right way to think about this is a data flow diagram.
