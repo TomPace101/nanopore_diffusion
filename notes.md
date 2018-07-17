@@ -1,23 +1,4 @@
 
-__ISSUE__ simply rerunning the mesh, even without changing its input,
-changes the function space in a way that makes the hdf5 files for functions on it invalid.
-
-If this can't be resolved, then anything that saves data to HDF5 file must depend on the mesh file itself.
-
-((bitbucket issue 5))
-
-__ISSUE__ where loaddata comes from
-So far I've been using notebooks to generate the data loaded with loaddata.
-Ultimately these need to come from somewhere tracked in git and executable from the command line and maybe even doit.
-How?
-One idea was a script.
-But that would mean a lot of very similar scripts.
-One idea was an equation module that just projects expressions.
-But then it would need a separate model name from the model that loads it,
-even though in some cases it will be the only one.
-Maybe that's ok.
-Decision: try an "expression projector" simulator module.
-
 _TODO_ refactor this TODO list!
 
 _TODO_ clean up data
@@ -96,6 +77,8 @@ Or go the other way and put modelparameters as one entry, metadata as another, e
 It's certainly easier for the program to make use of the data in one big bucket,
 but of course that increases the chancse of a collision.
 Maybe we need something like in postproc, where it can drill down?
+
+The right way to think about this is a data flow diagram.
 
 _IDEA_ for loaddata, do we want to be able to load more than one item from a single hdf5 file?
 That means that function should be able to take a sequence of field tags, not just one.
@@ -685,6 +668,9 @@ To some extent, they can do what I was thinking about doing with the names.
 Conclusion: leave it as-is for now.
 
 # Problem Description
+
+The code documentation needs class/object diagrams to illustrate the relationships.
+It's also sufficiently complicated that there probably does need to be a step-by-step tutorial of some kind.
 
 We need to reconsider this whole approach to the document.
 The various goals are:
