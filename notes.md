@@ -4,12 +4,6 @@ _TODO_ refactor this TODO list!
 _TODO_ clean up data
 The data folder has lots of junk now.
 Particularly in debug.
-And can we get rid of the exotic-earth simulator now?
-And I guess the data files that went with it?
-Or do we want to run that with the new homogenization module instead?
-
-_TODO_ some plots say concentration is in units of mM
-I found this in debug, but it may exist in brainy-media, thin-shot, etc.
 
 _TODO_ add number of dimensions to geometry defnition file, and from there to mesh metadata
 For that matter, putting the geometry definition name in mesh metadata might be nice.
@@ -26,10 +20,16 @@ _TODO_ time-selection wrapper for datasteps (see below)
 _TODO_ change species_info to a list of species dictionaries, which become species objects
 
 _TODO_ see note in output_eff.fluxfield
+"change this to store the flux in a specified attribute, use another function to save to VTK file"
 
 _TODO_ command line "select" argument: apply more directly - don't instantiate objects first
 This is actually not easy to do.
 What would be nice would be if the modelparameters got instantiated, but not the simulators.
+Actually, that's what already does happen.
+The time it broke was when I tried to run it for a model that had an equation listed as "notebook".
+That didn't work because we need the simulator module as a file dependency,
+and there isn't one for "notebook".
+
 
 _ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
 - The input yaml file's own name defines the basename.
