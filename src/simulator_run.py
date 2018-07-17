@@ -15,7 +15,7 @@ import buildgeom
 import simulator_general
 
 #Simulator modules
-simulator_module_list=['fickian_unhomog','smol_unhomog','tdpnp_unhomog','fickian_homog']
+simulator_module_list=['projector','fickian_unhomog','smol_unhomog','tdpnp_unhomog','fickian_homog']
 
 #Path to this code file (for dependency list)
 thisfile=sys.modules[__name__].__file__
