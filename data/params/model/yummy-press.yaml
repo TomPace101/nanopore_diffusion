@@ -184,10 +184,18 @@ meshname: yummy-press_homog_05
 equation: projector
 conditions:
   elementorder: 3
-  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
-  expression: ''
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})' #placeholder data for testing purposes only
+  #From MD results, 19-Jul-2018
+  expression: >-
+    (x[1]>0.0)*(x[1]<=0.1)*(1.546*(x[1]-0.0)+0.000*(0.1-x[1]))/0.100 +
+    (x[1]>0.1)*(x[1]<=0.2)*(1.508*(x[1]-0.1)+1.546*(0.2-x[1]))/0.100 +
+    (x[1]>0.2)*(x[1]<=0.25)*(1.238*(x[1]-0.2)+1.508*(0.25-x[1]))/0.050 +
+    (x[1]>0.25)*(x[1]<=0.3)*(1.508*(x[1]-0.25)+1.238*(0.3-x[1]))/0.050 +
+    (x[1]>0.3)*(x[1]<=0.4)*(1.546*(x[1]-0.3)+1.508*(0.4-x[1]))/0.100 +
+    (x[1]>0.4)*(x[1]<=0.5)*(0.000*(x[1]-0.4)+1.546*(0.5-x[1]))/0.100
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
+  - [solutionfield, {filename: spatial_D.pvd}]
 ---
 modelname: yummy-press_homog_05_vary
 meshname: yummy-press_homog_05
@@ -209,10 +217,22 @@ meshname: yummy-press_homog_10
 equation: projector
 conditions:
   elementorder: 3
-  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
-  expression: ''
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})' #placeholder data for testing purposes only
+  #From MD results, 19-Jul-2018
+  expression: >-
+    (x[1]>0.0)*(x[1]<=0.1)*(1.546*(x[1]-0.0)+0.000*(0.1-x[1]))/0.100 +
+    (x[1]>0.1)*(x[1]<=0.2)*(1.508*(x[1]-0.1)+1.546*(0.2-x[1]))/0.100 +
+    (x[1]>0.2)*(x[1]<=0.3)*(0.967*(x[1]-0.2)+1.508*(0.3-x[1]))/0.100 +
+    (x[1]>0.3)*(x[1]<=0.4)*(1.118*(x[1]-0.3)+0.967*(0.4-x[1]))/0.100 +
+    (x[1]>0.4)*(x[1]<=0.5)*(1.266*(x[1]-0.4)+1.118*(0.5-x[1]))/0.100 +
+    (x[1]>0.5)*(x[1]<=0.6)*(1.118*(x[1]-0.5)+1.266*(0.6-x[1]))/0.100 +
+    (x[1]>0.6)*(x[1]<=0.7)*(0.967*(x[1]-0.6)+1.118*(0.7-x[1]))/0.100 +
+    (x[1]>0.7)*(x[1]<=0.8)*(1.508*(x[1]-0.7)+0.967*(0.8-x[1]))/0.100 +
+    (x[1]>0.8)*(x[1]<=0.9)*(1.546*(x[1]-0.8)+1.508*(0.9-x[1]))/0.100 +
+    (x[1]>0.9)*(x[1]<=1.0)*(0.000*(x[1]-0.9)+1.546*(1.0-x[1]))/0.100
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
+  - [solutionfield, {filename: spatial_D.pvd}]
 ---
 modelname: yummy-press_homog_10_vary
 meshname: yummy-press_homog_10
@@ -234,10 +254,26 @@ meshname: yummy-press_homog_15
 equation: projector
 conditions:
   elementorder: 3
-  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
-  expression: ''
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})' #placeholder data for testing purposes only
+  #From MD results, 19-Jul-2018
+  expression: >-
+    (x[1]>0.0)*(x[1]<=0.1)*(1.546*(x[1]-0.0)+0.000*(0.1-x[1]))/0.100 +
+    (x[1]>0.1)*(x[1]<=0.2)*(1.508*(x[1]-0.1)+1.546*(0.2-x[1]))/0.100 +
+    (x[1]>0.2)*(x[1]<=0.3)*(0.967*(x[1]-0.2)+1.508*(0.3-x[1]))/0.100 +
+    (x[1]>0.3)*(x[1]<=0.4)*(1.118*(x[1]-0.3)+0.967*(0.4-x[1]))/0.100 +
+    (x[1]>0.4)*(x[1]<=0.6)*(1.414*(x[1]-0.4)+1.118*(0.6-x[1]))/0.200 +
+    (x[1]>0.6)*(x[1]<=0.7)*(1.311*(x[1]-0.6)+1.414*(0.7-x[1]))/0.100 +
+    (x[1]>0.7)*(x[1]<=0.75)*(1.260*(x[1]-0.7)+1.311*(0.75-x[1]))/0.050 +
+    (x[1]>0.75)*(x[1]<=0.8)*(1.311*(x[1]-0.75)+1.260*(0.8-x[1]))/0.050 +
+    (x[1]>0.8)*(x[1]<=0.9)*(1.414*(x[1]-0.8)+1.311*(0.9-x[1]))/0.100 +
+    (x[1]>0.9)*(x[1]<=1.1)*(1.118*(x[1]-0.9)+1.414*(1.1-x[1]))/0.200 +
+    (x[1]>1.1)*(x[1]<=1.2)*(0.967*(x[1]-1.1)+1.118*(1.2-x[1]))/0.100 +
+    (x[1]>1.2)*(x[1]<=1.3)*(1.508*(x[1]-1.2)+0.967*(1.3-x[1]))/0.100 +
+    (x[1]>1.3)*(x[1]<=1.4)*(1.546*(x[1]-1.3)+1.508*(1.4-x[1]))/0.100 +
+    (x[1]>1.4)*(x[1]<=1.5)*(0.000*(x[1]-1.4)+1.546*(1.5-x[1]))/0.100
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
+  - [solutionfield, {filename: spatial_D.pvd}]
 ---
 modelname: yummy-press_homog_15_vary
 meshname: yummy-press_homog_15
@@ -259,10 +295,26 @@ meshname: yummy-press_homog_20
 equation: projector
 conditions:
   elementorder: 3
-  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})'
-  expression: ''
+  # expression: '4.0*x[1]/{Ly}*(1.0-x[1]/{Ly})' #placeholder data for testing purposes only
+  #From MD results, 19-Jul-2018
+  expression: >-
+    (x[1]>0.0)*(x[1]<=0.1)*(1.546*(x[1]-0.0)+0.000*(0.1-x[1]))/0.100 +
+    (x[1]>0.1)*(x[1]<=0.2)*(1.508*(x[1]-0.1)+1.546*(0.2-x[1]))/0.100 +
+    (x[1]>0.2)*(x[1]<=0.3)*(0.967*(x[1]-0.2)+1.508*(0.3-x[1]))/0.100 +
+    (x[1]>0.3)*(x[1]<=0.4)*(1.118*(x[1]-0.3)+0.967*(0.4-x[1]))/0.100 +
+    (x[1]>0.4)*(x[1]<=0.6)*(1.414*(x[1]-0.4)+1.118*(0.6-x[1]))/0.200 +
+    (x[1]>0.6)*(x[1]<=0.7)*(1.311*(x[1]-0.6)+1.414*(0.7-x[1]))/0.100 +
+    (x[1]>0.7)*(x[1]<=1.0)*(1.000*(x[1]-0.7)+1.311*(1.0-x[1]))/0.300 +
+    (x[1]>1.0)*(x[1]<=1.3)*(1.311*(x[1]-1.0)+1.000*(1.3-x[1]))/0.300 +
+    (x[1]>1.3)*(x[1]<=1.4)*(1.414*(x[1]-1.3)+1.311*(1.4-x[1]))/0.100 +
+    (x[1]>1.4)*(x[1]<=1.6)*(1.118*(x[1]-1.4)+1.414*(1.6-x[1]))/0.200 +
+    (x[1]>1.6)*(x[1]<=1.7)*(0.967*(x[1]-1.6)+1.118*(1.7-x[1]))/0.100 +
+    (x[1]>1.7)*(x[1]<=1.8)*(1.508*(x[1]-1.7)+0.967*(1.8-x[1]))/0.100 +
+    (x[1]>1.8)*(x[1]<=1.9)*(1.546*(x[1]-1.8)+1.508*(1.9-x[1]))/0.100 +
+    (x[1]>1.9)*(x[1]<=2.0)*(0.000*(x[1]-1.9)+1.546*(2.0-x[1]))/0.100
 dataextraction:
   - [solutionfield, {filename: spatial_D.hdf5, outname: spatial_D}]
+  - [solutionfield, {filename: spatial_D.pvd}]
 ---
 modelname: yummy-press_homog_20_vary
 meshname: yummy-press_homog_20
