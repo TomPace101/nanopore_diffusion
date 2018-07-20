@@ -245,6 +245,10 @@ which defines what new Request type(s) it can handle.
 And again, at top-level I want a script that can do this,
 or to be able to run doit.
 
+Ultimately, a Request is really just a function call,
+but all sub-Requests must have access to the same namespace.
+Hence, it's actually a method call.
+
 This also argues for breaking up common.py, as briefly mentioned below.
 ParameterSet (without the doit support) is the base for Request (with doit support).
 Then there's the command-line stuff, which probably gets refactored after all this.
