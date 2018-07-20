@@ -48,6 +48,7 @@ Yes, this will increase the number of input parameters, by making everything mor
 It could also make the input files more machine-dependent.
 Unless we keep the datafolder, which can come from an environment variable if necessary,
 and make all paths relative to that.
+Is there a way we can have default locations, which can be overridden?
 
 _TODO_ rename paramgen to genparams everywhere
 Not just directory and filenames, but in the code itself.
@@ -124,24 +125,129 @@ Customizaton adds to the available methods.
 
 This means we need to organize the customizations a little more.
 
-An Actor is initialized from a subclass of common.ParameterSet.
-Actors know how to:
-- load their customizations from data in the ParameterSet
-- process a command list in the ParameterSet
+We have 4 abstractions:
+- Request
+- Receiver
+- Input
+- Output
 
-ParameterSets know what Actor to try to initialize based on their own data.
-Or do all instances of a given ParameterSet subclass initialize the same subclass of Actor?
-Probably not.
+Request is the yaml file that says what to do.
+It specifies the intended receiver,
+and locates the input and output data files.
+Requests can do more than just be executed by a receiver.
+They can be analyzed to see if they are up-to-date or not,
+so only .
 
-(This also argues for breaking up common.py, as discussed elsewhere.)
+Receiver is what actually executes the Request.
+Nothing else happens with a Receiver.
+So there's no distinction between initialization and execution.
 
-Is there ever a time when you _won't_ run an Actor once initialized?
-And yet they can't just be functions: we need the attributes and methods.
-But maybe they don't need the "complete" classmethod.
-Is there ever a time when you want an Actor loaded and ready to run, but not to run it?
-Prototyping and debugging? That's not a good enough reason.
-Really, what we want is to be able to set up the proper hooks,
-to allow the right methods (custom or otherwise) to be called at the right time.
+Input and Output are data files.
+Input for one Receiver may be Output from another.
+In some cases, Input files are also human-generated files.
+Some of them are even tracked with the source code.
+
+But here's the catch:
+Requests can also indicate ways in which the receiver is modified.
+That is, they can point to functionality that is incorporated into the receiver itself.
+Ultimately, the Receiver is just a series of steps.
+For some of them, the order matters a great deal.
+And we don't want the user to have to specify all of them,
+do we?
+That is, the receiver itself knows the order some things have to go in.
+Right? Maybe not?
+Some of those steps, though, include extending the functionality of the Receiver itself,
+to enable subsequent commands.
+And each step has its own data associated with it.
+So a receiver is in fact a series of Requests.
+But the data output from each one doesn't necessarily go into a file.
+It's in-memory only.
+No, a Request can sometimes be series of sub-Requests.
+In a way, then, a Request is in fact a Composite.
+It's just that there are different types of Composite Requests,
+but all of them must go through their children sequentially.
+
+Requests must be designed based on their expected Receiver.
+That is, figure out what the Receiver needs how it works first,
+then design the Request.
+
+So let's look at our receivers:
+- Mesh Generation
+  - create geo
+    - input is a geometry definition file and template(s) for the geo file
+    - output is geo file, mesh metadata, and gmsh output
+  - create msh
+    - input is geo file
+    - output is msh file
+  - create xml(s)
+  - create hdf5
+- Simulation
+  - Load Mesh
+  - Load information about species and reactions (used in multiple steps below)
+  - Create Function Space(s)
+  - Create Trial and Test Function(s)
+  - Create Dirichlet boundary conditions
+  - Create weak form(s), including Neumann (and/or nonlinear) boundary conditions
+  - Load initial conditions
+  - Solve (which may mean iteration, with further sub-steps at each iteration)
+  - Write out data (which is itself a series of sub-Requests)
+- Post-Procesing
+  - data collection
+    - input is results from individual models
+    - output is a pandas datatable
+    - we'd like to be able to do calculations to add new columns to the table
+  - calculations on results from individual models (this doesn't exist yet)
+  - plots from individual models
+    - input is results from model
+    - output is a plot
+  - plots from collected results
+
+In Mesh Generation, right now, I'm using 1 Request for all those steps.
+Yet each is really a different Receiver.
+So "mesh generation" is a Composite Request.
+
+In Simulation, we see that sometimes data is shared between requests.
+That is, more than one request needs to know about the species information.
+This goes back to the difference in having input/output data in file(s),
+and having it in memory somewhere.
+So, in fact, we have two different types of data locators
+(both of which are used for input and output):
+- files, specified by relative paths, or file or stem names in a pre-defined folder (see issue above)
+- memory, specified by a sequence of dictionary keys or attributes
+In this scheme, "Load" means to take data from the request itself,
+or from a file, and copy it to a memory location.
+In some cases it means more than that, though.
+Meshes and Functions require the appropriate object types to be established first.
+There are "Write" operations that go in the other direction.
+Furthermore, this lets us see that the process of developing input and output file lists
+involves iterating over requests, looking for input/output locations which are files.
+And maybe the solution to our file location problem is to have two different
+types of File pointers:
+one based on a path relative to datafolder,
+and one based on the expected location defined in folderstructure.
+Memory locations, though, shouldn't distinguish between attributes and dictionaries.
+If it has keys, look there first.
+If not, look for an attribute.
+(Isn't that how jinja2 does it?)
+
+We don't want the user to have to specify absolutely everything each time.
+We want to be able to define Request types in the code which are actually Composites
+that the user can refer to.
+It should be possible, though, to define absolutely everything explicitly.
+Make simple things easy and complex things possible.
+
+And so this is where customization comes in.
+I can have a Request that enables new Requests in a Receiver.
+It needs to be for a subsequent Request type.
+The customization points to python code defining the new Receiver(s),
+which defines what new Request type(s) it can handle.
+
+And again, at top-level I want a script that can do this,
+or to be able to run doit.
+
+This also argues for breaking up common.py, as briefly mentioned below.
+ParameterSet (without the doit support) is the base for Request (with doit support).
+Then there's the command-line stuff, which probably gets refactored after all this.
 
 _TODO_ refactor simulator data output
 What's in an attribute, what's in info, and what's in results?
@@ -532,6 +638,8 @@ Implementation steps:
 - remove unneeded imports of os and osp
 
 _TODO_ should common be split up into more than one module, possibly inside a package called `common`?
+There's ParameterSet, and the command-line support.
+
 
 _TODO_ should ParameterSet be split into a base class,
 and a derived class that includes all the doit support?
