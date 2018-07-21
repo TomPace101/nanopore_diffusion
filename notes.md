@@ -30,71 +30,13 @@ The time it broke was when I tried to run it for a model that had an equation li
 That didn't work because we need the simulator module as a file dependency,
 and there isn't one for "notebook".
 
-
-_ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
-- The input yaml file's own name defines the basename.
-  Maybe that feature should be removed, requiring the basename to be specified.
-  And call it something more specific, like "basefolder".
-  Actually, the basename could be included in the yaml file already, but:
-    - currently, it would be overwritten by the file's basename
-    - that doesn't help with the case where the model and mesh have different basenames
-        This suggests just providing the mesh name and directory.
-- "meshname" is used to compute filenames.
-  Maybe instead the file names themselves should be listed.
-  I already had some discussion about this under the notes on pathlib.Path below.
-The fundamental question is:
-Should we get rid of folderstructure, and require the input files to use hard-coded paths instead?
-Yes, this will increase the number of input parameters, by making everything more explicit.
-It could also make the input files more machine-dependent.
-Unless we keep the datafolder, which can come from an environment variable if necessary,
-and make all paths relative to that.
-Is there a way we can have default locations, which can be overridden?
-
 _TODO_ rename paramgen to genparams everywhere
 Not just directory and filenames, but in the code itself.
 
 _TODO_ use output_eff effective_D in place of effective_diffusion in all locations.
 See log 2018-07-10 for more information.
 
-_TODO_ refactor post-processing
-Think of post-processing in terms of tasks to complete.
-Right now we have collection tasks and plotting tasks.
-But sometimes we need to do calculations as well.
-These should allow for scripts,
-or customization modules the way the solvers do.
-I guess the question is, where do the calculation results go?
-If you modify the files in `solutions`, that will force a simulation rerun even if unnecessary.
-If you put it in `postproc`, it will hold potentially a lot of duplicate data.
-You could store just the newly generated data in `postproc`, I guess,
-but that complicates handling the data, as you always have to put them back together.
-The answer is the following:
-- don't alter the files in `solutions`, but add new files in `postproc` instead
-- when possible, only put new data in `postproc`; don't duplicate
-- it won't always be possible. Some duplication is ok.
-
-I think a script-based approach is probably best.
-But we can provide objects to support those scripts.
-For example, we should distinguish between scripts that generate data for plots
-and then scripts that generate actual plots.
-Then, you also need doit tasks for these scripts.
-And those tasks have to include the script arguments,
-so it can identify input and output files.
-
-Alternatively, we could try the "module" approach.
-Just like for the simulators,
-there's a generic class,
-subclasses that are set up for particular purposes,
-and also data that is loaded.
-In this case, both "control" data
-and the data output by the simulation.
-Also, customization modules could be used in place of scripts.
-We're actually pretty close to this approach already, aren't we?
-
-Customization adds methods.
-In the simulators, we have a list of commands that can include such methods.
-So we'd need something similar here.
-The plots already have this: prepfunctions and plotfunctions.
-And in fact, prepfunctions is intended as a way of setting up new data.
+# Refactoring: Requests and Handlers
 
 So what's the bigger pattern we have here?
 The one that applies to mesh generation, simulation, collecting, and plotting.
@@ -111,19 +53,6 @@ Basically, these are sets of commands that can be run at different points in tim
 - loaddata commands are run during simulator initialization
 - dataextraction commands are run after the simulation is complete
 - datasteps commands are run more than once during a simulation, after each iteration (or some multiple thereof)
-
-The post-processing yaml is different from the simulators in that
-one yaml file contains information to instantiate 3 different classes:
-collectors, collection plots, and model plots.
-The mesh generation is different from the simulators in that
-one yaml file contains data used by several different steps in the process.
-
-But here's some things that can help:
-customization allows new plotfunctions and prepfunctions for plotting.
-For collection, we could have a command list which can add columns.
-Customizaton adds to the available methods.
-
-This means we need to organize the customizations a little more.
 
 We have 4 abstractions:
 - Request
@@ -201,6 +130,12 @@ So let's look at our Handlers:
     - input is results from model
     - output is a plot
   - plots from collected results
+  - validation: comparing program results to expectations
+    - input is the other postproc results, and the expected results
+    - output is a validation report
+- Parameter generation
+  - constructing Requests of all the other kinds
+    - input is a template for the request
 
 In Mesh Generation, right now, I'm using 1 Request for all those steps.
 Yet each is really a different Handler.
@@ -213,7 +148,7 @@ and having it in memory somewhere.
 So, in fact, we have two different types of data locators
 (both of which are used for input and output):
 - files, specified by relative paths, or file or stem names in a pre-defined folder (see issue above)
-- memory, specified by a sequence of dictionary keys or attributes
+- memory, specified by a sequence of dictionary keys or attributes (maybe use dotted names)
 In this scheme, "Load" means to take data from the request itself,
 or from a file, and copy it to a memory location.
 In some cases it means more than that, though.
@@ -253,6 +188,131 @@ This also argues for breaking up common.py, as briefly mentioned below.
 ParameterSet (without the doit support) is the base for Request (with doit support).
 Then there's the command-line stuff, which probably gets refactored after all this.
 
+So how does a Request get to the Handler intended for it?
+In some way, at least, this will be a Chain of Responsibility pattern.
+There's a top-level handler that everything goes to.
+It looks at the `handler` (or `request_type`) field of the Request,
+then directs it appropriately.
+So maybe there's a hierarchy, like the one we have above.
+So the `handler` (or `request_type`) field is a sequence.
+Or a dotted name.
+(In fact, maybe we should use that more generally for addressing.)
+
+Now for the composite part of this.
+A simulation request is a composite request,
+but there could be other composite types as well.
+Not all composite requests are the same.
+For example, dataextraction and datasteps are both composite requests as well.
+They are even similar to one another in a lot of ways.
+In fact, maybe there aren't two of them at all:
+maybe they're the same type of request,
+but datasteps is when the request is present inside an iteration loop request
+(which would be a different type of composite request),
+and dataextraction is just when it is present at the end.
+
+One thing all composite requests will have in common
+is a field for their sub-requests (children): `requests`.
+The `handler` field of these sub-requests can start from the parent handler;
+it doesn't have to go all the way back.
+
+While we can extend handlers through customization requests,
+how do we add new handlers?
+That would require the top-level handler to itself be customizable.
+This is a future issue. For now it will have to be static.
+
+Unresolved issues/questions:
+- how are doit tasks constructed by iterating through the request(s)?
+- classes listed as TBD below.
+
+Implementation
+- Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
+- Base classes:
+  - Request (from ParameterSet) - abstract only?
+  - CompositeRequest - abstract only?
+- Data Locations (base type DataLocation):
+  - FilePath: defines a file relative to the data folder
+  - File: defines a file relative to the appropriate location from folderstructure
+      Both of these have a way to return the full file path.
+  - Memory: key or attribute sequence (as a dotted name)
+      This is not interchangeable with the file ones in general: handlers will require one or the other.
+- Mesh generation: TBD
+- Simulation: TBD
+- Post-processing: TBD
+- Validation: TBD
+- Parameter generation: TBD
+
+_ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
+- The input yaml file's own name defines the basename.
+  Maybe that feature should be removed, requiring the basename to be specified.
+  And call it something more specific, like "basefolder".
+  Actually, the basename could be included in the yaml file already, but:
+    - currently, it would be overwritten by the file's basename
+    - that doesn't help with the case where the model and mesh have different basenames
+        This suggests just providing the mesh name and directory.
+- "meshname" is used to compute filenames.
+  Maybe instead the file names themselves should be listed.
+  I already had some discussion about this under the notes on pathlib.Path below.
+The fundamental question is:
+Should we get rid of folderstructure, and require the input files to use hard-coded paths instead?
+Yes, this will increase the number of input parameters, by making everything more explicit.
+It could also make the input files more machine-dependent.
+Unless we keep the datafolder, which can come from an environment variable if necessary,
+and make all paths relative to that.
+Is there a way we can have default locations, which can be overridden?
+
+_TODO_ refactor post-processing
+Think of post-processing in terms of tasks to complete.
+Right now we have collection tasks and plotting tasks.
+But sometimes we need to do calculations as well.
+These should allow for scripts,
+or customization modules the way the solvers do.
+I guess the question is, where do the calculation results go?
+If you modify the files in `solutions`, that will force a simulation rerun even if unnecessary.
+If you put it in `postproc`, it will hold potentially a lot of duplicate data.
+You could store just the newly generated data in `postproc`, I guess,
+but that complicates handling the data, as you always have to put them back together.
+The answer is the following:
+- don't alter the files in `solutions`, but add new files in `postproc` instead
+- when possible, only put new data in `postproc`; don't duplicate
+- it won't always be possible. Some duplication is ok.
+
+I think a script-based approach is probably best.
+But we can provide objects to support those scripts.
+For example, we should distinguish between scripts that generate data for plots
+and then scripts that generate actual plots.
+Then, you also need doit tasks for these scripts.
+And those tasks have to include the script arguments,
+so it can identify input and output files.
+
+Alternatively, we could try the "module" approach.
+Just like for the simulators,
+there's a generic class,
+subclasses that are set up for particular purposes,
+and also data that is loaded.
+In this case, both "control" data
+and the data output by the simulation.
+Also, customization modules could be used in place of scripts.
+We're actually pretty close to this approach already, aren't we?
+
+Customization adds methods.
+In the simulators, we have a list of commands that can include such methods.
+So we'd need something similar here.
+The plots already have this: prepfunctions and plotfunctions.
+And in fact, prepfunctions is intended as a way of setting up new data.
+
+The post-processing yaml is different from the simulators in that
+one yaml file contains information to instantiate 3 different classes:
+collectors, collection plots, and model plots.
+The mesh generation is different from the simulators in that
+one yaml file contains data used by several different steps in the process.
+
+But here's some things that can help:
+customization allows new plotfunctions and prepfunctions for plotting.
+For collection, we could have a command list which can add columns.
+Customizaton adds to the available methods.
+
+This means we need to organize the customizations a little more.
+
 _TODO_ refactor simulator data output
 What's in an attribute, what's in info, and what's in results?
 In the end, results is added to info as an entry (not as an update).
@@ -276,10 +336,6 @@ That way, you could just do all the loaddata commands (process_load_commands)
 any time after the function space is initialized.
 
 _TODO_ solutionfield should be renamed
-
-# Refactoring: Requests and Handlers
-
-
 
 # Formula derivations
 - _TODO_ NP linearization notebook
