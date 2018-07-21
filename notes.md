@@ -127,39 +127,39 @@ This means we need to organize the customizations a little more.
 
 We have 4 abstractions:
 - Request
-- Receiver
+- Handler
 - Input
 - Output
 
 Request is the yaml file that says what to do.
-It specifies the intended receiver,
+It specifies the intended Handler,
 and locates the input and output data files.
-Requests can do more than just be executed by a receiver.
+Requests can do more than just be executed by a Handler.
 They can be analyzed to see if they are up-to-date or not,
 so only .
 
-Receiver is what actually executes the Request.
-Nothing else happens with a Receiver.
+Handler is what actually executes the Request.
+Nothing else happens with a Handler.
 So there's no distinction between initialization and execution.
 
 Input and Output are data files.
-Input for one Receiver may be Output from another.
+Input for one Handler may be Output from another.
 In some cases, Input files are also human-generated files.
 Some of them are even tracked with the source code.
 
 But here's the catch:
-Requests can also indicate ways in which the receiver is modified.
-That is, they can point to functionality that is incorporated into the receiver itself.
-Ultimately, the Receiver is just a series of steps.
+Requests can also indicate ways in which the Handler is modified.
+That is, they can point to functionality that is incorporated into the Handler itself.
+Ultimately, the Handler is just a series of steps.
 For some of them, the order matters a great deal.
 And we don't want the user to have to specify all of them,
 do we?
-That is, the receiver itself knows the order some things have to go in.
+That is, the Handler itself knows the order some things have to go in.
 Right? Maybe not?
-Some of those steps, though, include extending the functionality of the Receiver itself,
+Some of those steps, though, include extending the functionality of the Handler itself,
 to enable subsequent commands.
 And each step has its own data associated with it.
-So a receiver is in fact a series of Requests.
+So a Handler is in fact a series of Requests.
 But the data output from each one doesn't necessarily go into a file.
 It's in-memory only.
 No, a Request can sometimes be series of sub-Requests.
@@ -167,11 +167,11 @@ In a way, then, a Request is in fact a Composite.
 It's just that there are different types of Composite Requests,
 but all of them must go through their children sequentially.
 
-Requests must be designed based on their expected Receiver.
-That is, figure out what the Receiver needs how it works first,
+Requests must be designed based on their expected Handler.
+That is, figure out what the Handler needs how it works first,
 then design the Request.
 
-So let's look at our receivers:
+So let's look at our Handlers:
 - Mesh Generation
   - create geo
     - input is a geometry definition file and template(s) for the geo file
@@ -203,7 +203,7 @@ So let's look at our receivers:
   - plots from collected results
 
 In Mesh Generation, right now, I'm using 1 Request for all those steps.
-Yet each is really a different Receiver.
+Yet each is really a different Handler.
 So "mesh generation" is a Composite Request.
 
 In Simulation, we see that sometimes data is shared between requests.
@@ -237,9 +237,9 @@ It should be possible, though, to define absolutely everything explicitly.
 Make simple things easy and complex things possible.
 
 And so this is where customization comes in.
-I can have a Request that enables new Requests in a Receiver.
+I can have a Request that enables new Requests in a Handler.
 It needs to be for a subsequent Request type.
-The customization points to python code defining the new Receiver(s),
+The customization points to python code defining the new Handler(s),
 which defines what new Request type(s) it can handle.
 
 And again, at top-level I want a script that can do this,
@@ -269,8 +269,17 @@ The right way to think about this is a data flow diagram.
 _IDEA_ for loaddata, do we want to be able to load more than one item from a single hdf5 file?
 That means that function should be able to take a sequence of field tags, not just one.
   OR, we group together all the commands that use a particular file, so we only open it once.
+  
+Also, can you specify that the item is a Function,
+and then have loaddata initialize it, rather than requiring that to already be done?
+That way, you could just do all the loaddata commands (process_load_commands)
+any time after the function space is initialized.
 
 _TODO_ solutionfield should be renamed
+
+# Refactoring: Requests and Handlers
+
+
 
 # Formula derivations
 - _TODO_ NP linearization notebook
