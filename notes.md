@@ -5,15 +5,10 @@ _TODO_ clean up data
 The data folder has lots of junk now.
 Particularly in debug.
 
-_TODO_ add number of dimensions to geometry defnition file, and from there to mesh metadata
+_TODO_ add number of dimensions to geometry definition file, and from there to mesh metadata
 For that matter, putting the geometry definition name in mesh metadata might be nice.
 
 _TODO_ switch to ruamel.yaml, and update the wiki
-
-_TOOD_ zipping large data sets may need to come under control of doit
-Or should it be available in the simulator?
-What if we're not using doit?
-The trouble is it's a command-line thing, not python.
 
 _TODO_ time-selection wrapper for datasteps (see below)
 
@@ -22,21 +17,23 @@ _TODO_ change species_info to a list of species dictionaries, which become speci
 _TODO_ see note in output_eff.fluxfield
 "change this to store the flux in a specified attribute, use another function to save to VTK file"
 
-_TODO_ command line "select" argument: apply more directly - don't instantiate objects first
-This is actually not easy to do.
-What would be nice would be if the modelparameters got instantiated, but not the simulators.
-Actually, that's what already does happen.
-The time it broke was when I tried to run it for a model that had an equation listed as "notebook".
-That didn't work because we need the simulator module as a file dependency,
-and there isn't one for "notebook".
-
 _TODO_ rename paramgen to genparams everywhere
 Not just directory and filenames, but in the code itself.
 
 _TODO_ use output_eff effective_D in place of effective_diffusion in all locations.
 See log 2018-07-10 for more information.
 
+_ISSUE_ we'll eventually need to be able to load arbitrary spatial data into a function space,
+without writing an expression object.
+This wasn't terribly helpful:
+https://www.google.com/search?source=hp&ei=6d1VW8zAPKm3jwSZxrWAAg&q=fenics+interpolate+data&oq=fenics+interpolate+data&gs_l=psy-ab.3...251.5909.0.6212.33.29.4.0.0.0.131.2217.23j5.28.0....0...1.1.64.psy-ab..1.31.2133...0j0i131k1j0i3k1j0i10k1j0i22i30k1j0i22i10i30k1j0i13k1j0i13i30k1j0i13i10i30k1j33i160k1j33i21k1.0.DfrQkfecZKY
+
 # Refactoring: Requests and Handlers
+
+
+
+
+## Lengthy discussion
 
 So what's the bigger pattern we have here?
 The one that applies to mesh generation, simulation, collecting, and plotting.
@@ -125,7 +122,7 @@ So let's look at our Handlers:
     - input is results from individual models
     - output is a pandas datatable
     - we'd like to be able to do calculations to add new columns to the table
-  - calculations on results from individual models (this doesn't exist yet)
+  - calculations on results from individual models (this doesn't exist yet, and maybe it shouldn't)
   - plots from individual models
     - input is results from model
     - output is a plot
@@ -220,6 +217,73 @@ how do we add new handlers?
 That would require the top-level handler to itself be customizable.
 This is a future issue. For now it will have to be static.
 
+Doit:
+some requests are also doit tasks.
+These doit-level request can have parent requests and child requests.
+Maybe we should do this with a mixin?
+Basically, to construct all the doit tasks,
+dodo.py will iterate through the request hierarchy,
+and find requests that can be converted to a doit task.
+Then it will do so and yield them.
+So,
+- how do you know which requests to convert?
+- how are they converted?
+The conversion process will largely follow from the way ParameterSet can return a doit task.
+But here's the next challenge:
+how does a request know what all its children depend on?
+It has to ask them, and create the task based on their responses.
+So, in fact, each request will return either a single task,
+or a task generator, or provide information about its dependencies for an ancestor to do so.
+That's what still needs to be worked out:
+How task information moves up the hierarchy.
+
+We have the same problem for execution.
+I define a simulation request that asks for a mesh.
+If I want to be able to encapsulate that,
+it has to define an interface for how that information is provided back to the parent handler.
+For example, loading a mesh from xml or from hdf5.
+Different request types, same parent.
+For that matter, what if I want to put a mesh generation request right there instead?
+That won't work, becuase those don't load a mesh.
+They just create files on disk.
+So the interface between a handler and its children has to define how information communicated between them.
+And ultimately that has to be clear from the request.
+A simulation request MUST have a loadmesh request of some kind,
+which is different than a meshgen request.
+So, then, maybe loading a mesh isn't a request.
+Maybe the mesh is just specified directly in the simulation request itself,
+but there are other sub-requests.
+
+Maybe requests that require certain sub-requests can have defaults for those sub-requests,
+which can be overidden.
+For example, in mesh generation, we can have the steps after .geo creation default to
+just working on the files in their expected locations.
+
+But, then, is that really a sub-request,
+or is it just the parameters needed to fulfill a request primitive?
+Make it so that it doesn't matter.
+When a sub-request is a named request, it has a default handler/type.
+Later, this can be overridden if necessary.
+But at first, the parent ONLY supports the default request type,
+by handling it directly.
+
+How does this differ than what we already have?
+MeshParameters, ModelParameters, and PostProcParameters are the fundamental request types.
+MeshParameters works fine already.
+ModelParameters needs to be more flexible, but this only helps with that a little.
+PostProcParameters needs a lot more flexibility, and this approach could help quite a bit.
+Ultimately, the goal here is to make things easier for users.
+The system as a whole will be less tightly-coupled.
+They'll need to learn one pattern, which is reused in lots of places.
+The new idea here is really to break requests down into sub-requests.
+This complicates the handlers, though.
+The handlers must be able to interact with the handlers
+of their request's sub-requests.
+That is, we need sub-handlers as well.
+We kind of already have that, though.
+We have "conditions" classess in the simulators.
+
+
 Unresolved issues/questions:
 - how are doit tasks constructed by iterating through the request(s)?
 - classes listed as TBD below.
@@ -227,8 +291,12 @@ Unresolved issues/questions:
 Implementation
 - Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
 - Base classes:
-  - Request (from ParameterSet) - abstract only?
-  - CompositeRequest - abstract only?
+  - Request (from ParameterSet) - abstract only?: defines its handler/identifies its own type
+  - RequestSequence: a composite that runs all sub-requests in a sequence
+  - Request with named sub-requests, some of which are required and some of which are optional (perhaps with defaults)
+  - Request to run all of the requests in another file. Or maybe even a way to specify a subset of them. (see note about doing this on command line)
+  - Request to run a script (or would it be better to require that script to be converted to a handler?)
+  - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
 - Data Locations (base type DataLocation):
   - FilePath: defines a file relative to the data folder
   - File: defines a file relative to the appropriate location from folderstructure
@@ -239,7 +307,7 @@ Implementation
 - Simulation: TBD
 - Post-processing: TBD
 - Validation: TBD
-- Parameter generation: TBD
+- Request generation: TBD
 
 _ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
 - The input yaml file's own name defines the basename.
@@ -336,6 +404,27 @@ That way, you could just do all the loaddata commands (process_load_commands)
 any time after the function space is initialized.
 
 _TODO_ solutionfield should be renamed
+
+_TOOD_ zipping large data sets may need to come under control of doit
+Or should it be available in the simulator?
+What if we're not using doit?
+The trouble is it's a command-line thing, not python.
+
+So it's a new request type.
+Which means that unzipping is as well.
+
+_TODO_ command line "select" argument: apply more directly - don't instantiate objects first
+This is actually not easy to do.
+What would be nice would be if the modelparameters got instantiated, but not the simulators.
+Actually, that's what already does happen.
+The time it broke was when I tried to run it for a model that had an equation listed as "notebook".
+That didn't work because we need the simulator module as a file dependency,
+and there isn't one for "notebook".
+
+What we want is a way, from the command line,
+to specify some subset of the requests in a file.
+
+
 
 # Formula derivations
 - _TODO_ NP linearization notebook
