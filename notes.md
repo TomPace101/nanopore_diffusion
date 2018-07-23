@@ -283,6 +283,32 @@ That is, we need sub-handlers as well.
 We kind of already have that, though.
 We have "conditions" classess in the simulators.
 
+If handlers are just functions that are passed their requests as an argument,
+then why not just make them a method of their request?
+The "run" method, again, or maybe "execute" or "handle" now.
+The method can call other functions, or even other methods, of course.
+Why didn't I do it that way before?
+Because the handlers will be pretty complicated in some cases.
+It seems like too much to put all that into the request itself.
+But maybe such a method is where it starts.
+That's the way we have it now.
+"run" just calls something else.
+The question is what that something else is: a function, a class?
+
+Perhaps we should use YAML tags, now, rather than manually determining type from the data itself.
+But then we can't pickle Requests as well, like we can now with ParameterSet.
+Relying on tags restricts the classes to only working with input from yaml.
+Decision: no.
+
+The way to implement this is probably by creating new modules that parallel the old ones.
+That allows for a staged approach, where we don't break things (too much).
+Start with only what's needed to do the new simulation types we want.
+Then add other simulation types.
+Then work on postproc.
+And eventually get mesh generation in there too.
+This allows for breaking up existing files: just copy portions of them out.
+That means there will be some temporary duplication.
+(I'll do it in a branch, to keep the master clean.)
 
 Unresolved issues/questions:
 - how are doit tasks constructed by iterating through the request(s)?
