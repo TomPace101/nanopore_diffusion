@@ -294,6 +294,13 @@ But maybe such a method is where it starts.
 That's the way we have it now.
 "run" just calls something else.
 The question is what that something else is: a function, a class?
+The handlers need to call sub-handlers.
+That's the question: how do results from sub-handlers get back to the parent?
+Function return values seems like a good approach.
+But those values may themselves be classes, defining the "interface" of a handler.
+That means the handlers are constructors for their results!
+So the handlers aren't classes.
+But their results are.
 
 Perhaps we should use YAML tags, now, rather than manually determining type from the data itself.
 But then we can't pickle Requests as well, like we can now with ParameterSet.
