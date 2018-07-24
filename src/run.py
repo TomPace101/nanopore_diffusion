@@ -55,6 +55,17 @@ class TotipotentRequest(request.Request):
     """Load the object from a dictionary"""
     return cls.build_request(**d)
 
+class RequestFileRequest(request.Request):
+  """Request to run all of the requests listed in the specified files
+  
+  Attributes:
+  
+    - requestfiles: sequence of paths to the request files
+    """
+  __slots__=('requestfiles','children')
+  ##TODO: initialization must load the children into an attribute (probably `children`) listed in _child_seq_attrs
+  ##explain in documentation about the `children` attribute
+  ##all the dependencies, etc. (how doit knows what is up-to-date)
 
 #Handle command-line execution
 if __name__ == '__main__':
