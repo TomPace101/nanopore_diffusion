@@ -317,6 +317,14 @@ This allows for breaking up existing files: just copy portions of them out.
 That means there will be some temporary duplication.
 (I'll do it in a branch, to keep the master clean.)
 
+What is the ideal data folder structure for this new approach?
+We could create a top-level input files folder.
+For example, its thin-shot would have:
+- gen/thin-shot.yaml
+- mesh/thin-shot.yaml
+- model/thin-shot.yaml
+- postproc/thin-shot.yaml
+
 Unresolved issues/questions:
 - how are doit tasks constructed by iterating through the request(s)?
 - classes listed as TBD below.
@@ -413,6 +421,7 @@ For collection, we could have a command list which can add columns.
 Customizaton adds to the available methods.
 
 This means we need to organize the customizations a little more.
+Separate folders for each customization type?
 
 _TODO_ refactor simulator data output
 What's in an attribute, what's in info, and what's in results?
