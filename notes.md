@@ -328,6 +328,7 @@ For example, its thin-shot would have:
 Unresolved issues/questions:
 - how are doit tasks constructed by iterating through the request(s)?
 - classes listed as TBD below.
+- how to distinguish between attributes that must be specified, and attributes that are calculated?
 
 Implementation
 - Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
