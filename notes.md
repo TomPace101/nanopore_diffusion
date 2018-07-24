@@ -62,7 +62,7 @@ It specifies the intended Handler,
 and locates the input and output data files.
 Requests can do more than just be executed by a Handler.
 They can be analyzed to see if they are up-to-date or not,
-so only .
+so only out-of-date ones need to be run.
 
 Handler is what actually executes the Request.
 Nothing else happens with a Handler.
