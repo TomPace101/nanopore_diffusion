@@ -9,7 +9,7 @@ import yaml
 ##yaml=YAML()
 
 #Local
-import folderstructure as FS
+import new_folderstructure as FS
 import filepath
 
 #Handle command-line execution
