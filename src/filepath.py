@@ -10,7 +10,7 @@ import pathlib
 #Our base class is the concrete path appropriate for this system
 baseclass = pathlib.WindowsPath if os.name == 'nt' else pathlib.PosixPath
 
-class fpath(baseclass):
+class Path(baseclass):
   """pathlib.Path subclass with enhancements
   
   The main enhancement is the distinction between files and folders,
@@ -18,10 +18,10 @@ class fpath(baseclass):
   If this attribute is not specified at object creation,
   it is assumed.
   
-  >>> f1 = fpath('/usr/local/bin')
+  >>> f1 = Path('/usr/local/bin')
   >>> f1.isFile
   False
-  >>> f2 = fpath('myfile.txt.tar.gz')
+  >>> f2 = Path('myfile.txt.tar.gz')
   >>> f2.isFile
   True
   
@@ -36,7 +36,7 @@ class fpath(baseclass):
   portions of the path as strings.
   >>> assert os.name != 'nt', "These doctests were not designed for windows. Sorry."
   >>> f3
-  fpath('/usr/local/bin/myfile.txt.tar.gz')
+  Path('/usr/local/bin/myfile.txt.tar.gz')
   >>> f3.fullpath #Note that this returns a string
   '/usr/local/bin/myfile.txt.tar.gz'
   >>> f3.folder
@@ -48,13 +48,13 @@ class fpath(baseclass):
   >>> f1.folder
   '/usr/local/bin'
   >>> f1.parent #pathlib.Path method
-  fpath('/usr/local')
+  Path('/usr/local')
   >>> f3.parent
-  fpath('/usr/local/bin')
+  Path('/usr/local/bin')
   
-  The folder is also available as an fpath if desired.
-  >>> f3.folder_fpath
-  fpath('/usr/local/bin')
+  The folder is also available as a Path if desired.
+  >>> f3.folder_path
+  Path('/usr/local/bin')
   
   File names are broken into pieces in a slightly different way than pathlib.Path,
   although the pathlib.Path methods are still available.
@@ -107,14 +107,14 @@ class fpath(baseclass):
   def fullpath(self):
     return str(self)
   @property
-  def folder_fpath(self):
+  def folder_path(self):
     if self.isFile:
       return self.parent
     else:
       return self
   @property
   def folder(self):
-    return str(self.folder_fpath)
+    return str(self.folder_path)
   @property
   def foldername(self):
     return self.folder
@@ -139,7 +139,7 @@ class fpath(baseclass):
     #Note how this is different than self.stem if more than one dot is used
     return self.filename_parts[0]
   def assure_dir(self):
-    f=self.folder_fpath
+    f=self.folder_path
     if not f.exists():
       os.makedirs(f.fullpath)
 
