@@ -2,6 +2,7 @@
 
 #Standard library
 import argparse
+from itertools import chain
 import pickle
 
 #Site packages
@@ -47,7 +48,7 @@ class ParameterSet(object):
     - sourcefile = file from which the object was read, if any
 
   """
-  __slots__=('__sourcefile__') #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+  __slots__=('__sourcefile__',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwd):
     ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
     #Load the attributes specified
@@ -56,7 +57,10 @@ class ParameterSet(object):
   @classmethod
   def from_dict(cls,d):
     """Load the object from a dictionary"""
-    return cls(**d)
+    obj = cls(**d)
+    if '__sourcefile__' not in d.keys():
+      obj.__sourcefile__ = None
+    return obj
   def _all_slots_iter(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
@@ -73,7 +77,7 @@ class ParameterSet(object):
     return nested_to_str(self.to_dict())
   @classmethod
   def from_Namespace(cls,ns):
-    return cls(**ns.__dict__)
+    return cls.from_dict(**ns.__dict__)
   def to_Namespace(self):
     """Return an argparse.Namespace object with all the object's attributes.
 
@@ -102,7 +106,7 @@ class ParameterSet(object):
       dat=fp.read()
       gen=yaml.load_all(dat)
     for d in gen:
-      add_file_info(d,fpath)
+      d.update({'__sourcefile__':fpath})
       yield cls.from_dict(d)
   @classmethod
   def one_from_yaml(cls,fpath):
@@ -153,7 +157,7 @@ class ParameterSet(object):
       - pset = a ParameterSet object as defined by the contents of the pickle file."""
     with open(fpath, 'rb') as fp:
       d=pickle.load(fp)
-    add_file_info(d,fpath)
+    d.update({'__sourcefile__':fpath})
     return cls.from_dict(d)
   def to_pickle(self,fpath):
     """Write to a pickle file.
@@ -169,3 +173,6 @@ class ParameterSet(object):
       pickle.dump(obj,fp,pickle_protocol)
     return
     
+class Request(ParameterSet):
+  ##TODO: everything
+  pass
