@@ -1,6 +1,7 @@
 """Define the base class for all Requests"""
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import argparse
 from itertools import chain
 import pickle
@@ -49,18 +50,18 @@ class ParameterSet(object):
 
   """
   __slots__=('__sourcefile__',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
-  def __init__(self,**kwd):
+  def __init__(self,**kwargs):
     ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
     #Load the attributes specified
-    for k,v in kwd.items():
+    for k,v in kwargs.items():
       setattr(self,k,v)
+    #Define the sourcefile if not already defined
+    if '__sourcefile__' not in kwargs.keys():
+      self.__sourcefile__ = None
   @classmethod
   def from_dict(cls,d):
     """Load the object from a dictionary"""
-    obj = cls(**d)
-    if '__sourcefile__' not in d.keys():
-      obj.__sourcefile__ = None
-    return obj
+    return cls(**d)
   def _all_slots_iter(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
@@ -161,6 +162,10 @@ class ParameterSet(object):
     return cls.from_dict(d)
   def to_pickle(self,fpath):
     """Write to a pickle file.
+    
+    This method doesn't prevent the ParameterSet from having entries which are instances of a class,
+    but this is highly discouraged.
+    Entries should generally consist only of the same data types supported by YAML.
 
     Arguments:
 
@@ -174,5 +179,5 @@ class ParameterSet(object):
     return
     
 class Request(ParameterSet):
+  __slots__=('requestclass')
   ##TODO: everything
-  pass
