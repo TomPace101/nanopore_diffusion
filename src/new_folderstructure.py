@@ -22,6 +22,10 @@ from filepath import Path
 #Use filepath.Path now
 srcfolder=Path(srcfolder,isFile=False)
 
+# simulator_modules_folder=srcfolder / 'simulators'
+# if not simulator_modules_folder in sys.path:
+#   sys.path.append(simulator_modules_folder)
+
 #Locate data folder
 if 'DATALOC' in os.environ.keys():
   datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
