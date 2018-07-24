@@ -10,7 +10,7 @@ import yaml
 
 #Local
 import folderstructure as FS
-import fpath
+import filepath
 
 #Handle command-line execution
 if __name__ == '__main__':
@@ -19,7 +19,7 @@ if __name__ == '__main__':
   parser.add_argument('requestfile', help="Path to file containing the request(s) to run")
   #TODO: allow selecting a subset of the requests?
   cmdline=parser.parse_args()
-  requestfile=fpath.fpath(cmdline.requestfile,isFile=True)
+  requestfile=filepath.Path(cmdline.requestfile,isFile=True)
   
   #Confirm that specified request file exists
   assert requestfile.exists(), "Could not find specified request file %s"%requestfile.fullpath
