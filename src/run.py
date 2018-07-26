@@ -12,7 +12,7 @@ import yaml
 ##yaml=YAML()
 
 #Local
-import new_folderstructure as FS
+import folderstructure as FS
 import filepath
 import request
 

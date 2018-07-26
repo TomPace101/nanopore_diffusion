@@ -467,8 +467,6 @@ and there isn't one for "notebook".
 What we want is a way, from the command line,
 to specify some subset of the requests in a file.
 
-_TODO_ rename new_folderstructure to folderstructure
-
 # Formula derivations
 - _TODO_ NP linearization notebook
 - _TODO_ start reaction rate function linearization notebook
