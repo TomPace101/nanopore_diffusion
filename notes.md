@@ -1,4 +1,6 @@
 
+_TODO_ another environment variable in folderstructure (see TODO item there)
+
 _TODO_ refactor this TODO list!
 
 _TODO_ clean up data
@@ -324,6 +326,24 @@ For example, its thin-shot would have:
 - mesh/thin-shot.yaml
 - model/thin-shot.yaml
 - postproc/thin-shot.yaml
+
+Another thing about simulations:
+We want sequences of simulations, where output of one is the input to the next.
+For example, solving LPB to get the potential for smoluchowski.
+We also want simulation loops.
+The initial setup happens only once.
+But then we can do multiple steps in a loop.
+This is a generalization of the sequence of simulations,
+where each item in the sequence is the same,
+and we have some way of specifying a number of times around the loop,
+or some other stopping criterion.
+But in this case, the setup must happen before the loop is entered.
+The body of the loop may itself be a sequence of steps (operator splitting).
+In which case, we'd need to be able to do the setup for each of them only once.
+This does suggest that there's a difference in setting up a simulation,
+and actually running its steps.
+The setup includes the weak form, problem, and solver.
+And yet, those could be updated, couldn't they?
 
 Unresolved issues/questions:
 - how are doit tasks constructed by iterating through the request(s)?
@@ -1054,6 +1074,12 @@ Conclusion: leave it as-is for now.
 
 The code documentation needs class/object diagrams to illustrate the relationships.
 It's also sufficiently complicated that there probably does need to be a step-by-step tutorial of some kind.
+
+Individual items to add:
+- The One Abstraction (at the user level)
+- Data locators
+- Customization: my own request type, in my own module, in my own source folder
+- The abstract Request class (at the developer level), if it's never made concrete.
 
 We need to reconsider this whole approach to the document.
 The various goals are:

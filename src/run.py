@@ -7,71 +7,23 @@ import importlib
 import sys
 
 #Site packages
-import yaml
-##from ruamel.yaml import YAML
-##yaml=YAML()
+from ruamel.yaml import YAML
+yaml=YAML(typ="safe", pure=True)
 
 #Local
 import folderstructure as FS
 import filepath
 import request
 
-def obtain_class(requestclass):
-  """Return the class specified by a string
-  
-  The string format is "module_name:class_name".
-  """
-  modname,classname=requestclass.split(':')
-  if modname not in sys.modules.keys():
-    importlib.import_module(modname)
-  rclass=getattr(sys.modules[modname],classname)
-  return rclass
-
-class TotipotentRequest(request.Request):
-  """A type of request that can turn itself into any other request defined in a module that can be loaded
-
-  Supported Attributes:
-    These are class attributes that Request subclasses may provide, but do not have to.
-    
-    - _child_attrs = sequence of attribute names, for attributes containing individual child Requests
-    - _child_seq_attrs = sequence of attribute names, for attributes containing sequences of child Requests
-  """
-  @classmethod
-  def build_request(cls,**kwargs):
-    #Get the class to build
-    classname=kwargs['requestclass']
-    rclass=obtain_class(classname)
-    #Recurse through child requests in the dictionary structure
-    for attrname in getattr(rclass,'_child_attrs',[]):
-      if attrname in kwargs.keys():
-        kwargs[attrname]=cls.build_request(**kwargs[attrname])
-    for attrname in getattr(rclass,'_child_seq_attrs',[]):
-      if attrname in kwargs.keys():
-        kwargs[attrname]=[cls.build_request(**itm) for itm in kwargs[attrname]]
-    #Initialize and return object
-    return rclass(**kwargs)
-  @classmethod
-  def from_dict(cls,d):
-    """Load the object from a dictionary"""
-    return cls.build_request(**d)
-
-class RequestFileRequest(request.Request):
-  """Request to run all of the requests listed in the specified files
-  
-  Attributes:
-  
-    - requestfiles: sequence of paths to the request files
-    """
-  __slots__=('requestfiles','children')
-  ##TODO: initialization must load the children into an attribute (probably `children`) listed in _child_seq_attrs
-  ##explain in documentation about the `children` attribute
-  ##all the dependencies, etc. (how doit knows what is up-to-date)
+#Complete list of all modules defining classes we want to load from yaml
+yaml_module_list=['locators','request']
 
 #Handle command-line execution
 if __name__ == '__main__':
   #Parse command line arguments
   parser = argparse.ArgumentParser(description=globals()['__doc__'])
   parser.add_argument('requestfile', help="Path to file containing the request(s) to run")
+  parser.add_argument('--modules',nargs="+",help="Additional python modules defining classes loadable from yaml input")
   #TODO: allow selecting a subset of the requests?
   cmdline=parser.parse_args()
   requestfile=filepath.Path(cmdline.requestfile,isFile=True)
@@ -79,8 +31,29 @@ if __name__ == '__main__':
   #Confirm that specified request file exists
   assert requestfile.exists(), "Could not find specified request file %s"%requestfile.fullpath
   
-  #Get an interator for the individual requests
-  allreqs = TotipotentRequest.all_from_yaml(requestfile.fullpath)
+  #Initialize a RequestFileRequest and run it
+  req=request.RequestFileRequest(requestfile=requestfile.fullpath)
+  req.run()
+
+  ##TODO: the stuff below probably goes into request.RequestFileRequest
+  ##Except that request can't load other modules defining requests.
+  ##So, instead, those need to move to a new module.
+
+  
+  #Add the requested modules to the list
+  if cmdline.modules is not None:
+    yaml_module_list+=list(cmdline.modules)
+  
+  #Load and register all classes that may be stored in yaml
+  for modname in yaml_module_list:
+    loaded_module=importlib.import_module(modname)
+    for yclass in getattr(loaded_module,'yaml_classes',[]):
+      yaml.register_class(yclass)
+  
+  #Get an iterator for the individual requests
+  with open(requestfile.fullpath,'r') as fp:
+    dat=fp.read()
+  allreqs=yaml.load_all(dat)
   
   #Process each request
   for req in allreqs:

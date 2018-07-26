@@ -22,6 +22,8 @@ from filepath import Path
 #Use filepath.Path now
 srcfolder=Path(srcfolder,isFile=False)
 
+#TODO: support an additional environment variable, indicated other locations that may contain source code files.
+
 # simulator_modules_folder=srcfolder / 'simulators'
 # if not simulator_modules_folder in sys.path:
 #   sys.path.append(simulator_modules_folder)

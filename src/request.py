@@ -2,67 +2,46 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
-import argparse
 from itertools import chain
-import pickle
+import json
 
 #Site packages
-import yaml
-##from ruamel.yaml import YAML
-##yaml=YAML()
+try:
+  from doit.tools import config_changed
+except ImportError:
+  #dummy version of config_changed to be used when doit is not available
+  def config_changed(arg):
+    return arg
 
-#Local
-import filepath
-
-#Constants
-##pickle_protocol = 4 #The newest protocol, requires python 3.4 or above.
-pickle_protocol = 2 #For compatibility with the ancient Python 2
-
-def nested_to_str(obj):
-  """For nested dictionary obj, return a consistent string"""
-  #Get pairs in correct order, with keys converted to strings
-  pairs1=[(repr(k),v) for k,v in obj.items()]
-  pairs1.sort(key=lambda t: t[0])
-  #Get list of sorted key strings alone
-  skeys=[p[0] for p in pairs1]
-  #Convert values to strings while maintaining order
-  svals=[]
-  for k,v in pairs1:
-    if hasattr(v,'items'):
-      svals.append(nested_to_str(v))
-    else:
-      svals.append(repr(v))
-  items_list=[k+': '+v for k,v in zip(skeys,svals)]
-  return '{%s}'%', '.join(items_list)
-
-class ParameterSet(object):
-  """A base class for defining sets of related parameters.
-  Each subclass should use __slots__ to define its parameters.
-  This is not intended as a method for storing complicated objects;
-  all attributes should have values that are numbers, strings, sequences, or dictionaries
-  whose items follow the same rules.
+class Request(object):
+  """Base class for all requests.
   
-  Basically, this is just a namespace that knows how to read and write itself to/from file(s) of different types.
-  
-  Attributes:
-  
-    - sourcefile = file from which the object was read, if any
+  Frequently, derived classes will add slots for some of the following attributes, which this class supports:
 
-  """
-  __slots__=('__sourcefile__',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+    - _inputfile_attrs: list of attributes containing input file paths
+    - _more_inputfiles: list of additional input file paths not contained in other attributes
+    - _outputfile_attrs: list of attributes containing output file paths
+    - _more_outputfiles: list of additional output file paths not contained in other attributes
+    - _folders: dictionary {attribute name: folder path} used to find the folders for prepending to file names specified in other attributes
+    - _required_attrs: list of attribute names that must be defined when the object is first loaded
+    - _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
+    - _taskname_src_attr: string that is the name of the attribute that contains the task name for the object
+    - _child_attrs: list of attributes that contain other Requests
+    - _child_seq_attrs: list of attributes that contain sequences of other Requests"""
+  __slots__=() #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
     ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
     #Load the attributes specified
     for k,v in kwargs.items():
       setattr(self,k,v)
-    #Define the sourcefile if not already defined
-    if '__sourcefile__' not in kwargs.keys():
-      self.__sourcefile__ = None
-  @classmethod
-  def from_dict(cls,d):
-    """Load the object from a dictionary"""
-    return cls(**d)
-  def _all_slots_iter(self):
+    #Check for required attributes that are missing
+    if hasattr(self,'_required_attrs'):
+      missing = [a for a in self._required_attrs if not hasattr(self,a)]
+      assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
+  def run(self):
+    "Method to be overridden by derived classes"
+    raise NotImplementedError("%s did not override 'run' method."%str(type(self)))
+  def _all_slots(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
   def to_dict(self):
@@ -73,111 +52,119 @@ class ParameterSet(object):
     No arguments.
 
     Returns the dictionary."""
-    return dict([(k,getattr(self,k,None)) for k in self._all_slots_iter()])
-  def __repr__(self):
-    return nested_to_str(self.to_dict())
-  @classmethod
-  def from_Namespace(cls,ns):
-    return cls.from_dict(**ns.__dict__)
-  def to_Namespace(self):
-    """Return an argparse.Namespace object with all the object's attributes.
-
-    Note that changes to the Namespace will not affect the object.
-
-    No arguments.
-
-    Returns the Namespace."""
-    return argparse.Namespace(**self.to_dict())
-  ##TODO: read and write from ini file
-  @classmethod
-  def all_from_yaml(cls,fpath):
-    """Generator to read a series of objects from a yaml file.
-
-    Arguments:
-
-      - fpath = path to the yaml file to read in, as a pathlike object
-
-        This must be a multi-document yaml file,
-        and each document is assumed to be structured as a single dictionary at the top level.
-
-    Each call yields:
-
-      - pset = a ParameterSet object as defined by one document in the yaml file"""
-    with open(fpath,'r') as fp:
-      dat=fp.read()
-      gen=yaml.load_all(dat)
-    for d in gen:
-      d.update({'__sourcefile__':fpath})
-      yield cls.from_dict(d)
-  @classmethod
-  def one_from_yaml(cls,fpath):
-    """Read only a single instance of objects from a yaml file.
-
-    Arguments:
-
-      - fpath = path to the yaml file to read in
-      
-        This must be a single-document yaml file,
-        and it is assumed to be structured as a single dictionary at the top level.
-
-    Returns:
+    d={}
+    for attr in self._all_slots:
+      itm=getattr(self,attr,None)
+      if isinstance(itm,Request):
+        d[attr]=itm.to_dict()
+      else:
+        d[attr]=itm
+    return d
+  def all_children(self):
+    """Generator yielding all the children of this Request
     
-      - pset = a ParameterSet object as defined by the contents of the yaml file"""
-    for pset in cls.all_from_yaml(fpath):
-      return pset #ugly, but effective
-  def to_yaml(self,fpath):
-    """Write a single instance to a yaml file.
-
-    Arguments:
-
-      - fpath = path to the yaml file to write, as a pathlike objeect
-
-        The method will prepend a document separator to the object data,
-        and will "append" to an existing file, allowing multiple documents to be written to the same file.
-
-    No return value."""
-    #TODO: consider writing docstring as comments in yaml file
-    obj=self.to_dict()
-    with open(fpath,'a') as fp:
-      fp.write("---\n")
-      yaml.dump(obj,fp)
-    return
-  ##TODO: both pickle methods should support sequences of objects as well as single objects
-  @classmethod
-  def from_pickle(cls,fpath):
-    """Read from a pickle file.
-
-    Arguments:
-
-      - fpath = path to the pickle file to read in
-
-        This file should be a mapping type at the top level.
-
-    Returns:
-
-      - pset = a ParameterSet object as defined by the contents of the pickle file."""
-    with open(fpath, 'rb') as fp:
-      d=pickle.load(fp)
-    d.update({'__sourcefile__':fpath})
-    return cls.from_dict(d)
-  def to_pickle(self,fpath):
-    """Write to a pickle file.
+    First, yields entries in _child_attrs.
+    Then, yields entries in _child_seq_attrs."""
+    for cname in getattr(self,'_child_attrs',[]):
+      yield getattr(self,cname)
+    for lname in gettatr(self,'_child_seq_attrs',[]):
+      itr=getattr(self,lname)
+      for req in itr:
+        yield req
+  def all_tasks(self):
+    """Generator yielding task definitions from this Request and all child Requests"""
+    selftask=self.task_definition
+    if selftask is not None:
+      yield selftask
+    for req in self.all_children():
+      for td in req.all_tasks():
+        yield td
+  @property
+  def task_definition(self):
+    """A doit task definition dictionary appropriate for this Request
     
-    This method doesn't prevent the ParameterSet from having entries which are instances of a class,
-    but this is highly discouraged.
-    Entries should generally consist only of the same data types supported by YAML.
-
-    Arguments:
-
-      - fpath = path to the pickle file to write
-        The file will be overwritten if it already exists.
-
-    No return value."""
-    obj=self.to_dict()
-    with open(fpath, 'wb') as fp:
-      pickle.dump(obj,fp,pickle_protocol)
-    return
+    No task is returned if the taskname is None.
     
-class Request(ParameterSet):
-  __slots__=('requestclass')
-  ##TODO: everything
+    To get requests from this task and its children, see yield_tasks."""
+    if self.taskname is None:
+      return None
+    else:
+      return {'name': self.taskname,
+       'file_dep': self.inputfiles,
+       'uptodate': [config_changed(self.config)],
+       'targets': self.outputfiles,
+       'actions': [(self.run,)]}
+  @property
+  def config(self):
+    """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
+    # return(str(self.config_dict))
+    return(json.dumps(self.config_dict,sort_keys=True))
+  @property
+  def config_dict(self):
+    d=self.to_dict()
+    cd=dict([(k,v) for k,v in d.items() if k in self._config_attrs])
+    #Don't add configuration of children: look at the output files they generate instead
+    #(otherwise changes will cascade even if output files are unaltered)
+    ##for childattr in getattr(self,'_child_attrs',[]):
+    ##  cd[childattr]=getattr(self,childattr).config
+    return cd
+  @property
+  def taskname(self):
+    """A string representing the task name in doit"""
+    attrname=getattr(self,_taskname_src_attr,None)
+    if attrname is None:
+      return None
+    else:
+      return getattr(self,self._taskname_src_attr)
+  @property
+  def inputfiles(self):
+    """A list of all the inputfiles related to this request"""
+    return self._compile_file_list('_inputfile_attrs','_more_inputfiles','inputfiles')
+  @property
+  def outputfiles(self):
+    """A list of all the outputfiles related to this request"""
+    return self._compile_file_list('_outputfile_attrs','_more_outputfiles','outputfiles')
+  def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr):
+    """Construct a list of files, from the following arguments:
+    
+    - attrs_list_attr: name of attribute containing a list of attribute names, each of which contains one file path
+    - files_list_attr: name of attribute containing a list of file paths
+    - child_attr: name of attribute of each child containing their corresponding list"""
+    #Get files from list of attribute names containing files
+    attr_list=getattr(self,attrs_list_attr,[])
+    fl = [itm.fullpath for itm in attr_list]
+    #Get files from list of additional files
+    fl+=getattr(self,files_list_attr,[])
+    #Get files from children
+    for child in self.all_children():
+      if child.taskname is None: #Children that define their own tasks are responsible for their own file dependencies
+        fl += getattr(child,child_attr)
+    return fl
+    
+
+##TODO: the following two Request types need to move to a new module
+class RequestFileRequest(Request):
+  """Request to run all the requests in a given file
+  
+  User-Provided Attributes:
+  
+    - requestfile: File Locator to the file containing the requests"""
+  __slots__=('requestfile')
+  _required_attrs=['requestfile']
+  ##TODO
+  
+
+class RequestFileListRequest(request.Request):
+  """Request to run all of the requests in a given list of files
+  
+  Attributes:
+  
+    - requestfiles: sequence of paths to the request files
+    """
+  __slots__=('requestfiles','children')
+  ##TODO: initialization must load the children into an attribute (probably `children`) listed in _child_seq_attrs
+  ##explain in documentation about the `children` attribute
+  ##all the dependencies, etc. (how doit knows what is up-to-date)
+
+
+yaml_classes=[]
