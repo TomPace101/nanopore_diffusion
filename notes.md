@@ -1080,6 +1080,7 @@ Individual items to add:
 - Data locators
 - Customization: my own request type, in my own module, in my own source folder
 - The abstract Request class (at the developer level), if it's never made concrete.
+- The difference between User-Defined attributes and Calculated attributes
 
 We need to reconsider this whole approach to the document.
 The various goals are:

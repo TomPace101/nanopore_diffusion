@@ -55,7 +55,7 @@ class Request(object):
     d={}
     for attr in self._all_slots:
       itm=getattr(self,attr,None)
-      if isinstance(itm,Request):
+      if hasattr(itm,'to_dict') and callable(itm.to_dict):
         d[attr]=itm.to_dict()
       else:
         d[attr]=itm
@@ -140,31 +140,3 @@ class Request(object):
       if child.taskname is None: #Children that define their own tasks are responsible for their own file dependencies
         fl += getattr(child,child_attr)
     return fl
-    
-
-##TODO: the following two Request types need to move to a new module
-class RequestFileRequest(Request):
-  """Request to run all the requests in a given file
-  
-  User-Provided Attributes:
-  
-    - requestfile: File Locator to the file containing the requests"""
-  __slots__=('requestfile')
-  _required_attrs=['requestfile']
-  ##TODO
-  
-
-class RequestFileListRequest(request.Request):
-  """Request to run all of the requests in a given list of files
-  
-  Attributes:
-  
-    - requestfiles: sequence of paths to the request files
-    """
-  __slots__=('requestfiles','children')
-  ##TODO: initialization must load the children into an attribute (probably `children`) listed in _child_seq_attrs
-  ##explain in documentation about the `children` attribute
-  ##all the dependencies, etc. (how doit knows what is up-to-date)
-
-
-yaml_classes=[]
