@@ -7,7 +7,7 @@ import sys
 
 #check required python modules
 import pathlib #standard library in python 3 but not in python 2
-import yaml
+from ruamel.yaml import YAML
 import jinja2
 import numpy
 import scipy
@@ -16,7 +16,7 @@ import pandas
 import fenics as fem
 
 #fenics version check
-target_fenics_versions=[2016, 2017]
+target_fenics_versions=[2016, 2017, 2018]
 fenics_version_msg_template="This code was written for FEniCS major versions '%s'. Detected major version '%d'."
 assert fem.DOLFIN_VERSION_MAJOR in target_fenics_versions, fenics_version_msg_template%(target_fenics_version,fem.DOLFIN_VERSION_MAJOR)
 
