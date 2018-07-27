@@ -17,6 +17,15 @@ import request
 #Complete list of all modules defining classes we want to load from yaml
 yaml_module_list=['locators']
 
+def _direct_register_classes(class_list):
+  """Register the classes that might be loaded from a yaml file, from a list of classes
+  
+  Arguments:
+  
+    - class_list = sequence of classes, as classes"""
+  for yclass in class_list:
+    yaml.register_class(yclass)
+
 def register_classes(module_list):
   """Register the classes that might be loaded from a yaml file, from a list of module names
   
@@ -30,17 +39,8 @@ def register_classes(module_list):
   No return value."""
   for modname in yaml_module_list:
     loaded_module=importlib.import_module(modname)
-    class_list=getattr(loaded_module,'yaml_classes',[]):
-    _register_classes(class_list)
-
-def _direct_register_classes(class_list):
-  """Register the classes that might be loaded from a yaml file, from a list of classes
-  
-  Arguments:
-  
-    - class_list = sequence of classes, as classes"""
-  for yclass in class_list:
-    yaml.register_class(yclass)
+    class_list=getattr(loaded_module,'yaml_classes',[])
+    _direct_register_classes(class_list)
 
 class RequestFileRequest(request.Request):
   """Request to run all the requests in a given file

@@ -71,43 +71,18 @@ class Request(object):
       itr=getattr(self,lname)
       for req in itr:
         yield req
-  def all_tasks(self):
-    """Generator yielding task definitions from this Request and all child Requests"""
-    selftask=self.task_definition
-    if selftask is not None:
-      yield selftask
-    for req in self.all_children():
-      for td in req.all_tasks():
-        yield td
-  @property
-  def task_definition(self):
-    """A doit task definition dictionary appropriate for this Request
-    
-    No task is returned if the taskname is None.
-    
-    To get requests from this task and its children, see yield_tasks."""
-    if self.taskname is None:
-      return None
-    else:
-      return {'name': self.taskname,
-       'file_dep': self.inputfiles,
-       'uptodate': [config_changed(self.config)],
-       'targets': self.outputfiles,
-       'actions': [(self.run,)]}
-  @property
-  def config(self):
-    """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
-    # return(str(self.config_dict))
-    return(json.dumps(self.config_dict,sort_keys=True))
   @property
   def config_dict(self):
     d=self.to_dict()
     cd=dict([(k,v) for k,v in d.items() if k in self._config_attrs])
     #Don't add configuration of children: look at the output files they generate instead
     #(otherwise changes will cascade even if output files are unaltered)
-    ##for childattr in getattr(self,'_child_attrs',[]):
-    ##  cd[childattr]=getattr(self,childattr).config
     return cd
+  @property
+  def config(self):
+    """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
+    # return(str(self.config_dict))
+    return(json.dumps(self.config_dict,sort_keys=True))
   @property
   def taskname(self):
     """A string representing the task name in doit"""
@@ -116,14 +91,6 @@ class Request(object):
       return None
     else:
       return getattr(self,self._taskname_src_attr)
-  @property
-  def inputfiles(self):
-    """A list of all the inputfiles related to this request"""
-    return self._compile_file_list('_inputfile_attrs','_more_inputfiles','inputfiles')
-  @property
-  def outputfiles(self):
-    """A list of all the outputfiles related to this request"""
-    return self._compile_file_list('_outputfile_attrs','_more_outputfiles','outputfiles')
   def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr):
     """Construct a list of files, from the following arguments:
     
@@ -140,3 +107,34 @@ class Request(object):
       if child.taskname is None: #Children that define their own tasks are responsible for their own file dependencies
         fl += getattr(child,child_attr)
     return fl
+  @property
+  def inputfiles(self):
+    """A list of all the inputfiles related to this request"""
+    return self._compile_file_list('_inputfile_attrs','_more_inputfiles','inputfiles')
+  @property
+  def outputfiles(self):
+    """A list of all the outputfiles related to this request"""
+    return self._compile_file_list('_outputfile_attrs','_more_outputfiles','outputfiles')
+  @property
+  def task_definition(self):
+    """A doit task definition dictionary appropriate for this Request
+    
+    No task is returned if the taskname is None.
+    
+    To get requests from this task and its children, see yield_tasks."""
+    if self.taskname is None:
+      return None
+    else:
+      return {'name': self.taskname,
+       'file_dep': self.inputfiles,
+       'uptodate': [config_changed(self.config)],
+       'targets': self.outputfiles,
+       'actions': [(self.run,)]}
+  def all_tasks(self):
+    """Generator yielding task definitions from this Request and all child Requests"""
+    selftask=self.task_definition
+    if selftask is not None:
+      yield selftask
+    for req in self.all_children():
+      for td in req.all_tasks():
+        yield td
