@@ -133,8 +133,13 @@ So let's look at our Handlers:
     - input is the other postproc results, and the expected results
     - output is a validation report
 - Parameter generation
-  - constructing Requests of all the other kinds
-    - input is a template for the request
+  - unlike before, generate child requests directly (not input files for them)
+    - input:
+      - child request type
+      - mapping of parameters and the set of values to use for them
+      - information about other requests to draw from:
+          The prototypical example here is generating simulation requests for a given set of meshes.
+          Look also at some of the other things paramgen does now.
 
 In Mesh Generation, right now, I'm using 1 Request for all those steps.
 Yet each is really a different Handler.
@@ -345,26 +350,26 @@ and actually running its steps.
 The setup includes the weak form, problem, and solver.
 And yet, those could be updated, couldn't they?
 
+Locators aren't paths.
+They can _return_ paths.
+This means their parent request needs to know all of its locators,
+ask them to provide their paths, and use that result anytime the path is needed.
+
+
 Unresolved issues/questions:
-- how are doit tasks constructed by iterating through the request(s)?
+- How do Locators work? Their parent request needs to know about them, and get Paths out of them.
 - classes listed as TBD below.
-- how to distinguish between attributes that must be specified, and attributes that are calculated?
 
 Implementation
-- Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
+- DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
 - Base classes:
-  - Request (from ParameterSet) - abstract only?: defines its handler/identifies its own type
-  - RequestSequence: a composite that runs all sub-requests in a sequence
-  - Request with named sub-requests, some of which are required and some of which are optional (perhaps with defaults)
-  - Request to run all of the requests in another file. Or maybe even a way to specify a subset of them. (see note about doing this on command line)
+  - DONE Request - abstract only: defines the interface
+  - DONE Request to run all of the requests in another file. Or maybe even a way to specify a subset of them. (see note about doing this on command line)
   - Request to run a script (or would it be better to require that script to be converted to a handler?)
   - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
-- Data Locations (base type DataLocation):
-  - FilePath: defines a file relative to the data folder
-  - File: defines a file relative to the appropriate location from folderstructure
-      Both of these have a way to return the full file path.
-  - Memory: key or attribute sequence (as a dotted name)
-      This is not interchangeable with the file ones in general: handlers will require one or the other.
+- Data Locators:
+  - DataFolderFile: defines a file relative to the data folder
+  - RequestFile?: defines a file relative to the appropriate location from folderstructure for the parent request
 - Mesh generation: TBD
 - Simulation: TBD
 - Post-processing: TBD

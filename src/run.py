@@ -31,6 +31,6 @@ if __name__ == '__main__':
     requestfile.register_classes(yaml_module_list)
 
   #Initialize a RequestFileListRequest and run it
-  req=requestfile.RequestFileListRequest(requestfiles=[rf.fullpath for rf in requestfiles])
+  req=requestfile.RequestFileListRequest(name='from_run',requestfiles=[rf.fullpath for rf in requestfiles])
   req.run()
 

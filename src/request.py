@@ -13,11 +13,15 @@ except ImportError:
   def config_changed(arg):
     return arg
 
+#Dictionary of all loaded requests
+all_requests={}
+
 class Request(object):
-  """Base class for all requests.
+  """Base class for all requests. Abstract only, not really meant to be instantiated.
   
   Frequently, derived classes will add slots for some of the following attributes, which this class supports:
 
+    - _self_task: boolean, True if request itself defines a task, False if only tasks come from children. If False, children may still define tasks. Defaults to False if not defined.
     - _inputfile_attrs: list of attributes containing input file paths
     - _more_inputfiles: list of additional input file paths not contained in other attributes
     - _outputfile_attrs: list of attributes containing output file paths
@@ -25,10 +29,9 @@ class Request(object):
     - _folders: dictionary {attribute name: folder path} used to find the folders for prepending to file names specified in other attributes
     - _required_attrs: list of attribute names that must be defined when the object is first loaded
     - _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
-    - _taskname_src_attr: string that is the name of the attribute that contains the task name for the object
     - _child_attrs: list of attributes that contain other Requests
     - _child_seq_attrs: list of attributes that contain sequences of other Requests"""
-  __slots__=() #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+  __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
     ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
     #Load the attributes specified
@@ -38,6 +41,8 @@ class Request(object):
     if hasattr(self,'_required_attrs'):
       missing = [a for a in self._required_attrs if not hasattr(self,a)]
       assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
+    #Add to dictionary of requests
+    all_requests[self.name]=self
   def run(self):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'run' method."%str(type(self)))
@@ -83,14 +88,6 @@ class Request(object):
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
     # return(str(self.config_dict))
     return(json.dumps(self.config_dict,sort_keys=True))
-  @property
-  def taskname(self):
-    """A string representing the task name in doit"""
-    attrname=getattr(self,_taskname_src_attr,None)
-    if attrname is None:
-      return None
-    else:
-      return getattr(self,self._taskname_src_attr)
   def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr):
     """Construct a list of files, from the following arguments:
     
@@ -125,16 +122,15 @@ class Request(object):
     if self.taskname is None:
       return None
     else:
-      return {'name': self.taskname,
+      return {'name': self.name,
        'file_dep': self.inputfiles,
        'uptodate': [config_changed(self.config)],
        'targets': self.outputfiles,
        'actions': [(self.run,)]}
   def all_tasks(self):
     """Generator yielding task definitions from this Request and all child Requests"""
-    selftask=self.task_definition
-    if selftask is not None:
-      yield selftask
+    if getattr(self,'_self_task',False):
+      yield self.task_definition
     for req in self.all_children():
       for td in req.all_tasks():
         yield td

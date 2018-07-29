@@ -53,9 +53,9 @@ class RequestFileRequest(request.Request):
   
     - _children: A list storing all child requests"""
   __slots__=('requestfile','_children')
-  _required_attrs=['requestfile']
+  _required_attrs=['name','requestfile']
   _child_seq_attrs=['_children']
-  _taskname_src_attr=None #This request generates doit tasks from its children, not itself
+  _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileRequest, self).__init__(**kwargs)
@@ -83,9 +83,9 @@ class RequestFileListRequest(request.Request):
     - _children: A list storing all child requests
     """
   __slots__=('requestfiles','_children')
-  _required_attrs=['requestfiles']
+  _required_attrs=['name','requestfiles']
   _child_seq_attrs=['_children']
-  _taskname_src_attr=None #This request generates doit tasks from its children, not itself
+  _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileListRequest, self).__init__(**kwargs)
