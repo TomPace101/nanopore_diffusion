@@ -9,6 +9,7 @@ import sys
 #Site packages
 
 #Local
+import filepath
 import requestfile
 
 #Handle command-line execution
@@ -19,11 +20,11 @@ if __name__ == '__main__':
   parser.add_argument('--modules',nargs="+",metavar="MODULE",help="Additional python modules defining classes loadable from yaml input")
   #TODO: allow selecting a subset of the requests?
   cmdline=parser.parse_args()
-  requestfiles=[filepath.Path(rf,isFile=True) for rf in cmdline.requestfile]
+  file_list=[filepath.Path(rf,isFile=True) for rf in cmdline.requestfile]
   
   #Confirm that specified request file(s) exist(s)
-  nonexist=[rf for rf in requestfiles if not rf.exists()]
-  assert len(nonexist)==0, "Could not find specified request file(s) %s"%str([rf.fullpath for fr in nonexist])
+  nonexist=[rf for rf in file_list if not rf.exists()]
+  assert len(nonexist)==0, "Could not find specified request file(s) %s"%str([rf.fullpath for rf in nonexist])
 
   #Add the requested modules to the list
   if cmdline.modules is not None:
@@ -31,6 +32,6 @@ if __name__ == '__main__':
     requestfile.register_classes(yaml_module_list)
 
   #Initialize a RequestFileListRequest and run it
-  req=requestfile.RequestFileListRequest(requestfiles=[rf.fullpath for rf in requestfiles])
+  req=requestfile.RequestFileListRequest(requestfiles=file_list)
   req.run()
 

@@ -41,6 +41,8 @@ class Request(object):
     
         Some subclasses may require this to be defined, others may not.
         If defined, the request will be added to an ordered dictionary of requests by name: {request.name: request, ...}
+    
+    - request_type: a string identifying the type of request. This should match the name of the desired subclass of Request.
   
   Frequently, derived classes will add slots or class attributes for some of the following attributes, which this class supports:
 
@@ -57,7 +59,7 @@ class Request(object):
     - _child_seq_attrs: list of attributes that contain sequences of other Requests
     - _props_schema: jsonschema used to validate request configuration, as a dictionary
         The schema is for the 'properties' element only. The rest is provided internally."""
-  __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+  __slots__=('name','request_type') #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
     ##self.__dict__.update(kwargs) #Using __slots__ means there is no __dict__
     #Validate kwargs
@@ -116,7 +118,7 @@ class Request(object):
     Then, yields entries in _child_seq_attrs."""
     for cname in getattr(self,'_child_attrs',[]):
       yield getattr(self,cname)
-    for lname in gettatr(self,'_child_seq_attrs',[]):
+    for lname in getattr(self,'_child_seq_attrs',[]):
       itr=getattr(self,lname)
       for req in itr:
         yield req
@@ -179,6 +181,22 @@ class Request(object):
       for td in req.all_tasks():
         yield td
 
+class DummyRequest(Request):
+  """A type of request used only for debugging purposes"""
+  __slots__=('test')
+  _props_schema={
+    'test':
+      {'anyOf': [
+        {'type':'string'},
+        {'type':'number'}
+        ]
+      }
+    }
+  _required_attrs=['test']
+  _self_task=False #This request generates doit tasks from its children, not itself
+  def run(self):
+    print(self.test)
+
 #jsonschema validator setup
 # #For jsonschema version 3
 # type_checker = ValidatorClass.TYPE_CHECKER
@@ -188,3 +206,6 @@ class Request(object):
 # ValidatorClass = jsonschema.extend(jsonschema.Draft3Validator, type_checker=type_checker)
 #For jsonschema 2.6
 extra_types_dict['request']=(Request,)
+
+
+yaml_classes=[DummyRequest]

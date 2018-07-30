@@ -1,0 +1,4 @@
+%YAML 1.2
+---
+request_type: DummyRequest
+test: abcd1234

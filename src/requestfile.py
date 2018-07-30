@@ -15,7 +15,10 @@ import filepath
 import request
 
 #Complete list of all modules defining classes we want to load from yaml
-yaml_module_list=['locators']
+yaml_module_list=['locators','request']
+
+#Dictionary of name to class mappings
+all_classes={}
 
 def _direct_register_classes(class_list):
   """Register the classes that might be loaded from a yaml file, from a list of classes
@@ -25,6 +28,7 @@ def _direct_register_classes(class_list):
     - class_list = sequence of classes, as classes"""
   for yclass in class_list:
     yaml.register_class(yclass)
+    all_classes[yclass.__name__]=yclass
 
 def register_classes(module_list):
   """Register the classes that might be loaded from a yaml file, from a list of module names
@@ -38,7 +42,10 @@ def register_classes(module_list):
   
   No return value."""
   for modname in yaml_module_list:
-    loaded_module=importlib.import_module(modname)
+    if modname in sys.modules.keys():
+      loaded_module=sys.modules[modname]
+    else:
+      loaded_module=importlib.import_module(modname)
     class_list=getattr(loaded_module,'yaml_classes',[])
     _direct_register_classes(class_list)
 
@@ -72,8 +79,12 @@ class RequestFileRequest(request.Request):
       dat=fp.read()
     #Load all objects from yaml
     allobj=yaml.load_all(dat)
-    #Some of the objects may not be requests; skip those
-    self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
+    #Process each item
+    self._children=[]
+    for obj in allobj:
+      if 'request_type' in obj.keys():
+        ch=all_classes[obj['request_type']](**obj)
+        self._children.append(ch)
   def run(self):
     "Run all the requests listed in the file"
     for req in self.all_children():
