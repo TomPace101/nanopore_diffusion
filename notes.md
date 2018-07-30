@@ -357,6 +357,8 @@ ask them to provide their paths, and use that result anytime the path is needed.
 This is done during the request's init, as attributes are set from the kwargs.
 
 Validation
+http://python-jsonschema.readthedocs.io/en/stable/validate/
+https://spacetelescope.github.io/understanding-json-schema/index.html
 Each class provides the jsonschema for its properties.
 The catch is that because we're loading classes from yaml,
 type checking has to include more than just the primitive data types:

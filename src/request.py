@@ -2,6 +2,7 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+from collections import OrderedDict as odict
 from itertools import chain
 import json
 
@@ -14,8 +15,16 @@ except ImportError:
   def config_changed(arg):
     return arg
 
+#Local
+import locators
+
+#Incomplete ValidatorClass now, until Request is defined
+ValidatorClass = jsonschema.Draft4Validator
+#jsonschema 2.6
+extra_types_dict={'locator':locators.LocatorBase}
+
 #Dictionary of all loaded requests
-all_requests={}
+all_requests=odict()
 
 class Request(object):
   """Base class for all requests. Abstract only, not really meant to be instantiated.
@@ -25,9 +34,15 @@ class Request(object):
     1) Run themselves. (see the ``run`` method)
     2) Provide ``doit`` task definitions for themselves and any sub-requests. (see the ``all_tasks`` method)
     3) Validate their own configuration. (see the ``validate`` classmethod)
-    
   
-  Frequently, derived classes will add slots for some of the following attributes, which this class supports:
+  User-Provided attributes:
+  
+    - name: a globally unique string identifying the request
+    
+        Some subclasses may require this to be defined, others may not.
+        If defined, the request will be added to an ordered dictionary of requests by name: {request.name: request, ...}
+  
+  Frequently, derived classes will add slots or class attributes for some of the following attributes, which this class supports:
 
     - _self_task: boolean, True if request itself defines a task, False if only tasks come from children. If False, children may still define tasks. Defaults to False if not defined.
     - _locators: list of attributes containing file locators
@@ -49,22 +64,23 @@ class Request(object):
     #Load the attributes specified
     for k,v in kwargs.items():
       #If field is a locator, get the Path it returns
-      if k in getattr(self,'_locators',[]):
+      if k in getattr(self,'_locators',[]) and hasattr(v,'path'):
         v=v.path(self)
       setattr(self,k,v)
     #Check for required attributes that are missing
     if hasattr(self,'_required_attrs'):
       missing = [a for a in self._required_attrs if not hasattr(self,a)]
       assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
-    #Add to dictionary of requests
-    all_requests[self.name]=self
+    #If named, add to dictionary of named requests
+    if hasattr(self,'name'):
+      all_requests[self.name]=self
   def validate(self,**kwargs):
     if hasattr(self,'_props_schema'):
       schema={'type':'object',
               'properties':self._props_schema,
               'required':getattr(self,'_required_attrs',[]),
               'additionalProperties':False}
-      validator=jsonschema.Draft3Validator(schema)
+      validator=ValidatorClass(schema,types=extra_types_dict)
       errlist=["  - "+s for s in validator.iter_errors(kwargs)]
       if len(errlist)>0:
         #Found errors: raise exception listing them all
@@ -162,3 +178,13 @@ class Request(object):
     for req in self.all_children():
       for td in req.all_tasks():
         yield td
+
+#jsonschema validator setup
+# #For jsonschema version 3
+# type_checker = ValidatorClass.TYPE_CHECKER
+# #type_checker.redefine(#type name as string, #checking function as callable)
+# type_checker=type_checker.redefine("locator",lambda chkr,inst: isinstance(inst,locators.LocatorBase))
+# type_checker=type_checker.redefine("request",lambda chkr,inst: isinstance(inst,Request))
+# ValidatorClass = jsonschema.extend(jsonschema.Draft3Validator, type_checker=type_checker)
+#For jsonschema 2.6
+extra_types_dict['request']=(Request,)
