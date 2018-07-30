@@ -9,7 +9,7 @@ from __future__ import print_function, division #Python 2 compatibility
 import filepath
 import folderstructure as FS
 
-class DataFolderFile(object):
+class InDataFolder(object):
   """File location relative to ``datafolder``
   
   The location of ``datafolder`` is specified by the environment variable ``DATALOC``.
@@ -18,18 +18,16 @@ class DataFolderFile(object):
   parentpath=FS.datafolder
   def __init__(self,*args,**kwargs):
     self.subpath=filepath.Path(*args,**kwargs)
-  @property
-  def path(self):
+  def path(self,req):
     return self.parentpath / self.subpath
 
-class RequestFile(object):
+class InRequestFolder(object):
   """File in location determined by the Request that needs it"""
   ##TODO: how does the request provide this information?
   def __init__(self,*args,**kwargs):
     ##TODO
     pass
-  @property
-  def path(self):
+  def path(self,req):
     ##TODO
     pass
 

@@ -6,6 +6,7 @@ from itertools import chain
 import json
 
 #Site packages
+import jsonschema
 try:
   from doit.tools import config_changed
 except ImportError:
@@ -19,9 +20,17 @@ all_requests={}
 class Request(object):
   """Base class for all requests. Abstract only, not really meant to be instantiated.
   
+  All requests should have the following abilities:
+  
+    1) Run themselves. (see the ``run`` method)
+    2) Provide ``doit`` task definitions for themselves and any sub-requests. (see the ``all_tasks`` method)
+    3) Validate their own configuration. (see the ``validate`` classmethod)
+    
+  
   Frequently, derived classes will add slots for some of the following attributes, which this class supports:
 
     - _self_task: boolean, True if request itself defines a task, False if only tasks come from children. If False, children may still define tasks. Defaults to False if not defined.
+    - _locators: list of attributes containing file locators
     - _inputfile_attrs: list of attributes containing input file paths
     - _more_inputfiles: list of additional input file paths not contained in other attributes
     - _outputfile_attrs: list of attributes containing output file paths
@@ -30,12 +39,18 @@ class Request(object):
     - _required_attrs: list of attribute names that must be defined when the object is first loaded
     - _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
     - _child_attrs: list of attributes that contain other Requests
-    - _child_seq_attrs: list of attributes that contain sequences of other Requests"""
+    - _child_seq_attrs: list of attributes that contain sequences of other Requests
+    - _props_schema: jsonschema used to validate request configuration, as a dictionary
+        The schema is for the 'properties' element only. The rest is provided internally."""
   __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
-    ##self.__dict__.update(kwd) #Using __slots__ means there is no __dict__
+    ##self.__dict__.update(kwargs) #Using __slots__ means there is no __dict__
+    #Validate kwargs
     #Load the attributes specified
     for k,v in kwargs.items():
+      #If field is a locator, get the Path it returns
+      if k in getattr(self,'_locators',[]):
+        v=v.path(self)
       setattr(self,k,v)
     #Check for required attributes that are missing
     if hasattr(self,'_required_attrs'):
@@ -43,6 +58,19 @@ class Request(object):
       assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
     #Add to dictionary of requests
     all_requests[self.name]=self
+  def validate(self,**kwargs):
+    if hasattr(self,'_props_schema'):
+      schema={'type':'object',
+              'properties':self._props_schema,
+              'required':getattr(self,'_required_attrs',[]),
+              'additionalProperties':False}
+      validator=jsonschema.Draft3Validator(schema)
+      errlist=["  - "+s for s in validator.iter_errors(kwargs)]
+      if len(errlist)>0:
+        #Found errors: raise exception listing them all
+        errstr="Errors found in %s:\n"%self.__class__.__name__
+        errstr+='\n'.join(errlist)
+        raise Exception(errstr)
   def run(self):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'run' method."%str(type(self)))

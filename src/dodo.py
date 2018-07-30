@@ -12,7 +12,7 @@ import requestfile
 controlfile = FS.datafolder / 'control.yaml'
 
 #Initialize a RequestFileRequest
-req=requestfile.RequestFileRequest(name='from_doit',requestfile=controlfile.fullpath)
+req=requestfile.RequestFileRequest(requestfile=controlfile.fullpath)
 
 def task_all():
   return req.all_tasks()

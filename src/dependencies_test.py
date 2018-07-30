@@ -9,6 +9,7 @@ import sys
 import pathlib #standard library in python 3 but not in python 2
 from ruamel.yaml import YAML
 import jinja2
+import jsonschema
 import numpy
 import scipy
 import matplotlib.pyplot as plt

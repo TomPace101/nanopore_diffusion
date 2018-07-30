@@ -354,7 +354,23 @@ Locators aren't paths.
 They can _return_ paths.
 This means their parent request needs to know all of its locators,
 ask them to provide their paths, and use that result anytime the path is needed.
+This is done during the request's init, as attributes are set from the kwargs.
 
+Validation
+Each class provides the jsonschema for its properties.
+The catch is that because we're loading classes from yaml,
+type checking has to include more than just the primitive data types:
+https://python-jsonschema.readthedocs.io/en/latest/validate/#validating-types
+And we can't allow a circular module dependency.
+Probably, we just to check two types (for now):
+locators, and requests.
+Set up the custom validator class in the request module.
+
+Definition requests
+Define data for direct use in the request.
+For example, species data, reaction data, time steps, stopping criteria, etc.
+These requests don't provide tasks, and don't really even need to run.
+But they do need validation.
 
 Unresolved issues/questions:
 - How do Locators work? Their parent request needs to know about them, and get Paths out of them.

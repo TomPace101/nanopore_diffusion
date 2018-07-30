@@ -53,7 +53,8 @@ class RequestFileRequest(request.Request):
   
     - _children: A list storing all child requests"""
   __slots__=('requestfile','_children')
-  _required_attrs=['name','requestfile']
+  _props_schema={'requestfile':{'type':'string'}}
+  _required_attrs=['requestfile']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
@@ -83,7 +84,8 @@ class RequestFileListRequest(request.Request):
     - _children: A list storing all child requests
     """
   __slots__=('requestfiles','_children')
-  _required_attrs=['name','requestfiles']
+  _props_schema={'requestfiles':{'type':'array','items':{'type':'string'}}}
+  _required_attrs=['requestfiles']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
