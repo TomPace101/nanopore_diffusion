@@ -53,7 +53,6 @@ class Request(object):
     - _more_inputfiles: list of additional input file paths not contained in other attributes
     - _outputfile_attrs: list of attributes containing output file paths
     - _more_outputfiles: list of additional output file paths not contained in other attributes
-    - _folders: dictionary {attribute name: folder path} used to find the folders for prepending to file names specified in other attributes
     - _required_attrs: list of attribute names that must be defined when the object is first loaded
     - _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
     - _child_attrs: list of attributes that contain other Requests
@@ -80,10 +79,9 @@ class Request(object):
     if hasattr(self,'_props_schema'):
       self.validate(**kwargs)
     #Load the attributes specified
-    possible_locators=getattr(self,'_inputfile_attrs',[])+getattr(self,'_outputfile_attrs',[])
     for k,v in kwargs.items():
       #If field is a locator, get the Path it returns
-      if k in possible_locators and hasattr(v,'path'):
+      if hasattr(v,'path'):
         v=v.path(self)
       setattr(self,k,v)
     #Check for required attributes that are missing
