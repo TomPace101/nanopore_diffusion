@@ -17,9 +17,6 @@ import request
 #Complete list of all modules defining classes we want to load from yaml
 yaml_module_list=['locators','request']
 
-#Dictionary of name to class mappings
-all_classes={}
-
 def _direct_register_classes(class_list):
   """Register the classes that might be loaded from a yaml file, from a list of classes
   
@@ -28,7 +25,7 @@ def _direct_register_classes(class_list):
     - class_list = sequence of classes, as classes"""
   for yclass in class_list:
     yaml.register_class(yclass)
-    all_classes[yclass.__name__]=yclass
+    # all_classes[yclass.__name__]=yclass
 
 def register_classes(module_list):
   """Register the classes that might be loaded from a yaml file, from a list of module names
@@ -54,7 +51,7 @@ class RequestFileRequest(request.Request):
   
   User-Provided Attributes:
   
-    - requestfile: File Locator to the file containing the requests
+    - requestfile: path to the file containing the requests, as instance of filepath.Path or Locator
     
   Calculated Attributes:
   
@@ -79,12 +76,7 @@ class RequestFileRequest(request.Request):
       dat=fp.read()
     #Load all objects from yaml
     allobj=yaml.load_all(dat)
-    #Process each item
-    self._children=[]
-    for obj in allobj:
-      if 'request_type' in obj.keys():
-        ch=all_classes[obj['request_type']](**obj)
-        self._children.append(ch)
+    self._children=[ch for ch in allobj]
   def run(self):
     "Run all the requests listed in the file"
     for req in self.all_children():
@@ -95,7 +87,7 @@ class RequestFileListRequest(request.Request):
   
   User-Provided Attributes:
   
-    - requestfiles: sequence of paths to the request files
+    - requestfiles: sequence of paths to the request files, each an instance of filepath.Path or Locator
   
   Calculated Attributes:
   

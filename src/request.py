@@ -42,8 +42,6 @@ class Request(object):
         Some subclasses may require this to be defined, others may not.
         If defined, the request will be added to an ordered dictionary of requests by name: {request.name: request, ...}
     
-    - request_type: a string identifying the type of request. This should match the name of the desired subclass of Request.
-  
   Frequently, derived classes will add slots or class attributes for some of the following attributes, which this class supports:
 
     - _self_task: boolean, True if request itself defines a task, False if only tasks come from children. If False, children may still define tasks. Defaults to False if not defined.
@@ -58,8 +56,15 @@ class Request(object):
     - _child_attrs: list of attributes that contain other Requests
     - _child_seq_attrs: list of attributes that contain sequences of other Requests
     - _props_schema: jsonschema used to validate request configuration, as a dictionary
-        The schema is for the 'properties' element only. The rest is provided internally."""
-  __slots__=('name','request_type') #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+        The schema is for the 'properties' element only. The rest is provided internally.
+
+  Subclasses which return their own doit tasks MUST do the following:
+  
+    - set _self_task to True
+    - include 'name' in _required_attrs
+    - define _config_attrs
+    - provide all their input and output files, which may comem from locators"""
+  __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
     ##self.__dict__.update(kwargs) #Using __slots__ means there is no __dict__
     #Validate kwargs
@@ -89,6 +94,9 @@ class Request(object):
         errstr="Errors found in %s:\n"%self.__class__.__name__
         errstr+='\n'.join(errlist)
         raise Exception(errstr)
+  def __setstate__(self,state):
+    """Used for unpickling, and loading from yaml"""
+    self.__init__(**state)
   def run(self):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'run' method."%str(type(self)))
@@ -104,13 +112,16 @@ class Request(object):
 
     Returns the dictionary."""
     d={}
-    for attr in self._all_slots:
+    for attr in self._all_slots():
       itm=getattr(self,attr,None)
       if hasattr(itm,'to_dict') and callable(itm.to_dict):
         d[attr]=itm.to_dict()
       else:
         d[attr]=itm
     return d
+  def __getstate__(self):
+    """Used for pickling, and possibly for converting to yaml"""
+    return self.to_dict()
   def all_children(self):
     """Generator yielding all the children of this Request
     
@@ -165,14 +176,11 @@ class Request(object):
     No task is returned if the taskname is None.
     
     To get requests from this task and its children, see yield_tasks."""
-    if self.taskname is None:
-      return None
-    else:
-      return {'name': self.name,
-       'file_dep': self.inputfiles,
-       'uptodate': [config_changed(self.config)],
-       'targets': self.outputfiles,
-       'actions': [(self.run,)]}
+    return {'name': self.name,
+     'file_dep': self.inputfiles,
+     'uptodate': [config_changed(self.config)],
+     'targets': self.outputfiles,
+     'actions': [(self.run,)]}
   def all_tasks(self):
     """Generator yielding task definitions from this Request and all child Requests"""
     if getattr(self,'_self_task',False):
@@ -184,6 +192,9 @@ class Request(object):
 class DummyRequest(Request):
   """A type of request used only for debugging purposes"""
   __slots__=('test')
+  _self_task=True
+  _config_attrs=['test']
+  _required_attrs=['name','test']
   _props_schema={
     'test':
       {'anyOf': [
@@ -192,8 +203,6 @@ class DummyRequest(Request):
         ]
       }
     }
-  _required_attrs=['test']
-  _self_task=False #This request generates doit tasks from its children, not itself
   def run(self):
     print(self.test)
 

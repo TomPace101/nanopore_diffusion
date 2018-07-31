@@ -1,4 +1,5 @@
 %YAML 1.2
 ---
-request_type: DummyRequest
+!DummyRequest
+name: dummy_test
 test: abcd1234
