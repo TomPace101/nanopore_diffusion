@@ -72,6 +72,11 @@ class Request(object):
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
   __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
+    #Process locators
+    for k,v in kwargs.items():
+      #If field is a locator, get the Path it returns
+      if hasattr(v,'path'):
+        kwargs[k]=v.path(self)
     #Load validation schema if not already loaded
     if not hasattr(self.__class__,'_props_schema') and hasattr(self.__class__,'_props_schema_yaml'):
       self.__class__._props_schema=yaml.load(self.__class__._props_schema_yaml)
@@ -80,9 +85,6 @@ class Request(object):
       self.validate(**kwargs)
     #Load the attributes specified
     for k,v in kwargs.items():
-      #If field is a locator, get the Path it returns
-      if hasattr(v,'path'):
-        v=v.path(self)
       setattr(self,k,v)
     #Check for required attributes that are missing
     if hasattr(self,'_required_attrs'):
@@ -91,6 +93,7 @@ class Request(object):
     #If named, add to dictionary of named requests
     if hasattr(self,'name'):
       all_requests[self.name]=self
+  @classmethod
   def validate(self,**kwargs):
     if hasattr(self,'_props_schema'):
       schema={'type':'object',

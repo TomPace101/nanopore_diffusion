@@ -1,6 +1,7 @@
 """Define the expected folder structure"""
 
 #Standard library
+import copy
 import os
 import os.path as osp
 import sys
@@ -33,3 +34,22 @@ if 'DATALOC' in os.environ.keys():
   datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
 else:
   datafolder=srcfolder.parent / 'data'
+
+#Default folder structure
+default_folder_structure={
+  'CustomizationFile':['customizations'],
+  'RequestFile':['requests'],
+  'MeshGeomdefFile':['mesh','geomdef'],
+  'MeshTemplateFile':['mesh','templates'],
+  'MeshGeoFile':[0,'mesh',1],
+  'MeshMshFile':[0,'mesh',1],
+  'MeshXmlFile':[0,'mesh',1],
+  'MeshHdf5File':[0,'mesh',1],
+  'MeshGmshOutFile':[0,'mesh',1],
+  'MeshMetadataFile':[0,'mesh',1],
+  'SolutionFile':[0,1],
+  'PostprocFile':[0,1]
+}
+
+#run-time alterable folder structure
+folder_structure=copy.deepcopy(default_folder_structure)
