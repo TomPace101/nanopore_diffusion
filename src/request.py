@@ -8,6 +8,8 @@ import json
 
 #Site packages
 import jsonschema
+from ruamel.yaml import YAML
+yaml=YAML(typ="safe", pure=True)
 try:
   from doit.tools import config_changed
 except ImportError:
@@ -16,12 +18,14 @@ except ImportError:
     return arg
 
 #Local
+import filepath
 import locators
 
 #Incomplete ValidatorClass now, until Request is defined
 ValidatorClass = jsonschema.Draft4Validator
 #jsonschema 2.6
-extra_types_dict={'locator':locators.LocatorBase}
+# extra_types_dict={'locator':locators.LocatorBase}
+extra_types_dict={'path':filepath.Path}
 
 #Dictionary of all loaded requests
 all_requests=odict()
@@ -45,7 +49,6 @@ class Request(object):
   Frequently, derived classes will add slots or class attributes for some of the following attributes, which this class supports:
 
     - _self_task: boolean, True if request itself defines a task, False if only tasks come from children. If False, children may still define tasks. Defaults to False if not defined.
-    - _locators: list of attributes containing file locators
     - _inputfile_attrs: list of attributes containing input file paths
     - _more_inputfiles: list of additional input file paths not contained in other attributes
     - _outputfile_attrs: list of attributes containing output file paths
@@ -57,21 +60,30 @@ class Request(object):
     - _child_seq_attrs: list of attributes that contain sequences of other Requests
     - _props_schema: jsonschema used to validate request configuration, as a dictionary
         The schema is for the 'properties' element only. The rest is provided internally.
+    - _props_schema_yaml: yaml string to be used to automatically generate _props_schema for the class
 
   Subclasses which return their own doit tasks MUST do the following:
   
     - set _self_task to True
     - include 'name' in _required_attrs
     - define _config_attrs
-    - provide all their input and output files, which may comem from locators"""
+    - have a `run` method which does NOT return anything
+    - provide all their input and output files, which may come from locators
+        - input files are specified by _inputfiles_attrs and _more_inputfiles
+        - output files are specified by _outputfiles_attrs and _more_outputfiles"""
   __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
-    ##self.__dict__.update(kwargs) #Using __slots__ means there is no __dict__
+    #Load validation schema if not already loaded
+    if not hasattr(self.__class__,'_props_schema') and hasattr(self.__class__,'_props_schema_yaml'):
+      self.__class__._props_schema=yaml.load(self.__class__._props_schema_yaml)
     #Validate kwargs
+    if hasattr(self,'_props_schema'):
+      self.validate(**kwargs)
     #Load the attributes specified
+    possible_locators=getattr(self,'_inputfile_attrs',[])+getattr(self,'_outputfile_attrs',[])
     for k,v in kwargs.items():
       #If field is a locator, get the Path it returns
-      if k in getattr(self,'_locators',[]) and hasattr(v,'path'):
+      if k in possible_locators and hasattr(v,'path'):
         v=v.path(self)
       setattr(self,k,v)
     #Check for required attributes that are missing
@@ -88,9 +100,10 @@ class Request(object):
               'required':getattr(self,'_required_attrs',[]),
               'additionalProperties':False}
       validator=ValidatorClass(schema,types=extra_types_dict)
-      errlist=["  - "+s for s in validator.iter_errors(kwargs)]
+      errlist=["  - "+str(s) for s in validator.iter_errors(kwargs)]
       if len(errlist)>0:
         #Found errors: raise exception listing them all
+        errlist.sort()
         errstr="Errors found in %s:\n"%self.__class__.__name__
         errstr+='\n'.join(errlist)
         raise Exception(errstr)
@@ -189,20 +202,80 @@ class Request(object):
       for td in req.all_tasks():
         yield td
 
+_DummyRequest_props_schema_yaml="""#DummyRequest
+name:
+  {type: string}
+test:
+  anyOf:
+    - {type: string}
+    - {type: number}"""
+
 class DummyRequest(Request):
-  """A type of request used only for debugging purposes"""
+  """A type of request used only for debugging and demonstration purposes
+  
+  User-defined attributes:
+  
+    - test: test data, which is printed when the request is run
+  
+  Here are some illustrations of basic request operations.
+  
+  >>> dr=DummyRequest(name='example',test='this_is_the_data')
+  >>> dr.run()
+  this_is_the_data
+  >>> keylist=list(dr.task_definition.keys())
+  >>> keylist.sort()
+  >>> vlist=[dr.task_definition[k] for k in keylist]
+  >>> list(zip(keylist,vlist)) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+  [('actions', [(<bound method DummyRequest.run of <request.DummyRequest object at 0x...>>,)]),
+   ('file_dep', []),
+   ('name', 'example'),
+   ('targets', []),
+   ('uptodate', [<doit.tools.config_changed object at 0x...>])]
+  >>> invalid=DummyRequest(not_allowed=True)
+  Traceback (most recent call last):
+    ...
+  Exception: Errors found in DummyRequest:
+    - 'name' is a required property
+  <BLANKLINE>
+  Failed validating 'required' in schema:
+      {'additionalProperties': False,
+       'properties': {'name': {'type': 'string'},
+                      'test': {'anyOf': [{'type': 'string'},
+                                         {'type': 'number'}]}},
+       'required': ['name', 'test'],
+       'type': 'object'}
+  <BLANKLINE>
+  On instance:
+      {'not_allowed': True}
+    - 'test' is a required property
+  <BLANKLINE>
+  Failed validating 'required' in schema:
+      {'additionalProperties': False,
+       'properties': {'name': {'type': 'string'},
+                      'test': {'anyOf': [{'type': 'string'},
+                                         {'type': 'number'}]}},
+       'required': ['name', 'test'],
+       'type': 'object'}
+  <BLANKLINE>
+  On instance:
+      {'not_allowed': True}
+    - Additional properties are not allowed ('not_allowed' was unexpected)
+  <BLANKLINE>
+  Failed validating 'additionalProperties' in schema:
+      {'additionalProperties': False,
+       'properties': {'name': {'type': 'string'},
+                      'test': {'anyOf': [{'type': 'string'},
+                                         {'type': 'number'}]}},
+       'required': ['name', 'test'],
+       'type': 'object'}
+  <BLANKLINE>
+  On instance:
+      {'not_allowed': True}"""
   __slots__=('test')
   _self_task=True
   _config_attrs=['test']
   _required_attrs=['name','test']
-  _props_schema={
-    'test':
-      {'anyOf': [
-        {'type':'string'},
-        {'type':'number'}
-        ]
-      }
-    }
+  _props_schema_yaml=_DummyRequest_props_schema_yaml
   def run(self):
     print(self.test)
 
@@ -216,5 +289,8 @@ class DummyRequest(Request):
 #For jsonschema 2.6
 extra_types_dict['request']=(Request,)
 
-
 yaml_classes=[DummyRequest]
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

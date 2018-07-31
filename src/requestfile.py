@@ -46,6 +46,13 @@ def register_classes(module_list):
     class_list=getattr(loaded_module,'yaml_classes',[])
     _direct_register_classes(class_list)
 
+_RequestFileRequest_props_schema_yaml="""#RequestFileRequest
+name: {type: string}
+requestfile:
+  anyOf:
+    - {type: string}
+    - {type: path}"""
+
 class RequestFileRequest(request.Request):
   """Request to run all the requests in a given file
   
@@ -57,16 +64,10 @@ class RequestFileRequest(request.Request):
   
     - _children: A list storing all child requests"""
   __slots__=('requestfile','_children')
-  _props_schema={
-    'requestfile':
-      {'anyOf': [
-        {'type':'string'},
-        {'type':'locator'}
-        ]
-      }
-    }
+  _props_schema_yaml=_RequestFileRequest_props_schema_yaml
   _required_attrs=['requestfile']
   _child_seq_attrs=['_children']
+  _inputfile_attrs=['requestfile']
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -82,6 +83,15 @@ class RequestFileRequest(request.Request):
     for req in self.all_children():
       req.run()
 
+_RequestFileListRequest_props_schema_yaml="""#RequestFileListRequest
+name: {type: string}
+requestfiles:
+  type: array
+  items:
+    anyOf:
+      - {type: string}
+      - {type: path}"""
+
 class RequestFileListRequest(request.Request):
   """Request to run all of the requests in a given list of files
   
@@ -94,18 +104,7 @@ class RequestFileListRequest(request.Request):
     - _children: A list storing all child requests
     """
   __slots__=('requestfiles','_children')
-  _props_schema={
-    'requestfiles':
-      {
-        'type':'array',
-        'items':
-          {'anyOf':[
-            {'type':'string'},
-            {'type':'locator'}
-            ]
-          }
-      }
-    }
+  _props_schema_yaml=_RequestFileListRequest_props_schema_yaml
   _required_attrs=['requestfiles']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
