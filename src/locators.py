@@ -23,7 +23,7 @@ class DataFile(object):
 
 def locator_factory(ltype):
   class lclass(DataFile):
-    """Generic locator class, to be created from the factory function"""
+    """File location as specified by the name of its parent request and the current folder structure settings"""
     def __init__(self,*args,**kwargs):
       self.subpath=filepath(*args,**kwargs)
     def path(self,req):
@@ -46,5 +46,23 @@ for ltype in FS.folder_structure.keys():
   globals()[ltype]=lclass
   fs_locators.append(lclass)
 
-yaml_classes=[DataFile]+fs_locators
+class UpdateFolderStructure(object):
+  """Apply changes to the folder structure used to locate files
+  
+  The arguments to the class constructor are used to update the folder structure dictionary.
+  This is a dictionary with keys matching the names of locator classes,
+  and values specifying how to construct the expected file locations.
+  
+  For each key, provide a sequence of path components.
+  folderstructure.datafolder is always prepended to the path.
+  Each element of the sequence adds a subdirectory.
+  Strings are added directly as subdirectories.
+  Integers add subdirectories based on the request name.
+  The request name is split by any dots,
+  and the integers represent items in that sequence.
+  Integers beyond the last sequence entry are simply ignored."""
+  def __init__(self,**kwargs):
+    FS.folder_structure.update(kwargs)
+
+yaml_classes=[DataFile,UpdateFolderStructure]+fs_locators
 
