@@ -1,4 +1,6 @@
-"""Define the expected folder structure"""
+"""Define the expected folder structure
+
+This module defines a dictionary ``folder_structure`` used by some classes in the ``locators`` module to determine file locations."""
 
 #Standard library
 import copy
@@ -6,24 +8,23 @@ import os
 import os.path as osp
 import sys
 
-#Locate source folder
-if 'SRCLOC' in os.environ.keys():
-  srcfolder=osp.normpath(osp.abspath(os.environ['SRCLOC']))
-else:
-  srcfolder=osp.abspath(osp.split(__file__)[0])
-
-#Add the source folder to the python path if not already present,
-#to allow importing modules
-#add python code folder(s) to path
-if not srcfolder in sys.path:
-  sys.path.append(srcfolder)
+# #Locate source folder
+# if 'SRCLOC' in os.environ.keys():
+#   srcfolder=osp.normpath(osp.abspath(os.environ['SRCLOC']))
+# else:
+#   srcfolder=osp.abspath(osp.split(__file__)[0])
+# 
+# #Add the source folder to the python path if not already present,
+# #to allow importing modules
+# #add python code folder(s) to path
+# if not srcfolder in sys.path:
+#   sys.path.append(srcfolder)
 
 from filepath import Path
 
-#Use filepath.Path now
-srcfolder=Path(srcfolder,isFile=False)
-
-#TODO: support an additional environment variable, indicated other locations that may contain source code files.
+# #Use filepath.Path now
+# srcfolder=Path(srcfolder,isFile=False)
+srcfolder=Path(__file__).parent
 
 # simulator_modules_folder=srcfolder / 'simulators'
 # if not simulator_modules_folder in sys.path:
@@ -31,7 +32,8 @@ srcfolder=Path(srcfolder,isFile=False)
 
 #Locate data folder
 if 'DATALOC' in os.environ.keys():
-  datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
+  # datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
+  datafolder=Path(os.environ['DATALOC']).expanduser().reslolve()
 else:
   datafolder=srcfolder.parent / 'data'
 

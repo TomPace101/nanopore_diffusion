@@ -1,5 +1,21 @@
 
-_TODO_ another environment variable in folderstructure (see TODO item there)
+_TODO_ package
+name: requesthandler
+and put folderstructure into locators while you're at it.
+
+_TODO_ is there a way for modules to register their own classes with requestfile,
+rather than having requestfile list the modules it needs to import.
+Yes. remove the module list and the current register_classes,
+then rename _direct_register_classes to register_classes.
+Other modules then import requestfile and call register_classes with their class list.
+This reverses the dependency graph.
+Instead of requestfile depending on all the others,
+they all just depend on requestfile.
+
+
+_TODO_ another environment variable in folderstructure
+Provide other locations that may contain source code files.
+Or, is the way to handle this with code file locators?
 
 _TODO_ refactor this TODO list!
 
@@ -1104,6 +1120,7 @@ Individual items to add:
 - Customization: my own request type, in my own module, in my own source folder
 - The abstract Request class (at the developer level), if it's never made concrete.
 - The difference between User-Defined attributes and Calculated attributes
+- How to define a folder structure
 
 We need to reconsider this whole approach to the document.
 The various goals are:

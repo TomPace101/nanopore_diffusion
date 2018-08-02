@@ -10,7 +10,6 @@ from ruamel.yaml import YAML
 yaml=YAML(typ="safe", pure=True)
 
 #Local
-import folderstructure as FS
 import filepath
 import request
 

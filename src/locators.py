@@ -1,4 +1,6 @@
 """Define data locators"""
+##TODO: explain how locators work with FS.folderstructure
+##TODO: a way to redefine FS.datafolder from a yaml file
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

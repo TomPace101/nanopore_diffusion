@@ -19,12 +19,10 @@ except ImportError:
 
 #Local
 import filepath
-import locators
 
-#Incomplete ValidatorClass now, until Request is defined
+#Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
 #jsonschema 2.6
-# extra_types_dict={'locator':locators.LocatorBase}
 extra_types_dict={'path':filepath.Path}
 
 #Dictionary of all loaded requests
@@ -284,7 +282,7 @@ class DummyRequest(Request):
 # #For jsonschema version 3
 # type_checker = ValidatorClass.TYPE_CHECKER
 # #type_checker.redefine(#type name as string, #checking function as callable)
-# type_checker=type_checker.redefine("locator",lambda chkr,inst: isinstance(inst,locators.LocatorBase))
+# type_checker=type_checker.redefine("path",lambda chkr,inst: isinstance(inst,filepath.Path))
 # type_checker=type_checker.redefine("request",lambda chkr,inst: isinstance(inst,Request))
 # ValidatorClass = jsonschema.extend(jsonschema.Draft3Validator, type_checker=type_checker)
 #For jsonschema 2.6
