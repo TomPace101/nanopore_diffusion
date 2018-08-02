@@ -85,16 +85,30 @@ class LPBSimulator(simulator_general.GenericSimulator):
 #Lookup of electric potential simulators by name
 potentialsimulatorclasses={'linear_pb':LPBSimulator}
 
+class Species(common.ParameterSet):
+  """Information for a single chemical species.
+  
+  User-Provided attributes:
+  
+    - symbol: chemical symbol, as string
+    - z: ionic charge, as number
+    - D: diffusion constant, as number"""
+  __slots__=('symbol','z','D')
+  _required_attrs=__slots__
+
 class SUConditions(simulator_general.GenericConditions):
   """Condition defnitions for use with SUSimulator
 
-  Attributes:
+  User-Provided Attributes:
 
     - dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
     - D_bulk = bulk diffusion constant
-    - q = electric charge of ion
+    - species = sequence of dictionaries, each defining a Species object
     - beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
     - potential = dictionary defining simulator_run.ModelParameters for electric potential
+  
+  Calculated Attributes:
+  
     - trans_dirichlet = Dirichlet boundary conditions after Slotboom transformation
 
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
@@ -126,7 +140,6 @@ class SUSimulator(simulator_general.GenericSimulator):
   Additional attributes not inherited from GenericSimulator:
 
     - conditions = instance of SUConditions
-    - beta_q = product of beta and q (for convenience)
     - V = FEniCS FunctionSpace on the mesh
     - V_vec = FEniCS VectorFunctionSpace on the mesh
     - bcs = FEniCS BCParameters
@@ -149,7 +162,6 @@ class SUSimulator(simulator_general.GenericSimulator):
 
     #Get conditions
     self.conditions=SUConditions(**modelparams.conditions)
-    self.beta_q = self.conditions.beta * self.conditions.q
 
     #Function space for scalars and vectors
     self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
