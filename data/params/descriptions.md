@@ -37,6 +37,12 @@ Data file used for testing purposes while developing code.
 Intended to be loaded only from the appropriate Jupyter notebooks,
 not from `solver_run.py` or similar scripts.
 
+# second-whole
+
+Human-readable hash of `Multi-species Smoluchowski simulation with reactive sphere in the pore`.
+
+This is the analysis Pete has asked Shashank and Hadi to work on.
+
 # shashank
 
 Example input files given to Shashank.
