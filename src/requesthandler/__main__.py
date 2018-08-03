@@ -9,8 +9,8 @@ import sys
 #Site packages
 
 #Local
-import filepath
-import requestfile
+from . import filepath
+from . import requestfile
 
 #Handle command-line execution
 if __name__ == '__main__':

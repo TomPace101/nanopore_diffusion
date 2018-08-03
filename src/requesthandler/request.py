@@ -18,7 +18,7 @@ except ImportError:
     return arg
 
 #Local
-import filepath
+from . import filepath
 
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator

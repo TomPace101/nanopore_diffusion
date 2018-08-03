@@ -10,8 +10,8 @@ from ruamel.yaml import YAML
 yaml=YAML(typ="safe", pure=True)
 
 #Local
-import filepath
-import request
+from . import filepath
+from . import request
 
 #Complete list of all modules defining classes we want to load from yaml
 yaml_module_list=['locators','request']

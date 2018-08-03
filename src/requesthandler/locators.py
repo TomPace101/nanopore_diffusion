@@ -1,15 +1,40 @@
 """Define data locators"""
-##TODO: explain how locators work with FS.folderstructure
-##TODO: a way to redefine FS.datafolder from a yaml file
+##TODO: explain how locators work with folderstructure
+##TODO: a way to redefine datafolder from a yaml file
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+import os
 
 #Site packages
 
-#Local
-import filepath
-import folderstructure as FS
+#This package
+from . import filepath
+
+
+#Locate data folder
+if 'DATALOC' in os.environ.keys():
+  # datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
+  datafolder=Path(os.environ['DATALOC']).expanduser().reslolve()
+else:
+  srcfolder=Path(__file__).parent.parent
+  datafolder=srcfolder.parent / 'data'
+
+#Default folder structure
+folder_structure={
+  'CustomizationFile':['customizations'],
+  'RequestFile':['requests'],
+  'MeshGeomdefFile':['mesh','geomdef'],
+  'MeshTemplateFile':['mesh','templates'],
+  'MeshGeoFile':[0,'mesh',1],
+  'MeshMshFile':[0,'mesh',1],
+  'MeshXmlFile':[0,'mesh',1],
+  'MeshHdf5File':[0,'mesh',1],
+  'MeshGmshOutFile':[0,'mesh',1],
+  'MeshMetadataFile':[0,'mesh',1],
+  'SolutionFile':[0,1],
+  'PostprocFile':[0,1]
+}
 
 class DataFile(object):
   """File location relative to ``datafolder``
@@ -17,7 +42,7 @@ class DataFile(object):
   The location of ``datafolder`` is specified by the environment variable ``DATALOC``.
   If this environment variable does not exist, a default value is provided.
   See ``folderstructure.py``."""
-  parentpath=FS.datafolder
+  parentpath=datafolder
   def __init__(self,*args,**kwargs):
     self.subpath=filepath.Path(*args,**kwargs)
   def path(self,req):
@@ -30,7 +55,7 @@ def locator_factory(ltype):
       self.subpath=filepath(*args,**kwargs)
     def path(self,req):
       namelist=req.name.split('.')
-      specifier=FS.folder_structure[ltype]
+      specifier=folder_structure[ltype]
       out=self.parentpath
       for itm in specifier:
         if type(itm) is int:
@@ -43,7 +68,7 @@ def locator_factory(ltype):
   return lclass
 
 fs_locators=[]
-for ltype in FS.folder_structure.keys():
+for ltype in folder_structure.keys():
   lclass=locator_factory(ltype)
   globals()[ltype]=lclass
   fs_locators.append(lclass)
@@ -64,7 +89,7 @@ class UpdateFolderStructure(object):
   and the integers represent items in that sequence.
   Integers beyond the last sequence entry are simply ignored."""
   def __init__(self,**kwargs):
-    FS.folder_structure.update(kwargs)
+    folder_structure.update(kwargs)
 
 yaml_classes=[DataFile,UpdateFolderStructure]+fs_locators
 
