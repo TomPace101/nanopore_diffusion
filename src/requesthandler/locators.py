@@ -93,6 +93,8 @@ class UpdateFolderStructure(object):
   Integers beyond the last sequence entry are simply ignored."""
   def __init__(self,**kwargs):
     folder_structure.update(kwargs)
+    ##TODO: what if a new filetype was just define? We need to create a locator for it.
+    ##And then that locator class needs to be registered for yaml loading too
 
 #Register for loading from yaml
 requestfile.register_classes([DataFile,UpdateFolderStructure]+fs_locators)

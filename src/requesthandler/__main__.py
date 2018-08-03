@@ -14,6 +14,8 @@ from . import locators
 from . import requestfile
 from . import customization
 from . import debug
+#TODO: we have to include all modules that define classes loadable from yaml here.
+##Is there any other way?
 
 #Handle command-line execution
 if __name__ == '__main__':

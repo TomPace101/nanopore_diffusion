@@ -2,6 +2,18 @@
 _TODO_ doctests
 how do you run doctests on a package?
 
+_TODO_ locators.UpdateFolderStructure
+see TODO item in the code.
+Currently, it doesn't handle new file types properly.
+
+_TODO_ request modules should define folder structure for their filetypes
+The initial folder structure should be empty.
+Watch out, though, for circular dependency: locators depends on requestfile,
+so requestfile can't define the location of requestfiles!
+
+_TODO_ use the doit api instead of having a dodo file.
+http://pydoit.org/cmd_run.html#using-the-api
+
 _TODO_ refactor this TODO list!
 
 _TODO_ clean up data
