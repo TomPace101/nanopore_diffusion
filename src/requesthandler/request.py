@@ -51,7 +51,7 @@ class Request(object):
     - _more_inputfiles: list of additional input file paths not contained in other attributes
     - _outputfile_attrs: list of attributes containing output file paths
     - _more_outputfiles: list of additional output file paths not contained in other attributes
-    - _required_attrs: list of attribute names that must be defined when the object is first loaded
+    - _required_attrs: list of attribute names that must be defined for the request to be valid
     - _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
     - _child_attrs: list of attributes that contain other Requests
     - _child_seq_attrs: list of attributes that contain sequences of other Requests
@@ -84,10 +84,6 @@ class Request(object):
     #Load the attributes specified
     for k,v in kwargs.items():
       setattr(self,k,v)
-    #Check for required attributes that are missing
-    if hasattr(self,'_required_attrs'):
-      missing = [a for a in self._required_attrs if not hasattr(self,a)]
-      assert len(missing)==0, "%s missing required attributes: %s"%(type(self),missing)
     #If named, add to dictionary of named requests
     if hasattr(self,'name'):
       all_requests[self.name]=self
