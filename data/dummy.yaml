@@ -3,3 +3,7 @@
 !DummyRequest
 name: dummy_test
 test: abcd1234
+---
+!DummyRequest
+name: dummy_locator_test
+test: !DataFile dummy.yaml

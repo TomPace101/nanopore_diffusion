@@ -10,7 +10,10 @@ import sys
 
 #Local
 from . import filepath
+from . import locators
 from . import requestfile
+from . import customization
+from . import debug
 
 #Handle command-line execution
 if __name__ == '__main__':
@@ -26,10 +29,9 @@ if __name__ == '__main__':
   nonexist=[rf for rf in file_list if not rf.exists()]
   assert len(nonexist)==0, "Could not find specified request file(s) %s"%str([rf.fullpath for rf in nonexist])
 
-  #Add the requested modules to the list
+  #Load the requested modules
   if cmdline.modules is not None:
-    yaml_module_list=list(cmdline.modules)
-    requestfile.register_classes(yaml_module_list)
+    customization.load_modules(cmdline.modules)
 
   #Initialize a RequestFileListRequest and run it
   req=requestfile.RequestFileListRequest(requestfiles=file_list)

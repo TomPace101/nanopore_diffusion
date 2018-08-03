@@ -2,8 +2,6 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
-import importlib
-import sys
 
 #Site packages
 from ruamel.yaml import YAML
@@ -13,10 +11,7 @@ yaml=YAML(typ="safe", pure=True)
 from . import filepath
 from . import request
 
-#Complete list of all modules defining classes we want to load from yaml
-yaml_module_list=['locators','request']
-
-def _direct_register_classes(class_list):
+def register_classes(class_list):
   """Register the classes that might be loaded from a yaml file, from a list of classes
   
   Arguments:
@@ -24,26 +19,6 @@ def _direct_register_classes(class_list):
     - class_list = sequence of classes, as classes"""
   for yclass in class_list:
     yaml.register_class(yclass)
-    # all_classes[yclass.__name__]=yclass
-
-def register_classes(module_list):
-  """Register the classes that might be loaded from a yaml file, from a list of module names
-  
-  Arguments:
-  
-    - module_list = list of module names, as strings
-  
-  Each module MUST define the variable ``yaml_classes``,
-  as a sequence of classes that can be loaded from yaml file
-  
-  No return value."""
-  for modname in yaml_module_list:
-    if modname in sys.modules.keys():
-      loaded_module=sys.modules[modname]
-    else:
-      loaded_module=importlib.import_module(modname)
-    class_list=getattr(loaded_module,'yaml_classes',[])
-    _direct_register_classes(class_list)
 
 _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
 name: {type: string}
@@ -72,7 +47,8 @@ class RequestFileRequest(request.Request):
     #Initialization from base class
     super(RequestFileRequest, self).__init__(**kwargs)
     #Read the file
-    with open(self.requestfile.fullpath,'r') as fp:
+    rfpath = self.requestfile.fullpath if hasattr(self.requestfile,'fullpath') else self.requestfile
+    with open(rfpath,'r') as fp:
       dat=fp.read()
     #Load all objects from yaml
     allobj=yaml.load_all(dat)
@@ -117,6 +93,5 @@ class RequestFileListRequest(request.Request):
     for ch in self.all_children():
       ch.run()
 
-register_classes(yaml_module_list)
-yaml_classes=[RequestFileRequest, RequestFileListRequest]
-_direct_register_classes(yaml_classes)
+#Register for loading from yaml
+register_classes([RequestFileRequest, RequestFileListRequest])

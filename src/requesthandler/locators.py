@@ -10,14 +10,14 @@ import os
 
 #This package
 from . import filepath
-
+from . import requestfile
 
 #Locate data folder
 if 'DATALOC' in os.environ.keys():
   # datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
-  datafolder=Path(os.environ['DATALOC']).expanduser().reslolve()
+  datafolder=filepath.Path(os.environ['DATALOC']).expanduser().reslolve()
 else:
-  srcfolder=Path(__file__).parent.parent
+  srcfolder=filepath.Path(__file__).parent.parent
   datafolder=srcfolder.parent / 'data'
 
 #Default folder structure
@@ -47,6 +47,9 @@ class DataFile(object):
     self.subpath=filepath.Path(*args,**kwargs)
   def path(self,req):
     return self.parentpath / self.subpath
+  @classmethod
+  def from_yaml(cls, constructor, node):
+    return cls(node.value)
 
 def locator_factory(ltype):
   class lclass(DataFile):
@@ -91,5 +94,5 @@ class UpdateFolderStructure(object):
   def __init__(self,**kwargs):
     folder_structure.update(kwargs)
 
-yaml_classes=[DataFile,UpdateFolderStructure]+fs_locators
-
+#Register for loading from yaml
+requestfile.register_classes([DataFile,UpdateFolderStructure]+fs_locators)
