@@ -1,6 +1,9 @@
 
 _TODO_ doctests
 how do you run doctests on a package?
+Add argument to `__main__` to perform doctests.
+Also, the doctests themselves are broken now. Use ellipses even more.
+
 
 _TODO_ locators.UpdateFolderStructure
 see TODO item in the code.
@@ -8,8 +11,16 @@ Currently, it doesn't handle new file types properly.
 
 _TODO_ request modules should define folder structure for their filetypes
 The initial folder structure should be empty.
-Watch out, though, for circular dependency: locators depends on requestfile,
+Watch out, though, for circular dependency: locators depends on requestfile (so that it can register locators as yaml classes),
 so requestfile can't define the location of requestfiles!
+The resolution is probably that requestfile should be split into two classes:
+one that handles yaml itself, including class registration,
+and another one defining the actual RequestFile* classes.
+Locators needs the first, but not the second, which needs locators (and the first).
+
+_TODO_ can jsconschema give less verbose errors?
+Or just generally more helpful ones?
+Maybe we do need to wrap those errors somehow.
 
 _TODO_ use the doit api instead of having a dodo file.
 http://pydoit.org/cmd_run.html#using-the-api
