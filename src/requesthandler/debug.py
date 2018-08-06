@@ -2,11 +2,10 @@
 
 #This package
 from . import request
-from . import requestfile
+from . import yaml_manager
 
 _DummyRequest_props_schema_yaml="""#DummyRequest
-name:
-  {type: string}
+name: {type: string}
 test:
   anyOf:
     - {type: string}
@@ -78,12 +77,12 @@ class DummyRequest(request.Request):
   _self_task=True
   _config_attrs=['test']
   _required_attrs=['name','test']
-  _props_schema_yaml=_DummyRequest_props_schema_yaml
+  _props_schema=yaml_manager.read(_DummyRequest_props_schema_yaml)
   def run(self):
     print(self.test)
 
 #Register for loading from yaml
-requestfile.register_classes([DummyRequest])
+yaml_manager.register_classes([DummyRequest])
 
 if __name__ == "__main__":
     import doctest

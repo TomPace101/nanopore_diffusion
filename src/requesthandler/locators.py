@@ -10,7 +10,7 @@ import os
 
 #This package
 from . import filepath
-from . import requestfile
+from . import yaml_manager
 
 #Locate data folder
 if 'DATALOC' in os.environ.keys():
@@ -97,4 +97,4 @@ class UpdateFolderStructure(object):
     ##And then that locator class needs to be registered for yaml loading too
 
 #Register for loading from yaml
-requestfile.register_classes([DataFile,UpdateFolderStructure]+fs_locators)
+yaml_manager.register_classes([DataFile,UpdateFolderStructure]+fs_locators)

@@ -4,21 +4,14 @@
 from __future__ import print_function, division #Python 2 compatibility
 
 #Site packages
-from ruamel.yaml import YAML
-yaml=YAML(typ="safe", pure=True)
 
-#Local
+#This package
 from . import filepath
+from . import yaml_manager
 from . import request
 
-def register_classes(class_list):
-  """Register the classes that might be loaded from a yaml file, from a list of classes
-  
-  Arguments:
-  
-    - class_list = sequence of classes, as classes"""
-  for yclass in class_list:
-    yaml.register_class(yclass)
+#object to load/dump yaml
+yaml=yaml_manager.yaml
 
 _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
 name: {type: string}
@@ -38,7 +31,7 @@ class RequestFileRequest(request.Request):
   
     - _children: A list storing all child requests"""
   __slots__=('requestfile','_children')
-  _props_schema_yaml=_RequestFileRequest_props_schema_yaml
+  _props_schema=yaml.load(_RequestFileRequest_props_schema_yaml)
   _required_attrs=['requestfile']
   _child_seq_attrs=['_children']
   _inputfile_attrs=['requestfile']
@@ -79,7 +72,7 @@ class RequestFileListRequest(request.Request):
     - _children: A list storing all child requests
     """
   __slots__=('requestfiles','_children')
-  _props_schema_yaml=_RequestFileListRequest_props_schema_yaml
+  _props_schema=yaml.load(_RequestFileListRequest_props_schema_yaml)
   _required_attrs=['requestfiles']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
@@ -94,4 +87,4 @@ class RequestFileListRequest(request.Request):
       ch.run()
 
 #Register for loading from yaml
-register_classes([RequestFileRequest, RequestFileListRequest])
+yaml_manager.register_classes([RequestFileRequest, RequestFileListRequest])

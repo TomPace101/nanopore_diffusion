@@ -6,7 +6,9 @@ import importlib
 import sys
 
 def load_modules(module_name_list):
-  """Register the classes that might be loaded from a yaml file, from a list of module names
+  """Load the specified list of modules.
+  
+  Each module must be in a location already reachable, as with an import statement
   
   Arguments:
   

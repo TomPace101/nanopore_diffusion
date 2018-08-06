@@ -8,8 +8,6 @@ import json
 
 #Site packages
 import jsonschema
-from ruamel.yaml import YAML
-yaml=YAML(typ="safe", pure=True)
 try:
   from doit.tools import config_changed
 except ImportError:
@@ -19,6 +17,7 @@ except ImportError:
 
 #This package
 from . import filepath
+from .yaml_manager import yaml
 
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
@@ -57,7 +56,6 @@ class Request(object):
     - _child_seq_attrs: list of attributes that contain sequences of other Requests
     - _props_schema: jsonschema used to validate request configuration, as a dictionary
         The schema is for the 'properties' element only. The rest is provided internally.
-    - _props_schema_yaml: yaml string to be used to automatically generate _props_schema for the class
 
   Subclasses which return their own doit tasks MUST do the following:
   
@@ -75,9 +73,6 @@ class Request(object):
       #If field is a locator, get the Path it returns
       if hasattr(v,'path'):
         kwargs[k]=v.path(self)
-    #Load validation schema if not already loaded
-    if not hasattr(self.__class__,'_props_schema') and hasattr(self.__class__,'_props_schema_yaml'):
-      self.__class__._props_schema=yaml.load(self.__class__._props_schema_yaml)
     #Validate kwargs
     if hasattr(self,'_props_schema'):
       self.validate(**kwargs)

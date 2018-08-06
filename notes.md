@@ -11,12 +11,6 @@ Currently, it doesn't handle new file types properly.
 
 _TODO_ request modules should define folder structure for their filetypes
 The initial folder structure should be empty.
-Watch out, though, for circular dependency: locators depends on requestfile (so that it can register locators as yaml classes),
-so requestfile can't define the location of requestfiles!
-The resolution is probably that requestfile should be split into two classes:
-one that handles yaml itself, including class registration,
-and another one defining the actual RequestFile* classes.
-Locators needs the first, but not the second, which needs locators (and the first).
 
 _TODO_ can jsconschema give less verbose errors?
 Or just generally more helpful ones?
