@@ -21,13 +21,19 @@ from . import debug
 if __name__ == '__main__':
   #Parse command line arguments
   parser = argparse.ArgumentParser(description=globals()['__doc__'])
-  parser.add_argument('requestfile',nargs="+",help="Path to file containing the request(s) to run. Multiple request files may be listed.")
+  parser.add_argument('requestfile',nargs="*",help="Path to file containing the request(s) to run. Multiple request files may be listed.")
   parser.add_argument('--modules',nargs="+",metavar="MODULE",help="Additional python modules defining classes loadable from yaml input")
+  parser.add_argument('--validate',nargs='?',const=True,default=False,type=bool,help="Perform validation. If requestfiles are also listed, validation is run first.")
+  parser.add_argument('--doit',nargs='?',const=True,default=False,type=bool,help="Use doit to run only out-of-date requests")
   #TODO: allow selecting a subset of the requests?
   cmdline=parser.parse_args()
-  file_list=[filepath.Path(rf,isFile=True) for rf in cmdline.requestfile]
+  
+  #TODO: run validation if requested
+  #TODO: run doit if requested
+  
   
   #Confirm that specified request file(s) exist(s)
+  file_list=[filepath.Path(rf,isFile=True) for rf in cmdline.requestfile]
   nonexist=[rf for rf in file_list if not rf.exists()]
   assert len(nonexist)==0, "Could not find specified request file(s) %s"%str([rf.fullpath for rf in nonexist])
 

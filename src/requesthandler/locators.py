@@ -1,5 +1,5 @@
 """Define data locators"""
-##TODO: a way to redefine datafolder from a yaml file
+##TODO: a way to redefine datafolder from a yaml file (or maybe you want to redefine DataFile.parentpath, or parentpath in a particular locator class)
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

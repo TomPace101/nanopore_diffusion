@@ -5,12 +5,13 @@ Add argument to `__main__` to perform doctests.
 Run the doctests in modules (filepath and debug), and run the tutorial.
 Also, the doctests themselves in debug are broken now. Use ellipses even more.
 
+_TODO_ use the doit api instead of having a dodo file.
+http://pydoit.org/cmd_run.html#using-the-api
+
+
 _TODO_ can jsconschema give less verbose errors?
 Or just generally more helpful ones?
 Maybe we do need to wrap those errors somehow.
-
-_TODO_ use the doit api instead of having a dodo file.
-http://pydoit.org/cmd_run.html#using-the-api
 
 _TODO_ should validation happen at init, or just prior to run?
 If you delay it until run, execution of other requests may start before the errors are found.
