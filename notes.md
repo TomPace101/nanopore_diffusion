@@ -2,11 +2,8 @@
 _TODO_ doctests
 how do you run doctests on a package?
 Add argument to `__main__` to perform doctests.
-Also, the doctests themselves are broken now. Use ellipses even more.
-And now I have a test in a text file.
-Maybe that could become rst instead, for use in sphinx?
-Maybe it should become the tutorial.
-(That is, doctest should run the tutorial!)
+Run the doctests in modules (filepath and debug), and run the tutorial.
+Also, the doctests themselves in debug are broken now. Use ellipses even more.
 
 
 _TODO_ locators.UpdateFolderStructure
