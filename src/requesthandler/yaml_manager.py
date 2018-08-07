@@ -9,6 +9,9 @@ yaml=YAML(typ="safe", pure=True)
 
 #This package
 
+#List of all registered class names
+all_registered=[]
+
 def register_classes(class_list):
   """Register the classes that might be loaded from a yaml file, from a list of classes
   
@@ -17,6 +20,7 @@ def register_classes(class_list):
     - class_list = sequence of classes, as classes"""
   for yclass in class_list:
     yaml.register_class(yclass)
+    all_registered.append(yclass.__name__)
 
 def read(s):
   """Syntactic sugar for yaml.load()"""

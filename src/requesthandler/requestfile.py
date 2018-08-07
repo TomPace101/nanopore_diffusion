@@ -8,6 +8,7 @@ from __future__ import print_function, division #Python 2 compatibility
 #This package
 from . import filepath
 from . import yaml_manager
+from . import locators
 from . import request
 
 #object to load/dump yaml
@@ -85,6 +86,9 @@ class RequestFileListRequest(request.Request):
     "Run all Requests in each listed request file"
     for ch in self.all_children():
       ch.run()
+
+#Register locators and default folder structure
+locators.folder_structure.update(RequestFile=['requests',0,1,2,3])
 
 #Register for loading from yaml
 yaml_manager.register_classes([RequestFileRequest, RequestFileListRequest])
