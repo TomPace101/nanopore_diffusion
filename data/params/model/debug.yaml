@@ -220,6 +220,65 @@ datasteps:
 dataextraction:
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_conc_0, label: 'Ca2+', attrname: ulist, idx: 0}]
   - [line_profile, {startloc: [Xmid,Y1], endloc: [Xmid,Y2], num: 250, indep: 1, plotname: midline_phi, label: 'Potential', attrname: ulist, idx: 1}]
+---
+modelname: debug_smol_multi
+meshname: debug
+equation: smol_smol_reactive_surface
+customizations:
+  modules: [output_eff]
+conditions:
+  elementorder: 2
+  dirichlet:
+    4: [10.0, 5.0]
+    1: [2.0, 1.0]
+  species:
+    - {symbol: Cl, z: -1, D: 1.0}
+    - {symbol: Ca, z: +2, D: 1.0}
+  beta: 38.94135
+  potential:
+    equation: linear_pb
+    customizations:
+      modules: [output_eff]
+    conditions:
+      elementorder: 2
+      dirichlet: {2: 25.E-3, 3: 25.E-3, 11: 25.E-3, 15: 25.E-3, 1: 0.0, 4: 0.0}
+      debye_length: 1
+    dataextraction:
+      - [solutionfield, {filename: potentialfield.pvd}]
+      - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_phi, label: 'electric potential along centerline'}]
+      - [profile_radial, {num: 1000, plotname: radial_phi, label: 'electric potential along theta=0 deg', theta: 0, zval: Z5}]
+      - [profile_radial, {num: 1000, plotname: radial_phi, label: 'electric potential along theta=45 deg', theta: 45, zval: Z5}]
+      - [profile_radial, {num: 1000, plotname: radial_phi, label: 'electric potential along theta=90 deg', theta: 90, zval: Z5}]
+dataextraction:
+  # - [solutionfield, {filename: Dbar_0.pvd, attrname: Dbar_proj, idx: 0}]
+  # - [solutionfield, {filename: Dbar_1.pvd, attrname: Dbar_proj, idx: 1}]
+  # - [solutionfield, {filename: trans_conc_0.pvd, attrname: solnlist, idx: 0}]
+  # - [solutionfield, {filename: trans_conc_1.pvd, attrname: solnlist, idx: 1}]
+  - [solutionfield, {filename: conc_0.pvd, attrname: clist, idx: 0}]
+  - [solutionfield, {filename: conc_1.pvd, attrname: clist, idx: 1}]
+  # - [fluxfield, {filename: flux.pvd}]
+  # - [fluxintegral, {fluxsurf: 1, name: totflux_01, normalvar: n01}]
+  # - [fluxintegral, {fluxsurf: 4, name: totflux_04, normalvar: n04}]
+  # - [fluxintegral, {fluxsurf: 12, name: totflux_12, internal: True, fluxsign: '-', normalvar: n12}]
+  # - [effective_diffusion, {name: Deff, totflux_name: totflux_12}]
+  # - [volfrac, {name: free_volume_frac}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c_0, label: 'concentration along centerline', attrname: clist, idx: 0}]
+  - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_c_1, label: 'concentration along centerline', attrname: clist, idx: 1}]
+  # - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_cbar, label: 'cbar along centerline', attrname: sb_soln}]
+  # - [line_profile, {startloc: [0,0,Z1], endloc: [0,0,Z4], num: 1000, indep: 2, plotname: CL_Dbar, label: 'Dbar along centerline', attrname: Dbar_proj}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: '0, concentration along theta=0 deg', theta: 0, zval: Z5, attrname: clist, idx: 0}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: '0, concentration along theta=45 deg', theta: 45, zval: Z5, attrname: clist, idx: 0}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: '0, concentration along theta=90 deg', theta: 90, zval: Z5, attrname: clist, idx: 0}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: '1, concentration along theta=0 deg', theta: 0, zval: Z5, attrname: clist, idx: 1}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: '1, concentration along theta=45 deg', theta: 45, zval: Z5, attrname: clist, idx: 1}]
+  - [profile_radial, {num: 1000, plotname: radial_c, label: '1, concentration along theta=90 deg', theta: 90, zval: Z5, attrname: clist, idx: 1}]
+  # - [profile_radial, {num: 1000, plotname: radial_cbar, label: 'cbar along theta=0 deg', theta: 0, attrname: sb_soln, zval: Z5}]
+  # - [profile_radial, {num: 1000, plotname: radial_cbar, label: 'cbar along theta=45 deg', theta: 45, attrname: sb_soln, zval: Z5}]
+  # - [profile_radial, {num: 1000, plotname: radial_cbar, label: 'cbar along theta=90 deg', theta: 90, attrname: sb_soln, zval: Z5}]
+  # - [profile_radial, {num: 1000, plotname: radial_Dbar, label: 'Dbar along theta=0 deg', theta: 0, attrname: Dbar_proj, zval: Z5}]
+  # - [profile_radial, {num: 1000, plotname: radial_Dbar, label: 'Dbar along theta=45 deg', theta: 45, attrname: Dbar_proj, zval: Z5}]
+  # - [profile_radial, {num: 1000, plotname: radial_Dbar, label: 'Dbar along theta=90 deg', theta: 90, attrname: Dbar_proj, zval: Z5}]
+
 # ---
 # modelname: debug04
 # meshname: debug2d
