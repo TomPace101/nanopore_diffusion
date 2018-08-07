@@ -11,6 +11,7 @@ import os.path as osp
 import fenics as fem
 
 #Local
+import common
 import simulator_general
 
 class LPBConditions(simulator_general.GenericConditions):
@@ -49,7 +50,7 @@ class LPBSimulator(simulator_general.GenericSimulator):
 
     #Load mesh and meshfunctions
     self.meshinfo=other.meshinfo
-    self.V = other.V
+    self.V = other.V_scalar
     self.ds = other.ds
 
     #Get conditions
@@ -85,6 +86,10 @@ class LPBSimulator(simulator_general.GenericSimulator):
 #Lookup of electric potential simulators by name
 potentialsimulatorclasses={'linear_pb':LPBSimulator}
 
+class EquationTerm(simulator_general.EquationTermBase):
+  __slots__=('bilinear','termid','species','bound_surf')
+
+
 class Species(common.ParameterSet):
   """Information for a single chemical species.
   
@@ -102,37 +107,13 @@ class SUConditions(simulator_general.GenericConditions):
   User-Provided Attributes:
 
     - dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
-    - D_bulk = bulk diffusion constant
     - species = sequence of dictionaries, each defining a Species object
     - beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
     - potential = dictionary defining simulator_run.ModelParameters for electric potential
   
-  Calculated Attributes:
-  
-    - trans_dirichlet = Dirichlet boundary conditions after Slotboom transformation
-
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['dirichlet','D_bulk','q','beta','potential','trans_dirichlet']
-  def transform_bcs(self,pdict,beta_q):
-    """Apply Slotboom transformation to Dirichlet boundary conditions.
-
-    This function requires that the facets with Dirichlet conditions for the concentration
-      must also have Dirichlet conditions for the potential. (The reverse is not required.)
-
-    Arguments:
-
-      - pdict = dictionary of Dirichlet boundary conditions for the potential
-      - beta_q = product of beta and q
-
-    No return value.
-
-    trans_dirichlet attribute is updated"""
-    transvals={}
-    for psurf,cval in self.dirichlet.items():
-      transvals[psurf] = cval*math.exp(beta_q*pdict[psurf])
-    self.trans_dirichlet=transvals
-    return
+  __slots__=['dirichlet','species','beta','potential','trans_dirichlet']
 
 class SUSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Smoluchowski Diffusion
@@ -163,12 +144,33 @@ class SUSimulator(simulator_general.GenericSimulator):
     #Get conditions
     self.conditions=SUConditions(**modelparams.conditions)
 
-    #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = fem.VectorFunctionSpace(self.meshinfo.mesh, "CG", self.conditions.elementorder)
+    #Species
+    self.species=[]
+    for s,d in enumerate(self.conditions.species):
+      spec=Species(**d)
+      self.species.append(spec)
+    self.Nspecies=len(self.species)
+    
+    #Elements and Function space(s)
+    ele = fem.FiniteElement('CG',self.meshinfo.mesh.ufl_cell(),self.conditions.elementorder)
+    mele = fem.MixedElement([ele]*self.Nspecies)
+    self.V = fem.FunctionSpace(self.meshinfo.mesh,mele)
+    self.V_scalar=fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder)
 
-    #Measure for external boundaries
+    #Trial Functions
+    self.u = fem.TrialFunction(self.V)
+    cbarlist=fem.split(self.u)
+
+    #Test Functions
+    vlist=fem.TestFunctions(self.V)
+
+    #Solution function(s)
+    self.soln=fem.Function(self.V)
+
+    #Measure and normal for external boundaries
     self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
+    self.n=fem.FacetNormal(self.meshinfo.mesh)
+    self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
 
     #Set up electric potential field
     potentialparams_dict=self.conditions.potential
@@ -182,33 +184,59 @@ class SUSimulator(simulator_general.GenericSimulator):
     self.info['potential']=self.potsim.info
     self.outdata.plots=self.potsim.outdata.plots
 
+    #Slootboom transformation for dirichlet condition
+    def transform_value(cval,phival,beta_z):
+      return cval*math.exp(beta_z*phival)
+
     #Dirichlet boundary conditions
-    self.conditions.transform_bcs(self.potsim.conditions.dirichlet,self.beta_q) #apply Slotboom transformation
-    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in self.conditions.trans_dirichlet.items()]
+    pot_d=self.potsim.conditions.dirichlet
+    self.bcs=[]
+    dirichlet=getattr(self.conditions,'dirichlet',{})
+    for psurf,vals in dirichlet.items():
+      for s,value in enumerate(vals):
+        if value is not None:
+          transval=transform_value(value,pot_d[psurf],self.conditions.beta*self.species[s].z)
+          self.bcs.append(fem.DirichletBC(self.V.sub(s),fem.Constant(transval),self.meshinfo.facets,psurf))
 
     #Neumann boundary conditions
-    #they are all zero in this case
+    #assumed to all be zero in this case
     if hasattr(self.conditions,'neumann'):
       raise NotImplementedError
 
-    #Define the Dbar function
-    self.Dbar=self.conditions.D_bulk*fem.exp(-self.beta_q*self.potsim.soln)
-    self.Dbar_proj=fem.project(self.Dbar,self.V)
+    #Calculate Dbar for each species
+    self.Dbar_dict={}
+    self.Dbar_proj=[]
+    for s,spec in enumerate(self.species):
+      Dbar=spec.D*fem.exp(-self.conditions.beta*spec.z*self.potsim.soln)
+      self.Dbar_dict[s]=Dbar
+      self.Dbar_proj.append(fem.project(Dbar,self.V_scalar))
 
-    #Define variational problem
-    self.d3x = fem.Measure('cell',domain=self.meshinfo.mesh)
-    self.cbar=fem.TrialFunction(self.V)
-    self.v=fem.TestFunction(self.V)
-    self.a=self.Dbar*fem.dot(fem.grad(self.cbar),fem.grad(self.v))*self.d3x
-    self.L=fem.Constant(0)*self.v*self.ds
+    #Weak Form
+    allterms=simulator_general.EquationTermDict(EquationTerm)
+    for s,cbar in enumerate(cbarlist):
+      if self.species[s].D is not None:
+        termname='body_%d'%s
+        allterms.add(termname,self.Dbar_dict[s]*fem.dot(fem.grad(cbar),fem.grad(vlist[s]))*self.dx,bilinear=True)
+
+        termname='boundary_%d'%s
+        allterms.add(termname,fem.Constant(0)*vlist[s]*self.dx,bilinear=False)
+
+    #Problem and Solver
+    self.a=allterms.sumterms(bilinear=True)
+    self.L=allterms.sumterms(,bilinear=False)
+    problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
+    self.solver=fem.LinearVariationalSolver(problem)
 
   def run(self):
     "Run this simulation"
-    #Solve for cbar
-    self.sb_soln=fem.Function(self.V)
-    fem.solve(self.a==self.L, self.sb_soln, self.bcs)
-    #Transform back to concentration
-    self.soln=fem.project(self.sb_soln*fem.exp(-self.beta_q*self.potsim.soln),self.V)
+    #solve
+    self.solver.solve()
+    #transform back
+    self.solnlist=fem.split(self.soln)
+    self.clist=[]
+    for s,cbar in enumerate(self.solnlist):
+      c=fem.project(cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln),self.V_scalar)
+      self.clist.append(c)
     return
 
-simulatorclasses={'smol_unhomog':SUSimulator}
+simulatorclasses={'smol_reactive_surface':SUSimulator}
