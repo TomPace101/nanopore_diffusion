@@ -5,11 +5,6 @@ Add argument to `__main__` to perform doctests.
 Run the doctests in modules (filepath and debug), and run the tutorial.
 Also, the doctests themselves in debug are broken now. Use ellipses even more.
 
-
-_TODO_ locators.UpdateFolderStructure
-see TODO item in the code.
-Currently, it doesn't handle new file types properly.
-
 _TODO_ can jsconschema give less verbose errors?
 Or just generally more helpful ones?
 Maybe we do need to wrap those errors somehow.
@@ -24,6 +19,14 @@ That is, you can't "build up" a request from top-down.
 You have to do it bottom-up.
 But validation has to happen automatically at some point.
 If it's optional, it won't happen.
+Leaning towards check at instantiation.
+But Wait!
+Requests are not immutable.
+So I can create a valid request, then modify it to be invalid,
+and that will never be caught.
+Should requests be immutable, then?
+If so, that's a problem for customization.
+Also, I seem to recall that immutability and slots don't work together.
 
 _TODO_ refactor this TODO list!
 

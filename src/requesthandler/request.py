@@ -36,6 +36,9 @@ class Request(object):
     2) Provide ``doit`` task definitions for themselves and any sub-requests. (see the ``all_tasks`` method)
     3) Validate their own configuration. (see the ``validate`` classmethod)
   
+  Note that validation is performed as part of the construction of a request.
+  You cannot create incomplete requests that fail validation, and then modify them to be valid.
+  
   User-Provided attributes:
   
     - name: a globally unique string identifying the request
