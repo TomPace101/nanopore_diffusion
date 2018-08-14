@@ -1,23 +1,4 @@
 
-_ISSUE_ should Request validation (jsonschema) happen at init, or just prior to run?
-If you delay it until run, execution of other requests may start before the errors are found.
-Also, that would require subclasses to perform the validation as well.
-If you do it at init, it requires requests to be fully formed at creation.
-That is, you can't "build up" a request from top-down.
-You have to do it bottom-up.
-But validation has to happen automatically at some point.
-If it's optional, it won't happen.
-Leaning towards check at instantiation.
-But Wait!
-Requests are not immutable.
-So I can create a valid request, then modify it to be invalid,
-and that will never be caught.
-Should requests be immutable, then?
-If so, that's a problem for customization.
-Also, I seem to recall that immutability and slots don't work together.
-Decision: create a validation method for instances.
-Subclasses can choose to use it, or not.
-
 _TODO_ refactor this TODO list!
 
 _TODO_ clean up data
@@ -46,6 +27,14 @@ _ISSUE_ we'll eventually need to be able to load arbitrary spatial data into a f
 without writing an expression object.
 This wasn't terribly helpful:
 https://www.google.com/search?source=hp&ei=6d1VW8zAPKm3jwSZxrWAAg&q=fenics+interpolate+data&oq=fenics+interpolate+data&gs_l=psy-ab.3...251.5909.0.6212.33.29.4.0.0.0.131.2217.23j5.28.0....0...1.1.64.psy-ab..1.31.2133...0j0i131k1j0i3k1j0i10k1j0i22i30k1j0i22i10i30k1j0i13k1j0i13i30k1j0i13i10i30k1j33i160k1j33i21k1.0.DfrQkfecZKY
+Both "project" and "interpolate" require either a Function or an Expression.
+Function can be called with a GenericVector (or a filename containing such),
+which seems to be a base class, so you could create a Function
+from any subclass of GenericVector (such as Vector).
+It's really not clear to me how/if those possess spatial variation, though.
+But you can assign data to a Vector from a numpy array:
+https://fenicsproject.org/qa/8774/defining-a-function-from-data/
+You just need to get coordinates (and components in a vector case) for the dofs
 
 # Refactoring: Requests and Handlers
 

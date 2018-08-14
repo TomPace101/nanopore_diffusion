@@ -38,7 +38,6 @@ if __name__ == '__main__':
     print("---")
     fails,atts=[sum(l) for l in zip(*reslist)]
     print("Passed %d/%d total"%(atts-fails,atts))
-    
 
   #Confirm that specified request file(s) exist(s)
   file_list=[filepath.Path(rf,isFile=True) for rf in cmdline.requestfile]
