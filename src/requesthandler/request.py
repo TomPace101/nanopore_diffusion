@@ -86,18 +86,23 @@ class Request(object):
     if hasattr(self,'name'):
       all_requests[self.name]=self
   @classmethod
-  def validate(self,**kwargs):
-    if hasattr(self,'_props_schema'):
+  def validate(cls,**kwargs):
+    if hasattr(cls,'_props_schema'):
       schema={'type':'object',
-              'properties':self._props_schema,
-              'required':getattr(self,'_required_attrs',[]),
+              'properties':cls._props_schema,
+              'required':getattr(cls,'_required_attrs',[]),
               'additionalProperties':False}
       validator=ValidatorClass(schema,types=extra_types_dict)
-      errlist=["  - "+str(s) for s in validator.iter_errors(kwargs)]
+      errlist=["  - "+str(err.message) for err in validator.iter_errors(kwargs)]
       if len(errlist)>0:
         #Found errors: raise exception listing them all
         errlist.sort()
-        errstr="Errors found in %s:\n"%self.__class__.__name__
+        errstr="Errors found in %s.\n"%cls.__name__
+        keylist=list(kwargs.keys())
+        keylist.sort()
+        errstr+='Received arguments:\n'
+        errstr+='\n'.join(['  - %s: %s'%(k,kwargs[k]) for k in keylist])
+        errstr+='\nErrors:\n'
         errstr+='\n'.join(errlist)
         raise Exception(errstr)
   def __setstate__(self,state):

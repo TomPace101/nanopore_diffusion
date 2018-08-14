@@ -3,10 +3,12 @@
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 import argparse
+import doctest
 import importlib
 import sys
 
 #Site packages
+import pkg_resources #part of setuptools
 
 #Local
 from . import filepath
@@ -17,18 +19,29 @@ from . import debug
 #TODO: we have to include all modules that define classes loadable from yaml here.
 ##Is there any other way?
 
+#Paths to files containing doctests
+tutorial_file=pkg_resources.resource_filename(__name__,'tutorial.rst')
+
 #Handle command-line execution
 if __name__ == '__main__':
   #Parse command line arguments
   parser = argparse.ArgumentParser(description=globals()['__doc__'])
   parser.add_argument('requestfile',nargs="*",help="Path to file containing the request(s) to run. Multiple request files may be listed.")
+  parser.add_argument('--verbose',action='store_true',help="Provide verbose output where appropriate.")
   parser.add_argument('--modules',nargs="+",metavar="MODULE",help="Additional python modules defining classes loadable from yaml input")
   parser.add_argument('--validate',action='store_true',help="Perform validation. If requestfiles are also listed, validation is run first.")
   parser.add_argument('--doit',action='store_true',help="Use doit to run only out-of-date requests")
   #TODO: allow selecting a subset of the requests?
   cmdline=parser.parse_args()
   
-  #TODO: run validation if requested
+  #run validation if requested
+  if cmdline.validate:
+    doctest.testmod(filepath,verbose=cmdline.verbose)
+    print("---")
+    doctest.testmod(debug,verbose=cmdline.verbose)
+    print("---")
+    doctest.testfile(tutorial_file,module_relative=False) #To make sure the file can be found when the package is zipped, we have already found its absolute path
+
   #TODO: run doit if requested
   
   

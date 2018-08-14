@@ -1,6 +1,13 @@
 
+.. command-line usage: python -m doctest  requesthandler/tutorial.rst
+
 Tutorial
 ################################################################################
+
+**TODO** 
+
+More on Locators
+================
 
 Here is a complete example of the use of locators.
 
@@ -17,8 +24,6 @@ Here is a complete example of the use of locators.
   Example 1: string specifiers
 
   >>> locators.folder_structure.update(TestLocator=['testfolder'])
-  >>> locators.TestLocator
-  requesthandler.locators.locator_factory.<locals>.lclass
   >>> locators.TestLocator.__name__
   'TestLocator'
   >>> tl=locators.TestLocator('myfile.stuff')

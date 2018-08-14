@@ -28,7 +28,7 @@ class DummyRequest(request.Request):
   >>> keylist.sort()
   >>> vlist=[dr.task_definition[k] for k in keylist]
   >>> list(zip(keylist,vlist)) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
-  [('actions', [(<bound method DummyRequest.run of <request.DummyRequest object at 0x...>>,)]),
+  [('actions', [(<bound method DummyRequest.run of <...DummyRequest object at 0x...>>,)]),
    ('file_dep', []),
    ('name', 'example'),
    ('targets', []),
@@ -36,43 +36,13 @@ class DummyRequest(request.Request):
   >>> invalid=DummyRequest(not_allowed=True)
   Traceback (most recent call last):
     ...
-  Exception: Errors found in DummyRequest:
+  Exception: Errors found in DummyRequest.
+  Received arguments:
+    - not_allowed: True
+  Errors:
     - 'name' is a required property
-  <BLANKLINE>
-  Failed validating 'required' in schema:
-      {'additionalProperties': False,
-       'properties': {'name': {'type': 'string'},
-                      'test': {'anyOf': [{'type': 'string'},
-                                         {'type': 'number'}]}},
-       'required': ['name', 'test'],
-       'type': 'object'}
-  <BLANKLINE>
-  On instance:
-      {'not_allowed': True}
     - 'test' is a required property
-  <BLANKLINE>
-  Failed validating 'required' in schema:
-      {'additionalProperties': False,
-       'properties': {'name': {'type': 'string'},
-                      'test': {'anyOf': [{'type': 'string'},
-                                         {'type': 'number'}]}},
-       'required': ['name', 'test'],
-       'type': 'object'}
-  <BLANKLINE>
-  On instance:
-      {'not_allowed': True}
-    - Additional properties are not allowed ('not_allowed' was unexpected)
-  <BLANKLINE>
-  Failed validating 'additionalProperties' in schema:
-      {'additionalProperties': False,
-       'properties': {'name': {'type': 'string'},
-                      'test': {'anyOf': [{'type': 'string'},
-                                         {'type': 'number'}]}},
-       'required': ['name', 'test'],
-       'type': 'object'}
-  <BLANKLINE>
-  On instance:
-      {'not_allowed': True}"""
+    - Additional properties are not allowed ('not_allowed' was unexpected)"""
   __slots__=('test')
   _self_task=True
   _config_attrs=['test']

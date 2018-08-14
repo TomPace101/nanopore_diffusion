@@ -7,6 +7,7 @@ import sys
 
 #check required python modules
 import pathlib #standard library in python 3 but not in python 2
+import pkg_resources #part of setuptools
 from ruamel.yaml import YAML
 import jinja2
 import jsonschema
