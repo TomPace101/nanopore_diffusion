@@ -1,8 +1,4 @@
 
-_TODO_ use the doit api as well as having a dodo file.
-http://pydoit.org/cmd_run.html#using-the-api
-
-
 _ISSUE_ should Request validation (jsonschema) happen at init, or just prior to run?
 If you delay it until run, execution of other requests may start before the errors are found.
 If you do it at init, it requires requests to be fully formed at creation.

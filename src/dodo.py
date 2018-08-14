@@ -16,8 +16,7 @@ from doit import get_var
 
 #Local
 from requesthandler.filepath import Path
-import requesthandler.requestfile as requestfile
-import requesthandler.locators as locators
+from requesthandler import requestfile, locators
 
 #Constants
 default_controlfile = locators.datafolder / 'control.yaml'
