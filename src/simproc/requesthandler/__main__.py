@@ -11,7 +11,7 @@ import sys
 import pkg_resources #part of setuptools
 
 #Local
-from requesthandler import *
+from . import *
 
 #Paths to files containing doctests
 tutorial_file=pkg_resources.resource_filename(__name__,'tutorial.rst')

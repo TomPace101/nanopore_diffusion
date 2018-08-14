@@ -15,8 +15,8 @@ from __future__ import print_function, division #Python 2 compatibility
 from doit import get_var
 
 #Local
-from requesthandler.filepath import Path
-from requesthandler import requestfile, locators
+from simproc.requesthandler.filepath import Path
+from simproc.requesthandler import requestfile, locators
 
 #Constants
 default_controlfile = locators.datafolder / 'control.yaml'
