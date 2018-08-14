@@ -15,12 +15,12 @@ from __future__ import print_function, division #Python 2 compatibility
 from doit import get_var
 
 #Local
-from filepath import Path
-import folderstructure as FS
-import requestfile
+from requesthandler.filepath import Path
+import requesthandler.requestfile as requestfile
+import requesthandler.locators as locators
 
 #Constants
-default_controlfile = FS.datafolder / 'control.yaml'
+default_controlfile = locators.datafolder / 'control.yaml'
 
 #Get the controlfile as a Path
 controlfile=get_var('control',default_controlfile)

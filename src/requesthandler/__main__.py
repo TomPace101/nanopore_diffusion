@@ -11,13 +11,7 @@ import sys
 import pkg_resources #part of setuptools
 
 #Local
-from . import filepath
-from . import locators
-from . import requestfile
-from . import customization
-from . import debug
-#TODO: we have to include all modules that define classes loadable from yaml here.
-##Is there any other way?
+from requesthandler import *
 
 #Paths to files containing doctests
 tutorial_file=pkg_resources.resource_filename(__name__,'tutorial.rst')
@@ -30,7 +24,6 @@ if __name__ == '__main__':
   parser.add_argument('--verbose',action='store_true',help="Provide verbose output where appropriate.")
   parser.add_argument('--modules',nargs="+",metavar="MODULE",help="Additional python modules defining classes loadable from yaml input")
   parser.add_argument('--validate',action='store_true',help="Perform validation. If requestfiles are also listed, validation is run first.")
-  parser.add_argument('--doit',action='store_true',help="Use doit to run only out-of-date requests")
   #TODO: allow selecting a subset of the requests?
   cmdline=parser.parse_args()
   
@@ -40,11 +33,8 @@ if __name__ == '__main__':
     print("---")
     doctest.testmod(debug,verbose=cmdline.verbose)
     print("---")
-    doctest.testfile(tutorial_file,module_relative=False) #To make sure the file can be found when the package is zipped, we have already found its absolute path
+    doctest.testfile(tutorial_file,module_relative=False,verbose=cmdline.verbose) #To make sure the file can be found when the package is zipped, we have already found its absolute path
 
-  #TODO: run doit if requested
-  
-  
   #Confirm that specified request file(s) exist(s)
   file_list=[filepath.Path(rf,isFile=True) for rf in cmdline.requestfile]
   nonexist=[rf for rf in file_list if not rf.exists()]
