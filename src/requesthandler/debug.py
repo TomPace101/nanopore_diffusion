@@ -42,13 +42,30 @@ class DummyRequest(request.Request):
   Errors:
     - 'name' is a required property
     - 'test' is a required property
-    - Additional properties are not allowed ('not_allowed' was unexpected)"""
-  __slots__=('test')
+    - Additional properties are not allowed ('not_allowed' was unexpected)
+  
+  Be aware that Requests are not immutable,
+  so it is possible to create an initially valid request,
+  then modify it into an invalid one.
+  
+  >>> drq=DummyRequest(name='switcharoo',test='this_is_fine') #valid request
+  >>> drq.test=None #None is not an allowed value for the 'test' attribute
+  >>> drq.validate()
+  Traceback (most recent call last):
+    ...
+  Exception: Errors found in DummyRequest.
+  Received arguments:
+    - name: switcharoo
+    - test: None
+  Errors:
+    - test: None is not valid under any of the given schemas"""
+  __slots__=('test',)
   _self_task=True
   _config_attrs=['test']
   _required_attrs=['name','test']
   _props_schema=yaml_manager.read(_DummyRequest_props_schema_yaml)
   def run(self):
+    self.validate()
     print(self.test)
 
 #Register for loading from yaml

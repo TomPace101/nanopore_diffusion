@@ -6,6 +6,10 @@ Tutorial
 
 **TODO** 
 
+.. doctest::
+  
+  >>> import requesthandler as rqh
+
 More on Locators
 ================
 

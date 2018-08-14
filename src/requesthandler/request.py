@@ -27,6 +27,15 @@ extra_types_dict={'path':filepath.Path}
 #Dictionary of all loaded requests
 all_requests=odict()
 
+def validation_error_string(err):
+  "Return a string explaining the given validation error"
+  #Get the basic message
+  s=err.message
+  #Provide a path if necessary
+  if len(err.path)>0:
+    s="%s: %s"%('.'.join(err.path),s)
+  return s
+
 class Request(object):
   """Base class for all requests. Abstract only, not really meant to be instantiated.
   
@@ -78,7 +87,7 @@ class Request(object):
         kwargs[k]=v.path(self)
     #Validate kwargs
     if hasattr(self,'_props_schema'):
-      self.validate(**kwargs)
+      self.validate_kwargs(**kwargs)
     #Load the attributes specified
     for k,v in kwargs.items():
       setattr(self,k,v)
@@ -86,14 +95,18 @@ class Request(object):
     if hasattr(self,'name'):
       all_requests[self.name]=self
   @classmethod
-  def validate(cls,**kwargs):
+  def _class_schema(cls):
+    """Return the jsonschema validation schema for instances of this class"""
+    return {'type':'object',
+            'properties':cls._props_schema,
+            'required':getattr(cls,'_required_attrs',[]),
+            'additionalProperties':False}
+  @classmethod
+  def validate_kwargs(cls,**kwargs):
     if hasattr(cls,'_props_schema'):
-      schema={'type':'object',
-              'properties':cls._props_schema,
-              'required':getattr(cls,'_required_attrs',[]),
-              'additionalProperties':False}
+      schema=cls._class_schema()
       validator=ValidatorClass(schema,types=extra_types_dict)
-      errlist=["  - "+str(err.message) for err in validator.iter_errors(kwargs)]
+      errlist=["  - %s"%validation_error_string(err) for err in validator.iter_errors(kwargs)]
       if len(errlist)>0:
         #Found errors: raise exception listing them all
         errlist.sort()
@@ -105,6 +118,9 @@ class Request(object):
         errstr+='\nErrors:\n'
         errstr+='\n'.join(errlist)
         raise Exception(errstr)
+  def validate(self):
+    d=self.to_dict()
+    self.validate_kwargs(**d)
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)

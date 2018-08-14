@@ -29,11 +29,16 @@ if __name__ == '__main__':
   
   #run validation if requested
   if cmdline.validate:
-    doctest.testmod(filepath,verbose=cmdline.verbose)
+    reslist=[]
+    reslist.append(doctest.testmod(filepath,verbose=cmdline.verbose))
     print("---")
-    doctest.testmod(debug,verbose=cmdline.verbose)
+    reslist.append(doctest.testmod(debug,verbose=cmdline.verbose))
     print("---")
-    doctest.testfile(tutorial_file,module_relative=False,verbose=cmdline.verbose) #To make sure the file can be found when the package is zipped, we have already found its absolute path
+    reslist.append(doctest.testfile(tutorial_file,module_relative=False,verbose=cmdline.verbose)) #To make sure the file can be found when the package is zipped, we have already found its absolute path
+    print("---")
+    fails,atts=[sum(l) for l in zip(*reslist)]
+    print("Passed %d/%d total"%(atts-fails,atts))
+    
 
   #Confirm that specified request file(s) exist(s)
   file_list=[filepath.Path(rf,isFile=True) for rf in cmdline.requestfile]

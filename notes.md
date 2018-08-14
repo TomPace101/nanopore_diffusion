@@ -1,6 +1,7 @@
 
 _ISSUE_ should Request validation (jsonschema) happen at init, or just prior to run?
 If you delay it until run, execution of other requests may start before the errors are found.
+Also, that would require subclasses to perform the validation as well.
 If you do it at init, it requires requests to be fully formed at creation.
 That is, you can't "build up" a request from top-down.
 You have to do it bottom-up.
@@ -14,6 +15,8 @@ and that will never be caught.
 Should requests be immutable, then?
 If so, that's a problem for customization.
 Also, I seem to recall that immutability and slots don't work together.
+Decision: create a validation method for instances.
+Subclasses can choose to use it, or not.
 
 _TODO_ refactor this TODO list!
 
