@@ -6,6 +6,7 @@ import argparse
 import math
 import os
 import os.path as osp
+from collections import OrderedDict as odict
 
 #Site packages
 import fenics as fem
@@ -106,14 +107,21 @@ class SUConditions(simulator_general.GenericConditions):
 
   User-Provided Attributes:
 
-    - dirichlet = dictionary of Dirichlet boundary conditions: {physical facet number: solution value, ...}
+    - dirichlet = dictionary of Dirichlet boundary conditions:
+      {physical facet number: solution value, ...}
+    - neumann = dictionary of Neumann boundary conditions:
+      {physical facet number: [normal derivative values, None for no condition]}
+      Note that the normal derivative is NOT the flux; divide the flux by -D to get the normal derivative.
+    - reactive = dictionary of reactive boundary conditions:
+      {physical facet number: [species_in, species_out]}
+      where species_in and species_out are the symbols of the reactant and product species, respectively.
     - species = sequence of dictionaries, each defining a Species object
     - beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
     - potential = dictionary defining simulator_run.ModelParameters for electric potential
   
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['dirichlet','species','beta','potential','trans_dirichlet']
+  __slots__=['dirichlet','species','beta','potential','reactive']
 
 class SUSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Smoluchowski Diffusion
@@ -146,9 +154,13 @@ class SUSimulator(simulator_general.GenericSimulator):
 
     #Species
     self.species=[]
+    self.species_dict=odict()
+    self.species_indices=odict()
     for s,d in enumerate(self.conditions.species):
       spec=Species(**d)
       self.species.append(spec)
+      self.species_dict[spec.symbol]=spec
+      self.species_indices[spec.symbol]=s
     self.Nspecies=len(self.species)
     
     #Elements and Function space(s)
@@ -199,9 +211,25 @@ class SUSimulator(simulator_general.GenericSimulator):
           self.bcs.append(fem.DirichletBC(self.V.sub(s),fem.Constant(transval),self.meshinfo.facets,psurf))
 
     #Neumann boundary conditions
-    #assumed to all be zero in this case
-    if hasattr(self.conditions,'neumann'):
-      raise NotImplementedError
+    self.nbcs = {}
+    neumann=getattr(self.conditions,'neumann',{})
+    for psurf,vals in neumann.items():
+      for s,value in enumerate(vals):
+        if value is not None:
+          if type(value)==int or type(value)==float:
+            if value != 0: #Neumann conditions of zero can be omitted from the weak form, to the same effect
+              self.nbcs[(psurf,s)]=fem.Constant(value)
+          elif type(value)==list:
+            exprstr, exprargs = value
+            self.nbcs[(psurf,s)]=fem.Expression(exprstr,element=ele,**exprargs)
+    
+    #Reactive boundary terms
+    #just convert symbols to species indices
+    self.rbcs = {}
+    reactive=getattr(self.conditions,'reactive',{})
+    for psurf,pair in reactive.items():
+      spair=[self.species_indices[symb] for symb in pair]
+      self.rbcs[psurf]=spair
 
     #Calculate Dbar for each species
     self.Dbar_dict={}
@@ -213,17 +241,30 @@ class SUSimulator(simulator_general.GenericSimulator):
 
     #Weak Form
     allterms=simulator_general.EquationTermDict(EquationTerm)
+    #Body terms
     for s,cbar in enumerate(cbarlist):
       if self.species[s].D is not None:
         termname='body_%d'%s
         allterms.add(termname,self.Dbar_dict[s]*fem.dot(fem.grad(cbar),fem.grad(vlist[s]))*self.dx,bilinear=True)
-
-        termname='boundary_%d'%s
+        #Not knowing if any boundary term will be added here, go ahead and apply zero
+        termname='boundary_zero_%d'%s
         allterms.add(termname,fem.Constant(0)*vlist[s]*self.dx,bilinear=False)
+    #Boundary terms for Neumann conditions
+    for tup,expr in self.nbcs.items():
+      psurf,s = tup
+      termname='boundary_neumann_%d_%d'%(s,psurf)
+      bterm = expr*vlist[s]*self.ds(psurf)
+      allterms.add(termname,bterm,bilinear=False)
+    #Boundary terms for reactive boundaries
+    for psurf,pair in self.rbcs.items():
+      r,p=pair
+      termname='reactive_%d'%psurf
+      bterm = self.Dbar_dict[r]*fem.dot(self.n,fem.grad(cbarlist[r]))*(vlist[r]-vlist[p])*self.ds(psurf)
+      allterms.add(termname,bterm,bilinear=True)
 
     #Problem and Solver
     self.a=allterms.sumterms(bilinear=True)
-    self.L=allterms.sumterms(,bilinear=False)
+    self.L=allterms.sumterms(bilinear=False)
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
 

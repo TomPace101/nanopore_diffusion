@@ -92,6 +92,7 @@ class TDPNPUConditions(simulator_general.GenericConditions):
       {physical facet number: [solution values, None for no condition]}
     - neumann = dictionary of Neumann boundary conditions:
       {physical facet number: [normal derivative values, None for no condition]}
+      Note that the normal derivative is NOT the flux; divide the flux by -D to get the normal derivative.
     - temperature = the temperature under consideration, as a number
     - eps_r = relative permittivity of the medium
     - species_info = dictionary defining a SpeciesInfo object
