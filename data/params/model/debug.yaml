@@ -223,7 +223,7 @@ dataextraction:
 ---
 modelname: debug_smol_multi
 meshname: debug
-equation: smol_smol_reactive_surface
+equation: smol_reactive_surface
 customizations:
   modules: [output_eff]
 conditions:
@@ -231,6 +231,9 @@ conditions:
   dirichlet:
     4: [10.0, 5.0]
     1: [2.0, 1.0]
+  reactive:
+    11: [Cl, Ca]
+    15: [Cl, Ca]
   species:
     - {symbol: Cl, z: -1, D: 1.0}
     - {symbol: Ca, z: +2, D: 1.0}
