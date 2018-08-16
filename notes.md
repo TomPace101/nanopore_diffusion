@@ -1,5 +1,10 @@
 
-_TODO_ requesthandler's 'run' logic needs to be put somewhere reusable, so it can be called from the parent package.
+_TODO_ validation currently works from within simproc, but not outside of it
+due to import statements in the doctests in tutorial.rst
+Maybe instead of fixing, tutorial.rst should be moved.
+Maybe read the part about how doctests are discovered,
+and see if there is a way to make this happen.
+Maybe even consider moving those doctests into a module docstring.
 
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
 

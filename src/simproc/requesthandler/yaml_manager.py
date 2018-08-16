@@ -2,6 +2,7 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+import io
 
 #Site packages
 from ruamel.yaml import YAML
@@ -25,3 +26,10 @@ def register_classes(class_list):
 def read(s):
   """Syntactic sugar for yaml.load()"""
   return yaml.load(s)
+
+def yamlstring(obj):
+  """like json.dumps but for yaml"""
+  with io.StringIO() as strm:
+    yaml.dump(obj,strm)
+    dat=strm.getvalue()
+  return dat

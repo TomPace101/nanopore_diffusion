@@ -4,7 +4,6 @@
 from __future__ import print_function, division #Python 2 compatibility
 from collections import OrderedDict as odict
 from itertools import chain
-import json
 
 #Site packages
 import jsonschema
@@ -17,7 +16,7 @@ except ImportError:
 
 #This package
 from . import filepath
-from .yaml_manager import yaml
+from .yaml_manager import yaml, yamlstring
 
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
@@ -166,12 +165,17 @@ class Request(object):
     cd=dict([(k,v) for k,v in d.items() if k in self._config_attrs])
     #Don't add configuration of children: look at the output files they generate instead
     #(otherwise changes will cascade even if output files are unaltered)
+    #All Paths must be converted to strings
+    #TODO: it might be preferable to allow Paths to convert themselves to yaml. I couldn't get that to work before, though.
+    for k,v in cd.items():
+      if isinstance(v,filepath.Path):
+        cd[k]=v.fullpath  ##TODO: this means moving/renaming the data folder will show up as a changed configuration for everything
     return cd
   @property
   def config(self):
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
     # return(str(self.config_dict))
-    return(json.dumps(self.config_dict,sort_keys=True))
+    return(yamlstring(self.config_dict))
   def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr):
     """Construct a list of files, from the following arguments:
     

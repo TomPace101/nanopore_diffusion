@@ -1,4 +1,14 @@
+"""Allow command-line execution"""
 
-import runpy
+#Standard library
+from __future__ import print_function, division #Python 2 compatibility
 
-runpy.run_module('simproc.requesthandler',init_globals=globals(),alter_sys=True) #This doesn't work!
+#Site packages
+
+#Local
+from .requesthandler import cmdline
+
+#Handle command-line execution
+if __name__ == '__main__':
+  cmdline.run()
+

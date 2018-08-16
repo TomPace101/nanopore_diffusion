@@ -12,21 +12,9 @@ doit control=controlfile"""
 from __future__ import print_function, division #Python 2 compatibility
 
 #Site packages
-from doit import get_var
 
 #Local
-from simproc.requesthandler.filepath import Path
-from simproc.requesthandler import requestfile, locators
-
-#Constants
-default_controlfile = locators.datafolder / 'control.yaml'
-
-#Get the controlfile as a Path
-controlfile=get_var('control',default_controlfile)
-controlfile=Path(controlfile)
-
-#Initialize a RequestFileRequest
-req=requestfile.RequestFileRequest(requestfile=controlfile)
+from simproc.requesthandler.cmdline import yield_doit_tasks
 
 def task_all():
-  return req.all_tasks()
+  return yield_doit_tasks()
