@@ -77,8 +77,19 @@ You just need to get coordinates (and components in a vector case) for the dofs
 
 # Refactoring: Requests and Handlers
 
+reqdata means the request includes data other than just the input and output files
 
-
+Mesh generation:
+  - construct template from geometry definition (reqdata -> .geo.jinja2)
+  - create geo file from template and values (.geo.jinja2 + reqdata -> .geo)
+  - run gmsh (.geo -> .msh)
+  - run dolfin-convert (.msh -> .xml (3))
+  - hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
+  - later steps only (.geo -> .hdf5)
+  - all but template construction (.geo.jinja2 + .yaml -> .hdf5)
+  - all steps (.yaml)
+Simulation:
+  The list below is still the most complete
 
 ## Lengthy discussion
 
@@ -419,8 +430,62 @@ For example, species data, reaction data, time steps, stopping criteria, etc.
 These requests don't provide tasks, and don't really even need to run.
 But they do need validation.
 
+Maybe a simulation (at the lowest level) has some things that are sub-requests,
+and some things that are just arguments.
+The mesh, for example, is just a file path.
+Silly to have a single-argument request for that.
+Species info is really a kind of table.
+(which you can do with yaml)
+```[a,b,c]:
+  - [1,2,3]
+  - [4,5,6]
+```
+or maybe
+```- [a,b,c]
+  - [1,2,3]
+  -[4,5,6]
+```
+But not all simulation types need that.
+And what about boundary conditions?
+Really, those are a kind of table two.
+Dirichlet:
+  - facet id, variable id (eg species), value
+Neumann:
+  - facet id, variable id, normal derivative value
+Reactive:
+  - facet id, reactant variable id, product variable id
+But, again, not everything needs each of these.
+Nonetheless, it sounds like a table class is needed.
+You can load this from yaml, or from CSV.
+This is different than loading a mesh.
+The mesh needs to go into a standard variable name.
+And loading a mesh means reading 3 things from the file.
+These go into a variable name that depends on how they are used.
+That's really the issue, here, isn't it.
+Different simulations need different data.
+That's how we got to requests in the first place.
+Any request is a function call that returns an object defined somewhere.
+A function may involve calling other functions,
+these are sub-requests.
+So, the abstraction is to change the simulation
+into a set of function calls.
+Ah, here's the problem.
+We have a sequence of functions, so the results of each function call can be used in later ones.
+That's the same as keeping track of variable names.
+So a function as an interface isn't enough.
+We also need an extensible way to keep track of function call results.
+That's a class. Kind of.
+So it seems like there's no way to have a totally generic simulation class.
+Different simulations will do different things,
+meaning they need different attributes.
+So maybe that's the solution for now:
+continue to make specific request types for specific simulations.
+But give yourself the infrastructure to make this as easy as possible.
+And allow these request types to be loaded from somewhere outside of the code itself,
+using customization.
+
+
 Unresolved issues/questions:
-- How do Locators work? Their parent request needs to know about them, and get Paths out of them.
 - classes listed as TBD below.
 
 Implementation
