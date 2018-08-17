@@ -32,7 +32,7 @@ def validation_error_string(err):
   s=err.message
   #Provide a path if necessary
   if len(err.path)>0:
-    s="%s: %s"%('.'.join(err.path),s)
+    s="%s: %s"%('.'.join([str(itm) for itm in err.path]),s)
   return s
 
 class Request(object):
@@ -82,6 +82,9 @@ class Request(object):
     #Process locators
     for k,v in kwargs.items():
       #If field is a locator, get the Path it returns
+      ##TODO: this doesn't catch entries that are lists (check each element)
+      ##or nested dictionaries, or lists of dictionaries of lists of ...
+      ##how do we make this recursive?
       if hasattr(v,'path'):
         kwargs[k]=v.path(self)
     #Validate kwargs

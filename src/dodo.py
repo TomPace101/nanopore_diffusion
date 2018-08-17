@@ -14,6 +14,7 @@ from __future__ import print_function, division #Python 2 compatibility
 #Site packages
 
 #Local
+from simproc import *
 from simproc.requesthandler.cmdline import yield_doit_tasks
 
 def task_all():

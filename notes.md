@@ -5,6 +5,36 @@ Maybe instead of fixing, tutorial.rst should be moved.
 Maybe read the part about how doctests are discovered,
 and see if there is a way to make this happen.
 Maybe even consider moving those doctests into a module docstring.
+The problem is it can't be in locators, because it needs a request class.
+It could be in debug, but then you'd have to import locators just for its doctests.
+Maybe that's ok. Does debug really have any other function?
+Alternatively, maybe this means the doctests in debug should actually be moved to a tutorial.
+In that case, the solution is probably to move the tutorial out of requesthandler into simproc.
+For that matter, the validation should probably be refactored
+to allow modules to add themselves to the list of modules for validation,
+and somewhere there should be a master list of rst files.
+Then the function will just iterate over those two lists.
+Ultimately the validation problems will need to go in here as well.
+That means doctests are ultimately good ways to implement those.
+
+_ISSUE_ still not happy with "datafolder".
+Changing the module variable doesn't affect the class.
+And there's no way to change the module variable.
+Maybe what we want is a working directory.
+For example, it can be the directory from which a request file was loaded.
+But then what if you load a list of them, and they aren't in the same directory?
+Well, if the requests are handled in sequence,
+then perhaps that's ok.
+Each one redefines what the working directory is.
+
+_TODO_ need a documentation example of folder structure definition
+Show how to change it from within python,
+and from within yaml.
+
+_TODO_ testing new control.yaml
+- __BUG__: locators aren't processed if they reside in a dictionary, list, and composites thereof
+Need to recursively descend into such items looking for locators.
+If you make a function to do this, just pass it kwargs to begin with.
 
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
 

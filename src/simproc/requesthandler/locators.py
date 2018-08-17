@@ -17,7 +17,7 @@ if 'DATALOC' in os.environ.keys():
   # datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
   datafolder=filepath.Path(os.environ['DATALOC']).expanduser().reslolve()
 else:
-  srcfolder=filepath.Path(__file__).parent.parent
+  srcfolder=filepath.Path(__file__).parent.parent.parent
   datafolder=srcfolder.parent / 'data'
 
 
