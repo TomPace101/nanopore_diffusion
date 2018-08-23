@@ -484,6 +484,24 @@ But give yourself the infrastructure to make this as easy as possible.
 And allow these request types to be loaded from somewhere outside of the code itself,
 using customization.
 
+MPI
+simulation requests: should run use mpi to call a python script that will run the simulation?
+If so, how do you pass the request parameters to that simulation, knowing that it's a complicated object?
+It seems like there has to be an input file to read them from.
+More generally, perhaps we need one command to run MPI requests, and a different one for non-MPI requests.
+Switching from one to the other requires running the other script.
+The alternative is to make everything MPI-aware, and check for rank 0 on the sequential parts.
+Or, perhaps write a wrapper that does this, and put everything sequential inside that wrapper.
+
+In addition to MPI, we also need a way to run separate simulations at the same time.
+
+Metadata
+Simulations should have metadata just like meshes, and in fact mesh metadata should be pulled into the simulation metadata.
+This simulation metadata is the output file that gets written.
+Or maybe there should be a data extraction command to output this part, just like there is for the other output files.
+After all, maybe you don't always want it. For example, it could be empty.
+And this metadata is what is collected into a dataframe.
+Maybe you can have more than one, but it has a default name that is the same everywhere, as usually only one is desired.
 
 Unresolved issues/questions:
 - classes listed as TBD below.
