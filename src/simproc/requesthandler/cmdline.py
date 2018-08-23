@@ -8,7 +8,6 @@ import importlib
 import sys
 
 #Site packages
-import pkg_resources #part of setuptools
 from doit import get_var
 
 #Local
@@ -16,18 +15,18 @@ from . import *
 
 #Constants
 default_controlfile = locators.TOPFOLDER / 'control.yaml'
-#Paths to files containing doctests
-tutorial_file=pkg_resources.resource_filename(__name__,'tutorial.rst')
 
 def run_validation(verbose=False):
   """Run the validation tests"""
   reslist=[]
-  reslist.append(doctest.testmod(filepath,verbose=verbose))
-  print("---")
-  reslist.append(doctest.testmod(debug,verbose=verbose))
-  print("---")
-  reslist.append(doctest.testfile(tutorial_file,module_relative=False,verbose=verbose)) #To make sure the file can be found when the package is zipped, we have already found its absolute path
-  print("---")
+  for m in doctest_modules:
+    print("Testing module %s."%m.__name__)
+    reslist.append(doctest.testmod(m,verbose=verbose))
+    print("---")
+  for fpath in doctest_files:
+    print("Running tests in %s."%fpath)
+    reslist.append(doctest.testfile(fpath,module_relative=False,verbose=verbose)) #To make sure the file can be found when the package is zipped, we have already found its absolute path
+    print("---")
   fails,atts=[sum(l) for l in zip(*reslist)]
   print("Passed %d/%d total"%(atts-fails,atts))
 

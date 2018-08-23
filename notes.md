@@ -1,22 +1,4 @@
 
-_TODO_ validation currently works from within simproc, but not outside of it
-due to import statements in the doctests in tutorial.rst
-Maybe instead of fixing, tutorial.rst should be moved.
-Maybe read the part about how doctests are discovered,
-and see if there is a way to make this happen.
-Maybe even consider moving those doctests into a module docstring.
-The problem is it can't be in locators, because it needs a request class.
-It could be in debug, but then you'd have to import locators just for its doctests.
-Maybe that's ok. Does debug really have any other function?
-Alternatively, maybe this means the doctests in debug should actually be moved to a tutorial.
-In that case, the solution is probably to move the tutorial out of requesthandler into simproc.
-For that matter, the validation should probably be refactored
-to allow modules to add themselves to the list of modules for validation,
-and somewhere there should be a master list of rst files.
-Then the function will just iterate over those two lists.
-Ultimately the validation problems will need to go in here as well.
-That means doctests are ultimately good ways to implement those.
-
 _TODO_ need a documentation example of folder structure definition
 Show how to change it from within python,
 and from within yaml.
