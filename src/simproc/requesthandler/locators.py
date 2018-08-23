@@ -25,11 +25,11 @@ topfolder_environ='TOPFOLDER'
 #Get path to the top folder
 if topfolder_environ in os.environ.keys():
   # TOPFOLDER=Path(osp.normpath(osp.abspath(os.environ[topfolder_environ])))
-  TOPFOLDER=filepath.Path(os.environ[topfolder_environ]).expanduser().reslolve()
+  TOPFOLDER=filepath.Path(os.environ[topfolder_environ]).expanduser().resolve()
 else:
-  srcfolder=filepath.Path(__file__).parent.parent.parent
+  modpath=filepath.Path(__file__)
+  srcfolder=modpath.parent.parent.parent
   TOPFOLDER=srcfolder.parent / 'data'
-
 
 class DataFile(object):
   """File location relative to ``TOPFOLDER``
@@ -71,8 +71,8 @@ def locator_factory(ltype):
     """File location as specified by the name of its parent request and the current folder structure settings"""
     def __init__(self,*args,**kwargs):
       self.subpath=filepath.Path(*args,**kwargs)
-    def path(self,req):
-      namelist=req.name.split('.')
+    def path(self,reqname):
+      namelist=reqname.split('.')
       specifier=folder_structure[ltype]
       out=TOPFOLDER
       for itm in specifier:

@@ -35,6 +35,25 @@ def validation_error_string(err):
     s="%s: %s"%('.'.join([str(itm) for itm in err.path]),s)
   return s
 
+def recursive_locator_search(data,reqname):
+  """Get the paths from locators in the data, even if nested in lists, dictionaries, etc."""
+  #Primitive data types should be returned unmodified
+  if type(data)==int or type(data)==float or type(data)==str:
+    out=data
+  #Is the item itself a locator?
+  elif hasattr(data,'path'):
+    out=data.path(reqname)
+  #For a sequence, check each entry
+  elif hasattr(data,'index'):
+    out=type(data)([recursive_locator_search(itm,reqname) for itm in data])
+  #For a dictionary, check the values
+  elif hasattr(data,'items'):
+    out=type(data)([(k,recursive_locator_search(v,reqname)) for k,v in data.items()])
+  #Fall back to returning the original data unchanged
+  else:
+    out=data
+  return out
+
 class Request(object):
   """Base class for all requests. Abstract only, not really meant to be instantiated.
   
@@ -80,13 +99,8 @@ class Request(object):
   __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   def __init__(self,**kwargs):
     #Process locators
-    for k,v in kwargs.items():
-      #If field is a locator, get the Path it returns
-      ##TODO: this doesn't catch entries that are lists (check each element)
-      ##or nested dictionaries, or lists of dictionaries of lists of ...
-      ##how do we make this recursive?
-      if hasattr(v,'path'):
-        kwargs[k]=v.path(self)
+    reqname=kwargs.get('name','') #Need the request name, if any, to process locators
+    kwargs=recursive_locator_search(kwargs,reqname)
     #Validate kwargs
     if hasattr(self,'_props_schema'):
       self.validate_kwargs(**kwargs)

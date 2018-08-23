@@ -21,11 +21,6 @@ _TODO_ need a documentation example of folder structure definition
 Show how to change it from within python,
 and from within yaml.
 
-_TODO_ testing new control.yaml
-- __BUG__: locators aren't processed if they reside in a dictionary, list, and composites thereof
-Need to recursively descend into such items looking for locators.
-If you make a function to do this, just pass it kwargs to begin with.
-
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
 
 _TODO_ refactor this TODO list!

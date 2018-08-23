@@ -12,6 +12,7 @@ yaml=YAML(typ="safe", pure=True)
 
 #List of all registered class names
 all_registered=[]
+all_registered_classes=[]
 
 def register_classes(class_list):
   """Register the classes that might be loaded from a yaml file, from a list of classes
@@ -22,6 +23,14 @@ def register_classes(class_list):
   for yclass in class_list:
     yaml.register_class(yclass)
     all_registered.append(yclass.__name__)
+    all_registered_classes.append(yclass)
+
+def newloader():
+  """For when you need to load more than one yaml file at a time."""
+  yy=YAML(typ="safe", pure=True)
+  for yclass in all_registered_classes:
+    yy.register_class(yclass)
+  return yy
 
 def read(s):
   """Syntactic sugar for yaml.load()"""
