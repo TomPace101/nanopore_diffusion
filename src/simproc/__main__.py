@@ -5,7 +5,8 @@ from __future__ import print_function, division #Python 2 compatibility
 
 #Site packages
 
-#Local
+#This Package
+from . import *
 from .requesthandler import cmdline
 
 #Handle command-line execution

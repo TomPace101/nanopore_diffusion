@@ -17,6 +17,8 @@ class ShellCommandRequest(request.Request):
   - define a property attribute cmd_str that provides the shell command to be executed, as a string"""
 
   def run(self):
+    #Confirm validation
+    self.validate()
     #Create directories for output files if necessary
     allpaths=[getattr(self,oattr) for oattr in getattr(self,_outputfile_attrs,[])]
     allpaths+=getattr(self,_more_outputfiles,[])
