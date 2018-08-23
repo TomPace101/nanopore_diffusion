@@ -17,16 +17,6 @@ Then the function will just iterate over those two lists.
 Ultimately the validation problems will need to go in here as well.
 That means doctests are ultimately good ways to implement those.
 
-_ISSUE_ still not happy with "datafolder".
-Changing the module variable doesn't affect the class.
-And there's no way to change the module variable.
-Maybe what we want is a working directory.
-For example, it can be the directory from which a request file was loaded.
-But then what if you load a list of them, and they aren't in the same directory?
-Well, if the requests are handled in sequence,
-then perhaps that's ok.
-Each one redefines what the working directory is.
-
 _TODO_ need a documentation example of folder structure definition
 Show how to change it from within python,
 and from within yaml.

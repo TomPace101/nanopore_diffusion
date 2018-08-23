@@ -1,5 +1,12 @@
-"""Define data locators"""
-##TODO: a way to redefine datafolder from a yaml file (or maybe you want to redefine DataFile.parentpath, or parentpath in a particular locator class)
+"""Define data locators
+
+This module has a variable ``TOPFOLDER`` which specifies the path of the folder to work in.
+All locators return paths that start at this folder.
+
+From within python, you can simply set ``TOPFOLDER`` as a variable,
+and all locators will return paths based on the new location.
+
+For scripts, use the environment variable ``TOPFOLDER`` to tell the program where this folder is."""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
@@ -12,26 +19,28 @@ import os
 from . import filepath
 from . import yaml_manager
 
-#Locate data folder
-if 'DATALOC' in os.environ.keys():
-  # datafolder=Path(osp.normpath(osp.abspath(os.environ['DATALOC'])))
-  datafolder=filepath.Path(os.environ['DATALOC']).expanduser().reslolve()
+#Constants
+topfolder_environ='TOPFOLDER'
+
+#Get path to the top folder
+if topfolder_environ in os.environ.keys():
+  # TOPFOLDER=Path(osp.normpath(osp.abspath(os.environ[topfolder_environ])))
+  TOPFOLDER=filepath.Path(os.environ[topfolder_environ]).expanduser().reslolve()
 else:
   srcfolder=filepath.Path(__file__).parent.parent.parent
-  datafolder=srcfolder.parent / 'data'
+  TOPFOLDER=srcfolder.parent / 'data'
 
 
 class DataFile(object):
-  """File location relative to ``datafolder``
+  """File location relative to ``TOPFOLDER``
   
-  The location of ``datafolder`` is specified by the environment variable ``DATALOC``.
+  The location of ``TOPFOLDER`` is specified by the environment variable ``TOPFOLDER``.
   If this environment variable does not exist, a default value is provided.
   See ``folderstructure.py``."""
-  parentpath=datafolder
   def __init__(self,*args,**kwargs):
     self.subpath=filepath.Path(*args,**kwargs)
   def path(self,req):
-    return self.parentpath / self.subpath
+    return TOPFOLDER / self.subpath
   @classmethod
   def from_yaml(cls, constructor, node):
     return cls(node.value)
@@ -41,7 +50,7 @@ def locator_factory(ltype):
   
   The locator class returned will construct file paths as follows:
   
-    - all paths begin with ``locators.datafolder``
+    - all paths begin with ``locators.TOPFOLDER``
     - then, one subdirectory is added for each element of the folder structure definition sequence for the locator (see below)
     - finally, the subpath used to initialize the locator is appended
   
@@ -65,7 +74,7 @@ def locator_factory(ltype):
     def path(self,req):
       namelist=req.name.split('.')
       specifier=folder_structure[ltype]
-      out=self.parentpath
+      out=TOPFOLDER
       for itm in specifier:
         if type(itm) is int:
           if itm < len(namelist):
@@ -126,7 +135,7 @@ class UpdateFolderStructure(object):
   This isn't really a class. It's a function.
   But when loading from yaml, there isn't a way to call a funtion directly.
   You can only load classes.
-  Hence, this hack of an object that simply calls another function when initialized,
+  Hence, this is an object that simply calls another function when initialized,
   and then does nothing else ever."""
   def __init__(self,**kwargs):
     folder_structure.update(kwargs)

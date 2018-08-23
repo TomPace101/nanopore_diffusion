@@ -15,7 +15,7 @@ from doit import get_var
 from . import *
 
 #Constants
-default_controlfile = locators.datafolder / 'control.yaml'
+default_controlfile = locators.TOPFOLDER / 'control.yaml'
 #Paths to files containing doctests
 tutorial_file=pkg_resources.resource_filename(__name__,'tutorial.rst')
 
