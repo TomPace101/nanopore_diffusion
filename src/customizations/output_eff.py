@@ -13,8 +13,11 @@ import folderstructure as FS
 import plotdata
 
 #TODO: change this to store the flux in a specified attribute, use another function to save to VTK file
-def fluxfield(self,filename):
+def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=None):
   """Flux as vector field (new attribute, and VTK file)
+
+  TODO: update arguments information
+
   Arguments:
     filename = name of output file, as string
       File will be created in the output directory (self.outdir)
@@ -27,14 +30,22 @@ def fluxfield(self,filename):
     flux = flux field as a MeshFunction
   No return value.
   Output file is written."""
-  D_bulk=self.conditions.D_bulk
-  self.flux=fem.project(fem.Constant(-D_bulk)*fem.grad(self.soln),self.V_vec)
+  if D_bulk is None:
+    D_bulk=self.conditions.D_bulk
+  soln=getattr(self,solnattr)
+  if idx is not None:
+    soln=soln[idx]
+  fluxres=fem.project(fem.Constant(-D_bulk)*fem.grad(soln),self.V_vec)
+  setattr(self,fluxattr,fluxres)
   vtk_file=fem.File(osp.join(self.outdir,filename))
-  vtk_file << self.flux
+  vtk_file << fluxres
   return
 
-def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None): ##TODO: store also quadrupled value for unit cell?
+def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None,fluxattr='flux'): ##TODO: store also quadrupled value for unit cell?
   """Flux integral over specified facet
+
+  TODO: update arguments information
+
   Arguments:
     fluxsurf = physical facet number for flux measurement
     name = name for storage in the results dictionary
@@ -62,7 +73,7 @@ def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None)
   if normalvar is not None:
     self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the facet normal
   this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
-  totflux=fem.assemble(fem.dot(self.flux,this_n)*this_ds(fluxsurf))
+  totflux=fem.assemble(fem.dot(getattr(self,fluxattr),this_n)*this_ds(fluxsurf))
   self.results[name]=totflux
   return
 

@@ -168,6 +168,7 @@ class SUSimulator(simulator_general.GenericSimulator):
     mele = fem.MixedElement([ele]*self.Nspecies)
     self.V = fem.FunctionSpace(self.meshinfo.mesh,mele)
     self.V_scalar=fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder)
+    self.V_vec=fem.VectorFunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder)
 
     #Trial Functions
     self.u = fem.TrialFunction(self.V)
