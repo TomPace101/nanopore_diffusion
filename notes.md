@@ -503,6 +503,23 @@ The checkout process involves copying all the input files to the local disk.
 That means somehow mapping the locations from the central store to the local node.
 Copying back the output files uses the same mapping.
 That mapping has to be part of the parallel queue.
+The mapping equates a remote root location (which all input and output files must be underneath)
+with a local root.
+So the mapping is just a local Path and a remote Path.
+First, copy the input files.
+Then, form a new request with the input and output file locations replaced with their local versions.
+Run that new request.
+Then, copy the output files back to the remote location.
+That request is now completed. Mark it as such on the remote location.
+But how are the requests communicated to each running handler?
+It has to be a file. Or multiple files.
+Maybe a directory, which is searched for request files.
+Each request must have a unique name.
+Somewhere there is a mapping of names to states:
+unclaimed, running, complete, error
+Getting a new request involves updating this mapping,
+in a way that handles race conditions,
+so that no request is ever skipped or double-executed.
 
 
 Metadata
