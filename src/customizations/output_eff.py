@@ -35,7 +35,8 @@ def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=
   soln=getattr(self,solnattr)
   if idx is not None:
     soln=soln[idx]
-  fluxres=fem.project(fem.Constant(-D_bulk)*fem.grad(soln),self.V_vec)
+  expr=fem.Constant(-D_bulk)*fem.grad(soln)
+  fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
   setattr(self,fluxattr,fluxres)
   vtk_file=fem.File(osp.join(self.outdir,filename))
   vtk_file << fluxres
