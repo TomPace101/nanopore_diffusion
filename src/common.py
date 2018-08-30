@@ -114,7 +114,10 @@ def getbasename(fpath):
 
 def add_file_info(d,fpath):
   """Add info from the file path to the dictionary"""
-  d.update({'sourcefile':fpath, 'basename':getbasename(fpath)})
+  defaults={'sourcefile':fpath, 'basename':getbasename(fpath)}
+  for k,v in defaults.items():
+    if k not in d.keys():
+      d[k]=v
 
 class ParameterSet(object):
   """A base class for defining sets of related parameters.
