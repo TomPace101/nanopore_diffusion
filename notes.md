@@ -7,6 +7,10 @@ _TODO_ specification of dirichlet and neumann boundary conditions should make us
 
 _TODO_ refactor this TODO list!
 
+_TODO_ Name all functions in FEniCS.
+
+_TODO_ Generate a fenics log file, with timing info.
+
 _TODO_ clean up data
 The data folder has lots of junk now.
 Particularly in debug.
@@ -459,8 +463,47 @@ More generally, perhaps we need one command to run MPI requests, and a different
 Switching from one to the other requires running the other script.
 The alternative is to make everything MPI-aware, and check for rank 0 on the sequential parts.
 Or, perhaps write a wrapper that does this, and put everything sequential inside that wrapper.
+What we want is an MPI-aware request.
+It looks like mpi4py will let you start new MPI processes.
+https://mpi4py.readthedocs.io/en/stable/overview.html#dynamic-process-management
+But does that actually let us avoid using mpirun in a shell?
 
+Simultaneous requests
 In addition to MPI, we also need a way to run separate simulations at the same time.
+In electrolyte_analysis, I did this by splitting up the simulations into multiple yaml files.
+Maybe with the request structure, there could be a way to set up a queue of requests,
+with multiple servers to handle them.
+That way the load could be balanced dynamically,
+rather than assigning analyses to processes without knowing how long each will take.
+It would be nice if we could even support running them on separate machines.
+This would be a parallel request handler,
+in the sense that multiple requests could be executed in parallel.
+The handling processes would need to communicate,
+at least minimally, to see which requests were still available.
+The easiest way to do that might be through the filesystem.
+Which would mean those files would need to be on a place accessible from each machine.
+So that's a network location, such as my home folder.
+But they want to use their own input and output files on u1.
+Once again, then, it would be nice if the copying to/from u1 was handled automatically at runtime.
+So the handler has to be smart enough to do all of that.
+Some of those parameters it will need are separate from the requests you want handled.
+So we have a wrapping request, which points to a queue of other requests,
+and potentially holds additional information about how to run that queue.
+Furthermore, sometimes a request will depend on the outputs of a previous one.
+So we need two request queue types: parallel, and sequential.
+And a queue can contain another queue.
+For example, a parallel queue could consist of sequential queues.
+But what if, for example, I want to run on holly and the dlx, and one or more lab machines.
+They don't all have access to the same filesystem.
+Is there a way they could access something on the internet?
+It would have to be something they could not only read from, but write to.
+Like an FTP site, or a cloud drive.
+Which would mean storing the password for it somehow.
+The checkout process involves copying all the input files to the local disk.
+That means somehow mapping the locations from the central store to the local node.
+Copying back the output files uses the same mapping.
+That mapping has to be part of the parallel queue.
+
 
 Metadata
 Simulations should have metadata just like meshes, and in fact mesh metadata should be pulled into the simulation metadata.
