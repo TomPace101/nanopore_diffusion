@@ -77,11 +77,16 @@ class LPBSimulator(simulator_general.GenericSimulator):
     self.v=fem.TestFunction(self.V)
     self.a=((1/self.lambda_D**2)*self.phi*self.v + fem.dot(fem.grad(self.phi),fem.grad(self.v)))*fem.dx
     self.L=fem.Constant(0)*self.v*self.ds
+    self.soln=fem.Function(self.V)
+    problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
+    self.solver=fem.LinearVariationalSolver(problem)
+    #Set solver parameters to avoid UMFPACK out-of-memory error
+    self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
+    self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
 
   def run(self):
     "Run this simulation"
-    self.soln=fem.Function(self.V)
-    fem.solve(self.a==self.L, self.soln, self.bcs)
+    self.solver.solve()
     return
 
 #Lookup of electric potential simulators by name
@@ -268,6 +273,9 @@ class SUSimulator(simulator_general.GenericSimulator):
     self.L=allterms.sumterms(bilinear=False)
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
+    #Set solver parameters to avoid UMFPACK out-of-memory error
+    self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
+    self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
 
   def run(self):
     "Run this simulation"
