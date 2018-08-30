@@ -3,6 +3,8 @@ _TODO_ need a documentation example of folder structure definition
 Show how to change it from within python,
 and from within yaml.
 
+_TODO_ construct a module dependency graph
+
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
 
 _TODO_ refactor this TODO list!
@@ -10,6 +12,9 @@ _TODO_ refactor this TODO list!
 _TODO_ Name all functions in FEniCS.
 
 _TODO_ Generate a fenics log file, with timing info.
+More generally, maybe all requests should have an optional log file.
+Use the "logging" module. Note you can change the format.
+The runner then uses that log.
 
 _TODO_ clean up data
 The data folder has lots of junk now.
@@ -79,6 +84,7 @@ Basically, these are sets of commands that can be run at different points in tim
 - loaddata commands are run during simulator initialization
 - dataextraction commands are run after the simulation is complete
 - datasteps commands are run more than once during a simulation, after each iteration (or some multiple thereof)
+Customization allows us to add to the list of commands by pulling in other modules/scripts.
 
 We have 4 abstractions:
 - Request
@@ -521,7 +527,6 @@ Getting a new request involves updating this mapping,
 in a way that handles race conditions,
 so that no request is ever skipped or double-executed.
 
-
 Metadata
 Simulations should have metadata just like meshes, and in fact mesh metadata should be pulled into the simulation metadata.
 This simulation metadata is the output file that gets written.
@@ -529,6 +534,40 @@ Or maybe there should be a data extraction command to output this part, just lik
 After all, maybe you don't always want it. For example, it could be empty.
 And this metadata is what is collected into a dataframe.
 Maybe you can have more than one, but it has a default name that is the same everywhere, as usually only one is desired.
+
+Runners
+We never really figured out the abstraction for running requests.
+Originally I called them handlers,
+then decided we didn't need them.
+But maybe we do.
+What can a runner do?
+- perform the actions specified by a particular Request
+- keep a log of its activities
+- store intermediate, and final results, for output or internal use
+- load new methods for itself from a file
+Is a runner a composite?
+Not really. That would fragment its namespace.
+Or maybe that's what we want, to keep it organized.
+Consider dataextraction.
+Basically, this is just a list of function calls.
+But there's indirection:
+the function arguments come from attribute names.
+So if you have a function, you can just wrap it as a method
+by mapping its inputs (and outputs) to appropriate attribute names.
+But sometimes you don't pass argument names.
+Some data is specified directly.
+This is where we got the idea of in-memory data locators from.
+Pointers to pointers to pointers...
+It's also, to some extent, where the idea of composite requests came from.
+If a request can return a value, that result can be used in later requests.
+Except we don't have a way to pass arguments to `run`.
+But we do: we can assign properties to the sub-requests after they are initialized.
+Still, that's somewhat silly.
+Are you going to set the "mesh" attribute of every request that needs the mesh?
+Of course not. You want a namespace of some kind.
+So maybe just give the request a namespace?
+Then you just need a way to get and set values in there, based on name and possibly index.
+
 
 Unresolved issues/questions:
 - classes listed as TBD below.
