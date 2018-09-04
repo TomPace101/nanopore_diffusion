@@ -81,8 +81,10 @@ class LPBSimulator(simulator_general.GenericSimulator):
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
     #Set solver parameters to avoid UMFPACK out-of-memory error
+    #iterative solver
     ##self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
     ##self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
+    #mumps
     self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
 
   def run(self):
@@ -275,8 +277,10 @@ class SUSimulator(simulator_general.GenericSimulator):
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
     #Set solver parameters to avoid UMFPACK out-of-memory error
+    #iterative solver
     ##self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
     ##self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
+    #mumps solver
     self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
 
   def run(self):
@@ -288,7 +292,7 @@ class SUSimulator(simulator_general.GenericSimulator):
     self.clist=[]
     for s,cbar in enumerate(self.solnlist):
       expr=cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln)
-      c=fem.project(expr,self.V_scalar,solver_type="mumps")
+      c=fem.project(expr,self.V_scalar,solver_type="cg",preconditioner_type="amg")
       self.clist.append(c)
     return
 
