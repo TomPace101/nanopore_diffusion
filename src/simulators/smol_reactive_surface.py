@@ -81,8 +81,11 @@ class LPBSimulator(simulator_general.GenericSimulator):
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
     #Set solver parameters to avoid UMFPACK out-of-memory error
-    self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
-    self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
+    #iterative solver
+    ##self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
+    ##self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
+    #mumps
+    self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
 
   def run(self):
     "Run this simulation"
@@ -274,8 +277,11 @@ class SUSimulator(simulator_general.GenericSimulator):
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
     #Set solver parameters to avoid UMFPACK out-of-memory error
-    self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
-    self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
+    #iterative solver
+    ##self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
+    ##self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
+    #mumps solver
+    self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
 
   def run(self):
     "Run this simulation"
@@ -285,7 +291,8 @@ class SUSimulator(simulator_general.GenericSimulator):
     self.solnlist=fem.split(self.soln)
     self.clist=[]
     for s,cbar in enumerate(self.solnlist):
-      c=fem.project(cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln),self.V_scalar)
+      expr=cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln)
+      c=fem.project(expr,self.V_scalar,solver_type="cg",preconditioner_type="amg")
       self.clist.append(c)
     return
 
