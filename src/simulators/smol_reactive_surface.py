@@ -246,7 +246,7 @@ class SUSimulator(simulator_general.GenericSimulator):
     for s,spec in enumerate(self.species):
       Dbar=spec.D*fem.exp(-self.conditions.beta*spec.z*self.potsim.soln)
       self.Dbar_dict[s]=Dbar
-      self.Dbar_proj.append(fem.project(Dbar,self.V_scalar))
+      self.Dbar_proj.append(fem.project(Dbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")) #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
 
     #Weak Form
     allterms=simulator_general.EquationTermDict(EquationTerm)
