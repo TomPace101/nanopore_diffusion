@@ -269,7 +269,7 @@ class SUSimulator(simulator_general.GenericSimulator):
       r,p=pair
       termname='reactive_%d'%psurf
       bterm = self.Dbar_dict[r]*fem.dot(self.n,fem.grad(cbarlist[r]))*(vlist[r]-vlist[p])*self.ds(psurf)
-      allterms.add(termname,bterm,bilinear=True)
+      allterms.add(termname,-bterm,bilinear=True)
 
     #Problem and Solver
     self.a=allterms.sumterms(bilinear=True)
