@@ -162,6 +162,7 @@ So let's look at our Handlers:
     - input is results from model
     - output is a plot
   - plots from collected results
+    - want to select subsets of data from the table as a series: one column is the independent variable, others (a subset of all others) determine the series label
   - validation: comparing program results to expectations
     - input is the other postproc results, and the expected results
     - output is a validation report
