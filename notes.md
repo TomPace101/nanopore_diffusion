@@ -466,6 +466,7 @@ MPI
 simulation requests: should run use mpi to call a python script that will run the simulation?
 If so, how do you pass the request parameters to that simulation, knowing that it's a complicated object?
 It seems like there has to be an input file to read them from.
+Alternatively, you could use a pipe: have a script that reads a request definition from stdin, then runs it.
 More generally, perhaps we need one command to run MPI requests, and a different one for non-MPI requests.
 Switching from one to the other requires running the other script.
 The alternative is to make everything MPI-aware, and check for rank 0 on the sequential parts.
