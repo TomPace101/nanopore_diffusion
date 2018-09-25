@@ -19,6 +19,8 @@ The runner then uses that log.
 _TODO_ clean up data
 The data folder has lots of junk now.
 Particularly in debug.
+And the data needs to go into a separate repo,
+just like in electrolyte_analysis.
 
 _TODO_ add number of dimensions to geometry definition file, and from there to mesh metadata
 For that matter, putting the geometry definition name in mesh metadata might be nice.
