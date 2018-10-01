@@ -93,7 +93,7 @@ def combine(c1,r1,c2,r2):
   """Combine two groups of center and radius values into a single group"""
   if c1.shape[0]>0:
     centers=np.vstack((c1,c2))
-    rvals=np.vstack((r1,r2))
+    rvals=np.hstack((r1,r2))
   else:
     centers=c2
     rvals=r2
