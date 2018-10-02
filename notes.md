@@ -1327,6 +1327,8 @@ Documentation of specific analyses:
 - expected results
 - actual results (which require that the model has been run)
 
+_TODO_ for math derivations, use Green's first identity more often (you can cite Deen)
+
 So how do we modularize weak forms, time-domain calculations, etc.
 For example, sometimes we have special cases:
 - steady-state instead of time-domain
