@@ -53,6 +53,27 @@ But you can assign data to a Vector from a numpy array:
 https://fenicsproject.org/qa/8774/defining-a-function-from-data/
 You just need to get coordinates (and components in a vector case) for the dofs
 
+_IDEA_ a data cleanup routine
+(This is different than the note above about cleaning up.)
+For each request, keep track of all its output files.
+Store list list, keyed by the request name.
+Keep a history of this, so you can see what old requests are no longer needed,
+and delete them when desired.
+Or, maybe there are files a request used to create but does not anymore,
+so they can be deleted as well.
+
+_IDEA_ "scriptlets"
+Python code that will be executed in a particular context:
+an input dictionary becomes the local namespace,
+and the namespace at the end is the output dictionary.
+Maybe there's a way to separate input and output,
+so that the input isn't always replicated.
+But the idea is that the code of the scriptlet itself
+can use fairly simple means of accessing input and output variables.
+
+This is kind of what I've done with binding methods defined somewhere else to an object.
+
+
 # Refactoring: Requests and Handlers
 
 reqdata means the request includes data other than just the input and output files
