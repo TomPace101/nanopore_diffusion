@@ -498,6 +498,10 @@ What we want is an MPI-aware request.
 It looks like mpi4py will let you start new MPI processes.
 https://mpi4py.readthedocs.io/en/stable/overview.html#dynamic-process-management
 But does that actually let us avoid using mpirun in a shell?
+I don't think it does.
+
+I think the bottom line is to create an MPI request,
+which basically runs a shell request on its contained request.
 
 Simultaneous requests
 In addition to MPI, we also need a way to run separate simulations at the same time.
@@ -552,6 +556,20 @@ Getting a new request involves updating this mapping,
 in a way that handles race conditions,
 so that no request is ever skipped or double-executed.
 
+OK, is there a simpler way?
+What is the minimal feature set?
+Let's assume we're running on a single node,
+but with multiple processors.
+How would a ParallelQueue be processed?
+There are a set of handler processes,
+which need to be fed the sub-requests from somewhere.
+When a request is completed, a new one is taken,
+until the queue is empty.
+Then the handler shuts down.
+
+Maybe the easiest way is to use doit's parallel execution.
+Then all you have to do is create a requestfile.
+
 Metadata
 Simulations should have metadata just like meshes, and in fact mesh metadata should be pulled into the simulation metadata.
 This simulation metadata is the output file that gets written.
@@ -593,6 +611,45 @@ Of course not. You want a namespace of some kind.
 So maybe just give the request a namespace?
 Then you just need a way to get and set values in there, based on name and possibly index.
 
+Locators, redux
+Should locators be maintained, so we can construct other paths from them?
+Maybe not: all the data you need comes from the request anyway,
+so you can just have a request define a locator!
+
+Request generation:
+This is important.
+We want to be able to construct requests using complicated logic.
+Consider monte-carlo simulations of random structures.
+So far, I've done this by creating yaml files.
+And for parallel execution with doit,
+that's the only way.
+This is also how we ran into the issue before with
+requiring request generation requests to run before
+the requests they generate can be read in.
+So is there a request generation request?
+Where running it returns a request?
+Or, is request generation a separate process?
+Seems odd not to use the request machinery to generate requests.
+It would require setting up a new infrastructure.
+But maybe that infrastructure is just some scripts.
+Certainly, that has to be a part of it somehow,
+even if we do use the request machinery.
+
+In other words, as a user, I could create a request generation request.
+Handling this request generates the requests for the analyses I want run.
+Or, I could just write a script to generate the requests.
+
+And yet, maybe I could identify a base class for request generation,
+which these scripts could use.
+It could be based on the old request generation code,
+with lessons learned from the problems I've worked on since then.
+
+How to resolve the multi-pass problem:
+we may need requests handled in order to generate new requests.
+Perhaps we set things up so that handling requests could return new requests,
+and if so, we do another round of handling,
+repeating until no new requests are generated.
+This gets back into what request handlers return.
 
 Unresolved issues/questions:
 - classes listed as TBD below.
@@ -611,7 +668,9 @@ Implementation
 - Simulation: TBD
 - Post-processing: TBD
 - Validation: TBD
-- Request generation: TBD
+- Request generation:
+  - Requests store themselves in a yaml file
+  - Template requests: requests that produce a file from a template and input data
 
 _ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
 - The input yaml file's own name defines the basename.
