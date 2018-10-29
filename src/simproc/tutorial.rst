@@ -48,3 +48,5 @@ Here is a complete example of the use of locators.
   >>> locators.folder_structure.update(TestLocator=[0,'stuff_files',1,2,3,4,5])
   >>> tl.path(req.name)
   Path('data/debug/stuff_files/alpha/example/myfile.stuff')
+
+Examples of the use of locators from within yaml files can be found in ``dummy.yaml``.

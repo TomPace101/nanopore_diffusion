@@ -1,4 +1,4 @@
-"""Functions to provide command-line support for running requests, and returning requests as doit tasks"""
+"""Command-line support for running requests, and returning requests as doit tasks"""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

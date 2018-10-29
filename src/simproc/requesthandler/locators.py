@@ -143,7 +143,10 @@ class UpdateFolderStructure(object):
   Hence, this is an object that simply calls another function when initialized,
   and then does nothing else ever."""
   def __init__(self,**kwargs):
-    folder_structure.update(kwargs)
+    folder_structure.update(**kwargs)
+  def __setstate__(self,state):
+    """Used for unpickling, and loading from yaml"""
+    self.__init__(**state)
 
 #Register for loading from yaml
 yaml_manager.register_classes([DataFile,UpdateFolderStructure])

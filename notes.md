@@ -1,8 +1,4 @@
 
-_TODO_ need a documentation example of folder structure definition
-Show how to change it from within python,
-and from within yaml.
-
 _TODO_ construct a module dependency graph
 
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol

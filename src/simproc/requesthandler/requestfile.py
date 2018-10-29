@@ -44,7 +44,8 @@ class RequestFileRequest(request.Request):
     #Load all objects from yaml
     yaml=yaml_manager.newloader()
     allobj=yaml.load_all(dat)
-    self._children=[ch for ch in allobj]
+    #Store child objects that are Request subclasses
+    self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
   def run(self):
     "Run all the requests listed in the file"
     for req in self.all_children():
