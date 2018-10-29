@@ -51,6 +51,7 @@ You just need to get coordinates (and components in a vector case) for the dofs
 
 _IDEA_ a data cleanup routine
 (This is different than the note above about cleaning up.)
+Like the `cleanup.sh` file I have in other places.
 For each request, keep track of all its output files.
 Store list list, keyed by the request name.
 Keep a history of this, so you can see what old requests are no longer needed,
@@ -72,7 +73,7 @@ This is kind of what I've done with binding methods defined somewhere else to an
 
 # Refactoring: Requests and Handlers
 
-reqdata means the request includes data other than just the input and output files
+In the info below, reqdata means the request includes data other than just the input and output files
 
 Mesh generation:
   - construct template from geometry definition (reqdata -> .geo.jinja2)
