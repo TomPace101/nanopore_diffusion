@@ -1,8 +1,15 @@
 
-.. command-line usage: python -m doctest  requesthandler/tutorial.rst
+.. command-line usage: python -m doctest  tutorial.rst
 
 Tutorial
 ################################################################################
+
+One of the biggest challenges in a simulation is managing all the data.
+Keeping a consistent file structure makes it easier to find data,
+especially when you come back to look at everything after time away.
+
+The ``locators`` module helps to define a consistent set of file and folder names,
+and automatically calculate path strings based on this defined structure.
 
 **TODO** 
 

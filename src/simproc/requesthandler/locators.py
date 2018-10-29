@@ -1,5 +1,10 @@
 """Define data locators
 
+Locators are objects that can return a path to a particular file.
+First, an overall file structure is defined.
+Within this file structure, individual paths are computed
+based on the parameters of the request that needs them.
+
 This module has a variable ``TOPFOLDER`` which specifies the path of the folder to work in.
 All locators return paths that start at this folder.
 
