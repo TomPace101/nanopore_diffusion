@@ -500,73 +500,6 @@ I don't think it does.
 I think the bottom line is to create an MPI request,
 which basically runs a shell request on its contained request.
 
-Simultaneous requests
-In addition to MPI, we also need a way to run separate simulations at the same time.
-In electrolyte_analysis, I did this by splitting up the simulations into multiple yaml files.
-Maybe with the request structure, there could be a way to set up a queue of requests,
-with multiple servers to handle them.
-That way the load could be balanced dynamically,
-rather than assigning analyses to processes without knowing how long each will take.
-It would be nice if we could even support running them on separate machines.
-This would be a parallel request handler,
-in the sense that multiple requests could be executed in parallel.
-The handling processes would need to communicate,
-at least minimally, to see which requests were still available.
-The easiest way to do that might be through the filesystem.
-Which would mean those files would need to be on a place accessible from each machine.
-So that's a network location, such as my home folder.
-But they want to use their own input and output files on u1.
-Once again, then, it would be nice if the copying to/from u1 was handled automatically at runtime.
-So the handler has to be smart enough to do all of that.
-Some of those parameters it will need are separate from the requests you want handled.
-So we have a wrapping request, which points to a queue of other requests,
-and potentially holds additional information about how to run that queue.
-Furthermore, sometimes a request will depend on the outputs of a previous one.
-So we need two request queue types: parallel, and sequential.
-And a queue can contain another queue.
-For example, a parallel queue could consist of sequential queues.
-But what if, for example, I want to run on holly and the dlx, and one or more lab machines.
-They don't all have access to the same filesystem.
-Is there a way they could access something on the internet?
-It would have to be something they could not only read from, but write to.
-Like an FTP site, or a cloud drive.
-Which would mean storing the password for it somehow.
-The checkout process involves copying all the input files to the local disk.
-That means somehow mapping the locations from the central store to the local node.
-Copying back the output files uses the same mapping.
-That mapping has to be part of the parallel queue.
-The mapping equates a remote root location (which all input and output files must be underneath)
-with a local root.
-So the mapping is just a local Path and a remote Path.
-First, copy the input files.
-Then, form a new request with the input and output file locations replaced with their local versions.
-Run that new request.
-Then, copy the output files back to the remote location.
-That request is now completed. Mark it as such on the remote location.
-But how are the requests communicated to each running handler?
-It has to be a file. Or multiple files.
-Maybe a directory, which is searched for request files.
-Each request must have a unique name.
-Somewhere there is a mapping of names to states:
-unclaimed, running, complete, error
-Getting a new request involves updating this mapping,
-in a way that handles race conditions,
-so that no request is ever skipped or double-executed.
-
-OK, is there a simpler way?
-What is the minimal feature set?
-Let's assume we're running on a single node,
-but with multiple processors.
-How would a ParallelQueue be processed?
-There are a set of handler processes,
-which need to be fed the sub-requests from somewhere.
-When a request is completed, a new one is taken,
-until the queue is empty.
-Then the handler shuts down.
-
-Maybe the easiest way is to use doit's parallel execution.
-Then all you have to do is create a requestfile.
-
 Metadata
 Simulations should have metadata just like meshes, and in fact mesh metadata should be pulled into the simulation metadata.
 This simulation metadata is the output file that gets written.
@@ -784,6 +717,61 @@ and there isn't one for "notebook".
 
 What we want is a way, from the command line,
 to specify some subset of the requests in a file.
+
+_FEATURE_ Simultaneous requests
+We can do this now with doit's parallel execution.
+Then all you have to do is create a requestfile.
+But will this work with custom locators/folder structures?
+Yes, it does!
+Doit just executes tasks in parallel.
+The task definitions are still formed in series.
+
+But this won't work for running on separate machines.
+It would be nice if we could even support running them on separate machines.
+This would be a parallel request handler,
+in the sense that multiple requests could be executed in parallel.
+The handling processes would need to communicate,
+at least minimally, to see which requests were still available.
+The easiest way to do that might be through the filesystem.
+Which would mean those files would need to be on a place accessible from each machine.
+So that's a network location, such as my home folder.
+But they want to use their own input and output files on u1.
+Once again, then, it would be nice if the copying to/from u1 was handled automatically at runtime.
+So the handler has to be smart enough to do all of that.
+Some of those parameters it will need are separate from the requests you want handled.
+So we have a wrapping request, which points to a queue of other requests,
+and potentially holds additional information about how to run that queue.
+Furthermore, sometimes a request will depend on the outputs of a previous one.
+So we need two request queue types: parallel, and sequential.
+And a queue can contain another queue.
+For example, a parallel queue could consist of sequential queues.
+But what if, for example, I want to run on holly and the dlx, and one or more lab machines.
+They don't all have access to the same filesystem.
+Is there a way they could access something on the internet?
+It would have to be something they could not only read from, but write to.
+Like an FTP site, or a cloud drive.
+Which would mean storing the password for it somehow.
+The checkout process involves copying all the input files to the local disk.
+That means somehow mapping the locations from the central store to the local node.
+Copying back the output files uses the same mapping.
+That mapping has to be part of the parallel queue.
+The mapping equates a remote root location (which all input and output files must be underneath)
+with a local root.
+So the mapping is just a local Path and a remote Path.
+First, copy the input files.
+Then, form a new request with the input and output file locations replaced with their local versions.
+Run that new request.
+Then, copy the output files back to the remote location.
+That request is now completed. Mark it as such on the remote location.
+But how are the requests communicated to each running handler?
+It has to be a file. Or multiple files.
+Maybe a directory, which is searched for request files.
+Each request must have a unique name.
+Somewhere there is a mapping of names to states:
+unclaimed, running, complete, error
+Getting a new request involves updating this mapping,
+in a way that handles race conditions,
+so that no request is ever skipped or double-executed.
 
 # Formula derivations
 - _TODO_ NP linearization notebook

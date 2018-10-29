@@ -4,17 +4,63 @@
 Tutorial
 ################################################################################
 
-One of the biggest challenges in a simulation is managing all the data.
+Testing
+=======
+
+Here are the commands that I use right now to test everything:
+
+- ``python -m simproc --validate``
+- ``python -m simproc ../data/dummy.yaml``
+- ``doit control=../data/dummy.yaml``
+- ``doit -n 4 control=../data/dummy.yaml``
+
+Requests
+========
+
+A Request defines a particular task to be executed.
+In particular, a Request instance should be able to do the following three things:
+
+1. Run itself: actually perform the requested action.
+   If a request is thought of as a function, this means calling the function.
+2. Provide ``doit`` task definitions for its actions.
+   The python package ``doit`` provides functionality similar to ``make``,
+   but with greater flexibility.
+   That is, ``doit`` tracks the state of defined tasks,
+   so that only tasks that need to be run will actually be run.
+   There are other advantages as well; see http://pydoit.org/ .
+3. Validate its own configuration.
+   If a request is thought of as a function, this means checking that the input arguments provided are valid.
+
+The process of breaking a simulation up into Requests involves separating the various steps in the process.
+Some typical steps are:
+- mesh generation
+- simulation execution
+- post-processing
+
+**TODO**
+
+Locators
+========
+
+One of the biggest challenges in a simulation is managing all the data files.
 Keeping a consistent file structure makes it easier to find data,
 especially when you come back to look at everything after time away.
 
 The ``locators`` module helps to define a consistent set of file and folder names,
-and automatically calculate path strings based on this defined structure.
+and automatically calculate path strings based on this defined structure for a given request.
+
+The file structure for the data files starts at a designated "top folder",
+which can be indicated with the environment variable ``TOPFOLDER``.
+If this environment variable is not defined,
+the top folder will be assumed (see module ``locators`` for the assumed location.)
+The top folder can also be changed at runtime.
+
+The folder structure within this top folder is determined by the types of locators defined.
+For each kind of data file you might want to store, a locator type is created.
+Each data file is also assumed to belong to a particular request,
+so the locator can use information from the request to calculate the data file path.
 
 **TODO** 
-
-More on Locators
-================
 
 Here is a complete example of the use of locators.
 
@@ -22,31 +68,42 @@ Here is a complete example of the use of locators.
   
   Setup
   
+  >>> #module imports
   >>> from simproc.requesthandler.filepath import Path
   >>> import simproc.requesthandler.locators as locators
   >>> import simproc.requesthandler.debug as debug
-  >>> locators.TOPFOLDER=Path("data")
-  >>> req=debug.DummyRequest(name='debug.alpha.example',test='some_data_here')
+  >>> locators.TOPFOLDER=Path("data") #set the top folder location
+  >>> req=debug.DummyRequest(name='debug.alpha.example',test='some_data_here') #an example request
   
   Example 1: string specifiers
 
-  >>> locators.folder_structure.update(TestLocator=['testfolder'])
+  >>> locators.folder_structure.update(TestLocator=['testfolder']) #define a new locator type called 'TestLocator'
   >>> locators.TestLocator.__name__
   'TestLocator'
-  >>> tl=locators.TestLocator('myfile.stuff')
-  >>> tl.path(req.name)
+  >>> tl=locators.TestLocator('myfile.stuff') #Use the TestLocator to locate a file called 'myfile.stuff'
+  >>> tl.path(req.name) #Get the path to this file for the example request
   Path('data/testfolder/myfile.stuff')
+  >>> #In this case, the request didn't actually contribute to the file path at all
   
   Example 2: request name specifiers
 
-  >>> locators.folder_structure.update(TestLocator=[0,'stuff_files',1])
-  >>> tl.path(req.name)
+  >>> locators.folder_structure.update(TestLocator=[0,'stuff_files',1]) #Modify TestLocator to use parts of the request name
+  >>> tl.path(req.name) #Now where is the test file located?
   Path('data/debug/stuff_files/alpha/myfile.stuff')
 
   Example 3: going beyond the length of the request name
 
-  >>> locators.folder_structure.update(TestLocator=[0,'stuff_files',1,2,3,4,5])
+  >>> locators.folder_structure.update(TestLocator=[0,'stuff_files',1,2,3,4,5]) #This would use up to six parts of a request name
   >>> tl.path(req.name)
   Path('data/debug/stuff_files/alpha/example/myfile.stuff')
+  >>> #The non-existent portions of the request name are simply ignored
 
 Examples of the use of locators from within yaml files can be found in ``dummy.yaml``.
+
+Miscellany
+==========
+
+Just few things not to forget, until I can find a better place for them.
+
+The best way to run requests in parallel is to let doit execute the tasks in parallel, with its ``-n`` switch.
+Try it for yourself: ``doit -n 4 control=<<requestfile>>``.
