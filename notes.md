@@ -582,6 +582,7 @@ repeating until no new requests are generated.
 This gets back into what request handlers return.
 
 Unresolved issues/questions:
+- should Request.run just run all of its children, the way RequestFileListRequest does now?
 - classes listed as TBD below.
 
 Implementation
@@ -589,37 +590,23 @@ Implementation
 - Base classes:
   - DONE Request - abstract only: defines the interface
   - DONE Request to run all of the requests in another file. Or maybe even a way to specify a subset of them. (see note about doing this on command line)
-  - Request to run a script (or would it be better to require that script to be converted to a handler?)
-  - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
+  - Request to run a script: is this working now?
 - Data Locators:
   - DataFolderFile: defines a file relative to the data folder
   - RequestFile?: defines a file relative to the appropriate location from folderstructure for the parent request
 - Mesh generation: TBD
 - Simulation: TBD
-- Post-processing: TBD
+- Post-processing:
+  - TBD, see notes below
+  - zipping/unzipping: see below as well
 - Validation: TBD
 - Request generation:
   - Requests store themselves in a yaml file
   - Template requests: requests that produce a file from a template and input data
 
-_ISSUE_ the data folder structure, and how different attributes specify different parts of it, can be confusing
-- The input yaml file's own name defines the basename.
-  Maybe that feature should be removed, requiring the basename to be specified.
-  And call it something more specific, like "basefolder".
-  Actually, the basename could be included in the yaml file already, but:
-    - currently, it would be overwritten by the file's basename
-    - that doesn't help with the case where the model and mesh have different basenames
-        This suggests just providing the mesh name and directory.
-- "meshname" is used to compute filenames.
-  Maybe instead the file names themselves should be listed.
-  I already had some discussion about this under the notes on pathlib.Path below.
-The fundamental question is:
-Should we get rid of folderstructure, and require the input files to use hard-coded paths instead?
-Yes, this will increase the number of input parameters, by making everything more explicit.
-It could also make the input files more machine-dependent.
-Unless we keep the datafolder, which can come from an environment variable if necessary,
-and make all paths relative to that.
-Is there a way we can have default locations, which can be overridden?
+Deprecated/Postponed Implementation:
+  - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
+
 
 _TODO_ refactor post-processing
 Think of post-processing in terms of tasks to complete.
