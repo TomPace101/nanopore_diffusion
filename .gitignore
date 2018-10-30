@@ -44,3 +44,7 @@ data\postproc\manual_gen\*
 *.png
 *.avi
 *.ogv
+
+#Validation output
+validation/output/*
+!validation/output/.keep

@@ -60,11 +60,6 @@ can use fairly simple means of accessing input and output variables.
 
 This is kind of what I've done with binding methods defined somewhere else to an object.
 
-_TODO_ class to set TOPFOLDER in locators.py
-Just like we have a class so that from yaml we can update the folder structure,
-we should have a class that allows us to set TOPFOLDER.
-Resist the urge to make it a special case of UpdateFolderStructure instead.
-
 # Refactoring: Requests and Handlers
 
 So what's the bigger pattern we have here?

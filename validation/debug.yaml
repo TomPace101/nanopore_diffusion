@@ -22,14 +22,18 @@ TestLocator:
 name: dummy.custom_locator
 test: !TestLocator dummy.yaml
 ---
+#Locator for output generated below
+!UpdateFolderStructure
+OutputFile: ['output',0]
+---
 #Test basic shell request
 !DummyShellRequest
 name: dummy.shell
 test: hello world
-outfile: !DataFile hello_world.txt
+outfile: !OutputFile hello_world.txt
 ---
 #Test general shell request
 !GeneralShellCommandRequest
 name: dummy.generalshell
 command: date
-outfile: !DataFile date_output.txt
+outfile: !OutputFile date_output.txt

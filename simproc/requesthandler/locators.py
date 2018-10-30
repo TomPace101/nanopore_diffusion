@@ -33,7 +33,7 @@ if topfolder_environ in os.environ.keys():
   TOPFOLDER=filepath.Path(os.environ[topfolder_environ]).expanduser().resolve()
 else:
   modpath=filepath.Path(__file__)
-  srcfolder=modpath.parent.parent.parent
+  srcfolder=modpath.parent.parent
   TOPFOLDER=srcfolder.parent / 'data'
 
 class DataFile(object):
@@ -152,5 +152,25 @@ class UpdateFolderStructure(object):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
 
+class SetTopFolder(object):
+  """Set the TOPFOLDER
+  
+  As with `UpdateFolderStructure`, this is used as a function.
+  It allows TOPFOLDER to be set from within a yaml input file.
+  
+  It's not a request, for the same reason that `UpdateFolderStructure`
+  is not a request either."""
+  def __init__(self,**kwargs):
+    global TOPFOLDER
+    tp=filepath.Path(kwargs['topfolder'])
+    if tp.root=='':
+      #Relative path
+      tp=srcfolder/tp
+      tp=tp.resolve()
+    TOPFOLDER=tp
+  def __setstate__(self,state):
+    """Used for unpickling, and loading from yaml"""
+    self.__init__(**state)
+
 #Register for loading from yaml
-yaml_manager.register_classes([DataFile,UpdateFolderStructure])
+yaml_manager.register_classes([DataFile,UpdateFolderStructure,SetTopFolder])
