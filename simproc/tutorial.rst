@@ -10,9 +10,9 @@ Testing
 Here are the commands that I use right now to test everything:
 
 - ``python -m simproc --validate``
-- ``python -m simproc ../validation/all_validation.yaml``
+- ``python -m simproc validation/all_validation.yaml``
 - ``doit control=../data/dummy.yaml``
-- ``doit -n 4 control=../validation/all_validation.yaml``
+- ``doit -n 4 control=validation/all_validation.yaml``
 
 Requests
 ========

@@ -80,8 +80,8 @@ class Path(baseclass):
     return self
   def _default_isFile_result(self):
     return len(self.suffix)>0
-  def _init(self,isFile=None):
-    baseclass._init(self)
+  def _init(self,isFile=None,**kwargs):
+    baseclass._init(self,**kwargs)
     if isFile is None:
       #Assume anything with an extension is a file
       self.isFile = self._default_isFile_result()
