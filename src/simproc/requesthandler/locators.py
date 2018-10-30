@@ -141,7 +141,11 @@ class UpdateFolderStructure(object):
   But when loading from yaml, there isn't a way to call a funtion directly.
   You can only load classes.
   Hence, this is an object that simply calls another function when initialized,
-  and then does nothing else ever."""
+  and then does nothing else ever.
+  
+  This is also not a request: its action needs to be taken at initialization,
+  not when requests are run, so that the locators in the input can make use of
+  the newly defined folder structure."""
   def __init__(self,**kwargs):
     folder_structure.update(**kwargs)
   def __setstate__(self,state):
