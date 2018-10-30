@@ -580,8 +580,8 @@ Implementation
   - DONE Request to run a script
   - DONE Template requests: requests that produce a file from a template and input data
 - Data Locators:
-  - DataFolderFile: defines a file relative to the data folder
-  - RequestFile?: defines a file relative to the appropriate location from folderstructure for the parent request
+  - DONE DataFile: defines a file relative to the data folder
+  - others are to be created along with the requests they relate to
 - Mesh generation:
   In the info below, reqdata means the request includes data other than just the input and output files
   - construct template from geometry definition (reqdata -> .geo.jinja2)
