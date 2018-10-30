@@ -20,8 +20,8 @@ class ShellCommandRequest(request.Request):
     #Confirm validation
     self.validate()
     #Create directories for output files if necessary
-    allpaths=[getattr(self,oattr) for oattr in getattr(self,_outputfile_attrs,[])]
-    allpaths+=getattr(self,_more_outputfiles,[])
+    allpaths=[getattr(self,oattr) for oattr in getattr(self,'_outputfile_attrs',[])]
+    allpaths+=getattr(self,'_more_outputfiles',[])
     for fpath in allpaths:
       fpath.assure_dir()
     #Run the shell command

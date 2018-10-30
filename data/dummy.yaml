@@ -21,3 +21,9 @@ TestLocator:
 !DummyRequest
 name: dummy.custom_locator
 test: !TestLocator dummy.yaml
+---
+#Test basic shell request
+!DummyShellRequest
+name: dummy.shell
+test: hello world
+outfile: !DataFile hello_world.txt

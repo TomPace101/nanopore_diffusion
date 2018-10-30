@@ -3,6 +3,7 @@
 #This package
 from . import request
 from . import yaml_manager
+from . import shell
 
 _DummyRequest_props_schema_yaml="""#DummyRequest
 name: {type: string}
@@ -68,8 +69,34 @@ class DummyRequest(request.Request):
     self.validate()
     print(self.test)
 
+_DummyShellRequest_props_schema_yaml="""#DummyRequest
+name: {type: string}
+outfile: {type: path}
+test:
+  anyOf:
+    - {type: string}
+    - {type: number}
+    - {type: path}"""
+
+class DummyShellRequest(shell.ShellCommandRequest):
+  """A debugging test for a shell request
+  
+  User-defined attributes:
+  
+    - test: test data, which is passed to 'echo' when the request is run
+    - outfile: Path to output file"""
+  __slots__=('outfile','test')
+  _self_task=True
+  _required_attrs=['outfile','test']
+  _props_schema=yaml_manager.read(_DummyShellRequest_props_schema_yaml)
+  _outputfile_attrs=['outfile']
+  @property
+  def cmd_str(self):
+    return "echo '%s' >%s"%(str(self.test),str(self.outfile))
+  
+
 #Register for loading from yaml
-yaml_manager.register_classes([DummyRequest])
+yaml_manager.register_classes([DummyRequest, DummyShellRequest])
 
 if __name__ == "__main__":
     import doctest

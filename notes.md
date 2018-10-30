@@ -590,7 +590,7 @@ Implementation
 - Base classes:
   - DONE Request - abstract only: defines the interface
   - DONE Request to run all of the requests in another file. Or maybe even a way to specify a subset of them. (see note about doing this on command line)
-  - Request to run a script: is this working now?
+  - DONE Request to run a script
 - Data Locators:
   - DataFolderFile: defines a file relative to the data folder
   - RequestFile?: defines a file relative to the appropriate location from folderstructure for the parent request
@@ -599,7 +599,8 @@ Implementation
 - Post-processing:
   - TBD, see notes below
   - zipping/unzipping: see below as well
-- Validation: TBD
+- Validation:
+  - Validate that output files are as expected
 - Request generation:
   - Requests store themselves in a yaml file
   - Template requests: requests that produce a file from a template and input data
