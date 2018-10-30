@@ -69,7 +69,7 @@ class DummyRequest(request.Request):
     self.validate()
     print(self.test)
 
-_DummyShellRequest_props_schema_yaml="""#DummyRequest
+_DummyShellRequest_props_schema_yaml="""#DummyShellRequest
 name: {type: string}
 outfile: {type: path}
 test:
@@ -78,7 +78,7 @@ test:
     - {type: number}
     - {type: path}"""
 
-class DummyShellRequest(shell.ShellCommandRequest):
+class DummyShellRequest(shell.ShellCommandRequestBase):
   """A debugging test for a shell request
   
   User-defined attributes:
