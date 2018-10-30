@@ -7,11 +7,12 @@ Tutorial
 Testing
 =======
 
-Here are the commands that I use right now to test everything:
+Here are the commands that I use right now to test everything.
+From within ``pore``:
 
 - ``python -m simproc --validate``
 - ``python -m simproc validation/all_validation.yaml``
-- ``doit control=../data/dummy.yaml``
+- ``doit control=validation/all_validation.yaml``
 - ``doit -n 4 control=validation/all_validation.yaml``
 
 Requests
