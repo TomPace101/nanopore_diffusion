@@ -27,3 +27,9 @@ test: !TestLocator dummy.yaml
 name: dummy.shell
 test: hello world
 outfile: !DataFile hello_world.txt
+---
+#Test general shell request
+!GeneralShellCommandRequest
+name: dummy.generalshell
+command: date
+outfile: !DataFile date_output.txt

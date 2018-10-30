@@ -1,7 +1,7 @@
 """Run gmsh and subsequent conversion commands"""
 
 #This package
-from ..requesthandler.shell import ShellCommandRequest
+from ..requesthandler.shell import ShellCommandRequestBase
 from ..requesthandler.yaml_manager import read as readyaml
 
 _GmshRunner_props_schema_yaml="""#GmshRunner
@@ -11,7 +11,7 @@ mshfile: {type: path}
 txtfile: {type: path}
 meshmetafile: {type: path}"""
 
-class GmshRunner(ShellCommandRequest):
+class GmshRunner(ShellCommandRequestBase):
   """Run gmsh
   
   User-defined attributes:
