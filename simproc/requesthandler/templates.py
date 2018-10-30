@@ -43,10 +43,16 @@ class TemplateFileRequest(request.Request):
     #Create directories for output files if necessary
     self.assure_output_dirs()
     #Load the template
-    with open(self.tmplfile,'r') as fh:
+    with open(self.tmplfile.fullpath,'r') as fh:
       tdata=fh.read()
     tmpl=Template(tdata,trim_blocks=True)
     #Do the calculations for the template values
     input_data=self.get_template_input()
+    #Apply the data to the template
+    out_data=tmpl.render(**input_data)
     #Write the output file
-    ##TODO
+    with open(self.outfile.fullpath,'w') as fh:
+      fh.write(out_data)
+
+#Register for loading from yaml
+yaml_manager.register_classes([TemplateFileRequest])

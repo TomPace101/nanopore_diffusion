@@ -22,8 +22,9 @@ TestLocator:
 name: dummy.custom_locator
 test: !TestLocator dummy.yaml
 ---
-#Locator for output generated below
+#Locator for input and output generated below
 !UpdateFolderStructure
+InputFile: ['input']
 OutputFile: ['output',0]
 ---
 #Test basic shell request
@@ -37,3 +38,12 @@ outfile: !OutputFile hello_world.txt
 name: dummy.generalshell
 command: date
 outfile: !OutputFile date_output.txt
+---
+#Test template request
+!TemplateFileRequest
+name: dummy.templatefile
+tmplfile: !InputFile hello_world.txt.jinja2
+outfile: !OutputFile hello_from_template.txt
+data:
+  noun: world
+
