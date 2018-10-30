@@ -3,6 +3,7 @@ from . import filepath
 from . import locators
 from . import requestfile
 from . import customization
+from . import shell
 from . import debug
 
 #Modules for doctests
