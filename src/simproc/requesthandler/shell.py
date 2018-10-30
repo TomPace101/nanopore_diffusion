@@ -26,4 +26,4 @@ class ShellCommandRequest(request.Request):
       fpath.assure_dir()
     #Run the shell command
     call(self.cmd_str,shell=True)
-  
+

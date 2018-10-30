@@ -49,6 +49,8 @@ especially when you come back to look at everything after time away.
 The ``locators`` module helps to define a consistent set of file and folder names,
 and automatically calculate path strings based on this defined structure for a given request.
 
+A locator can be provided for request attribute that is specified as a "Path".
+
 The file structure for the data files starts at a designated "top folder",
 which can be indicated with the environment variable ``TOPFOLDER``.
 If this environment variable is not defined,
