@@ -1,4 +1,4 @@
-"""Base class for requests that execute shell commands."""
+"""Support for requests that execute shell commands."""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
