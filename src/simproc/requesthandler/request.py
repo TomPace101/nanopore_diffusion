@@ -201,7 +201,7 @@ class Request(object):
     - child_attr: name of attribute of each child containing their corresponding list"""
     #Get files from list of attribute names containing files
     attr_list=getattr(self,attrs_list_attr,[])
-    fl = [itm.fullpath for itm in attr_list]
+    fl = [getattr(self,itm) for itm in attr_list]
     #Get files from list of additional files
     fl+=getattr(self,files_list_attr,[])
     #Get files from children
