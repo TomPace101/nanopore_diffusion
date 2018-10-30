@@ -49,16 +49,6 @@ But you can assign data to a Vector from a numpy array:
 https://fenicsproject.org/qa/8774/defining-a-function-from-data/
 You just need to get coordinates (and components in a vector case) for the dofs
 
-_IDEA_ a data cleanup routine
-(This is different than the note above about cleaning up.)
-Like the `cleanup.sh` file I have in other places.
-For each request, keep track of all its output files.
-Store list list, keyed by the request name.
-Keep a history of this, so you can see what old requests are no longer needed,
-and delete them when desired.
-Or, maybe there are files a request used to create but does not anymore,
-so they can be deleted as well.
-
 _IDEA_ "scriptlets"
 Python code that will be executed in a particular context:
 an input dictionary becomes the local namespace,
@@ -72,22 +62,6 @@ This is kind of what I've done with binding methods defined somewhere else to an
 
 
 # Refactoring: Requests and Handlers
-
-In the info below, reqdata means the request includes data other than just the input and output files
-
-Mesh generation:
-  - construct template from geometry definition (reqdata -> .geo.jinja2)
-  - create geo file from template and values (.geo.jinja2 + reqdata -> .geo)
-  - run gmsh (.geo -> .msh)
-  - run dolfin-convert (.msh -> .xml (3))
-  - hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
-  - later steps only (.geo -> .hdf5)
-  - all but template construction (.geo.jinja2 + .yaml -> .hdf5)
-  - all steps (.yaml)
-Simulation:
-  The list below is still the most complete
-
-## Lengthy discussion
 
 So what's the bigger pattern we have here?
 The one that applies to mesh generation, simulation, collecting, and plotting.
@@ -581,6 +555,19 @@ and if so, we do another round of handling,
 repeating until no new requests are generated.
 This gets back into what request handlers return.
 
+How about this:
+a request generation request, when run
+outputs a request file.
+
+Data cleanup routine
+Like the `cleanup.sh` file I have in other places.
+For each request, keep track of all its output files.
+Store list list, keyed by the request name.
+Keep a history of this, so you can see what old requests are no longer needed,
+and delete them when desired.
+Or, maybe there are files a request used to create but does not anymore,
+so they can be deleted as well.
+
 Unresolved issues/questions:
 - should Request.run just run all of its children, the way RequestFileListRequest does now?
 - classes listed as TBD below.
@@ -594,7 +581,16 @@ Implementation
 - Data Locators:
   - DataFolderFile: defines a file relative to the data folder
   - RequestFile?: defines a file relative to the appropriate location from folderstructure for the parent request
-- Mesh generation: TBD
+- Mesh generation:
+  In the info below, reqdata means the request includes data other than just the input and output files
+  - construct template from geometry definition (reqdata -> .geo.jinja2)
+  - create geo file from template and values (.geo.jinja2 + reqdata -> .geo)
+  - run gmsh (.geo -> .msh)
+  - run dolfin-convert (.msh -> .xml (3))
+  - hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
+  - later steps only (.geo -> .hdf5)
+  - all but template construction (.geo.jinja2 + .yaml -> .hdf5)
+  - all steps (.yaml -> .hdf5)
 - Simulation: TBD
 - Post-processing:
   - TBD, see notes below
@@ -602,7 +598,7 @@ Implementation
 - Validation:
   - Validate that output files are as expected
 - Request generation:
-  - Requests store themselves in a yaml file
+  - Requests store themselves in a yaml file: should work already, just test it
   - Template requests: requests that produce a file from a template and input data
 
 Deprecated/Postponed Implementation:
