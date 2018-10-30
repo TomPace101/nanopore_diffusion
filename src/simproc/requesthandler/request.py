@@ -217,6 +217,13 @@ class Request(object):
   def outputfiles(self):
     """A list of all the outputfiles related to this request"""
     return self._compile_file_list('_outputfile_attrs','_more_outputfiles','outputfiles')
+  def assure_output_dirs(self):
+    """Create directories for output files if necessary"""
+    allpaths=[getattr(self,oattr) for oattr in getattr(self,'_outputfile_attrs',[])]
+    allpaths+=getattr(self,'_more_outputfiles',[])
+    for fpath in allpaths:
+      fpath.assure_dir()
+    return
   @property
   def task_definition(self):
     """A doit task definition dictionary appropriate for this Request

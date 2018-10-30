@@ -88,6 +88,7 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
   __slots__=('outfile','test')
   _self_task=True
   _required_attrs=['outfile','test']
+  _config_attrs=_required_attrs
   _props_schema=yaml_manager.read(_DummyShellRequest_props_schema_yaml)
   _outputfile_attrs=['outfile']
   @property

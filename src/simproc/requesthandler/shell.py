@@ -20,10 +20,7 @@ class ShellCommandRequestBase(request.Request):
     #Confirm validation
     self.validate()
     #Create directories for output files if necessary
-    allpaths=[getattr(self,oattr) for oattr in getattr(self,'_outputfile_attrs',[])]
-    allpaths+=getattr(self,'_more_outputfiles',[])
-    for fpath in allpaths:
-      fpath.assure_dir()
+    self.assure_output_dirs()
     #Run the shell command
     call(self.cmd_str,shell=True)
 
@@ -47,6 +44,7 @@ class GeneralShellCommandRequest(ShellCommandRequestBase):
   __slots__=('outfile','errfile','command')
   _self_task=True
   _required_attrs=['outfile','command']
+  _config_attrs=['outfile','errfile','command']
   _props_schema=yaml_manager.read(_GeneralShellCommandRequest_props_schema_yaml)
   _outputfile_attrs=['outfile']
   @property
