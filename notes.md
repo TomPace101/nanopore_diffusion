@@ -1,4 +1,11 @@
 
+_TODO_ consistent set of environment variable names
+in electrolyte_analysis and stoch_test:
+  DATALOC -> DATAFOLDER
+  SRCLOC -> SRCFOLDER
+in request_refactoring:
+  TOPFOLDER -> DATAFOLDER
+
 _TODO_ construct a module dependency graph
 
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
@@ -566,6 +573,19 @@ Keep a history of this, so you can see what old requests are no longer needed,
 and delete them when desired.
 Or, maybe there are files a request used to create but does not anymore,
 so they can be deleted as well.
+
+Actually, this is an example of a generated request.
+You could have a "cleanup" request type,
+which just delete files if they are present
+(and doesn't complain if they are not).
+A single request could have a list of files to delete.
+You could put a number of such requests in a file.
+And when you want to clean up,
+just run that request file.
+But do these files clean themselves up?
+Maybe in case of failures, they should not.
+Or maybe failures to delete a file should be fatal
+so that they can delete themselves if everything was successful to that point.
 
 Unresolved issues/questions:
 - should Request.run just run all of its children, the way RequestFileListRequest does now?
