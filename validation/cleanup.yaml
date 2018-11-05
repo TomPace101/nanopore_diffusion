@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+!SetDataFolder
+datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
+---
+!OutputCleanupRequest
+clean:
+  - !RequestFileRequest
+    requestfile: !DataFile all_validation.yaml

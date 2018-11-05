@@ -5,6 +5,7 @@ from . import requestfile
 from . import customization
 from . import shell
 from . import templates
+from . import cleanup
 from . import debug
 
 #Modules for doctests
