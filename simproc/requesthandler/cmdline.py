@@ -14,7 +14,7 @@ from doit import get_var
 from . import *
 
 #Constants
-default_controlfile = locators.TOPFOLDER / 'control.yaml'
+default_controlfile = locators.DATAFOLDER / 'control.yaml'
 
 def run_validation(verbose=False):
   """Run the validation tests"""

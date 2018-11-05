@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
-!SetTopFolder
-topfolder: ../validation/
+!SetDataFolder
+datafolder: ../validation/
 ---
 !RequestFileListRequest
 requestfiles:

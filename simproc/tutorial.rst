@@ -53,7 +53,7 @@ and automatically calculate path strings based on this defined structure for a g
 A locator can be provided for request attribute that is specified as a "Path".
 
 The file structure for the data files starts at a designated "top folder",
-which can be indicated with the environment variable ``TOPFOLDER``.
+which can be indicated with the environment variable ``DATAFOLDER``.
 If this environment variable is not defined,
 the top folder will be assumed (see module ``locators`` for the assumed location.)
 The top folder can also be changed at runtime.
@@ -75,7 +75,7 @@ Here is a complete example of the use of locators.
   >>> from simproc.requesthandler.filepath import Path
   >>> import simproc.requesthandler.locators as locators
   >>> import simproc.requesthandler.debug as debug
-  >>> locators.TOPFOLDER=Path("data") #set the top folder location
+  >>> locators.DATAFOLDER=Path("data") #set the top folder location
   >>> req=debug.DummyRequest(name='debug.alpha.example',test='some_data_here') #an example request
   
   Example 1: string specifiers

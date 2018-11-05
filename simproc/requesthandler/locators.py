@@ -5,13 +5,13 @@ First, an overall file structure is defined.
 Within this file structure, individual paths are computed
 based on the parameters of the request that needs them.
 
-This module has a variable ``TOPFOLDER`` which specifies the path of the folder to work in.
+This module has a variable ``DATAFOLDER`` which specifies the path of the folder to work in.
 All locators return paths that start at this folder.
 
-From within python, you can simply set ``TOPFOLDER`` as a variable,
+From within python, you can simply set ``DATAFOLDER`` as a variable,
 and all locators will return paths based on the new location.
 
-For scripts, use the environment variable ``TOPFOLDER`` to tell the program where this folder is."""
+For scripts, use the environment variable ``DATAFOLDER`` to tell the program where this folder is."""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
@@ -25,27 +25,27 @@ from . import filepath
 from . import yaml_manager
 
 #Constants
-topfolder_environ='TOPFOLDER'
+datafolder_environ='DATAFOLDER'
 
 #Get path to the top folder
-if topfolder_environ in os.environ.keys():
-  # TOPFOLDER=Path(osp.normpath(osp.abspath(os.environ[topfolder_environ])))
-  TOPFOLDER=filepath.Path(os.environ[topfolder_environ]).expanduser().resolve()
+if datafolder_environ in os.environ.keys():
+  # DATAFOLDER=Path(osp.normpath(osp.abspath(os.environ[datafolder_environ])))
+  DATAFOLDER=filepath.Path(os.environ[datafolder_environ]).expanduser().resolve()
 else:
   modpath=filepath.Path(__file__)
   srcfolder=modpath.parent.parent
-  TOPFOLDER=srcfolder.parent / 'data'
+  DATAFOLDER=srcfolder.parent / 'data'
 
 class DataFile(object):
-  """File location relative to ``TOPFOLDER``
+  """File location relative to ``DATAFOLDER``
   
-  The location of ``TOPFOLDER`` is specified by the environment variable ``TOPFOLDER``.
+  The location of ``DATAFOLDER`` is specified by the environment variable ``DATAFOLDER``.
   If this environment variable does not exist, a default value is provided.
   See ``folderstructure.py``."""
   def __init__(self,*args,**kwargs):
     self.subpath=filepath.Path(*args,**kwargs)
   def path(self,req):
-    return TOPFOLDER / self.subpath
+    return DATAFOLDER / self.subpath
   @classmethod
   def from_yaml(cls, constructor, node):
     return cls(node.value)
@@ -55,7 +55,7 @@ def locator_factory(ltype):
   
   The locator class returned will construct file paths as follows:
   
-    - all paths begin with ``locators.TOPFOLDER``
+    - all paths begin with ``locators.DATAFOLDER``
     - then, one subdirectory is added for each element of the folder structure definition sequence for the locator (see below)
     - finally, the subpath used to initialize the locator is appended
   
@@ -79,7 +79,7 @@ def locator_factory(ltype):
     def path(self,reqname):
       namelist=reqname.split('.')
       specifier=folder_structure[ltype]
-      out=TOPFOLDER
+      out=DATAFOLDER
       for itm in specifier:
         if type(itm) is int:
           if itm < len(namelist):
@@ -152,25 +152,25 @@ class UpdateFolderStructure(object):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
 
-class SetTopFolder(object):
-  """Set the TOPFOLDER
+class SetDataFolder(object):
+  """Set the DATAFOLDER
   
   As with `UpdateFolderStructure`, this is used as a function.
-  It allows TOPFOLDER to be set from within a yaml input file.
+  It allows DATAFOLDER to be set from within a yaml input file.
   
   It's not a request, for the same reason that `UpdateFolderStructure`
   is not a request either."""
   def __init__(self,**kwargs):
-    global TOPFOLDER
-    tp=filepath.Path(kwargs['topfolder'])
+    global DATAFOLDER
+    tp=filepath.Path(kwargs['datafolder'])
     if tp.root=='':
       #Relative path
       tp=srcfolder/tp
       tp=tp.resolve()
-    TOPFOLDER=tp
+    DATAFOLDER=tp
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
 
 #Register for loading from yaml
-yaml_manager.register_classes([DataFile,UpdateFolderStructure,SetTopFolder])
+yaml_manager.register_classes([DataFile,UpdateFolderStructure,SetDataFolder])
