@@ -563,37 +563,6 @@ How about this:
 a request generation request, when run
 outputs a request file.
 
-Data cleanup routine
-Like the `cleanup.sh` file I have in other places.
-For each request, keep track of all its output files.
-Store list list, keyed by the request name.
-Keep a history of this, so you can see what old requests are no longer needed,
-and delete them when desired.
-Or, maybe there are files a request used to create but does not anymore,
-so they can be deleted as well.
-
-Actually, this is an example of a generated request.
-You could have a "cleanup" request type,
-which just delete files if they are present
-(and doesn't complain if they are not).
-A single request could have a list of files to delete.
-You could put a number of such requests in a file.
-And when you want to clean up,
-just run that request file.
-But do these files clean themselves up?
-Maybe in case of failures, they should not.
-Or maybe failures to delete a file should be fatal
-so that they can delete themselves if everything was successful to that point.
-
-Actually, this should be a wrapper request.
-When run, it should delete the output files associated with all of its child requests.
-Recursively, though.
-That is, walk through all the child requests,
-and delete the output files.
-Also, look for any directories this causes to be empty,
-and then delete them as well.
-(This makes .keep files important for a reason other than git.)
-
 Unresolved issues/questions:
 - should Request.run just run all of its children, the way RequestFileListRequest does now?
   There's also some very common stuff for run: redo validation, assure_output_dirs
@@ -606,6 +575,7 @@ Implementation
   - DONE Request to run all of the requests in another file. Or maybe even a way to specify a subset of them. (see note about doing this on command line)
   - DONE Request to run a script
   - DONE Template requests: requests that produce a file from a template and input data
+  - DONE Cleanup requests: requests to delete the output from previous runs of requests
 - Data Locators:
   - DONE DataFile: defines a file relative to the data folder
   - DONE update folder structure from python code or yaml file
