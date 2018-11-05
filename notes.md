@@ -3,8 +3,6 @@ _TODO_ consistent set of environment variable names
 in electrolyte_analysis and stoch_test:
   DATALOC -> DATAFOLDER
   SRCLOC -> SRCFOLDER
-in request_refactoring:
-  TOPFOLDER -> DATAFOLDER
 
 _TODO_ construct a module dependency graph
 
@@ -587,6 +585,15 @@ Maybe in case of failures, they should not.
 Or maybe failures to delete a file should be fatal
 so that they can delete themselves if everything was successful to that point.
 
+Actually, this should be a wrapper request.
+When run, it should delete the output files associated with all of its child requests.
+Recursively, though.
+That is, walk through all the child requests,
+and delete the output files.
+Also, look for any directories this causes to be empty,
+and then delete them as well.
+(This makes .keep files important for a reason other than git.)
+
 Unresolved issues/questions:
 - should Request.run just run all of its children, the way RequestFileListRequest does now?
   There's also some very common stuff for run: redo validation, assure_output_dirs
@@ -601,7 +608,9 @@ Implementation
   - DONE Template requests: requests that produce a file from a template and input data
 - Data Locators:
   - DONE DataFile: defines a file relative to the data folder
-  - others are to be created along with the requests they relate to
+  - DONE update folder structure from python code or yaml file
+  - DONE update datafolder location from code or yaml file
+  - ONGOING others are to be created along with the requests they relate to
 - Mesh generation:
   In the info below, reqdata means the request includes data other than just the input and output files
   - construct template from geometry definition (reqdata -> .geo.jinja2)
@@ -713,14 +722,23 @@ Which means that unzipping is as well.
 
 _TODO_ command line "select" argument: apply more directly - don't instantiate objects first
 This is actually not easy to do.
-What would be nice would be if the modelparameters got instantiated, but not the simulators.
-Actually, that's what already does happen.
 The time it broke was when I tried to run it for a model that had an equation listed as "notebook".
 That didn't work because we need the simulator module as a file dependency,
 and there isn't one for "notebook".
+The solution to that is to allow for exceptions to having the simulator module as a file dependency.
 
 What we want is a way, from the command line,
 to specify some subset of the requests in a file.
+
+Maybe the way to do this is with a new request type:
+a request for a subset of the children of another request.
+
+How does that request specify the applicable children?
+It has to do it by matching attributes of the requests in some way.
+There can be parameters that control how this matching is done:
+exclusion pattern vs inclusion pattern,
+what do do with requests that simply don't have a specified attribute, etc.
+
 
 _FEATURE_ Simultaneous requests
 We can do this now with doit's parallel execution.
