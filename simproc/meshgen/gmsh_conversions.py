@@ -3,6 +3,13 @@
 #This package
 from ..requesthandler.shell import ShellCommandRequestBase
 from ..requesthandler.yaml_manager import read as readyaml
+import ..requesthandler.locators as locators
+
+#Locators
+locators.folder_structure.update(GEO_File=['mesh',0,'geo'])
+locators.folder_structure.update(MSH_File=['mesh',0,'msh'])
+locators.folder_structure.update(Gmsh_OutFile=['mesh',0,'gmsh_out'])
+locators.folder_structure.update(MeshMetaDataFile=['mesh',0,'metadata'])
 
 _GmshRunner_props_schema_yaml="""#GmshRunner
 name: {type: string}
@@ -31,9 +38,13 @@ class GmshRunner(ShellCommandRequestBase):
   _cmd_tmpl="gmsh -%d -setstring meshmetafile %s -o %s %s >%s"
   @property
   def cmd_str(self):
-    int_arg=getattr(self,'integer_arg',None)
+    #Integer argument
+    int_arg = getattr(self,'integer_arg',None)
     int_arg = 0 if int_arg is None else int_arg
-    ##TODO: meshmetafile is optional, so handle the case where it is missing
-    ##TODO: do we need quotes around some file names?
-    cmd=self._cmd_tmpl%(int_arg,self.meshmetafile,self.mshfile,self.geofile,self.txtfile)
+    cmd = "gmsh -%d"%int_arg
+    #meshmetafile, if provided
+    if getattr(self,'meshmetafile',None) is not None:
+      cmd += " -setstring meshmetafile '%s'"%self.meshmetafile
+    #All the other files
+    cmd += " -o '%s' '%s' >'%s'"%(self.mshfile,self.geofile,self.txtfile)
     return cmd
