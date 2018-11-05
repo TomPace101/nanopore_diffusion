@@ -15,6 +15,10 @@ From within ``pore``:
 - ``doit control=validation/all_validation.yaml``
 - ``doit -n 4 control=validation/all_validation.yaml``
 
+Cleanup:
+
+- ``python -m simproc validation/cleanup.yaml``
+
 Requests
 ========
 

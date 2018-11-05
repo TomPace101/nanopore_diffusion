@@ -7,22 +7,29 @@ import os
 #Site packages
 
 #This package
+from . import locators
 from . import request
 from . import yaml_manager
 
 def cleanpath(target):
   """Remove the requested file or directory, and its parent if empty, recursively"""
-  if target.isFile:
-    target.unlink()
-    #Check the parent directory
-    cleanpath(target.folder)
-  else:
-    #Confirm that the directory is empty
-    if len([p for p in target.iterdir()])==0:
-      #Remove empty directory
-      target.rmdir()
-      #Try the parent directory
-      cleanpath(target.folder)
+  #Confirm that the path exists
+  if target.exists():
+    #File or folder
+    if target.isFile:
+      target.unlink()
+    else:
+      #Confirm that the directory is empty
+      if len([p for p in target.iterdir()])==0:
+        #Remove empty directory
+        target.rmdir()
+  #Check the parent directory, unless we are up high enough that we don't need to.
+  #We do this even if the given path doesn't exist, because it might be that all the files were already deleted
+  #and we only need to clean up the directories
+  rp=target.relpath(locators.DATAFOLDER)
+  min_len= 1 if rp.is_absolute() else 0
+  if len(rp.parts) > min_len:
+    cleanpath(target.parent)
 
 _OutputCleanupRequest_props_schema_yaml="""#OutputCleanupRequest
 name: {type: string}
@@ -57,6 +64,7 @@ class OutputCleanupRequest(request.Request):
   def run(self):
     """Delete all the output files that exist, and remove empty directories"""
     for fpath in self.pathlist:
+      print(type(fpath).__name__,fpath)
       cleanpath(fpath)
 
 #Register for loading from yaml

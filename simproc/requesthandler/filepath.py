@@ -142,6 +142,22 @@ class Path(baseclass):
     f=self.folder_path
     if not f.exists():
       os.makedirs(f.fullpath)
+  def relpath(self,base):
+    """More convenient approach to relative paths than offered by pathlib
+    Argument: base = Path instance to attempt as the base of this path
+    
+    If this Path is not relative to the given base, then this Path is returned.
+    In contrast, pathlib will raise ValueError in that case.
+    
+    >>> Path('/usr/local/bin').relpath(Path('/usr/local'))
+    Path('bin')
+    >>> Path('/usr/local/bin').relpath(Path('/var/run'))
+    Path('/usr/local/bin')
+    """
+    try:
+      return self.relative_to(base)
+    except ValueError:
+      return self
 
 if __name__ == "__main__":
     import doctest
