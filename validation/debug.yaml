@@ -46,4 +46,8 @@ tmplfile: !InputFile hello_world.txt.jinja2
 outfile: !OutputFile hello_from_template.txt
 data:
   noun: world
-
+---
+#Test recursion depth
+!RequestFileRequest
+name: recursion_root
+requestfile: !InputFile recursion_a.yaml

@@ -1,0 +1,6 @@
+%YAML 1.2
+---
+!DummyShellRequest
+name: dummy.recursive_shell
+test: completed level C
+outfile: !OutputFile recursion_c.txt

@@ -166,16 +166,25 @@ class Request(object):
     """Used for pickling, and possibly for converting to yaml"""
     return self.to_dict()
   def all_children(self):
-    """Generator yielding all the children of this Request
+    """Generator yielding all the immediate children of this Request
     
     First, yields entries in _child_attrs.
-    Then, yields entries in _child_seq_attrs."""
+    Then, yields entries in _child_seq_attrs.
+    
+    Yields only immediate children, not grandchildren, etc.:
+    see ``recursive_children`` to go deeper."""
     for cname in getattr(self,'_child_attrs',[]):
       yield getattr(self,cname)
     for lname in getattr(self,'_child_seq_attrs',[]):
       itr=getattr(self,lname)
       for req in itr:
         yield req
+  def recursive_children(self):
+    """Generator recursively yielding all the children of this Request, and their children, etc."""
+    for ch in self.all_children():
+      yield ch
+      for gch in ch.recursive_children():
+        yield gch
   @property
   def config_dict(self):
     d=self.to_dict()
