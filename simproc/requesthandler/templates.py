@@ -31,6 +31,7 @@ class TemplateFileRequest(request.Request):
     - data: dictionary of data used to compute the template input values"""
   __slots__=('tmplfile','outfile','data')
   _self_task=True
+  _config_attrs=__slots__
   _inputfile_attrs=['tmplfile']
   _outputfile_attrs=['outfile']
   _required_attrs=['tmplfile','outfile','data']
