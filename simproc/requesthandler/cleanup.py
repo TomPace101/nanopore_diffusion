@@ -2,12 +2,27 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+import os
 
 #Site packages
 
 #This package
 from . import request
 from . import yaml_manager
+
+def cleanpath(target):
+  """Remove the requested file or directory, and its parent if empty, recursively"""
+  if target.isFile:
+    target.unlink()
+    #Check the parent directory
+    cleanpath(target.folder)
+  else:
+    #Confirm that the directory is empty
+    if len([p for p in target.iterdir()])==0:
+      #Remove empty directory
+      target.rmdir()
+      #Try the parent directory
+      cleanpath(target.folder)
 
 _OutputCleanupRequest_props_schema_yaml="""#OutputCleanupRequest
 name: {type: string}
@@ -31,12 +46,18 @@ class OutputCleanupRequest(request.Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(OutputCleanupRequest, self).__init__(**kwargs)
-    ##TEMP
     self.pathlist=[]
+    #Iterate over provided list of requests
+    for parent_req in self.clean:
+      #Iterate over all the children of this request
+      for child_req in parent_req.recursive_children():
+        #If it creates a task, get the output files
+        if child_req._self_task:
+          self.pathlist.extend(child_req.outputfiles)
   def run(self):
     """Delete all the output files that exist, and remove empty directories"""
     for fpath in self.pathlist:
-      print(fpath)
+      cleanpath(fpath)
 
 #Register for loading from yaml
 yaml_manager.register_classes([OutputCleanupRequest])
