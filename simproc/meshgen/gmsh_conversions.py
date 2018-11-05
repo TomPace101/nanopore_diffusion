@@ -3,7 +3,7 @@
 #This package
 from ..requesthandler.shell import ShellCommandRequestBase
 from ..requesthandler.yaml_manager import read as readyaml
-import ..requesthandler.locators as locators
+from ..requesthandler import locators
 
 #Locators
 locators.folder_structure.update(GEO_File=['mesh',0,'geo'])
