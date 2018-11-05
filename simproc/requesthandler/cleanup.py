@@ -64,7 +64,6 @@ class OutputCleanupRequest(request.Request):
   def run(self):
     """Delete all the output files that exist, and remove empty directories"""
     for fpath in self.pathlist:
-      print(type(fpath).__name__,fpath)
       cleanpath(fpath)
 
 #Register for loading from yaml
