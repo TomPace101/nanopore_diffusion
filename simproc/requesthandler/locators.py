@@ -162,12 +162,16 @@ class SetDataFolder(object):
   is not a request either."""
   def __init__(self,**kwargs):
     global DATAFOLDER
-    tp=filepath.Path(kwargs['datafolder'])
-    if tp.root=='':
+    targpath=filepath.Path(kwargs['datafolder'])
+    targpath=targpath.expanduser()
+    if not targpath.is_absolute():
       #Relative path
-      tp=srcfolder/tp
-      tp=tp.resolve()
-    DATAFOLDER=tp
+      yamlpath_str=yaml_manager.now_loading[-1]
+      #The rest is ok
+      yamlpath=filepath.Path(yamlpath_str,isfile=True)
+      yamldir=yamlpath.folder_path
+      targpath=yamldir/targpath
+    DATAFOLDER=targpath.resolve()
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)

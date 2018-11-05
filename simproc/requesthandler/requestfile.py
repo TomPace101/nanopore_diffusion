@@ -42,10 +42,12 @@ class RequestFileRequest(request.Request):
     with open(rfpath,'r') as fp:
       dat=fp.read()
     #Load all objects from yaml
-    yaml=yaml_manager.newloader()
+    yaml=yaml_manager.newloader(rfpath)
     allobj=yaml.load_all(dat)
     #Store child objects that are Request subclasses
     self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
+    #Loading of yaml file is complete
+    yaml_manager.filedone() #Let the manager know we're no longer loading this file
   def run(self):
     "Run all the requests listed in the file"
     for req in self.all_children():

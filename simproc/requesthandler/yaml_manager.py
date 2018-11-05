@@ -14,6 +14,9 @@ yaml=YAML(typ="safe", pure=True)
 all_registered=[]
 all_registered_classes=[]
 
+#Placeholder for tracking file being loaded
+now_loading=[]
+
 def register_classes(class_list):
   """Register the classes that might be loaded from a yaml file, from a list of classes
   
@@ -25,12 +28,27 @@ def register_classes(class_list):
     all_registered.append(yclass.__name__)
     all_registered_classes.append(yclass)
 
-def newloader():
-  """For when you need to load more than one yaml file at a time."""
+def newloader(yfile=None):
+  """For when you need to load more than one yaml file at a time.
+  
+  Arguments:
+  
+    - yfile = optional name of file the loader will be used for.
+  
+  The returned object is an instance of YAML,
+  which is not actually called a loader, but I can't the actual name."""
+  if yfile is not None:
+    global now_loading
+    now_loading.append(yfile)
   yy=YAML(typ="safe", pure=True)
   for yclass in all_registered_classes:
     yy.register_class(yclass)
   return yy
+
+def filedone():
+  """Call to indicate that loading of a file is complete"""
+  global now_loading
+  now_loading.pop()
 
 def read(s):
   """Syntactic sugar for yaml.load()"""

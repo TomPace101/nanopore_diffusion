@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 !SetDataFolder
-datafolder: ../validation/
+datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
 ---
 !RequestFileListRequest
 requestfiles:
