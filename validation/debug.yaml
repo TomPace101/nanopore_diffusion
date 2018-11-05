@@ -24,7 +24,7 @@ test: !TestLocator dummy.yaml
 ---
 #Locator for input and output generated below
 !UpdateFolderStructure
-InputFile: ['input']
+InputFile: ['input',0]
 OutputFile: ['output',0]
 ---
 #Test basic shell request
@@ -49,5 +49,5 @@ data:
 ---
 #Test recursion depth
 !RequestFileRequest
-name: recursion_root
+name: recursion.root
 requestfile: !InputFile recursion_a.yaml
