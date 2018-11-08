@@ -146,7 +146,8 @@ class Request(object):
     These steps include final checks and routine preparations
     needed before the actual execution of the request.
     
-    This method is meant to be called by run()."""
+    This method is meant to be called by run(),
+    but this is not required."""
     #Confirm validation
     self.validate()
     #Create directories for output files if necessary
