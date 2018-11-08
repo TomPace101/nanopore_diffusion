@@ -613,6 +613,10 @@ Implementation
 Deprecated/Postponed Implementation:
   - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
 
+_TODO_ customizations
+This module might be a good place to implement a monkey-patching routine.
+Or maybe it should be a place to generalize the "apply customizations" portion of `simulator_general.GenericSimulator.__init__`.
+
 
 _TODO_ refactor post-processing
 Think of post-processing in terms of tasks to complete.
