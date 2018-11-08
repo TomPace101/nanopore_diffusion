@@ -613,38 +613,6 @@ Implementation
 Deprecated/Postponed Implementation:
   - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
 
-_ISSUE_ validation schema creation
-Right now, the process basically assumes there is just one subclass of request to define the validation schema.
-Instead, we should iterate over the MRO, or something like that.
-Just like we did to get a list of all the slots,
-we want a dictionary of the validation schema,
-updated from top to bottom.
-Multiple inheritance could make that get messy,
-but that's the problem of the multiple inheritor.
-
-The trouble is, we can't get a handle to the class we want do this for.
-Maybe we pass the function the parent class,
-or directly call a classmethod of the parent class.
-Maybe we can use super for that?
-
-But wait!
-If each class sets up _props_schema properly from its parent,
-then each class will already have the right stuff from its more distant ancestors.
-So we only need to go back to the parent of each class.
-And then, classes with multiple parents can choose their own order for updating.
-
-So the class method is called on the parent class,
-and passed the child class updates to the schema,
-and returns the updated schema.
-
-Alternatively, we could make the properties schema a property,
-with a separate attribute to store the updates from each class,
-then use mro to iterate over them in the property definition.
-I don't like that approach as much.
-
-Current resolution: a convenience function in the module.
-
-
 _TODO_ customizations
 This module might be a good place to implement a monkey-patching routine.
 Or maybe it should be a place to generalize the "apply customizations" portion of `simulator_general.GenericSimulator.__init__`.
