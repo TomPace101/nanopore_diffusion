@@ -64,7 +64,7 @@ class DummyRequest(request.Request):
   _self_task=True
   _config_attrs=['test']
   _required_attrs=['name','test']
-  _props_schema=yaml_manager.read(_DummyRequest_props_schema_yaml)
+  _props_schema=request.make_schema(_DummyRequest_props_schema_yaml)
   def run(self):
     self.validate()
     print(self.test)
@@ -89,7 +89,7 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
   _self_task=True
   _required_attrs=['outfile','test']
   _config_attrs=_required_attrs
-  _props_schema=yaml_manager.read(_DummyShellRequest_props_schema_yaml)
+  _props_schema=request.make_schema(_DummyShellRequest_props_schema_yaml)
   _outputfile_attrs=['outfile']
   @property
   def cmd_str(self):

@@ -35,7 +35,7 @@ class TemplateFileRequest(request.Request):
   _inputfile_attrs=['tmplfile']
   _outputfile_attrs=['outfile']
   _required_attrs=['tmplfile','outfile','data']
-  _props_schema=yaml_manager.read(_TemplateFileRequest_props_schema_yaml)
+  _props_schema=request.make_schema(_TemplateFileRequest_props_schema_yaml)
   def get_template_input(self):
     return self.data
   def run(self):

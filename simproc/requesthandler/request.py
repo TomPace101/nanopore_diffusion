@@ -16,7 +16,7 @@ except ImportError:
 
 #This package
 from . import filepath
-from .yaml_manager import yaml, yamlstring
+from . import yaml_manager
 
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
@@ -157,6 +157,8 @@ class Request(object):
     """Run all child requests
     
     Base classes that implement their own tasks should generally override this method."""
+    #Final checks and preparatory steps
+    self.pre_run()
     #We only need to call run() on the immediate children.
     #Children with their own children will do the same.
     for req in self.all_children():
@@ -219,7 +221,7 @@ class Request(object):
   def config(self):
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
     # return(str(self.config_dict))
-    return(yamlstring(self.config_dict))
+    return(yaml_manager.yamlstring(self.config_dict))
   def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr):
     """Construct a list of files, from the following arguments:
     
@@ -270,6 +272,67 @@ class Request(object):
     for req in self.all_children():
       for td in req.all_tasks():
         yield td
+
+#Validation schema for Request
+#Note that validation is not applied to class attributes
+_Request_props_schema_yaml="""#Request
+name:
+  anyOf:
+    - {type: 'null'}
+    - {type: string}
+_self_task: {type: boolean}
+_inputfile_attrs:
+  type: array
+  items: {type: string}
+_more_inputfiles:
+  type: array
+  items:
+    anyOf:
+      - {type: string}
+      - {type: path}
+_outputfile_attrs:
+  type: array
+  items: {type: string}
+_more_outputfiles:
+  type: array
+  items:
+    anyOf:
+      - {type: string}
+      - {type: path}
+_required_attrs:
+  type: array
+  items: {type: string}
+_config_attrs:
+  type: array
+  items: {type: string}
+_child_attrs:
+  type: array
+  items: {type: string}
+_child_seq_attrs:
+  type: array
+  items: {type: string}
+_props_schema: {type: object}
+"""
+
+#Function to assist derived classes in setting up their validation schema
+def make_schema(yaml_string):
+  """Create a schema dictionary for a subclass of Request
+  
+  Arguments:
+  
+    - yaml string = string containing yaml defining validation schema for the subclass
+  
+  Returns:
+  
+    - schema = schema dictionary for the subclass
+  
+  This function uses a generic validation schema for Request,
+  which is then updated with the schema provided for the subclass.
+  This allows you to override the base schema in any way you want."""
+  schema=yaml_manager.read(_Request_props_schema_yaml)
+  sub_schema=yaml_manager.read(yaml_string)
+  schema.update(sub_schema)
+  return schema
 
 #jsonschema validator setup
 # #For jsonschema version 3

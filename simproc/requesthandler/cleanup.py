@@ -32,9 +32,8 @@ def cleanpath(target):
     cleanpath(target.parent)
 
 _OutputCleanupRequest_props_schema_yaml="""#OutputCleanupRequest
-name: {type: string}
-clean:
-  type: array"""
+clean: {type: array}
+pathlist: {type: array}"""
 
 class OutputCleanupRequest(request.Request):
   """Request to run all the requests in a given file
@@ -47,7 +46,7 @@ class OutputCleanupRequest(request.Request):
   
     - pathlist: list of files to be deleted"""
   __slots__=('clean','pathlist')
-  _props_schema=yaml_manager.read(_OutputCleanupRequest_props_schema_yaml)
+  _props_schema=request.make_schema(_OutputCleanupRequest_props_schema_yaml)
   _required_attrs=['clean']
   _self_task=True
   def __init__(self,**kwargs):

@@ -43,7 +43,7 @@ class GeneralShellCommandRequest(ShellCommandRequestBase):
   _self_task=True
   _required_attrs=['outfile','command']
   _config_attrs=['outfile','errfile','command']
-  _props_schema=yaml_manager.read(_GeneralShellCommandRequest_props_schema_yaml)
+  _props_schema=request.make_schema(_GeneralShellCommandRequest_props_schema_yaml)
   _outputfile_attrs=['outfile']
   @property
   def cmd_str(self):
