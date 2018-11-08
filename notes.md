@@ -639,6 +639,19 @@ Is there a way to specify a path to a module file?
 If so, can we create a locator type for modules files?
 E.g., a "modules" folder under DATAFOLDER?
 
+Maybe we just need a way to add folder to sys.path from within yaml.
+This does mean you have to be careful about the module namespace:
+you could clash with an existing installed module name,
+and you can't have your own modules with the same name in different folders.
+
+It would be preferable to load modules directly from a file.
+The problem is that this is done very differently in different python versions,
+so you'd have to get some complicated code.
+Then, you'd just use locators to find the modules.
+
+Still to do (__TODO__):
+- working example on template customization
+
 _TODO_ refactor post-processing
 Think of post-processing in terms of tasks to complete.
 Right now we have collection tasks and plotting tasks.

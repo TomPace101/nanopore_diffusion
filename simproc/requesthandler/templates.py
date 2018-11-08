@@ -8,8 +8,8 @@ from subprocess import call
 from jinja2 import Template
 
 #This package
-from . import request
 from . import yaml_manager
+from . import customization
 
 _TemplateFileRequest_props_schema_yaml="""#GeneralShellCommandRequest
 name: {type: string}
@@ -17,11 +17,12 @@ tmplfile: {type: path}
 outfile: {type: path}
 data: {type: object}"""
 
-
-class TemplateFileRequest(request.Request):
+class TemplateFileRequest(customization.CustomizableRequest):
   """General and base class for requests to fill in jinja2 template files
   
   You can subclass this by overriding the `get_template_input` method.
+  You can also get the same effect using the customization interface
+  to load a replacement `get_template_input` method from a module.
   Otherwise, the template input data is assumed to reside in `data`.
   
   User-defined attributes:
@@ -31,11 +32,11 @@ class TemplateFileRequest(request.Request):
     - data: dictionary of data used to compute the template input values"""
   __slots__=('tmplfile','outfile','data')
   _self_task=True
-  _config_attrs=__slots__
+  _config_attrs=('tmplfile','outfile','data','modules','initializations','extra')
   _inputfile_attrs=['tmplfile']
   _outputfile_attrs=['outfile']
   _required_attrs=['tmplfile','outfile','data']
-  _props_schema=request.make_schema(_TemplateFileRequest_props_schema_yaml)
+  _props_schema=customization.make_schema(_TemplateFileRequest_props_schema_yaml)
   def get_template_input(self):
     return self.data
   def run(self):

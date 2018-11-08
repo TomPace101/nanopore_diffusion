@@ -51,3 +51,15 @@ data:
 !RequestFileRequest
 name: recursion.root
 requestfile: !InputFile recursion_a.yaml
+---
+#Test customization of template request
+!TemplateFileRequest
+name: customization.template
+modules:
+  - !InputFile template_example.py
+initializations:
+  y: 5
+extra:
+  x: 7
+tmplfile: !InputFile tmpl.txt.jinja2
+outfile: !OutputFile out.txt
