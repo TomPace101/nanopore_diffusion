@@ -6,10 +6,10 @@ from ..requesthandler.yaml_manager import read as readyaml
 from ..requesthandler import locators
 
 #Locators
-locators.folder_structure.update(GEO_File=['mesh',0,'geo'])
-locators.folder_structure.update(MSH_File=['mesh',0,'msh'])
-locators.folder_structure.update(Gmsh_OutFile=['mesh',0,'gmsh_out'])
-locators.folder_structure.update(MeshMetaDataFile=['mesh',0,'metadata'])
+locators.folder_structure.update(geofile=['mesh',0,'geo'])
+locators.folder_structure.update(mshfile=['mesh',0,'msh'])
+locators.folder_structure.update(gmsh_outfile=['mesh',0,'gmsh_out'])
+locators.folder_structure.update(meshmetadatafile=['mesh',0,'metadata'])
 
 _GmshRunner_props_schema_yaml="""#GmshRunner
 name: {type: string}
