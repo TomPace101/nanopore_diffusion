@@ -901,6 +901,8 @@ for comparison to what will be generated in data/postproc/validation.
 Not in src: we probably just need a "scripts" directory in general,
 for other cases where I have to generate data.
 
+https://stackoverflow.com/questions/3942820/how-to-do-unit-testing-of-functions-writing-files-using-python-unittest
+
 # anisotropy
 - fickian_unhomog
 - smol_unhomog
