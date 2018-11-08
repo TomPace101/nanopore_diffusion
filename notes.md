@@ -595,7 +595,7 @@ Implementation
   In the info below, reqdata means the request includes data other than just the input and output files
   - construct template from geometry definition (reqdata -> .geo.jinja2)
   - create geo file from template and values (.geo.jinja2 + reqdata -> .geo)
-  - run gmsh (.geo -> .msh)
+  - DONE run gmsh (.geo -> .msh)
   - run dolfin-convert (.msh -> .xml (3))
   - hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
   - later steps only (.geo -> .hdf5)

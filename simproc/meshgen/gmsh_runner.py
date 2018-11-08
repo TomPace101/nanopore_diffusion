@@ -1,4 +1,4 @@
-"""Run gmsh and subsequent conversion commands"""
+"""Run gmsh"""
 
 #This package
 from ..requesthandler.shell import ShellCommandRequestBase
@@ -35,7 +35,6 @@ class GmshRunner(ShellCommandRequestBase):
   _outputfile_attrs=['mshfile','txtfile','meshmetafile']
   _inputfile_attrs=['geofile']
   _props_schema=readyaml(_GmshRunner_props_schema_yaml)
-  _cmd_tmpl="gmsh -%d -setstring meshmetafile %s -o %s %s >%s"
   @property
   def cmd_str(self):
     #Integer argument
