@@ -577,7 +577,6 @@ outputs a request file.
 
 Unresolved issues/questions:
 - should Request.run just run all of its children, the way RequestFileListRequest does now?
-  There's also some very common stuff for run: redo validation, assure_output_dirs
 - classes listed as TBD below.
 
 Implementation

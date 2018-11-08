@@ -140,6 +140,18 @@ class Request(object):
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
+  def pre_run(self):
+    """Steps commonly taken just before execution
+    
+    These steps include final checks and routine preparations
+    needed before the actual execution of the request.
+    
+    This method is meant to be called by run()."""
+    #Confirm validation
+    self.validate()
+    #Create directories for output files if necessary
+    self.assure_output_dirs()
+    return
   def run(self):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'run' method."%str(type(self)))

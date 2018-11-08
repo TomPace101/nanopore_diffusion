@@ -39,10 +39,8 @@ class TemplateFileRequest(request.Request):
   def get_template_input(self):
     return self.data
   def run(self):
-    #Confirm validation
-    self.validate()
-    #Create directories for output files if necessary
-    self.assure_output_dirs()
+    #Final checks and preparatory steps
+    self.pre_run()
     #Load the template
     with open(self.tmplfile.fullpath,'r') as fh:
       tdata=fh.read()

@@ -17,10 +17,8 @@ class ShellCommandRequestBase(request.Request):
   - define a property attribute cmd_str that provides the shell command to be executed, as a string"""
 
   def run(self):
-    #Confirm validation
-    self.validate()
-    #Create directories for output files if necessary
-    self.assure_output_dirs()
+    #Final checks and preparatory steps
+    self.pre_run()
     #Run the shell command
     call(self.cmd_str,shell=True)
 

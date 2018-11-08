@@ -61,8 +61,16 @@ class OutputCleanupRequest(request.Request):
         #If it creates a task, get the output files
         if child_req._self_task:
           self.pathlist.extend(child_req.outputfiles)
+  def pre_run(self):
+    """Final checks and preparatory steps"""
+    #Confirm validation
+    self.validate()
+    #We don't need to assure output directories, as they might be deleted anyway
   def run(self):
     """Delete all the output files that exist, and remove empty directories"""
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Delete the listed paths
     for fpath in self.pathlist:
       cleanpath(fpath)
 
