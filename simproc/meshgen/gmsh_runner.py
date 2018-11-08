@@ -6,6 +6,7 @@ from ..requesthandler.yaml_manager import read as readyaml
 from ..requesthandler import locators
 
 #Locators
+locators.folder_structure.update(geotemplate=['mesh','templates'])
 locators.folder_structure.update(geofile=['mesh',0,'geo'])
 locators.folder_structure.update(mshfile=['mesh',0,'msh'])
 locators.folder_structure.update(gmsh_outfile=['mesh',0,'gmsh_out'])
