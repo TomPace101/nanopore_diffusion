@@ -54,6 +54,48 @@ def recursive_locator_search(data,reqname):
     out=data
   return out
 
+#Validation schema for Request
+#Note that validation is not applied to class attributes,
+#but some of these could be instance attributes in a subclass
+_Request_props_schema_yaml="""#Request
+name:
+  anyOf:
+    - {type: 'null'}
+    - {type: string}
+_self_task: {type: boolean}
+_inputfile_attrs:
+  type: array
+  items: {type: string}
+_more_inputfiles:
+  type: array
+  items:
+    anyOf:
+      - {type: string}
+      - {type: path}
+_outputfile_attrs:
+  type: array
+  items: {type: string}
+_more_outputfiles:
+  type: array
+  items:
+    anyOf:
+      - {type: string}
+      - {type: path}
+_required_attrs:
+  type: array
+  items: {type: string}
+_config_attrs:
+  type: array
+  items: {type: string}
+_child_attrs:
+  type: array
+  items: {type: string}
+_child_seq_attrs:
+  type: array
+  items: {type: string}
+_props_schema: {type: object}
+"""
+
 class Request(object):
   """Base class for all requests. Abstract only, not really meant to be instantiated.
   
@@ -97,6 +139,7 @@ class Request(object):
         - input files are specified by _inputfiles_attrs and _more_inputfiles
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
   __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
+  _props_schema=yaml_manager.read(_Request_props_schema_yaml)
   def __init__(self,**kwargs):
     #Process locators
     reqname=kwargs.get('name','') #Need the request name, if any, to process locators
@@ -110,6 +153,22 @@ class Request(object):
     #If named, add to dictionary of named requests
     if hasattr(self,'name'):
       all_requests[self.name]=self
+  @classmethod
+  def update_props_schema(cls,yaml_str):
+    """Return the property schema for a subclass
+    
+    The function is intended to be called by the subclass,
+    possibly using super() to determine the appropriate base class
+    (which, of course, this method will belong to).
+    
+    Arguments:
+    
+      - yaml_str = string containing yaml defining updates to _props_schema"""
+    sub_schema=yaml_manager.read(yaml_str)
+    schema={}
+    schema.update(cls._props_schema)
+    schema.update(sub_schema)
+    return schema
   @classmethod
   def _class_schema(cls):
     """Return the jsonschema validation schema for instances of this class"""
@@ -273,66 +332,12 @@ class Request(object):
       for td in req.all_tasks():
         yield td
 
-#Validation schema for Request
-#Note that validation is not applied to class attributes
-_Request_props_schema_yaml="""#Request
-name:
-  anyOf:
-    - {type: 'null'}
-    - {type: string}
-_self_task: {type: boolean}
-_inputfile_attrs:
-  type: array
-  items: {type: string}
-_more_inputfiles:
-  type: array
-  items:
-    anyOf:
-      - {type: string}
-      - {type: path}
-_outputfile_attrs:
-  type: array
-  items: {type: string}
-_more_outputfiles:
-  type: array
-  items:
-    anyOf:
-      - {type: string}
-      - {type: path}
-_required_attrs:
-  type: array
-  items: {type: string}
-_config_attrs:
-  type: array
-  items: {type: string}
-_child_attrs:
-  type: array
-  items: {type: string}
-_child_seq_attrs:
-  type: array
-  items: {type: string}
-_props_schema: {type: object}
-"""
+#Function factory for schema updates
+def create_schema_updater(cls):
+  return cls.update_props_schema
 
-#Function to assist derived classes in setting up their validation schema
-def make_schema(yaml_string):
-  """Create a schema dictionary for a subclass of Request
-  
-  Arguments:
-  
-    - yaml string = string containing yaml defining validation schema for the subclass
-  
-  Returns:
-  
-    - schema = schema dictionary for the subclass
-  
-  This function uses a generic validation schema for Request,
-  which is then updated with the schema provided for the subclass.
-  This allows you to override the base schema in any way you want."""
-  schema=yaml_manager.read(_Request_props_schema_yaml)
-  sub_schema=yaml_manager.read(yaml_string)
-  schema.update(sub_schema)
-  return schema
+#Convenience function for schema updates
+make_schema=create_schema_updater(Request)
 
 #jsonschema validator setup
 # #For jsonschema version 3
