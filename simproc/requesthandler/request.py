@@ -333,11 +333,14 @@ class Request(object):
         yield td
 
 #Function factory for schema updates
+#When you create a new base class to be used for requests,
+#you should make a new convenience function for it.
 def create_schema_updater(cls):
   return cls.update_props_schema
 
 #Convenience function for schema updates
 make_schema=create_schema_updater(Request)
+#Similar functions would be needed for other request base classes
 
 #jsonschema validator setup
 # #For jsonschema version 3
