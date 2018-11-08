@@ -48,10 +48,6 @@ class RequestFileRequest(request.Request):
     self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
     #Loading of yaml file is complete
     yaml_manager.filedone() #Let the manager know we're no longer loading this file
-  def run(self):
-    "Run all the requests listed in the file"
-    for req in self.all_children():
-      req.run()
 
 _RequestFileListRequest_props_schema_yaml="""#RequestFileListRequest
 name: {type: string}
@@ -85,10 +81,6 @@ class RequestFileListRequest(request.Request):
     ##self._more_inputfiles=self.requestfiles #I can't decide if this should be here or not
     #Each listed file is a RequestFileRequest
     self._children=[RequestFileRequest(requestfile=ch) for ch in self.requestfiles]
-  def run(self):
-    "Run all Requests in each listed request file"
-    for ch in self.all_children():
-      ch.run()
 
 #Register locators and default folder structure
 locators.folder_structure.update(RequestFile=['requests',0,1,2,3])

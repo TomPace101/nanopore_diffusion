@@ -154,8 +154,13 @@ class Request(object):
     self.assure_output_dirs()
     return
   def run(self):
-    "Method to be overridden by derived classes"
-    raise NotImplementedError("%s did not override 'run' method."%str(type(self)))
+    """Run all child requests
+    
+    Base classes that implement their own tasks should generally override this method."""
+    #We only need to call run() on the immediate children.
+    #Children with their own children will do the same.
+    for req in self.all_children():
+      req.run()
   def _all_slots(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)

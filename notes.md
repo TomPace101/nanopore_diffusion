@@ -576,7 +576,6 @@ a request generation request, when run
 outputs a request file.
 
 Unresolved issues/questions:
-- should Request.run just run all of its children, the way RequestFileListRequest does now?
 - classes listed as TBD below.
 
 Implementation
