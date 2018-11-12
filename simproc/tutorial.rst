@@ -44,6 +44,8 @@ Some typical steps are:
 
 **TODO**
 
+_TODO_ be sure to describe the ``complete`` method.
+
 Locators
 ========
 

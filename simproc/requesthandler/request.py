@@ -222,6 +222,16 @@ class Request(object):
     #Children with their own children will do the same.
     for req in self.all_children():
       req.run()
+  @classmethod
+  def complete(cls,**kwargs):
+    """Convenience function to set up and run the request.
+
+    Arguments:
+
+      - \*\*kwargs to be passed to the the request class __init__"""
+    obj=cls(**kwargs)
+    obj.run()
+    return obj
   def _all_slots(self):
     """Return an iterator over all the available slots"""
     return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
