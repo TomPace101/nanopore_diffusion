@@ -13,8 +13,14 @@ from . import customization
 
 _TemplateFileRequest_props_schema_yaml="""#GeneralShellCommandRequest
 name: {type: string}
-tmplfile: {type: path}
-outfile: {type: path}
+tmplfile:
+  anyOf:
+    - {type: string}
+    - {type: path}
+outfile:
+  anyOf:
+    - {type: string}
+    - {type: path}
 data: {type: object}"""
 
 class TemplateFileRequest(customization.CustomizableRequest):
@@ -27,8 +33,8 @@ class TemplateFileRequest(customization.CustomizableRequest):
   
   User-defined attributes:
   
-    - tmplfile: Path to the input template file
-    - outfile: Path to the output file
+    - tmplfile: path to the input template file, as Path or string
+    - outfile: path to the output file, as Path or string
     - data: dictionary of data used to compute the template input values"""
   __slots__=('tmplfile','outfile','data')
   _self_task=True
@@ -43,7 +49,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
     #Final checks and preparatory steps
     self.pre_run()
     #Load the template
-    with open(self.tmplfile.fullpath,'r') as fh:
+    with open(str(self.tmplfile),'r') as fh:
       tdata=fh.read()
     tmpl=Template(tdata,trim_blocks=True)
     #Do the calculations for the template values
@@ -51,7 +57,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
     #Apply the data to the template
     out_data=tmpl.render(**input_data)
     #Write the output file
-    with open(self.outfile.fullpath,'w') as fh:
+    with open(str(self.outfile),'w') as fh:
       fh.write(out_data)
 
 #Register for loading from yaml

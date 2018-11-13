@@ -1,5 +1,9 @@
 """Functions and classes relevant for implementing customization"""
 
+##TODO
+#This doesn't work because of __slots__
+#as slots seems to prevent monkey-patching
+
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 import importlib
@@ -9,6 +13,8 @@ import types
 #Site packages
 
 #This package
+from . import filepath
+from . import locators
 from . import request
 
 #Locator for module files
@@ -58,23 +64,36 @@ def load_module_from_path(fpath):
     import importlib.util
     spec = importlib.util.spec_from_file_location(module_name, file_path)
     module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
   return module
 
 _CustomizableRequest_props_schema_yaml="""#CustomizableRequest
 modules:
-  type: array
-  items: {type: string}
-initializations: {type: object}
-extra: {type: object}"""
+  anyOf:
+    - {type: 'null'}
+    - type: array
+      items:
+        anyOf:
+          - {type: string}
+          - {type: path}
+initializations:
+  anyOf:
+    - {type: 'null'}
+    - {type: object}
+extra:
+  anyOf:
+    - {type: 'null'}
+    - {type: object}"""
 
 class CustomizableRequest(request.Request):
   """A request that can monkey-patch itself
   
   User-defined attributes:
   
-    - modules = a sequence of module file paths to be imported. All functions defined inside become methods of the request.
-
-      (Technically, all functions whose names appear in dir(module), which could be tailored by defining __dir__ if desired.)
+    - modules = a sequence of module file paths to be imported.
+      If the module contains the variable ``add_methods``,
+      as a list of functions, then those functions will be bound
+      as methods of the request.
 
     - initializations = a dictionary {module name: {variable: value}}
 
@@ -82,7 +101,7 @@ class CustomizableRequest(request.Request):
         to the function `initialize_module`, if present, within the module.
       Modules listed here but not in `modules` are silently ignored.
 
-    - extra = dictionary {additional request attributes: assigned value}
+    - extra = dictionary {additional request parameters: assigned value}
     
   Calculated attributes:
   
@@ -102,6 +121,7 @@ class CustomizableRequest(request.Request):
     #Bind methods
     for modpath in modules:
       #Load module
+      modpath=filepath.Path(modpath,isFile=True)
       themod=load_module_from_path(modpath)
       modname = themod.__name__
       #Intialize, if requested
@@ -109,13 +129,15 @@ class CustomizableRequest(request.Request):
       if (kwargs is not None) and hasattr(themod,'initialize_module'):
         themod.initialize_module(**kwargs)
       #Assign all module functions as methods of this request
-      mod_contents=dict([(f,getattr(themod,f)) for f in dir(themod)])
+      add_methods=getattr(themod,'add_methods',[])
+      mod_contents=dict([(f.__name__,f) for f in add_methods])
       for nm, itm in mod_contents.items():
         if isinstance(itm,types.FunctionType):
           setattr(self,nm,types.MethodType(itm,self)) #Must type cast to MethodType in order to get implicit first argument `self`
-    #Assign extra attributes
-    for k,v in extra.items():
+      #Assign extra attributes
+      for k,v in getattr(self,'extra',{}).items():
         setattr(self,k,v)
 
+
 #Convenience function for schema updates
-make_schema=create_schema_updater(CustomizableRequest)
+make_schema=request.create_schema_updater(CustomizableRequest)
