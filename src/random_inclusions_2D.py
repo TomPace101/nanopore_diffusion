@@ -143,6 +143,56 @@ def random_circles(fixed,nrandom,xrange,yrange,rrange,box,maxtries=1e4,eps=0.1):
     rvals=testr
   return centers,rvals
 
+def nonrandom_circles(fixed,ncircles,rval,box,maxtries=1e4,eps=0.1):
+  """Create a set of nonrandom circles that stay inside the bounding box, and don't overlap each other.
+  
+  Arguments:
+  
+    - fixed = sequence of fixed circles, each circle as a tuple (x,y,r)
+    - ncircles = the APPROXIMATE number of circles to generate; the algorithm just covers the area
+    - rval = circle radius, as float
+    - box = Rect defining the bounding box within which the circular inclusions must remain
+    - eps = tolerance distance for overlap: circles must have at least this much separation
+  
+  Returns:
+  
+    - centers = Nx2 array of circle center coordinates (x,y)
+    - rvals = 1D array of circle radii, of length N"""
+  xvals,yvals,rvals=fixed_to_arrays(fixed)
+  centers=np.vstack((xvals,yvals)).T
+  assert is_valid(centers,rvals,box,eps), "Fixed circles are not valid even without adding others."
+  xspan=box.xmax-box.xmin
+  yspan=box.ymax-box.ymin
+  #Calculate circle spacing
+  full_A=xspan*yspan
+  fixed_A_list=[np.pi*r**2 for xc,yc,r in fixed]
+  fixed_A=sum(fixed_A_list)
+  net_A=full_A-fixed_A
+  approx_step=np.sqrt(net_A/ncircles)
+  # approx_step=np.sqrt(full_A/ncircles)
+  Xsteps=int(np.floor(xspan/approx_step))
+  Ysteps=int(np.floor(yspan/approx_step))
+  xsize=xspan/Xsteps
+  ysize=yspan/Ysteps
+  #Loop over the area to be covered
+  placed=[]
+  ynow=box.ymin+ysize/2
+  while ynow < box.ymax:
+    xnow = box.xmin+xsize/2
+    while xnow < box.xmax:
+      #Place circle if it doesn't overlap any fixed circles
+      seps=[np.sqrt((xnow-fx)**2+(ynow-fy)**2)-rval-fr-eps for fx,fy,fr in fixed]
+      if len(seps)==0 or min(seps)>0:
+        placed.append((xnow,ynow,rval))
+      #Next space
+      xnow += xsize
+    ynow += ysize
+  #Combine with fixed circles
+  addx,addy,addr=fixed_to_arrays(placed)
+  addc=np.vstack((addx,addy)).T
+  newcenters,newrvals = combine(centers,rvals,addc,addr)
+  return newcenters,newrvals
+
 def display(ax,centers,rvals,box):
   boxpatch=patches.Rectangle((box.xmin,box.ymin),box.xmax-box.xmin,box.ymax-box.ymin,fill=False,ls='-')
   o=ax.add_patch(boxpatch)
