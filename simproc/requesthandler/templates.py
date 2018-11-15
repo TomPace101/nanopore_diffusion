@@ -36,7 +36,6 @@ class TemplateFileRequest(customization.CustomizableRequest):
     - tmplfile: path to the input template file, as Path or string
     - outfile: path to the output file, as Path or string
     - data: dictionary of data used to compute the template input values"""
-  __slots__=('tmplfile','outfile','data')
   _self_task=True
   _config_attrs=('tmplfile','outfile','data','modules','initializations','extra')
   _inputfile_attrs=['tmplfile']

@@ -115,7 +115,7 @@ class Request(object):
         Some subclasses may require this to be defined, others may not.
         If defined, the request will be added to an ordered dictionary of requests by name: {request.name: request, ...}
     
-  Frequently, derived classes will add slots or class attributes for some of the following attributes, which this class supports:
+  Frequently, derived classes will add member or class attributes for some of the following attributes, which this class supports:
 
     - _self_task: boolean, True if request itself defines a task, False if only tasks come from children. If False, children may still define tasks. Defaults to False if not defined.
     - _inputfile_attrs: list of attributes containing input file paths
@@ -138,7 +138,6 @@ class Request(object):
     - provide all their input and output files, which may come from locators
         - input files are specified by _inputfiles_attrs and _more_inputfiles
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
-  __slots__=('name',) #Needed even if empty: without this, a __dict__ object will be created even though subclasses use __slots__
   _props_schema=yaml_manager.read(_Request_props_schema_yaml)
   def __init__(self,**kwargs):
     #Process locators
@@ -232,9 +231,6 @@ class Request(object):
     obj=cls(**kwargs)
     obj.run()
     return obj
-  def _all_slots(self):
-    """Return an iterator over all the available slots"""
-    return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
   def to_dict(self):
     """Return a dictionary with all the object's attributes.
 
@@ -244,8 +240,7 @@ class Request(object):
 
     Returns the dictionary."""
     d={}
-    for attr in self._all_slots():
-      itm=getattr(self,attr,None)
+    for attr,itm in self.__dict__.items():
       if hasattr(itm,'to_dict') and callable(itm.to_dict):
         d[attr]=itm.to_dict()
       else:

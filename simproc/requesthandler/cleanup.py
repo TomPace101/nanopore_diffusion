@@ -45,7 +45,6 @@ class OutputCleanupRequest(request.Request):
   Calculated Attributes:
   
     - pathlist: list of files to be deleted"""
-  __slots__=('clean','pathlist')
   _props_schema=request.make_schema(_OutputCleanupRequest_props_schema_yaml)
   _required_attrs=['clean']
   _self_task=True

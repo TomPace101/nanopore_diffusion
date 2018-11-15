@@ -30,7 +30,6 @@ class GmshRunner(ShellCommandRequestBase):
     - meshmetafile: optional, Path to yaml file to store mesh metadata
     - integer_arg: optional, integer to pass to gmsh on the command line, to specify meshing dimension
         defaults to 0, which indicates that the .geo file contains the appropriate `Mesh` command."""
-  __slots__=('geofile','mshfile','txtfile','meshmetafile','integer_arg')
   _self_task=True
   _required_attrs=['geofile','mshfile','txtfile']
   _outputfile_attrs=['mshfile','txtfile','meshmetafile']

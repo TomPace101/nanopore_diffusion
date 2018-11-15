@@ -28,7 +28,6 @@ class RequestFileRequest(request.Request):
   Calculated Attributes:
   
     - _children: A list storing all child requests"""
-  __slots__=('requestfile','_children')
   _props_schema=request.make_schema(_RequestFileRequest_props_schema_yaml)
   _required_attrs=['requestfile']
   _child_seq_attrs=['_children']
@@ -69,7 +68,6 @@ class RequestFileListRequest(request.Request):
   
     - _children: A list storing all child requests
     """
-  __slots__=('requestfiles','_children')
   _props_schema=request.make_schema(_RequestFileListRequest_props_schema_yaml)
   _required_attrs=['requestfiles']
   _child_seq_attrs=['_children']

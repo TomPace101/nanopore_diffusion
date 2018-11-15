@@ -1,8 +1,7 @@
 """Functions and classes relevant for implementing customization"""
 
 ##TODO
-#This doesn't work because of __slots__
-#as slots seems to prevent monkey-patching
+##will this work now?
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
@@ -106,12 +105,11 @@ class CustomizableRequest(request.Request):
   Calculated attributes:
   
     - _more_inputfiles: the list of module files is added here"""
-  __slots__=('modules','initializations','extra','_more_inputfiles')
   _props_schema=request.make_schema(_CustomizableRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
     super(CustomizableRequest, self).__init__(**kwargs)
-    #Read the slots, allowing any to be missing
+    #Read the customization attributes, allowing any to be missing
     modules=getattr(self,'modules',[])
     initializations=getattr(self,'initializations',{})
     extra=getattr(self,'extra',{})

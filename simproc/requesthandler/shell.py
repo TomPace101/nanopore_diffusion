@@ -39,7 +39,6 @@ class GeneralShellCommandRequest(ShellCommandRequestBase):
     - command: string representing command to execute
     - outfile: Path to output file
     - errfile: Path to error output file, or None to redirect to `outfile`"""
-  __slots__=('outfile','errfile','command')
   _self_task=True
   _required_attrs=['outfile','command']
   _config_attrs=['outfile','errfile','command']

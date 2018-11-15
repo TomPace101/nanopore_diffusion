@@ -60,7 +60,6 @@ class DummyRequest(request.Request):
     - test: None
   Errors:
     - test: None is not valid under any of the given schemas"""
-  __slots__=('test',)
   _self_task=True
   _config_attrs=['test']
   _required_attrs=['name','test']
@@ -85,7 +84,6 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
   
     - test: test data, which is passed to 'echo' when the request is run
     - outfile: Path to output file"""
-  __slots__=('outfile','test')
   _self_task=True
   _required_attrs=['outfile','test']
   _config_attrs=_required_attrs

@@ -24,7 +24,6 @@ class DolfinConvertRunner(ShellCommandRequestBase):
        which contain mesh function data.
        This is the path to output file containing the mesh itself.
   """
-  __slots__=('mshfile','xmlfile')
   _self_task=True
   _required_attrs=['mshfile','xmlfile']
   _inputfile_attrs=['mshfile']
