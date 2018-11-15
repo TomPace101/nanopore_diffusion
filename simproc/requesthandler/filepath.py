@@ -158,6 +158,11 @@ class Path(baseclass):
       return self.relative_to(base)
     except ValueError:
       return self
+  def __getstate__(self):
+    """Used for pickling, and possibly for converting to yaml"""
+    #This is a little bit ridiculous, but you can't just return the string.
+    #ruamel.yaml expects a mapping
+    return {'str':str(self),'isFile':self.isFile}
 
 if __name__ == "__main__":
     import doctest

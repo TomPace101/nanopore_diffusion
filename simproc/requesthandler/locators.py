@@ -177,4 +177,4 @@ class SetDataFolder(object):
     self.__init__(**state)
 
 #Register for loading from yaml
-yaml_manager.register_classes([DataFile,UpdateFolderStructure,SetDataFolder])
+yaml_manager.register_classes([filepath.Path,DataFile,UpdateFolderStructure,SetDataFolder])
