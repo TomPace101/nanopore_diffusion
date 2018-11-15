@@ -82,7 +82,11 @@ initializations:
 extra:
   anyOf:
     - {type: 'null'}
-    - {type: object}"""
+    - {type: object}
+_custom_methods:
+  anyOf:
+    - {type: 'null'}
+    - {type: array}"""
 
 class CustomizableRequest(request.Request):
   """A request that can monkey-patch itself
@@ -104,7 +108,8 @@ class CustomizableRequest(request.Request):
     
   Calculated attributes:
   
-    - _more_inputfiles: the list of module files is added here"""
+    - _more_inputfiles: the list of module files is added here
+    - _custom_methods: list of the names of the custom methods added to the instance"""
   _props_schema=request.make_schema(_CustomizableRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -129,12 +134,23 @@ class CustomizableRequest(request.Request):
       #Assign all module functions as methods of this request
       add_methods=getattr(themod,'add_methods',[])
       mod_contents=dict([(f.__name__,f) for f in add_methods])
+      if len(mod_contents)>0:
+        self._custom_methods=[]
       for nm, itm in mod_contents.items():
         if isinstance(itm,types.FunctionType):
+          self._custom_methods.append(itm.__name__)
           setattr(self,nm,types.MethodType(itm,self)) #Must type cast to MethodType in order to get implicit first argument `self`
       #Assign extra attributes
       for k,v in getattr(self,'extra',{}).items():
         setattr(self,k,v)
+  def validate(self):
+    d=self.to_dict()
+    #Remove attributes added by customization: these aren't validated
+    for attr in getattr(self,'_custom_methods',[]):
+      o=d.pop(attr)
+    for attr in getattr(self,'extra',{}).keys():
+      o=d.pop(attr)
+    self.validate_kwargs(**d)
 
 
 #Convenience function for schema updates
