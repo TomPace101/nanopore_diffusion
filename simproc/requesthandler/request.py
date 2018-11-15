@@ -275,11 +275,6 @@ class Request(object):
     cd=dict([(k,v) for k,v in d.items() if k in self._config_attrs])
     #Don't add configuration of children: look at the output files they generate instead
     #(otherwise changes will cascade even if output files are unaltered)
-    #All Paths must be converted to strings
-    #TODO: it might be preferable to allow Paths to convert themselves to yaml. I couldn't get that to work before, though.
-    for k,v in cd.items():
-      if isinstance(v,filepath.Path):
-        cd[k]=v.fullpath  ##TODO: this means moving/renaming the data folder will show up as a changed configuration for everything
     return cd
   @property
   def config(self):
