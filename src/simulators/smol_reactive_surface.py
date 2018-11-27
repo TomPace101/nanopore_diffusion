@@ -95,10 +95,6 @@ class LPBSimulator(simulator_general.GenericSimulator):
 #Lookup of electric potential simulators by name
 potentialsimulatorclasses={'linear_pb':LPBSimulator}
 
-class EquationTerm(simulator_general.EquationTermBase):
-  __slots__=('bilinear','termid','species','bound_surf')
-
-
 class Species(common.ParameterSet):
   """Information for a single chemical species.
   
@@ -249,7 +245,7 @@ class SUSimulator(simulator_general.GenericSimulator):
       self.Dbar_proj.append(fem.project(Dbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")) #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
 
     #Weak Form
-    allterms=simulator_general.EquationTermDict(EquationTerm)
+    allterms=simulator_general.EquationTermDict(simulator_general.EquationTerm)
     #Body terms
     for s,cbar in enumerate(cbarlist):
       if self.species[s].D is not None:
