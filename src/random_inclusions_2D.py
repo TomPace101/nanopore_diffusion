@@ -158,40 +158,45 @@ def nonrandom_circles(fixed,ncircles,rval,box,maxtries=1e4,eps=0.1):
   
     - centers = Nx2 array of circle center coordinates (x,y)
     - rvals = 1D array of circle radii, of length N"""
+  #Process fixed circles
   xvals,yvals,rvals=fixed_to_arrays(fixed)
   centers=np.vstack((xvals,yvals)).T
   assert is_valid(centers,rvals,box,eps), "Fixed circles are not valid even without adding others."
-  xspan=box.xmax-box.xmin
-  yspan=box.ymax-box.ymin
-  #Calculate circle spacing
-  full_A=xspan*yspan
-  fixed_A_list=[np.pi*r**2 for xc,yc,r in fixed]
-  fixed_A=sum(fixed_A_list)
-  net_A=full_A-fixed_A
-  approx_step=np.sqrt(net_A/ncircles)
-  # approx_step=np.sqrt(full_A/ncircles)
-  Xsteps=int(np.floor(xspan/approx_step))
-  Ysteps=int(np.floor(yspan/approx_step))
-  xsize=xspan/Xsteps
-  ysize=yspan/Ysteps
-  #Loop over the area to be covered
-  placed=[]
-  ynow=box.ymin+ysize/2
-  while ynow < box.ymax:
-    xnow = box.xmin+xsize/2
-    while xnow < box.xmax:
-      #Place circle if it doesn't overlap any fixed circles
-      seps=[np.sqrt((xnow-fx)**2+(ynow-fy)**2)-rval-fr-eps for fx,fy,fr in fixed]
-      if len(seps)==0 or min(seps)>0:
-        placed.append((xnow,ynow,rval))
-      #Next space
-      xnow += xsize
-    ynow += ysize
-  #Combine with fixed circles
-  addx,addy,addr=fixed_to_arrays(placed)
-  addc=np.vstack((addx,addy)).T
-  newcenters,newrvals = combine(centers,rvals,addc,addr)
-  return newcenters,newrvals
+  #For zero circles, that's all
+  if ncircles <= 0:
+    return centers, rvals
+  else:
+    #Calculate circle spacing
+    xspan=box.xmax-box.xmin
+    yspan=box.ymax-box.ymin
+    full_A=xspan*yspan
+    fixed_A_list=[np.pi*r**2 for xc,yc,r in fixed]
+    fixed_A=sum(fixed_A_list)
+    net_A=full_A-fixed_A
+    approx_step=np.sqrt(net_A/ncircles)
+    # approx_step=np.sqrt(full_A/ncircles)
+    Xsteps=max(1,int(np.floor(xspan/approx_step)))
+    Ysteps=max(1,int(np.floor(yspan/approx_step)))
+    xsize=xspan/Xsteps
+    ysize=yspan/Ysteps
+    #Loop over the area to be covered
+    placed=[]
+    ynow=box.ymin+ysize/2
+    while ynow < box.ymax:
+      xnow = box.xmin+xsize/2
+      while xnow < box.xmax:
+        #Place circle if it doesn't overlap any fixed circles
+        seps=[np.sqrt((xnow-fx)**2+(ynow-fy)**2)-rval-fr-eps for fx,fy,fr in fixed]
+        if len(seps)==0 or min(seps)>0:
+          placed.append((xnow,ynow,rval))
+        #Next space
+        xnow += xsize
+      ynow += ysize
+    #Combine with fixed circles
+    addx,addy,addr=fixed_to_arrays(placed)
+    addc=np.vstack((addx,addy)).T
+    newcenters,newrvals = combine(centers,rvals,addc,addr)
+    return newcenters,newrvals
 
 def display(ax,centers,rvals,box):
   boxpatch=patches.Rectangle((box.xmin,box.ymin),box.xmax-box.xmin,box.ymax-box.ymin,fill=False,ls='-')

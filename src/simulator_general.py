@@ -160,17 +160,13 @@ class ModelParametersBase(common.ParameterSet):
     outfiles+=list_outputfiles(getattr(self,'datasteps',[]))
     self._more_outputfiles=[osp.join(self.outdir,f) for f in outfiles]
 
-class EquationTermBase(object):
+class EquationTerm(object):
   """To keep track of additional information about each UFL form added up into the equation to solve.
-  
-  The intention is that simulator modules will subclass with appropriate attributes in __slots__.
   
   Attributes:
   
     - name = a string uniquely identifying the equation term
     - ulf = the UFL form object for the term"""
-
-  __slots__=('name','ufl')
 
   def __init__(self,name,ufl,**kwargs):
     self.name=name
@@ -185,7 +181,7 @@ class EquationTermDict(OrderedDict):
   
     - termclass = the class of which all equationterms are instances"""
 
-  def __init__(self,termclass,*args,**kwargs):
+  def __init__(self,termclass=EquationTerm,*args,**kwargs):
     #Initialization from base class
     super(EquationTermDict, self).__init__(*args,**kwargs)
     #Store the term class

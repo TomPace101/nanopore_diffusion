@@ -11,9 +11,6 @@ import unitsystem as UN
 import common
 import simulator_general
 
-class EquationTerm(simulator_general.EquationTermBase):
-  __slots__=('bilinear')
-
 class Conditions(simulator_general.GenericConditions):
   """Condition defnitions for use with HomogFickianSimulator
   
@@ -124,7 +121,7 @@ class HomogFickianSimulator(simulator_general.GenericSimulator):
     self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
 
     #Equation term dictionary
-    eqnterms=simulator_general.EquationTermDict(EquationTerm)
+    eqnterms=simulator_general.EquationTermDict(simulator_general.EquationTerm)
 
     #Bilinear boundary terms
     for psurf in self.conditions.boundaries:
