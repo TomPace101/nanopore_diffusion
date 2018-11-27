@@ -181,7 +181,7 @@ class EquationTermDict(OrderedDict):
   
     - termclass = the class of which all equationterms are instances"""
 
-  def __init__(self,termclass,*args,**kwargs):
+  def __init__(self,termclass=EquationTerm,*args,**kwargs):
     #Initialization from base class
     super(EquationTermDict, self).__init__(*args,**kwargs)
     #Store the term class
