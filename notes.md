@@ -575,6 +575,20 @@ How about this:
 a request generation request, when run
 outputs a request file.
 
+Simulators
+What if the namespace for the simulator is just the module?
+That is, a simulator module is code in the data folder,
+but it can call functions to load things from its parent request, somehow.
+This fits in with the goal of being able to run directly from python as well.
+Maybe I construct the request myself.
+Of course, you can't pass an argument to a module.
+Instead, you pass an argument to a function within a module.
+That would make the function the namespace in question, rather than the module.
+
+Running a simulation is like running a script, especially with MPI.
+But you want that script to have access to the request structure.
+And you want it to be modular, made of as many reusable components as possible.
+
 Unresolved issues/questions:
 - classes listed as TBD below.
 
