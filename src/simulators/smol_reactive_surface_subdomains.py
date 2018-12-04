@@ -310,6 +310,11 @@ class SUSimulator(simulator_general.GenericSimulator):
       self.clist.append(c)
     return
 
+  def domain_volume(self,pcell=1,attrname='domain_volume'):
+    """Compute volume of a subdomain"""
+    self.results[attrname]=fem.assemble(fem.Constant(1)*self.dx(pcell))
+    return
+
   def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=None):
     """Flux as vector field (new attribute, and VTK file)"""
     soln=getattr(self,solnattr)
