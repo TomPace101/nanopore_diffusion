@@ -589,6 +589,13 @@ Running a simulation is like running a script, especially with MPI.
 But you want that script to have access to the request structure.
 And you want it to be modular, made of as many reusable components as possible.
 
+That also helps with interactivity.
+The less difference between the interactive and automated runs, the better.
+So how do you pass the data from a request to a particular script?
+This is more general than just a simulator.
+The answer is a pipe, or a standard file you read in.
+Or something like that.
+
 Unresolved issues/questions:
 - classes listed as TBD below.
 
