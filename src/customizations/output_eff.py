@@ -12,6 +12,11 @@ import numpy as np
 import folderstructure as FS
 import plotdata
 
+def domain_volume(self,pcell=1,attrname='domain_volume'):
+  """Compute volume of a subdomain"""
+  self.results[attrname]=fem.assemble(fem.Constant(1)*self.dx(pcell))
+  return
+
 #TODO: change this to store the flux in a specified attribute, use another function to save to VTK file
 def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=None):
   """Flux as vector field (new attribute, and VTK file)
