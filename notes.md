@@ -652,7 +652,7 @@ Implementation
   - TBD, see notes below
   - zipping/unzipping: see below as well
 - Validation:
-  - Validate that output files are as expected
+  - Validate that output files are as expected (new request type, which is tested by doctest)
 - Request generation:
   - Requests store themselves in a yaml file: should work already, just test it
   - MORE
