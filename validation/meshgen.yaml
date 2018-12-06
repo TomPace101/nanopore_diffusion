@@ -1,0 +1,20 @@
+%YAML 1.2
+---
+#Locator for input and output generated below
+!UpdateFolderStructure
+InputFile: ['input',0]
+OutputFile: ['output',0]
+---
+#Test gmsh_runner
+!GmshRunner
+name: mesh_gmsh
+geofile: !InputFile #TODO
+mshfile: !OutputFile #TODO
+txtfile: !OutputFile #TODO
+meshmetafile: !OutputFile #TODO
+---
+#Test dconv_runner
+!DolfinConvertRunner
+name: mesh_dconv
+mshfile: !InputFile #TODO
+xmlfile: !OutputFile #TODO
