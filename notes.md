@@ -1,4 +1,12 @@
 
+_TODO_ need to start checking residual values on the solutions
+For example, evaluate the original PDE as a field function,
+and then find its maximum value.
+But also check boundary conditions (periodicity included).
+And any average conditions as well.
+What tools can you develop to make this easier?
+(The reactive boundary simulation is the first example of this.)
+
 _TODO_ consistent set of environment variable names
 in electrolyte_analysis and stoch_test:
   DATALOC -> DATAFOLDER
@@ -15,6 +23,8 @@ to allow for running only out-of-date requests,
 or reviewing request status, etc.
 Maybe you'll even want a python module,
 so you can do some of this from within python.
+Actually, that would probably be more useful
+than adding more command line arguments.
 
 _TODO_ construct a module dependency graph
 
@@ -65,6 +75,13 @@ It's really not clear to me how/if those possess spatial variation, though.
 But you can assign data to a Vector from a numpy array:
 https://fenicsproject.org/qa/8774/defining-a-function-from-data/
 You just need to get coordinates (and components in a vector case) for the dofs
+
+_IDEA_ use names for physical lines, surfaces, and volumes
+How?
+Through mesh metadata:
+include a dictionary giving names to these,
+and returning their gmsh numerical values.
+Or can gmsh not output integers?
 
 _IDEA_ "scriptlets"
 Python code that will be executed in a particular context:
@@ -596,6 +613,8 @@ This is more general than just a simulator.
 The answer is a pipe, or a standard file you read in.
 Or something like that.
 
+Pipes: have a function that can read in a request from stdin.
+
 Unresolved issues/questions:
 - classes listed as TBD below.
 
@@ -614,15 +633,21 @@ Implementation
   - ONGOING others are to be created along with the requests they relate to
 - Mesh generation:
   In the info below, reqdata means the request includes data other than just the input and output files
-  - construct template from geometry definition (reqdata -> .geo.jinja2)
-  - create geo file from template and values (.geo.jinja2 + reqdata -> .geo)
+  - construct template from geometry definition (reqdata -> .geo.jinja2) [not the way it was done before. will this work?]
+  - create geo file from template and values (.geo.jinja2 + reqdata -> .geo) [OR is this too case-specific? The request data->template input conversion step varies.]
   - UNTESTED run gmsh (.geo -> .msh)
   - UNTESTED run dolfin-convert (.msh -> .xml (3))
   - hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
   - later steps only (.geo -> .hdf5)
   - all but template construction (.geo.jinja2 + .yaml -> .hdf5)
   - all steps (.yaml -> .hdf5)
-- Simulation: TBD
+- Simulation:
+  - MeshInfo (similar to what's in simulator_general now, but not taking modelparams)
+  - General input tables? (see `p20180819_InputTable`, or should use pandas?)
+  - Specific input tables for species, domains, and species-in-domain
+  - Weak Form support as exists in simulator_general now
+  - Library of common weak forms
+  - MORE
 - Post-processing:
   - TBD, see notes below
   - zipping/unzipping: see below as well
@@ -630,6 +655,14 @@ Implementation
   - Validate that output files are as expected
 - Request generation:
   - Requests store themselves in a yaml file: should work already, just test it
+  - MORE
+- Customization:
+  - DONE a request that can monkey-patch itself
+  - allow user to specify python files containing classes that can be added to yaml registry
+
+Conversion
+- electrolyte_analysis
+- stoch_test
 
 Deprecated/Postponed Implementation:
   - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
