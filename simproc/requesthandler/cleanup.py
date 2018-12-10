@@ -36,7 +36,7 @@ clean: {type: array}
 pathlist: {type: array}"""
 
 class OutputCleanupRequest(request.Request):
-  """Request to run all the requests in a given file
+  """Request to clean up the output of other requests
   
   User-Provided Attributes:
   
