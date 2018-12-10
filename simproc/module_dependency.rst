@@ -18,6 +18,6 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``cleanup``: ``locators``, ``request``, ``yaml_manager``
   - ``customization``: ``filepath``, ``locators``, ``request``
   - ``templates``: ``yaml_manager``, ``customization``
-  - ``__init__``: ``filepath``, ``locators``, ``requestfile``, ``customization``, ``shell``, ``templates``, ``cleanup``, ``debug``
+  - ``__init__``: ``filepath``, ``locators``, ``requestfile``, ``customization``, ``shell``, ``templates``, ``cleanup``, ``comparison, ``debug``
   - ``cmdline``: ``*`` (meaning everything listed in ``__init__``)
   - ``__main__``: ``cmdline``
