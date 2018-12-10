@@ -1,4 +1,39 @@
-"For comparing output to the expected output, to validate the code"
+"""For comparing output to the expected output, to validate the code
+
+Setup data for test
+
+>>> files=['/tmp/a.txt', '/tmp/b.txt', '/tmp/c.txt']
+>>> files_data=['hello world\\n']*2 + ['goodbye!\\n']
+>>> for fpath,data in zip(files,files_data):
+...   with open(fpath,'w') as fh:
+...     fh.write(data)
+...
+12
+12
+9
+
+Example with files that do match
+
+>>> req1=FileComparisonRequest(expected=files[0],received=files[1])
+>>> req1.run()
+Files match: /tmp/a.txt and /tmp/b.txt
+
+Example with files that don't match
+
+>>> req2=FileComparisonRequest(expected=files[1],received=files[2])
+>>> req2.run()
+Traceback (most recent call last):
+  ...
+AssertionError: Found unexpected difference in files /tmp/b.txt and /tmp/c.txt
+
+Clean up
+
+>>> import os
+>>> for fpath in files:
+...   os.remove(fpath)
+...
+
+"""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility

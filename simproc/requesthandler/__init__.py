@@ -10,6 +10,6 @@ from . import comparison
 from . import debug
 
 #Modules for doctests
-doctest_modules=[filepath, debug]
+doctest_modules=[filepath, debug, comparison]
 #Files for doctests
 doctest_files=[]
