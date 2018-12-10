@@ -27,6 +27,12 @@ Actually, that would probably be more useful
 than adding more command line arguments.
 
 _TODO_ construct a module dependency graph
+I now have a file for manually tracking this information.
+But an automated way of doing it might be better.
+Even if you use the manual data,
+it needs to be graphical.
+Really nice, would be if clicking on a module took you
+to its documentation.
 
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
 
