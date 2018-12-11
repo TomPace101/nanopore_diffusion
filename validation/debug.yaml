@@ -72,6 +72,12 @@ received: !OutputFile hello_from_template.txt
 name: recursion.root
 requestfile: !InputFile recursion_a.yaml
 ---
+#Verify output of previous test
+!FileComparisonRequest
+name: recursion.root.verify
+expected: !CompareFile recursion_c.txt
+received: !OutputFile recursion_c.txt
+---
 #Test customization of template request
 !TemplateFileRequest
 name: customization.template
@@ -86,3 +92,9 @@ data:
   n: 1
 tmplfile: !InputFile tmpl.txt.jinja2
 outfile: !OutputFile out.txt
+---
+#Verify output of previous test
+!FileComparisonRequest
+name: customization.template.verify
+expected: !CompareFile out.txt
+received: !OutputFile out.txt

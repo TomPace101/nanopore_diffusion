@@ -1,0 +1,6 @@
+It begins.
+The value of x is 7.
+The value of y is 5.
+The value of z is 12.
+The value of n is 1.
+That is all.
