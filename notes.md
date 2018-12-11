@@ -1,11 +1,15 @@
 
 _TODO_ need to start checking residual values on the solutions
 For example, evaluate the original PDE as a field function,
-and then find its maximum value.
-But also check boundary conditions (periodicity included).
+and then find its maximum (absolute) value.
+But also check boundary conditions (dirichlet, neumann, periodicity, reactive).
 And any average conditions as well.
 What tools can you develop to make this easier?
-(The reactive boundary simulation is the first example of this.)
+
+How do you check boundary conditions?
+At particular points?
+At nodes?
+
 
 _TODO_ consistent set of environment variable names
 in electrolyte_analysis and stoch_test:
@@ -965,6 +969,8 @@ Maybe the list in ModelParameters really is an equation list,
 and each equation in turn calls the necessary functions for its individual terms.
 That way, reusable equations can be built up from reusable parts.
 
+Shorten/simplify the path for "equation": specify modules directly, the way customization does.
+
 # Fick's Law with Reactions
 - DONE: set up an example problem (in debug, I guess, base it on debug03)
 - DONE: only 2 species: Ca and CaCaM
@@ -1493,10 +1499,15 @@ Individual items to add:
 
 We need to reconsider this whole approach to the document.
 The various goals are:
-- document the math behind the code at a high level
-- document extensive formula derivations (in a appendix, referenced in the Part above)
-- document the code itself
-- document the specific analyses performed with the code, including possibly validation problems
+- document the math behind the code at a high level (belongs in Latex, maybe jupyter notebooks)
+- document extensive formula derivations (in a appendix, referenced in the Part above) (also Latex, but maybe in jupyter notebooks)
+- document the code itself (sphinx)
+- document the specific analyses performed with the code, including possibly validation problems (markdown notes files, and jupyter notebooks)
+
+Here's the way I've been doing it recently:
+- math includes derivations, it's all in Latex, and those are in markdown Jupyter notebooks
+- sphinx for the code itself
+- the other jupyter notebooks have pretty much everything else
 
 We really want this to be modular.
 Right now it's kind of all mixed together.
@@ -1542,6 +1553,8 @@ Maybe an invisible table?
 How would this work with equation numbering?
 Each row of the table should be numbered.
 So could we get the equation numbers in their own column?
+
+For now, probably just continue doing text-equation-text-equation...
 
 _MAYBE_ Smol: use z for charge instead of q --wait! this conflicts with z as a coordinate! (ok in PNP b/c of species index)
 _MAYBE_ would it be better to use delta_... for test functions (ala variational calculus) instead of v?
