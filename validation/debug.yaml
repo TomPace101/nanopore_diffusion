@@ -46,6 +46,13 @@ name: dummy.generalshell
 command: date
 outfile: !OutputFile date_output.txt
 ---
+#Verify output of previous test
+!FileSizeComparisonRequest
+name: dummy.generalshell.verify
+expected: !CompareFile date_output.txt
+received: !OutputFile date_output.txt
+range: 0
+---
 #Test template request
 !TemplateFileRequest
 name: dummy.templatefile
