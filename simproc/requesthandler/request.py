@@ -21,7 +21,7 @@ from . import yaml_manager
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
 #jsonschema 2.6
-extra_types_dict={'path':filepath.Path}
+extra_types_dict={'path':filepath.Path,'array':(list,tuple)}
 
 #Dictionary of all loaded requests
 all_requests=odict()
