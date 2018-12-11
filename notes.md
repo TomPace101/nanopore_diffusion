@@ -37,6 +37,8 @@ to its documentation.
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
 
 _TODO_ refactor this TODO list!
+Probably need to move it to old_notes.md,
+and then copy the actual active items out of it.
 
 _TODO_ Name all functions in FEniCS.
 
@@ -68,6 +70,19 @@ Not just directory and filenames, but in the code itself.
 
 _TODO_ use output_eff effective_D in place of effective_diffusion in all locations.
 See log 2018-07-10 for more information.
+
+_MAYBE_ Run validation cases from rst
+Create an rst file that, when doctested, actually runs the validation tests,
+and then also their cleanup.Then --validate alone will do everything.
+But how?
+Would it be a single doctest?
+If so, it's a big one.
+Maybe that's ok.
+
+_IDEA_ import *
+Just like fenics, import more stuff directly into the top name-space,
+so the highest module has useful stuff rather than having to drill all the way down.
+Or is that not a good example to follow?
 
 _ISSUE_ we'll eventually need to be able to load arbitrary spatial data into a function space,
 without writing an expression object.
