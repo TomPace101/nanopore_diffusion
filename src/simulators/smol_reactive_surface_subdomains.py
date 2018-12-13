@@ -252,6 +252,7 @@ class SUSimulator(simulator_general.GenericSimulator):
       self.rbcs[psurf]=spair
 
     #Calculate Dbar for each species
+    ##TODO: this doesn't use the variation in D by subdomain. Is that ok?
     self.Dbar_dict={}
     self.Dbar_proj=[]
     for s,spec in enumerate(self.species):
@@ -320,7 +321,7 @@ class SUSimulator(simulator_general.GenericSimulator):
     soln=getattr(self,solnattr)
     if idx is not None:
       soln=soln[idx]
-    expr=-self.Dfunc*fem.grad(soln)
+    expr=-self.Dfunc*self.Dbar_proj[idx]*fem.grad(soln)
     fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
     setattr(self,fluxattr,fluxres)
     vtk_file=fem.File(osp.join(self.outdir,filename))
