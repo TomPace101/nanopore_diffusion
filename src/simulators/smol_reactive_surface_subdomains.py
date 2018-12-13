@@ -252,7 +252,6 @@ class SUSimulator(simulator_general.GenericSimulator):
       self.rbcs[psurf]=spair
 
     #Calculate Dbar for each species
-    ##TODO: this doesn't use the variation in D by subdomain. Is that ok?
     self.Dbar_dict={}
     self.Dbar_proj=[]
     for s,spec in enumerate(self.species):
