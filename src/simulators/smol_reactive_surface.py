@@ -292,4 +292,16 @@ class SUSimulator(simulator_general.GenericSimulator):
       self.clist.append(c)
     return
 
+  def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=None):
+    """Flux as vector field (new attribute, and VTK file)"""
+    soln=getattr(self,solnattr)
+    if idx is not None:
+      soln=soln[idx]
+    expr=-self.Dbar_proj[idx]*fem.grad(soln)
+    fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
+    setattr(self,fluxattr,fluxres)
+    vtk_file=fem.File(osp.join(self.outdir,filename))
+    vtk_file << fluxres
+    return
+
 simulatorclasses={'smol_reactive_surface':SUSimulator}
