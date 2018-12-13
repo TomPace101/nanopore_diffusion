@@ -12,9 +12,13 @@ import numpy as np
 import folderstructure as FS
 import plotdata
 
-def domain_volume(self,pcell=1,attrname='domain_volume'):
+def domain_volume(self,pcell=None,attrname='domain_volume'):
   """Compute volume of a subdomain"""
-  self.results[attrname]=fem.assemble(fem.Constant(1)*self.dx(pcell))
+  if pcell is None:
+    this_dx=self.dx
+  else:
+    this_dx=self.dx(pcell)
+  self.results[attrname]=fem.assemble(fem.Constant(1)*this_dx)
   return
 
 #TODO: change this to store the flux in a specified attribute, use another function to save to VTK file
