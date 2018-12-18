@@ -680,6 +680,7 @@ Implementation
   - Validate that output files are as expected (new request type, which is tested by doctest)
 - Request generation:
   - Requests store themselves in a yaml file: should work already, just test it
+  - Request that can parametrically generate child requests
   - MORE
 - Customization:
   - DONE a request that can monkey-patch itself

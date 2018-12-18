@@ -2,6 +2,7 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+from collections import OrderedDict as odict
 import io
 
 #Site packages
@@ -10,9 +11,8 @@ yaml=YAML(typ="safe", pure=True)
 
 #This package
 
-#List of all registered class names
-all_registered=[]
-all_registered_classes=[]
+#Dictionary of all registered classes, by their names
+all_registered=odict()
 
 #Placeholder for tracking file being loaded
 now_loading=[]
@@ -25,8 +25,7 @@ def register_classes(class_list):
     - class_list = sequence of classes, as classes"""
   for yclass in class_list:
     yaml.register_class(yclass)
-    all_registered.append(yclass.__name__)
-    all_registered_classes.append(yclass)
+    all_registered[yclass.__name__]=yclass
 
 def newloader(yfile=None):
   """For when you need to load more than one yaml file at a time.
@@ -41,7 +40,7 @@ def newloader(yfile=None):
     global now_loading
     now_loading.append(yfile)
   yy=YAML(typ="safe", pure=True)
-  for yclass in all_registered_classes:
+  for yclass in all_registered.values():
     yy.register_class(yclass)
   return yy
 
