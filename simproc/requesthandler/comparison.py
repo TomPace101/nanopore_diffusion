@@ -84,6 +84,39 @@ class FileComparisonRequest(request.Request):
     assert ans, "Found unexpected difference in files %s and %s"%args
     print("Files match: %s and %s"%args)
 
+_FileComparisonListRequest_props_schema_yaml="""#FileComparisonListRequest
+pairs:
+  type: array
+  items:
+    type: array
+    minItems: 2
+    maxItems: 2
+    items:
+      anyOf:
+        - {type: string}
+        - {type: path}
+_children: {type: array}"""
+
+class FileComparisonListRequest(request.Request):
+  """Perform file comparison on multiple pairs of files, and issue error if any pair doesn't match
+  
+  User-Provided Attributes:
+  
+    - pairs: list of pairs (expected, received), each a path
+
+  Calculated Attributes:
+  
+    - _children: A list storing all child requests"""
+  _props_schema=request.make_schema(_FileComparisonListRequest_props_schema_yaml)
+  _required_attrs=['pairs']
+  _child_seq_attrs=['_children']
+  _self_task=False #This request generates doit tasks from its children, not itself
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(FileComparisonListRequest, self).__init__(**kwargs)
+    #Each listed pair defines a FileComparisonRequest
+    self._children=[FileComparisonRequest(expected=p[0],received=p[1]) for p in self.pairs]
+
 _FileSizeComparisonRequest_props_schema_yaml="""#FileSizeComparisonRequest
 expected:
   anyOf:
@@ -140,4 +173,4 @@ class FileSizeComparisonRequest(request.Request):
     print("File sizes match: %s and %s"%(str(self.expected),str(self.received)))
 
 #Register for loading from yaml
-yaml_manager.register_classes([FileComparisonRequest, FileSizeComparisonRequest])
+yaml_manager.register_classes([FileComparisonRequest, FileComparisonListRequest, FileSizeComparisonRequest])
