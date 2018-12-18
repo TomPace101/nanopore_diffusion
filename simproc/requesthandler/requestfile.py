@@ -16,6 +16,7 @@ requestfile:
   anyOf:
     - {type: string}
     - {type: path}
+multidoc: {type: boolean}
 _children: {type: array}"""
 
 class RequestFileRequest(request.Request):
@@ -24,6 +25,9 @@ class RequestFileRequest(request.Request):
   User-Provided Attributes:
   
     - requestfile: path to the file containing the requests, as instance of filepath.Path or Locator
+    - multidoc: optional boolean, defaults to True
+        If True, the file is a multi-document yaml file, with each document providing a request.
+        If False, the file should be a single document, which contains a single list of requests.
     
   Calculated Attributes:
   
@@ -31,7 +35,7 @@ class RequestFileRequest(request.Request):
   _props_schema=request.make_schema(_RequestFileRequest_props_schema_yaml)
   _required_attrs=['requestfile']
   _child_seq_attrs=['_children']
-  ##_inputfile_attrs=['requestfile'] #I can't decide if this should be here or not
+  ##_inputfile_attrs=['requestfile'] #This is not needed, as this is not a task, so it would never be used.
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -42,7 +46,10 @@ class RequestFileRequest(request.Request):
       dat=fp.read()
     #Load all objects from yaml
     yaml=yaml_manager.newloader(rfpath)
-    allobj=yaml.load_all(dat)
+    if getattr(self,'multidoc',True):
+      allobj=yaml.load_all(dat)
+    else:
+      allobj=yaml.load(dat)
     #Store child objects that are Request subclasses
     self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
     #Loading of yaml file is complete
@@ -55,6 +62,7 @@ requestfiles:
     anyOf:
       - {type: string}
       - {type: path}
+multidoc: {type: boolean}
 _children: {type: array}"""
 
 class RequestFileListRequest(request.Request):
@@ -63,6 +71,7 @@ class RequestFileListRequest(request.Request):
   User-Provided Attributes:
   
     - requestfiles: sequence of paths to the request files, each an instance of filepath.Path or Locator
+    - multidoc: optional boolean, defaults to True, sets the multidoc option for each child request
   
   Calculated Attributes:
   
@@ -75,10 +84,10 @@ class RequestFileListRequest(request.Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileListRequest, self).__init__(**kwargs)
-    #List inputfiles
-    ##self._more_inputfiles=self.requestfiles #I can't decide if this should be here or not
+    ##self._more_inputfiles=self.requestfiles #This is not needed, as this is not a task, so it would never be used.
     #Each listed file is a RequestFileRequest
-    self._children=[RequestFileRequest(requestfile=ch) for ch in self.requestfiles]
+    multidoc=getattr(self,'multidoc',True)
+    self._children=[RequestFileRequest(requestfile=ch,multidoc=multidoc) for ch in self.requestfiles]
 
 #Register locators and default folder structure
 locators.folder_structure.update(RequestFile=['requests',0,1,2,3])
