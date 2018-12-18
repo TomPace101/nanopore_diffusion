@@ -98,3 +98,39 @@ outfile: !OutputFile out.txt
 name: customization.template.verify
 expected: !CompareFile out.txt
 received: !OutputFile out.txt
+---
+#Test parameteric generation of child requests
+!ParametricRequestListRequest
+name: parametric.debug
+request_type: DummyShellRequest
+constants:
+  name: parametric.debug.child
+  test: I am an only child.
+  outfile: !OutputFile only_child.txt
+---
+#Verify output of previous test
+!FileComparisonRequest
+name: parametric.debug.verify
+expected: !CompareFile only_child.txt
+received: !OutputFile only_child.txt
+---
+#Test customized parameteric generation of child requests
+!ParametricRequestListRequest
+name: parametric.customized
+request_type: DummyShellRequest
+modules:
+  - !InputFile complex_dummy.py
+constants:
+  prefix: Hello, this is child number
+variations:
+  x: [1,2]
+  y: [1,2]
+---
+#Verify output of previous test
+!FileComparisonListRequest
+name: parametric.customized.verify
+pairs:
+  - [!CompareFile child_000.txt, !OutputFile child_000.txt]
+  - [!CompareFile child_001.txt, !OutputFile child_001.txt]
+  - [!CompareFile child_002.txt, !OutputFile child_002.txt]
+  - [!CompareFile child_003.txt, !OutputFile child_003.txt]

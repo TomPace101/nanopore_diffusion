@@ -1,0 +1,2 @@
+Hello, this is child number 000.
+x=1, y=1
