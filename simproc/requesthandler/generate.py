@@ -76,7 +76,10 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
   _self_task=False #This request generates doit tasks from its children, not itself
   def get_child_kwargs(self,fields):
     """Compute a keyword arguments dictionary from the input dictionary"""
-    return fields
+    outkwargs={}
+    outkwargs.update(fields)
+    outkwargs.pop('index')
+    return outkwargs
   def __init__(self,**kwargs):
     #Initialization from base class
     super(ParametricRequestListRequest, self).__init__(**kwargs)

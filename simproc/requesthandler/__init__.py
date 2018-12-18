@@ -5,6 +5,7 @@ from . import requestfile
 from . import customization
 from . import shell
 from . import templates
+from . import generate
 from . import cleanup
 from . import comparison
 from . import debug
