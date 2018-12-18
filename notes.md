@@ -1,4 +1,7 @@
 
+__BUG__ inconsistency in locator reduction to path
+See log 2018-12-18.md for more information.
+
 _TODO_ need to start checking residual values on the solutions
 For example, evaluate the original PDE as a field function,
 and then find its maximum (absolute) value.
