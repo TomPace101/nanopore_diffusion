@@ -74,11 +74,10 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
   _required_attrs=['request_type'] ##TODO
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
-  def get_child_kwargs(self,fields):
+  def get_child_kwargs(self,index=None,**fields):
     """Compute a keyword arguments dictionary from the input dictionary"""
     outkwargs={}
     outkwargs.update(fields)
-    outkwargs.pop('index')
     return outkwargs
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -114,7 +113,7 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
         fields.update(variation_fields)
         fields.update(opc_fields)
         #Obtain arguments for child request constructor
-        child_kwargs=self.get_child_kwargs(fields)
+        child_kwargs=self.get_child_kwargs(**fields)
         #Create child and add to list
         if child_kwargs is not None:
           ch_req=childclass(**child_kwargs)

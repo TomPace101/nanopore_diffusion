@@ -6,13 +6,13 @@ sys.path.append('../../..')
 
 import simproc.requesthandler.locators as locators
 
-def get_child_kwargs(self,fields):
+def get_child_kwargs(self,index,prefix,x,y):
   """Compute a keyword arguments dictionary from the input dictionary"""
   out={}
-  chnum='%03d'%fields['index']
+  chnum='%03d'%index
   out['name']='parametric.customized.%s'%chnum
-  out['test']=fields['prefix']+' '+chnum+'.\n'
-  out['test']+="x=%d, y=%d"%(fields['x'],fields['y'])
+  out['test']='%s %s.\n'%(prefix,chnum)
+  out['test']+="x=%d, y=%d"%(x,y)
   out['outfile']=locators.OutputFile("child_%s.txt"%chnum)
   return out
 
