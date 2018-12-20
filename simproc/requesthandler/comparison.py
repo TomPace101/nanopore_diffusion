@@ -73,7 +73,10 @@ class FileComparisonRequest(request.Request):
   User-Provided Attributes:
   
     - expected: path to the file containing the expected output
-    - received: path to the file containing the output produced by the code"""
+    - received: path to the file containing the output produced by the code
+    
+  When run, returns a comparison report as a string if files match.
+  Raises AssertionError if they do not."""
   _props_schema=request.make_schema(_FileComparisonRequest_props_schema_yaml)
   _required_attrs=['expected','received']
   _inputfile_attrs=['expected','received']
@@ -82,7 +85,7 @@ class FileComparisonRequest(request.Request):
     args=(str(self.expected),str(self.received))
     ans=filecmp.cmp(*args,shallow=False)
     assert ans, "Found unexpected difference in files %s and %s"%args
-    print("Files match: %s and %s"%args)
+    return "Files match: %s and %s"%args
 
 _FileComparisonListRequest_props_schema_yaml="""#FileComparisonListRequest
 pairs:
@@ -106,7 +109,11 @@ class FileComparisonListRequest(request.Request):
 
   Calculated Attributes:
   
-    - _children: A list storing all child requests"""
+    - _children: A list storing all child requests
+    
+  Collects the reports or errors of the child requests,
+  and raises the errors of all children, if any.
+  If no errors, returns the reports of all the child requests."""
   _props_schema=request.make_schema(_FileComparisonListRequest_props_schema_yaml)
   _required_attrs=['pairs']
   _child_seq_attrs=['_children']
@@ -116,6 +123,24 @@ class FileComparisonListRequest(request.Request):
     super(FileComparisonListRequest, self).__init__(**kwargs)
     #Each listed pair defines a FileComparisonRequest
     self._children=[FileComparisonRequest(expected=p[0],received=p[1]) for p in self.pairs]
+  def run(self):
+    """Run all child requests and capture their results"""
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Storage for reports and errors
+    reportlist=[]
+    errlist=[]
+    #We only need to call run() on the immediate children.
+    #Children with their own children will do the same.
+    for req in self.all_children():
+      try:
+        report=req.run()
+        reportlist.append(report)
+      except AssertionError as einst:
+        errlist.append(str(einst))
+    #Raise any errors
+    assert len(errlist)==0, "\n".join(errlist)
+    return "\n".join(reportlist)
 
 _FileSizeComparisonRequest_props_schema_yaml="""#FileSizeComparisonRequest
 expected:
@@ -147,7 +172,10 @@ class FileSizeComparisonRequest(request.Request):
   To pass, the received file size must be within the range:
     (expected size + ``lower``) to (expected size + ``upper``), inclusive of the endpoints
     
-  Note that this means you probably want ``lower`` to be zero or negative."""
+  Note that this means you probably want ``lower`` to be zero or negative.
+
+  When run, returns a comparison report as a string if the check passes.
+  Raises AssertionError if not."""
   _props_schema=request.make_schema(_FileSizeComparisonRequest_props_schema_yaml)
   _required_attrs=['expected','received']
   _inputfile_attrs=['expected','received']
@@ -170,7 +198,7 @@ class FileSizeComparisonRequest(request.Request):
     minsize=exp_size+lower
     valtup=(str(self.expected),exp_size,str(self.received),rcv_size,upper,lower,minsize,maxsize)
     assert rcv_size >= minsize and rcv_size <= maxsize, self.err_tmpl%valtup
-    print("File sizes match: %s and %s"%(str(self.expected),str(self.received)))
+    return "File sizes match: %s and %s"%(str(self.expected),str(self.received))
 
 #Register for loading from yaml
 yaml_manager.register_classes([FileComparisonRequest, FileComparisonListRequest, FileSizeComparisonRequest])
