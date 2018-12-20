@@ -4,24 +4,6 @@
 #You could, of course, use a yaml anchor to refer to this data later on.
 #That makes this convenient for defining data you'll reuse a lot.
 - This is just a string. You'll never see it in any of the output.
-#Basic test: no locator
-- !DummyRequest
-  name: dummy_test
-  test: abcd1234
-#Basic test with a locator
-- !DummyRequest
-  name: dummy_locator_test
-  test: !DataFile dummy.yaml
-#Define a new locator type
-- !UpdateFolderStructure
-  TestLocator:
-    - 0
-    - 'stuff_files'
-    - 1
-#Test the new locator type
-- !DummyRequest
-  name: dummy.custom_locator
-  test: !TestLocator dummy.yaml
 #Locator for input and output generated below
 - !UpdateFolderStructure
   InputFile: ['input',0]

@@ -46,6 +46,15 @@ Some typical steps are:
 
 _TODO_ be sure to describe the ``complete`` method.
 
+.. doctest::
+  
+  Very basic test of functionality.
+  
+  >>> import simproc.requesthandler.debug as debug
+  >>> req=debug.DummyRequest(name='debug_test',test='abcd1234')
+  >>> req.run()
+  abcd1234
+
 Locators
 ========
 
