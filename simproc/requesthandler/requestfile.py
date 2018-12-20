@@ -11,6 +11,8 @@ from . import yaml_manager
 from . import locators
 from . import request
 
+MULTIDOC_DEFAULT=False
+
 _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
 requestfile:
   anyOf:
@@ -46,7 +48,7 @@ class RequestFileRequest(request.Request):
       dat=fp.read()
     #Load all objects from yaml
     yaml=yaml_manager.newloader(rfpath)
-    if getattr(self,'multidoc',True):
+    if getattr(self,'multidoc',MULTIDOC_DEFAULT):
       allobj=yaml.load_all(dat)
     else:
       allobj=yaml.load(dat)
@@ -86,7 +88,7 @@ class RequestFileListRequest(request.Request):
     super(RequestFileListRequest, self).__init__(**kwargs)
     ##self._more_inputfiles=self.requestfiles #This is not needed, as this is not a task, so it would never be used.
     #Each listed file is a RequestFileRequest
-    multidoc=getattr(self,'multidoc',True)
+    multidoc=getattr(self,'multidoc',MULTIDOC_DEFAULT)
     self._children=[RequestFileRequest(requestfile=ch,multidoc=multidoc) for ch in self.requestfiles]
 
 #Register locators and default folder structure

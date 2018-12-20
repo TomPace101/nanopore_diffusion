@@ -1,5 +1,5 @@
 %YAML 1.2
 ---
-!RequestFileRequest
-name: recursion.a
-requestfile: !InputFile recursion_b.yaml
+- !RequestFileRequest
+  name: recursion.a
+  requestfile: !InputFile recursion_b.yaml

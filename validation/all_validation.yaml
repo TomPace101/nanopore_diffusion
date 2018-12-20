@@ -1,9 +1,10 @@
 %YAML 1.2
 ---
-!SetDataFolder
-datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
----
-!RequestFileListRequest
-requestfiles:
-  - !DataFile debug.yaml
-  # !DataFile meshgen.yaml
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Now run the desired requests
+- !RequestFileListRequest
+  requestfiles:
+    - !DataFile debug.yaml
+    #- !DataFile meshgen.yaml
