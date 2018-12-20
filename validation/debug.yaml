@@ -102,7 +102,8 @@
   expected: !CompareFile only_child.txt
   received: !OutputFile only_child.txt
 #Test customized parameteric generation of child requests
-- !ParametricRequestListRequest
+- &example_parametric
+  !ParametricRequestListRequest
   name: parametric.customized
   request_type: DummyShellRequest
   modules:
@@ -120,3 +121,27 @@
     - [!CompareFile child_001.txt, !OutputFile child_001.txt]
     - [!CompareFile child_002.txt, !OutputFile child_002.txt]
     - [!CompareFile child_003.txt, !OutputFile child_003.txt]
+#Customization and use of another parent request to generate parametric requests
+- !ParametricRequestListRequest
+  name: parametric.with_other_parent
+  request_type: DummyShellRequest
+  modules:
+    - !InputFile otherparent_test.py
+  constants:
+    prefix: Now this is child number
+  variations:
+    z: [1,2]
+  other_parents:
+    xy_request: *example_parametric
+#Verify output of previous test
+- !FileComparisonListRequest
+  name: parametric.with_other_parent.verify
+  pairs:
+    - [!CompareFile zchild_000.txt, !OutputFile zchild_000.txt]
+    - [!CompareFile zchild_001.txt, !OutputFile zchild_001.txt]
+    - [!CompareFile zchild_002.txt, !OutputFile zchild_002.txt]
+    - [!CompareFile zchild_003.txt, !OutputFile zchild_003.txt]
+    - [!CompareFile zchild_004.txt, !OutputFile zchild_004.txt]
+    - [!CompareFile zchild_005.txt, !OutputFile zchild_005.txt]
+    - [!CompareFile zchild_006.txt, !OutputFile zchild_006.txt]
+    - [!CompareFile zchild_007.txt, !OutputFile zchild_007.txt]
