@@ -57,15 +57,8 @@ from . import request
 from . import yaml_manager
 
 _FileComparisonRequest_props_schema_yaml="""#FileComparisonRequest
-expected:
-  anyOf:
-    - {type: string}
-    - {type: path}
-received:
-  anyOf:
-    - {type: string}
-    - {type: path}
-"""
+expected: {type: pathlike}
+received: {type: pathlike}"""
 
 class FileComparisonRequest(request.Request):
   """Request to compare the contents of two files, and issue error if they don't match
@@ -94,10 +87,7 @@ pairs:
     type: array
     minItems: 2
     maxItems: 2
-    items:
-      anyOf:
-        - {type: string}
-        - {type: path}
+    items: {type: pathlike}
 _children: {type: array}"""
 
 class FileComparisonListRequest(request.Request):
@@ -143,14 +133,8 @@ class FileComparisonListRequest(request.Request):
     return "\n".join(reportlist)
 
 _FileSizeComparisonRequest_props_schema_yaml="""#FileSizeComparisonRequest
-expected:
-  anyOf:
-    - {type: string}
-    - {type: path}
-received:
-  anyOf:
-    - {type: string}
-    - {type: path}
+expected: {type: pathlike}
+received: {type: pathlike}
 range:
   anyOf:
     - {type: number}

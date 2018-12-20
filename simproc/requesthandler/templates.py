@@ -13,14 +13,8 @@ from . import customization
 
 _TemplateFileRequest_props_schema_yaml="""#GeneralShellCommandRequest
 name: {type: string}
-tmplfile:
-  anyOf:
-    - {type: string}
-    - {type: path}
-outfile:
-  anyOf:
-    - {type: string}
-    - {type: path}
+tmplfile: {type: pathlike}
+outfile: {type: pathlike}
 data: {type: object}"""
 
 class TemplateFileRequest(customization.CustomizableRequest):

@@ -17,11 +17,15 @@ except ImportError:
 #This package
 from . import filepath
 from . import yaml_manager
+from . import locators
 
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
 #jsonschema 2.6
-extra_types_dict={'path':filepath.Path,'array':(list,tuple)}
+extra_types_dict={'path':filepath.Path,
+                  'locator':locators.DataFile,
+                  'pathlike':(str,filepath.Path,locators.DataFile), #Note that this isn't the same thing as "pathlike" in python.org documentation
+                  'array':(list,tuple)}
 
 #Dictionary of all loaded requests
 all_requests=odict()
@@ -68,19 +72,13 @@ _inputfile_attrs:
   items: {type: string}
 _more_inputfiles:
   type: array
-  items:
-    anyOf:
-      - {type: string}
-      - {type: path}
+  items: {type: pathlike}
 _outputfile_attrs:
   type: array
   items: {type: string}
 _more_outputfiles:
   type: array
-  items:
-    anyOf:
-      - {type: string}
-      - {type: path}
+  items: {type: pathlike}
 _required_attrs:
   type: array
   items: {type: string}

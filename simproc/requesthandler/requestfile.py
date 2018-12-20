@@ -14,10 +14,7 @@ from . import request
 MULTIDOC_DEFAULT=False
 
 _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
-requestfile:
-  anyOf:
-    - {type: string}
-    - {type: path}
+requestfile: {type: pathlike}
 multidoc: {type: boolean}
 _children: {type: array}"""
 
@@ -60,10 +57,7 @@ class RequestFileRequest(request.Request):
 _RequestFileListRequest_props_schema_yaml="""#RequestFileListRequest
 requestfiles:
   type: array
-  items:
-    anyOf:
-      - {type: string}
-      - {type: path}
+  items: {type: pathlike}
 multidoc: {type: boolean}
 _children: {type: array}"""
 

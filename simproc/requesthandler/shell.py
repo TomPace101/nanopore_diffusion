@@ -24,10 +24,10 @@ class ShellCommandRequestBase(request.Request):
 
 _GeneralShellCommandRequest_props_schema_yaml="""#GeneralShellCommandRequest
 name: {type: string}
-outfile: {type: path}
+outfile: {type: pathlike}
 errfile:
   anyOf:
-    - {type: path}
+    - {type: pathlike}
     - {type: 'null'}
 command: {type: string}"""
 

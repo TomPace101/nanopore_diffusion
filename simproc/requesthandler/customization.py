@@ -71,10 +71,7 @@ modules:
   anyOf:
     - {type: 'null'}
     - type: array
-      items:
-        anyOf:
-          - {type: string}
-          - {type: path}
+      items: {type: pathlike}
 initializations:
   anyOf:
     - {type: 'null'}

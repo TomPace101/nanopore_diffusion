@@ -11,7 +11,7 @@ test:
   anyOf:
     - {type: string}
     - {type: number}
-    - {type: path}"""
+    - {type: pathlike}"""
 
 class DummyRequest(request.Request):
   """A type of request used only for debugging and demonstration purposes
@@ -70,12 +70,12 @@ class DummyRequest(request.Request):
 
 _DummyShellRequest_props_schema_yaml="""#DummyShellRequest
 name: {type: string}
-outfile: {type: path}
+outfile: {type: pathlike}
 test:
   anyOf:
     - {type: string}
     - {type: number}
-    - {type: path}"""
+    - {type: pathlike}"""
 
 class DummyShellRequest(shell.ShellCommandRequestBase):
   """A debugging test for a shell request
