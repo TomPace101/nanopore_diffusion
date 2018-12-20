@@ -95,7 +95,7 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
     variations=getattr(self,'variations',{})
     variation_fieldnames=list(variations.keys())
     variation_fieldnames.sort() #The order the fields were provided in might not have been preserved, so alphabetize.
-    variation_values=[variations[k] for k in variation_fieldnames]
+    variation_fieldvalues=[variations[k] for k in variation_fieldnames]
     other_parents=getattr(self,'other_parents',{})
     op_fieldnames=tuple(other_parents.keys())
     op_c_generators=[p.all_children() for p in other_parents.values()] #The generator of all children for each other parent
@@ -105,7 +105,7 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
     index=0
     for opc_tup in op_c_iterator:
       opc_fields=dict(zip(op_fieldnames,opc_tup))
-      variation_iterator=itertools.product(*variation_values)
+      variation_iterator=itertools.product(*variation_fieldvalues)
       for variation_values in variation_iterator:
         variation_fields=dict(zip(variation_fieldnames,variation_values))
         #Put the fields together
