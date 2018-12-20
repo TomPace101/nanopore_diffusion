@@ -16,10 +16,10 @@ Example with files that do match
 
 >>> req1=FileComparisonRequest(expected=files[0],received=files[1])
 >>> req1.run()
-Files match: /tmp/a.txt and /tmp/b.txt
+'Files match: /tmp/a.txt and /tmp/b.txt'
 >>> req1b=FileSizeComparisonRequest(expected=files[0],received=files[1])
 >>> req1b.run()
-File sizes match: /tmp/a.txt and /tmp/b.txt
+'File sizes match: /tmp/a.txt and /tmp/b.txt'
 
 Example with files that don't match
 
@@ -35,7 +35,7 @@ Traceback (most recent call last):
 AssertionError: Found unexpected difference in file sizes: /tmp/b.txt has size 12, /tmp/c.txt has size 9, range (0,0) gives limits (12,12)
 >>> req2c=FileSizeComparisonRequest(expected=files[1],received=files[2],range=(-3,5))
 >>> req2c.run()
-File sizes match: /tmp/b.txt and /tmp/c.txt
+'File sizes match: /tmp/b.txt and /tmp/c.txt'
 
 Clean up
 
