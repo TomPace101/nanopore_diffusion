@@ -1,5 +1,9 @@
 %YAML 1.2
 ---
+#You can include stuff that's not a request or other actionable item in here as data.
+#You could, of course, use a yaml anchor to refer to this data later on.
+#That makes this convenient for defining data you'll reuse a lot.
+- This is just a string. You'll never see it in any of the output.
 #Basic test: no locator
 - !DummyRequest
   name: dummy_test
