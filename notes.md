@@ -1,4 +1,7 @@
 
+_TODO_ general logging for requests
+see notes 2018-12-20.md
+
 _TODO_ need to start checking residual values on the solutions
 For example, evaluate the original PDE as a field function,
 and then find its maximum (absolute) value.
