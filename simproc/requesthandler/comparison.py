@@ -111,8 +111,8 @@ class FileComparisonListRequest(request.Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(FileComparisonListRequest, self).__init__(**kwargs)
-    #Each listed pair defines a FileComparisonRequest
-    self._children=[FileComparisonRequest(expected=p[0],received=p[1]) for p in self.pairs]
+    nametmpl=getattr(self,'name','')+'_%%0%dd'%len(str(len(self.pairs)))
+    self._children=[FileComparisonRequest(name=nametmpl%idx,expected=p[0],received=p[1]) for idx,p in enumerate(self.pairs)]
   def run(self):
     """Run all child requests and capture their results"""
     #Final checks and preparatory steps

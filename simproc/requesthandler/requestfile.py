@@ -34,7 +34,7 @@ class RequestFileRequest(request.Request):
   _props_schema=request.make_schema(_RequestFileRequest_props_schema_yaml)
   _required_attrs=['requestfile']
   _child_seq_attrs=['_children']
-  ##_inputfile_attrs=['requestfile'] #This is not needed, as this is not a task, so it would never be used.
+  _inputfile_attrs=['requestfile']
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -80,7 +80,7 @@ class RequestFileListRequest(request.Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileListRequest, self).__init__(**kwargs)
-    ##self._more_inputfiles=self.requestfiles #This is not needed, as this is not a task, so it would never be used.
+    self._more_inputfiles=self.requestfiles
     #Each listed file is a RequestFileRequest
     multidoc=getattr(self,'multidoc',MULTIDOC_DEFAULT)
     self._children=[RequestFileRequest(requestfile=ch,multidoc=multidoc) for ch in self.requestfiles]

@@ -112,6 +112,7 @@ class CustomizableRequest(request.Request):
     #Initialization from base class
     super(CustomizableRequest, self).__init__(**kwargs)
     #Read the customization attributes, allowing any to be missing
+    self.resolve_locators_in(['modules'],getattr(self,'name',''))
     modules=getattr(self,'modules',[])
     initializations=getattr(self,'initializations',{})
     extra=getattr(self,'extra',{})

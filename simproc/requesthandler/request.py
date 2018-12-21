@@ -39,24 +39,12 @@ def validation_error_string(err):
     s="%s: %s"%('.'.join([str(itm) for itm in err.path]),s)
   return s
 
-def recursive_locator_search(data,reqname):
-  """Get the paths from locators in the data, even if nested in lists, dictionaries, etc."""
-  #Primitive data types should be returned unmodified
-  if type(data)==int or type(data)==float or type(data)==str:
-    out=data
-  #Is the item itself a locator?
-  elif hasattr(data,'path'):
-    out=data.path(reqname)
-  #For a sequence, check each entry
-  elif hasattr(data,'index'):
-    out=type(data)([recursive_locator_search(itm,reqname) for itm in data])
-  #For a dictionary, check the values
-  elif hasattr(data,'items'):
-    out=type(data)([(k,recursive_locator_search(v,reqname)) for k,v in data.items()])
-  #Fall back to returning the original data unchanged
+def render_locator(obj,reqname):
+  """If an object is a locator, render it to a path"""
+  if hasattr(obj,'path'):
+    return obj.path(reqname)
   else:
-    out=data
-  return out
+    return obj
 
 #Validation schema for Request
 #Note that validation is not applied to class attributes,
@@ -138,9 +126,6 @@ class Request(object):
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
   _props_schema=yaml_manager.read(_Request_props_schema_yaml)
   def __init__(self,**kwargs):
-    #Process locators
-    reqname=kwargs.get('name','') #Need the request name, if any, to process locators
-    kwargs=recursive_locator_search(kwargs,reqname)
     #Validate kwargs
     if hasattr(self,'_props_schema'):
       self.validate_kwargs(**kwargs)
@@ -150,6 +135,41 @@ class Request(object):
     #If named, add to dictionary of named requests
     if hasattr(self,'name'):
       all_requests[self.name]=self
+    #Render locators
+    self.resolve_locators()
+  def resolve_locators_in(self,attrname_list,reqname):
+    """Search the given attributes for locators, and render them in-place"""
+    for attrname in attrname_list:
+      if hasattr(self,attrname):
+        data=getattr(self,attrname)
+        #Don't process strings, ints, or floats
+        if isinstance(data,str) or isinstance(data,float) or isinstance(data,int):
+          out=data
+        #Is the attribute a locator?
+        elif hasattr(data,'path'):
+          out=data.path(reqname)
+        #For a sequence, check each entry
+        elif hasattr(data,'index'):
+          out=type(data)([render_locator(itm,reqname) for itm in data])
+        #For a dictionary, check the values
+        elif hasattr(data,'items'):
+          out=type(data)([(k,render_locator(v,reqname)) for k,v in data.items()])
+        #Presume not a locator
+        else:
+          out=data
+        #Assign result back to attribute
+        setattr(self,attrname,out)
+    return
+  def resolve_locators(self):
+    """Replace locators with the paths they render to.
+    
+    This searches input and output files defined by this request only.
+    If your request class could have locators in other areas, you'll need to override this method"""
+    reqname=getattr(self,'name','')
+    attrname_list=['_more_inputfiles','_more_outputfiles']
+    attrname_list+=getattr(self,'_inputfile_attrs',[])
+    attrname_list+=getattr(self,'_outputfile_attrs',[])
+    self.resolve_locators_in(attrname_list,reqname)
   @classmethod
   def update_props_schema(cls,yaml_str):
     """Return the property schema for a subclass
