@@ -2,16 +2,18 @@
 
 #This package
 from ..requesthandler.shell import ShellCommandRequestBase
-from ..requesthandler.yaml_manager import read as readyaml
+from ..requesthandler.yaml_manager import register_classes, read as readyaml
 from ..requesthandler import locators
 
 #Locators
 locators.folder_structure.update(mesh_xmlfile=['mesh',0,'xml'])
+locators.folder_structure.update(dconv_outfile=['mesh',0,'dconv_out'])
 
 _DolfinConvertRunner_props_schema_yaml="""#DolfinConvertRunner
 name: {type: string}
-mshfile: {type: path}
-xmlfile: {type: path}"""
+mshfile: {type: pathlike}
+xmlfile: {type: pathlike}
+txtfile: {type: pathlike}"""
 
 class DolfinConvertRunner(ShellCommandRequestBase):
   """Run dolfin-convert
@@ -23,12 +25,16 @@ class DolfinConvertRunner(ShellCommandRequestBase):
        Two other files are also created by dolfin-convert, in the same directory,
        which contain mesh function data.
        This is the path to output file containing the mesh itself.
+    - txtfile: Path to text file to store dolfin-convert message output
   """
   _self_task=True
-  _required_attrs=['mshfile','xmlfile']
+  _required_attrs=['mshfile','xmlfile','txtfile']
   _inputfile_attrs=['mshfile']
-  _outputfile_attrs=['xmlfile']
+  _outputfile_attrs=['xmlfile','txtfile']
   _props_schema=readyaml(_DolfinConvertRunner_props_schema_yaml)
   @property
   def cmd_str(self):
-    return "dolfin-convert %s %s"%(self.mshfile,self.xmlfile)
+    return "dolfin-convert %s %s > %s"%(self.mshfile,self.xmlfile,self.txtfile)
+
+#Register for loading from yaml
+register_classes([DolfinConvertRunner])

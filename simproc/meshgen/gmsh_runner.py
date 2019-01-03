@@ -2,7 +2,7 @@
 
 #This package
 from ..requesthandler.shell import ShellCommandRequestBase
-from ..requesthandler.yaml_manager import read as readyaml
+from ..requesthandler.yaml_manager import register_classes, read as readyaml
 from ..requesthandler import locators
 
 #Locators
@@ -14,10 +14,10 @@ locators.folder_structure.update(meshmetadatafile=['mesh',0,'metadata'])
 
 _GmshRunner_props_schema_yaml="""#GmshRunner
 name: {type: string}
-geofile: {type: path}
-mshfile: {type: path}
-txtfile: {type: path}
-meshmetafile: {type: path}"""
+geofile: {type: pathlike}
+mshfile: {type: pathlike}
+txtfile: {type: pathlike}
+meshmetafile: {type: pathlike}"""
 
 class GmshRunner(ShellCommandRequestBase):
   """Run gmsh
@@ -47,3 +47,6 @@ class GmshRunner(ShellCommandRequestBase):
     #All the other files
     cmd += " -o '%s' '%s' >'%s'"%(self.mshfile,self.geofile,self.txtfile)
     return cmd
+
+#Register for loading from yaml
+register_classes([GmshRunner])

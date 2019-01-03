@@ -4,15 +4,56 @@
 - !UpdateFolderStructure
   InputFile: ['input',0]
   OutputFile: ['output',0]
+  CompareFile: ['comparison',0]
+#Test a simple mesh template
+- !TemplateFileRequest
+  name: mesh.template
+  tmplfile: !InputFile simple_mesh.geo.jinja2
+  outfile: !OutputFile simple_mesh.geo
+  data:
+    mscale: 5.0
+    mcarl: 0.1
+    mcarh: 0.1
+    Lx: 1.0
+    Ly: 1.0
+    alpha: 0.5
+#Verify output of previous test
+- !FileComparisonRequest
+  name: mesh.template.verify
+  expected: !InputFile simple_mesh.geo
+  received: !OutputFile simple_mesh.geo
 #Test gmsh_runner
 - !GmshRunner
-  name: mesh_gmsh
-  geofile: !InputFile #TODO
-  mshfile: !OutputFile #TODO
-  txtfile: !OutputFile #TODO
-  meshmetafile: !OutputFile #TODO
+  name: mesh.gmsh
+  geofile: !InputFile simple_mesh.geo
+  mshfile: !OutputFile simple_mesh.msh
+  txtfile: !OutputFile simple_mesh.gmsh.txt
+  meshmetafile: !OutputFile simple_mesh.yaml
+#Verify output of previous test
+- !FileComparisonRequest
+  name: mesh.gmsh.verify.msh
+  expected: !InputFile simple_mesh.msh
+  received: !OutputFile simple_mesh.msh
+- !FileComparisonRequest
+  name: mesh.gmsh.verify.meta
+  expected: !CompareFile simple_mesh.yaml
+  received: !OutputFile simple_mesh.yaml
+- !FileSizeComparisonRequest
+  name: mesh.gmsh.verify.txt
+  expected: !CompareFile simple_mesh.gmsh.txt
+  received: !OutputFile simple_mesh.gmsh.txt
+  range: [0, 1e4] #I suppose it is possible that someone has a very deeply nested validation path that would cause the upper end to be inadequate
 #Test dconv_runner
 - !DolfinConvertRunner
-  name: mesh_dconv
-  mshfile: !InputFile #TODO
-  xmlfile: !OutputFile #TODO
+  name: mesh.dconv
+  mshfile: !InputFile simple_mesh.msh
+  xmlfile: !OutputFile simple_mesh.xml
+  txtfile: !OutputFile simple_mesh.dconv.txt
+#Verify output of previous test
+- !FileComparisonListRequest
+  name: mesh.dconv.verify
+  pairs:
+    - [!InputFile simple_mesh.xml, !OutputFile simple_mesh.xml]
+    - [!InputFile simple_mesh_facet_region.xml, !OutputFile simple_mesh_facet_region.xml]
+    - [!InputFile simple_mesh_physical_region.xml, !OutputFile simple_mesh_physical_region.xml]
+    - [!CompareFile simple_mesh.dconv.txt, !OutputFile simple_mesh.dconv.txt]

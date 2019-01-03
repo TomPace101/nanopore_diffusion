@@ -1,0 +1,22 @@
+Info    : Running 'gmsh -0 -setstring meshmetafile simple_mesh.yaml -o simple_mesh.msh simple_mesh.geo' [Gmsh 3.0.6, 1 node, max. 1 thread]
+Info    : Started on Thu Jan  3 11:52:09 2019
+Info    : Reading 'simple_mesh.geo'...
+Info    : Finalized high order topology of periodic connections
+Info    : Meshing 1D...
+Info    : Meshing curve 1 (Line)
+Info    : Meshing curve 2 (Line)
+Info    : Meshing curve 3 (Line)
+Info    : Meshing curve 4 (Line)
+Info    : Meshing curve 5 (Line)
+Info    : Meshing curve 6 (Line)
+Info    : Meshing curve 7 (Line)
+Info    : Done meshing 1D (0 s)
+Info    : Meshing 2D...
+Info    : Meshing surface 1 (Plane, Delaunay)
+Info    : Meshing surface 2 (Plane, Delaunay)
+Info    : Done meshing 2D (0 s)
+Info    : 13 vertices 32 elements
+Info    : Done reading 'simple_mesh.geo'
+Info    : Writing 'simple_mesh.msh'...
+Info    : Done writing 'simple_mesh.msh'
+Info    : Stopped on Thu Jan  3 11:52:09 2019
