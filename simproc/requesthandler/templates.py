@@ -44,7 +44,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
     #Load the template
     with open(str(self.tmplfile),'r') as fh:
       tdata=fh.read()
-    tmpl=Template(tdata,trim_blocks=True)
+    tmpl=Template(tdata,trim_blocks=True,keep_trailing_newline=True)
     #Do the calculations for the template values
     input_data=self.get_template_input()
     #Apply the data to the template
