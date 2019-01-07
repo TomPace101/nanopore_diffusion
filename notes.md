@@ -1,4 +1,15 @@
 
+_TODO_ customization: functions to monkey-patch from module should be specified by the request, not the module
+Or, at least, the request should be able to select from the options defined in the module.
+Maybe even allow for renaming of the methods,
+so the module can define different options, and I can select the one I want?
+
+_TODO_ fickian diffusion simulation
+- subclass customizable request: just overwrite "run"
+- include the basics
+- get the machinery working for defining weak forms
+
+
 _TODO_ general logging for requests
 see notes 2018-12-20.md
 
