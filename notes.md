@@ -2,13 +2,12 @@
 _TODO_ customization: functions to monkey-patch from module should be specified by the request, not the module
 Or, at least, the request should be able to select from the options defined in the module.
 Maybe even allow for renaming of the methods,
-so the module can define different options, and I can select the one I want?
+so the module can define different options, and I can select the one I want.
 
 _TODO_ fickian diffusion simulation
 - subclass customizable request: just overwrite "run"
 - include the basics
 - get the machinery working for defining weak forms
-
 
 _TODO_ general logging for requests
 see notes 2018-12-20.md
@@ -674,28 +673,30 @@ Implementation
   In the info below, reqdata means the request includes data other than just the input and output files
   - construct template from geometry definition (reqdata -> .geo.jinja2) [not the way it was done before. will this work?]
   - create geo file from template and values (.geo.jinja2 + reqdata -> .geo) [OR is this too case-specific? The request data->template input conversion step varies.]
-  - UNTESTED run gmsh (.geo -> .msh)
-  - UNTESTED run dolfin-convert (.msh -> .xml (3))
-  - hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
+  - DONE run gmsh (.geo -> .msh)
+  - DONE run dolfin-convert (.msh -> .xml (3))
+  - DONE hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
   - later steps only (.geo -> .hdf5)
   - all but template construction (.geo.jinja2 + .yaml -> .hdf5)
   - all steps (.yaml -> .hdf5)
 - Simulation:
+  - Basic simulation as subclass of customizable request, with the key methods.
   - MeshInfo (similar to what's in simulator_general now, but not taking modelparams)
   - General input tables? (see `p20180819_InputTable`, or should use pandas?)
   - Specific input tables for species, domains, and species-in-domain
   - Weak Form support as exists in simulator_general now
   - Library of common weak forms
+  - MPI
   - MORE
 - Post-processing:
-  - TBD, see notes below
-  - zipping/unzipping: see below as well
+  - Collection request to generate table, with customization to control how simulation output maps to columns, and maybe specific data for select fields as well
+  - Plot request similar to what's already there, but with customization as well
+  - zipping/unzipping: see below
 - Validation:
   - Validate that output files are as expected (new request type, which is tested by doctest)
 - Request generation:
-  - Requests store themselves in a yaml file: should work already, just test it
-  - Request that can parametrically generate child requests
-  - MORE
+  - UNTESTED Requests store themselves in a yaml file: should work already, just test it
+  - DONE Request that can parametrically generate child requests
 - Customization:
   - DONE a request that can monkey-patch itself
   - allow user to specify python files containing classes that can be added to yaml registry
@@ -707,98 +708,24 @@ Conversion
 Deprecated/Postponed Implementation:
   - Request that wraps a single request with a pre- and/or post request: the purpose is that this can be used anywhere the wrapped type is allowed.
 
-_TODO_ customizations
-This module might be a good place to implement a monkey-patching routine.
-Or maybe it should be a place to generalize the "apply customizations" portion of `simulator_general.GenericSimulator.__init__`.
-
-A perfect example of this is creating gmsh .geo files from a template.
-We always have a different set of input values, from which we calculate the values that actually go into the template.
-That calculation process is the method of the template file that should be overridden.
-
-What we want:
-a class which can be defined in a yaml file,
-which specifies a module to load that contains the calculation function.
-That function gets monkey-patched into the class.
-That's all!
-
-We'll want the same behavior for simulators.
-
-So maybe what we need is a base class for a customizable request.
-
-How does python find the modules?
-The method we use to import them now requires them to be on sys.path already.
-Is there a way to specify a path to a module file?
-(Yes, with 3.5 or above: https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly
-  More generally: https://stackoverflow.com/questions/67631/how-to-import-a-module-given-the-full-path)
-If so, can we create a locator type for modules files?
-E.g., a "modules" folder under DATAFOLDER?
-
-Maybe we just need a way to add folder to sys.path from within yaml.
-This does mean you have to be careful about the module namespace:
-you could clash with an existing installed module name,
-and you can't have your own modules with the same name in different folders.
-
-It would be preferable to load modules directly from a file.
-The problem is that this is done very differently in different python versions,
-so you'd have to get some complicated code.
-Then, you'd just use locators to find the modules.
-
-Still to do (__TODO__):
-- working example on template customization
-
 _TODO_ refactor post-processing
 Think of post-processing in terms of tasks to complete.
 Right now we have collection tasks and plotting tasks.
 But sometimes we need to do calculations as well.
-These should allow for scripts,
-or customization modules the way the solvers do.
+Usually those can be done as part of collection,
+either before or after the table is created.
+There could be some cases where the calculations you want aren't part of a table.
+
 I guess the question is, where do the calculation results go?
-If you modify the files in `solutions`, that will force a simulation rerun even if unnecessary.
-If you put it in `postproc`, it will hold potentially a lot of duplicate data.
-You could store just the newly generated data in `postproc`, I guess,
-but that complicates handling the data, as you always have to put them back together.
 The answer is the following:
 - don't alter the files in `solutions`, but add new files in `postproc` instead
-- when possible, only put new data in `postproc`; don't duplicate
+- when possible, only put data in `postproc` if it's not already in `solutions`; don't duplicate
 - it won't always be possible. Some duplication is ok.
 
-I think a script-based approach is probably best.
-But we can provide objects to support those scripts.
-For example, we should distinguish between scripts that generate data for plots
-and then scripts that generate actual plots.
-Then, you also need doit tasks for these scripts.
-And those tasks have to include the script arguments,
-so it can identify input and output files.
+The best approach here is to move away from having the yaml file specify detailed calculations,
+or have lots of options for rare cases.
+Instead, use customization to override or enhance the basic methods.
 
-Alternatively, we could try the "module" approach.
-Just like for the simulators,
-there's a generic class,
-subclasses that are set up for particular purposes,
-and also data that is loaded.
-In this case, both "control" data
-and the data output by the simulation.
-Also, customization modules could be used in place of scripts.
-We're actually pretty close to this approach already, aren't we?
-
-Customization adds methods.
-In the simulators, we have a list of commands that can include such methods.
-So we'd need something similar here.
-The plots already have this: prepfunctions and plotfunctions.
-And in fact, prepfunctions is intended as a way of setting up new data.
-
-The post-processing yaml is different from the simulators in that
-one yaml file contains information to instantiate 3 different classes:
-collectors, collection plots, and model plots.
-The mesh generation is different from the simulators in that
-one yaml file contains data used by several different steps in the process.
-
-But here's some things that can help:
-customization allows new plotfunctions and prepfunctions for plotting.
-For collection, we could have a command list which can add columns.
-Customizaton adds to the available methods.
-
-This means we need to organize the customizations a little more.
-Separate folders for each customization type?
 
 _TODO_ refactor simulator data output
 What's in an attribute, what's in info, and what's in results?
@@ -812,6 +739,10 @@ but of course that increases the chance of a collision.
 Maybe we need something like in postproc, where it can drill down?
 
 The right way to think about this is a data flow diagram.
+
+Now that simulators will be subclasses of CustomizableRequest,
+you probably don't want raw simulation data as a direct attribute of the Request.
+But for convenience, you don't want to make things hard to access in the function body.
 
 _IDEA_ for loaddata, do we want to be able to load more than one item from a single hdf5 file?
 That means that function should be able to take a sequence of field tags, not just one.
