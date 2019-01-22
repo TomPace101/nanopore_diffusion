@@ -92,6 +92,12 @@ _custom_methods:
 class CustomizableRequest(request.Request):
   """A request that can monkey-patch itself
   
+  Customization refers to adding additional attributes and methods to a request at run-time.
+  This is done by loading additional python code files as modules.
+  The modules decide what functions they wish to allow to become methods of a request.
+  The requests decide which of those functions they want, and what names to call them.
+  The request can also provide data to the module to be used to initialize it. 
+  
   User-defined attributes:
   
     - modules = a sequence of module file paths to be imported.
@@ -113,6 +119,7 @@ class CustomizableRequest(request.Request):
       Upon loading the module, the values in this dictionary will be passed as keyword arguments
         to the function `initialize_module`, if present, within the module.
       Modules listed here but not in `modules` are silently ignored.
+      Will using different initalization values within a single python process actually work as expected?
 
     - extra = dictionary {additional request parameters: assigned value}
     
