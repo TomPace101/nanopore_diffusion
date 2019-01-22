@@ -71,7 +71,7 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
   
     - _children = sequence of child requests"""
   _props_schema=customization.make_schema(_ParametricRequestListRequest_props_schema_yaml)
-  _required_attrs=['request_type'] ##TODO
+  _required_attrs=['request_type']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def get_child_kwargs(self,index=None,**fields):

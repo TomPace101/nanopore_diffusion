@@ -1,8 +1,5 @@
 """Functions and classes relevant for implementing customization"""
 
-##TODO
-##will this work now?
-
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 import importlib
