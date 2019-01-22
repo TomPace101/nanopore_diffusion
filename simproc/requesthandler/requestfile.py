@@ -39,20 +39,10 @@ class RequestFileRequest(request.Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileRequest, self).__init__(**kwargs)
-    #Read the file
-    rfpath = self.requestfile.fullpath if hasattr(self.requestfile,'fullpath') else self.requestfile
-    with open(rfpath,'r') as fp:
-      dat=fp.read()
-    #Load all objects from yaml
-    yaml=yaml_manager.newloader(rfpath)
-    if getattr(self,'multidoc',MULTIDOC_DEFAULT):
-      allobj=yaml.load_all(dat)
-    else:
-      allobj=yaml.load(dat)
+    #Load all objects from the yaml file
+    allobj = yaml_manager.readfile(str(self.requestfile),getattr(self,'multidoc',MULTIDOC_DEFAULT))
     #Store child objects that are Request subclasses
     self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
-    #Loading of yaml file is complete
-    yaml_manager.filedone() #Let the manager know we're no longer loading this file
 
 _RequestFileListRequest_props_schema_yaml="""#RequestFileListRequest
 requestfiles:

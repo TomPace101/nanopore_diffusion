@@ -35,7 +35,7 @@ def newloader(yfile=None):
     - yfile = optional name of file the loader will be used for.
   
   The returned object is an instance of YAML,
-  which is not actually called a loader, but I can't the actual name."""
+  which is not actually called a loader, but I can't figure out the actual name."""
   if yfile is not None:
     global now_loading
     now_loading.append(yfile)
@@ -59,3 +59,15 @@ def yamlstring(obj):
     yaml.dump(obj,strm)
     dat=strm.getvalue()
   return dat
+
+def readfile(fpath,multidoc=False):
+  """Read from a file, assuming others may be read at the same time."""
+  with open(str(fpath),'r') as fp:
+    dat=fp.read()
+  yaml=newloader(fpath)
+  if multidoc:
+    allobj=yaml.load_all(dat)
+  else:
+    allobj=yaml.load(dat)
+  filedone()
+  return allobj
