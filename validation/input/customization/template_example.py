@@ -8,7 +8,7 @@ def get_template_input(self):
   return output
 
 #List of functions to be bound as methods
-add_methods=[get_template_input]
+request_methods=[get_template_input]
 
 #Function to initialize module variables
 def initialize_module(**kwargs):

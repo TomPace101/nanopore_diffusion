@@ -56,6 +56,8 @@
   name: customization.template
   modules:
     - !InputFile template_example.py
+  methods:
+    - get_template_input
   initializations:
     template_example:
       y: 5
@@ -90,6 +92,8 @@
   request_type: DummyShellRequest
   modules:
     - !InputFile complex_dummy.py
+  methods:
+    - get_child_kwargs
   constants:
     prefix: Hello, this is child number
   variations:
@@ -109,6 +113,8 @@
   request_type: DummyShellRequest
   modules:
     - !InputFile otherparent_test.py
+  methods:
+    - get_child_kwargs
   constants:
     prefix: Now this is child number
   variations:

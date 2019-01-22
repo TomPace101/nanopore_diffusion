@@ -72,6 +72,13 @@ modules:
     - {type: 'null'}
     - type: array
       items: {type: pathlike}
+methods:
+  anyOf:
+    - {type: 'null'}
+    - type: array
+      items: {type: string}
+    - type: object
+      additionalProperties: {type: string}
 initializations:
   anyOf:
     - {type: 'null'}
@@ -91,9 +98,18 @@ class CustomizableRequest(request.Request):
   User-defined attributes:
   
     - modules = a sequence of module file paths to be imported.
-      If the module contains the variable ``add_methods``,
-      as a list of functions, then those functions will be bound
-      as methods of the request.
+      If the module contains the variable ``request_methods``,
+      as a list of functions (not function names), then those functions will be
+      available for binding as methods of the request,
+      by using the ``methods`` attribute.
+      As such, those functions should have a first argument of ``self``,
+      which will be the request to which the method has been bound.
+
+    - methods = dictionary {method_name: function_name} or list (method_name=function_name) of methods to bind.
+      The function_name must be for a function listed in the ``request_methods`` variable
+      of exactly one of the modules listed in ``modules``.
+      This is intended to allow a module to define multiple options for a given method,
+      with the request selecting the one it wants.
 
     - initializations = a dictionary {module name: {variable: value}}
 
@@ -114,12 +130,17 @@ class CustomizableRequest(request.Request):
     #Read the customization attributes, allowing any to be missing
     self.resolve_locators_in(['modules'],getattr(self,'name',''))
     modules=getattr(self,'modules',[])
+    methods=getattr(self,'methods',[])
     initializations=getattr(self,'initializations',{})
     extra=getattr(self,'extra',{})
+    #Assign extra attributes
+    for k,v in getattr(self,'extra',{}).items():
+      setattr(self,k,v)
     #Module files are file dependencies
     self._more_inputfiles=getattr(self,'_more_inputfiles',[])
     self._more_inputfiles+=modules
-    #Bind methods
+    #Load modules
+    function_name_to_module={} #dictionary mapping addable functions to their home modules
     for modpath in modules:
       #Load module
       modpath=filepath.Path(modpath,isFile=True)
@@ -129,18 +150,21 @@ class CustomizableRequest(request.Request):
       kwargs = initializations.get(modname,None)
       if (kwargs is not None) and hasattr(themod,'initialize_module'):
         themod.initialize_module(**kwargs)
-      #Assign all module functions as methods of this request
-      add_methods=getattr(themod,'add_methods',[])
-      mod_contents=dict([(f.__name__,f) for f in add_methods])
-      if len(mod_contents)>0:
-        self._custom_methods=[]
-      for nm, itm in mod_contents.items():
-        if isinstance(itm,types.FunctionType):
-          self._custom_methods.append(itm.__name__)
-          setattr(self,nm,types.MethodType(itm,self)) #Must type cast to MethodType in order to get implicit first argument `self`
-      #Assign extra attributes
-      for k,v in getattr(self,'extra',{}).items():
-        setattr(self,k,v)
+      #Track names of addable methods in this module
+      for function_obj in getattr(themod,'request_methods',[]):
+        function_name_to_module[function_obj.__name__]=themod
+    #Convert list of methods into dictionary with key=value
+    if isinstance(methods,list):
+      methods=dict([(k,k) for k in methods])
+    #Bind methods
+    self._custom_methods=[]
+    for method_name, function_name in methods.items():
+      assert function_name in function_name_to_module.keys(), "Unable to find function `%s` in any of these modules: %s"%(function_name,modules)
+      themod = function_name_to_module[function_name]
+      function_obj = getattr(themod,function_name)
+      assert isinstance(function_obj,types.FunctionType), "%s in module %s is not a function"%(function_name,themod.__name__)
+      self._custom_methods.append(function_name)
+      setattr(self,method_name,types.MethodType(function_obj,self)) #Must type cast to MethodType in order to get implicit first argument `self`
   def validate(self):
     d=self.to_dict()
     #Remove attributes added by customization: these aren't validated

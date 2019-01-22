@@ -19,4 +19,4 @@ def get_child_kwargs(self,index,prefix,z,xy_request):
   return out
 
 #List of functions to be bound as methods
-add_methods=[get_child_kwargs]
+request_methods=[get_child_kwargs]
