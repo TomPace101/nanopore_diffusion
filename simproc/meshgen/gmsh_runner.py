@@ -12,14 +12,14 @@ locators.folder_structure.update(mshfile=['mesh',0,'msh'])
 locators.folder_structure.update(gmsh_outfile=['mesh',0,'gmsh_out'])
 locators.folder_structure.update(meshmetadatafile=['mesh',0,'metadata'])
 
-_GmshRunner_props_schema_yaml="""#GmshRunner
+_GmshRequest_props_schema_yaml="""#GmshRequest
 name: {type: string}
 geofile: {type: pathlike}
 mshfile: {type: pathlike}
 txtfile: {type: pathlike}
 meshmetafile: {type: pathlike}"""
 
-class GmshRunner(ShellCommandRequestBase):
+class GmshRequest(ShellCommandRequestBase):
   """Run gmsh
   
   User-defined attributes:
@@ -34,7 +34,7 @@ class GmshRunner(ShellCommandRequestBase):
   _required_attrs=['geofile','mshfile','txtfile']
   _outputfile_attrs=['mshfile','txtfile','meshmetafile']
   _inputfile_attrs=['geofile']
-  _props_schema=readyaml(_GmshRunner_props_schema_yaml)
+  _props_schema=readyaml(_GmshRequest_props_schema_yaml)
   @property
   def cmd_str(self):
     #Integer argument
@@ -49,4 +49,4 @@ class GmshRunner(ShellCommandRequestBase):
     return cmd
 
 #Register for loading from yaml
-register_classes([GmshRunner])
+register_classes([GmshRequest])

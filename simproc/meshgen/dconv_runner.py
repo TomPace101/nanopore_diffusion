@@ -9,13 +9,13 @@ from ..requesthandler import locators
 locators.folder_structure.update(mesh_xmlfile=['mesh',0,'xml'])
 locators.folder_structure.update(dconv_outfile=['mesh',0,'dconv_out'])
 
-_DolfinConvertRunner_props_schema_yaml="""#DolfinConvertRunner
+_DolfinConvertRequest_props_schema_yaml="""#DolfinConvertRequest
 name: {type: string}
 mshfile: {type: pathlike}
 xmlfile: {type: pathlike}
 txtfile: {type: pathlike}"""
 
-class DolfinConvertRunner(ShellCommandRequestBase):
+class DolfinConvertRequest(ShellCommandRequestBase):
   """Run dolfin-convert
   
   User-defined attributes:
@@ -31,10 +31,10 @@ class DolfinConvertRunner(ShellCommandRequestBase):
   _required_attrs=['mshfile','xmlfile','txtfile']
   _inputfile_attrs=['mshfile']
   _outputfile_attrs=['xmlfile','txtfile']
-  _props_schema=readyaml(_DolfinConvertRunner_props_schema_yaml)
+  _props_schema=readyaml(_DolfinConvertRequest_props_schema_yaml)
   @property
   def cmd_str(self):
     return "dolfin-convert %s %s > %s"%(self.mshfile,self.xmlfile,self.txtfile)
 
 #Register for loading from yaml
-register_classes([DolfinConvertRunner])
+register_classes([DolfinConvertRequest])

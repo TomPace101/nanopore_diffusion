@@ -23,7 +23,7 @@
   expected: !InputFile simple_mesh.geo
   received: !OutputFile simple_mesh.geo
 #Test gmsh_runner
-- !GmshRunner
+- !GmshRequest
   name: mesh.gmsh
   geofile: !InputFile simple_mesh.geo
   mshfile: !OutputFile simple_mesh.msh
@@ -44,7 +44,7 @@
   received: !OutputFile simple_mesh.gmsh.txt
   range: [0, 1e4] #I suppose it is possible that someone has a very deeply nested validation path that would cause the upper end to be inadequate
 #Test dconv_runner
-- !DolfinConvertRunner
+- !DolfinConvertRequest
   name: mesh.dconv
   mshfile: !InputFile simple_mesh.msh
   xmlfile: !OutputFile simple_mesh.xml
@@ -58,7 +58,7 @@
     - [!InputFile simple_mesh_physical_region.xml, !OutputFile simple_mesh_physical_region.xml]
     - [!CompareFile simple_mesh.dconv.txt, !OutputFile simple_mesh.dconv.txt]
 #Test hdf5 conversion
-- !HDF5Converter
+- !HDF5ConvertRequest
   name: mesh.hdf5conv
   mesh_xml: !InputFile simple_mesh.xml
   hdf5file: !OutputFile simple_mesh.hdf5

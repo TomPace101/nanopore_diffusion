@@ -15,14 +15,14 @@ locators.folder_structure.update(mesh_hdf5file=['mesh',0,'hdf5'])
 #Constants
 DCONV_XML_SUFFIX={'facet_xml':'_facet_region', 'cell_xml':'_physical_region'}
 
-_HDF5Converter_props_schema_yaml="""#HDF5Converter
+_HDF5ConvertRequest_props_schema_yaml="""#HDF5ConvertRequest
 name: {type: string}
 mesh_xml: {type: pathlike}
 facet_xml: {type: pathlike}
 cell_xml: {type: pathlike}
 hdf5file: {type: pathlike}"""
 
-class HDF5Converter(Request):
+class HDF5ConvertRequest(Request):
   """Convert FEniCS Mesh and MeshFunctions from XML to HDF5 format
   
   User-defined attributes:
@@ -39,10 +39,10 @@ class HDF5Converter(Request):
   _required_attrs=['mesh_xml','hdf5file']
   _outputfile_attrs=['hdf5file']
   _inputfile_attrs=['mesh_xml','facet_xml','cell_xml']
-  _props_schema=readyaml(_HDF5Converter_props_schema_yaml)
+  _props_schema=readyaml(_HDF5ConvertRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
-    super(HDF5Converter, self).__init__(**kwargs)
+    super(HDF5ConvertRequest, self).__init__(**kwargs)
     #Compute paths for facet_xml and cell_xml if not provided
     mesh_xml=Path(self.mesh_xml)
     for attrname in DCONV_XML_SUFFIX.keys():
@@ -66,4 +66,4 @@ class HDF5Converter(Request):
     return
 
 #Register for loading from yaml
-register_classes([HDF5Converter])
+register_classes([HDF5ConvertRequest])
