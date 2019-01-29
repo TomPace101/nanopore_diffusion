@@ -3,6 +3,7 @@ _TODO_ fickian diffusion simulation
 - subclass customizable request: just overwrite "run"
 - include the basics
 - get the machinery working for defining weak forms
+- then get it working with MPI
 
 _TODO_ need to start checking residual values on the solutions
 For example, evaluate the original PDE as a field function,
