@@ -4,9 +4,6 @@ _TODO_ fickian diffusion simulation
 - include the basics
 - get the machinery working for defining weak forms
 
-_TODO_ general logging for requests
-see notes 2018-12-20.md
-
 _TODO_ need to start checking residual values on the solutions
 For example, evaluate the original PDE as a field function,
 and then find its maximum (absolute) value.
@@ -48,16 +45,13 @@ to its documentation.
 
 _TODO_ specification of dirichlet and neumann boundary conditions should make use of the species symbol
 
-_TODO_ refactor this TODO list!
-Probably need to move it to old_notes.md,
-and then copy the actual active items out of it.
-
 _TODO_ Name all functions in FEniCS.
 
 _TODO_ Generate a fenics log file, with timing info.
 More generally, maybe all requests should have an optional log file.
 Use the "logging" module. Note you can change the format.
 The runner then uses that log.
+see notes 2018-12-20.md
 
 _TODO_ clean up data
 The data folder has lots of junk now.
@@ -68,7 +62,7 @@ just like in electrolyte_analysis.
 _TODO_ add number of dimensions to geometry definition file, and from there to mesh metadata
 For that matter, putting the geometry definition name in mesh metadata might be nice.
 
-_TODO_ switch to ruamel.yaml, and update the wiki
+_TODO_ update wiki to use ruamel.yaml
 
 _TODO_ time-selection wrapper for datasteps (see below)
 
@@ -76,9 +70,6 @@ _TODO_ change species_info to a list of species dictionaries, which become speci
 
 _TODO_ see note in output_eff.fluxfield
 "change this to store the flux in a specified attribute, use another function to save to VTK file"
-
-_TODO_ rename paramgen to genparams everywhere
-Not just directory and filenames, but in the code itself.
 
 _TODO_ use output_eff effective_D in place of effective_diffusion in all locations.
 See log 2018-07-10 for more information.
