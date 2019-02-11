@@ -69,3 +69,7 @@
 #   name: mesh.hdf5conv.verify
 #   expected: !CompareFile simple_mesh.hdf5
 #   received: !OutputFile simple_mesh.hdf5
+#Test single-request for conversion from geo to hdf5
+# - !GeoToHDF5Request
+#   name: mesh.onestep
+
