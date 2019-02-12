@@ -1,4 +1,7 @@
 
+_IDEA_ is there a way to extract all the bits of yaml in the python code files into a yaml file?
+Maybe `consts.yaml`, which is read by `consts.py`, and loads it directly into its own globals?
+
 _TODO_ fickian diffusion simulation
 - subclass customizable request: just overwrite "run"
 - include the basics
