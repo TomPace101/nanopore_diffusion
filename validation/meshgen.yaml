@@ -85,3 +85,13 @@
 - !GeoToHDF5Request
   name: mesh.onestep
   mesh_stem: simple_mesh
+#Verify output of previous test
+- !FileComparisonListRequest
+  name: mesh.onestep.verify
+  pairs:
+    - [!InputFile simple_mesh.msh, !mshfile simple_mesh.msh]
+    - [!CompareFile simple_mesh.yaml, !meshmetafile simple_mesh.yaml]
+    - [!InputFile simple_mesh.xml, !mesh_xml simple_mesh.xml]
+    - [!InputFile simple_mesh_facet_region.xml, !facet_xml simple_mesh_facet_region.xml]
+    - [!InputFile simple_mesh_physical_region.xml, !cell_xml simple_mesh_physical_region.xml]
+    - [!CompareFile simple_mesh.dconv.txt, !dconv_outfile simple_mesh.txt]
