@@ -27,7 +27,7 @@
   name: mesh.gmsh
   geofile: !InputFile simple_mesh.geo
   mshfile: !OutputFile simple_mesh.msh
-  txtfile: !OutputFile simple_mesh.gmsh.txt
+  gmsh_outfile: !OutputFile simple_mesh.gmsh.txt
   meshmetafile: !OutputFile simple_mesh.yaml
 #Verify output of previous test
 - !FileComparisonRequest
@@ -47,8 +47,8 @@
 - !DolfinConvertRequest
   name: mesh.dconv
   mshfile: !InputFile simple_mesh.msh
-  xmlfile: !OutputFile simple_mesh.xml
-  txtfile: !OutputFile simple_mesh.dconv.txt
+  mesh_xml: !OutputFile simple_mesh.xml
+  dconv_outfile: !OutputFile simple_mesh.dconv.txt
 #Verify output of previous test
 - !FileComparisonListRequest
   name: mesh.dconv.verify
@@ -61,7 +61,7 @@
 - !HDF5ConvertRequest
   name: mesh.hdf5conv
   mesh_xml: !InputFile simple_mesh.xml
-  hdf5file: !OutputFile simple_mesh.hdf5
+  mesh_hdf5file: !OutputFile simple_mesh.hdf5
 #Verify output of previous test
 #We don't check the output file in this case.
 #It's a purely binary file, and can differ even for the same input (!)
@@ -69,7 +69,19 @@
 #   name: mesh.hdf5conv.verify
 #   expected: !CompareFile simple_mesh.hdf5
 #   received: !OutputFile simple_mesh.hdf5
+#
+#Locator reassignment for the next test
+- !UpdateFolderStructure
+  geofile: ['input', 0]
+  mshfile: ['output', 0, 1]
+  gmsh_outfile: ['output', 0, 1, 'gmsh_out']
+  meshmetafile: ['output', 0, 1]
+  mesh_xml: ['output', 0, 1]
+  facet_xml: ['output', 0, 1]
+  cell_xml: ['output', 0, 1]
+  dconv_outfile: ['output', 0, 1, 'dconv_out']
+  mesh_hdf5file: ['output', 0, 1]
 #Test single-request for conversion from geo to hdf5
-# - !GeoToHDF5Request
-#   name: mesh.onestep
-
+- !GeoToHDF5Request
+  name: mesh.onestep
+  mesh_stem: simple_mesh
