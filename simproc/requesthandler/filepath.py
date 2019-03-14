@@ -159,10 +159,13 @@ class Path(baseclass):
     except ValueError:
       return self
   def __getstate__(self):
-    """Used for pickling, and possibly for converting to yaml"""
+    """Used for pickling, and converting to yaml"""
     #This is a little bit ridiculous, but you can't just return the string.
     #ruamel.yaml expects a mapping
     return {'str':str(self),'isFile':self.isFile}
+  def __setstate__(self,state):
+    """Used for unpickling, and converting from yaml"""
+    self.__init__(**state)
 
 if __name__ == "__main__":
     import doctest
