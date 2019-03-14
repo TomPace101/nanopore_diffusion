@@ -44,3 +44,8 @@
 - Customization:
   - DONE a request that can monkey-patch itself
   - allow user to specify python files containing classes that can be added to yaml registry
+
+# BUGS
+- Simultaneous requests may create a new directory for the temporary request input files.
+  But cleanup won't remove this directory if that's the case.
+  

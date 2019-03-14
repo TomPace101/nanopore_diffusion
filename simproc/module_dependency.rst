@@ -13,7 +13,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``locators``: ``filepath``, ``yaml_manager``
   - ``request``: ``filepath``, ``yaml_manager``, ``locators``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
-  - ``simultaneous``: ``yaml_manager``, ``request``
+  - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``
   - ``shell``: ``request``, ``yaml_manager``
   - ``debug``: ``request``, ``yaml_manager``, ``shell``
   - ``cleanup``: ``locators``, ``request``, ``yaml_manager``

@@ -2,12 +2,18 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
-from subprocess import call
+import math
+import subprocess
+import sys
 import time
 
 #This package
 from . import request
 from . import yaml_manager
+from .filepath import Path
+
+modpath=Path(__file__)
+main_pkg_path=modpath.parent.parent #To get back to the location of simproc
 
 _SimultaneousRequestQueue_props_schema_yaml="""#SimultaneousRequestQueue
 name: {type: string}
@@ -18,6 +24,8 @@ queue: {type: array}
 delay:
   type: number
   minimum: 0
+tmploc: {type: pathlike}
+tmpfmt: {type: string}
 """
 
 
@@ -28,14 +36,59 @@ class SimultaneousRequestQueue(request.Request):
   
     - num_workers: number of requests to run in parallel
     - queue: sequence of the requests to run
-    - delay: optional, time (in seconds), to wait between checks for request completion, defaults to 30"""
+    - delay: optional, time (in seconds), to wait between checks for request completion
+    - tmploc: optional, path to folder to write temporary input files to
+      Note that, at present, cleanup won't remove this folder if it is created. Sorry.
+    - tmpfmt: optional, ugly, and I don't recommend you use it without looking at the source code"""
   _self_task=False
   _required_attrs=['num_workers','queue']
   _props_schema=request.make_schema(_SimultaneousRequestQueue_props_schema_yaml)
   _child_seq_attrs=['queue']
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(SimultaneousRequestQueue, self).__init__(**kwargs)
+    #Default values
+    self.delay = getattr(self,'delay',30)
+    self.tmploc = Path(getattr(self,'tmploc','.'),isFile=False)
+    self.tmpfmt = getattr(self,'tmpfmt',"req%0{}d.yaml")
   def run(self):
-    ##TODO
-    pass
+    #Make sure the temporary files directory exists
+    self.tmploc.assure_dir()
+    #Get the template for the temporary file names
+    tmp_tmpl=self.tmpfmt.format(1+math.floor(math.log10(len(self.queue))))
+    #Initialize
+    running=[] #To store pairs (Popen, fpath)
+    indx=0
+    while indx<len(self.queue):
+      #Clean up any processes that have now completed
+      stillrunning=[]
+      for p,fpath in running:
+        retcode=p.poll()
+        if retcode is not None:
+          #Process still running
+          stillrunning.append((p,fpath))
+        else:
+          #Process completed
+          #Only delete the input file if the process was successful
+          if retcode == 0:
+            os.remove(str(fpath))
+      #New running list is the list that is still running
+      running=stillrunning
+      #Start new processes to keep the requested number of workers going simultaneously
+      while len(running)<self.num_workers and indx<len(self.queue):
+        #Take the next request off the queue
+        indx+=1
+        req=self.queue[indx]
+        #Write the input file
+        fpath=self.tmploc / tmp_tmpl%indx
+        yaml_manager.writefile(req,fpath)
+        #Start the subprocess
+        args=(sys.executable,'-m',main_pkg_path,fpath)
+        p=subprocess.Popen(args) ##TODO
+        #Add to list of running processes
+        running.append((p,fpath))
+      #Wait until we check again
+      time.sleep(self.delay)
 
 #Register for loading from yaml
 yaml_manager.register_classes([SimultaneousRequestQueue])

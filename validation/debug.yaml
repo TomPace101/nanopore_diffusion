@@ -133,3 +133,26 @@
     - [!CompareFile zchild_005.txt, !OutputFile zchild_005.txt]
     - [!CompareFile zchild_006.txt, !OutputFile zchild_006.txt]
     - [!CompareFile zchild_007.txt, !OutputFile zchild_007.txt]
+#Simultaneous requests
+#Note that we can't actually check here to make sure they are simultaneous
+- !SimultaneousRequestQueue
+  name: simultaneous.dummy
+  num_workers: 2
+  delay: 1
+  queue:
+  - !DummyShellRequest
+    name: simultaneous.dummy.1
+    test: Request 1
+    outfile: !OutputFile 1.txt
+  - !DummyShellRequest
+    name: simultaneous.dummy.2
+    test: Request 2
+    outfile: !OutputFile 2.txt
+  - !DummyShellRequest
+    name: simultaneous.dummy.3
+    test: Request 3
+    outfile: !OutputFile 3.txt
+  - !DummyShellRequest
+    name: simultaneous.dummy.4
+    test: Request 4
+    outfile: !OutputFile 4.txt
