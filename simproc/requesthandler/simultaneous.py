@@ -51,7 +51,7 @@ class SimultaneousRequestQueue(request.Request):
     super(SimultaneousRequestQueue, self).__init__(**kwargs)
     #Default values
     self.delay = getattr(self,'delay',30)
-    self.tmploc = Path(getattr(self,'tmploc','.'),isFile=False)
+    self.tmploc = Path(getattr(self,'tmploc','.'),isFile=False).expanduser().resolve()
     self.tmpfmt = getattr(self,'tmpfmt',"req%0{}d.yaml")
   def run(self):
     #Make sure the temporary files directory exists
@@ -79,16 +79,17 @@ class SimultaneousRequestQueue(request.Request):
       #Start new processes to keep the requested number of workers going simultaneously
       while len(running)<self.num_workers and indx<len(self.queue):
         #Take the next request off the queue
-        indx+=1
         req=self.queue[indx]
         #Write the input file
         fpath=self.tmploc / (tmp_tmpl%indx)
-        yaml_manager.writefile(req,fpath)
+        yaml_manager.writefile([req],fpath)
         #Start the subprocess
         args=(sys.executable,'-m',main_mod_name,str(fpath))
         p=subprocess.Popen(args,cwd=work_path)
         #Add to list of running processes
         running.append((p,fpath))
+        #Prepare for next item from queue
+        indx+=1
       #Wait until we check again
       time.sleep(self.delay)
 
