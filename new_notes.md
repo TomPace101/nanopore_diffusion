@@ -20,7 +20,7 @@
   - DONE run gmsh (.geo -> .msh)
   - DONE run dolfin-convert (.msh -> .xml (3))
   - DONE hdf5 conversion (.xml (3) -> .hdf5) [write a python function, in a module supporting command line]
-  - later steps only (.geo -> .hdf5)
+  - DONE later steps only (.geo -> .hdf5)
   - all but template construction (.geo.jinja2 + .yaml -> .hdf5)
   - all steps (.yaml -> .hdf5)
 - Simulation:
