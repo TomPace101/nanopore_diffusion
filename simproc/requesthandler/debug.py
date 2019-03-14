@@ -1,5 +1,8 @@
 """Requests used only for debugging purposes"""
 
+#Standard library
+import time
+
 #This package
 from . import request
 from . import yaml_manager
@@ -93,9 +96,27 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
   def cmd_str(self):
     return "echo '%s' >%s"%(str(self.test),str(self.outfile))
   
+_SleepRequest_props_schema_yaml="""#SleepRequest
+name: {type: string}
+delay:
+  type: number
+  minimum: 0
+"""
+
+class SleepRequest(request.Request):
+  """Request to sleep for the specified number of seconds
+
+  User-defined attributes:
+
+    - delay: number of seconds to sleep, passed directly to time.sleep"""
+  _self_task=True
+  _required_attrs=['delay']
+  _props_schema=request.make_schema(_SleepRequest_props_schema_yaml)
+  def run(self):
+    time.sleep(self.delay)
 
 #Register for loading from yaml
-yaml_manager.register_classes([DummyRequest, DummyShellRequest])
+yaml_manager.register_classes([DummyRequest, DummyShellRequest, SleepRequest])
 
 if __name__ == "__main__":
     import doctest
