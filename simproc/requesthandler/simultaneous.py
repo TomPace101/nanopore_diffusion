@@ -12,8 +12,10 @@ from . import request
 from . import yaml_manager
 from .filepath import Path
 
-modpath=Path(__file__)
-main_pkg_path=modpath.parent.parent #To get back to the location of simproc
+main_mod_name=request.__package__.split('.')[0]
+modpath_parts=Path(__file__).parts
+idx=modpath_parts.index(main_mod_name)
+work_path=str(Path(*modpath_parts[:idx])) #Path to the parent directory of the top-level package
 
 _SimultaneousRequestQueue_props_schema_yaml="""#SimultaneousRequestQueue
 name: {type: string}
@@ -80,11 +82,11 @@ class SimultaneousRequestQueue(request.Request):
         indx+=1
         req=self.queue[indx]
         #Write the input file
-        fpath=self.tmploc / tmp_tmpl%indx
+        fpath=self.tmploc / (tmp_tmpl%indx)
         yaml_manager.writefile(req,fpath)
         #Start the subprocess
-        args=(sys.executable,'-m',main_pkg_path,fpath)
-        p=subprocess.Popen(args) ##TODO
+        args=(sys.executable,'-m',main_mod_name,str(fpath))
+        p=subprocess.Popen(args,cwd=work_path)
         #Add to list of running processes
         running.append((p,fpath))
       #Wait until we check again
