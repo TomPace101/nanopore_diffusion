@@ -71,3 +71,10 @@ def readfile(fpath,multidoc=False):
     allobj=yaml.load(dat)
   filedone()
   return allobj
+
+def writefile(obj,fpath):
+  """Write object to yaml file, overwriting"""
+  with open(fpath,'w') as fp:
+    yaml.dump(obj,fp)
+  return
+  
