@@ -3,6 +3,7 @@
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 import math
+import os
 import subprocess
 import sys
 import time
@@ -61,21 +62,8 @@ class SimultaneousRequestQueue(request.Request):
     #Initialize
     running=[] #To store pairs (Popen, fpath)
     indx=0
+    #Loop until the queue is completed
     while indx<len(self.queue):
-      #Clean up any processes that have now completed
-      stillrunning=[]
-      for p,fpath in running:
-        retcode=p.poll()
-        if retcode is not None:
-          #Process still running
-          stillrunning.append((p,fpath))
-        else:
-          #Process completed
-          #Only delete the input file if the process was successful
-          if retcode == 0:
-            os.remove(str(fpath))
-      #New running list is the list that is still running
-      running=stillrunning
       #Start new processes to keep the requested number of workers going simultaneously
       while len(running)<self.num_workers and indx<len(self.queue):
         #Take the next request off the queue
@@ -91,7 +79,22 @@ class SimultaneousRequestQueue(request.Request):
         #Prepare for next item from queue
         indx+=1
       #Wait until we check again
-      time.sleep(self.delay)
+      if len(running)>0:
+        time.sleep(self.delay)
+      #Clean up any processes that have now completed
+      stillrunning=[]
+      for p,fpath in running:
+        retcode=p.poll()
+        if retcode is None:
+          #Process still running
+          stillrunning.append((p,fpath))
+        else:
+          #Process completed
+          #Only delete the input file if the process was successful
+          if retcode == 0:
+            os.remove(str(fpath))
+      #New running list is the list that is still running
+      running=stillrunning
 
 #Register for loading from yaml
 yaml_manager.register_classes([SimultaneousRequestQueue])
