@@ -165,7 +165,13 @@ class Path(baseclass):
     return {'str':str(self),'isFile':self.isFile}
   def __setstate__(self,state):
     """Used for unpickling, and converting from yaml"""
-    self.__init__(**state)
+    isFile = state.get('isFile',None)
+    args=[state.get('str','')]
+    drv, root, parts = self._parse_args(args)
+    self._drv = drv
+    self._root = root
+    self._parts = parts
+    self._init(isFile)
 
 if __name__ == "__main__":
     import doctest
