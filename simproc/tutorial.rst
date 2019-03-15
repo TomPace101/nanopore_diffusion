@@ -123,5 +123,18 @@ Miscellany
 
 Just few things not to forget, until I can find a better place for them.
 
-The best way to run requests in parallel is to let doit execute the tasks in parallel, with its ``-n`` switch.
+One way to run requests in parallel is to let doit execute the tasks in parallel, with its ``-n`` switch.
 Try it for yourself: ``doit -n 4 control=<<requestfile>>``.
+There is also now a request subclass that can execute child requests in parallel.
+
+.. doctest::
+
+  Test taking filepath.Path instances round-trip through yaml.
+
+  >>> import simproc.requesthandler.yaml_manager as yaml_manager
+  >>> import simproc.requesthandler.filepath as filepath
+  >>> p=filepath.Path('/nonexist.txt')
+  >>> ys=yaml_manager.yamlstring(p)
+  >>> p2=yaml_manager.read(ys)
+  >>> p2==p
+  True
