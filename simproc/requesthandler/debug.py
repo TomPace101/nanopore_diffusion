@@ -95,7 +95,12 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
   @property
   def cmd_str(self):
     return "echo '%s' >%s"%(str(self.test),str(self.outfile))
-  
+
+class DummyShellAppendRequest(DummyShellRequest):
+  @property
+  def cmd_str(self):
+    return "echo '%s' >>%s"%(str(self.test),str(self.outfile))
+
 _SleepRequest_props_schema_yaml="""#SleepRequest
 name: {type: string}
 delay:
@@ -116,7 +121,7 @@ class SleepRequest(request.Request):
     time.sleep(self.delay)
 
 #Register for loading from yaml
-yaml_manager.register_classes([DummyRequest, DummyShellRequest, SleepRequest])
+yaml_manager.register_classes([DummyRequest, DummyShellRequest, DummyShellAppendRequest, SleepRequest])
 
 if __name__ == "__main__":
     import doctest

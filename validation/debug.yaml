@@ -134,7 +134,8 @@
     - [!CompareFile zchild_006.txt, !OutputFile zchild_006.txt]
     - [!CompareFile zchild_007.txt, !OutputFile zchild_007.txt]
 #Simultaneous requests
-#Note that we can't actually check here to make sure they are simultaneous
+#Note that we can't actually check here to make sure they are simultaneous,
+#just that they do execute.
 - !SimultaneousRequestQueue
   name: simultaneous.dummy
   num_workers: 2
@@ -160,8 +161,8 @@
 - !MPIRunRequest
   name: mpi.test
   numproc: 2
-  outfile: !OutputFile out.txt
   child:
-    !DummyRequest
+    !DummyShellAppendRequest
     name: mpi.test.child
-    test: I'm a single request that was told to output this string.
+    outfile: !OutputFile out.txt
+    test: I am a single request that was told to output this string.
