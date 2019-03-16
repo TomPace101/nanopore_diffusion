@@ -31,7 +31,6 @@ tmploc: {type: pathlike}
 tmpfmt: {type: string}
 """
 
-
 class SimultaneousRequestQueue(request.Request):
   """Run a queue of requests, with more than one allowed to run simultaneously
   
@@ -63,7 +62,7 @@ class SimultaneousRequestQueue(request.Request):
     running=[] #To store pairs (Popen, fpath)
     indx=0
     #Loop until the queue is completed
-    while indx<len(self.queue):
+    while indx<len(self.queue) or len(running)>0:
       #Start new processes to keep the requested number of workers going simultaneously
       while len(running)<self.num_workers and indx<len(self.queue):
         #Take the next request off the queue
@@ -93,6 +92,8 @@ class SimultaneousRequestQueue(request.Request):
           #Only delete the input file if the process was successful
           if retcode == 0:
             os.remove(str(fpath))
+          else:
+            print(fpath,retcode)
       #New running list is the list that is still running
       running=stillrunning
 
