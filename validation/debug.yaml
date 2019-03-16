@@ -157,6 +157,14 @@
     name: simultaneous.dummy.4
     test: Request 4
     outfile: !OutputFile 4.txt
+#Verify output of previous test
+- !FileComparisonListRequest
+  name: simultaneous.dummy.verify
+  pairs:
+    - [!CompareFile 1.txt, !OutputFile 1.txt]
+    - [!CompareFile 2.txt, !OutputFile 2.txt]
+    - [!CompareFile 3.txt, !OutputFile 3.txt]
+    - [!CompareFile 4.txt, !OutputFile 4.txt]
 #Request run through mpirun (requires mpirun)
 - !MPIRunRequest
   name: mpi.test
@@ -166,3 +174,8 @@
     name: mpi.test.child
     outfile: !OutputFile out.txt
     test: I am a single request that was told to output this string.
+#Verify output of previous test
+- !FileComparisonRequest
+  name: mpi.test.verify
+  expected: !CompareFile out.txt
+  received: !OutputFile out.txt
