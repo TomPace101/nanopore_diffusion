@@ -10,7 +10,7 @@
   - DONE Cleanup requests: requests to delete the output from previous runs of requests
   - DONE Customizable requests
   - DONE Request to run child requests in parallel (that is, simultaneously)
-  - Request to run a child request with mpirun
+  - DONE Request to run a child request with mpirun
 - Data Locators:
   - DONE DataFile: defines a file relative to the data folder
   - DONE update folder structure from python code or yaml file
