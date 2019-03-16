@@ -5,9 +5,12 @@
 - Base classes:
   - DONE Request - abstract only: defines the interface
   - DONE Request to run all of the requests in another file. Or maybe even a way to specify a subset of them. (see note about doing this on command line)
-  - DONE Request to run a script
+  - DONE Request to run a script (or any shell command)
   - DONE Template requests: requests that produce a file from a template and input data
   - DONE Cleanup requests: requests to delete the output from previous runs of requests
+  - DONE Customizable requests
+  - DONE Request to run child requests in parallel (that is, simultaneously)
+  - Request to run a child request with mpirun
 - Data Locators:
   - DONE DataFile: defines a file relative to the data folder
   - DONE update folder structure from python code or yaml file
@@ -30,7 +33,6 @@
   - Specific input tables for species, domains, and species-in-domain
   - Weak Form support as exists in simulator_general now
   - Library of common weak forms
-  - MPI
   - MORE
 - Post-processing:
   - Collection request to generate table, with customization to control how simulation output maps to columns, and maybe specific data for select fields as well
