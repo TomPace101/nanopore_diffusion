@@ -46,7 +46,7 @@ class MPIRunRequest(request.Request):
   _child_attrs=['child']
   def __init__(self,**kwargs):
     #Initialization from base class
-    super(SimultaneousRequestQueue, self).__init__(**kwargs)
+    super(MPIRunRequest, self).__init__(**kwargs)
     if hasattr(self,'tmpfile'):
       self.tmpfile=filepath.Path(self.tmpfile).expanduser().resolve()
     else:
@@ -57,14 +57,18 @@ class MPIRunRequest(request.Request):
       self.errfile=None
   def run(self):
     #Write the input file
-    yaml_manager.writefile([req],str(self.tmpfile))
+    yaml_manager.writefile([self.child],str(self.tmpfile))
     #Call MPIrun to start the processes
-    args=('mpirun','-np','%d'%,sys.executable,'-m',main_mod_name,str(self.tmpfile))
-    stderr = subprocess.STDOUT if self.errfile is None else str(self.errfile)
-    p=subprocess.Popen(args,cwd=work_path,shell=False,stdout=str(self.outfile),stderr=stderr)
+    args=('mpirun','-np','%d'%self.numproc,sys.executable,'-m',main_mod_name,str(self.tmpfile))
+    stdout = open(str(self.outfile),'w')
+    stderr = subprocess.STDOUT if self.errfile is None else open(str(self.errfile),'w')
+    p=subprocess.Popen(args,cwd=work_path,shell=False,stdout=stdout,stderr=stderr)
     #Wait for completion
     retcode=p.wait()
     #Clean up
+    stdout.close()
+    if self.errfile is not None:
+      stderr.close()
     os.remove(str(self.tmpfile))
     
 #Register for loading from yaml
