@@ -73,7 +73,7 @@ class SimultaneousRequestQueue(request.Request):
         yaml_manager.writefile([req],fpath)
         #Start the subprocess
         args=(sys.executable,'-m',main_mod_name,str(fpath))
-        p=subprocess.Popen(args,cwd=work_path)
+        p=subprocess.Popen(args,cwd=work_path,shell=False)
         #Add to list of running processes
         running.append((p,fpath))
         #Prepare for next item from queue
