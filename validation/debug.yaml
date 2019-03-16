@@ -156,3 +156,12 @@
     name: simultaneous.dummy.4
     test: Request 4
     outfile: !OutputFile 4.txt
+#Request run through mpirun (requires mpirun)
+- !MPIRunRequest
+  name: mpi.test
+  numproc: 2
+  outfile: !OutputFile out.txt
+  child:
+    !DummyRequest
+    name: mpi.test.child
+    test: I'm a single request that was told to output this string.

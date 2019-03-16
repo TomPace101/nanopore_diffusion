@@ -5,6 +5,7 @@ from . import requestfile
 from . import simultaneous
 from . import customization
 from . import shell
+from . import mpi_run
 from . import templates
 from . import generate
 from . import cleanup
