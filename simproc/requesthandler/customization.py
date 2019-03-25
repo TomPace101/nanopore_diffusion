@@ -167,7 +167,7 @@ class CustomizableRequest(request.Request):
       themod = function_name_to_module[function_name]
       function_obj = getattr(themod,function_name)
       assert isinstance(function_obj,types.FunctionType), "%s in module %s is not a function"%(function_name,themod.__name__)
-      self._custom_methods.append(function_name)
+      self._custom_methods.append(method_name)
       setattr(self,method_name,types.MethodType(function_obj,self)) #Must type cast to MethodType in order to get implicit first argument `self`
   def validate(self):
     d=self.to_dict()
