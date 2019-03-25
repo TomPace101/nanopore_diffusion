@@ -1,4 +1,16 @@
 
+_FEATURE_ confirm input files exist as part of pre-run check
+I wrote code to do this, then I realized that not all the input files are actually required.
+How can the code make that distinction?
+Maybe it can't.
+
+_ISSUE_ There's something weird in `request.py`.
+`_compile_file_list` uses attribute `taskname` which doesn't exist, but I've never gotten an error about this.
+`task_definition` says it will not return a task if the taskname is None, but doesn't do any such check.
+`assure_output_dirs` doesn't use the outputfiles property, because that property is supposed to return those of children as well.
+Now `confirm_inputfiles` does the same thing.
+Maybe we need a way to specify input/output files for this request alone, or this request with children.
+
 # Refactoring
 
 - DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules

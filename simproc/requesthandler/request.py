@@ -226,6 +226,8 @@ class Request(object):
     but this is not required."""
     #Confirm validation
     self.validate()
+    #Confirm that required input files exist
+    ## self.confirm_inputfiles() #This won't work because not all input files are required.
     #Create directories for output files if necessary
     self.assure_output_dirs()
     return
@@ -323,8 +325,20 @@ class Request(object):
   def outputfiles(self):
     """A list of all the outputfiles related to this request"""
     return self._compile_file_list('_outputfile_attrs','_more_outputfiles','outputfiles')
+  # def confirm_inputfiles(self):
+  #   """Issue an error for any input files that do not exist
+  # 
+  #   For this request only; child requests will need to do this themselves."""
+  #   allpaths=[getattr(self,iattr) for iattr in getattr(self,'_inputfile_attrs',[])]
+  #   allpaths+=getattr(self,'_more_inputfiles',[])
+  #   missing=[fpath for fpath in allpaths if not fpath.exists()]
+  #   errstring="\n".join(["- "+str(fpath) for fpath in missing])
+  #   assert len(missing)==0, "Missing required input files:\n%s\n"%errstring
+  #   return
   def assure_output_dirs(self):
-    """Create directories for output files if necessary"""
+    """Create directories for output files if necessary
+    
+    For this request only; child requests will need to do this themselves."""
     allpaths=[getattr(self,oattr) for oattr in getattr(self,'_outputfile_attrs',[])]
     allpaths+=getattr(self,'_more_outputfiles',[])
     for fpath in allpaths:
