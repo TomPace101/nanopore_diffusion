@@ -8,3 +8,4 @@
   requestfiles:
     - !DataFile debug.yaml
     - !DataFile meshgen.yaml
+    - !DataFile simulation.yaml
