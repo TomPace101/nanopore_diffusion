@@ -8,8 +8,8 @@ import fenics as fem
 
 #This package
 from .meshinfo import MeshInfo
-from .simrequest import SimulationRequest
-from .equationbuilder import EquationTermDict
+from . import simrequest
+from . import equationbuilder
 
 class PeriodicBoundary2D(fem.SubDomain):
   """SubDomain subclass for 2D Periodic boundary condition"""
@@ -44,7 +44,7 @@ class PeriodicBoundary2D(fem.SubDomain):
 _HomogFickian2DSimulator_props_schema_yaml="""#HomogFickian2DSimulator
 """
 
-class HomogFickian2DSimulator(SimulationRequest):
+class HomogFickian2DSimulator(simrequest.SimulationRequest):
   """Base class for FEniCS simulations
   
   User-defined attributes:
