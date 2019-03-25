@@ -7,10 +7,10 @@ from ..requesthandler.filepath import Path
 from ..requesthandler import locators
 
 #Locators
-locators.folder_structure.update(mesh_xml=['mesh',0,'xml'])
-locators.folder_structure.update(facet_xml=['mesh',0,'xml'])
-locators.folder_structure.update(cell_xml=['mesh',0,'xml'])
-locators.folder_structure.update(dconv_outfile=['mesh',0,'dconv_out'])
+locators.folder_structure.update(mesh_xml=['mesh','output',0,'xml'])
+locators.folder_structure.update(facet_xml=['mesh','output',0,'xml'])
+locators.folder_structure.update(cell_xml=['mesh','output',0,'xml'])
+locators.folder_structure.update(dconv_outfile=['mesh','output',0,'dconv_out'])
 
 #Constants
 DCONV_XML_SUFFIX={'facet_xml':'_facet_region', 'cell_xml':'_physical_region'}

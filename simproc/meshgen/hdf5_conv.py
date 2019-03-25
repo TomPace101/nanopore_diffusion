@@ -10,7 +10,7 @@ from .dconv_runner import get_paths_facet_cell
 import fenics as fem
 
 #Locators
-locators.folder_structure.update(mesh_hdf5file=['mesh',0,'hdf5'])
+locators.folder_structure.update(mesh_hdf5file=['mesh','output',0,'hdf5'])
 
 _HDF5ConvertRequest_props_schema_yaml="""#HDF5ConvertRequest
 name: {type: string}

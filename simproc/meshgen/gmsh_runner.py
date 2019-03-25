@@ -7,10 +7,10 @@ from ..requesthandler import locators
 
 #Locators
 locators.folder_structure.update(geotemplate=['mesh','templates'])
-locators.folder_structure.update(geofile=['mesh',0,'geo'])
-locators.folder_structure.update(mshfile=['mesh',0,'msh'])
-locators.folder_structure.update(gmsh_outfile=['mesh',0,'gmsh_out'])
-locators.folder_structure.update(meshmetafile=['mesh',0,'metadata'])
+locators.folder_structure.update(geofile=['mesh','output',0,'geo'])
+locators.folder_structure.update(mshfile=['mesh','output',0,'msh'])
+locators.folder_structure.update(gmsh_outfile=['mesh','output',0,'gmsh_out'])
+locators.folder_structure.update(meshmetafile=['mesh','output',0,'metadata'])
 
 _GmshRequest_props_schema_yaml="""#GmshRequest
 name: {type: string}
@@ -41,7 +41,7 @@ class GmshRequest(ShellCommandRequestBase):
     #Integer argument
     int_arg = getattr(self,'integer_arg',None)
     int_arg = 0 if int_arg is None else int_arg
-    cmd = "gmsh -%d"%int_arg
+    cmd = "gmsh -%d -format msh2"%int_arg
     #meshmetafile, if provided
     if getattr(self,'meshmetafile',None) is not None:
       cmd += " -setstring meshmetafile '%s'"%self.meshmetafile
