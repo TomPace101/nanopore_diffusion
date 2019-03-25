@@ -28,8 +28,10 @@ class HDF5ConvertRequest(Request):
         This is the path to output file containing the mesh itself.
     - facet_xml = optional Path to input .xml file containing facet meshfunction data
         Computed from the mesh_xml attribute if not provided, assuming the same directory
+        If the facet xml file is not desired, this attribute must be explicitly set to None.
     - cell_xml = optional Path to input .xml file containing cell meshfunction data
         Computed from the mesh_xml attribute if not provided, assuming the same directory
+        If the cell xml file is not desired, this attribute must be explicitly set to None.
     - mesh_hdf5file = Path to output .hdf5 file
   """
   _self_task=True
@@ -47,13 +49,21 @@ class HDF5ConvertRequest(Request):
     self.pre_run()
     #Read in the xml files (Mesh and MeshFunctions)
     mesh =   fem.Mesh(str(self.mesh_xml))
-    facets = fem.MeshFunction("size_t", mesh, str(self.facet_xml))
-    cells =  fem.MeshFunction("size_t", mesh, str(self.cell_xml))
+    if self.facet_xml is None:
+      facets = None
+    else:
+      facets = fem.MeshFunction("size_t", mesh, str(self.facet_xml))
+    if self.cell_xml is None:
+      cells = None
+    else:
+      cells =  fem.MeshFunction("size_t", mesh, str(self.cell_xml))
     #Output to HDF5
     hdf5=fem.HDF5File(mesh.mpi_comm(),str(self.mesh_hdf5file),'w')
     hdf5.write(mesh,'mesh')
-    hdf5.write(facets,'facets')
-    hdf5.write(cells,'cells')
+    if facets is not None:
+      hdf5.write(facets,'facets')
+    if cells is not None:
+      hdf5.write(cells,'cells')
     hdf5.close()
     #Done
     return
