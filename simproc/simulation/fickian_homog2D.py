@@ -2,6 +2,7 @@
 and extract the data needed for post-processing efforts"""
 
 #Standard library
+from argparse import Namespace
 
 #Site packages
 import fenics as fem
@@ -19,7 +20,7 @@ class PeriodicBoundary2D(fem.SubDomain):
     
       - xlims = pair of x-values: (xmin,xmax)
       - ylims = pair of y-values: (ymin,ymax)"""
-    super(PeriodicBoundary, self).__init__()
+    super(PeriodicBoundary2D, self).__init__()
     self.left,  self.right = xlims
     self.bottom,self.top   = ylims
     self.xspan = self.right-self.left
@@ -56,6 +57,9 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     
   def run_sim(self):
 
+    #For convenience
+    conditions=Namespace(**self.conditions)
+
     #Periodic boundary condition
     xkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='X']
     ykeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Y']
@@ -63,12 +67,12 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     yvals=[self.meshinfo.metadata[k] for k in ykeys]
     xlims=(min(xvals),max(xvals))
     ylims=(min(yvals),max(yvals))
-    pbc = PeriodicBoundary(xlims,ylims)
+    pbc = PeriodicBoundary2D(xlims,ylims)
 
     #Function Spaces and Functions
     #Function spaces
-    self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', self.conditions.elementorder, constrained_domain=pbc)
-    self.scalar_V = fem.FunctionSpace(self.meshinfo.mesh, 'P', self.conditions.elementorder)
+    self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder, constrained_domain=pbc)
+    self.scalar_V = fem.FunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder)
     #Trial and Test Functions
     chi=fem.TrialFunction(self.V)
     v=fem.TestFunction(self.V)
@@ -94,7 +98,7 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     eqnterms=equationbuilder.EquationTermDict(simulator_general.EquationTerm)
 
     #Bilinear boundary terms
-    for psurf in self.conditions.boundaries:
+    for psurf in conditions.boundaries:
       termname="bilinear_boundary_%d"%psurf
       ufl=self.D*self.n[i]*chi[j].dx(i)*v[j]*self.ds(psurf)
       eqnterms.add(termname,ufl,bilinear=True)
@@ -105,7 +109,7 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     eqnterms.add(termname,ufl,bilinear=True)
 
     #Linear boundary terms
-    for psurf in self.conditions.boundaries:
+    for psurf in conditions.boundaries:
       termname="linear_boundary_%d"%psurf
       ufl=self.D*self.n[i]*v[i]*self.ds(psurf)
       eqnterms.add(termname,ufl,bilinear=False)

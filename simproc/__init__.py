@@ -5,6 +5,7 @@ import pkg_resources #part of setuptools
 #Packge modules
 from . import requesthandler
 from . import meshgen
+from . import simulation
 
 #Paths to files containing doctests
 tutorial_file=pkg_resources.resource_filename(__name__,'tutorial.rst')

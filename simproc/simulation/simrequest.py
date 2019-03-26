@@ -94,13 +94,15 @@ class SimulationRequest(CustomizableRequest):
     #Get output files from data extraction commands
     self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
     self._more_outputfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
+    #Render locators
+    self.resolve_locators()
 
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
     #Load the mesh
     meshmeta=getattr(self,'meshmeta',None)
-    self.meshinfo=Meshinfo(self.mesh,meshmeta)
+    self.meshinfo=MeshInfo(str(self.mesh),meshmeta)
     #Do the simulation
     self.run_sim()
     #Generate output, if any

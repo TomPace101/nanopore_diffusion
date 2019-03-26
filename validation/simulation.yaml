@@ -1,8 +1,15 @@
 %YAML 1.2
 ---
+#Locator for input and output generated below
+- !UpdateFolderStructure
+  InputFile: ['input',0]
+  OutputFile: ['output',0]
+  CompareFile: ['comparison',0]
+#Homogenized fickian diffusion simulation
 - !HomogFickian2DSimulator
   name: simulation.homog2D
   mesh: !InputFile testmesh.hdf5
+  meshmeta: !InputFile testmesh.yaml
   metadata:
     cell_volume: 20.3
   loaddata:
@@ -13,7 +20,7 @@
   dataextraction:
     - [domain_volume, {attrname: domain_volume}]
     - [macroscale_diffusion, {volname: cell_volume}]
-    - [writefield, {filename: chi.pvd}]
+    - [writefield, {filename: !OutputFile chi.pvd}]
     - - reportvalues
       - outfpath: !OutputFile info.yaml
         mapping:

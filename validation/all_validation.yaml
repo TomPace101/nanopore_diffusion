@@ -6,6 +6,6 @@
 #Now run the desired requests
 - !RequestFileListRequest
   requestfiles:
-    - !DataFile debug.yaml
-    - !DataFile meshgen.yaml
+    # - !DataFile debug.yaml
+    # - !DataFile meshgen.yaml
     - !DataFile simulation.yaml

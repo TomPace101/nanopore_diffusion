@@ -342,6 +342,7 @@ class Request(object):
     allpaths=[getattr(self,oattr) for oattr in getattr(self,'_outputfile_attrs',[])]
     allpaths+=getattr(self,'_more_outputfiles',[])
     for fpath in allpaths:
+      assert isinstance(fpath,filepath.Path), "Received %s for output file path; need Path instance instead"%(fpath)
       fpath.assure_dir()
     return
   @property
