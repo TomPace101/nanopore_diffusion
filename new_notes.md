@@ -9,13 +9,22 @@ _TODO_ the simulation test doesn't compare the file output
 Maybe we even need a way to compare yaml files other than just bytewise.
 For example, compare floats to a limited precision.
 
+_TODO_ the homogenization simulation requests don't have no property schema, and an incomplete docstring
+
 _ISSUE_ the mpi test won't work if the output isn't cleaned up first, because it just keeps appending.
 
 _ISSUE_ output pvd files are cleaned, but their corresponding vtu files are not
 This is because the request doesn't know about these files.
 Maybe we need a way to let cleanup know that pvd files could have multiple vtu files to go along with them.
 
+_ISSUE_ we really should combine the 2D and 3D homogenization files once we get them working, to reduce duplicated code
+The PeriodicBoundary classes will have to stay separate.
+This requires a way to identify the dimensionality of a mesh.
+We could put it in the mesh metadata.
+
 _TODO_ should attribute paths be moved up to request itself?
+It could be useful in collection, too, actually, so maybe it should be its own module.
+This gets back to the idea of "memory locators".
 Maybe we need better names than get_nested and set_nested.
 Maybe we need a better name than "attrpath" ("attribute path").
 For one thing, that makes it sound like its a filesystem path.
@@ -26,6 +35,9 @@ _FEATURE_ a variant of parallel request that does one item first, then does the 
 This is to help avoid FFC cache collisions.
 
 _FEATURE_ Why aren't shell requests customizable?
+
+_TODO_ port the simulators used in the electrolyte analysis work
+They may be needed again soon.
 
 _FEATURE_ confirm input files exist as part of pre-run check
 I wrote code to do this, then I realized that not all the input files are actually required.
@@ -67,13 +79,12 @@ Maybe we need a way to specify input/output files for this request alone, or thi
   - all but template construction (.geo.jinja2 + .yaml -> .hdf5)
   - all steps (.yaml -> .hdf5)
 - Simulation:
-  - Basic simulation as subclass of customizable request, with the key methods.
-  - MeshInfo (similar to what's in simulator_general now, but not taking modelparams)
+  - DONE Basic simulation as subclass of customizable request, with the key methods.
+  - DONE MeshInfo (similar to what's in simulator_general now, but not taking modelparams)
   - General input tables? (see `p20180819_InputTable`, or should use pandas?)
   - Specific input tables for species, domains, and species-in-domain
-  - Weak Form support as exists in simulator_general now
+  - DONE Weak Form support as exists in simulator_general now
   - Library of common weak forms
-  - MORE
 - Post-processing:
   - Collection request to generate table, with customization to control how simulation output maps to columns, and maybe specific data for select fields as well
   - Plot request similar to what's already there, but with customization as well

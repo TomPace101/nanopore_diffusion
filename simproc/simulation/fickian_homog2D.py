@@ -1,4 +1,4 @@
-"""Solve the homogenized Fickian diffusion problem
+"""Solve the homogenized Fickian diffusion problem in 2D
 and extract the data needed for post-processing efforts"""
 
 #Standard library
