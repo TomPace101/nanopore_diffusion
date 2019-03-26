@@ -17,17 +17,20 @@ from . import equationbuilder
 #Modify the class below to be 3D
 # class PeriodicBoundary3D(fem.SubDomain):
 #   """SubDomain subclass for 3D Periodic boundary condition"""
-#   def __init__(self,xlims,ylims):
+#   def __init__(self,xlims,ylims,zlims):
 #     """Arguments:
 # 
 #       - xlims = pair of x-values: (xmin,xmax)
-#       - ylims = pair of y-values: (ymin,ymax)"""
+#       - ylims = pair of y-values: (ymin,ymax)
+#       - zlims = pair of z-values: (zmin,zmax)"""
 #     super(PeriodicBoundary3D, self).__init__()
 #     self.left,  self.right = xlims
 #     self.bottom,self.top   = ylims
+#     self.back,  self.front = zlims
 #     self.xspan = self.right-self.left
 #     self.yspan = self.top-self.bottom
-#   # Left boundary is "target domain" G
+#     self.zspan = self.front-self.back
+#   # Left boundary is "target domain"
 #   def inside(self, x, on_boundary):
 #     # return True if on left or bottom boundary AND NOT on one of the two corners 
 #     #  (self.left, self.top) and (self.right, self.bottom)
@@ -65,11 +68,14 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     #Periodic boundary condition
     xkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='X']
     ykeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Y']
+    zkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Z']
     xvals=[self.meshinfo.metadata[k] for k in xkeys]
     yvals=[self.meshinfo.metadata[k] for k in ykeys]
+    zvals=[self.meshinfo.metadata[k] for k in zkeys]
     xlims=(min(xvals),max(xvals))
     ylims=(min(yvals),max(yvals))
-    # pbc = PeriodicBoundary3D(xlims,ylims)
+    zlims=(min(zvals),max(zvals))
+    # pbc = PeriodicBoundary3D(xlims,ylims,zlims)
 
     #Function Spaces and Functions
     #Function spaces

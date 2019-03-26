@@ -50,5 +50,5 @@ class MeshInfo:
     hdf5.read(self.cells,'cells')
     hdf5.close()
     #Load mesh metadata file, if it exists
-    if meshmetafile is not None and osp.isfile(str(meshmetafile)):
+    if meshmetafile is not None:
       self.metadata=yaml_manager.readfile(meshmetafile)

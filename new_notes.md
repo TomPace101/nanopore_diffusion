@@ -14,6 +14,17 @@ _TODO_ the homogenization simulation requests don't have no property schema, and
 
 _ISSUE_ the mpi test won't work if the output isn't cleaned up first, because it just keeps appending.
 Maybe debug needs a file deletion request, which we run before the MPI test in this case.
+But see below about doit.
+
+_FEATURE_ run with doit without dodo.
+See old notes about this.
+This requires digging into doit and copying out some of its code.
+The advantage is obvious: less time waiting for things to rerun.
+Maybe, before any individual request is run,
+it's output (alone) is deleted.
+Probably don't even bother to check for deleting folders this way.
+Maybe there's a request type to help with this?
+Something new in cleanup?
 
 _ISSUE_ output pvd files are cleaned, but their corresponding vtu files are not
 This is because the request doesn't know about these files.
