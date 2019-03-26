@@ -76,9 +76,9 @@ class SimulationRequest(CustomizableRequest):
 
     - loaddata = a sequence of data loading commands to execute at simulator initialization
     
-      Each command is a triple (attrname, filepath, fieldtag), where:
+      Each command is a triple (attrpath, filepath, fieldtag), where:
       
-        - attrname = the name of the simulator attribute, as a string, to store the loaded data
+        - attrpath = the attribute path of the simulator attribute, as a string, to store the loaded data
         - filepath = path to the data file to load, as string, relative to folderstructure.datafolder
         - fieldtag = string identifying the HDF5 field name to load
     
@@ -179,7 +179,7 @@ class SimulationRequest(CustomizableRequest):
       setattr(parent,tail,val)
     return
 
-  def loadfield(self,infpath,fieldtag,attrname,idx=None):
+  def loadfield(self,infpath,fieldtag,attrpath,idx=None):
     """Load data into the simulator from an HDF5 input file
     
     Arguments:
@@ -188,55 +188,55 @@ class SimulationRequest(CustomizableRequest):
       
       - fieldtag = string identifying the HDF5 field name to load
       
-      - attrname = attribute name to load the data into, as string
+      - attrpath = attribute path to load the data into, as string
       
         Note that this attribute must already exist, and be of the proper type to receive the requested data.
       
       - idx = index number (as integer) speciying location within the given attribute, None (default) if not the attribute itself is not a sequence
     
     No return value."""
-    inputval = getattr(self,attrname)
+    inputval = self.get_nested(attrpath)
     if idx is not None:
       inputval = inputval[idx]
     hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),str(infpath),'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
 
-  def process_load_commands(self,attrname='loaddata'):
+  def process_load_commands(self,attrpath='loaddata'):
     """Process a list of load data commands
 
     Arguments:
 
-      - attrname = attribute name of self.modelparams containing the command list
+      - attrpath = attribute path of self containing the command list
 
     No return value."""
-    for cmd in getattr(self,attrname,[]):
+    for cmd in self.get_nested(attrpath):
       #Function arguments
       aname, fpath, ftag = cmd
       #Call it
       try:
         self.loadfield(fpath,ftag,aname)
       except Exception as einst:
-        print("Exception occured in %s for command: %s"%(attrname,str(cmd)), file=sys.stderr)
+        print("Exception occured in %s for command: %s"%(attrpath,str(cmd)), file=sys.stderr)
         raise einst
     return
 
-  def process_output_commands(self,attrname='dataextraction'):
+  def process_output_commands(self,attrpath='dataextraction'):
     """Process a list of data extraction commands
 
     Arguments:
 
-      - attrname = attribute name of self.modelparams containing the command list
+      - attrpath = attribute path of self.modelparams containing the command list
 
     No return value."""
-    for cmd in getattr(self,attrname,[]):
+    for cmd in self.get_nested(attrpath):
       #Function name and arguments
       funcname, kwargs = cmd
       #Call it
       try:
         getattr(self,funcname)(**kwargs)
       except Exception as einst:
-        print("Exception occured in %s for command: %s"%(attrname,str(cmd)), file=sys.stderr)
+        print("Exception occured in %s for command: %s"%(attrpath,str(cmd)), file=sys.stderr)
         raise einst
     return
 
@@ -257,7 +257,7 @@ class SimulationRequest(CustomizableRequest):
     yaml_manager.writefile(outdict,outfpath)
     return
 
-  def writefield(self,outfpath,attrname='soln',idx=None,outname=None):
+  def writefield(self,outfpath,attrpath='soln',idx=None,outname=None):
     """Write field to VTK or HDF5 file
 
     Arguments:
@@ -267,13 +267,13 @@ class SimulationRequest(CustomizableRequest):
         If the filename ends with ".hdf5" (case insensitive), an HDF5 file is created.
         Otherwise, the filetype is selected by FEniCS.
 
-      - attrname = name of attribute to output, as string, defaults to 'soln'
+      - attrpath = attribute path to output, as string, defaults to 'soln'
       
       - idx = index number (as integer) of the solution field to write out, None (default) if not a sequence
       
       - outname = optional output field name within output file, as string, supported only for HDF5 format.
       
-        If not provided, output field name defaults to value calculated from attrname and idx.
+        If not provided, output field name defaults to value calculated from attrpath and idx.
 
     Required attributes:
 
@@ -284,13 +284,13 @@ class SimulationRequest(CustomizableRequest):
     No return value.
 
     Output file is written."""
-    output = getattr(self,attrname)
+    output = self.get_nested(attrpath)
     if idx is not None:
       output = output[idx]
     if outfpath.suffix.lower()=='.hdf5':
       #HDF5 format
       if outname is None:
-        fieldtag=attrname
+        fieldtag=attrpath
         if idx is not None:
           fieldtag+='_%d'%idx
       else:
@@ -325,12 +325,12 @@ class SimulationRequest(CustomizableRequest):
     No other side-effects."""
     setattr(self,namesplit,getattr(self,namewhole).split())
 
-  def domain_volume(self,attrname='volume',dxname='dx'):
+  def domain_volume(self,attrpath='volume',dxname='dx'):
     """Get the domain volume from integration
     
     Arguments:
     
-      - attrname = optional, name of attribute for storing results, as string
+      - attrpath = optional, attribute path for storing results, as string
       - dxname = optional, name of attribute with fenics domain volume measure, defaults to "dx"
     
     New attribute added/overwritten.
@@ -338,15 +338,15 @@ class SimulationRequest(CustomizableRequest):
     No output files."""
     dx=getattr(self,dxname)
     volume=fem.assemble(fem.Constant(1)*dx)
-    setattr(self,attrname,volume)
+    self.set_nested(attrpath,volume)
 
-  def facet_area(self,pfacet,attrname,internal=False):
+  def facet_area(self,pfacet,attrpath,internal=False):
     """Compute the area of the specified facet.
 
     Arguments:
 
       - pfacet = physical facet number of facet to calculate area of
-      - attrname = attribute name for storage of result
+      - attrpath = attribute path for storage of result
       - internal = boolean, default False, True for internal boundary, False for external
 
     Required attributes:
@@ -393,7 +393,7 @@ class SimulationRequest(CustomizableRequest):
       coords+=(v,)
     return coords
 
-  # def line_profile(self,startloc,endloc,num,plotname,label,attrname='soln',indep=None,idx=None):
+  # def line_profile(self,startloc,endloc,num,plotname,label,attrpath='soln',indep=None,idx=None):
   #   """Get data to plot a result along the specified line at a single point in time
   # 
   #   Arguments:
@@ -404,7 +404,7 @@ class SimulationRequest(CustomizableRequest):
   #     - indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based) (omit to use distance from start point)
   #     - plotname = name of plot in outdata.plots, as string
   #     - label = series label to assign, as string
-  #     - attrname = name of attribute to output, as string, defaults to 'soln'
+  #     - attrpath = attribute path to output, as string, defaults to 'soln'
   #     - indep = identifier for independent variable:
   #         integer 0-d to use that coordinate of the point, or
   #         None (default) to use distance from the start point
@@ -421,7 +421,7 @@ class SimulationRequest(CustomizableRequest):
   # 
   #   Series is added to ``outdata.plots``.""" ##TODO: we don't have outdata now
   #   #Get the object with the data
-  #   vals=getattr(self,attrname)
+  #   vals=self.get_nested(attrpath)
   #   if idx is not None:
   #     vals = vals[idx]
   #   #Get the points for data extraction

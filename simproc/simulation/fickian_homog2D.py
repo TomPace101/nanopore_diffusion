@@ -128,7 +128,7 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     #Solve
     self.solver.solve()
 
-  def macroscale_diffusion(self,name="D_macro",attrname="soln",volname="volume"):
+  def macroscale_diffusion(self,name="D_macro",attrpath="soln",volpath="volume"):
     """Perform the integral to obtain the homogenized diffusion constant
     
     Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
@@ -136,21 +136,21 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     Arguments:
 
       - name = optional, name for storage in the results dictionary, as string
-      - attrname = optional, name for the attribute storing the solution (the result for chi)
-      - volname = optional, name for the attribute storing the unit cell volume.
+      - attrpath = optional, attribute path storing the solution (the result for chi)
+      - volpath = optional, attribute path storing the unit cell volume.
           
     Required attributes (other than those from simulator_general):
     
-      - the attribute given by attrname
+      - the attribute given by attrpath
       - dx = FEniCS Measure for cells
       - D = FEniCS Function with the diffusion constant
     
     New attribute created/overwitten.
     No return value.
     No output files."""
-    volume=getattr(self,volname)
+    volume=self.get_nested(volpath)
     kdelta = lambda i,j: 1 if i==j else 0 #Kronecker delta
-    soln=getattr(self,attrname)
+    soln=self.get_nested(attrpath)
     gradchi=fem.grad(soln)
     matr=[]
     for ii in range(2):

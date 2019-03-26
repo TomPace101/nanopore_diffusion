@@ -5,6 +5,11 @@ First, make a branch tracking what is now the master branch.
 _TODO_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
 
+_TODO_ should attribute paths be moved up to request itself?
+Maybe we need better names than get_nested and set_nested.
+Maybe we need a better name than "attrpath" ("attribute path").
+For one thing, that makes it sound like its a filesystem path.
+
 _FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
 This is to help avoid FFC cache collisions.
 

@@ -18,8 +18,8 @@
     elementorder: 3
     boundaries: [1121, 2122, 1222, 1112]
   dataextraction:
-    - [domain_volume, {attrname: domain_volume}]
-    - [macroscale_diffusion, {volname: cell_volume}]
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     - [writefield, {filename: !OutputFile chi.pvd}]
     - - reportvalues
       - outfpath: !OutputFile info.yaml
