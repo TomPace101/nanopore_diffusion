@@ -1,3 +1,23 @@
 %YAML 1.2
 ---
 - !HomogFickian2DSimulator
+  name: simulation.homog2D
+  mesh: !InputFile testmesh.hdf5
+  metadata:
+    cell_volume: 20.3
+  loaddata:
+     - [D, !InputFile spatial_D.hdf5, spatial_D]
+  conditions:
+    elementorder: 3
+    boundaries: [1121, 2122, 1222, 1112]
+  dataextraction:
+    - [domain_volume, {attrname: domain_volume}]
+    - [macroscale_diffusion, {volname: cell_volume}]
+    - [writefield, {filename: chi.pvd}]
+    - - reportvalues
+      - outfpath: !OutputFile info.yaml
+        mapping:
+          cell_volume: metadata.cell_volume
+          domain_volume: domain_volume
+          D_macro: D_macro
+  

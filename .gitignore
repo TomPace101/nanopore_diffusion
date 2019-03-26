@@ -27,6 +27,7 @@ data/solutions/*/
 *.vtu
 *.pkl
 *.pkl.gz
+*.hdf5
 
 #Problem description output
 *.aux

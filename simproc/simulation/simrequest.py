@@ -305,12 +305,12 @@ class SimulationRequest(CustomizableRequest):
     No other side-effects."""
     setattr(self,namesplit,getattr(self,namewhole).split())
 
-  def domain_volume(self,attrname,dxname='dx'):
+  def domain_volume(self,attrname='volume',dxname='dx'):
     """Get the domain volume from integration
     
     Arguments:
     
-      - attrname = name of attribute for storing results, as string
+      - attrname = optional, name of attribute for storing results, as string
       - dxname = optional, name of attribute with fenics domain volume measure, defaults to "dx"
     
     New attribute added/overwritten.
@@ -436,5 +436,5 @@ class SimulationRequest(CustomizableRequest):
   #   return
 
 #Register for loading from yaml
-register_classes([SimulationRequest])
+yaml_manager.register_classes([SimulationRequest])
 

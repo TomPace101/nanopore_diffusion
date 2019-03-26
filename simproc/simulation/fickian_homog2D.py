@@ -7,6 +7,7 @@ and extract the data needed for post-processing efforts"""
 import fenics as fem
 
 #This package
+from ..requesthandler import yaml_manager
 from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
@@ -123,5 +124,40 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     #Solve
     self.solver.solve()
 
+  def macroscale_diffusion(self,name="D_macro",attrname="soln",volname="volume"):
+    """Perform the integral to obtain the homogenized diffusion constant
+    
+    Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
+
+    Arguments:
+
+      - name = optional, name for storage in the results dictionary, as string
+      - attrname = optional, name for the attribute storing the solution (the result for chi)
+      - volname = optional, name for the attribute storing the unit cell volume.
+          
+    Required attributes (other than those from simulator_general):
+    
+      - the attribute given by attrname
+      - dx = FEniCS Measure for cells
+      - D = FEniCS Function with the diffusion constant
+    
+    New attribute created/overwitten.
+    No return value.
+    No output files."""
+    volume=getattr(self,volname)
+    kdelta = lambda i,j: 1 if i==j else 0 #Kronecker delta
+    soln=getattr(self,attrname)
+    gradchi=fem.grad(soln)
+    matr=[]
+    for ii in range(2):
+      row=[]
+      for jj in range(2):
+        term1=kdelta(ii,jj)*fem.assemble(self.D*self.dx)
+        term2=fem.assemble(self.D*gradchi[jj,ii]*self.dx)
+        val=(term1-term2)/volume
+        row.append(val)
+      matr.append(row)
+    self.results[name]=matr
+
 #Register for loading from yaml
-register_classes([HomogFickian2DSimulator])
+yaml_manager.register_classes([HomogFickian2DSimulator])

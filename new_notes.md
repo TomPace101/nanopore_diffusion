@@ -2,6 +2,9 @@
 _TODO_ go ahead and switch request refactoring into the master
 First, make a branch tracking what is now the master branch.
 
+_TODO_ There are input files for the simulation test that aren't tracked in git.
+We need to have another validation step generate this file first.
+
 _FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
 This is to help avoid FFC cache collisions.
 
