@@ -4,7 +4,7 @@
 import fenics as fem
 
 #This package
-from ..requesthandler.customization import CustomizableRequest
+from ..requesthandler.customization import CustomizableRequest, make_schema
 from ..requesthandler import yaml_manager
 from .meshinfo import MeshInfo
 
@@ -82,7 +82,7 @@ class SimulationRequest(CustomizableRequest):
   _self_task=True
   _required_attrs=['mesh','conditions']
   _inputfile_attrs=['mesh','meshmeta']
-  _props_schema=readyaml(_SimulationRequest_props_schema_yaml)
+  _props_schema=make_schema(_SimulationRequest_props_schema_yaml)
 
   def __init__(self,**kwargs):
     #Initialization from base class

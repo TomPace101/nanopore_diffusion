@@ -45,11 +45,83 @@ _HomogFickian2DSimulator_props_schema_yaml="""#HomogFickian2DSimulator
 """
 
 class HomogFickian2DSimulator(simrequest.SimulationRequest):
-  """Base class for FEniCS simulations
+  """Simulator for 2D Homogenized Fickian Diffusion
+  
+  Isotropy of the input diffusion constant is assumed.
   
   User-defined attributes:
   
     - """
+    
+  def run_sim(self):
+
+    #Periodic boundary condition
+    xkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='X']
+    ykeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Y']
+    xvals=[self.meshinfo.metadata[k] for k in xkeys]
+    yvals=[self.meshinfo.metadata[k] for k in ykeys]
+    xlims=(min(xvals),max(xvals))
+    ylims=(min(yvals),max(yvals))
+    pbc = PeriodicBoundary(xlims,ylims)
+
+    #Function Spaces and Functions
+    #Function spaces
+    self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', self.conditions.elementorder, constrained_domain=pbc)
+    self.scalar_V = fem.FunctionSpace(self.meshinfo.mesh, 'P', self.conditions.elementorder)
+    #Trial and Test Functions
+    chi=fem.TrialFunction(self.V)
+    v=fem.TestFunction(self.V)
+    #Solution function
+    self.soln=fem.Function(self.V,name='chi')
+
+    self.bcs=[]
+
+    #Load diffusion constant as a Function
+    self.D=fem.Function(self.scalar_V)
+    self.process_load_commands()
+    
+    #The index objects
+    i=fem.i
+    j=fem.j
+
+    #Measure and normal for external boundaries
+    self.ds = fem.Measure('exterior_facet',domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
+    self.n = fem.FacetNormal(self.meshinfo.mesh)
+    self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
+
+    #Equation term dictionary
+    eqnterms=equationbuilder.EquationTermDict(simulator_general.EquationTerm)
+
+    #Bilinear boundary terms
+    for psurf in self.conditions.boundaries:
+      termname="bilinear_boundary_%d"%psurf
+      ufl=self.D*self.n[i]*chi[j].dx(i)*v[j]*self.ds(psurf)
+      eqnterms.add(termname,ufl,bilinear=True)
+
+    #Bilinear body terms
+    termname="bilinear_body"
+    ufl=-self.D*chi[j].dx(i)*v[j].dx(i)*self.dx
+    eqnterms.add(termname,ufl,bilinear=True)
+
+    #Linear boundary terms
+    for psurf in self.conditions.boundaries:
+      termname="linear_boundary_%d"%psurf
+      ufl=self.D*self.n[i]*v[i]*self.ds(psurf)
+      eqnterms.add(termname,ufl,bilinear=False)
+
+    #Linear body terms
+    termname="linear_body"
+    ufl=-self.D*v[i].dx(i)*self.dx
+    eqnterms.add(termname,ufl,bilinear=False)
+
+    #FEniCS Problem and Solver
+    a=eqnterms.sumterms(bilinear=True)
+    L=eqnterms.sumterms(bilinear=False)
+    problem=fem.LinearVariationalProblem(a,L,self.soln,bcs=self.bcs)
+    self.solver=fem.LinearVariationalSolver(problem)
+
+    #Solve
+    self.solver.solve()
 
 #Register for loading from yaml
 register_classes([HomogFickian2DSimulator])

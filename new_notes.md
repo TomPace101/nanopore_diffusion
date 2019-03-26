@@ -5,6 +5,8 @@ First, make a branch tracking what is now the master branch.
 _FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
 This is to help avoid FFC cache collisions.
 
+_FEATURE_ Why aren't shell requests customizable?
+
 _FEATURE_ confirm input files exist as part of pre-run check
 I wrote code to do this, then I realized that not all the input files are actually required.
 How can the code make that distinction?
