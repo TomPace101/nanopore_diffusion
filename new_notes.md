@@ -4,6 +4,7 @@ First, make a branch tracking what is now the master branch.
 
 _TODO_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
+That will require the expression projector.
 
 _TODO_ the simulation test doesn't compare the file output
 Maybe we even need a way to compare yaml files other than just bytewise.
@@ -12,6 +13,7 @@ For example, compare floats to a limited precision.
 _TODO_ the homogenization simulation requests don't have no property schema, and an incomplete docstring
 
 _ISSUE_ the mpi test won't work if the output isn't cleaned up first, because it just keeps appending.
+Maybe debug needs a file deletion request, which we run before the MPI test in this case.
 
 _ISSUE_ output pvd files are cleaned, but their corresponding vtu files are not
 This is because the request doesn't know about these files.

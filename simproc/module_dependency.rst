@@ -32,4 +32,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``onestep``: ``requesthandler``, ``gmsh_runner``, ``dconv_runner``, ``hdf5_conv``
 
 - package ``simulation``
-  - `` ``:
+  - ``meshinfo``: ``requesthandler``
+  - ``equationbuilder``: None
+  - ``simrequest``: ``requesthandler``, ``meshinfo``, ``equationbuilder``
+  - ``fickian_homog``: ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``simrequest``
