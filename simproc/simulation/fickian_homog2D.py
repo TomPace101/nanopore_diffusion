@@ -95,7 +95,7 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
 
     #Equation term dictionary
-    eqnterms=equationbuilder.EquationTermDict(simulator_general.EquationTerm)
+    eqnterms=equationbuilder.EquationTermDict()
 
     #Bilinear boundary terms
     for psurf in conditions.boundaries:

@@ -1,9 +1,13 @@
 """Base functionality for simulation requests"""
 
+#Standard library
+import sys
+
 #Site packages
 import fenics as fem
 
 #This package
+from ..requesthandler.request import resolve_any_locator
 from ..requesthandler.customization import CustomizableRequest, make_schema
 from ..requesthandler import yaml_manager
 from .meshinfo import MeshInfo
@@ -96,6 +100,7 @@ class SimulationRequest(CustomizableRequest):
     self._more_outputfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
     #Render locators
     self.resolve_locators()
+    self.resolve_command_locators()
 
   def run(self):
     #Final checks and preparatory steps
@@ -106,7 +111,21 @@ class SimulationRequest(CustomizableRequest):
     #Do the simulation
     self.run_sim()
     #Generate output, if any
-    self.process_output_command('dataextraction')
+    self.process_output_commands('dataextraction')
+    return
+
+  def resolve_command_locators(self):
+    """Search the given command list attributes for locators, and render them in-place"""
+    #Name for locator resolution
+    reqname=getattr(self,'name','')
+    #Search through load data commands
+    if hasattr(self,'loaddata'):
+      for i,cmd in enumerate(self.loaddata):
+        self.loaddata[i]=resolve_any_locator(cmd,reqname)
+    #Search through data extraction commands
+    if hasattr(self,'dataextraction'):
+      for i,cmd in enumerate(self.dataextraction):
+        self.dataextraction[i][1]=resolve_any_locator(cmd[1],reqname)
     return
 
   def run_sim(self):
@@ -165,7 +184,7 @@ class SimulationRequest(CustomizableRequest):
     
     Arguments:
     
-      - infpath = path to input file, as string, relative to folderstructure.datafolder
+      - infpath = path to input file
       
       - fieldtag = string identifying the HDF5 field name to load
       
@@ -176,11 +195,10 @@ class SimulationRequest(CustomizableRequest):
       - idx = index number (as integer) speciying location within the given attribute, None (default) if not the attribute itself is not a sequence
     
     No return value."""
-    fullpath=osp.join(FS.datafolder,infpath)
     inputval = getattr(self,attrname)
     if idx is not None:
       inputval = inputval[idx]
-    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),fullpath,'r')
+    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),str(infpath),'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
 
@@ -192,7 +210,7 @@ class SimulationRequest(CustomizableRequest):
       - attrname = attribute name of self.modelparams containing the command list
 
     No return value."""
-    for cmd in getattr(self.modelparams,attrname,[]):
+    for cmd in getattr(self,attrname,[]):
       #Function arguments
       aname, fpath, ftag = cmd
       #Call it

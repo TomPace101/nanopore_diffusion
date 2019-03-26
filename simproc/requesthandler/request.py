@@ -46,6 +46,25 @@ def render_locator(obj,reqname):
   else:
     return obj
 
+def resolve_any_locator(data,reqname):
+  """Check an object for the presence of locators and resolve"""
+  #Don't process strings, ints, or floats
+  if isinstance(data,str) or isinstance(data,float) or isinstance(data,int):
+    out=data
+  #Is the attribute a locator?
+  elif hasattr(data,'path'):
+    out=data.path(reqname)
+  #For a sequence, check each entry
+  elif hasattr(data,'index'):
+    out=type(data)([render_locator(itm,reqname) for itm in data])
+  #For a dictionary, check the values
+  elif hasattr(data,'items'):
+    out=type(data)([(k,render_locator(v,reqname)) for k,v in data.items()])
+  #Presume not a locator
+  else:
+    out=data
+  return out
+
 #Validation schema for Request
 #Note that validation is not applied to class attributes,
 #but some of these could be instance attributes in a subclass
@@ -142,21 +161,7 @@ class Request(object):
     for attrname in attrname_list:
       if hasattr(self,attrname):
         data=getattr(self,attrname)
-        #Don't process strings, ints, or floats
-        if isinstance(data,str) or isinstance(data,float) or isinstance(data,int):
-          out=data
-        #Is the attribute a locator?
-        elif hasattr(data,'path'):
-          out=data.path(reqname)
-        #For a sequence, check each entry
-        elif hasattr(data,'index'):
-          out=type(data)([render_locator(itm,reqname) for itm in data])
-        #For a dictionary, check the values
-        elif hasattr(data,'items'):
-          out=type(data)([(k,render_locator(v,reqname)) for k,v in data.items()])
-        #Presume not a locator
-        else:
-          out=data
+        out=resolve_any_locator(data,reqname)
         #Assign result back to attribute
         setattr(self,attrname,out)
     return
