@@ -20,7 +20,7 @@
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
-    - [writefield, {filename: !OutputFile chi.pvd}]
+    - [writefield, {outfpath: !OutputFile chi.pvd}]
     - - reportvalues
       - outfpath: !OutputFile info.yaml
         mapping:

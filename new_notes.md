@@ -5,10 +5,22 @@ First, make a branch tracking what is now the master branch.
 _TODO_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
 
+_TODO_ the simulation test doesn't compare the file output
+Maybe we even need a way to compare yaml files other than just bytewise.
+For example, compare floats to a limited precision.
+
+_ISSUE_ the mpi test won't work if the output isn't cleaned up first, because it just keeps appending.
+
+_ISSUE_ output pvd files are cleaned, but their corresponding vtu files are not
+This is because the request doesn't know about these files.
+Maybe we need a way to let cleanup know that pvd files could have multiple vtu files to go along with them.
+
 _TODO_ should attribute paths be moved up to request itself?
 Maybe we need better names than get_nested and set_nested.
 Maybe we need a better name than "attrpath" ("attribute path").
 For one thing, that makes it sound like its a filesystem path.
+At the very least, we need to explain this somewhere.
+Maybe even have an example in the tutorial.
 
 _FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
 This is to help avoid FFC cache collisions.

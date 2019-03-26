@@ -152,7 +152,7 @@ class SimulationRequest(CustomizableRequest):
         nxt = getattr(nxt,name)
       else:
         try:
-          nxt.__getitem__(name)
+          nxt=nxt.__getitem__(name)
         except:
           raise KeyError('Invalid path %s: No attribute, key, or index %s'%(dpath,name))
     return nxt
@@ -300,7 +300,7 @@ class SimulationRequest(CustomizableRequest):
       hdf5.close()
     else:
       #Format controlled by FEniCS (including VTK files: .pvd, etc.)
-      out_file=fem.File(outfpath)
+      out_file=fem.File(str(outfpath))
       out_file << output
     return
 

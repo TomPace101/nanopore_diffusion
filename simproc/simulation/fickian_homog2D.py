@@ -128,14 +128,14 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     #Solve
     self.solver.solve()
 
-  def macroscale_diffusion(self,name="D_macro",attrpath="soln",volpath="volume"):
+  def macroscale_diffusion(self,respath="D_macro",attrpath="soln",volpath="volume"):
     """Perform the integral to obtain the homogenized diffusion constant
     
     Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
 
     Arguments:
 
-      - name = optional, name for storage in the results dictionary, as string
+      - respath = optional, attribute path for storing the result
       - attrpath = optional, attribute path storing the solution (the result for chi)
       - volpath = optional, attribute path storing the unit cell volume.
           
@@ -161,7 +161,7 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
         val=(term1-term2)/volume
         row.append(val)
       matr.append(row)
-    self.results[name]=matr
+    self.set_nested(respath,matr)
 
 #Register for loading from yaml
 yaml_manager.register_classes([HomogFickian2DSimulator])
