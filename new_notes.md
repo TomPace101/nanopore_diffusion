@@ -24,6 +24,9 @@ The PeriodicBoundary classes will have to stay separate.
 This requires a way to identify the dimensionality of a mesh.
 We could put it in the mesh metadata.
 
+_ISSUE_ the mesh locators don't match the case of the others
+For that matter, are there names consistent with corresponding attributes elsewhere?
+
 _TODO_ should attribute paths be moved up to request itself?
 It could be useful in collection, too, actually, so maybe it should be its own module.
 This gets back to the idea of "memory locators".
