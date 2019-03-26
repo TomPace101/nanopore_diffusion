@@ -49,6 +49,15 @@ metadata:
 class SimulationRequest(CustomizableRequest):
   """Base class for FEniCS simulations
   
+  The `run` method of this class includes only basic functionality:
+
+    - Do the standard pre-run checks
+    - Load the mesh
+    - Call the method `run_sim`, which is to be defined by derived classes or customization
+    - Process the output commands.
+  
+  Of course, even this simple behavior can be overidden through customization if desired.
+  
   User-defined attributes:
   
     - mesh: path to mesh hdf5 file
@@ -85,6 +94,22 @@ class SimulationRequest(CustomizableRequest):
     #Get output files from data extraction commands
     self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
     self._more_outputfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
+
+  def run(self):
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Load the mesh
+    meshmeta=getattr(self,'meshmeta',None)
+    self.meshinfo=Meshinfo(self.mesh,meshmeta)
+    #Do the simulation
+    self.run_sim()
+    #Generate output, if any
+    self.process_output_command('dataextraction')
+    return
+
+  def run_sim(self):
+    "Method to be overridden by derived classes"
+    raise NotImplementedError("%s did not override 'run_sim' method."%str(type(self)))
 
   def get_nested(self,dpath):
     """Return the value from the specified attribute/key/index path
@@ -184,7 +209,7 @@ class SimulationRequest(CustomizableRequest):
       - attrname = attribute name of self.modelparams containing the command list
 
     No return value."""
-    for cmd in getattr(self.modelparams,attrname,[]):
+    for cmd in getattr(self,attrname,[]):
       #Function name and arguments
       funcname, kwargs = cmd
       #Call it
