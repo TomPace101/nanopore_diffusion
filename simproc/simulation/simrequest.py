@@ -262,13 +262,28 @@ class SimulationRequest(CustomizableRequest):
     No other side-effects."""
     setattr(self,namesplit,getattr(self,namewhole).split())
 
-  def facet_area(self,pfacet,name,internal=False):
+  def domain_volume(self,attrname,dxname='dx'):
+    """Get the domain volume from integration
+    
+    Arguments:
+    
+      - attrname = name of attribute for storing results, as string
+      - dxname = optional, name of attribute with fenics domain volume measure, defaults to "dx"
+    
+    New attribute added/overwritten.
+    No return value.
+    No output files."""
+    dx=getattr(self,dxname)
+    volume=fem.assemble(fem.Constant(1)*dx)
+    setattr(self,attrname,volume)
+
+  def facet_area(self,pfacet,attrname,internal=False):
     """Compute the area of the specified facet.
 
     Arguments:
 
       - pfacet = physical facet number of facet to calculate area of
-      - name = name for storage in the results dictionary
+      - attrname = attribute name for storage of result
       - internal = boolean, default False, True for internal boundary, False for external
 
     Required attributes:
@@ -276,9 +291,7 @@ class SimulationRequest(CustomizableRequest):
       - mesh = FEniCS Mesh object
       - facet = FEniCS MeshFunction object for facet numbers
 
-    No new attributes.
-
-    New item(s) added to results dictionary.
+    New attribute added/overwritten.
 
     No return value."""
     if internal:
@@ -287,7 +300,7 @@ class SimulationRequest(CustomizableRequest):
       integral_type='exterior_facet'
     this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
     calcarea=fem.assemble(fem.Constant(1)*this_ds(pfacet))
-    self.results[name]=calcarea
+    setattr(self,name,calcarea)
     return
 
   def get_pointcoords(self,location):
@@ -317,69 +330,67 @@ class SimulationRequest(CustomizableRequest):
       coords+=(v,)
     return coords
 
-  def line_profile(self,startloc,endloc,num,plotname,label,attrname='soln',indep=None,idx=None):
-    """Get data to plot a result along the specified line at a single point in time
-
-    Arguments:
-
-      - startloc = argument to get_pointcoords for start of line
-      - endloc = argument to get_pointcoords for end of line
-      - num = number of sampled points
-      - indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based) (omit to use distance from start point)
-      - plotname = name of plot in outdata.plots, as string
-      - label = series label to assign, as string
-      - attrname = name of attribute to output, as string, defaults to 'soln'
-      - indep = identifier for independent variable:
-          integer 0-d to use that coordinate of the point, or
-          None (default) to use distance from the start point
-      - idx = index of the solution field to write out, None (default) if not a sequence
-
-    Required attributes:
-
-      - outdata = instance of OutData
-      - mesh_metadata = only required if needed by location specifiers, dictionary of mesh metadata
-
-    No new attributes.
-
-    Nothing added to results dictionary.
-
-    No return value.
-
-    Series is added to ``outdata.plots``."""
-    #Get the object with the data
-    vals=getattr(self,attrname)
-    if idx is not None:
-      vals = vals[idx]
-    #Get the points for data extraction
-    assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
-    startcoords=self.get_pointcoords(startloc)
-    endcoords=self.get_pointcoords(endloc)
-    start_ends=[itm for itm in zip(startcoords,endcoords)]
-    ranges=[np.linspace(start,end,num) for start,end in start_ends]
-    points=[t for t in zip(*ranges)]
-    #Function to calculate independent variable for a given point
-    if indep is None:
-      indep_f = lambda pt: np.sqrt(sum([(startcoords[i]-c)**2 for i,c in enumerate(pt)]))
-    else:
-      indep_f = lambda pt: pt[indep]
-    #Extract data points
-    llist=[]
-    vlist=[]
-    for pt in points:
-      try:
-        vlist.append(vals(*pt))
-        llist.append(indep_f(pt))
-      except RuntimeError:
-        pass #point is not inside mesh; skip
-    #Create PlotSeries
-    larr=np.array(llist)
-    varr=np.array(vlist)
-    series=plotdata.PlotSeries(xvals=larr,yvals=varr,label=label)
-    #Store data
-    if not plotname in self.outdata.plots.keys():
-      self.outdata.plots[plotname]=[]
-    self.outdata.plots[plotname].append(series)
-    return
+  # def line_profile(self,startloc,endloc,num,plotname,label,attrname='soln',indep=None,idx=None):
+  #   """Get data to plot a result along the specified line at a single point in time
+  # 
+  #   Arguments:
+  # 
+  #     - startloc = argument to get_pointcoords for start of line
+  #     - endloc = argument to get_pointcoords for end of line
+  #     - num = number of sampled points
+  #     - indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based) (omit to use distance from start point)
+  #     - plotname = name of plot in outdata.plots, as string
+  #     - label = series label to assign, as string
+  #     - attrname = name of attribute to output, as string, defaults to 'soln'
+  #     - indep = identifier for independent variable:
+  #         integer 0-d to use that coordinate of the point, or
+  #         None (default) to use distance from the start point
+  #     - idx = index of the solution field to write out, None (default) if not a sequence
+  # 
+  #   Required attributes:
+  # 
+  #     - outdata = instance of OutData
+  #     - mesh_metadata = only required if needed by location specifiers, dictionary of mesh metadata
+  # 
+  #   No new attributes.
+  # 
+  #   No return value.
+  # 
+  #   Series is added to ``outdata.plots``.""" ##TODO: we don't have outdata now
+  #   #Get the object with the data
+  #   vals=getattr(self,attrname)
+  #   if idx is not None:
+  #     vals = vals[idx]
+  #   #Get the points for data extraction
+  #   assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
+  #   startcoords=self.get_pointcoords(startloc)
+  #   endcoords=self.get_pointcoords(endloc)
+  #   start_ends=[itm for itm in zip(startcoords,endcoords)]
+  #   ranges=[np.linspace(start,end,num) for start,end in start_ends]
+  #   points=[t for t in zip(*ranges)]
+  #   #Function to calculate independent variable for a given point
+  #   if indep is None:
+  #     indep_f = lambda pt: np.sqrt(sum([(startcoords[i]-c)**2 for i,c in enumerate(pt)]))
+  #   else:
+  #     indep_f = lambda pt: pt[indep]
+  #   #Extract data points
+  #   llist=[]
+  #   vlist=[]
+  #   for pt in points:
+  #     try:
+  #       vlist.append(vals(*pt))
+  #       llist.append(indep_f(pt))
+  #     except RuntimeError:
+  #       pass #point is not inside mesh; skip
+  #   #Create PlotSeries
+  #   larr=np.array(llist)
+  #   varr=np.array(vlist)
+  #   series=plotdata.PlotSeries(xvals=larr,yvals=varr,label=label) ##TODO
+  #   #Store data
+  #   if not plotname in self.outdata.plots.keys(): ##TODO we don't have outdata now
+  #     self.outdata.plots[plotname]=[]
+  #   self.outdata.plots[plotname].append(series)
+  #   return
 
 #Register for loading from yaml
 register_classes([SimulationRequest])
