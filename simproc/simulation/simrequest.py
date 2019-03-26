@@ -5,6 +5,7 @@ import fenics as fem
 
 #This package
 from ..requesthandler.customization import CustomizableRequest
+from ..requesthandler import yaml_manager
 from .meshinfo import MeshInfo
 
 def list_outputfiles(cmdlist):
@@ -21,8 +22,8 @@ def list_outputfiles(cmdlist):
   Return:
 
     - outfiles = list of generated output files (names only, not including their folder)"""
-  #Currently, we assume all files can only come from the 'filename' argument
-  filearg_list=['filename']
+  #This is a bit of a guess: we assume we know the argument names that can hold output file paths
+  filearg_list=['filename','outfpath']
   outfiles=[]
   for cmdname, arguments in cmdlist:
     #Check all possible arguments that could contain the name of an output file
@@ -192,6 +193,23 @@ class SimulationRequest(CustomizableRequest):
       except Exception as einst:
         print("Exception occured in %s for command: %s"%(attrname,str(cmd)), file=sys.stderr)
         raise einst
+    return
+
+  def reportvalues(self,outfpath,mapping):
+    """Write the selected output results to a yaml file
+    
+    Arguments:
+    
+      - outfpath = path to the output yaml file
+      - mapping = mapping of output field names to object paths suitable for get_nested
+    
+    No attributes modified.
+    Output file is created/overwritten.
+    No return value."""
+    outdict={}
+    for key,dpath in mapping.items():
+      outdict[key]=self.get_nested(dpath)
+    yaml_manager.writefile(outdict,outfpath)
     return
 
   def writefield(self,outfpath,attrname='soln',idx=None,outname=None):
