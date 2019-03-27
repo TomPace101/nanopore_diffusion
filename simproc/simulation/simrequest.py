@@ -104,32 +104,17 @@ class SimulationRequest(CustomizableRequest):
     self._more_outputfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
     #Render locators
     self.resolve_locators()
-    self.resolve_command_locators()
 
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
     #Load the mesh
     meshmeta=getattr(self,'meshmeta',None)
-    self.meshinfo=MeshInfo(str(self.mesh),meshmeta)
+    self.meshinfo=MeshInfo(self.render(self.mesh),meshmeta)
     #Do the simulation
     self.run_sim()
     #Generate output, if any
     self.process_output_commands('dataextraction')
-    return
-
-  def resolve_command_locators(self):
-    """Search the given command list attributes for locators, and render them in-place"""
-    #Name for locator resolution
-    reqname=getattr(self,'name','')
-    #Search through load data commands
-    if hasattr(self,'loaddata'):
-      for i,cmd in enumerate(self.loaddata):
-        self.loaddata[i]=resolve_any_locator(cmd,reqname)
-    #Search through data extraction commands
-    if hasattr(self,'dataextraction'):
-      for i,cmd in enumerate(self.dataextraction):
-        self.dataextraction[i][1]=resolve_any_locator(cmd[1],reqname)
     return
 
   def run_sim(self):
@@ -202,7 +187,7 @@ class SimulationRequest(CustomizableRequest):
     inputval = self.get_nested(attrpath)
     if idx is not None:
       inputval = inputval[idx]
-    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),str(infpath),'r')
+    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),self.render(infpath),'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
 
@@ -258,7 +243,7 @@ class SimulationRequest(CustomizableRequest):
     outdict={}
     for key,dpath in mapping.items():
       outdict[key]=self.get_nested(dpath)
-    yaml_manager.writefile(outdict,outfpath)
+    yaml_manager.writefile(outdict,self.render(outfpath))
     return
 
   def writefield(self,outfpath,attrpath='soln',idx=None,outname=None):
@@ -291,7 +276,7 @@ class SimulationRequest(CustomizableRequest):
     output = self.get_nested(attrpath)
     if idx is not None:
       output = output[idx]
-    if outfpath.suffix.lower()=='.hdf5':
+    if self.render(outfpath)[-5:].lower()=='.hdf5':
       #HDF5 format
       if outname is None:
         fieldtag=attrpath
@@ -304,7 +289,7 @@ class SimulationRequest(CustomizableRequest):
       hdf5.close()
     else:
       #Format controlled by FEniCS (including VTK files: .pvd, etc.)
-      out_file=fem.File(str(outfpath))
+      out_file=fem.File(self.render(outfpath))
       out_file << output
     return
 

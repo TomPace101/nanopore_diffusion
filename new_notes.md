@@ -9,6 +9,9 @@ xml, yaml, hdf5.
 _TODO_ go ahead and switch request refactoring into the master
 First, make a branch tracking what is now the master branch.
 
+_TODO_ try to switch all locator rendering to the late method.
+Maybe it won't work, but you can try.
+
 _TODO_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
 That will require the expression projector.
