@@ -137,6 +137,7 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     self.solver=fem.LinearVariationalSolver(problem)
 
     #Solve
+    self.solver.parameters['linear_solver']='petsc'
     self.solver.solve()
 
   def macroscale_diffusion(self,respath="D_macro",attrpath="soln",volpath="volume"):
