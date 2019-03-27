@@ -2,6 +2,7 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+from copy import deepcopy
 import itertools
 
 #Site packages
@@ -109,8 +110,8 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
         variation_fields=dict(zip(variation_fieldnames,variation_values))
         #Put the fields together
         fields={'index':index}
-        fields.update(const_fields)
-        fields.update(variation_fields)
+        fields.update(deepcopy(const_fields))
+        fields.update(deepcopy(variation_fields))
         fields.update(opc_fields)
         #Obtain arguments for child request constructor
         child_kwargs=self.get_child_kwargs(**fields)
