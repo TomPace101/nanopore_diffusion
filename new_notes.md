@@ -1,4 +1,11 @@
 
+_ISSUE_ gmsh version change has broken some mesh file comparisons.
+This was already an issue with the hdf5.
+We need a better way to do this.
+Maybe have a file size comparison list, like we have a list for file comparisons.
+Maybe even set up deeper inspection classes for particular file types:
+xml, yaml, hdf5.
+
 _TODO_ go ahead and switch request refactoring into the master
 First, make a branch tracking what is now the master branch.
 
