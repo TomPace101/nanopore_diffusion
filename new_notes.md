@@ -10,6 +10,9 @@ _TODO_ go ahead and switch request refactoring into the master
 First, make a branch tracking what is now the master branch.
 
 _TODO_ try to switch all locator rendering to the late method.
+The challenge is that sometimes you're working with locators that belong to a different request.
+So you've got to watch out for that, and have access to the request, not just its locators.
+(This is actually closer to the way it worked before: ParameterSet has methods for constructing file paths.)
 Maybe it won't work, but you can try.
 
 _TODO_ There are input files for the simulation test that aren't tracked in git.
