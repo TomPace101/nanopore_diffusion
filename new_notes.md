@@ -6,8 +6,12 @@ Maybe have a file size comparison list, like we have a list for file comparisons
 Maybe even set up deeper inspection classes for particular file types:
 xml, yaml, hdf5.
 
+_TODO_ use `mesh.geometry().dim()` to get number of dimensions in a mesh.
+
 _TODO_ go ahead and switch request refactoring into the master
 First, make a branch tracking what is now the master branch.
+
+_TODO_ bring in the series object from old postproc, so line_profile will work
 
 _TODO_ try to switch all locator rendering to the late method.
 The challenge is that sometimes you're working with locators that belong to a different request.
