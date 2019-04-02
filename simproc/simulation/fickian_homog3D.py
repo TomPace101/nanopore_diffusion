@@ -92,9 +92,11 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
 
     #Load diffusion constant as a Function
-    # self.D=fem.Function(self.scalar_V)
-    # self.process_load_commands()
-    self.D = fem.Constant(1)
+    if hasattr(self,'loaddata'):
+      self.D=fem.Function(self.scalar_V)
+      self.process_load_commands()
+    else:
+      self.D = fem.Constant(1)
     
     #The index objects
     i=fem.i
