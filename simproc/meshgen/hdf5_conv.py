@@ -18,11 +18,11 @@ mesh_xml: {type: pathlike}
 facet_xml:
   anyOf:
     - {type: pathlike}
-    - {type: null}
+    - {type: 'null'}
 cell_xml:
   anyOf:
     - {type: pathlike}
-    - {type: null}
+    - {type: 'null'}
 mesh_hdf5file: {type: pathlike}"""
 
 class HDF5ConvertRequest(Request):
