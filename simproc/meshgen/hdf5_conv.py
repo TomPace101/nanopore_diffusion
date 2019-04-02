@@ -15,8 +15,14 @@ locators.folder_structure.update(mesh_hdf5file=['mesh','output',0,'hdf5'])
 _HDF5ConvertRequest_props_schema_yaml="""#HDF5ConvertRequest
 name: {type: string}
 mesh_xml: {type: pathlike}
-facet_xml: {type: pathlike}
-cell_xml: {type: pathlike}
+facet_xml:
+  anyOf:
+    - {type: pathlike}
+    - {type: null}
+cell_xml:
+  anyOf:
+    - {type: pathlike}
+    - {type: null}
 mesh_hdf5file: {type: pathlike}"""
 
 class HDF5ConvertRequest(Request):
