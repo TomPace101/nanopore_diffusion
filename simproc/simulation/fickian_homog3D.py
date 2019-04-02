@@ -89,7 +89,14 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     self.soln=fem.Function(self.V,name='chi')
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
+    if isinstance(conditions.dirichlet,dict):
+      self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
+    else:
+      #This is a temporary workaround for the zeolite meshes that don't have meshfunctions
+      val=conditions.dirichlet
+      def boundary(x, on_boundary):
+        return on_boundary
+      self.bcs=[fem.DirichletBC(self.V,val,boundary)]
 
     #Load diffusion constant as a Function
     if hasattr(self,'loaddata'):
