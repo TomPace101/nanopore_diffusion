@@ -44,6 +44,8 @@ mesh:
   type: pathlike
 meshmeta:
   type: pathlike
+hasmeshfuncs:
+  type: boolean
 conditions:
   type: object
 dataextraction:
@@ -70,6 +72,7 @@ class SimulationRequest(CustomizableRequest):
   
     - mesh: path to mesh hdf5 file
     - meshmeta: optional, path to mesh metadata yaml file
+    - hasmeshfuncs: optional, False to avoid loading mesh functions
     - conditions: dictionary specifying model conditions such as element order, boundary conditions, etc.
     - dataextraction = a sequence of data extraction commands to execute after solving the model
 

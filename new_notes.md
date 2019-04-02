@@ -84,6 +84,9 @@ _ISSUE_ There's something weird in `request.py`.
 Now `confirm_inputfiles` does the same thing.
 Maybe we need a way to specify input/output files for this request alone, or this request with children.
 
+_FEATURE_ it would be better if meshinfo could query the HDF5 file about its components
+rather than requiring a keyword argument.
+
 # Refactoring
 
 - DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
