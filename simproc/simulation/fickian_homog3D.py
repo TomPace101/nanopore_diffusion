@@ -66,15 +66,15 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     conditions=Namespace(**self.conditions)
 
     #Periodic boundary condition
-    xkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='X']
-    ykeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Y']
-    zkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Z']
-    xvals=[self.meshinfo.metadata[k] for k in xkeys]
-    yvals=[self.meshinfo.metadata[k] for k in ykeys]
-    zvals=[self.meshinfo.metadata[k] for k in zkeys]
-    xlims=(min(xvals),max(xvals))
-    ylims=(min(yvals),max(yvals))
-    zlims=(min(zvals),max(zvals))
+    # xkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='X']
+    # ykeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Y']
+    # zkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Z']
+    # xvals=[self.meshinfo.metadata[k] for k in xkeys]
+    # yvals=[self.meshinfo.metadata[k] for k in ykeys]
+    # zvals=[self.meshinfo.metadata[k] for k in zkeys]
+    # xlims=(min(xvals),max(xvals))
+    # ylims=(min(yvals),max(yvals))
+    # zlims=(min(zvals),max(zvals))
     # pbc = PeriodicBoundary3D(xlims,ylims,zlims)
 
     #Function Spaces and Functions
