@@ -49,6 +49,10 @@ class DataFile(object):
   @classmethod
   def from_yaml(cls, constructor, node):
     return cls(node.value)
+  @classmethod
+  def to_yaml(cls, representer, node):
+    return representer.represent_scalar("!"+cls.__name__,str(node.subpath))
+    
 
 def locator_factory(ltype):
   """Factory function to return a locator class for a given name
