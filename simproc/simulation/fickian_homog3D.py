@@ -5,6 +5,7 @@ and extract the data needed for post-processing efforts"""
 from argparse import Namespace
 
 #Site packages
+import numpy as np
 import fenics as fem
 
 #This package
@@ -12,6 +13,8 @@ from ..requesthandler import yaml_manager
 from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
+
+BOUNDTOL=1e-6
 
 ##TODO
 #Modify the class below to be 3D
@@ -65,18 +68,6 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     #For convenience
     conditions=Namespace(**self.conditions)
 
-    #Periodic boundary condition
-    # xkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='X']
-    # ykeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Y']
-    # zkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Z']
-    # xvals=[self.meshinfo.metadata[k] for k in xkeys]
-    # yvals=[self.meshinfo.metadata[k] for k in ykeys]
-    # zvals=[self.meshinfo.metadata[k] for k in zkeys]
-    # xlims=(min(xvals),max(xvals))
-    # ylims=(min(yvals),max(yvals))
-    # zlims=(min(zvals),max(zvals))
-    # pbc = PeriodicBoundary3D(xlims,ylims,zlims)
-
     #Function Spaces and Functions
     #Function spaces
     # self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder, constrained_domain=pbc)
@@ -88,6 +79,25 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     #Solution function
     self.soln=fem.Function(self.V,name='chi')
 
+    #Periodic boundary condition
+    spatial_dims=self.meshinfo.mesh.geometry().dim()
+    Npts=self.scalar_V.dim()
+    # xkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='X']
+    # ykeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Y']
+    # zkeys=[k for k in self.meshinfo.metadata.keys() if k[0].upper()=='Z']
+    # xvals=[self.meshinfo.metadata[k] for k in xkeys]
+    # yvals=[self.meshinfo.metadata[k] for k in ykeys]
+    # zvals=[self.meshinfo.metadata[k] for k in zkeys]
+    # xlims=(min(xvals),max(xvals))
+    # ylims=(min(yvals),max(yvals))
+    # zlims=(min(zvals),max(zvals))
+    ptcoords=self.scalar_V.tabulate_dof_coordinates().reshape(Npts,spatial_dims)
+    lowerlims=tuple([np.amin(ptcoords[:,i]) for i in range(spatial_dims)])
+    upperlims=tuple([np.amax(ptcoords[:,i]) for i in range(spatial_dims)])
+    pairedlims=list(zip(lowerlims,upperlims))
+    xlims,ylims,zlims=pairedlims
+    # pbc = PeriodicBoundary3D(xlims,ylims,zlims)
+
     #Dirichlet boundary conditions
     if isinstance(conditions.dirichlet,dict):
       self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
@@ -95,7 +105,12 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
       #This is a temporary workaround for the zeolite meshes that don't have meshfunctions
       val=conditions.dirichlet
       def boundary(x, on_boundary):
-        return on_boundary
+        ans = False
+        for i in range(spatial_dims):
+          for j in range(2):
+            ans = ans or fem.near(x[i],pairedlims[i][j],BOUNDTOL)
+        ans = ans and on_boundary
+        return ans
       self.bcs=[fem.DirichletBC(self.V,val,boundary)]
 
     #Load diffusion constant as a Function
@@ -146,7 +161,8 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     self.solver=fem.LinearVariationalSolver(problem)
 
     #Solve
-    self.solver.parameters['linear_solver']='petsc'
+    self.solver.parameters['linear_solver']='gmres'
+    self.solver.parameters['preconditioner']='ilu'
     self.solver.solve()
 
   def macroscale_diffusion(self,respath="D_macro",attrpath="soln",volpath="volume"):
