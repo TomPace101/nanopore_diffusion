@@ -163,6 +163,7 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     #Solve
     self.solver.parameters['linear_solver']='gmres'
     self.solver.parameters['preconditioner']='ilu'
+    self.solver.parameters['krylov_solver']['absolute_tolerance']=1e-12
     self.solver.solve()
 
   def macroscale_diffusion(self,respath="D_macro",attrpath="soln",volpath="volume"):
