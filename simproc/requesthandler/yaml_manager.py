@@ -49,11 +49,11 @@ def filedone():
   global now_loading
   now_loading.pop()
 
-def read(s):
+def readstring(s):
   """Syntactic sugar for yaml.load()"""
   return yaml.load(s)
 
-def yamlstring(obj):
+def writestring(obj):
   """like json.dumps but for yaml"""
   with io.StringIO() as strm:
     yaml.dump(obj,strm)

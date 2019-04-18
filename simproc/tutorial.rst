@@ -122,11 +122,11 @@ Here is a complete example of the use of locators.
   
   >>> locators.folder_structure.update(TestLocator=['testing'])
   >>> ys1="!TestLocator test.dat"
-  >>> loc=yaml_manager.read(ys1)
+  >>> loc=yaml_manager.readstring(ys1)
   >>> loc.path("This string won't appear in the path because of the locator definition")
   Path('data/testing/test.dat')
-  >>> ys2=yaml_manager.yamlstring(loc)
-  >>> loc2=yaml_manager.read(ys2)
+  >>> ys2=yaml_manager.writestring(loc)
+  >>> loc2=yaml_manager.readstring(ys2)
   >>> loc2.path("Again, this string doesn't matter.")
   Path('data/testing/test.dat')
   
@@ -141,7 +141,7 @@ Here is a complete example of the use of locators.
   >>> ys="""!UpdateFolderStructure
   ... InputFile: [input,0]
   ... OutputFile: [output,0]"""
-  >>> obj=yaml_manager.read(ys)
+  >>> obj=yaml_manager.readstring(ys)
   >>> #And now they will exist
   >>> loc=locators.InputFile("my_input_file.dat")
   >>> loc.path(req.name)
@@ -155,7 +155,7 @@ Here is a complete example of the use of locators.
   >>> ys="""!SetDataFolder
   ... datafolder: newdatafolder
   ... resolve: False""" #Normally you would not include this line, but we don't want an absolute path for this example.
-  >>> obj=yaml_manager.read(ys)
+  >>> obj=yaml_manager.readstring(ys)
   >>> loc.path(req.name)
   Path('newdatafolder/output/debug/my_output_file.dat')
   
@@ -177,7 +177,7 @@ There is also now a request subclass that can execute child requests in parallel
   >>> import simproc.requesthandler.yaml_manager as yaml_manager
   >>> import simproc.requesthandler.filepath as filepath
   >>> p=filepath.Path('/nonexist.txt')
-  >>> ys=yaml_manager.yamlstring(p)
-  >>> p2=yaml_manager.read(ys)
+  >>> ys=yaml_manager.writestring(p)
+  >>> p2=yaml_manager.readstring(ys)
   >>> p2==p
   True

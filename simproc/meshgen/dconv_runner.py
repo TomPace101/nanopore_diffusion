@@ -2,7 +2,7 @@
 
 #This package
 from ..requesthandler.shell import ShellCommandRequestBase
-from ..requesthandler.yaml_manager import register_classes, read as readyaml
+from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler.filepath import Path
 from ..requesthandler import locators
 

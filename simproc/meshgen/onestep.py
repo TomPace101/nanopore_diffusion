@@ -2,7 +2,7 @@
 
 #This package
 from ..requesthandler import locators
-from ..requesthandler.yaml_manager import register_classes, read as readyaml
+from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler.request import Request
 from . import gmsh_runner
 from . import dconv_runner

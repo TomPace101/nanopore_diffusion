@@ -143,7 +143,7 @@ class Request(object):
     - provide all their input and output files, which may come from locators
         - input files are specified by _inputfiles_attrs and _more_inputfiles
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
-  _props_schema=yaml_manager.read(_Request_props_schema_yaml)
+  _props_schema=yaml_manager.readstring(_Request_props_schema_yaml)
   def __init__(self,**kwargs):
     #Validate kwargs
     if hasattr(self,'_props_schema'):
@@ -192,7 +192,7 @@ class Request(object):
     Arguments:
     
       - yaml_str = string containing yaml defining updates to _props_schema"""
-    sub_schema=yaml_manager.read(yaml_str)
+    sub_schema=yaml_manager.readstring(yaml_str)
     schema={}
     schema.update(cls._props_schema)
     schema.update(sub_schema)
@@ -311,7 +311,7 @@ class Request(object):
   def config(self):
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
     # return(str(self.config_dict))
-    return(yaml_manager.yamlstring(self.config_dict))
+    return(yaml_manager.writestring(self.config_dict))
   def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr):
     """Construct a list of files, from the following arguments:
     

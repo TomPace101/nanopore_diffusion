@@ -2,7 +2,7 @@
 
 #This package
 from ..requesthandler.request import Request
-from ..requesthandler.yaml_manager import register_classes, read as readyaml
+from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler import locators
 from .dconv_runner import get_paths_facet_cell
 
