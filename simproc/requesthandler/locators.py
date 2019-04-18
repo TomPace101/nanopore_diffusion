@@ -169,13 +169,16 @@ class SetDataFolder(object):
     targpath=filepath.Path(kwargs['datafolder'])
     targpath=targpath.expanduser()
     if not targpath.is_absolute():
-      #Relative path
-      yamlpath_str=yaml_manager.now_loading[-1]
-      #The rest is ok
-      yamlpath=filepath.Path(yamlpath_str,isfile=True)
-      yamldir=yamlpath.folder_path
-      targpath=yamldir/targpath
-    DATAFOLDER=targpath.resolve()
+      #Relative path, assumed to be relative to the yaml file location (if one is being loaded)
+      #If you're not loading a yaml file, it will just use python's current directory
+      if len(yaml_manager.now_loading)>0:
+        yamlpath_str=yaml_manager.now_loading[-1]
+        yamlpath=filepath.Path(yamlpath_str,isfile=True)
+        yamldir=yamlpath.folder_path
+        targpath=yamldir/targpath
+    if kwargs.get('resolve',True):
+      targpath=targpath.resolve()
+    DATAFOLDER=targpath
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)

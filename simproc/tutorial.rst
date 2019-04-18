@@ -90,6 +90,8 @@ Here is a complete example of the use of locators.
   >>> from simproc.requesthandler.filepath import Path
   >>> import simproc.requesthandler.locators as locators
   >>> import simproc.requesthandler.debug as debug
+  >>> import simproc.requesthandler.yaml_manager as yaml_manager
+  >>> #data to be used in multiple examples below
   >>> locators.DATAFOLDER=Path("data") #set the top folder location
   >>> req=debug.DummyRequest(name='debug.alpha.example',test='some_data_here') #an example request
   
@@ -118,7 +120,6 @@ Here is a complete example of the use of locators.
 
   Example 4: loading locators from yaml, and writing them to yaml
   
-  >>> import simproc.requesthandler.yaml_manager as yaml_manager
   >>> locators.folder_structure.update(TestLocator=['testing'])
   >>> ys1="!TestLocator test.dat"
   >>> loc=yaml_manager.read(ys1)
@@ -128,8 +129,37 @@ Here is a complete example of the use of locators.
   >>> loc2=yaml_manager.read(ys2)
   >>> loc2.path("Again, this string doesn't matter.")
   Path('data/testing/test.dat')
-
-More examples of the use of locators from within yaml files can be found in ``dummy.yaml``.
+  
+  Example 5: defining new locators (or modifying old ones) from yaml
+  
+  >>> #Define two new locators: InputFile and OutputFile
+  >>> #First, let's show that they don't alraedy exist
+  >>> locators.InputFile
+  Traceback (most recent call last):
+    ...
+  AttributeError: module 'simproc.requesthandler.locators' has no attribute 'InputFile'
+  >>> ys="""!UpdateFolderStructure
+  ... InputFile: [input,0]
+  ... OutputFile: [output,0]"""
+  >>> obj=yaml_manager.read(ys)
+  >>> #And now they will exist
+  >>> loc=locators.InputFile("my_input_file.dat")
+  >>> loc.path(req.name)
+  Path('data/input/debug/my_input_file.dat')
+  >>> loc=locators.OutputFile("my_output_file.dat")
+  >>> loc.path(req.name)
+  Path('data/output/debug/my_output_file.dat')
+  
+  Example 6: changing the data folder from within yaml
+  
+  >>> ys="""!SetDataFolder
+  ... datafolder: newdatafolder
+  ... resolve: False""" #Normally you would not include this line, but we don't want an absolute path for this example.
+  >>> obj=yaml_manager.read(ys)
+  >>> loc.path(req.name)
+  Path('newdatafolder/output/debug/my_output_file.dat')
+  
+More examples of the use of locators from within yaml files can be found in the validation files.
 
 Miscellany
 ==========
