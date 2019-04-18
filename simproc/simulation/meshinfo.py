@@ -45,7 +45,7 @@ class MeshInfo:
     self.facets=fem.MeshFunction("size_t", self.mesh)
     self.cells=fem.MeshFunction("size_t", self.mesh)
     #Read in data from HDF5 file
-    hdf5=fem.HDF5File(self.mesh.mpi_comm(),mesh_hdf5,'r')
+    hdf5=fem.HDF5File(self.mesh.mpi_comm(),str(mesh_hdf5),'r')
     hdf5.read(self.mesh,'mesh',False)
     if loadfuncs is True:
       hdf5.read(self.facets,'facets')

@@ -156,12 +156,16 @@ class Request(object):
       all_requests[self.name]=self
     #Render locators
     self.resolve_locators()
-  def render(self,fpath):
-    """Render a locator or Path instance to a string"""
-    if hasattr(fpath,'path'):
+  def render(self,loc):
+    """Render a locator to a Path instance
+    
+    If the provided object is not a locator, it is returned unchanged"""
+    if hasattr(loc,'path'):
       reqname=getattr(self,'name','')
-      fpath=fpath.path(reqname)
-    return str(fpath)
+      fpath=loc.path(reqname)
+    else:
+      fpath=loc
+    return fpath
   def resolve_locators_in(self,attrname_list,reqname):
     """Search the given attributes for locators, and render them in-place"""
     for attrname in attrname_list:

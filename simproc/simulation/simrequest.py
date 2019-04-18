@@ -191,7 +191,7 @@ class SimulationRequest(CustomizableRequest):
     inputval = self.get_nested(attrpath)
     if idx is not None:
       inputval = inputval[idx]
-    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),self.render(infpath),'r')
+    hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),str(self.render(infpath)),'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
 
@@ -280,7 +280,7 @@ class SimulationRequest(CustomizableRequest):
     output = self.get_nested(attrpath)
     if idx is not None:
       output = output[idx]
-    if self.render(outfpath)[-5:].lower()=='.hdf5':
+    if str(self.render(outfpath))[-5:].lower()=='.hdf5':
       #HDF5 format
       if outname is None:
         fieldtag=attrpath
@@ -293,7 +293,7 @@ class SimulationRequest(CustomizableRequest):
       hdf5.close()
     else:
       #Format controlled by FEniCS (including VTK files: .pvd, etc.)
-      out_file=fem.File(self.render(outfpath))
+      out_file=fem.File(str(self.render(outfpath)))
       out_file << output
     return
 

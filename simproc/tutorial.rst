@@ -104,17 +104,19 @@ Here is a complete example of the use of locators.
   >>> tl.path(req.name) #Get the path to this file for the example request
   Path('data/testfolder/myfile.stuff')
   >>> #In this case, the request didn't actually contribute to the file path at all
+  >>> req.render(tl) #Requests know how to get paths by rendering their locators
+  Path('data/testfolder/myfile.stuff')
   
   Example 2: request name specifiers
 
   >>> locators.folder_structure.update(TestLocator=[0,'stuff_files',1]) #Modify TestLocator to use parts of the request name
-  >>> tl.path(req.name) #Now where is the test file located?
+  >>> req.render(tl) #Now where is the test file located?
   Path('data/debug/stuff_files/alpha/myfile.stuff')
 
   Example 3: going beyond the length of the request name
 
   >>> locators.folder_structure.update(TestLocator=[0,'stuff_files',1,2,3,4,5]) #This would use up to six parts of a request name
-  >>> tl.path(req.name)
+  >>> req.render(tl)
   Path('data/debug/stuff_files/alpha/example/myfile.stuff')
   >>> #The non-existent portions of the request name are simply ignored
 
@@ -144,10 +146,10 @@ Here is a complete example of the use of locators.
   >>> obj=yaml_manager.readstring(ys)
   >>> #And now they will exist
   >>> loc=locators.InputFile("my_input_file.dat")
-  >>> loc.path(req.name)
+  >>> req.render(loc)
   Path('data/input/debug/my_input_file.dat')
   >>> loc=locators.OutputFile("my_output_file.dat")
-  >>> loc.path(req.name)
+  >>> req.render(loc)
   Path('data/output/debug/my_output_file.dat')
   
   Example 6: changing the data folder from within yaml
@@ -156,7 +158,7 @@ Here is a complete example of the use of locators.
   ... datafolder: newdatafolder
   ... resolve: False""" #Normally you would not include this line, but we don't want an absolute path for this example.
   >>> obj=yaml_manager.readstring(ys)
-  >>> loc.path(req.name)
+  >>> req.render(loc)
   Path('newdatafolder/output/debug/my_output_file.dat')
   
 More examples of the use of locators from within yaml files can be found in the validation files.
