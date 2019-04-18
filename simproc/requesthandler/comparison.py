@@ -174,7 +174,7 @@ class FileSizeComparisonRequest(request.Request):
         upper,lower=(lower,upper)
     else:
       upper=rg
-      lower=rg
+      lower=-rg
     #Read the size of both files
     exp_size=os.stat(str(self.expected)).st_size
     rcv_size=os.stat(str(self.received)).st_size
@@ -184,5 +184,56 @@ class FileSizeComparisonRequest(request.Request):
     assert rcv_size >= minsize and rcv_size <= maxsize, self.err_tmpl%valtup
     return "File sizes match: %s and %s"%(str(self.expected),str(self.received))
 
+_FileSizeComparisonListRequest_props_schema_yaml="""#FileSizeComparisonListRequest
+triples:
+  type: array
+  items:
+    type: array
+    minItems: 3
+    maxItems: 3
+_children: {type: array}"""
+
+class FileSizeComparisonListRequest(request.Request):
+  """Perform file size comparison on multiple pairs of files, and issue error if any pair doesn't match
+  
+  User-Provided Attributes:
+  
+    - triples: list of tripes (expected, received, range): arguments for a FileSizeComparisonRequest
+
+  Calculated Attributes:
+  
+    - _children: A list storing all child requests
+    
+  Collects the reports or errors of the child requests,
+  and raises the errors of all children, if any.
+  If no errors, returns the reports of all the child requests."""
+  _props_schema=request.make_schema(_FileSizeComparisonListRequest_props_schema_yaml)
+  _required_attrs=['triples']
+  _child_seq_attrs=['_children']
+  _self_task=False #This request generates doit tasks from its children, not itself
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(FileSizeComparisonListRequest, self).__init__(**kwargs)
+    nametmpl=getattr(self,'name','')+'_%%0%dd'%len(str(len(self.pairs)))
+    self._children=[FileSizeComparisonRequest(name=nametmpl%idx,expected=p[0],received=p[1], range=p[2]) for idx,p in enumerate(self.pairs)]
+  def run(self):
+    """Run all child requests and capture their results"""
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Storage for reports and errors
+    reportlist=[]
+    errlist=[]
+    #We only need to call run() on the immediate children.
+    #Children with their own children will do the same.
+    for req in self.all_children():
+      try:
+        report=req.run()
+        reportlist.append(report)
+      except AssertionError as einst:
+        errlist.append(str(einst))
+    #Raise any errors
+    assert len(errlist)==0, "\n".join(errlist)
+    return "\n".join(reportlist)
+
 #Register for loading from yaml
-yaml_manager.register_classes([FileComparisonRequest, FileComparisonListRequest, FileSizeComparisonRequest])
+yaml_manager.register_classes([FileComparisonRequest, FileComparisonListRequest, FileSizeComparisonRequest, FileSizeComparisonListRequest])

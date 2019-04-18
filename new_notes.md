@@ -5,8 +5,7 @@ We need a better way to do this.
 Maybe have a file size comparison list, like we have a list for file comparisons.
 Maybe even set up deeper inspection classes for particular file types:
 xml, yaml, hdf5.
-
-_TODO_ use `mesh.geometry().dim()` to get number of dimensions in a mesh.
+You'll have to run on another computer to find the issues.
 
 _TODO_ go ahead and switch request refactoring into the master
 First, make a branch tracking what is now the master branch.
@@ -42,6 +41,7 @@ _ISSUE_ we really should combine the 2D and 3D homogenization files once we get 
 The PeriodicBoundary classes will have to stay separate.
 This requires a way to identify the dimensionality of a mesh.
 We could put it in the mesh metadata.
+Use `mesh.geometry().dim()` to get number of dimensions in a mesh.
 
 _ISSUE_ the mesh locators don't match the case of the others
 For that matter, are there names consistent with corresponding attributes elsewhere?

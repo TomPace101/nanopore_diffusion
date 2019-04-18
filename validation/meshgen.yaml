@@ -92,11 +92,11 @@
   expected: !InputFile simple_mesh.msh
   received: !mshfile simple_mesh.msh
   range: [-5,5]
-# - !FileComparisonListRequest
-#   name: mesh.onestep.verify
-#   pairs:
-#     - [!CompareFile simple_mesh.yaml, !meshmetafile simple_mesh.yaml]
-#     - [!InputFile simple_mesh.xml, !mesh_xml simple_mesh.xml]
-#     - [!InputFile simple_mesh_facet_region.xml, !facet_xml simple_mesh_facet_region.xml]
-#     - [!InputFile simple_mesh_physical_region.xml, !cell_xml simple_mesh_physical_region.xml]
-#     - [!CompareFile simple_mesh.dconv.txt, !dconv_outfile simple_mesh.txt]
+- !FileComparisonListRequest
+  name: mesh.onestep.verify
+  pairs:
+    - [!CompareFile simple_mesh.yaml, !meshmetafile simple_mesh.yaml]
+    - [!InputFile simple_mesh.xml, !mesh_xml simple_mesh.xml]
+    - [!InputFile simple_mesh_facet_region.xml, !facet_xml simple_mesh_facet_region.xml]
+    - [!InputFile simple_mesh_physical_region.xml, !cell_xml simple_mesh_physical_region.xml]
+    - [!CompareFile simple_mesh.dconv.txt, !dconv_outfile simple_mesh.txt]
