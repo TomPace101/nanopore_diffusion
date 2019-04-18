@@ -72,5 +72,33 @@ class OutputCleanupRequest(request.Request):
     for fpath in self.pathlist:
       cleanpath(fpath)
 
+_FileDeletionRequest_props_schema_yaml="""#FileDeletionRequest
+files:
+  type: array
+  items: {type: pathlike}"""
+
+class FileDeletionRequest(request.Request):
+  """Request to delete selected files, and parent directories
+  
+  User-Provided Attributes:
+  
+    - files: a sequence of file paths (or locators) to be deleted"""
+  _props_schema=request.make_schema(_FileDeletionRequest_props_schema_yaml)
+  _required_attrs=['files']
+  _self_task=True
+  def pre_run(self):
+    """Final checks and preparatory steps"""
+    #Confirm validation
+    self.validate()
+    #We don't need to assure output directories, as they might be deleted anyway
+  def run(self):
+    """Delete all the output files that exist, and remove empty directories"""
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Delete the listed paths
+    for fpath in self.files:
+      cleanpath(self.render(fpath))
+
+
 #Register for loading from yaml
-yaml_manager.register_classes([OutputCleanupRequest])
+yaml_manager.register_classes([OutputCleanupRequest, FileDeletionRequest])

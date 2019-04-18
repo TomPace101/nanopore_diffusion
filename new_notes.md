@@ -29,9 +29,6 @@ For example, compare floats to a limited precision.
 
 _TODO_ the homogenization simulation requests have no property schema, and an incomplete docstring
 
-_ISSUE_ the mpi test won't work if the output isn't cleaned up first, because it just keeps appending.
-Maybe debug needs a file deletion request, which we run before the MPI test in this case.
-
 _FEATURE_ run with doit without dodo.
 See old notes about this.
 This requires digging into doit and copying out some of its code.

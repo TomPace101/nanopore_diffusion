@@ -166,6 +166,11 @@
     - [!CompareFile 3.txt, !OutputFile 3.txt]
     - [!CompareFile 4.txt, !OutputFile 4.txt]
 #Request run through mpirun (requires mpirun)
+#The shell append request won't overwrite any previous file, so we need to delete it first
+- !FileDeletionRequest
+  name: mpi.test.preclean
+  files:
+    - !OutputFile out.txt
 - !MPIRunRequest
   name: mpi.test
   numproc: 2
