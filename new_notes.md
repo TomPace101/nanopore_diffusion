@@ -6,8 +6,6 @@ Maybe have a file size comparison list, like we have a list for file comparisons
 Maybe even set up deeper inspection classes for particular file types:
 xml, yaml, hdf5.
 
-_ISSUE_ locators can't round-trip through yaml
-
 _TODO_ use `mesh.geometry().dim()` to get number of dimensions in a mesh.
 
 _TODO_ go ahead and switch request refactoring into the master

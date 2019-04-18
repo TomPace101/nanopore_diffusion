@@ -116,7 +116,20 @@ Here is a complete example of the use of locators.
   Path('data/debug/stuff_files/alpha/example/myfile.stuff')
   >>> #The non-existent portions of the request name are simply ignored
 
-Examples of the use of locators from within yaml files can be found in ``dummy.yaml``.
+  Example 4: loading locators from yaml, and writing them to yaml
+  
+  >>> import simproc.requesthandler.yaml_manager as yaml_manager
+  >>> locators.folder_structure.update(TestLocator=['testing'])
+  >>> ys1="!TestLocator test.dat"
+  >>> loc=yaml_manager.read(ys1)
+  >>> loc.path("This string won't appear in the path because of the locator definition")
+  Path('data/testing/test.dat')
+  >>> ys2=yaml_manager.yamlstring(loc)
+  >>> loc2=yaml_manager.read(ys2)
+  >>> loc2.path("Again, this string doesn't matter.")
+  Path('data/testing/test.dat')
+
+More examples of the use of locators from within yaml files can be found in ``dummy.yaml``.
 
 Miscellany
 ==========

@@ -44,7 +44,7 @@ class DataFile(object):
   See ``folderstructure.py``."""
   def __init__(self,*args,**kwargs):
     self.subpath=filepath.Path(*args,**kwargs)
-  def path(self,req):
+  def path(self,reqname):
     return DATAFOLDER / self.subpath
   @classmethod
   def from_yaml(cls, constructor, node):
