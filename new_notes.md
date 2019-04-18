@@ -18,20 +18,29 @@ So you've got to watch out for that, and have access to the request, not just it
 (This is actually closer to the way it worked before: ParameterSet has methods for constructing file paths.)
 Maybe it won't work, but you can try.
 
-_TODO_ There are input files for the simulation test that aren't tracked in git.
+_ISSUE_ Paths: you never know if it will be a locator, path, or string.
+Render-at-point-of-use will work for the locator-to-path step.
+But still I don't know if I have a path or a string.
+I can assume it's a string, but then I can never use paths.
+I can cast it to a path, but that might be redundant.
+Right now, there are possible cases where the code requires one or the other,
+but there isn't a conversion done.
+How do we systematically find such cases?
+You could do this:
+- render to make sure you have a path or string
+- then case to path or string, as needed.
+But that's tedious.
+And prone to being forgotten.
+
+_ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
 That will require the expression projector.
 
-_TODO_ the simulation test doesn't compare the file output
+_ISSUE_ the simulation test doesn't compare the file output
 Maybe we even need a way to compare yaml files other than just bytewise.
 For example, compare floats to a limited precision.
 
-_TODO_ the homogenization simulation requests have no property schema, and an incomplete docstring
-
-_FEATURE_ run with doit without dodo.
-See old notes about this.
-This requires digging into doit and copying out some of its code.
-The advantage is obvious: less time waiting for things to rerun.
+_ISSUE_ the homogenization simulation requests have no property schema, and an incomplete docstring
 
 _ISSUE_ output pvd files are cleaned, but their corresponding vtu files are not
 This is because the request doesn't know about these files.
@@ -46,27 +55,8 @@ Use `mesh.geometry().dim()` to get number of dimensions in a mesh.
 _ISSUE_ the mesh locators don't match the case of the others
 For that matter, are there names consistent with corresponding attributes elsewhere?
 
-_TODO_ should attribute paths be moved up to request itself?
-It could be useful in collection, too, actually, so maybe it should be its own module.
-This gets back to the idea of "memory locators".
-Maybe we need better names than get_nested and set_nested.
-Maybe we need a better name than "attrpath" ("attribute path").
-For one thing, that makes it sound like its a filesystem path.
-At the very least, we need to explain this somewhere.
-Maybe even have an example in the tutorial.
-
-_FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
-This is to help avoid FFC cache collisions.
-
-_FEATURE_ Why aren't shell requests customizable?
-
 _TODO_ port the simulators used in the electrolyte analysis work
 They may be needed again soon.
-
-_FEATURE_ confirm input files exist as part of pre-run check
-I wrote code to do this, then I realized that not all the input files are actually required.
-How can the code make that distinction?
-Maybe it can't.
 
 _ISSUE_ There's something weird in `request.py`.
 `_compile_file_list` uses attribute `taskname` which doesn't exist, but I've never gotten an error about this.
@@ -74,9 +64,11 @@ _ISSUE_ There's something weird in `request.py`.
 `assure_output_dirs` doesn't use the outputfiles property, because that property is supposed to return those of children as well.
 Now `confirm_inputfiles` does the same thing.
 Maybe we need a way to specify input/output files for this request alone, or this request with children.
+Probably need to test more with doit.
 
-_FEATURE_ it would be better if meshinfo could query the HDF5 file about its components
-rather than requiring a keyword argument.
+_ISSUE_ Simultaneous requests may create a new directory for the temporary request input files.
+But cleanup won't remove this directory if that's the case.
+Maybe requests need to be aware of their own temporary files as well?
 
 # Refactoring
 
@@ -125,7 +117,32 @@ rather than requiring a keyword argument.
   - DONE a request that can monkey-patch itself
   - allow user to specify python files containing classes that can be added to yaml registry
 
-# BUGS
-- Simultaneous requests may create a new directory for the temporary request input files.
-  But cleanup won't remove this directory if that's the case.
-  
+# New Features/Improvements
+
+_FEATURE_ run with doit without dodo.
+See old notes about this.
+This requires digging into doit and copying out some of its code.
+The advantage is obvious: less time waiting for things to rerun.
+
+_FEATURE_ should attribute paths be moved up to request itself?
+(This is `get_nested` and `set_nested` in simrequest.py)
+It could be useful in collection, too, actually, so maybe it should be its own module.
+This gets back to the idea of "memory locators".
+Maybe we need better names than get_nested and set_nested.
+Maybe we need a better name than "attrpath" ("attribute path").
+For one thing, that makes it sound like its a filesystem path.
+At the very least, we need to explain this somewhere.
+Maybe even have an example in the tutorial.
+
+_FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
+This is to help avoid FFC cache collisions.
+
+_FEATURE_ Why aren't shell requests customizable?
+
+_FEATURE_ confirm input files exist as part of pre-run check
+I wrote code to do this, then I realized that not all the input files are actually required.
+How can the code make that distinction?
+Maybe it can't.
+
+_FEATURE_ it would be better if meshinfo could query the HDF5 file about its components
+rather than requiring a keyword argument.
