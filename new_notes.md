@@ -19,13 +19,7 @@ For example, compare floats to a limited precision.
 
 _ISSUE_ the homogenization simulation requests have no property schema, and an incomplete docstring
 
-_ISSUE_ output pvd files are cleaned, but their corresponding vtu files are not
-This is because the request doesn't know about these files.
-Maybe we need a way to let cleanup know that pvd files could have multiple vtu files to go along with them.
-But that's not the way cleanup works: it needs for the request to know what files it generates.
-Simulations already have a method to try to figure this out.
-Maybe that method just needs some refinement.
-But note that subclasses may need to override it.
+_TODO_ in writefield_outputfiles, detect MPI and list pvtu files
 
 _ISSUE_ we really should combine the 2D and 3D homogenization files once we get them working, to reduce duplicated code
 The PeriodicBoundary classes will have to stay separate.
