@@ -35,6 +35,7 @@ class GmshRequest(ShellCommandRequestBase):
   _required_attrs=['geofile','mshfile','gmsh_outfile']
   _outputfile_attrs=['mshfile','gmsh_outfile','meshmetafile']
   _inputfile_attrs=['geofile']
+  _config_attrs=['geofile','mshfile','gmsh_outfile','meshmetafile','integer_arg']
   _props_schema=readyaml(_GmshRequest_props_schema_yaml)
   @property
   def cmd_str(self):

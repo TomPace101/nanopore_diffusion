@@ -9,26 +9,6 @@ You'll have to run on another computer to find the issues.
 
 _TODO_ bring in the series object from old postproc, so line_profile will work
 
-_TODO_ try to switch all locator rendering to the late method.
-The challenge is that sometimes you're working with locators that belong to a different request.
-So you've got to watch out for that, and have access to the request, not just its locators.
-(This is actually closer to the way it worked before: ParameterSet has methods for constructing file paths.)
-Maybe it won't work, but you can try.
-
-_ISSUE_ Paths: you never know if it will be a locator, path, or string.
-Render-at-point-of-use will work for the locator-to-path step.
-But still I don't know if I have a path or a string.
-I can assume it's a string, but then I can never use paths.
-I can cast it to a path, but that might be redundant.
-Right now, there are possible cases where the code requires one or the other,
-but there isn't a conversion done.
-How do we systematically find such cases?
-You could do this:
-- render to make sure you have a path or string
-- then case to path or string, as needed.
-But that's tedious.
-And prone to being forgotten.
-
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
 That will require the expression projector.
@@ -42,6 +22,10 @@ _ISSUE_ the homogenization simulation requests have no property schema, and an i
 _ISSUE_ output pvd files are cleaned, but their corresponding vtu files are not
 This is because the request doesn't know about these files.
 Maybe we need a way to let cleanup know that pvd files could have multiple vtu files to go along with them.
+But that's not the way cleanup works: it needs for the request to know what files it generates.
+Simulations already have a method to try to figure this out.
+Maybe that method just needs some refinement.
+But note that subclasses may need to override it.
 
 _ISSUE_ we really should combine the 2D and 3D homogenization files once we get them working, to reduce duplicated code
 The PeriodicBoundary classes will have to stay separate.
@@ -51,17 +35,6 @@ Use `mesh.geometry().dim()` to get number of dimensions in a mesh.
 
 _ISSUE_ the mesh locators don't match the case of the others
 For that matter, are there names consistent with corresponding attributes elsewhere?
-
-_TODO_ port the simulators used in the electrolyte analysis work
-They may be needed again soon.
-
-_ISSUE_ There's something weird in `request.py`.
-`_compile_file_list` uses attribute `taskname` which doesn't exist, but I've never gotten an error about this.
-`task_definition` says it will not return a task if the taskname is None, but doesn't do any such check.
-`assure_output_dirs` doesn't use the outputfiles property, because that property is supposed to return those of children as well.
-Now `confirm_inputfiles` does the same thing.
-Maybe we need a way to specify input/output files for this request alone, or this request with children.
-Probably need to test more with doit.
 
 _ISSUE_ Simultaneous requests may create a new directory for the temporary request input files.
 But cleanup won't remove this directory if that's the case.
@@ -101,6 +74,9 @@ Maybe requests need to be aware of their own temporary files as well?
   - Specific input tables for species, domains, and species-in-domain
   - DONE Weak Form support as exists in simulator_general now
   - Library of common weak forms
+  - expression projector?
+  - LPB/Smol simulator
+  - unhomog fickian diffusion?
 - Post-processing:
   - Collection request to generate table, with customization to control how simulation output maps to columns, and maybe specific data for select fields as well
   - Plot request similar to what's already there, but with customization as well
@@ -115,6 +91,28 @@ Maybe requests need to be aware of their own temporary files as well?
   - allow user to specify python files containing classes that can be added to yaml registry
 
 # New Features/Improvements
+
+_DESIGN ISSUE_ Paths: you never know if it will be a locator, path, or string.
+
+One idea was to try to switch all locator rendering to the late method.
+The challenge is that sometimes you're working with locators that belong to a different request.
+So you've got to watch out for that, and have access to the request, not just its locators.
+(This is actually closer to the way it worked before: ParameterSet has methods for constructing file paths.)
+Maybe it won't work, but you can try.
+
+But does that really resolve the issue?
+Render-at-point-of-use will work for the locator-to-path step.
+But still I don't know if I have a path or a string.
+I can assume it's a string, but then I can never use paths.
+I can cast it to a path, but that might be redundant.
+Right now, there are possible cases where the code requires one or the other,
+but there isn't a conversion done.
+How do we systematically find such cases?
+You could do this:
+- render to make sure you have a path or string
+- then case to path or string, as needed.
+But that's tedious.
+And prone to being forgotten.
 
 _FEATURE_ run with doit without dodo.
 See old notes about this.

@@ -316,37 +316,45 @@ class Request(object):
     """A string representing the configuration of the object, suitable for use by doit.tools.config_changed."""
     # return(str(self.config_dict))
     return(yaml_manager.writestring(self.config_dict))
-  def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr):
+  def _compile_file_list(self,attrs_list_attr,files_list_attr,child_attr=None):
     """Construct a list of files, from the following arguments:
     
     - attrs_list_attr: name of attribute containing a list of attribute names, each of which contains one file path
     - files_list_attr: name of attribute containing a list of file paths
-    - child_attr: name of attribute of each child containing their corresponding list"""
+    - child_attr: optional, name of attribute of each child containing their corresponding list
+    
+    If child_attr is not provided, files from children are not included"""
     #Get files from list of attribute names containing files
     attr_list=getattr(self,attrs_list_attr,[])
     fl = [getattr(self,itm) for itm in attr_list]
     #Get files from list of additional files
     fl+=getattr(self,files_list_attr,[])
-    #Get files from children
-    for child in self.all_children():
-      if child.taskname is None: #Children that define their own tasks are responsible for their own file dependencies
+    #Get files from children, if requested
+    if child_attr is not None:
+      for child in self.all_children():
         fl += getattr(child,child_attr)
     return fl
   @property
   def inputfiles(self):
     """A list of all the inputfiles related to this request"""
-    return self._compile_file_list('_inputfile_attrs','_more_inputfiles','inputfiles')
+    return self._compile_file_list('_inputfile_attrs','_more_inputfiles')
+  @property
+  def recursive_inputfiles(self):
+    """A list of all the inputfiles related to this request and its children"""
+    return self._compile_file_list('_inputfile_attrs','_more_inputfiles','recursive_inputfiles')
   @property
   def outputfiles(self):
     """A list of all the outputfiles related to this request"""
-    return self._compile_file_list('_outputfile_attrs','_more_outputfiles','outputfiles')
+    return self._compile_file_list('_outputfile_attrs','_more_outputfiles')
+  @property
+  def recursive_outputfiles(self):
+    """A list of all the outputfiles related to this request and its children"""
+    return self._compile_file_list('_outputfile_attrs','_more_outputfiles','recursive_outputfiles')
   # def confirm_inputfiles(self):
   #   """Issue an error for any input files that do not exist
   # 
   #   For this request only; child requests will need to do this themselves."""
-  #   allpaths=[getattr(self,iattr) for iattr in getattr(self,'_inputfile_attrs',[])]
-  #   allpaths+=getattr(self,'_more_inputfiles',[])
-  #   missing=[fpath for fpath in allpaths if not fpath.exists()]
+  #   missing=[fpath for fpath in self.inputfiles if not fpath.exists()]
   #   errstring="\n".join(["- "+str(fpath) for fpath in missing])
   #   assert len(missing)==0, "Missing required input files:\n%s\n"%errstring
   #   return
@@ -354,9 +362,7 @@ class Request(object):
     """Create directories for output files if necessary
     
     For this request only; child requests will need to do this themselves."""
-    allpaths=[getattr(self,oattr) for oattr in getattr(self,'_outputfile_attrs',[])]
-    allpaths+=getattr(self,'_more_outputfiles',[])
-    for fpath in allpaths:
+    for fpath in self.outputfiles:
       assert isinstance(fpath,filepath.Path), "Received %s for output file path; need Path instance instead"%(fpath)
       fpath.assure_dir()
     return
@@ -364,21 +370,22 @@ class Request(object):
   def task_definition(self):
     """A doit task definition dictionary appropriate for this Request
     
-    No task is returned if the taskname is None.
-    
-    To get requests from this task and its children, see yield_tasks."""
+    To get requests from this task or its children, as appropriate, see all_tasks."""
     return {'name': self.name,
      'file_dep': self.inputfiles,
      'uptodate': [config_changed(self.config)],
      'targets': self.outputfiles,
      'actions': [(self.run,)]}
   def all_tasks(self):
-    """Generator yielding task definitions from this Request and all child Requests"""
+    """Generator yielding task definitions from this Request or all child Requests"""
     if getattr(self,'_self_task',False):
+      #This request defines a task, so return that
       yield self.task_definition
-    for req in self.all_children():
-      for td in req.all_tasks():
-        yield td
+    else:
+      #Yield the tasks of the children
+      for req in self.all_children():
+        for td in req.all_tasks():
+          yield td
 
 #Function factory for schema updates
 #When you create a new base class to be used for requests,

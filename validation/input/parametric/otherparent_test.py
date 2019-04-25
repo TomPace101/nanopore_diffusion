@@ -9,7 +9,7 @@ def get_child_kwargs(self,index,prefix,z,xy_request):
   """Compute a keyword arguments dictionary from the input dictionary"""
   out={}
   chnum='%03d'%index
-  out['name']='parametric.customized.%s'%chnum
+  out['name']='parametric.with_other_parent.%s'%chnum
   out['test']='%s %s.\n'%(prefix,chnum)
   out['test']+="z=%d\n"%(z)
   out['test']+="The other request contained test data:\n"

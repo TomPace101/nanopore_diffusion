@@ -12,6 +12,9 @@ from . import request
 from . import yaml_manager
 from . import simultaneous
 
+#Default tmpfile
+DEFAULT_TMPFILE = filepath.Path('.').expanduser().resolve() / 'tmp.yaml'
+
 #Constants from simultaneous
 main_mod_name=simultaneous.main_mod_name
 work_path=simultaneous.work_path
@@ -33,17 +36,22 @@ class MPIRunRequest(request.Request):
     - numproc: number of processes to specify with mpirun
     - child: a request to run
     - tmpfile: optional, Path to temporary file to contain the request"""
-  _self_task=False
-  _required_attrs=['numproc','child']
+  _self_task=True #Otherwise, the child won't be run with MPI
+  _required_attrs=['name','numproc','child']
+  _config_attrs=['numproc','child','tmpfile']
   _props_schema=request.make_schema(_MPIRunRequest_props_schema_yaml)
   _child_attrs=['child']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(MPIRunRequest, self).__init__(**kwargs)
+    #tmpfile
     if hasattr(self,'tmpfile'):
       self.tmpfile=filepath.Path(self.tmpfile).expanduser().resolve()
     else:
-      self.tmpfile=filepath.Path('.').expanduser().resolve() / 'tmp.yaml'
+      self.tmpfile=DEFAULT_TMPFILE
+    #Get the input and output files of the child request
+    self._more_inputfiles=self.child.inputfiles
+    self._more_outputfiles=self.child.outputfiles
   def run(self):
     #Create the output directories for the request, one time, to avoid conflicts
     self.child.assure_output_dirs()

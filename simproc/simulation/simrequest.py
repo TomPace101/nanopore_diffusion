@@ -93,6 +93,7 @@ class SimulationRequest(CustomizableRequest):
   _self_task=True
   _required_attrs=['mesh','conditions']
   _inputfile_attrs=['mesh','meshmeta']
+  _config_attrs=['mesh','meshmeta','hasmeshfuncs','conditions','dataextraction','loaddata','metadata']
   _props_schema=make_schema(_SimulationRequest_props_schema_yaml)
 
   def __init__(self,**kwargs):

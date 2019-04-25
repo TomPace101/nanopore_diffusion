@@ -73,6 +73,7 @@ class FileComparisonRequest(request.Request):
   _props_schema=request.make_schema(_FileComparisonRequest_props_schema_yaml)
   _required_attrs=['expected','received']
   _inputfile_attrs=['expected','received']
+  _config_attrs=['expected','received']
   _self_task=True
   def run(self):
     args=(str(self.expected),str(self.received))
@@ -163,6 +164,7 @@ class FileSizeComparisonRequest(request.Request):
   _props_schema=request.make_schema(_FileSizeComparisonRequest_props_schema_yaml)
   _required_attrs=['expected','received']
   _inputfile_attrs=['expected','received']
+  _config_attrs=['expected','received','range']
   _self_task=True
   err_tmpl="Found unexpected difference in file sizes: %s has size %d, %s has size %d, range (%d,%d) gives limits (%d,%d)"
   def run(self):

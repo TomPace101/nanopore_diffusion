@@ -44,6 +44,7 @@ class HDF5ConvertRequest(Request):
   _required_attrs=['mesh_xml','mesh_hdf5file']
   _outputfile_attrs=['mesh_hdf5file']
   _inputfile_attrs=['mesh_xml','facet_xml','cell_xml']
+  _config_attrs=['mesh_xml','facet_xml','cell_xml','mesh_hdf5file']
   _props_schema=readyaml(_HDF5ConvertRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class

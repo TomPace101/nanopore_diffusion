@@ -63,6 +63,7 @@ class DolfinConvertRequest(ShellCommandRequestBase):
   _required_attrs=['mshfile','mesh_xml','dconv_outfile']
   _inputfile_attrs=['mshfile']
   _outputfile_attrs=['mesh_xml','dconv_outfile','facet_xml','cell_xml']
+  _config_attrs=['mshfile','mesh_xml','dconv_outfile']
   _props_schema=readyaml(_DolfinConvertRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
