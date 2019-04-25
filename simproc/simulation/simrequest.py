@@ -12,6 +12,7 @@ from ..requesthandler.customization import CustomizableRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
 from .meshinfo import MeshInfo
+from .plotseries import PlotSeries
 
 #Locators
 locators.folder_structure.update(SolutionFile=['solutions',0,1])
@@ -406,67 +407,67 @@ class SimulationRequest(CustomizableRequest):
       coords+=(v,)
     return coords
 
-  # def line_profile(self,startloc,endloc,num,plotname,label,attrpath='soln',indep=None,idx=None):
-  #   """Get data to plot a result along the specified line at a single point in time
-  # 
-  #   Arguments:
-  # 
-  #     - startloc = argument to get_pointcoords for start of line
-  #     - endloc = argument to get_pointcoords for end of line
-  #     - num = number of sampled points
-  #     - indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based) (omit to use distance from start point)
-  #     - plotname = name of plot in outdata.plots, as string
-  #     - label = series label to assign, as string
-  #     - attrpath = attribute path to output, as string, defaults to 'soln'
-  #     - indep = identifier for independent variable:
-  #         integer 0-d to use that coordinate of the point, or
-  #         None (default) to use distance from the start point
-  #     - idx = index of the solution field to write out, None (default) if not a sequence
-  # 
-  #   Required attributes:
-  # 
-  #     - outdata = instance of OutData
-  #     - mesh_metadata = only required if needed by location specifiers, dictionary of mesh metadata
-  # 
-  #   No new attributes.
-  # 
-  #   No return value.
-  # 
-  #   Series is added to ``outdata.plots``.""" ##TODO: we don't have outdata now
-  #   #Get the object with the data
-  #   vals=self.get_nested(attrpath)
-  #   if idx is not None:
-  #     vals = vals[idx]
-  #   #Get the points for data extraction
-  #   assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
-  #   startcoords=self.get_pointcoords(startloc)
-  #   endcoords=self.get_pointcoords(endloc)
-  #   start_ends=[itm for itm in zip(startcoords,endcoords)]
-  #   ranges=[np.linspace(start,end,num) for start,end in start_ends]
-  #   points=[t for t in zip(*ranges)]
-  #   #Function to calculate independent variable for a given point
-  #   if indep is None:
-  #     indep_f = lambda pt: np.sqrt(sum([(startcoords[i]-c)**2 for i,c in enumerate(pt)]))
-  #   else:
-  #     indep_f = lambda pt: pt[indep]
-  #   #Extract data points
-  #   llist=[]
-  #   vlist=[]
-  #   for pt in points:
-  #     try:
-  #       vlist.append(vals(*pt))
-  #       llist.append(indep_f(pt))
-  #     except RuntimeError:
-  #       pass #point is not inside mesh; skip
-  #   #Create PlotSeries
-  #   larr=np.array(llist)
-  #   varr=np.array(vlist)
-  #   series=plotdata.PlotSeries(xvals=larr,yvals=varr,label=label) ##TODO
-  #   #Store data
-  #   if not plotname in self.outdata.plots.keys(): ##TODO we don't have outdata now
-  #     self.outdata.plots[plotname]=[]
-  #   self.outdata.plots[plotname].append(series)
-  #   return
+  def line_profile(self,startloc,endloc,num,plotname,label,attrpath='soln',indep=None,idx=None):
+    """Get data to plot a result along the specified line at a single point in time
+  
+    Arguments:
+  
+      - startloc = argument to get_pointcoords for start of line
+      - endloc = argument to get_pointcoords for end of line
+      - num = number of sampled points
+      - indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based) (omit to use distance from start point)
+      - plotname = name of plot in outdata.plots, as string
+      - label = series label to assign, as string
+      - attrpath = attribute path to output, as string, defaults to 'soln'
+      - indep = identifier for independent variable:
+          integer 0-d to use that coordinate of the point, or
+          None (default) to use distance from the start point
+      - idx = index of the solution field to write out, None (default) if not a sequence
+  
+    Required attributes:
+  
+      - outdata = instance of OutData
+      - mesh_metadata = only required if needed by location specifiers, dictionary of mesh metadata
+  
+    No new attributes.
+  
+    No return value.
+  
+    Series is added to ``outdata.plots``.""" ##TODO: we don't have outdata now
+    #Get the object with the data
+    vals=self.get_nested(attrpath)
+    if idx is not None:
+      vals = vals[idx]
+    #Get the points for data extraction
+    assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
+    startcoords=self.get_pointcoords(startloc)
+    endcoords=self.get_pointcoords(endloc)
+    start_ends=[itm for itm in zip(startcoords,endcoords)]
+    ranges=[np.linspace(start,end,num) for start,end in start_ends]
+    points=[t for t in zip(*ranges)]
+    #Function to calculate independent variable for a given point
+    if indep is None:
+      indep_f = lambda pt: np.sqrt(sum([(startcoords[i]-c)**2 for i,c in enumerate(pt)]))
+    else:
+      indep_f = lambda pt: pt[indep]
+    #Extract data points
+    llist=[]
+    vlist=[]
+    for pt in points:
+      try:
+        vlist.append(vals(*pt))
+        llist.append(indep_f(pt))
+      except RuntimeError:
+        pass #point is not inside mesh; skip
+    #Create PlotSeries
+    larr=np.array(llist)
+    varr=np.array(vlist)
+    series=PlotSeries(xvals=larr,yvals=varr,label=label)
+    #Store data
+    if not plotname in self.outdata.plots.keys(): ##TODO we don't have outdata now
+      self.outdata.plots[plotname]=[]
+    self.outdata.plots[plotname].append(series)
+    return
 
 #Register for loading from yaml
 yaml_manager.register_classes([SimulationRequest])

@@ -7,7 +7,7 @@ Maybe even set up deeper inspection classes for particular file types:
 xml, yaml, hdf5.
 You'll have to run on another computer to find the issues.
 
-_TODO_ bring in the series object from old postproc, so line_profile will work
+_TODO_ test out line_profile
 
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.

@@ -34,5 +34,6 @@ Keeping track of this is important in order to help prevent circular dependencie
 - package ``simulation``
   - ``meshinfo``: ``requesthandler``
   - ``equationbuilder``: None
-  - ``simrequest``: ``requesthandler``, ``meshinfo``, ``equationbuilder``
+  - ``plotseries``: None
+  - ``simrequest``: ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``plotseries``
   - ``fickian_homog``: ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``simrequest``
