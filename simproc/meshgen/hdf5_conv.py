@@ -41,7 +41,7 @@ class HDF5ConvertRequest(Request):
     - mesh_hdf5file = Path to output .hdf5 file
   """
   _self_task=True
-  _required_attrs=['mesh_xml','mesh_hdf5file']
+  _required_attrs=['name','mesh_xml','mesh_hdf5file']
   _outputfile_attrs=['mesh_hdf5file']
   _inputfile_attrs=['mesh_xml','facet_xml','cell_xml']
   _config_attrs=['mesh_xml','facet_xml','cell_xml','mesh_hdf5file']

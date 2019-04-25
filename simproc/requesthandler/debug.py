@@ -88,7 +88,7 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
     - test: test data, which is passed to 'echo' when the request is run
     - outfile: Path to output file"""
   _self_task=True
-  _required_attrs=['outfile','test']
+  _required_attrs=['name','outfile','test']
   _config_attrs=_required_attrs
   _props_schema=request.make_schema(_DummyShellRequest_props_schema_yaml)
   _outputfile_attrs=['outfile']
@@ -115,7 +115,7 @@ class SleepRequest(request.Request):
 
     - delay: number of seconds to sleep, passed directly to time.sleep"""
   _self_task=True
-  _required_attrs=['delay']
+  _required_attrs=['name','delay']
   _props_schema=request.make_schema(_SleepRequest_props_schema_yaml)
   def run(self):
     time.sleep(self.delay)

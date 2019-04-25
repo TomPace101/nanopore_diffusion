@@ -91,7 +91,7 @@ class SimulationRequest(CustomizableRequest):
     
     - metadata = dictionary of metadata about the model, for use in post-processing"""
   _self_task=True
-  _required_attrs=['mesh','conditions']
+  _required_attrs=['name','mesh','conditions']
   _inputfile_attrs=['mesh','meshmeta']
   _config_attrs=['mesh','meshmeta','hasmeshfuncs','conditions','dataextraction','loaddata','metadata']
   _props_schema=make_schema(_SimulationRequest_props_schema_yaml)

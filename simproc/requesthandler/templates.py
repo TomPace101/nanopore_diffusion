@@ -34,7 +34,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
   _config_attrs=('tmplfile','outfile','data','modules','initializations','extra')
   _inputfile_attrs=['tmplfile']
   _outputfile_attrs=['outfile']
-  _required_attrs=['tmplfile','outfile','data']
+  _required_attrs=['name','tmplfile','outfile','data']
   _props_schema=customization.make_schema(_TemplateFileRequest_props_schema_yaml)
   def get_template_input(self):
     return self.data

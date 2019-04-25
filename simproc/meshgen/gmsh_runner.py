@@ -32,7 +32,7 @@ class GmshRequest(ShellCommandRequestBase):
     - integer_arg: optional, integer to pass to gmsh on the command line, to specify meshing dimension
         defaults to 0, which indicates that the .geo file contains the appropriate `Mesh` command."""
   _self_task=True
-  _required_attrs=['geofile','mshfile','gmsh_outfile']
+  _required_attrs=['name','geofile','mshfile','gmsh_outfile']
   _outputfile_attrs=['mshfile','gmsh_outfile','meshmetafile']
   _inputfile_attrs=['geofile']
   _config_attrs=['geofile','mshfile','gmsh_outfile','meshmetafile','integer_arg']

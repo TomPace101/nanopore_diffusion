@@ -40,7 +40,7 @@ class GeneralShellCommandRequest(ShellCommandRequestBase):
     - outfile: Path to output file
     - errfile: Path to error output file, or None to redirect to `outfile`"""
   _self_task=True
-  _required_attrs=['outfile','command']
+  _required_attrs=['name','outfile','command']
   _config_attrs=['outfile','errfile','command']
   _props_schema=request.make_schema(_GeneralShellCommandRequest_props_schema_yaml)
   _outputfile_attrs=['outfile']

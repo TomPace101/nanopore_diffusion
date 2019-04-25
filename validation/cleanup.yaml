@@ -3,6 +3,7 @@
 - !SetDataFolder
   datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
 - !OutputCleanupRequest
+  name: clean_all
   clean:
     - !RequestFileRequest
       requestfile: !DataFile all_validation.yaml

@@ -14,26 +14,26 @@ Setup data for test
 
 Example with files that do match
 
->>> req1=FileComparisonRequest(expected=files[0],received=files[1])
+>>> req1=FileComparisonRequest(name='req1',expected=files[0],received=files[1])
 >>> req1.run()
 'Files match: /tmp/a.txt and /tmp/b.txt'
->>> req1b=FileSizeComparisonRequest(expected=files[0],received=files[1])
+>>> req1b=FileSizeComparisonRequest(name='req1b',expected=files[0],received=files[1])
 >>> req1b.run()
 'File sizes match: /tmp/a.txt and /tmp/b.txt'
 
 Example with files that don't match
 
->>> req2=FileComparisonRequest(expected=files[1],received=files[2])
+>>> req2=FileComparisonRequest(name='req2',expected=files[1],received=files[2])
 >>> req2.run()
 Traceback (most recent call last):
   ...
 AssertionError: Found unexpected difference in files /tmp/b.txt and /tmp/c.txt
->>> req2b=FileSizeComparisonRequest(expected=files[1],received=files[2])
+>>> req2b=FileSizeComparisonRequest(name='req2b',expected=files[1],received=files[2])
 >>> req2b.run()
 Traceback (most recent call last):
   ...
 AssertionError: Found unexpected difference in file sizes: /tmp/b.txt has size 12, /tmp/c.txt has size 9, range (0,0) gives limits (12,12)
->>> req2c=FileSizeComparisonRequest(expected=files[1],received=files[2],range=(-3,5))
+>>> req2c=FileSizeComparisonRequest(name='req2c',expected=files[1],received=files[2],range=(-3,5))
 >>> req2c.run()
 'File sizes match: /tmp/b.txt and /tmp/c.txt'
 
@@ -71,7 +71,7 @@ class FileComparisonRequest(request.Request):
   When run, returns a comparison report as a string if files match.
   Raises AssertionError if they do not."""
   _props_schema=request.make_schema(_FileComparisonRequest_props_schema_yaml)
-  _required_attrs=['expected','received']
+  _required_attrs=['name','expected','received']
   _inputfile_attrs=['expected','received']
   _config_attrs=['expected','received']
   _self_task=True
@@ -162,7 +162,7 @@ class FileSizeComparisonRequest(request.Request):
   When run, returns a comparison report as a string if the check passes.
   Raises AssertionError if not."""
   _props_schema=request.make_schema(_FileSizeComparisonRequest_props_schema_yaml)
-  _required_attrs=['expected','received']
+  _required_attrs=['name','expected','received']
   _inputfile_attrs=['expected','received']
   _config_attrs=['expected','received','range']
   _self_task=True

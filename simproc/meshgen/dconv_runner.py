@@ -60,7 +60,7 @@ class DolfinConvertRequest(ShellCommandRequestBase):
     - cell_xml = Path to .xml file containing cell meshfunction data
   """
   _self_task=True
-  _required_attrs=['mshfile','mesh_xml','dconv_outfile']
+  _required_attrs=['name','mshfile','mesh_xml','dconv_outfile']
   _inputfile_attrs=['mshfile']
   _outputfile_attrs=['mesh_xml','dconv_outfile','facet_xml','cell_xml']
   _config_attrs=['mshfile','mesh_xml','dconv_outfile']
