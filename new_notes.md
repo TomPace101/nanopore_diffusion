@@ -76,9 +76,9 @@ Maybe requests need to be aware of their own temporary files as well?
   - Plot request similar to what's already there, but with customization as well
   - zipping/unzipping: see below
 - Validation:
-  - Validate that output files are as expected (new request type, which is tested by doctest)
+  - DONE Validate that output files are as expected (new request type, which is tested by doctest)
 - Request generation:
-  - UNTESTED Requests store themselves in a yaml file: should work already, just test it
+  - DONE Requests store themselves in a yaml file
   - DONE Request that can parametrically generate child requests
 - Customization:
   - DONE a request that can monkey-patch itself
