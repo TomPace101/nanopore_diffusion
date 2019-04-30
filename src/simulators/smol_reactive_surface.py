@@ -75,7 +75,11 @@ class LPBSimulator(simulator_general.GenericSimulator):
     #Define variational problem
     self.phi=fem.TrialFunction(self.V)
     self.v=fem.TestFunction(self.V)
-    self.a=((1/self.lambda_D**2)*self.phi*self.v + fem.dot(fem.grad(self.phi),fem.grad(self.v)))*fem.dx
+    term2=fem.dot(fem.grad(self.phi),fem.grad(self.v))*fem.dx
+    if self.lambda_D is None:
+      self.a=term2
+    else:
+      self.a=(1/self.lambda_D**2)*self.phi*self.v*fem.dx + term2
     self.L=fem.Constant(0)*self.v*self.ds
     self.soln=fem.Function(self.V)
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
