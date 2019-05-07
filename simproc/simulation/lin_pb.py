@@ -28,5 +28,11 @@ class LPBSimulator(simrequest.SimulationRequest):
     #For convenience
     conditions=Namespace(**self.conditions)
 
+    #Properties of problem domain
+    self.kappa = self.conditions.kappa
+    
+    
+
+
 #Register for loading from yaml
 yaml_manager.register_classes([LPBSimulator])

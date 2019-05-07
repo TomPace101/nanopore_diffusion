@@ -29,6 +29,7 @@ Use `mesh.geometry().dim()` to get number of dimensions in a mesh.
 
 _ISSUE_ the mesh locators don't match the case of the others
 For that matter, are there names consistent with corresponding attributes elsewhere?
+Same thing for "modulefile" in `customizations.py`.
 
 _ISSUE_ Simultaneous requests may create a new directory for the temporary request input files.
 But cleanup won't remove this directory if that's the case.
