@@ -164,7 +164,7 @@ class Request(object):
       reqname=getattr(self,'name','')
       fpath=loc.path(reqname)
     else:
-      fpath=loc
+      fpath=filepath.Path(loc)
     return fpath
   def resolve_locators_in(self,attrname_list,reqname):
     """Search the given attributes for locators, and render them in-place"""

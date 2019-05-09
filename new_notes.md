@@ -83,7 +83,8 @@ Maybe requests need to be aware of their own temporary files as well?
   - DONE Request that can parametrically generate child requests
 - Customization:
   - DONE a request that can monkey-patch itself
-  - allow user to specify python files containing classes that can be added to yaml registry
+  - allow user to specify python files containing classes that can be added to yaml registry (this means loading the module)
+  - allow user to specify folders to be added to the python path, so other python files can import their modules without the data files listing them
 
 # New Features/Improvements
 
@@ -108,6 +109,13 @@ You could do this:
 - then case to path or string, as needed.
 But that's tedious.
 And prone to being forgotten.
+
+How about this: `request.render` always returns a Path.
+If the argument is a locator, it calculates its path from the request's name.
+If the argument is a string, it's converted to a Path.
+Then, when you need a string, you cast it.
+This is now implemented.
+
 
 _FEATURE_ run with doit without dodo.
 See old notes about this.

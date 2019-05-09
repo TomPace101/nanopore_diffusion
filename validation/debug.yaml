@@ -184,3 +184,8 @@
   name: mpi.test.verify
   expected: !CompareFile out.txt
   received: !OutputFile out.txt
+#Add a folder to the python path
+- !PythonPathRequest
+  name: pathrequest
+  folders: [input/customization]
+#Load a new yaml-loadable module

@@ -18,7 +18,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``shell``: ``request``, ``yaml_manager``
   - ``debug``: ``request``, ``yaml_manager``, ``shell``
   - ``cleanup``: ``locators``, ``request``, ``yaml_manager``
-  - ``customization``: ``filepath``, ``locators``, ``request``
+  - ``customization``: ``filepath``, ``locators``, ``request``, ``yaml_manager``
   - ``templates``: ``yaml_manager``, ``customization``
   - ``generate``: ``yaml_manager``, ``request``, ``customization``
   - ``__init__``: ``filepath``, ``locators``, ``requestfile``, ``customization``, ``shell``, ``templates``, ``cleanup``, ``comparison, ``debug``

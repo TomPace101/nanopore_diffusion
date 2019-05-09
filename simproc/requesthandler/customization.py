@@ -12,6 +12,7 @@ import types
 from . import filepath
 from . import locators
 from . import request
+from . import yaml_manager
 
 #Locator for module files
 locators.folder_structure.update(modulefile=['modules'])
@@ -178,6 +179,41 @@ class CustomizableRequest(request.Request):
       o=d.pop(attr)
     self.validate_kwargs(**d)
 
+_PythonPathRequest_props_schema_yaml="""#PythonPathRequest
+folders:
+  type: array
+  items: {type: pathlike}
+"""
+
+class PythonPathRequest(request.Request):
+  """A request to add some folders to the python path
+  
+  The folder is added when the request is loaded, so the order of requests matters.
+
+  User-defined attributes:
+  
+    - folders: a list of folder paths
+      Each path is assumed to be relative to the DATAFOLDER, unless it is an absolute path.
+  """
+  _props_schema=request.make_schema(_PythonPathRequest_props_schema_yaml)
+  _required_attrs=['folders']
+  _self_task=False #This task actually doesn't do anything when run
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(PythonPathRequest, self).__init__(**kwargs)
+    #Load the desired paths
+    for target in self.folders:
+      targpath=self.render(target)
+      if not targpath.is_absolute:
+        targpath=locators.DATAFOLDER / targpath
+      targstr=str(targpath)
+      sys.path.append(targstr)
+  def run(self):
+    """Running this request is a no-op. It is active only at load."""
+    pass
 
 #Convenience function for schema updates
 make_schema=request.create_schema_updater(CustomizableRequest)
+
+#Register for loading from yaml
+yaml_manager.register_classes([PythonPathRequest])
