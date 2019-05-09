@@ -43,18 +43,22 @@ class PeriodicBoundary2D(fem.SubDomain):
       y[0] = x[0]
       y[1] = x[1] - self.yspan
 
-_HomogFickian2DSimulator_props_schema_yaml="""#HomogFickian2DSimulator
+_HomogFickian2DConditions_props_schema_yaml="""#HomogFickian2DConditions
+elementorder: {type: integer}
+boundaries: {type: array}
 """
+HomogFickian2DConditions_props_schema=yaml_manager.readstring(_HomogFickian2DConditions_props_schema_yaml)
+HomogFickian2DConditions_schema=simrequest.update_schema_props(simrequest.EmptyConditions_schema,
+                                                    HomogFickian2DConditions_props_schema,
+                                                    ['elementorder','boundaries'])
 
 class HomogFickian2DSimulator(simrequest.SimulationRequest):
   """Simulator for 2D Homogenized Fickian Diffusion
   
-  Isotropy of the input diffusion constant is assumed.
+  Isotropy of the input diffusion constant is assumed."""
   
-  User-defined attributes:
+  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,HomogFickian2DConditions_schema)
   
-    - """
-    
   def run_sim(self):
 
     #For convenience

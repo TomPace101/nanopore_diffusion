@@ -17,15 +17,17 @@ from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
 
-_SUSimulator_props_schema_yaml="""#SUSimulator
+_SUConditions_props_schema_yaml="""#SUConditions
+species: {type: object}
 """
+SUConditions_props_schema=yaml_manager.readstring(_SUConditions_props_schema_yaml)
+SUConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
+                                                    SUConditions_props_schema,['species'])
 
 class SUSimulator(simrequest.SimulationRequest):
-  """Simulator for for Unhomogenized Smoluchowski Diffusion
+  """Simulator for for Unhomogenized Smoluchowski Diffusion"""
   
-  User-defined attributes:
-  
-    - """
+  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,SUConditions_schema)
     
   def run_sim(self):
 

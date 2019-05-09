@@ -13,8 +13,12 @@ from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
 
-_LPBSimulator_props_schema_yaml="""#LPBSimulator
+_LPBConditions_props_schema_yaml="""#LPBConditions
+kappa: {type: number}
 """
+LPBConditions_props_schema=yaml_manager.readstring(_LPBConditions_props_schema_yaml)
+LPBConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
+                                                    LPBConditions_props_schema,['kappa'])
 
 class LPBSimulator(simrequest.SimulationRequest):
   """Simulator for linearized Poisson-Boltzmann equation
@@ -22,7 +26,9 @@ class LPBSimulator(simrequest.SimulationRequest):
   User-defined attributes:
   
     - """
-    
+  
+  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,LPBConditions_schema)    
+  
   def run_sim(self):
 
     #For convenience

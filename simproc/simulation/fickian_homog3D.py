@@ -51,18 +51,23 @@ BOUNDTOL=1e-6
 #       y[0] = x[0]
 #       y[1] = x[1] - self.yspan
 
-_HomogFickian3DSimulator_props_schema_yaml="""#HomogFickian3DSimulator
+_HomogFickian3DConditions_props_schema_yaml="""#HomogFickian3DConditions
+elementorder: {type: integer}
+dirichlet: {type: object}
+boundaries: {type: array}
 """
+HomogFickian3DConditions_props_schema=yaml_manager.readstring(_HomogFickian3DConditions_props_schema_yaml)
+HomogFickian3DConditions_schema=simrequest.update_schema_props(simrequest.EmptyConditions_schema,
+                                                    HomogFickian3DConditions_props_schema,
+                                                    ['elementorder','boundaries'])
 
 class HomogFickian3DSimulator(simrequest.SimulationRequest):
   """Simulator for 3D Homogenized Fickian Diffusion
   
-  Isotropy of the input diffusion constant is assumed.
+  Isotropy of the input diffusion constant is assumed."""
   
-  User-defined attributes:
+  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,HomogFickian3DConditions_schema)
   
-    - """
-    
   def run_sim(self):
 
     #For convenience

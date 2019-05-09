@@ -2,6 +2,7 @@
 
 #Standard library
 import sys
+from copy import deepcopy
 
 #Site packages
 import fenics as fem
@@ -16,6 +17,46 @@ from .plotseries import PlotSeries
 
 #Locators
 locators.folder_structure.update(SolutionFile=['solutions',0,1])
+
+#To help with Conditions schemas
+
+def update_schema_props(origschema,newprops,newreq=None):
+  """Returns a new schema dictionary by adding to an existing one.
+  
+  Arguments:
+  
+    - origschema = the original schema (not just the properties), as a dictionary
+    - newprops = the dictionary to be added to the properties key of the original schema
+    - newreq = optional, sequence of properties to be added as required in the new schema
+    
+  Note that the original schema dictionary is not modified: a deep copy is created, modified, then returned."""
+  newschema=deepcopy(origschema)
+  newschema['properties'].update(newprops)
+  if newreq is not None:
+    newschema['required']+=newreq
+  return newschema
+
+def update_conditions(origschema,newconditions):
+  """Update the conditions portion of a SimulationRequest schema"""
+  newschema=deepcopy(origschema)
+  newschema['conditions'].update(newconditions)
+  return newschema
+
+EmptyConditions_schema_yaml="""#EmptyConditions
+type: object
+properties: {}
+required: []
+additionalProperties: False
+"""
+EmptyConditions_schema=yaml_manager.readstring(EmptyConditions_schema_yaml)
+
+GenericConditions_props_schema_yaml="""#GenericConditions
+elementorder: {type: integer}
+dirichlet: {type: object}
+neumann: {type: object}
+"""
+GenericConditions_props_schema=yaml_manager.readstring(GenericConditions_props_schema_yaml)
+GenericConditions_schema=update_schema_props(EmptyConditions_schema,GenericConditions_props_schema,['elementorder'])
 
 _SimulationRequest_props_schema_yaml="""#SimulationRequest
 mesh:
