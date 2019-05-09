@@ -188,4 +188,11 @@
 - !PythonPathRequest
   name: pathrequest
   folders: [input/customization]
-#Load a new yaml-loadable module
+#Load a new yaml-loadable module from the folder just added
+- !ModuleLoadRequest
+  name: load_newclass
+  modules: [newclass]
+#Load a request file that depends on the loaded module
+- !RequestFileRequest
+  name: customization.another.top
+  requestfile: !InputFile newclass.yaml

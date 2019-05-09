@@ -83,8 +83,8 @@ Maybe requests need to be aware of their own temporary files as well?
   - DONE Request that can parametrically generate child requests
 - Customization:
   - DONE a request that can monkey-patch itself
-  - allow user to specify python files containing classes that can be added to yaml registry (this means loading the module)
-  - allow user to specify folders to be added to the python path, so other python files can import their modules without the data files listing them
+  - DONE allow user to specify python files containing classes that can be added to yaml registry (this means loading the module)
+  - DONE allow user to specify folders to be added to the python path, so other python files can import their modules without the data files listing them
 
 # New Features/Improvements
 

@@ -204,10 +204,38 @@ class PythonPathRequest(request.Request):
     #Load the desired paths
     for target in self.folders:
       targpath=self.render(target)
-      if not targpath.is_absolute:
+      if not targpath.is_absolute():
         targpath=locators.DATAFOLDER / targpath
       targstr=str(targpath)
       sys.path.append(targstr)
+  def run(self):
+    """Running this request is a no-op. It is active only at load."""
+    pass
+
+_ModuleLoadRequest_props_schema_yaml="""#ModuleLoadRequest
+modules:
+  type: array
+  items: {type: string}
+"""
+
+class ModuleLoadRequest(request.Request):
+  """A request to load some python modules
+  
+  This could be used to load modules that define classes loadable from a yaml file.
+  (Not the same yaml file where this module is loaded, due to how yaml loading proceeds.)
+  Note that the module locations must already be on the python path
+
+  User-defined attributes:
+  
+    - modules: a list of module names"""
+  _props_schema=request.make_schema(_ModuleLoadRequest_props_schema_yaml)
+  _required_attrs=['modules']
+  _self_task=False #This task actually doesn't do anything when run
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(ModuleLoadRequest, self).__init__(**kwargs)
+    #Load the desired modules
+    load_modules(self.modules)
   def run(self):
     """Running this request is a no-op. It is active only at load."""
     pass
@@ -216,4 +244,4 @@ class PythonPathRequest(request.Request):
 make_schema=request.create_schema_updater(CustomizableRequest)
 
 #Register for loading from yaml
-yaml_manager.register_classes([PythonPathRequest])
+yaml_manager.register_classes([PythonPathRequest, ModuleLoadRequest])

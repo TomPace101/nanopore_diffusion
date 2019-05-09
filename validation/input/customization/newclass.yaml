@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+- !AnotherDummyShellRequest
+  name: dummy.another
+  test: goodbye world
+  outfile: !OutputFile goodbye_world.txt
+#Verify output of previous test
+- !FileComparisonRequest
+  name: dummy.another.verify
+  expected: !CompareFile goodbye_world.txt
+  received: !OutputFile goodbye_world.txt

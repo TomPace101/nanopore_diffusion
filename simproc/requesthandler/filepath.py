@@ -144,7 +144,7 @@ class Path(baseclass):
       try:
         os.makedirs(f.fullpath)
       except FileExistsError:
-        pass
+        pass #This can happen if there's a race condition between simultaneous requests
   def relpath(self,base):
     """More convenient approach to relative paths than offered by pathlib
     Argument: base = Path instance to attempt as the base of this path
