@@ -281,7 +281,10 @@ class SUSimulator(simulator_general.GenericSimulator):
     ##self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
     ##self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
     #mumps solver
-    self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
+    #self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
+    #gmres with ilu preconditioner
+    self.solver.parameters['linear_solver']='gmres'
+    self.solver.parameters['preconditioner']='ilu'
 
   def run(self):
     "Run this simulation"
@@ -290,10 +293,13 @@ class SUSimulator(simulator_general.GenericSimulator):
     #transform back
     self.solnlist=fem.split(self.soln)
     self.clist=[]
+    self.cbarlist=[]
     for s,cbar in enumerate(self.solnlist):
       expr=cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln)
       c=fem.project(expr,self.V_scalar,solver_type="cg",preconditioner_type="amg")
       self.clist.append(c)
+      cbar_single=fem.project(cbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")
+      self.cbarlist.append(cbar_single)
     return
 
   def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=None):
