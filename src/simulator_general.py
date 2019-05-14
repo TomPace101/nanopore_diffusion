@@ -158,7 +158,7 @@ class ModelParametersBase(common.ParameterSet):
     outfiles=[FS.infofile]
     outfiles+=list_outputfiles(getattr(self,'dataextraction',[]))
     outfiles+=list_outputfiles(getattr(self,'datasteps',[]))
-    self._more_outputfiles=[osp.join(self.outdir,f) for f in outfiles]
+    self._more_outputfiles=[osp.join(self.outdir,f) for f in outfiles if f is not None]
 
 class EquationTerm(object):
   """To keep track of additional information about each UFL form added up into the equation to solve.

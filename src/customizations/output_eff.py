@@ -47,8 +47,9 @@ def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=
   expr=fem.Constant(-D_bulk)*fem.grad(soln)
   fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
   setattr(self,fluxattr,fluxres)
-  vtk_file=fem.File(osp.join(self.outdir,filename))
-  vtk_file << fluxres
+  if filename is not None:
+    vtk_file=fem.File(osp.join(self.outdir,filename))
+    vtk_file << fluxres
   return
 
 def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None,fluxattr='flux'): ##TODO: store also quadrupled value for unit cell?
