@@ -61,7 +61,9 @@ _SimulationRequest_props_schema_yaml="""#SimulationRequest
 mesh:
   type: pathlike
 meshmeta:
-  type: pathlike
+  anyOf:
+    - {type: 'null'}
+    - {type: pathlike}
 hasmeshfuncs:
   type: boolean
 conditions:
@@ -128,9 +130,12 @@ class SimulationRequest(CustomizableRequest):
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
-    #Load the mesh
-    meshmeta=self.render(getattr(self,'meshmeta',None))
+    #Process attributes
+    meshmeta=getattr(self,'meshmeta',None)
+    if meshmeta is not None:
+      meshmeta=self.render(meshmeta)
     hasmeshfuncs=getattr(self,'hasmeshfuncs',True)
+    #Load the mesh
     self.meshinfo=MeshInfo(self.render(self.mesh),meshmeta,hasmeshfuncs)
     #Do the simulation
     self.run_sim()
