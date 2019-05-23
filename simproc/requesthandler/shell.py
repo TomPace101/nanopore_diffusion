@@ -46,7 +46,7 @@ class GeneralShellCommandRequest(ShellCommandRequestBase):
   _outputfile_attrs=['outfile']
   @property
   def cmd_str(self):
-    cmd="%s >'%s' "%(str(self.command),str(self.outfile))
+    cmd="%s >'%s' "%(str(self.command),self.renderstr(self.outfile))
     if getattr(self,'errfile',None) is None:
       cmd += "2>&1"
     else:

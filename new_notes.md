@@ -14,10 +14,9 @@ We need to have another validation step generate this file first.
 That will require the expression projector.
 
 _ISSUE_ the simulation test doesn't compare the file output
+Ideally, these simulations should be based on problems where we can compare to an analytical solution.
 Maybe we even need a way to compare yaml files other than just bytewise.
-For example, compare floats to a limited precision.
-
-_ISSUE_ the homogenization simulation requests have no property schema, and an incomplete docstring
+For example, compare floats to a limited precision, or other form of tolerance.
 
 _TODO_ in writefield_outputfiles, detect MPI and list pvtu files
 
@@ -26,10 +25,6 @@ The PeriodicBoundary classes will have to stay separate.
 This requires a way to identify the dimensionality of a mesh.
 We could put it in the mesh metadata.
 Use `mesh.geometry().dim()` to get number of dimensions in a mesh.
-
-_ISSUE_ the mesh locators don't match the case of the others
-For that matter, are there names consistent with corresponding attributes elsewhere?
-Same thing for "modulefile" in `customizations.py`.
 
 _ISSUE_ Simultaneous requests may create a new directory for the temporary request input files.
 But cleanup won't remove this directory if that's the case.
@@ -88,35 +83,6 @@ Maybe requests need to be aware of their own temporary files as well?
 
 # New Features/Improvements
 
-_DESIGN ISSUE_ Paths: you never know if it will be a locator, path, or string.
-
-One idea was to try to switch all locator rendering to the late method.
-The challenge is that sometimes you're working with locators that belong to a different request.
-So you've got to watch out for that, and have access to the request, not just its locators.
-(This is actually closer to the way it worked before: ParameterSet has methods for constructing file paths.)
-Maybe it won't work, but you can try.
-
-But does that really resolve the issue?
-Render-at-point-of-use will work for the locator-to-path step.
-But still I don't know if I have a path or a string.
-I can assume it's a string, but then I can never use paths.
-I can cast it to a path, but that might be redundant.
-Right now, there are possible cases where the code requires one or the other,
-but there isn't a conversion done.
-How do we systematically find such cases?
-You could do this:
-- render to make sure you have a path or string
-- then case to path or string, as needed.
-But that's tedious.
-And prone to being forgotten.
-
-How about this: `request.render` always returns a Path.
-If the argument is a locator, it calculates its path from the request's name.
-If the argument is a string, it's converted to a Path.
-Then, when you need a string, you cast it.
-This is now implemented.
-
-
 _FEATURE_ run with doit without dodo.
 See old notes about this.
 This requires digging into doit and copying out some of its code.
@@ -144,3 +110,8 @@ Maybe it can't.
 
 _FEATURE_ it would be better if meshinfo could query the HDF5 file about its components
 rather than requiring a keyword argument.
+
+_MAYBE_ the mesh locators don't match the case of the others
+For that matter, are their names consistent with corresponding attributes elsewhere?
+Same thing for "modulefile" in `customizations.py`.
+

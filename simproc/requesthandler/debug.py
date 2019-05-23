@@ -94,12 +94,12 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
   _outputfile_attrs=['outfile']
   @property
   def cmd_str(self):
-    return "echo '%s' >%s"%(str(self.test),str(self.outfile))
+    return "echo '%s' >%s"%(str(self.test),self.renderstr(self.outfile))
 
 class DummyShellAppendRequest(DummyShellRequest):
   @property
   def cmd_str(self):
-    return "echo '%s' >>%s"%(str(self.test),str(self.outfile))
+    return "echo '%s' >>%s"%(str(self.test),self.renderstr(self.outfile))
 
 _SleepRequest_props_schema_yaml="""#SleepRequest
 name: {type: string}

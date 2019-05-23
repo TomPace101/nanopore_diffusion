@@ -42,7 +42,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
     #Final checks and preparatory steps
     self.pre_run()
     #Load the template
-    with open(str(self.tmplfile),'r') as fh:
+    with open(self.renderstr(self.tmplfile),'r') as fh:
       tdata=fh.read()
     tmpl=Template(tdata,trim_blocks=True,keep_trailing_newline=True)
     #Do the calculations for the template values
@@ -50,7 +50,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
     #Apply the data to the template
     out_data=tmpl.render(**input_data)
     #Write the output file
-    with open(str(self.outfile),'w') as fh:
+    with open(self.renderstr(self.outfile),'w') as fh:
       fh.write(out_data)
 
 #Register for loading from yaml

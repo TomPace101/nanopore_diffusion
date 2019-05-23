@@ -59,7 +59,7 @@ class OutputCleanupRequest(request.Request):
       for child_req in parent_req.recursive_children():
         #If it creates a task, get the output files
         if child_req._self_task:
-          self.pathlist.extend(child_req.outputfiles)
+          self.pathlist += [child_req.render(f) for f in child_req.outputfiles]
   def pre_run(self):
     """Final checks and preparatory steps"""
     #Confirm validation

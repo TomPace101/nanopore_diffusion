@@ -11,6 +11,7 @@ import time
 #This package
 from . import request
 from . import yaml_manager
+from . import locators
 from .filepath import Path
 
 main_mod_name=request.__package__.split('.')[0]
@@ -69,7 +70,9 @@ class SimultaneousRequestQueue(request.Request):
         req=self.queue[indx]
         #Write the input file
         fpath=self.tmploc / (tmp_tmpl%indx)
-        yaml_manager.writefile([req],fpath)
+        sdf=locators.SetDataFolder()
+        ufs=locators.UpdateFolderStructure()
+        yaml_manager.writefile([sdf,ufs,req],fpath)
         #Start the subprocess
         args=(sys.executable,'-m',main_mod_name,str(fpath))
         p=subprocess.Popen(args,cwd=work_path,shell=False)

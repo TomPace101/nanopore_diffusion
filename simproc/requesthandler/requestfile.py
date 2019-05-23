@@ -40,7 +40,7 @@ class RequestFileRequest(request.Request):
     #Initialization from base class
     super(RequestFileRequest, self).__init__(**kwargs)
     #Load all objects from the yaml file
-    allobj = yaml_manager.readfile(str(self.requestfile),getattr(self,'multidoc',MULTIDOC_DEFAULT))
+    allobj = yaml_manager.readfile(self.render(self.requestfile),getattr(self,'multidoc',MULTIDOC_DEFAULT))
     #Store child objects that are Request subclasses
     self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
 

@@ -28,7 +28,7 @@ def get_paths_facet_cell(self):
   - cell_xml = Path to .xml file containing cell meshfunction data"""
   global DCONV_XML_SUFFIX
   #Compute paths for facet_xml and cell_xml if not provided
-  mesh_xml=Path(self.mesh_xml)
+  mesh_xml=self.render(self.mesh_xml)
   for attrname in DCONV_XML_SUFFIX.keys():
     if not hasattr(self,attrname):
       filename=mesh_xml.stemname+DCONV_XML_SUFFIX[attrname]+mesh_xml.ext
@@ -72,7 +72,7 @@ class DolfinConvertRequest(ShellCommandRequestBase):
     get_paths_facet_cell(self)
   @property
   def cmd_str(self):
-    return "dolfin-convert %s %s > %s"%(self.mshfile,self.mesh_xml,self.dconv_outfile)
+    return "dolfin-convert %s %s > %s"%(self.renderstr(self.mshfile),self.renderstr(self.mesh_xml),self.renderstr(self.dconv_outfile))
 
 #Register for loading from yaml
 register_classes([DolfinConvertRequest])

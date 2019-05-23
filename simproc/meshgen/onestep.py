@@ -92,8 +92,6 @@ class GeoToHDF5Request(Request):
         ext=file_extensions[attrname]
         the_loc=getattr(locators,attrname)(self.mesh_stem+ext)
         setattr(self,attrname,the_loc)
-    #Resolve locators
-    self.resolve_locators()
     #Set up child requests
     for child_attr, rclass, suffix, keylist in child_request_control:
       kwargs=dict([(k,getattr(self,k)) for k in keylist if hasattr(self,k)])

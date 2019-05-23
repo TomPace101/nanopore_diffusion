@@ -8,7 +8,6 @@ from copy import deepcopy
 import fenics as fem
 
 #This package
-from ..requesthandler.request import resolve_any_locator
 from ..requesthandler.customization import CustomizableRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
@@ -125,14 +124,12 @@ class SimulationRequest(CustomizableRequest):
     #Get output files from data extraction commands
     self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
     self._more_outputfiles+=self.list_outputfiles(getattr(self,'dataextraction',[]))
-    #Render locators
-    self.resolve_locators()
 
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
     #Load the mesh
-    meshmeta=getattr(self,'meshmeta',None)
+    meshmeta=self.render(getattr(self,'meshmeta',None))
     hasmeshfuncs=getattr(self,'hasmeshfuncs',True)
     self.meshinfo=MeshInfo(self.render(self.mesh),meshmeta,hasmeshfuncs)
     #Do the simulation

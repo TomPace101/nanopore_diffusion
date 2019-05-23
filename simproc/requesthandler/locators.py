@@ -155,6 +155,8 @@ class UpdateFolderStructure(object):
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
+  def __getstate__(self):
+    return folder_structure
 
 class SetDataFolder(object):
   """Set the DATAFOLDER
@@ -166,22 +168,27 @@ class SetDataFolder(object):
   is not a request either."""
   def __init__(self,**kwargs):
     global DATAFOLDER
-    targpath=filepath.Path(kwargs['datafolder'])
-    targpath=targpath.expanduser()
-    if not targpath.is_absolute():
-      #Relative path, assumed to be relative to the yaml file location (if one is being loaded)
-      #If you're not loading a yaml file, it will just use python's current directory
-      if len(yaml_manager.now_loading)>0:
-        yamlpath_str=yaml_manager.now_loading[-1]
-        yamlpath=filepath.Path(yamlpath_str,isfile=True)
-        yamldir=yamlpath.folder_path
-        targpath=yamldir/targpath
-    if kwargs.get('resolve',True):
-      targpath=targpath.resolve()
-    DATAFOLDER=targpath
+    if len(kwargs)>0:
+      targpath=filepath.Path(kwargs['datafolder'])
+      targpath=targpath.expanduser()
+      if not targpath.is_absolute():
+        #Relative path, assumed to be relative to the yaml file location (if one is being loaded)
+        #If you're not loading a yaml file, it will just use python's current directory
+        if len(yaml_manager.now_loading)>0:
+          yamlpath_str=yaml_manager.now_loading[-1]
+          yamlpath=filepath.Path(yamlpath_str,isfile=True)
+          yamldir=yamlpath.folder_path
+          targpath=yamldir/targpath
+      if kwargs.get('resolve',True):
+        targpath=targpath.resolve()
+      DATAFOLDER=targpath
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
+  def __getstate__(self):
+    """Used for pickling, and writing to yaml"""
+    global DATAFOLDER
+    return {'datafolder':DATAFOLDER}
 
 #Register for loading from yaml
 yaml_manager.register_classes([filepath.Path,DataFile,UpdateFolderStructure,SetDataFolder])

@@ -133,7 +133,6 @@ class CustomizableRequest(request.Request):
     #Initialization from base class
     super(CustomizableRequest, self).__init__(**kwargs)
     #Read the customization attributes, allowing any to be missing
-    self.resolve_locators_in(['modules'],getattr(self,'name',''))
     modules=getattr(self,'modules',[])
     methods=getattr(self,'methods',[])
     initializations=getattr(self,'initializations',{})
@@ -146,9 +145,9 @@ class CustomizableRequest(request.Request):
     self._more_inputfiles+=modules
     #Load modules
     function_name_to_module={} #dictionary mapping addable functions to their home modules
-    for modpath in modules:
+    for modloc in modules:
       #Load module
-      modpath=filepath.Path(modpath,isFile=True)
+      modpath=self.render(modloc)
       themod=load_module_from_path(modpath)
       modname = themod.__name__
       #Intialize, if requested

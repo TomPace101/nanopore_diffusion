@@ -55,17 +55,17 @@ class HDF5ConvertRequest(Request):
     #Final checks and preparatory steps
     self.pre_run()
     #Read in the xml files (Mesh and MeshFunctions)
-    mesh =   fem.Mesh(str(self.mesh_xml))
+    mesh = fem.Mesh(self.renderstr(self.mesh_xml))
     if self.facet_xml is None:
       facets = None
     else:
-      facets = fem.MeshFunction("size_t", mesh, str(self.facet_xml))
+      facets = fem.MeshFunction("size_t", mesh, self.renderstr(self.facet_xml))
     if self.cell_xml is None:
       cells = None
     else:
-      cells =  fem.MeshFunction("size_t", mesh, str(self.cell_xml))
+      cells =  fem.MeshFunction("size_t", mesh, self.renderstr(self.cell_xml))
     #Output to HDF5
-    hdf5=fem.HDF5File(mesh.mpi_comm(),str(self.mesh_hdf5file),'w')
+    hdf5=fem.HDF5File(mesh.mpi_comm(),self.renderstr(self.mesh_hdf5file),'w')
     hdf5.write(mesh,'mesh')
     if facets is not None:
       hdf5.write(facets,'facets')

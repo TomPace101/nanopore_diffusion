@@ -11,6 +11,7 @@ from . import filepath
 from . import request
 from . import yaml_manager
 from . import simultaneous
+from . import locators
 
 #Default tmpfile
 DEFAULT_TMPFILE = filepath.Path('.').expanduser().resolve() / 'tmp.yaml'
@@ -56,7 +57,9 @@ class MPIRunRequest(request.Request):
     #Create the output directories for the request, one time, to avoid conflicts
     self.child.assure_output_dirs()
     #Write the input file
-    yaml_manager.writefile([self.child],str(self.tmpfile))
+    sdf=locators.SetDataFolder()
+    ufs=locators.UpdateFolderStructure()
+    yaml_manager.writefile([sdf,ufs,self.child],str(self.tmpfile))
     #Call MPIrun to start the processes
     args=('mpirun','-np','%d'%self.numproc,sys.executable,'-m',main_mod_name,str(self.tmpfile))
     p=subprocess.Popen(args,cwd=work_path,shell=False)

@@ -76,7 +76,7 @@ class FileComparisonRequest(request.Request):
   _config_attrs=['expected','received']
   _self_task=True
   def run(self):
-    args=(str(self.expected),str(self.received))
+    args=(self.renderstr(self.expected),self.renderstr(self.received))
     ans=filecmp.cmp(*args,shallow=False)
     assert ans, "Found unexpected difference in files %s and %s"%args
     return "Files match: %s and %s"%args
@@ -178,11 +178,13 @@ class FileSizeComparisonRequest(request.Request):
       upper=rg
       lower=-rg
     #Read the size of both files
-    exp_size=os.stat(str(self.expected)).st_size
-    rcv_size=os.stat(str(self.received)).st_size
+    exp=self.renderstr(self.expected)
+    rcv=self.renderstr(self.received)
+    exp_size=os.stat(exp).st_size
+    rcv_size=os.stat(rcv).st_size
     maxsize=exp_size+upper
     minsize=exp_size+lower
-    valtup=(str(self.expected),exp_size,str(self.received),rcv_size,upper,lower,minsize,maxsize)
+    valtup=(exp,exp_size,rcv,rcv_size,upper,lower,minsize,maxsize)
     assert rcv_size >= minsize and rcv_size <= maxsize, self.err_tmpl%valtup
     return "File sizes match: %s and %s"%(str(self.expected),str(self.received))
 

@@ -45,9 +45,9 @@ class GmshRequest(ShellCommandRequestBase):
     cmd = "gmsh -%d -format msh2"%int_arg
     #meshmetafile, if provided
     if getattr(self,'meshmetafile',None) is not None:
-      cmd += " -setstring meshmetafile '%s'"%self.meshmetafile
+      cmd += " -setstring meshmetafile '%s'"%self.renderstr(self.meshmetafile)
     #All the other files
-    cmd += " -o '%s' '%s' >'%s'"%(self.mshfile,self.geofile,self.gmsh_outfile)
+    cmd += " -o '%s' '%s' >'%s'"%(self.renderstr(self.mshfile),self.renderstr(self.geofile),self.renderstr(self.gmsh_outfile))
     return cmd
 
 #Register for loading from yaml

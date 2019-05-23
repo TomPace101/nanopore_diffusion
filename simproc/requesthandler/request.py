@@ -39,32 +39,6 @@ def validation_error_string(err):
     s="%s: %s"%('.'.join([str(itm) for itm in err.path]),s)
   return s
 
-def render_locator(obj,reqname):
-  """If an object is a locator, render it to a path"""
-  if hasattr(obj,'path'):
-    return obj.path(reqname)
-  else:
-    return obj
-
-def resolve_any_locator(data,reqname):
-  """Check an object for the presence of locators and resolve"""
-  #Don't process strings, ints, or floats
-  if isinstance(data,str) or isinstance(data,float) or isinstance(data,int):
-    out=data
-  #Is the attribute a locator?
-  elif hasattr(data,'path'):
-    out=data.path(reqname)
-  #For a sequence, check each entry
-  elif hasattr(data,'index'):
-    out=type(data)([render_locator(itm,reqname) for itm in data])
-  #For a dictionary, check the values
-  elif hasattr(data,'items'):
-    out=type(data)([(k,render_locator(v,reqname)) for k,v in data.items()])
-  #Presume not a locator
-  else:
-    out=data
-  return out
-
 #Validation schema for Request
 #Note that validation is not applied to class attributes,
 #but some of these could be instance attributes in a subclass
@@ -154,8 +128,6 @@ class Request(object):
     #If named, add to dictionary of named requests
     if hasattr(self,'name'):
       all_requests[self.name]=self
-    #Render locators
-    self.resolve_locators()
   def render(self,loc):
     """Render a locator to a Path instance
     
@@ -166,25 +138,9 @@ class Request(object):
     else:
       fpath=filepath.Path(loc)
     return fpath
-  def resolve_locators_in(self,attrname_list,reqname):
-    """Search the given attributes for locators, and render them in-place"""
-    for attrname in attrname_list:
-      if hasattr(self,attrname):
-        data=getattr(self,attrname)
-        out=resolve_any_locator(data,reqname)
-        #Assign result back to attribute
-        setattr(self,attrname,out)
-    return
-  def resolve_locators(self):
-    """Replace locators with the paths they render to.
-    
-    This searches input and output files defined by this request only.
-    If your request class could have locators in other areas, you'll need to override this method"""
-    reqname=getattr(self,'name','')
-    attrname_list=['_more_inputfiles','_more_outputfiles']
-    attrname_list+=getattr(self,'_inputfile_attrs',[])
-    attrname_list+=getattr(self,'_outputfile_attrs',[])
-    self.resolve_locators_in(attrname_list,reqname)
+  def renderstr(self,loc):
+    """Convenience function for str(self.render(loc))"""
+    return str(self.render(loc))
   @classmethod
   def update_props_schema(cls,yaml_str):
     """Return the property schema for a subclass
@@ -363,8 +319,7 @@ class Request(object):
     
     For this request only; child requests will need to do this themselves."""
     for fpath in self.outputfiles:
-      assert isinstance(fpath,filepath.Path), "Received %s for output file path; need Path instance instead"%(fpath)
-      fpath.assure_dir()
+      self.render(fpath).assure_dir()
     return
   @property
   def task_definition(self):

@@ -13,8 +13,8 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``locators``: ``filepath``, ``yaml_manager``
   - ``request``: ``filepath``, ``yaml_manager``, ``locators``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
-  - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``
-  - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``
+  - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``
+  - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``, ``locators``
   - ``shell``: ``request``, ``yaml_manager``
   - ``debug``: ``request``, ``yaml_manager``, ``shell``
   - ``cleanup``: ``locators``, ``request``, ``yaml_manager``
