@@ -362,19 +362,5 @@ make_schema=create_schema_updater(Request)
 #For jsonschema 2.6
 extra_types_dict['request']=(Request,)
 
-class RequestByName(object):
-  """Class to return another request by name
-  
-  This class allows requests to be re-used in yaml files, rather than re-defined.
-  You can just use yaml anchors to do exactly the same thing, though."""
-  def __new__(cls,reqname):
-    return all_requests[reqname]
-  @classmethod
-  def from_yaml(cls, constructor, node):
-    return cls(node.value)
-  # @classmethod
-  # def to_yaml(cls, representer, node):
-  #   return representer.represent_scalar("!"+cls.__name__,str(node.name))
-
 #Register for loading from yaml
-yaml_manager.register_classes([Request, RequestByName])
+yaml_manager.register_classes([Request])
