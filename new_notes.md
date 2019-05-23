@@ -115,3 +115,7 @@ _MAYBE_ the mesh locators don't match the case of the others
 For that matter, are their names consistent with corresponding attributes elsewhere?
 Same thing for "modulefile" in `customizations.py`.
 
+_ISSUE_ Unconfirmed: once a child request of an MPIRunRequest crashed,
+but it seemed like the parent request kept waiting.
+But I can't get that to happen again.
+
