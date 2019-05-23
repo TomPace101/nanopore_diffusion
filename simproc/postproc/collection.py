@@ -57,11 +57,13 @@ class RawCollectionRequest(CustomizableRequest):
     for mapping,file_list in self.definitions:
       self._more_inputfiles += file_list
   def run(self):
+    #Initialize dataframe
+    #For each file
+    #Load the file
+    #Get the data into the dataframe
     ##TODO!
-    pass
-  def do_calcs(self):
-    ##TODO!
-    pass
+    #Do post-collection calculations
+    self.process_command_sequence(attrpath='calculations',singlefunc=None,positional=False)
 
 _CollectionRequest_props_schema_yaml="""#CollectionRequest
 outpath:
