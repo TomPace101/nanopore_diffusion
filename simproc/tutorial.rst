@@ -44,8 +44,6 @@ Some typical steps are:
 
 **TODO**
 
-_TODO_ be sure to describe the ``complete`` method.
-
 .. doctest::
   
   Very basic test of functionality.
@@ -54,6 +52,11 @@ _TODO_ be sure to describe the ``complete`` method.
   >>> req=debug.DummyRequest(name='debug_test',test='abcd1234')
   >>> req.run()
   abcd1234
+  
+  Define and run a request all at once, using the ``complete`` method.
+  
+  >>> req=debug.DummyRequest.complete(name='debug_again',test='7890wxyz')
+  7890wxyz
 
 Locators
 ========
@@ -180,6 +183,11 @@ These attributes are allowed to contain locator instances, Path instances, or st
 The code defining the request classes cast these objects to Paths or strings at the point of need,
 using the Request method ``render`` or ``renderstr``, respectively.
 
+
+Customization
+=============
+
+**TODO**
 
 Miscellany
 ==========

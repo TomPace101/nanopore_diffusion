@@ -30,6 +30,9 @@ _ISSUE_ Simultaneous requests may create a new directory for the temporary reque
 But cleanup won't remove this directory if that's the case.
 Maybe requests need to be aware of their own temporary files as well?
 
+_ISSUE_ It's been a while since we built documentation with sphinx.
+We probably want to start from scratch on that for the refactoring.
+
 # Refactoring
 
 - DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
