@@ -2,7 +2,6 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
-from collections import OrderedDict as odict
 from itertools import chain
 
 #Site packages
@@ -26,9 +25,6 @@ extra_types_dict={'path':filepath.Path,
                   'locator':locators.DataFile,
                   'pathlike':(str,filepath.Path,locators.DataFile), #Note that this isn't the same thing as "pathlike" in python.org documentation
                   'array':(list,tuple)}
-
-#Dictionary of all loaded requests
-all_requests=odict()
 
 def validation_error_string(err):
   "Return a string explaining the given validation error"
@@ -125,9 +121,6 @@ class Request(object):
     #Load the attributes specified
     for k,v in kwargs.items():
       setattr(self,k,v)
-    #If named, add to dictionary of named requests
-    if hasattr(self,'name'):
-      all_requests[self.name]=self
   def render(self,loc):
     """Render a locator to a Path instance
     
