@@ -140,72 +140,25 @@ class SimulationRequest(CustomizableRequest):
     #Do the simulation
     self.run_sim()
     #Generate output, if any
-    self.process_output_commands('dataextraction')
+    self.process_command_sequence(attrpath='dataextraction',singlefunc=None,positional=False)
     return
 
   def run_sim(self):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'run_sim' method."%str(type(self)))
 
-  def get_nested(self,dpath):
-    """Return the value from the specified attribute/key/index path
-    
-    Arguments:
-    
-      - dpath = string describing path to the data, using dot separators, or a sequence
-          The path may contain attributes and dictionary keys, with no need to distinguish between them.
-          List indices are also allowed.
-    
-    Returns the requested data."""
-    nxt=self
-    if isinstance(dpath,str):
-      seq=dpath.split('.')
-    else:
-      seq=dpath
-    for name in seq:
-      if hasattr(nxt,name):
-        nxt = getattr(nxt,name)
-      else:
-        try:
-          nxt=nxt.__getitem__(name)
-        except:
-          raise KeyError('Invalid path %s: No attribute, key, or index %s'%(dpath,name))
-    return nxt
-
-  def set_nested(self,dpath,val):
-    """Set the value at the specified attribute/key/index path
-    
-    Arguments:
-    
-      - dpath = string describing path to the data, using dot separators, or a sequence
-      - val = value to assign
-    
-    No return value."""
-    if isinstance(dpath,str):
-      seq=dpath.split('.')
-    else:
-      seq=dpath
-    head=seq[:-1]
-    tail=seq[-1]
-    parent=self.get_nested(head)
-    if hasattr(parent,'__setitem__'):
-      parent.__setitem__(tail,val)
-    else:
-      setattr(parent,tail,val)
-    return
-
-  def loadfield(self,infpath,fieldtag,attrpath,idx=None):
+  def loadfield(self,attrpath,infpath,fieldtag,idx=None):
     """Load data into the simulator from an HDF5 input file
     
     Arguments:
     
-      - infpath = path to input file
-      
-      - fieldtag = string identifying the HDF5 field name to load
-      
       - attrpath = attribute path to load the data into, as string
       
         Note that this attribute must already exist, and be of the proper type to receive the requested data.
+      
+      - infpath = path to input file
+      
+      - fieldtag = string identifying the HDF5 field name to load
       
       - idx = index number (as integer) speciying location within the given attribute, None (default) if not the attribute itself is not a sequence
     
@@ -217,23 +170,11 @@ class SimulationRequest(CustomizableRequest):
     hdf5.read(inputval,fieldtag)
     hdf5.close()
 
-  def process_load_commands(self,attrpath='loaddata'):
+  def process_load_commands(self):
     """Process a list of load data commands
 
-    Arguments:
-
-      - attrpath = attribute path of self containing the command list
-
     No return value."""
-    for cmd in self.get_nested(attrpath):
-      #Function arguments
-      aname, fpath, ftag = cmd
-      #Call it
-      try:
-        self.loadfield(fpath,ftag,aname)
-      except Exception as einst:
-        print("Exception occured in %s for command: %s"%(attrpath,str(cmd)), file=sys.stderr)
-        raise einst
+    self.process_command_sequence(attrpath='loaddata',singlefunc='loadfield',positional=True)
     return
 
   def process_output_commands(self,attrpath='dataextraction'):
@@ -241,7 +182,7 @@ class SimulationRequest(CustomizableRequest):
 
     Arguments:
 
-      - attrpath = attribute path of self.modelparams containing the command list
+      - attrpath = attribute path to the command list
 
     No return value."""
     for cmd in self.get_nested(attrpath):

@@ -177,6 +177,39 @@ class CustomizableRequest(request.Request):
     for attr in getattr(self,'extra',{}).keys():
       o=d.pop(attr)
     self.validate_kwargs(**d)
+  def process_command_sequence(self,attrpath,singlefunc=None,positional=False):
+    """Process a list of commands
+
+    Arguments:
+
+      - attrpath = attribute path to the command list
+      - singlefunc = the name (as string) of the method to be called for all items in the sequence.
+        Set this to ``None`` if the command list must include the function name.
+        Otherwise, the command list will consist only of the arguments.
+      - positional = boolean, True to use positional arguments, False to use keyword arguments
+        If False, the arguments are provided as a dictionary.
+        If True, the arguments are provided as a sequence.
+
+    No return value."""
+    if singlefunc is not None:
+      funcname = singlefunc
+    for cmd in self.get_nested(attrpath):
+      try:
+        #Function name and arguments
+        if singlefunc is None:
+          funcname, arguments = cmd
+        else:
+          arguments = cmd
+        #Call it
+        if positional:
+          getattr(self,funcname)(*arguments)
+        else:
+          getattr(self,funcname)(**arguments)
+      except Exception as einst:
+        print("Exception occured in %s for command: %s"%(attrpath,str(cmd)), file=sys.stderr)
+        raise einst
+    return
+
 
 _PythonPathRequest_props_schema_yaml="""#PythonPathRequest
 folders:
