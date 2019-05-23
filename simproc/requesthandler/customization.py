@@ -240,7 +240,7 @@ class ModuleLoadRequest(request.Request):
     pass
 
 #Convenience function for schema updates
-make_schema=request.create_schema_updater(CustomizableRequest)
+make_schema=CustomizableRequest.update_props_schema
 
 #Register for loading from yaml
 yaml_manager.register_classes([PythonPathRequest, ModuleLoadRequest])

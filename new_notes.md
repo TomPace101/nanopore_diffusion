@@ -33,6 +33,13 @@ Maybe requests need to be aware of their own temporary files as well?
 _ISSUE_ It's been a while since we built documentation with sphinx.
 We probably want to start from scratch on that for the refactoring.
 
+_ISSUE_ when requests are written to yaml (MPIRunRequest and SimultaneousRequestQueue),
+could there be modules that need to be loaded by the new process as well?
+Could there be folders that need to be added to the python path?
+You could have the customization module track this.
+When its relevant classes are used, it keeps track of the additions in a module variable,
+and then can write those items back out to yaml.
+
 # Refactoring
 
 - DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
