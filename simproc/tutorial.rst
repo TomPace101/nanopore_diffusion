@@ -75,10 +75,7 @@ The top folder can also be changed at runtime.
 
 The folder structure within this top folder is determined by the types of locators defined.
 For each kind of data file you might want to store, a locator type is created.
-Each data file is also assumed to belong to a particular request,
-so the locator can use information from the request to calculate the data file path.
-
-**TODO** 
+The actual file paths are calculated from information in the locator and the request it belongs to.
 
 Here is a complete example of the use of locators.
 
@@ -161,7 +158,28 @@ Here is a complete example of the use of locators.
   >>> req.render(loc)
   Path('newdatafolder/output/debug/my_output_file.dat')
   
+  Example 7: rendering non-locator objects
+  
+  >>> req.render('data/output/odd_location') #The result will be a Path instance
+  Path('data/output/odd_location')
+  >>> req.render(Path('thisfile.txt')) #Unchanged
+  Path('thisfile.txt')
+  >>> req.renderstr('thisfile.txt') #This gets changed to a Path first, then a string
+  'thisfile.txt'
+  >>> req.renderstr(None) #This doesn't work because None can't be turned into a Path
+  Traceback (most recent call last):
+    ...
+  TypeError: argument should be a path or str object, not <class 'NoneType'>
+  >>> str(None) #even though None can be turned into a string directly
+  'None'
+  
 More examples of the use of locators from within yaml files can be found in the validation files.
+
+The various request classes contain many attributes that hold file paths.
+These attributes are allowed to contain locator instances, Path instances, or strings.
+The code defining the request classes cast these objects to Paths or strings at the point of need,
+using the Request method ``render`` or ``renderstr``, respectively.
+
 
 Miscellany
 ==========
