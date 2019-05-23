@@ -156,6 +156,7 @@ class UpdateFolderStructure(object):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
   def __getstate__(self):
+    """Used for pickling, and writing to yaml"""
     return folder_structure
 
 class SetDataFolder(object):
