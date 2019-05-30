@@ -52,7 +52,7 @@ class LPBSimulator(simulator_general.GenericSimulator):
 
     #Load mesh and meshfunctions
     self.meshinfo=other.meshinfo
-    self.V = other.V_scalar
+    self.V = other.V_one_scalar
     self.ds = other.ds
 
     #Get conditions
@@ -184,9 +184,9 @@ class SUFOSimulator(simulator_general.GenericSimulator):
     mele=fem.MixedElement([ele_scalar]*self.Nspecies+[ele_vector]*self.Nspecies)
 
     #Function spaces
-    self.V_one_scalar=fem.FunctionSpace(mesh,ele_scalar)
-    self.V_one_vector=fem.FunctionSpace(mesh,ele_vector)
-    self.V_all=fem.FunctionSpace(mesh,mele)
+    self.V_one_scalar=fem.FunctionSpace(self.meshinfo.mesh,ele_scalar)
+    self.V_one_vector=fem.FunctionSpace(self.meshinfo.mesh,ele_vector)
+    self.V_all=fem.FunctionSpace(self.meshinfo.mesh,mele)
 
     #Trial Functions
     u = fem.TrialFunction(self.V_all)
@@ -200,7 +200,7 @@ class SUFOSimulator(simulator_general.GenericSimulator):
     ss_taulist = vlist[self.Nspecies:self.Nunk]
 
     #Solution function(s)
-    self.soln=fem.Function(V_all)
+    self.soln=fem.Function(self.V_all)
 
     #Measure and normal for external boundaries
     self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
@@ -256,12 +256,12 @@ class SUFOSimulator(simulator_general.GenericSimulator):
     for s,spec in enumerate(self.species):
       Dbar=spec.D*fem.exp(-self.conditions.beta*spec.z*self.potsim.soln)
       self.Dbar_dict[s]=Dbar
-      self.Dbar_proj.append(fem.project(Dbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")) #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
+      self.Dbar_proj.append(fem.project(Dbar,self.V_one_scalar,solver_type="cg",preconditioner_type="amg")) #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
 
     #Weak Form
     allterms=simulator_general.EquationTermDict(simulator_general.EquationTerm)
     #Body terms
-    for S,cbar in enumerate(cbarlist):
+    for S,cbar in enumerate(ss_cbarlist):
       if self.species[s].D is not None:
         #Bilinear Term 1
         termname='body_%d_1'%s
@@ -288,7 +288,7 @@ class SUFOSimulator(simulator_general.GenericSimulator):
       R,P=pair
       termname='reactive_%d'%psurf
       ufl=fem.dot(ss_taulist[R]+ss_taulist[P],ss_jlist[R]+ss_jlist[P])*self.ds(psurf)
-      allterms.add(termname,ulf,bilinear=True)
+      allterms.add(termname,ufl,bilinear=True)
 
     #Problem and Solver
     self.a=allterms.sumterms(bilinear=True)
