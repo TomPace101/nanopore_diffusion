@@ -281,7 +281,7 @@ class SUFOSimulator(simulator_general.GenericSimulator):
         allterms.add(termname,ufl,bilinear=False)
         #Zero Term 2
         termname='body_zero_%s_2'%s
-        ufl=fem.dot(fem.Constant((0,)*self.Nspecies),ss_taulist[S])*self.dx
+        ufl=fem.dot(fem.Constant((0,)*num_dim),ss_taulist[S])*self.dx
         allterms.add(termname,ufl,bilinear=False)
     #Reactive boundaries
     for psurf,pair in self.rbcs.items():
@@ -295,17 +295,8 @@ class SUFOSimulator(simulator_general.GenericSimulator):
     self.L=allterms.sumterms(bilinear=False)
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
-    #Set solver parameters to avoid UMFPACK out-of-memory error
-    #iterative solver
-    ##self.solver.parameters['linear_solver']='cg' #Conjugate Gradient method, an iterative Krylov solver
-    ##self.solver.parameters['preconditioner']='amg' #Algebraic MultiGrid preconditioner
-    #mumps solver
-    #self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
-    #gmres with ilu preconditioner
-    #self.solver.parameters['linear_solver']='gmres'
-    #self.solver.parameters['preconditioner']='ilu'
     #Get solver parameters from the conditions
-    for k,v in self.conditions.solver_parameters.items():
+    for k,v in getattr(self.conditions,'solver_parameters',{}).items():
       self.solver.parameters[k]=v
 
   def run(self):
@@ -314,8 +305,8 @@ class SUFOSimulator(simulator_general.GenericSimulator):
     self.solver.solve()
     #Split, transform, and store
     solnlist=fem.split(self.soln)
-    unproj_cbarlist=ss_solnlist[0:self.Nspecies]
-    unproj_fluxlist=ss_solnlist[self.Nspecies:self.Nunk]
+    unproj_cbarlist=solnlist[0:self.Nspecies]
+    unproj_fluxlist=solnlist[self.Nspecies:self.Nunk]
     self.cbarlist=[]
     self.clist=[]
     self.fluxlist=[]
@@ -324,7 +315,7 @@ class SUFOSimulator(simulator_general.GenericSimulator):
       cbar_single=fem.project(cbar,self.V_one_scalar,solver_type="cg",preconditioner_type="amg")
       self.cbarlist.append(cbar_single)
       #c
-      expr=cbar*fem.exp(-self.conditions.beta*zpair[s]*self.species[s].z*self.potsim.soln)
+      expr=cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln)
       c=fem.project(expr,self.V_one_scalar,solver_type="cg",preconditioner_type="amg")
       self.clist.append(c)
     for s,flux in enumerate(unproj_fluxlist):

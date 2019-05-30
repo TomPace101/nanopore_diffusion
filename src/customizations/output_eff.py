@@ -84,7 +84,7 @@ def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None,
   if normalvar is not None:
     self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the facet normal
   this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
-  flux=getattr(self,fluxnattr)
+  flux=getattr(self,fluxattr)
   if idx is not None:
     flux=flux[idx]
   totflux=fem.assemble(fem.dot(flux,this_n)*this_ds(fluxsurf))
