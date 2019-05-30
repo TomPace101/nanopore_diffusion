@@ -111,28 +111,30 @@ class Species(common.ParameterSet):
   __slots__=('symbol','z','D')
   _required_attrs=__slots__
 
-class SUConditions(simulator_general.GenericConditions):
+class SUFOConditions(simulator_general.GenericConditions):
   """Condition defnitions for use with SUSimulator
 
   User-Provided Attributes:
 
-    - dirichlet = dictionary of Dirichlet boundary conditions:
-      {physical facet number: solution value, ...}
-    - neumann = dictionary of Neumann boundary conditions:
-      {physical facet number: [normal derivative values, None for no condition]}
+    - solver_parameters = dictionary of solver parameters
+    - concentrationBC = dictionary of concentration boundary conditions:
+      {physical facet number: [concentration values, None for no condition] ...}
+    - fluxBC = dictionary of flux boundary conditions:
+      {physical facet number: [flux values, None for no condition], ...}
       Note that the normal derivative is NOT the flux; divide the flux by -D to get the normal derivative.
-    - reactive = dictionary of reactive boundary conditions:
+    - reactiveBC = dictionary of reactive boundary conditions:
       {physical facet number: [species_in, species_out]}
       where species_in and species_out are the symbols of the reactant and product species, respectively.
     - species = sequence of dictionaries, each defining a Species object
     - beta = 1/kBT for the temperature under consideration, in units compatible with q times the potential
     - potential = dictionary defining simulator_run.ModelParameters for electric potential
   
-  Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
-    That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['dirichlet','species','beta','potential','reactive']
+  Note also that the concentration boundary conditions are specified as c, rather than cbar.
+    That is, the code will do the necessary Slotboom transformation on the concentration boundary conditions.
+    The Slotboom transformation does not affect the fluxes."""
+  __slots__=['solver_parameters','concentrationBC','fluxBC','reactiveBC','species','beta','potential']
 
-class SUSimulator(simulator_general.GenericSimulator):
+class SUFOSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Smoluchowski Diffusion
 
   Additional attributes not inherited from GenericSimulator:
@@ -156,10 +158,13 @@ class SUSimulator(simulator_general.GenericSimulator):
       - modelparams = simulator_run.ModelParameters instance"""
 
     #Load parameters, init output, load mesh
-    super(SUSimulator, self).__init__(modelparams)
+    super(SUFOSimulator, self).__init__(modelparams)
+
+    #Spatial dimensions
+    num_dim=self.meshinfo.mesh.geometry().dim()
 
     #Get conditions
-    self.conditions=SUConditions(**modelparams.conditions)
+    self.conditions=SUFOConditions(**modelparams.conditions)
 
     #Species
     self.species=[]
@@ -171,23 +176,31 @@ class SUSimulator(simulator_general.GenericSimulator):
       self.species_dict[spec.symbol]=spec
       self.species_indices[spec.symbol]=s
     self.Nspecies=len(self.species)
+    self.Nunk=2*self.Nspecies #2 unknowns per species: flux and concentration
     
-    #Elements and Function space(s)
-    ele = fem.FiniteElement('CG',self.meshinfo.mesh.ufl_cell(),self.conditions.elementorder)
-    mele = fem.MixedElement([ele]*self.Nspecies)
-    self.V = fem.FunctionSpace(self.meshinfo.mesh,mele)
-    self.V_scalar=fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder)
-    self.V_vec=fem.VectorFunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder)
+    #Mixed Finite Elements
+    ele_scalar=fem.FiniteElement('CG',self.meshinfo.mesh.ufl_cell(),self.conditions.elementorder)
+    ele_vector=fem.VectorElement('CG',self.meshinfo.mesh.ufl_cell(),self.conditions.elementorder)
+    mele=fem.MixedElement([ele_scalar]*self.Nspecies+[ele_vector]*self.Nspecies)
+
+    #Function spaces
+    self.V_one_scalar=fem.FunctionSpace(mesh,ele_scalar)
+    self.V_one_vector=fem.FunctionSpace(mesh,ele_vector)
+    self.V_all=fem.FunctionSpace(mesh,mele)
 
     #Trial Functions
-    self.u = fem.TrialFunction(self.V)
-    cbarlist=fem.split(self.u)
+    u = fem.TrialFunction(self.V_all)
+    ulist = fem.split(u)
+    ss_cbarlist = ulist[0:self.Nspecies]
+    ss_jlist = ulist[self.Nspecies:self.Nunk]
 
     #Test Functions
-    vlist=fem.TestFunctions(self.V)
+    vlist = fem.TestFunctions(self.V_all)
+    ss_nulist = vlist[0:self.Nspecies]
+    ss_taulist = vlist[self.Nspecies:self.Nunk]
 
     #Solution function(s)
-    self.soln=fem.Function(self.V)
+    self.soln=fem.Function(V_all)
 
     #Measure and normal for external boundaries
     self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
@@ -206,38 +219,34 @@ class SUSimulator(simulator_general.GenericSimulator):
     self.info['potential']=self.potsim.info
     self.outdata.plots=self.potsim.outdata.plots
 
-    #Slootboom transformation for dirichlet condition
+    #Slootboom transformation for concentration boundary conditions
     def transform_value(cval,phival,beta_z):
       return cval*math.exp(beta_z*phival)
 
-    #Dirichlet boundary conditions
-    pot_d=self.potsim.conditions.dirichlet
+    #Initialze list of essential boundary conditions
     self.bcs=[]
-    dirichlet=getattr(self.conditions,'dirichlet',{})
-    for psurf,vals in dirichlet.items():
+
+    #cbar boundary conditions
+    pot_d=self.potsim.conditions.dirichlet
+    concBC=getattr(self.conditions,'concentrationBC',{})
+    for psurf,vals in concBC.items():
       for s,value in enumerate(vals):
         if value is not None:
           transval=transform_value(value,pot_d[psurf],self.conditions.beta*self.species[s].z)
-          self.bcs.append(fem.DirichletBC(self.V.sub(s),fem.Constant(transval),self.meshinfo.facets,psurf))
+          self.bcs.append(fem.DirichletBC(self.V_all.sub(s),fem.Constant(transval),self.meshinfo.facets,psurf))
 
-    #Neumann boundary conditions
-    self.nbcs = {}
-    neumann=getattr(self.conditions,'neumann',{})
-    for psurf,vals in neumann.items():
+    #flux boundary conditions
+    fluxBC=getattr(self.conditions,'fluxBC',{})
+    for psurf,vals in fluxBC.items():
       for s,value in enumerate(vals):
         if value is not None:
-          if type(value)==int or type(value)==float:
-            if value != 0: #Neumann conditions of zero can be omitted from the weak form, to the same effect
-              self.nbcs[(psurf,s)]=fem.Constant(value)
-          elif type(value)==list:
-            exprstr, exprargs = value
-            self.nbcs[(psurf,s)]=fem.Expression(exprstr,element=ele,**exprargs)
+          self.bcs.append(fem.DirichletBC(self.V_all.sub(s+self.Nspecies),fem.Constant(value),self.meshinfo.facets,psurf))
     
     #Reactive boundary terms
     #just convert symbols to species indices
     self.rbcs = {}
-    reactive=getattr(self.conditions,'reactive',{})
-    for psurf,pair in reactive.items():
+    reactiveBC=getattr(self.conditions,'reactiveBC',{})
+    for psurf,pair in reactiveBC.items():
       spair=[self.species_indices[symb] for symb in pair]
       self.rbcs[psurf]=spair
 
@@ -252,25 +261,34 @@ class SUSimulator(simulator_general.GenericSimulator):
     #Weak Form
     allterms=simulator_general.EquationTermDict(simulator_general.EquationTerm)
     #Body terms
-    for s,cbar in enumerate(cbarlist):
+    for S,cbar in enumerate(cbarlist):
       if self.species[s].D is not None:
-        termname='body_%d'%s
-        allterms.add(termname,self.Dbar_dict[s]*fem.dot(fem.grad(cbar),fem.grad(vlist[s]))*self.dx,bilinear=True)
-        #Not knowing if any boundary term will be added here, go ahead and apply zero
-        termname='boundary_zero_%d'%s
-        allterms.add(termname,fem.Constant(0)*vlist[s]*self.dx,bilinear=False)
-    #Boundary terms for Neumann conditions
-    for tup,expr in self.nbcs.items():
-      psurf,s = tup
-      termname='boundary_neumann_%d_%d'%(s,psurf)
-      bterm = expr*vlist[s]*self.ds(psurf)
-      allterms.add(termname,bterm,bilinear=False)
-    #Boundary terms for reactive boundaries
+        #Bilinear Term 1
+        termname='body_%d_1'%s
+        ufl=ss_nulist[S]*fem.div(ss_jlist[S])*self.dx
+        allterms.add(termname,ufl,bilinear=True)
+        #Bilinear Term 2
+        termname='body_%d_2'%s
+        ufl=fem.dot(ss_taulist[S],ss_jlist[S])*self.dx
+        allterms.add(termname,ufl,bilinear=True)
+        #Bilinear Term 3
+        termname='body_%s_3'%s
+        ufl=self.Dbar_dict[S]*fem.dot(ss_taulist[S],fem.grad(ss_cbarlist[S]))*self.dx
+        allterms.add(termname,ufl,bilinear=True)
+        #Zero Term 1
+        termname='body_zero_%s_1'%s
+        ufl=fem.Constant(0)*ss_nulist[S]*self.dx
+        allterms.add(termname,ufl,bilinear=False)
+        #Zero Term 2
+        termname='body_zero_%s_2'%s
+        ufl=fem.dot(fem.Constant((0,)*self.Nspecies),ss_taulist[S])*self.dx
+        allterms.add(termname,ufl,bilinear=False)
+    #Reactive boundaries
     for psurf,pair in self.rbcs.items():
-      r,p=pair
+      R,P=pair
       termname='reactive_%d'%psurf
-      bterm = self.Dbar_dict[r]*fem.dot(self.n,fem.grad(cbarlist[r]))*(vlist[r]-vlist[p])*self.ds(psurf)
-      allterms.add(termname,-bterm,bilinear=True)
+      ufl=fem.dot(ss_taulist[R]+ss_taulist[P],ss_jlist[R]+ss_jlist[P])*self.ds(psurf)
+      allterms.add(termname,ulf,bilinear=True)
 
     #Problem and Solver
     self.a=allterms.sumterms(bilinear=True)
@@ -284,35 +302,33 @@ class SUSimulator(simulator_general.GenericSimulator):
     #mumps solver
     #self.solver.parameters['linear_solver']='mumps' #MUMPS, a parallel LU solver
     #gmres with ilu preconditioner
-    self.solver.parameters['linear_solver']='gmres'
-    self.solver.parameters['preconditioner']='ilu'
+    #self.solver.parameters['linear_solver']='gmres'
+    #self.solver.parameters['preconditioner']='ilu'
+    #Get solver parameters from the conditions
+    for k,v in self.conditions.solver_parameters.items():
+      self.solver.parameters[k]=v
 
   def run(self):
     "Run this simulation"
     #solve
     self.solver.solve()
-    #transform back
-    self.solnlist=fem.split(self.soln)
-    self.clist=[]
+    #Split, transform, and store
+    solnlist=fem.split(self.soln)
+    unproj_cbarlist=ss_solnlist[0:self.Nspecies]
+    unproj_fluxlist=ss_solnlist[self.Nspecies:self.Nunk]
     self.cbarlist=[]
-    for s,cbar in enumerate(self.solnlist):
-      expr=cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln)
-      c=fem.project(expr,self.V_scalar,solver_type="cg",preconditioner_type="amg")
-      self.clist.append(c)
-      cbar_single=fem.project(cbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")
+    self.clist=[]
+    self.fluxlist=[]
+    for s,cbar in enumerate(unproj_cbarlist):
+      #cbar
+      cbar_single=fem.project(cbar,self.V_one_scalar,solver_type="cg",preconditioner_type="amg")
       self.cbarlist.append(cbar_single)
-    return
+      #c
+      expr=cbar*fem.exp(-self.conditions.beta*zpair[s]*self.species[s].z*self.potsim.soln)
+      c=fem.project(expr,self.V_one_scalar,solver_type="cg",preconditioner_type="amg")
+      self.clist.append(c)
+    for s,flux in enumerate(unproj_fluxlist):
+      flux_single=fem.project(flux,self.V_one_vector,solver_type="cg",preconditioner_type="amg")
+      self.fluxlist.append(flux_single)
 
-  def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=None):
-    """Flux as vector field (new attribute, and VTK file)"""
-    soln=getattr(self,solnattr)
-    if idx is not None:
-      soln=soln[idx]
-    expr=-self.Dbar_proj[idx]*fem.grad(soln)
-    fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
-    setattr(self,fluxattr,fluxres)
-    vtk_file=fem.File(osp.join(self.outdir,filename))
-    vtk_file << fluxres
-    return
-
-simulatorclasses={'smol_reactive_surface':SUSimulator}
+simulatorclasses={'smol_reactive_surface_firstorder':SUFOSimulator}
