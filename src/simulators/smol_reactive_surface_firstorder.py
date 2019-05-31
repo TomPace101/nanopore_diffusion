@@ -261,33 +261,33 @@ class SUFOSimulator(simulator_general.GenericSimulator):
     #Weak Form
     allterms=simulator_general.EquationTermDict(simulator_general.EquationTerm)
     #Body terms
-    for S,cbar in enumerate(ss_cbarlist):
+    for s,cbar in enumerate(ss_cbarlist):
       if self.species[s].D is not None:
         #Bilinear Term 1
         termname='body_%d_1'%s
-        ufl=ss_nulist[S]*fem.div(ss_jlist[S])*self.dx
+        ufl=ss_nulist[s]*fem.div(ss_jlist[s])*self.dx
         allterms.add(termname,ufl,bilinear=True)
         #Bilinear Term 2
         termname='body_%d_2'%s
-        ufl=fem.dot(ss_taulist[S],ss_jlist[S])*self.dx
+        ufl=fem.dot(ss_taulist[s],ss_jlist[s])*self.dx
         allterms.add(termname,ufl,bilinear=True)
         #Bilinear Term 3
         termname='body_%s_3'%s
-        ufl=self.Dbar_dict[S]*fem.dot(ss_taulist[S],fem.grad(ss_cbarlist[S]))*self.dx
+        ufl=self.Dbar_dict[s]*fem.dot(ss_taulist[s],fem.grad(ss_cbarlist[s]))*self.dx
         allterms.add(termname,ufl,bilinear=True)
         #Zero Term 1
         termname='body_zero_%s_1'%s
-        ufl=fem.Constant(0)*ss_nulist[S]*self.dx
+        ufl=fem.Constant(0)*ss_nulist[s]*self.dx
         allterms.add(termname,ufl,bilinear=False)
         #Zero Term 2
         termname='body_zero_%s_2'%s
-        ufl=fem.dot(fem.Constant((0,)*num_dim),ss_taulist[S])*self.dx
+        ufl=fem.dot(fem.Constant((0,)*num_dim),ss_taulist[s])*self.dx
         allterms.add(termname,ufl,bilinear=False)
     #Reactive boundaries
     for psurf,pair in self.rbcs.items():
-      R,P=pair
+      r,p=pair
       termname='reactive_%d'%psurf
-      ufl=fem.dot(ss_taulist[R]+ss_taulist[P],ss_jlist[R]+ss_jlist[P])*self.ds(psurf)
+      ufl=fem.dot(ss_taulist[r]+ss_taulist[p],ss_jlist[r]+ss_jlist[p])*self.ds(psurf)
       allterms.add(termname,ufl,bilinear=True)
 
     #Problem and Solver
@@ -312,7 +312,7 @@ class SUFOSimulator(simulator_general.GenericSimulator):
     self.fluxlist=[]
     for s,cbar in enumerate(unproj_cbarlist):
       #cbar
-      cbar_single=fem.project(cbar,self.V_one_scalar,solver_type="cg",preconditioner_type="amg")
+      cbar_single=fem.project(cbar,self.V_one_scalar,solver_type="richardson",preconditioner_type="jacobi")
       self.cbarlist.append(cbar_single)
       #c
       expr=cbar*fem.exp(-self.conditions.beta*self.species[s].z*self.potsim.soln)
