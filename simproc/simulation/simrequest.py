@@ -59,6 +59,9 @@ GenericConditions_schema=update_schema_props(EmptyConditions_schema,GenericCondi
 
 _SimulationRequest_props_schema_yaml="""#SimulationRequest
 mesh:
+  anyOf:
+    - {type: 'null'}
+    - {type: pathlike}
   type: pathlike
 meshmeta:
   anyOf:
@@ -130,13 +133,18 @@ class SimulationRequest(CustomizableRequest):
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
-    #Process attributes
-    meshmeta=getattr(self,'meshmeta',None)
-    if meshmeta is not None:
-      meshmeta=self.render(meshmeta)
-    hasmeshfuncs=getattr(self,'hasmeshfuncs',True)
-    #Load the mesh
-    self.meshinfo=MeshInfo.load(self.render(self.mesh),meshmeta,hasmeshfuncs)
+    #Load the mesh, unless provided some other way
+    if self.mesh is None:
+      assert getattr(self,'meshinfo',None) is not None, "Must provide either MeshInfo or a mesh file to load."
+      ##TODO: dependency checking on the mesh won't work for this, of course
+    else:
+      #Process mesh-related attributes
+      meshmeta=getattr(self,'meshmeta',None)
+      if meshmeta is not None:
+        meshmeta=self.render(meshmeta)
+      hasmeshfuncs=getattr(self,'hasmeshfuncs',True)
+      #Load
+      self.meshinfo=MeshInfo.load(self.render(self.mesh),meshmeta,hasmeshfuncs)
     #Do the simulation
     self.run_sim()
     #Generate output, if any
