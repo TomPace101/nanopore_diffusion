@@ -76,6 +76,8 @@ loaddata:
   type: array
 metadata:
   type: object
+solver_parameters:
+  type: object
 meshinfo: {}
 """
 
