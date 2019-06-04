@@ -32,7 +32,26 @@ class MeshInfo:
   |    D=3, d=3: fenics cell (physical_region xml) = fenics ____ = gmsh physical volume
   |    also, d=0 is a fenics vertex"""
 
-  def __init__(self,mesh_hdf5,meshmetafile,loadfuncs=True):
+  def __init__(self,mesh=None,facets=None,cells=None,metadata=None):
+    if mesh is None:
+      self.mesh=fem.Mesh()
+    else:
+      self.mesh=mesh
+    if facets is None:
+      self.facets=fem.MeshFunction("size_t", self.mesh)
+    else:
+      self.facets=facets
+    if cells is None:
+      self.cells=fem.MeshFunction("size_t", self.mesh)
+    else:
+      self.cells=cells
+    if metadata is None:
+      self.metadata={}
+    else:
+      self.metadata=metadata
+
+  @classmethod
+  def load(cls,mesh_hdf5,meshmetafile,loadfuncs=True):
     """Load Mesh and MeshFunctions from HDF5 file, and mesh metadata from yaml
     
     Arguments:
@@ -40,10 +59,13 @@ class MeshInfo:
       - mesh_hdf5 = path to the hdf5 file for the mesh
       - meshmetafile = path to the mesh metadata yaml file
       - loadfuncs = optional, True (default) to load mesh functions, False otherwise"""
+    #Load mesh metadata file, if it exists
+    if meshmetafile is None:
+      metadata=None
+    else:
+      metadata=yaml_manager.readfile(str(meshmetafile))
     #Initialize empty objects
-    self.mesh=fem.Mesh()
-    self.facets=fem.MeshFunction("size_t", self.mesh)
-    self.cells=fem.MeshFunction("size_t", self.mesh)
+    self=cls(metadata=metadata)
     #Read in data from HDF5 file
     hdf5=fem.HDF5File(self.mesh.mpi_comm(),str(mesh_hdf5),'r')
     hdf5.read(self.mesh,'mesh',False)
@@ -51,6 +73,5 @@ class MeshInfo:
       hdf5.read(self.facets,'facets')
       hdf5.read(self.cells,'cells')
     hdf5.close()
-    #Load mesh metadata file, if it exists
-    if meshmetafile is not None:
-      self.metadata=yaml_manager.readfile(str(meshmetafile))
+    #Done
+    return self

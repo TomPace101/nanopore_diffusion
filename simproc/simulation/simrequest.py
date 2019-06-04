@@ -136,7 +136,7 @@ class SimulationRequest(CustomizableRequest):
       meshmeta=self.render(meshmeta)
     hasmeshfuncs=getattr(self,'hasmeshfuncs',True)
     #Load the mesh
-    self.meshinfo=MeshInfo(self.render(self.mesh),meshmeta,hasmeshfuncs)
+    self.meshinfo=MeshInfo.load(self.render(self.mesh),meshmeta,hasmeshfuncs)
     #Do the simulation
     self.run_sim()
     #Generate output, if any
