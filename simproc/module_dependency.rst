@@ -10,8 +10,9 @@ Keeping track of this is important in order to help prevent circular dependencie
 - package ``requesthandler``
   - ``filepath``: None
   - ``yaml_manager``: None
+  - ``nested``: None
   - ``locators``: ``filepath``, ``yaml_manager``
-  - ``request``: ``filepath``, ``yaml_manager``, ``locators``
+  - ``request``: ``filepath``, ``yaml_manager``, ``locators``, ``nested``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
   - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``
   - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``, ``locators``

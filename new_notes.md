@@ -1,8 +1,4 @@
 
-_FEATURE_ move get_nested and set_nested from Request methods to their own module.
-Then the methods in Request just call those functions on self.
-The module could be called 'nested'.
-
 _ISSUE_ gmsh version change has broken some mesh file comparisons.
 This was already an issue with the hdf5.
 We need a better way to do this.

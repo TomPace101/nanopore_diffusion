@@ -17,6 +17,7 @@ except ImportError:
 from . import filepath
 from . import yaml_manager
 from . import locators
+from . import nested
 
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
@@ -335,49 +336,11 @@ class Request(object):
         for td in req.all_tasks():
           yield td
   def get_nested(self,dpath):
-    """Return the value from the specified attribute/key/index path
-    
-    Arguments:
-    
-      - dpath = string describing path to the data, using dot separators, or a sequence
-          The path may contain attributes and dictionary keys, with no need to distinguish between them.
-          List indices are also allowed.
-    
-    Returns the requested data."""
-    nxt=self
-    if isinstance(dpath,str):
-      seq=dpath.split('.')
-    else:
-      seq=dpath
-    for name in seq:
-      if hasattr(nxt,name):
-        nxt = getattr(nxt,name)
-      else:
-        try:
-          nxt=nxt.__getitem__(name)
-        except:
-          raise KeyError('Invalid path %s: No attribute, key, or index %s'%(dpath,name))
-    return nxt
+    """Return the value from the specified attribute/key/index path"""
+    return nested.get_nested(self,dpath)
   def set_nested(self,dpath,val):
-    """Set the value at the specified attribute/key/index path
-    
-    Arguments:
-    
-      - dpath = string describing path to the data, using dot separators, or a sequence
-      - val = value to assign
-    
-    No return value."""
-    if isinstance(dpath,str):
-      seq=dpath.split('.')
-    else:
-      seq=dpath
-    head=seq[:-1]
-    tail=seq[-1]
-    parent=self.get_nested(head)
-    if hasattr(parent,'__setitem__'):
-      parent.__setitem__(tail,val)
-    else:
-      setattr(parent,tail,val)
+    """Set the value at the specified attribute/key/index path"""
+    nested.set_nested(self,dpath,val)
     return
 
 #Convenience function for schema updates
