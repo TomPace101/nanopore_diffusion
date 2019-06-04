@@ -129,7 +129,7 @@ class SUConditions(simulator_general.GenericConditions):
   
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['dirichlet','species','beta','potential','reactive']
+  __slots__=['dirichlet','neumann','species','beta','potential','reactive']
 
 class SUSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Smoluchowski Diffusion
@@ -217,7 +217,9 @@ class SUSimulator(simulator_general.GenericSimulator):
       for s,value in enumerate(vals):
         if value is not None:
           transval=transform_value(value,pot_d[psurf],self.conditions.beta*self.species[s].z)
-          self.bcs.append(fem.DirichletBC(self.V.sub(s),fem.Constant(transval),self.meshinfo.facets,psurf))
+          fspace=self.V.sub(s) if self.Nspecies>1 else self.V
+          setvalue=transval if self.Nspecies>1 else (transval,)
+          self.bcs.append(fem.DirichletBC(fspace,fem.Constant(setvalue),self.meshinfo.facets,psurf))
 
     #Neumann boundary conditions
     self.nbcs = {}
