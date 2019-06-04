@@ -35,7 +35,7 @@ class LPBSimulator(simrequest.SimulationRequest):
     conditions=Namespace(**self.conditions)
 
     #Properties of problem domain
-    self.kappa = self.conditions.kappa
+    self.kappa = conditions.kappa
     
     #Function Spaces and Functions
     #Function spaces

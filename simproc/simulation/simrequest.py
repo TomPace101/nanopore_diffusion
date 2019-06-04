@@ -62,7 +62,6 @@ mesh:
   anyOf:
     - {type: 'null'}
     - {type: pathlike}
-  type: pathlike
 meshmeta:
   anyOf:
     - {type: 'null'}
@@ -77,6 +76,7 @@ loaddata:
   type: array
 metadata:
   type: object
+meshinfo: {}
 """
 
 class SimulationRequest(CustomizableRequest):
