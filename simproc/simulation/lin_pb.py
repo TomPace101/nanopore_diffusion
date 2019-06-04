@@ -83,5 +83,8 @@ class LPBSimulator(simrequest.SimulationRequest):
     for k,v in getattr(conditions,'solver_parameters',{}).items():
       self.solver.parameters[k]=v
 
+    #Solve
+    self.solver.solve()
+
 #Register for loading from yaml
 yaml_manager.register_classes([LPBSimulator])
