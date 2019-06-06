@@ -303,7 +303,7 @@ class SimulationRequest(CustomizableRequest):
           fieldtag+='_%d'%idx
       else:
         fieldtag = outname
-      hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),outfpath,'w')
+      hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),self.renderstr(outfpath),'w')
       hdf5.write(output,fieldtag)
       hdf5.close()
     else:
