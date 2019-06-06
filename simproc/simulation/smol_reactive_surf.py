@@ -178,6 +178,17 @@ class SUSimulator(simrequest.SimulationRequest):
       cbar_single=fem.project(cbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")
       self.cbarlist.append(cbar_single)
 
+  def calcflux(self, solnattr='soln', idx=None, fluxattr='flux'):
+    """Flux as vector field (new attribute)"""
+    soln=getattr(self,solnattr)
+    if idx is not None:
+      soln=soln[idx]
+    expr=-self.Dbar_proj[idx]*fem.grad(soln)
+    fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
+    setattr(self,fluxattr,fluxres)
+    return
+
+
 #Register for loading from yaml
 yaml_manager.register_classes([SUSimulator])
 
