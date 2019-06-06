@@ -6,6 +6,8 @@ Species may vary within each subdomain."""
 
 #Standard library
 from argparse import Namespace
+from collections import OrderedDict as odict
+import math
 
 #Site packages
 import numpy as np
@@ -22,13 +24,14 @@ species:
   type: array
   items: {type: object}
 reactive:
-  type: array
+  type: object
   items:
     type: array
     items:
       - {type: string}
       - {type: string}
-beta: {type: number}    
+beta: {type: number}
+potential_dirichlet: {type: object}
 """
 SUConditions_props_schema=yaml_manager.readstring(_SUConditions_props_schema_yaml)
 SUConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
@@ -49,7 +52,7 @@ class SUSimulator(simrequest.SimulationRequest):
     self.species_dict=odict()
     self.species_indices=odict()
     for s,d in enumerate(conditions.species):
-      spec=Species(**d)
+      spec=Namespace(**d)
       self.species.append(spec)
       self.species_dict[spec.symbol]=spec
       self.species_indices[spec.symbol]=s
@@ -78,28 +81,17 @@ class SUSimulator(simrequest.SimulationRequest):
     self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
 
     #Load electric potential as a Function
-    self.potential=fem.Function(self.scalar_V)
+    self.potential=fem.Function(self.V_scalar)
     self.process_load_commands()
-
-    #OLD Set up electric potential field
-    # potentialparams_dict=conditions.potential
-    # for key in ['modelname','meshname','basename']:
-    #   potentialparams_dict[key]=getattr(modelparams,key)
-    # potentialparams=simulator_general.ModelParametersBase(**potentialparams_dict)
-    # self.potsim=potentialsimulatorclasses[potentialparams.equation](potentialparams,self)
-    # self.potsim.diskwrite=False
-    # self.potsim.run()
-    # self.potsim.create_output()
-    # self.info['potential']=self.potsim.info
-    # self.outdata.plots=self.potsim.outdata.plots
 
     #Slootboom transformation for dirichlet condition
     def transform_value(cval,phival,beta_z):
       return cval*math.exp(beta_z*phival)
 
     #Dirichlet boundary conditions
-    ##TODO: need potential values for the transformation!!!!
-    pot_d=self.potsim.conditions.dirichlet
+    ##TODO: this requires any dirichlet boundary condition for concentration to also have a dirichlet boundary condition for the potential
+    #that way, there is a constant dirichlet boundary condition for cbar
+    pot_d=conditions.potential_dirichlet
     self.bcs=[]
     dirichlet=getattr(conditions,'dirichlet',{})
     for psurf,vals in dirichlet.items():
@@ -140,7 +132,7 @@ class SUSimulator(simrequest.SimulationRequest):
       self.Dbar_proj.append(fem.project(Dbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")) #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
 
     #Weak Form
-    allterms=simulator_general.EquationTermDict(simulator_general.EquationTerm)
+    allterms=equationbuilder.EquationTermDict()
     #Body terms
     for s,cbar in enumerate(cbarlist):
       if self.species[s].D is not None:
@@ -174,6 +166,7 @@ class SUSimulator(simrequest.SimulationRequest):
 
     #solve
     self.solver.solve()
+
     #transform back
     self.solnlist=fem.split(self.soln)
     self.clist=[]
