@@ -9,6 +9,7 @@ import pandas as pd
 from ..requesthandler.customization import CustomizableRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
+from ..requesthandler import nested
 
 #Locators
 locators.folder_structure.update(CollectedFrame=['postproc',0])
@@ -16,6 +17,7 @@ locators.folder_structure.update(CollectedFrame=['postproc',0])
 _RawCollectionRequest_props_schema_yaml="""#RawCollectionRequest
 outpath:
   type: pathlike
+multidoc: {type: boolean}
 definitions:
   type: array
   items:
@@ -39,6 +41,7 @@ class RawCollectionRequest(CustomizableRequest):
   User-defined attributes:
   
     - outpath = path to store the output file containing the dataframe
+    - multidoc = boolean, True if yaml files contain multiple documents, False if just one document each
     - definitions = sequence of pairs (mapping, file_list) where
       - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary}
       - file_list = list of files to be loaded (one row per file, one loaded dictionary per file)
@@ -47,7 +50,7 @@ class RawCollectionRequest(CustomizableRequest):
   _self_task=True
   _required_attrs=['name','outpath','definitions']
   _outputfile_attrs=['outpath']
-  _config_attrs=['definitions']
+  _config_attrs=['definitions','multidoc']
   _props_schema=make_schema(_RawCollectionRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -56,12 +59,24 @@ class RawCollectionRequest(CustomizableRequest):
     self._more_inputfiles=[]
     for mapping,file_list in self.definitions:
       self._more_inputfiles += file_list
+    #Default multidoc
+    if not hasattr(self,'multidoc'):
+      self.multidoc=False
   def run(self):
+    #Get the column names
+    columns=[]
+    for mapping,file_list in self.definitions:
+      columns += [k for k in mapping.keys()]
     #Initialize dataframe
+    df=pd.DataFrame(columns=columns)
     #For each file
-    #Load the file
-    #Get the data into the dataframe
-    ##TODO!
+    for mapping,file_list in self.definitions:
+      for fpath in file_list:
+        #Load the file
+        obj=yaml_manager.readfile(fpath,self.multidoc)
+        #Get the data into the dataframe
+        flatdict=dict([(col,nested.get_nested(obj,dpath)) for col,dpath in mapping.items()])
+        df=df.append(flatdict,ignore_index=True)
     #Do post-collection calculations
     self.process_command_sequence(attrpath='calculations',singlefunc=None,positional=False)
 
