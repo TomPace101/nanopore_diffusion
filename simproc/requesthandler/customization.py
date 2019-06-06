@@ -145,9 +145,9 @@ class CustomizableRequest(request.Request):
     self._more_inputfiles+=modules
     #Load modules
     function_name_to_module={} #dictionary mapping addable functions to their home modules
-    for modloc in modules:
+    modpath_list=[self.render(modloc) for modloc in modules]
+    for modpath in modpath_list:
       #Load module
-      modpath=self.render(modloc)
       themod=load_module_from_path(modpath)
       modname = themod.__name__
       #Intialize, if requested
@@ -163,7 +163,7 @@ class CustomizableRequest(request.Request):
     #Bind methods
     self._custom_methods=[]
     for method_name, function_name in methods.items():
-      assert function_name in function_name_to_module.keys(), "Unable to find function `%s` in any of these modules: %s"%(function_name,modules)
+      assert function_name in function_name_to_module.keys(), "Function `%s` not listed in `request_methods` variable in any of these modules: %s"%(function_name,[str(m) for m in modpath_list])
       themod = function_name_to_module[function_name]
       function_obj = getattr(themod,function_name)
       assert isinstance(function_obj,types.FunctionType), "%s in module %s is not a function"%(function_name,themod.__name__)
