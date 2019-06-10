@@ -9,6 +9,9 @@ You'll have to run on another computer to find the issues.
 
 _TODO_ test out line_profile
 
+_ISSUE_ give all functions a name
+see old `output_td` for an example of how to rename a function created by `project`.
+
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
 That will require the expression projector.
