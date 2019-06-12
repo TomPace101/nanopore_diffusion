@@ -169,7 +169,7 @@ Here is a complete example of the use of locators.
   Path('thisfile.txt')
   >>> req.renderstr('thisfile.txt') #This gets changed to a Path first, then a string
   'thisfile.txt'
-  >>> req.renderstr(None) #This doesn't work because None can't be turned into a Path
+  >>> req.renderstr(None) #This doesn't work because None can't be turned into a Path #doctest: +IGNORE_EXCEPTION_DETAIL
   Traceback (most recent call last):
     ...
   TypeError: argument should be a path or str object, not <class 'NoneType'>
