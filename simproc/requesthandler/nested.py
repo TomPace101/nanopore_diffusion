@@ -10,7 +10,8 @@ def get_nested(obj,dpath):
   
     - dpath = string describing path to the data, using dot separators, or a sequence
         The path may contain attributes and dictionary keys, with no need to distinguish between them.
-        List indices are also allowed.
+        List indices are also allowed, but only for sequence arguments,
+        as strings are not cast to other data types.
   
   Returns the requested data."""
   nxt=obj
@@ -19,10 +20,11 @@ def get_nested(obj,dpath):
   else:
     seq=dpath
   for name in seq:
-    if hasattr(nxt,name):
+    if isinstance(name,str) and hasattr(nxt,name):
       nxt = getattr(nxt,name)
     else:
       try:
+        #Note that this will work for both lists and dictionaries
         nxt=nxt.__getitem__(name)
       except:
         raise KeyError('Invalid path %s: No attribute, key, or index %s'%(dpath,name))
