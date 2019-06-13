@@ -29,7 +29,7 @@
   name: dummy.generalshell.verify
   expected: !CompareFile date_output.txt
   received: !OutputFile date_output.txt
-  range: 0
+  range: 5
 #Test template request
 - !TemplateFileRequest
   name: dummy.templatefile

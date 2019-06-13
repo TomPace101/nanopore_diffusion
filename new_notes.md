@@ -1,11 +1,11 @@
 
 _ISSUE_ gmsh version change has broken some mesh file comparisons.
-This was already an issue with the hdf5.
+Mesh xml files have variations in the ordering of indices, and lower decimals of floating points
+There was already a similar issue with the hdf5.
 We need a better way to do this.
 Maybe have a file size comparison list, like we have a list for file comparisons.
 Maybe even set up deeper inspection classes for particular file types:
 xml, yaml, hdf5.
-You'll have to run on another computer to find the issues.
 
 _TODO_ test out line_profile
 
