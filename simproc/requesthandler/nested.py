@@ -2,6 +2,20 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+from collections import OrderedDict as odict
+
+def to_sequence(dpath):
+  if isinstance(dpath,str):
+    seq=dpath.split('.')
+  else:
+    seq=dpath
+  return seq
+
+def drill_down(obj,seq):
+  head=seq[:-1]
+  tail=seq[-1]
+  parent=obj.get_nested(head)
+  return parent,tail
 
 def get_nested(obj,dpath):
   """Return the value from the specified attribute/key/index path
@@ -15,10 +29,7 @@ def get_nested(obj,dpath):
   
   Returns the requested data."""
   nxt=obj
-  if isinstance(dpath,str):
-    seq=dpath.split('.')
-  else:
-    seq=dpath
+  seq=to_sequence(dpath)
   for name in seq:
     if isinstance(name,str) and hasattr(nxt,name):
       nxt = getattr(nxt,name)
@@ -39,15 +50,23 @@ def set_nested(obj,dpath,val):
     - val = value to assign
   
   No return value."""
-  if isinstance(dpath,str):
-    seq=dpath.split('.')
-  else:
-    seq=dpath
-  head=seq[:-1]
-  tail=seq[-1]
-  parent=obj.get_nested(head)
+  seq=to_sequence(dpath)
+  parent,tail=drill_down(obj,seq)
   if hasattr(parent,'__setitem__'):
     parent.__setitem__(tail,val)
   else:
     setattr(parent,tail,val)
+  return
+
+def new_odict(obj,dpath):
+  """Create a new OrderedDict instance suitable for later use with set_nested
+  
+  Arguments:
+  
+    - dpath = string describing path to the data, using dot separators, or a sequence
+  
+  No return value."""
+  seq=to_sequence(dpath)
+  parent,tail=drill_down(obj,seq)
+  setattr(parent,tail,odict())
   return

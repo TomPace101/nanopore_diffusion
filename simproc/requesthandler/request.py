@@ -342,6 +342,10 @@ class Request(object):
     """Set the value at the specified attribute/key/index path"""
     nested.set_nested(self,dpath,val)
     return
+  def new_odict(self,dpath):
+    """Set up a new OrderedDict for later use with set_nested"""
+    nested.new_odict(self,dpath)
+    return
 
 #Convenience function for schema updates
 make_schema=Request.update_props_schema

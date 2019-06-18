@@ -383,7 +383,7 @@ class SimulationRequest(CustomizableRequest):
       coords+=(v,)
     return coords
 
-  def line_profile(self,startloc,endloc,num,plotname,label,attrpath='soln',indep=None,idx=None):
+  def line_profile(self,startloc,endloc,num,plotpath,label,attrpath='soln',indep=None,idx=None):
     """Get data to plot a result along the specified line at a single point in time
   
     Arguments:
@@ -392,24 +392,15 @@ class SimulationRequest(CustomizableRequest):
       - endloc = argument to get_pointcoords for end of line
       - num = number of sampled points
       - indep = index of the coordinate parameter to use as the independent variable for the plot (zero-based) (omit to use distance from start point)
-      - plotname = name of plot in outdata.plots, as string
+      - plotpath = attribute path for storing the generated PlotSeries instance
       - label = series label to assign, as string
-      - attrpath = attribute path to output, as string, defaults to 'soln'
+      - attrpath = attribute path to data source, defaults to 'soln'
       - indep = identifier for independent variable:
           integer 0-d to use that coordinate of the point, or
           None (default) to use distance from the start point
       - idx = index of the solution field to write out, None (default) if not a sequence
   
-    Required attributes:
-  
-      - outdata = instance of OutData
-      - mesh_metadata = only required if needed by location specifiers, dictionary of mesh metadata
-  
-    No new attributes.
-  
-    No return value.
-  
-    Series is added to ``outdata.plots``.""" ##TODO: we don't have outdata now
+    No return value."""
     #Get the object with the data
     vals=self.get_nested(attrpath)
     if idx is not None:
@@ -440,9 +431,7 @@ class SimulationRequest(CustomizableRequest):
     varr=np.array(vlist)
     series=PlotSeries(xvals=larr,yvals=varr,label=label)
     #Store data
-    if not plotname in self.outdata.plots.keys(): ##TODO we don't have outdata now
-      self.outdata.plots[plotname]=[]
-    self.outdata.plots[plotname].append(series)
+    self.set_nested(plotpath,series)
     return
 
 #Register for loading from yaml
