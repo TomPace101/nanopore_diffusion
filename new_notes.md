@@ -14,6 +14,9 @@ Right now, the facet and cell meshfunctions are usually initialized before the m
 That produces the warning message.
 The catch is to fix it in a way that allows you to create a meshinfo instance from one of the fenics built-in meshes.
 (I've done this in some notebooks, so you could test with those.)
+I tried switching things around in the `load` method so that `__init__` was called after the mesh was loaded,
+but then when I tried to read the facets, it said there was a cell dimension mismatch.
+Using `mesh.geometry().dim()` as the third argument to MeshFunction didn't fix that.
 
 _ISSUE_ give all functions a name
 see old `output_td` for an example of how to rename a function created by `project`.
