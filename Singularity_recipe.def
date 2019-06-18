@@ -1,0 +1,19 @@
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+  apt -y update
+  #Python 3
+  apt -y install python3.6
+  #General scientific programming packages for python
+  apt -y install python3-numpy python3-scipy python3-matplotlib python3-pip
+  pip3 install ruamel.yaml jsonschema jinja2 pandas
+  #gmsh
+  apt -y install ssh gmsh=3.0.6+dfsg1-1
+  #fenics
+  apt -y install software-properties-common
+  add-apt-repository ppa:fenics-packages/fenics
+  apt -y update
+  apt -y install fenics=1:2019.1.0.1~ppa1~bionic1
+
+
