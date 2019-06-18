@@ -17,7 +17,7 @@ The analyses can be run without `doit`, so it is not required.
 Many analysis parameters are stored in `yaml` format (https://en.wikipedia.org/wiki/YAML).
 A very brief introduction to the syntax can be found at https://learnxinyminutes.com/docs/yaml/,
 and its official site is http://yaml.org/.
-The python package `pyyaml` (https://github.com/yaml/pyyaml) is used to read these files.
+The python package `ruamel.yaml` (https://pypi.org/project/ruamel.yaml/) is used to read these files.
 
 Some output files (such as `gmsh` .geo input files)
 are generated using the `jinja2` template engine (http://jinja.pocoo.org/).
@@ -42,6 +42,8 @@ The problem description document requires the following software:
 - python package `doit`, as described above.
 
 The code is hosted in a `git` repository (https://git-scm.com/).
+
+__TODO__ explain the singularity recipe, and provide shub link to the image, if possible.
 
 # Files and Folders
 
