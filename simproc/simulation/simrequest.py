@@ -5,6 +5,7 @@ import sys
 from copy import deepcopy
 
 #Site packages
+import numpy as np
 import fenics as fem
 
 #This package
@@ -185,25 +186,6 @@ class SimulationRequest(CustomizableRequest):
 
     No return value."""
     self.process_command_sequence(attrpath='loaddata',singlefunc='loadfield',positional=True)
-    return
-
-  def process_output_commands(self,attrpath='dataextraction'):
-    """Process a list of data extraction commands
-
-    Arguments:
-
-      - attrpath = attribute path to the command list
-
-    No return value."""
-    for cmd in self.get_nested(attrpath):
-      #Function name and arguments
-      funcname, kwargs = cmd
-      #Call it
-      try:
-        getattr(self,funcname)(**kwargs)
-      except Exception as einst:
-        print("Exception occured in %s for command: %s"%(attrpath,str(cmd)), file=sys.stderr)
-        raise einst
     return
 
   def list_outputfiles(self,cmdlist,filearg_list=None):
