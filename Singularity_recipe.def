@@ -7,7 +7,7 @@ From: ubuntu:18.04
   apt -y install python3.6
   #General scientific programming packages for python
   apt -y install python3-numpy python3-scipy python3-matplotlib python3-pip
-  pip3 install ruamel.yaml jsonschema jinja2 pandas
+  pip3 install ruamel.yaml jsonschema jinja2 pandas doit
   #gmsh
   apt -y install ssh gmsh=3.0.6+dfsg1-1
   #fenics
