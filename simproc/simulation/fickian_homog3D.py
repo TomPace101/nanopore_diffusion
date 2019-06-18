@@ -7,6 +7,7 @@ from argparse import Namespace
 #Site packages
 import numpy as np
 import fenics as fem
+import ufl
 
 #This package
 from ..requesthandler import yaml_manager
@@ -126,8 +127,8 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
       self.D = fem.Constant(1)
     
     #The index objects
-    i=fem.i
-    j=fem.j
+    i=ufl.i
+    j=ufl.j
 
     #Measure and normal for external boundaries
     self.ds = fem.Measure('exterior_facet',domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
@@ -140,24 +141,24 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
     #Bilinear boundary terms
     for psurf in conditions.boundaries:
       termname="bilinear_boundary_%d"%psurf
-      ufl=self.D*self.n[i]*chi[j].dx(i)*v[j]*self.ds(psurf)
-      eqnterms.add(termname,ufl,bilinear=True)
+      form=self.D*self.n[i]*chi[j].dx(i)*v[j]*self.ds(psurf)
+      eqnterms.add(termname,form,bilinear=True)
 
     #Bilinear body terms
     termname="bilinear_body"
-    ufl=-self.D*chi[j].dx(i)*v[j].dx(i)*self.dx
-    eqnterms.add(termname,ufl,bilinear=True)
+    form=-self.D*chi[j].dx(i)*v[j].dx(i)*self.dx
+    eqnterms.add(termname,form,bilinear=True)
 
     #Linear boundary terms
     for psurf in conditions.boundaries:
       termname="linear_boundary_%d"%psurf
-      ufl=self.D*self.n[i]*v[i]*self.ds(psurf)
-      eqnterms.add(termname,ufl,bilinear=False)
+      form=self.D*self.n[i]*v[i]*self.ds(psurf)
+      eqnterms.add(termname,form,bilinear=False)
 
     #Linear body terms
     termname="linear_body"
-    ufl=-self.D*v[i].dx(i)*self.dx
-    eqnterms.add(termname,ufl,bilinear=False)
+    form=-self.D*v[i].dx(i)*self.dx
+    eqnterms.add(termname,form,bilinear=False)
 
     #FEniCS Problem and Solver
     a=eqnterms.sumterms(bilinear=True)

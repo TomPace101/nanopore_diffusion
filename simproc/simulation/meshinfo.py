@@ -38,11 +38,11 @@ class MeshInfo:
     else:
       self.mesh=mesh
     if facets is None:
-      self.facets=fem.MeshFunction("size_t", self.mesh)
+      self.facets=fem.MeshFunction("size_t", self.mesh, 0)
     else:
       self.facets=facets
     if cells is None:
-      self.cells=fem.MeshFunction("size_t", self.mesh)
+      self.cells=fem.MeshFunction("size_t", self.mesh, 0)
     else:
       self.cells=cells
     if metadata is None:

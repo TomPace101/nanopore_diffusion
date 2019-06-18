@@ -9,11 +9,11 @@ class EquationTerm(object):
   Attributes:
   
     - name = a string uniquely identifying the equation term
-    - ulf = the UFL form object for the term"""
+    - form = the UFL form object for the term"""
 
-  def __init__(self,name,ufl,**kwargs):
+  def __init__(self,name,form,**kwargs):
     self.name=name
-    self.ufl=ufl
+    self.form=form
     for k,v in kwargs.items():
       setattr(self,k,v)
 
@@ -59,7 +59,7 @@ class EquationTermDict(OrderedDict):
       - **kwargs = keyword arguments for selectterms"""
     terms=self.selectterms(**kwargs)
     if len(terms)>0:
-      return sum([t.ufl for t in terms.values()])
+      return sum([t.form for t in terms.values()])
     elif zeroval is not None:
       return zeroval
     else:

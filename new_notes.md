@@ -9,6 +9,12 @@ xml, yaml, hdf5.
 
 _TODO_ test out line_profile
 
+_TODO_ `*** Warning: Mesh is empty, unable to create entities of dimension 0.`
+Right now, the facet and cell meshfunctions are usually initialized before the mesh has been loaded from disk.
+That produces the warning message.
+The catch is to fix it in a way that allows you to create a meshinfo instance from one of the fenics built-in meshes.
+(I've done this in some notebooks, so you could test with those.)
+
 _ISSUE_ give all functions a name
 see old `output_td` for an example of how to rename a function created by `project`.
 
