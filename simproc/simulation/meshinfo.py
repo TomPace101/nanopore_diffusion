@@ -38,11 +38,11 @@ class MeshInfo:
     else:
       self.mesh=mesh
     if facets is None:
-      self.facets=fem.MeshFunction("size_t", self.mesh, 0)
+      self.facets=fem.MeshFunction("size_t", self.mesh, mesh.geometry().dim()-1) #Facets are of dimension d-1
     else:
       self.facets=facets
     if cells is None:
-      self.cells=fem.MeshFunction("size_t", self.mesh, 0)
+      self.cells=fem.MeshFunction("size_t", self.mesh, mesh.geometry().dim()) #Cells are of dimension d
     else:
       self.cells=cells
     if metadata is None:
@@ -64,14 +64,18 @@ class MeshInfo:
       metadata=None
     else:
       metadata=yaml_manager.readfile(str(meshmetafile))
-    #Initialize empty objects
-    self=cls(metadata=metadata)
-    #Read in data from HDF5 file
-    hdf5=fem.HDF5File(self.mesh.mpi_comm(),str(mesh_hdf5),'r')
-    hdf5.read(self.mesh,'mesh',False)
+    #Initialize empty mesh
+    mesh=fem.Mesh()
+    #Open HDF5 file
+    hdf5=fem.HDF5File(mesh.mpi_comm(),str(mesh_hdf5),'r')
+    #Get the mesh
+    hdf5.read(mesh,'mesh',False)
+    #Initialize the object
+    self=cls(mesh=mesh,metadata=metadata)
+    #Load meshfunctions if requested
     if loadfuncs is True:
       hdf5.read(self.facets,'facets')
       hdf5.read(self.cells,'cells')
-    hdf5.close()
     #Done
+    hdf5.close()
     return self
