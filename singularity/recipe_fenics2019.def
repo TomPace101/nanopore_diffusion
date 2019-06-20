@@ -5,6 +5,12 @@ From: ubuntu:18.04
   #General usage
   apt -y update
   apt -y install --no-install-recommends less vim nano
+  #Aliases for convenience
+  echo "" >> /etc/bash.bashrc
+  echo "#Aliases for convenience" >> /etc/bash.bashrc
+  echo "alias python=python3" >> /etc/bash.bashrc
+  echo "alias pip=pip3" >> /etc/bash.bashrc
+  echo "alias ipython=ipython3" >> /etc/bash.bashrc
   #Python 3
   apt -y install --no-install-recommends python3.6
   #General scientific programming packages for python
@@ -17,13 +23,11 @@ From: ubuntu:18.04
   add-apt-repository ppa:fenics-packages/fenics
   apt -y update
   apt -y install --no-install-recommends fenics=1:2019.1.0.1~ppa1~bionic1
+  apt -y install --no-install-recommends build-essential
 
 %test
   gmsh --version
   dolfin-version
 
-#%runscript
-#  alias python=python3
-#  alias pip=pip3
-#  alias ipython=ipython3
-#  exec /bin/bash
+%runscript
+  /bin/bash
