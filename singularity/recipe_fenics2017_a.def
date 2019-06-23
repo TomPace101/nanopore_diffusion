@@ -1,12 +1,6 @@
 Bootstrap: docker
 From: ubuntu:16.04
 
-%setup
-  wget http://gmsh.info/bin/Linux/gmsh-3.0.6-Linux64.tgz
-
-%files
-  gmsh-3.0.6-Linux64.tgz /opt/gmsh-3.0.6-Linux64.tgz
-
 %post
   #General usage
   apt -y update
@@ -26,12 +20,15 @@ From: ubuntu:16.04
   #gmsh
   apt -y install --no-install-recommends gmsh #old version, needed for dependencies
   apt -y install --no-install-recommends libxcursor1 #a dependecy not provided by the above
+  apt -y install --no-install-recommends wget #to download the new gmsh version
+  wget -O /opt/gmsh-3.0.6-Linux64.tgz http://gmsh.info/bin/Linux/gmsh-3.0.6-Linux64.tgz
   tar zxf /opt/gmsh-3.0.6-Linux64.tgz -C /opt
   cp /opt/gmsh-3.0.6-Linux64/bin/* /usr/local/bin/
   cp -r /opt/gmsh-3.0.6-Linux64/share/doc/gmsh /usr/local/share/doc
   mkdir /usr/local/share/man/man1
   cp /opt/gmsh-3.0.6-Linux64/share/man/man1/gmsh.1 /usr/local/share/man/man1/
   rm -rf /opt/gmsh-3.0.6-Linux64
+  rm /opt/gmsh-3.0.6-Linux64.tgz
   #fenics
   apt -y install --no-install-recommends software-properties-common
   add-apt-repository ppa:fenics-packages/fenics-2017.2.0
@@ -40,9 +37,9 @@ From: ubuntu:16.04
   pip3 install --upgrade sympy==1.1.1
   apt -y install --no-install-recommends build-essential
 
-#%test
-#  gmsh --version
-#  dolfin-version
+%test
+  /usr/local/bin/gmsh --version
+  dolfin-version
 
 %runscript
   /bin/bash
