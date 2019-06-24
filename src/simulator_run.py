@@ -16,7 +16,7 @@ import simulator_general
 
 #Simulator modules
 simulator_module_list=['projector','fickian_unhomog','smol_unhomog',
-                       'smol_reactive_surface','smol_reactive_surface_subdomains',
+                       'smol_reactive_surface','smol_reactive_surface_subdomains','smol_reactive_surface_firstorder',
                        'tdpnp_unhomog','fickian_homog']
 
 #Path to this code file (for dependency list)

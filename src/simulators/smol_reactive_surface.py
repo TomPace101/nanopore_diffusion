@@ -7,6 +7,7 @@ import math
 import os
 import os.path as osp
 from collections import OrderedDict as odict
+import numpy as np
 
 #Site packages
 import fenics as fem
@@ -129,7 +130,7 @@ class SUConditions(simulator_general.GenericConditions):
   
   Note also that the attribute bclist (inherited), contains Dirichlet conditions on c, rather than cbar.
     That is, the code will do the Slotboom transformation on the Dirichlet boundary conditions."""
-  __slots__=['dirichlet','species','beta','potential','reactive']
+  __slots__=['dirichlet','neumann','species','beta','potential','reactive']
 
 class SUSimulator(simulator_general.GenericSimulator):
   """Simulator for Unhomogenized Smoluchowski Diffusion
@@ -217,7 +218,9 @@ class SUSimulator(simulator_general.GenericSimulator):
       for s,value in enumerate(vals):
         if value is not None:
           transval=transform_value(value,pot_d[psurf],self.conditions.beta*self.species[s].z)
-          self.bcs.append(fem.DirichletBC(self.V.sub(s),fem.Constant(transval),self.meshinfo.facets,psurf))
+          fspace=self.V.sub(s) if self.Nspecies>1 else self.V
+          setvalue=transval if self.Nspecies>1 else (transval,)
+          self.bcs.append(fem.DirichletBC(fspace,fem.Constant(setvalue),self.meshinfo.facets,psurf))
 
     #Neumann boundary conditions
     self.nbcs = {}
@@ -312,6 +315,90 @@ class SUSimulator(simulator_general.GenericSimulator):
     setattr(self,fluxattr,fluxres)
     vtk_file=fem.File(osp.join(self.outdir,filename))
     vtk_file << fluxres
+    return
+
+  def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None,fluxattr='flux',idx=None): ##TODO: store also quadrupled value for unit cell?
+    """Flux integral over specified facet
+
+    TODO: update arguments information
+
+    Arguments:
+      fluxsurf = physical facet number for flux measurement
+      name = name for storage in the results dictionary
+      internal = boolean, default False, True to use internal boundary, False for external
+      fluxsign = '+' or '-' to specify which direction normal to the facet for flux calculation
+        Required only if internal==True
+      normalvar = optional variable name to write the facet normal components to, as a sequence
+    Required attributes:
+      flux = flux as vector field
+        This requires a previous call to fluxfield
+      mesh = FEniCS Mesh object
+      facet = FEniCS MeshFunction object for facet numbers
+    No new attributes.
+    New item(s) added to results dictionary.
+    No return value.
+    No output files."""
+    n=fem.FacetNormal(self.meshinfo.mesh)
+    if internal:
+      integral_type='interior_facet'
+      assert fluxsign=='+' or fluxsign=='-', "Invalid fluxsign: %s"%str(fluxsign)
+      this_n=n(fluxsign)
+    else:
+      integral_type='exterior_facet'
+      this_n=n
+    if normalvar is not None:
+      self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the facet normal
+    this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
+    flux=getattr(self,fluxattr)
+    if idx is not None:
+      flux=flux[idx]
+    totflux=fem.assemble(fem.dot(flux,this_n)*this_ds(fluxsurf))
+    self.results[name]=totflux
+    return
+
+  def effective_D(self,name,totflux_name,area_name,startloc,endloc,attrname='soln',idx=None):
+    """Calculate effective diffusion constant
+
+    Arguments:
+
+      - name = name for storage in the results dictionary
+      - totflux_name = name of previously calculated total flux in results dictionary
+
+          This requires a previous call to fluxintegral.
+
+      - area_name = name of previously claculated area in results dictionary.
+
+          This requires a previous call to facet_area.
+
+      - startloc = argument to get_pointcoords for start of line
+      - endloc = argument to get_pointcoords for end of line
+      - attrname = optional, name of attribute containing concentration solution, as string
+      - idx = index of the solution field to write out, None (default) if not a sequence
+
+    Required attributes:
+
+      - results[toflux_name] = result from previous call to fluxintegral
+
+    No new attributes.
+    New item added to results dictionary.
+    No return value.
+    No output files."""
+    #Get the object with the data
+    vals=getattr(self,attrname)
+    if idx is not None:
+      vals = vals[idx]
+    #Get the points for data extraction
+    assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
+    startcoords=self.get_pointcoords(startloc)
+    endcoords=self.get_pointcoords(endloc)
+    #Calculate distance between the two points
+    deltas=[p[1]-p[0] for p in zip(startcoords,endcoords)]
+    delta_s=np.sqrt(sum([d**2 for d in deltas]))
+    #Calculate the change in concentration between the two points
+    delta_c=vals(*endcoords)-vals(*startcoords)
+    #Calculate diffusion constant
+    Deff=float(self.results[totflux_name]/self.results[area_name]*delta_s/delta_c)
+    self.results[name]=Deff
     return
 
 simulatorclasses={'smol_reactive_surface':SUSimulator}

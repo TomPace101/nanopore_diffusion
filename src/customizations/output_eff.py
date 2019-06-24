@@ -52,7 +52,7 @@ def fluxfield(self,filename, solnattr='soln', idx=None, fluxattr='flux', D_bulk=
     vtk_file << fluxres
   return
 
-def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None,fluxattr='flux'): ##TODO: store also quadrupled value for unit cell?
+def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None,fluxattr='flux',idx=None): ##TODO: store also quadrupled value for unit cell?
   """Flux integral over specified facet
 
   TODO: update arguments information
@@ -84,7 +84,10 @@ def fluxintegral(self,fluxsurf,name,internal=False,fluxsign=None,normalvar=None,
   if normalvar is not None:
     self.results[normalvar]=['not_yet_computed'] ##TODO: find a way to get coordinates of the facet normal
   this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
-  totflux=fem.assemble(fem.dot(getattr(self,fluxattr),this_n)*this_ds(fluxsurf))
+  flux=getattr(self,fluxattr)
+  if idx is not None:
+    flux=flux[idx]
+  totflux=fem.assemble(fem.dot(flux,this_n)*this_ds(fluxsurf))
   self.results[name]=totflux
   return
 
