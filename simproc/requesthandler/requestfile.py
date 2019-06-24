@@ -13,6 +13,9 @@ from . import request
 
 MULTIDOC_DEFAULT=False
 
+#Locators
+locators.folder_structure.update(RequestFile=['requests'])
+
 _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
 requestfile: {type: pathlike}
 multidoc: {type: boolean}
