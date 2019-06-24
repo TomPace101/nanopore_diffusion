@@ -1,4 +1,9 @@
 
+_ISSUE_ locators don't have descriptions of their purpose.
+This is important: people won't know how to use them without this.
+There should also be a good way to see all defined locators.
+(You can see them all with `locators.folder_structure`, but I mean something more helpful, somehow.)
+
 _ISSUE_ gmsh version change has broken some mesh file comparisons.
 Mesh xml files have variations in the ordering of indices, and lower decimals of floating points
 There was already a similar issue with the hdf5.
