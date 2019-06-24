@@ -160,8 +160,8 @@ class SUSimulator(simrequest.SimulationRequest):
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
     
-    #Get solver parameters from the conditions
-    for k,v in getattr(conditions,'solver_parameters',{}).items():
+    #Get solver parameters
+    for k,v in getattr(self,'solver_parameters',{}).items():
       self.solver.parameters[k]=v
 
     #solve
