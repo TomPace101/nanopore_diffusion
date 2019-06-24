@@ -33,6 +33,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``onestep``: ``requesthandler``, ``gmsh_runner``, ``dconv_runner``, ``hdf5_conv``
 
 - package ``simulation``
+  - ``unitsystem``: None
   - ``meshinfo``: ``requesthandler``
   - ``equationbuilder``: None
   - ``plotseries``: None
