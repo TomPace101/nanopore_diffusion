@@ -158,6 +158,11 @@ class SimulationRequest(CustomizableRequest):
     "Method to be overridden by derived classes"
     raise NotImplementedError("%s did not override 'run_sim' method."%str(type(self)))
 
+  def set_solver_parameters(self):
+    """Set the parameters for the FEniCS solver object"""
+    for k,v in getattr(self,'solver_parameters',{}).items():
+      self.solver.parameters[k]=v
+
   def loadfield(self,attrpath,infpath,fieldtag,idx=None):
     """Load data into the simulator from an HDF5 input file
     

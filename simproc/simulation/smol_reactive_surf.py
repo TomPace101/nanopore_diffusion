@@ -161,8 +161,7 @@ class SUSimulator(simrequest.SimulationRequest):
     self.solver=fem.LinearVariationalSolver(problem)
     
     #Get solver parameters
-    for k,v in getattr(self,'solver_parameters',{}).items():
-      self.solver.parameters[k]=v
+    self.set_solver_parameters()
 
     #solve
     self.solver.solve()
