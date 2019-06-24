@@ -16,7 +16,8 @@ from .meshinfo import MeshInfo
 from .plotseries import PlotSeries
 
 #Locators
-locators.folder_structure.update(SolutionFile=['solutions',0,1])
+locators.folder_structure.update(OwnSolutionFile=['solutions',0,1])
+locators.folder_structure.update(OtherSolutionFile=['solutions'])
 
 #To help with Conditions schemas
 
