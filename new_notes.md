@@ -14,10 +14,6 @@ xml, yaml, hdf5.
 
 _TODO_ test out line_profile
 
-_ISSUE_ give all functions a name
-eg `u=fem.Function(V,name="parabola")`
-see old `output_td` for an example of how to rename a function created by `project`.
-
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
 That will require the expression projector.

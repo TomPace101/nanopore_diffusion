@@ -44,7 +44,7 @@ class LPBSimulator(simrequest.SimulationRequest):
     self.phi=fem.TrialFunction(self.V)
     self.v=fem.TestFunction(self.V)
     #Solution function
-    self.soln=fem.Function(self.V)
+    self.soln=fem.Function(self.V,name="Phi")
 
     #Dirichlet boundary conditions
     self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]

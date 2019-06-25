@@ -87,7 +87,7 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     self.bcs=[]
 
     #Load diffusion constant as a Function
-    self.D=fem.Function(self.scalar_V)
+    self.D=fem.Function(self.scalar_V,name="D")
     self.process_load_commands()
     
     #The index objects

@@ -73,7 +73,7 @@ class SUSimulator(simrequest.SimulationRequest):
     vlist=fem.TestFunctions(self.V)
 
     #Solution function(s)
-    self.soln=fem.Function(self.V)
+    self.soln=fem.Function(self.V,name="soln")
 
     #Measure and normal for external boundaries
     self.ds = fem.Measure("ds",domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
@@ -81,7 +81,7 @@ class SUSimulator(simrequest.SimulationRequest):
     self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
 
     #Load electric potential as a Function
-    self.potential=fem.Function(self.V_scalar)
+    self.potential=fem.Function(self.V_scalar,name="Phi")
     self.process_load_commands()
 
     #Slootboom transformation for dirichlet condition
@@ -129,7 +129,9 @@ class SUSimulator(simrequest.SimulationRequest):
     for s,spec in enumerate(self.species):
       Dbar=spec.D*fem.exp(-conditions.beta*spec.z*self.potential)
       self.Dbar_dict[s]=Dbar
-      self.Dbar_proj.append(fem.project(Dbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")) #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
+      thisproj=fem.project(Dbar,self.V_scalar,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
+      thisproj.rename('Dbar','transformed diffusion coefficient')
+      self.Dbar_proj.append(thisproj)
 
     #Weak Form
     allterms=equationbuilder.EquationTermDict()
@@ -171,19 +173,25 @@ class SUSimulator(simrequest.SimulationRequest):
     self.clist=[]
     self.cbarlist=[]
     for s,cbar in enumerate(self.solnlist):
+      symb=self.species[s].symbol
       expr=cbar*fem.exp(-conditions.beta*self.species[s].z*self.potential)
       c=fem.project(expr,self.V_scalar,solver_type="cg",preconditioner_type="amg")
+      c.rename('c_'+symb,'concentration of species '+symb)
       self.clist.append(c)
       cbar_single=fem.project(cbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")
+      cbar_single.rename('cbar_'+symb,'transformed concentration of species '+symb)
       self.cbarlist.append(cbar_single)
 
   def calcflux(self, solnattr='soln', idx=None, attrpath='flux'):
     """Flux as vector field (new attribute)"""
     soln=getattr(self,solnattr)
+    funcname="flux_"+solnattr
     if idx is not None:
       soln=soln[idx]
+      funcname += "_%d"%idx
     expr=-self.Dbar_proj[idx]*fem.grad(soln)
     fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
+    fluxres.rename(funcname,"calculated flux")
     self.set_nested(attrpath,fluxres)
     return
 
