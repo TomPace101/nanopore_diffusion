@@ -8,6 +8,7 @@ from . import generate
 from . import locators
 from . import mpi_run
 from . import nested
+from . import pickle_manager
 from . import request
 from . import requestfile
 from . import shell

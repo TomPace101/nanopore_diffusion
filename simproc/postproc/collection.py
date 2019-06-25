@@ -8,6 +8,7 @@ import pandas as pd
 #This package
 from ..requesthandler.customization import CustomizableRequest, make_schema
 from ..requesthandler import yaml_manager
+from ..requesthandler import pickle_manager
 from ..requesthandler import locators
 from ..requesthandler import nested
 
@@ -79,6 +80,8 @@ class RawCollectionRequest(CustomizableRequest):
         df=df.append(flatdict,ignore_index=True)
     #Do post-collection calculations
     self.process_command_sequence(attrpath='calculations',singlefunc=None,positional=False)
+    #Save results
+    pickle_manager.writefile(df,self.renderstr(self.outpath))
 
 _CollectionRequest_props_schema_yaml="""#CollectionRequest
 outpath:
