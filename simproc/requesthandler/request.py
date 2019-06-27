@@ -276,7 +276,7 @@ class Request(object):
     If child_attr is not provided, files from children are not included"""
     #Get files from list of attribute names containing files
     attr_list=getattr(self,attrs_list_attr,[])
-    fl = [getattr(self,itm) for itm in attr_list]
+    fl = [getattr(self,itm) for itm in attr_list if hasattr(self,itm)]
     #Get files from list of additional files
     fl+=getattr(self,files_list_attr,[])
     #Get files from children, if requested
