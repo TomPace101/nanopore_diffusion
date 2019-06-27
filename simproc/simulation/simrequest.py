@@ -13,7 +13,7 @@ from ..requesthandler.customization import CustomizableRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
 from .meshinfo import MeshInfo
-from .plotseries import PlotSeries
+from ..postproc.plotseries import PlotSeries
 
 #Locators
 locators.folder_structure.update(OwnSolutionFile=['solutions',0,1])
