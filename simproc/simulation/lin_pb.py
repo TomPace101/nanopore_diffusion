@@ -79,9 +79,8 @@ class LPBSimulator(simrequest.SimulationRequest):
     problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
 
-    #Get solver parameters from the conditions
-    for k,v in getattr(conditions,'solver_parameters',{}).items():
-      self.solver.parameters[k]=v
+    #Get solver parameters
+    self.set_solver_parameters()
 
     #Solve
     self.solver.solve()
