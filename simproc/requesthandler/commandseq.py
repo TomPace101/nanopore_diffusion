@@ -7,6 +7,7 @@ from __future__ import print_function, division #Python 2 compatibility
 
 #This package
 from . import yaml_manager
+from . import pickle_manager
 from . import customization
 
 class WithCommandsRequest(customization.CustomizableRequest):
@@ -105,14 +106,54 @@ class CommandSequenceRequest(WithCommandsRequest):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(CommandSequenceRequest, self).__init__(**kwargs)
-    #Get output files from data extraction commands
+    #Get input files from commands
+    self._more_inputfiles=getattr(self,'_more_inputfiles',[]) #Initialize attribute if it doesn't already exist
+    self._more_inputfiles+=self.list_iofiles(self.commands,['filename','infpath'],'_inputfiles')
+    #Get output files from commands
     self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
-    self._more_outputfiles+=self.list_outputfiles(self.commands)
+    self._more_outputfiles+=self.list_iofiles(self.commands,['filename','outfpath'],'_outputfiles')
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
     #Run the comamnd sequence
     self.process_command_sequence(attrpath='commands',singlefunc=None,positional=False)
+  def load_yaml(self,infpath,attrpath):
+    """Read in data from a yaml file, and store it at the specified nested path
+
+    Arguments:
+
+      - infpath = path to input yaml file
+      - attrpath = nested path to attribute to store data"""
+    obj=yaml_manager.readfile(self.render(infpath))
+    self.set_nested(attrpath,obj)
+  def load_pickle(self,infpath,attrpath):
+    """Read in data from a pickle file, and store it at the specified nested path
+
+    Arguments:
+
+      - infpath = path to input pickle file
+      - attrpath = nested path to attribute to store data"""
+    obj=pickle_manager.readfile(self.render(infpath))
+    self.set_nested(attrpath,obj)
+  def save_yaml(self,attrpath,outfpath):
+    """Save data from the specified nested path to a yaml file
+
+    Arguments:
+
+      - attrpath = nested path to attribute with data to store
+      - outfpath = path to the output yaml file"""
+    obj=self.get_nested(attrpath)
+    yaml_manager.writefile(obj,str(outfpath))
+  def save_pickle(self,attrpath,outfpath):
+    """Save data from the specified nested path to a pickle file
+
+    Arguments:
+
+      - attrpath = nested path to attribute with data to store
+      - outfpath = path to the output pickle file"""
+    obj=self.get_nested(attrpath)
+    pickle_manager.writefile(obj,str(outfpath))
+
 
 #Register for loading from yaml
 yaml_manager.register_classes([CommandSequenceRequest])
