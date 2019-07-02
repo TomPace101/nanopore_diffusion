@@ -72,11 +72,32 @@ def new_odict(obj,dpath):
   return
 
 class WithNested(object):
-  """A very basic class that just loads and sets nested attributes"""
+  """A very basic class that loads and sets nested attributes, and supports reading and writing itself to/from yaml"""
   def __init__(self,**kwargs):
     #Load the attributes specified
     for k,v in kwargs.items():
       setattr(self,k,v)
+  def to_dict(self):
+    """Return a dictionary with all the object's attributes.
+
+    Note that changes to this dictionary will not affect the object.
+
+    No arguments.
+
+    Returns the dictionary."""
+    d={}
+    for attr,itm in self.__dict__.items():
+      if hasattr(itm,'to_dict') and callable(itm.to_dict):
+        d[attr]=itm.to_dict()
+      else:
+        d[attr]=itm
+    return d
+  def __getstate__(self):
+    """Used for pickling, and converting to yaml"""
+    return self.to_dict()
+  def __setstate__(self,state):
+    """Used for unpickling, and loading from yaml"""
+    self.__init__(**state)
   def get_nested(self,dpath):
     """Return the value from the specified attribute/key/index path"""
     return get_nested(self,dpath)

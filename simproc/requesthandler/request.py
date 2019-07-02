@@ -177,9 +177,6 @@ class Request(nested.WithNested):
   def validate(self):
     d=self.to_dict()
     self.validate_kwargs(**d)
-  def __setstate__(self,state):
-    """Used for unpickling, and loading from yaml"""
-    self.__init__(**state)
   def pre_run(self):
     """Steps commonly taken just before execution
     
@@ -215,24 +212,6 @@ class Request(nested.WithNested):
     obj=cls(**kwargs)
     obj.run()
     return obj
-  def to_dict(self):
-    """Return a dictionary with all the object's attributes.
-
-    Note that changes to this dictionary will not affect the object.
-
-    No arguments.
-
-    Returns the dictionary."""
-    d={}
-    for attr,itm in self.__dict__.items():
-      if hasattr(itm,'to_dict') and callable(itm.to_dict):
-        d[attr]=itm.to_dict()
-      else:
-        d[attr]=itm
-    return d
-  def __getstate__(self):
-    """Used for pickling, and possibly for converting to yaml"""
-    return self.to_dict()
   def all_children(self):
     """Generator yielding all the immediate children of this Request
     
