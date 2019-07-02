@@ -70,3 +70,21 @@ def new_odict(obj,dpath):
   parent,tail=drill_down(obj,seq)
   setattr(parent,tail,odict())
   return
+
+class WithNested(object):
+  """A very basic class that just loads and sets nested attributes"""
+  def __init__(self,**kwargs):
+    #Load the attributes specified
+    for k,v in kwargs.items():
+      setattr(self,k,v)
+  def get_nested(self,dpath):
+    """Return the value from the specified attribute/key/index path"""
+    return get_nested(self,dpath)
+  def set_nested(self,dpath,val):
+    """Set the value at the specified attribute/key/index path"""
+    set_nested(self,dpath,val)
+    return
+  def new_odict(self,dpath):
+    """Set up a new OrderedDict for later use with set_nested"""
+    new_odict(self,dpath)
+    return

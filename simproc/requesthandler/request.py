@@ -72,7 +72,7 @@ _child_seq_attrs:
 _props_schema: {type: object}
 """
 
-class Request(object):
+class Request(nested.WithNested):
   """Base class for all requests. Abstract only, not really meant to be instantiated.
   
   All requests should have the following abilities:
@@ -120,8 +120,7 @@ class Request(object):
     if hasattr(self,'_props_schema'):
       self.validate_kwargs(**kwargs)
     #Load the attributes specified
-    for k,v in kwargs.items():
-      setattr(self,k,v)
+    super(Request, self).__init__(**kwargs)
   def render(self,loc):
     """Render a locator to a Path instance
     
@@ -335,17 +334,6 @@ class Request(object):
       for req in self.all_children():
         for td in req.all_tasks():
           yield td
-  def get_nested(self,dpath):
-    """Return the value from the specified attribute/key/index path"""
-    return nested.get_nested(self,dpath)
-  def set_nested(self,dpath,val):
-    """Set the value at the specified attribute/key/index path"""
-    nested.set_nested(self,dpath,val)
-    return
-  def new_odict(self,dpath):
-    """Set up a new OrderedDict for later use with set_nested"""
-    nested.new_odict(self,dpath)
-    return
 
 #Convenience function for schema updates
 make_schema=Request.update_props_schema
