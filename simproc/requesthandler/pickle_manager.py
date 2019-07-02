@@ -10,12 +10,12 @@ pickle_protocol = 2 #For compatibility with Python 2
 
 def readfile(fpath):
   "read object from pickle file"
-  with open(fpath, 'rb') as fp:
+  with open(str(fpath), 'rb') as fp:
     obj=pickle.load(fp)
   return obj
 
 def writefile(obj,fpath):
   "write object to pickle file, overwriting"
-  with open(fpath, 'wb') as fp:
+  with open(str(fpath), 'wb') as fp:
     pickle.dump(obj,fp,pickle_protocol)
   return
