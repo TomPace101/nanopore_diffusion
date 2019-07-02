@@ -44,4 +44,4 @@ Keeping track of this is important in order to help prevent circular dependencie
 
 - package ``postproc``
   - ``collection``: ``requesthandler``
-  - ``plotting``: ``requesthandler``
+  - ``plotting``: ``requesthandler``, ``plotseries``
