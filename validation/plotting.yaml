@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+- !PlotSeries
+  xvals: [1,2,3]
+  yvals: [1,4,9]
+  label: squares
+  metadata:
+    power: 2

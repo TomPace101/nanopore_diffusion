@@ -1,5 +1,6 @@
 #Import all modules that define classes loadable from yaml
 from . import cleanup
+from . import commandseq
 from . import comparison
 from . import customization
 from . import debug
