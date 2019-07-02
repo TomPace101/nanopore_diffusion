@@ -12,7 +12,10 @@ Maybe have a file size comparison list, like we have a list for file comparisons
 Maybe even set up deeper inspection classes for particular file types:
 xml, yaml, hdf5.
 
-_TODO_ test out line_profile
+_TODO_ missing validation:
+- line_profile
+- collection
+- CommandSequenceRequest
 
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
