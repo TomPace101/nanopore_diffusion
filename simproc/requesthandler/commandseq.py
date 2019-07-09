@@ -28,7 +28,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
     No return value."""
     if singlefunc is not None:
       funcname = singlefunc
-    for cmd in self.get_nested(attrpath):
+    for cmd in self.get_nested_default(attrpath,[]):
       try:
         #Function name and arguments
         if singlefunc is None:

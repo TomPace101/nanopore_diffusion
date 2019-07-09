@@ -6,14 +6,14 @@
 import pandas as pd
 
 #This package
-from ..requesthandler.customization import CustomizableRequest, make_schema
+from ..requesthandler.commandseq import WithCommandsRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import pickle_manager
 from ..requesthandler import locators
 from ..requesthandler import nested
 
 #Locators
-locators.folder_structure.update(CollectedFrame=['postproc',0])
+locators.folder_structure.update(CollectedFrame=['postproc'])
 
 _RawCollectionRequest_props_schema_yaml="""#RawCollectionRequest
 outpath:
@@ -36,7 +36,7 @@ calculations:
       - {type: object}
 """
 
-class RawCollectionRequest(CustomizableRequest):
+class RawCollectionRequest(WithCommandsRequest):
   """Collect data from an explicit list of files
   
   User-defined attributes:
@@ -55,7 +55,7 @@ class RawCollectionRequest(CustomizableRequest):
   _props_schema=make_schema(_RawCollectionRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
-    super(HDF5ConvertRequest, self).__init__(**kwargs)
+    super(RawCollectionRequest, self).__init__(**kwargs)
     #Compile the input files
     self._more_inputfiles=[]
     for mapping,file_list in self.definitions:
@@ -64,6 +64,8 @@ class RawCollectionRequest(CustomizableRequest):
     if not hasattr(self,'multidoc'):
       self.multidoc=False
   def run(self):
+    #Final checks and preparatory steps
+    self.pre_run()
     #Get the column names
     columns=[]
     for mapping,file_list in self.definitions:
@@ -115,7 +117,7 @@ calculations:
       - {type: object}
 """
 
-class CollectionRequest(CustomizableRequest):
+class CollectionRequest(WithCommandsRequest):
   """Collect data from the output of other requests
   
   User-defined attributes:
@@ -144,7 +146,7 @@ class CollectionRequest(CustomizableRequest):
   _props_schema=make_schema(_CollectionRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
-    super(HDF5ConvertRequest, self).__init__(**kwargs)
+    super(CollectionRequest, self).__init__(**kwargs)
     #Compile the raw definitions and input files
     self._more_inputfiles=[]
     self.raw_definitions=[]
@@ -158,7 +160,7 @@ class CollectionRequest(CustomizableRequest):
             working_filelist += this_filelist
       self.raw_definitions.append((mapping,working_filelist))
   def run(self):
-      kwargs={'name':self.name+"_raw",'outpath':self.outpath,'definitions':self.raw_definitions}
+      kwargs={'name':self.name+"_raw",'outpath':self.render(self.outpath),'definitions':self.raw_definitions}
       if getattr(self,'calculations',None) is not None:
         kwargs['calculations']=self.calculations
       RawCollectionRequest.complete(**kwargs)

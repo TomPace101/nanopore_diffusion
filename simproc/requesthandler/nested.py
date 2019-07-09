@@ -37,9 +37,16 @@ def get_nested(obj,dpath):
       try:
         #Note that this will work for both lists and dictionaries
         nxt=nxt.__getitem__(name)
-      except:
-        raise KeyError('Invalid path %s: No attribute, key, or index %s'%(dpath,name))
+      except Exception as the_err:
+        raise KeyError('Invalid path %s: No attribute, key, or index %s'%(dpath,name)) from the_err
   return nxt
+
+def get_nested_default(obj,dpath,default=None):
+  """Just like get_nested, but return a default object if any part of the path is invalid"""
+  try:
+    return get_nested(obj,dpath)
+  except:
+    return default
 
 def set_nested(obj,dpath,val):
   """Set the value at the specified attribute/key/index path
@@ -101,6 +108,9 @@ class WithNested(object):
   def get_nested(self,dpath):
     """Return the value from the specified attribute/key/index path"""
     return get_nested(self,dpath)
+  def get_nested_default(self,dpath,default=None):
+    """Return the value from the specified attribute/key/index path, with default value if not present"""
+    return get_nested_default(self,dpath,default)
   def set_nested(self,dpath,val):
     """Set the value at the specified attribute/key/index path"""
     set_nested(self,dpath,val)
