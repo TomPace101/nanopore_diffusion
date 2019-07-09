@@ -13,7 +13,7 @@ from ..requesthandler import locators
 from ..requesthandler import nested
 
 #Locators
-locators.folder_structure.update(CollectedFrame=['postproc'])
+locators.folder_structure.update(CollectedFrame=['postproc',0])
 
 _RawCollectionRequest_props_schema_yaml="""#RawCollectionRequest
 outpath:
