@@ -22,10 +22,11 @@ multidoc: {type: boolean}
 definitions:
   type: array
   items:
-    type: array
-    items:
-      - {type: object}
-      - type: array
+    type: object
+    properties:
+      mapping: {type: object}
+      file_list:
+        type: array
         items: {type: pathlike}
 calculations:
   type: array
@@ -43,9 +44,13 @@ class RawCollectionRequest(WithCommandsRequest):
   
     - outpath = path to store the output file containing the dataframe
     - multidoc = boolean, True if yaml files contain multiple documents, False if just one document each
-    - definitions = sequence of pairs (mapping, file_list) where
+    - definitions = sequence of dictionaries:
       - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary}
       - file_list = list of files to be loaded (one row per file, one loaded dictionary per file)
+      Note that every file_list must have the same number of files.
+      Very often, you will have only a single definition, meaning each row gets all of its data from a single file.
+      If each row needs to combine data from multiple files, you'll need more than one definition in the list.
+      If multiple definitions include the same column, the order of the definitions will matter: later ones will overwrite earlier ones.
     - calculations = command sequence defining calculations to be done after the dataframe is constructed from the input files"""
     
   _self_task=True
@@ -66,20 +71,27 @@ class RawCollectionRequest(WithCommandsRequest):
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
-    #Get the column names
-    columns=[]
-    for mapping,file_list in self.definitions:
-      columns += [k for k in mapping.keys()]
-    #Initialize dataframe
-    df=pd.DataFrame(columns=columns)
-    #For each file
-    for mapping,file_list in self.definitions:
-      for fpath in file_list:
+    #Get the number of rows
+    nrow_list=[]
+    for defn in self.definitions:
+      nrow_list.append(len(defn['file_list']))
+    nrows=nrow_list[0]
+    assert all([nr==nrows for nr in nrow_list[1:]]), "Differing numbers of rows: %s"%str(nrow_list)
+    #Initialize dictionaries to store data
+    rows=[dict() for i in range(nrows)]
+    #Populate dictionaries
+    for defn in self.definitions:
+      mapping=defn['mapping']
+      file_list=defn['file_list']
+      for fn,fpath in enumerate(file_list):
         #Load the file
         obj=yaml_manager.readfile(fpath,self.multidoc)
-        #Get the data into the dataframe
+        #Get the dictionary for the row
         flatdict=dict([(col,nested.get_nested(obj,dpath)) for col,dpath in mapping.items()])
-        df=df.append(flatdict,ignore_index=True)
+        #Store
+        rows[fn].update(flatdict)
+    #Create dataframe
+    df=pd.DataFrame(rows)
     #Do post-collection calculations
     self.process_command_sequence(attrpath='calculations',singlefunc=None,positional=False)
     #Save results
@@ -95,18 +107,20 @@ requests:
 definitions:
   type: array
   items:
-    type: array
-    items:
-      - {type: object}
-      - type: array
+    type: object
+    properties:
+      mapping: {type: object}
+      locator_list:
+        type: array
         items: {type: locator}
 raw_definitions:
   type: array
   items:
-    type: array
-    items:
-      - {type: object}
-      - type: array
+    type: object
+    properties:
+      mapping: {type: object}
+      file_list:
+        type: array
         items: {type: pathlike}
 calculations:
   type: array
@@ -124,9 +138,13 @@ class CollectionRequest(WithCommandsRequest):
   
     - outpath = path to store the output file containing the dataframe
     - requests = list of requests used to find the file to be read, as described below
-    - definitions = sequence of pairs (mapping, locator_list) where
+    - definitions = sequence of dictionaries:
       - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary}
-      - locator_list = list of locators defining to be loaded (one row per file, one loaded dictionary per file)
+      - locator_list = list of locators for files to be loaded (one row per file, one loaded dictionary per locator)
+      Note that every locator_list must have the same number of locators.
+      Very often, you will have only a single definition, meaning each row gets all of its data from a single file.
+      If each row needs to combine data from multiple files, you'll need more than one definition in the list.
+      If multiple definitions include the same column, the order of the definitions will matter: later ones will overwrite earlier ones.
     - calculations = command sequence defining calculations to be done after the dataframe is constructed from the input files
   
   This request finds files to include in the dataframe based on the list of requests, and the locator_list(s).
@@ -150,15 +168,15 @@ class CollectionRequest(WithCommandsRequest):
     #Compile the raw definitions and input files
     self._more_inputfiles=[]
     self.raw_definitions=[]
-    for mapping,locator_list in self.definitions:
+    for defn in self.definitions:
       working_filelist=[]
       for req in self.requests:
         for ch in req.recursive_children():
           if getattr(ch,'_self_task',False):
-            this_filelist = [ch.render(loc) for loc in locator_list]
+            this_filelist = [ch.render(loc) for loc in defn['locator_list']]
             self._more_inputfiles += this_filelist
             working_filelist += this_filelist
-      self.raw_definitions.append((mapping,working_filelist))
+      self.raw_definitions.append({'mapping':defn['mapping'],'file_list':working_filelist})
   def run(self):
       kwargs={'name':self.name+"_raw",'outpath':self.render(self.outpath),'definitions':self.raw_definitions}
       if getattr(self,'calculations',None) is not None:
