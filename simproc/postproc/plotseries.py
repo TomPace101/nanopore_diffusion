@@ -64,7 +64,7 @@ class DefinePlotSeries(CommandSequenceRequest):
 
     Arguments:
     
-      - dfpath = nested path to the DataFrame
+      - dfpath = nested path to the DataFrame (NOT a file path or locator)
       - xcol = name of the DataFrame column to use for the x-values of the series
       - ycol = name of the DataFrame column to use for the y-values of the series
       - outattr = nested path for storing the resulting series
