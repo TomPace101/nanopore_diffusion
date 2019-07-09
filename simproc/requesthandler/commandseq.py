@@ -2,6 +2,7 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+import sys
 
 #Site packages
 
@@ -143,7 +144,7 @@ class CommandSequenceRequest(WithCommandsRequest):
       - attrpath = nested path to attribute with data to store
       - outfpath = path to the output yaml file"""
     obj=self.get_nested(attrpath)
-    yaml_manager.writefile(obj,str(outfpath))
+    yaml_manager.writefile(obj,self.render(outfpath))
   def save_pickle(self,attrpath,outfpath):
     """Save data from the specified nested path to a pickle file
 
@@ -152,7 +153,7 @@ class CommandSequenceRequest(WithCommandsRequest):
       - attrpath = nested path to attribute with data to store
       - outfpath = path to the output pickle file"""
     obj=self.get_nested(attrpath)
-    pickle_manager.writefile(obj,str(outfpath))
+    pickle_manager.writefile(obj,self.render(outfpath))
 
 
 #Register for loading from yaml

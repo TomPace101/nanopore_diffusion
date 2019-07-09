@@ -59,7 +59,7 @@ class PlotSeries(object):
 
 class DefinePlotSeries(CommandSequenceRequest):
   """A class to load, generate, modify, and save PlotSeries objects using command sequences"""
-  def from_dataframe(dfpath,xcol,ycol,outattr,query=None,label=None,metadata=None):
+  def from_dataframe(self,dfpath,xcol,ycol,outattr,query=None,label=None,metadata=None):
     """Generate a series based on previously-loaded pandas dataframe
 
     Arguments:
@@ -84,10 +84,10 @@ class DefinePlotSeries(CommandSequenceRequest):
     xvals=qdf[xcol]
     yvals=qdf[ycol]
     #Instantiate the series
-    series=PlotSeries(xvals=vals,yvals=yvals,label=label,metadata=metadata)
+    series=PlotSeries(xvals=xvals,yvals=yvals,label=label,metadata=metadata)
     #Store result
     self.set_nested(outattr,series)
-  def from_normalization(inpath,outpath,normpath,label=None,metadata=None):
+  def from_normalization(self,inpath,outpath,normpath,label=None,metadata=None):
     """Generate a PlotSeries by normalizing another one
 
     Arguments:
