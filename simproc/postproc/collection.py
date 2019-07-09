@@ -45,8 +45,8 @@ class RawCollectionRequest(WithCommandsRequest):
     - outpath = path to store the output file containing the dataframe
     - multidoc = boolean, True if yaml files contain multiple documents, False if just one document each
     - definitions = sequence of dictionaries:
-      - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary}
-      - file_list = list of files to be loaded (one row per file, one loaded dictionary per file)
+      - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary} (each loaded dictionary comes from one file)
+      - file_list = list of files to be loaded (one row per file)
       Note that every file_list must have the same number of files.
       Very often, you will have only a single definition, meaning each row gets all of its data from a single file.
       If each row needs to combine data from multiple files, you'll need more than one definition in the list.
@@ -139,8 +139,8 @@ class CollectionRequest(WithCommandsRequest):
     - outpath = path to store the output file containing the dataframe
     - requests = list of requests used to find the file to be read, as described below
     - definitions = sequence of dictionaries:
-      - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary}
-      - locator_list = list of locators for files to be loaded (one row per file, one loaded dictionary per locator)
+      - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary} (each loaded dictionary comes from one locator)
+      - locator_list = list of locators for files to be loaded (one row per locator)
       Note that every locator_list must have the same number of locators.
       Very often, you will have only a single definition, meaning each row gets all of its data from a single file.
       If each row needs to combine data from multiple files, you'll need more than one definition in the list.
@@ -183,5 +183,60 @@ class CollectionRequest(WithCommandsRequest):
         kwargs['calculations']=self.calculations
       RawCollectionRequest.complete(**kwargs)
 
+_SimpleCollectionRequest_props_schema_yaml="""#SimpleCollectionRequest
+outpath:
+  type: pathlike
+requests:
+  type: array
+  items:
+    type: request
+mapping: {type: object}
+locator_list:
+  type: array
+  items: {type: locator}
+calculations:
+  type: array
+  items:
+    type: array
+    items:
+      - {type: string}
+      - {type: object}
+child: {type: object} ##actually a request, but to_dict is recursive, so the validation will receive a dictionary
+"""
+
+class SimpleCollectionRequest(WithCommandsRequest):
+  """Collect data from the output of other requests
+  
+  User-defined attributes:
+  
+    - outpath = path to store the output file containing the dataframe
+    - requests = list of requests used to find the file to be read, as described below
+    - mapping = dictionary {column name: dot-separated location of data within a loaded dictionary} (each loaded dictionary comes from one locator)
+    - locator_list = list of locators for files to be loaded (one table row per locator)
+    - calculations = command sequence defining calculations to be done after the dataframe is constructed from the input files
+  
+  The generated table will use exactly one file to get the data in each table row.
+  
+  Calculated attributes:
+  
+    - child = the CollectionRequest created from this request"""
+  _self_task=False
+  _required_attrs=['name','outpath','requests','mapping','locator_list']
+  _child_attrs=['child']
+  _props_schema=make_schema(_SimpleCollectionRequest_props_schema_yaml)
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(SimpleCollectionRequest, self).__init__(**kwargs)
+    #Set up the child
+    kwargs={
+      'name':self.name+".child",
+      'outpath':self.outpath,
+      'requests':self.requests,
+      'definitions':[{'mapping':self.mapping,'locator_list':self.locator_list}]
+      }
+    if hasattr(self,'calculations'):
+      kwargs['calculations']=self.calculations
+    self.child=CollectionRequest(**kwargs)
+
 #Register for loading from yaml
-yaml_manager.register_classes([RawCollectionRequest, CollectionRequest])
+yaml_manager.register_classes([RawCollectionRequest, CollectionRequest, SimpleCollectionRequest])
