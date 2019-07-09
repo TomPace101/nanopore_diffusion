@@ -4,16 +4,22 @@
 
 #Site packages
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
 
 #This package
-from ..requesthandler.commandseq import CommandSequenceRequest, make_schema
+from ..requesthandler.commandseq import CommandSequenceRequest
 from ..requesthandler import yaml_manager
 from .plotseries import PlotSeries
 
-class FigureRequest():
+class FigureRequest(CommandSequenceRequest):
   """For generating matplotlib figures"""
+  def set_rcparams(self,**kwargs):
+    """To set matplotlib rcParams"""
+    for k,v in kwargs.items():
+      mpl.rcParams[k]=v
+    return
   def figure(self,figattr="fig",**kwargs):
     """To create a new matplotlib.figure instance
 
@@ -24,6 +30,14 @@ class FigureRequest():
     fig=plt.figure(**kwargs)
     self.set_nested(figattr,fig)
     return
+  def savefig(self,outfpath,figattr="fig",**kwargs):
+    """Save the figure to file"""
+    fig=self.get_nested(figattr)
+    fig.savefig(self.renderstr(outfpath),**kwargs)
+  def closefig(self,figattr="fig"):
+    """Close the requested figure"""
+    fig=self.get_nested(figattr)
+    plt.close(fig)
   def axes(self,nrows=1,ncols=1,index=1,figattr="fig",axattr="ax",**kwargs):
     """To create a new matplotlib Axes instance
 
@@ -35,7 +49,7 @@ class FigureRequest():
       - figattr = nested path to figure instance, defaults to "fig"
       - axattr = nested path to resulting Axes instance, defaults to "ax"
       - \**kwargs = keyword arguments to pass to plt.figure.subplots"""
-    ax=self.get_nested(figattr).subplots(nrows,ncols,index,**kwargs)
+    ax=self.get_nested(figattr).add_subplot(nrows,ncols,index,**kwargs)
     self.set_nested(axattr,ax)
     return
   def iteraxes(self,axlist):
