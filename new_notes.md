@@ -15,7 +15,8 @@ xml, yaml, hdf5.
 _TODO_ missing validation:
 - line_profile
 - collection
-- CommandSequenceRequest
+- defining a series from a collected data file (doing this will also test CommandSequenceRequest, indirectly)
+- plotting
 
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
@@ -83,11 +84,11 @@ and then can write those items back out to yaml.
   - DONE Weak Form support as exists in simulator_general now
   - Library of common weak forms
   - expression projector?
-  - LPB/Smol simulator
+  - DONE: LPB/Smol simulator
   - unhomog fickian diffusion?
 - Post-processing:
-  - Collection request to generate table, with customization to control how simulation output maps to columns, and maybe specific data for select fields as well
-  - Plot request similar to what's already there, but with customization as well
+  - DONE: Collection request to generate table
+  - MAYBE DONE: Plot request similar to what's already there, but with customization as well
   - zipping/unzipping: see below
 - Validation:
   - DONE Validate that output files are as expected (new request type, which is tested by doctest)
