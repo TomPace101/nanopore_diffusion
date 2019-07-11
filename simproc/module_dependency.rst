@@ -13,7 +13,8 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``pickle_manager``: None
   - ``nested``: None
   - ``locators``: ``filepath``, ``yaml_manager``
-  - ``request``: ``filepath``, ``yaml_manager``, ``locators``, ``nested``
+  - ``schema``: ``filepath``, ``yaml_manager``, ``locators``, ``nested``
+  - ``request``: ``filepath``, ``yaml_manager``, ``schema``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
   - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``
   - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``, ``locators``

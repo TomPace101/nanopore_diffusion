@@ -137,7 +137,3 @@ Same thing for "modulefile" in `customizations.py`.
 _ISSUE_ Unconfirmed: once a child request of an MPIRunRequest crashed,
 but it seemed like the parent request kept waiting.
 But I can't get that to happen again.
-
-_MAYBE_ split the validation portion of request.py into a separate module,
-which includes a parent class for Request.
-This isn't a high priority because at the moment nothing else seems to need it.

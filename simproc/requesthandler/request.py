@@ -2,10 +2,8 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
-from itertools import chain
 
 #Site packages
-import jsonschema
 try:
   from doit.tools import config_changed
 except ImportError:
@@ -16,25 +14,7 @@ except ImportError:
 #This package
 from . import filepath
 from . import yaml_manager
-from . import locators
-from . import nested
-
-#Validation partial setup (some setup must wait for Request class to be defined)
-ValidatorClass = jsonschema.Draft4Validator
-#jsonschema 2.6
-extra_types_dict={'path':filepath.Path,
-                  'locator':locators.DataFile,
-                  'pathlike':(str,filepath.Path,locators.DataFile), #Note that this isn't the same thing as "pathlike" in python.org documentation
-                  'array':(list,tuple)}
-
-def validation_error_string(err):
-  "Return a string explaining the given validation error"
-  #Get the basic message
-  s=err.message
-  #Provide a path if necessary
-  if len(err.path)>0:
-    s="%s: %s"%('.'.join([str(itm) for itm in err.path]),s)
-  return s
+from . import schema
 
 #Validation schema for Request
 #Note that validation is not applied to class attributes,
@@ -57,9 +37,6 @@ _outputfile_attrs:
 _more_outputfiles:
   type: array
   items: {type: pathlike}
-_required_attrs:
-  type: array
-  items: {type: string}
 _config_attrs:
   type: array
   items: {type: string}
@@ -69,17 +46,16 @@ _child_attrs:
 _child_seq_attrs:
   type: array
   items: {type: string}
-_props_schema: {type: object}
 """
 
-class Request(nested.WithNested):
+class Request(schema.SelfValidating):
   """Base class for all requests. Abstract only, not really meant to be instantiated.
   
-  All requests should have the following abilities:
+  All requests have the abilities to:
   
     1) Run themselves. (see the ``run`` method)
     2) Provide ``doit`` task definitions for themselves and any sub-requests. (see the ``all_tasks`` method)
-    3) Validate their own configuration. (see the ``validate`` classmethod)
+    3) Validate their own configuration. (see the ``validate`` classmethod inherited from ``schema.SelfValidating``)
   
   Note that validation is performed as part of the construction of a request.
   You cannot create incomplete requests that fail validation, and then modify them to be valid.
@@ -114,13 +90,7 @@ class Request(nested.WithNested):
     - provide all their input and output files, which may come from locators
         - input files are specified by _inputfiles_attrs and _more_inputfiles
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
-  _props_schema=yaml_manager.readstring(_Request_props_schema_yaml)
-  def __init__(self,**kwargs):
-    #Validate kwargs
-    if hasattr(self,'_props_schema'):
-      self.validate_kwargs(**kwargs)
-    #Load the attributes specified
-    super(Request, self).__init__(**kwargs)
+  _props_schema=schema.SelfValidating.update_props_schema(_Request_props_schema_yaml)
   def render(self,loc):
     """Render a locator to a Path instance
     
@@ -134,49 +104,6 @@ class Request(nested.WithNested):
   def renderstr(self,loc):
     """Convenience function for str(self.render(loc))"""
     return str(self.render(loc))
-  @classmethod
-  def update_props_schema(cls,yaml_str):
-    """Return the property schema for a subclass
-    
-    The function is intended to be called by the subclass,
-    possibly using super() to determine the appropriate base class
-    (which, of course, this method will belong to).
-    
-    Arguments:
-    
-      - yaml_str = string containing yaml defining updates to _props_schema"""
-    sub_schema=yaml_manager.readstring(yaml_str)
-    schema={}
-    schema.update(cls._props_schema)
-    schema.update(sub_schema)
-    return schema
-  @classmethod
-  def _class_schema(cls):
-    """Return the jsonschema validation schema for instances of this class"""
-    return {'type':'object',
-            'properties':cls._props_schema,
-            'required':getattr(cls,'_required_attrs',[]),
-            'additionalProperties':False}
-  @classmethod
-  def validate_kwargs(cls,**kwargs):
-    if hasattr(cls,'_props_schema'):
-      schema=cls._class_schema()
-      validator=ValidatorClass(schema,types=extra_types_dict)
-      errlist=["  - %s"%validation_error_string(err) for err in validator.iter_errors(kwargs)]
-      if len(errlist)>0:
-        #Found errors: raise exception listing them all
-        errlist.sort()
-        errstr="Errors found in %s.\n"%cls.__name__
-        keylist=list(kwargs.keys())
-        keylist.sort()
-        errstr+='Received arguments:\n'
-        errstr+='\n'.join(['  - %s: %s'%(k,kwargs[k]) for k in keylist])
-        errstr+='\nErrors:\n'
-        errstr+='\n'.join(errlist)
-        raise Exception(errstr)
-  def validate(self):
-    d=self.to_dict()
-    self.validate_kwargs(**d)
   def pre_run(self):
     """Steps commonly taken just before execution
     
@@ -326,7 +253,7 @@ make_schema=Request.update_props_schema
 # type_checker=type_checker.redefine("request",lambda chkr,inst: isinstance(inst,Request))
 # ValidatorClass = jsonschema.extend(jsonschema.Draft3Validator, type_checker=type_checker)
 #For jsonschema 2.6
-extra_types_dict['request']=(Request,)
+schema.extra_types_dict['request']=(Request,)
 
 #Register for loading from yaml
 yaml_manager.register_classes([Request])

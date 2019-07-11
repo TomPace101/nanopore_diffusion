@@ -12,6 +12,7 @@ from . import nested
 from . import pickle_manager
 from . import request
 from . import requestfile
+from . import schema
 from . import shell
 from . import simultaneous
 from . import templates
