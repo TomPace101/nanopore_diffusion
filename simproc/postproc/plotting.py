@@ -438,7 +438,7 @@ class FigureRequest(WithCommandsRequest):
         axlist=["ax"]
     #Arguments dictionary
     kwargs=getattr(seriesprops,'kwargs',{})
-    for k in self._direct_attrs:
+    for k in seriesprops._direct_attrs:
       if hasattr(seriesprops,k):
         kwargs[k]=getattr(seriesprops,k)
     kwargs['seriespath']=seriesprops.seriesattr
