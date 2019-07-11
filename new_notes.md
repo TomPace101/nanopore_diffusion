@@ -88,7 +88,7 @@ and then can write those items back out to yaml.
   - unhomog fickian diffusion?
 - Post-processing:
   - DONE: Collection request to generate table
-  - MAYBE DONE: Plot request similar to what's already there, but with customization as well
+  - DONE: Plot request
   - zipping/unzipping: see below
 - Validation:
   - DONE Validate that output files are as expected (new request type, which is tested by doctest)
