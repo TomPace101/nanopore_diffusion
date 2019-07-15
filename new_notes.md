@@ -137,3 +137,16 @@ Same thing for "modulefile" in `customizations.py`.
 _ISSUE_ Unconfirmed: once a child request of an MPIRunRequest crashed,
 but it seemed like the parent request kept waiting.
 But I can't get that to happen again.
+
+_FEATURE_ attribute/item "locators"
+Needs a better name to distinguish it from file path locators,
+but the basic idea is that anywhere in my code that currently accepts
+a "nested attribute path", should really be able to accept the data directly instead.
+But, we then have a class that works similar to a locator:
+it tells you where to find the data.
+Just like locators, there's a method to "render" objects,
+which just returns the direct data if that's what was provided.
+In fact, the objects themselves don't need a method for this;
+it's all up to the owning object to handle properly.
+But then what about where to "store" the result?
+
