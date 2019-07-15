@@ -258,18 +258,18 @@ class FigureRequest(WithCommandsRequest):
     series=PlotSeries(xvals=xvals,yvals=yvals,label=label,metadata=metadata)
     #Store result
     self.set_nested(outattr,series)
-  def series_from_normalization(self,inpath,outpath,normpath,label=None,metadata=None):
+  def series_from_normalization(self,inpath,outattr,normpath,label=None,metadata=None):
     """Generate a PlotSeries by normalizing another one
 
     Arguments:
 
-      - inpath = nested path to the input data series
-      - outpath = nested path to the output data series
+      - inattr = nested path to the input data series
+      - outattr = nested path to the output data series
       - normpath = nested path to the normalization constant
       - label = optional series label
       - metadata = optional series metadata (added to the metadata from the other series)"""
     #Data from other series
-    other=self.get_nested(inpath)
+    other=self.get_nested(inattr)
     xvals=other.xvals
     orig_y=np.array(other.yvals)
     out_meta=deepcopy(other.metadata)
@@ -281,7 +281,22 @@ class FigureRequest(WithCommandsRequest):
     #Instantiate the series
     series=PlotSeries(xvals=vals,yvals=yvals,label=label,metadata=out_meta)
     #Store result
-    self.set_nested(outpath,series)
+    self.set_nested(outattr,series)
+  def series_from_constant(self,inattr,outattr,span,label=None,metadata=None):
+    """Generate a PlotSeries for a constant value
+    
+    Arguments:
+    
+      - inattr = nested path to the constant
+      - outattr = nested path to the output data series
+      - span = pair of numbers for the lower and upper ends of the line
+      - label = optional series label
+      - metadata = optional series metadata"""
+    constval=self.get_nested(inattr)
+    yvals=[constval, constval]
+    series=PlotSeries(xvals=span,yvals=yvals,label=label,metadata=metadata)
+    self.set_nested(outattr,series)
+    return
   def set_rcparams(self,**kwargs):
     """To set matplotlib rcParams"""
     for k,v in kwargs.items():
