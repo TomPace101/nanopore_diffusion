@@ -1264,20 +1264,6 @@ Pete mentioned on Slack that he has an example code that does this correctly.
 (Thursday, February 15, between 12pm and 12:30 pm)
 He also said it's in `template_timedep.py`.
 
-Got things working to generate meshes in HDF5 format,
-and to have the simulator read those in.
-But now the issue is data extraction: each process only has part of the mesh.
-See log 2018-05-29.md
-
-So, what will it take to get this working:
-- install fenicstools
-- use fenicstools Probes to extract data
-- MPI gather results from different processes (or does Probes do this for you?)
-- only rank 0 process should write output file
-
-Alteneratively, I could try to see how Probes in fenicstools works,
-and write similar python code.
-
 _EFFORT_ we need to run for face-centered geometry as well
 This requires adding the interior surface to this mesh,
 which means redoing its geometry.

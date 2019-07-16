@@ -102,6 +102,17 @@ and then can write those items back out to yaml.
 
 # New Features/Improvements
 
+_FEATURE_ Run simulations with MPI
+The issue is data extraction: each process only has part of the mesh.
+See log 2018-05-29.md
+
+So, what will it take to get this working:
+- install fenicstools
+- use fenicstools Probes to extract data
+- MPI gather results from different processes (or does Probes do this for you?)
+- only rank 0 process should write output file
+
+
 _FEATURE_ run with doit without dodo.
 This requires digging into doit and copying out some of its code.
 The advantage is obvious: less time waiting for things to rerun.
