@@ -115,7 +115,7 @@ You can't use it directly, because it calls `sys.exit`.
 What format to use this?
 Could add a command line option to "run" with doit.
 But sometimes I just want to see task states.
-We don't want to replicate all the doit comamnd line stuff.
+We don't want to replicate all the doit command line stuff.
 The dodo file does work for that.
 Instead, the goal is to be able to do those things from within python.
 
