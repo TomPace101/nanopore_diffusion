@@ -36,7 +36,7 @@ class DummyRequest(request.Request):
    ('file_dep', []),
    ('name', 'example'),
    ('targets', []),
-   ('uptodate', [<doit.tools.config_changed object at 0x...>])]
+   ('uptodate', [<doit.tools.config_changed object at 0x...>, True])]
   >>> invalid=DummyRequest(not_allowed=True)
   Traceback (most recent call last):
     ...

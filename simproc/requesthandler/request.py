@@ -46,6 +46,7 @@ _child_attrs:
 _child_seq_attrs:
   type: array
   items: {type: string}
+_uptodate: {type: boolean}
 """
 
 class Request(schema.SelfValidating):
@@ -80,6 +81,9 @@ class Request(schema.SelfValidating):
     - _child_seq_attrs: list of attributes that contain sequences of other Requests
     - _props_schema: jsonschema used to validate request configuration, as a dictionary
         The schema is for the 'properties' element only. The rest is provided internally.
+    - _uptodate: boolean, True if up-to-date, False otherwise
+      Subclasses may replace the attribute with a property,
+      and instances may define their own attribute to override as well.
 
   Subclasses which return their own doit tasks MUST do the following:
   
@@ -91,6 +95,7 @@ class Request(schema.SelfValidating):
         - input files are specified by _inputfiles_attrs and _more_inputfiles
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
   _props_schema=schema.SelfValidating.update_props_schema(_Request_props_schema_yaml)
+  _uptodate=True
   def render(self,loc):
     """Render a locator to a Path instance
     
@@ -226,9 +231,9 @@ class Request(schema.SelfValidating):
     
     To get requests from this task or its children, as appropriate, see all_tasks."""
     return {'name': self.name,
-     'file_dep': self.inputfiles,
-     'uptodate': [config_changed(self.config)],
-     'targets': self.outputfiles,
+     'file_dep': [self.render(p) for p in self.inputfiles],
+     'uptodate': [config_changed(self.config),self._uptodate],
+     'targets': [self.render(p) for p in self.outputfiles],
      'actions': [(self.run,)]}
   def all_tasks(self):
     """Generator yielding task definitions from this Request or all child Requests"""

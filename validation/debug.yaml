@@ -169,6 +169,7 @@
 #The shell append request won't overwrite any previous file, so we need to delete it first
 - !FileDeletionRequest
   name: mpi.test.preclean
+  _uptodate: False
   files:
     - !OutputFile out.txt
 - !MPIRunRequest
