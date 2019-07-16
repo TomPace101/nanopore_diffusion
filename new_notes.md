@@ -28,6 +28,8 @@ Maybe we even need a way to compare yaml files other than just bytewise.
 For example, compare floats to a limited precision, or other form of tolerance.
 
 _TODO_ in writefield_outputfiles, detect MPI and list pvtu files
+There are also vtu files generated that don't match the current naming expectation in this case.
+The workaround is to not write out pvd files in MPI.
 
 _ISSUE_ we really should combine the 2D and 3D homogenization files once we get them working, to reduce duplicated code
 The PeriodicBoundary classes will have to stay separate.
@@ -104,14 +106,18 @@ and then can write those items back out to yaml.
 
 _FEATURE_ Run simulations with MPI
 The issue is data extraction: each process only has part of the mesh.
-See log 2018-05-29.md
+(See log 2018-05-29.md)
+
+fenicstools
+https://github.com/mikaem/fenicstools/wiki
 
 So, what will it take to get this working:
-- install fenicstools
+- rebuild singularity images with fenicstools installed
 - use fenicstools Probes to extract data
 - MPI gather results from different processes (or does Probes do this for you?)
 - only rank 0 process should write output file
 
+For now, we're working around this by doing extraction in single-process mode.
 
 _FEATURE_ run with doit without dodo.
 This requires digging into doit and copying out some of its code.

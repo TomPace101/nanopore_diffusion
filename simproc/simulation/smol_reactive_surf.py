@@ -166,7 +166,8 @@ class SUSimulator(simrequest.SimulationRequest):
     self.set_solver_parameters()
 
     #solve
-    self.solver.solve()
+    if not getattr(self,'skipsolve',False):
+      self.solver.solve()
 
     #transform back
     self.solnlist=fem.split(self.soln)

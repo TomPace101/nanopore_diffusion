@@ -46,6 +46,9 @@ class LPBSimulator(simrequest.SimulationRequest):
     #Solution function
     self.soln=fem.Function(self.V,name="Phi")
 
+    #Load solution if provided
+    self.process_load_commands()
+
     #Dirichlet boundary conditions
     self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
 
@@ -83,7 +86,8 @@ class LPBSimulator(simrequest.SimulationRequest):
     self.set_solver_parameters()
 
     #Solve
-    self.solver.solve()
+    if not getattr(self,'skipsolve',False):
+      self.solver.solve()
 
 #Register for loading from yaml
 yaml_manager.register_classes([LPBSimulator])

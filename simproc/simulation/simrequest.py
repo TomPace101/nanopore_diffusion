@@ -80,6 +80,7 @@ metadata:
   type: object
 solver_parameters:
   type: object
+skipsolve: {type: boolean}
 meshinfo: {}
 """
 
