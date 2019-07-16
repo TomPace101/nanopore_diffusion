@@ -25,20 +25,6 @@ in electrolyte_analysis and stoch_test:
   DATALOC -> DATAFOLDER
   SRCLOC -> SRCFOLDER
 
-_TODO_ get rid of dodo.py
-You can call doit from within python; see doit.run
-http://pydoit.org/cmd_run.html#using-the-api
-Probably you'll want to examine that code,
-and do something similar.
-
-The idea is to add more command line flags,
-to allow for running only out-of-date requests,
-or reviewing request status, etc.
-Maybe you'll even want a python module,
-so you can do some of this from within python.
-Actually, that would probably be more useful
-than adding more command line arguments.
-
 _TODO_ construct a module dependency graph
 I now have a file for manually tracking this information.
 But an automated way of doing it might be better.

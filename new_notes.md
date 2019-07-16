@@ -103,9 +103,23 @@ and then can write those items back out to yaml.
 # New Features/Improvements
 
 _FEATURE_ run with doit without dodo.
-See old notes about this.
 This requires digging into doit and copying out some of its code.
 The advantage is obvious: less time waiting for things to rerun.
+
+You can call doit from within python; see doit.run
+http://pydoit.org/cmd_run.html#using-the-api
+Probably you'll want to examine that code,
+and do something similar.
+You can't use it directly, because it calls `sys.exit`.
+
+What format to use this?
+Could add a command line option to "run" with doit.
+But sometimes I just want to see task states.
+We don't want to replicate all the doit comamnd line stuff.
+The dodo file does work for that.
+Instead, the goal is to be able to do those things from within python.
+
+(It would be nice if doit had a better python api by itself.)
 
 _FEATURE_ should attribute paths be moved up to request itself?
 (This is `get_nested` and `set_nested` in simrequest.py)
