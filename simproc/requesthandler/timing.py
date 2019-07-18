@@ -8,9 +8,9 @@ TIMEFORMAT="%a %d-%b-%Y %H:%M:%S.%f"
 
 def format_delta(tdelta):
   "Return a string in standard format for a time delta"
-  hour,rem=divmod(tdelta.seconds,60)
-  min,sec=divmod(rem,60)
-  return "%dD %02d:%02d:%02d (%d.%d sec)"%(tdelta.days,hour,min,sec,tdelta.total_seconds(),tdelta.microseconds)
+  hours,rem=divmod(tdelta.seconds,3600)
+  mins,sec=divmod(rem,60)
+  return "%dD %02d:%02d:%02d (%d.%d sec)"%(tdelta.days,hours,mins,sec,tdelta.total_seconds(),tdelta.microseconds)
 
 class Timer(object):
   """A simple timer"""
