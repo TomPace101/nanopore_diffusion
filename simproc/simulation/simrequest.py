@@ -153,9 +153,9 @@ class SimulationRequest(WithCommandsRequest):
       #Load
       self.meshinfo=MeshInfo.load(self.render(self.mesh),meshmeta,hasmeshfuncs)
     #Do the simulation
-    sim_timer=timing.Timer()
+    self.sim_timer=timing.Timer()
     self.run_sim()
-    print("Simulation duration: "+sim_timer.stop())
+    print("Simulation duration: "+self.sim_timer.stop())
     #Generate output, if any
     self.process_command_sequence(attrpath='dataextraction',singlefunc=None,positional=False)
     return

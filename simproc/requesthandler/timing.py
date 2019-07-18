@@ -19,7 +19,8 @@ class Timer(object):
   def stop(self):
     self.end=datetime.now()
     self.delta=self.end-self.start
-    return format_delta(self.delta)
+    self.delta_str=format_delta(self.delta)
+    return self.delta_str
 
 def timestamp(dt=None):
   if dt is None:
