@@ -16,7 +16,7 @@ From: ubuntu:16.04
   #General scientific programming packages for python
   apt -y install --no-install-recommends python3-pip python3-setuptools python3-numpy python3-scipy python3-tk python3-matplotlib ipython3
   export LC_All=C
-  pip3 install ruamel.yaml jsonschema jinja2 pandas doit
+  pip3 install pexpect ruamel.yaml jsonschema jinja2 pandas doit
   #gmsh
   apt -y install --no-install-recommends gmsh #old version, needed for dependencies
   apt -y install --no-install-recommends libxcursor1 #a dependecy not provided by the above
