@@ -16,6 +16,7 @@ from . import schema
 from . import shell
 from . import simultaneous
 from . import templates
+from . import timing
 from . import yaml_manager
 
 #Modules for doctests

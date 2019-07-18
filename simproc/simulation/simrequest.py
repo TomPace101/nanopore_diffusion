@@ -1,6 +1,7 @@
 """Base functionality for simulation requests"""
 
 #Standard library
+from __future__ import print_function, division #Python 2 compatibility
 import sys
 from copy import deepcopy
 
@@ -12,6 +13,7 @@ import fenics as fem
 from ..requesthandler.commandseq import WithCommandsRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
+from ..requesthandler import timing
 from .meshinfo import MeshInfo
 from ..postproc.plotseries import PlotSeries
 
@@ -151,7 +153,9 @@ class SimulationRequest(WithCommandsRequest):
       #Load
       self.meshinfo=MeshInfo.load(self.render(self.mesh),meshmeta,hasmeshfuncs)
     #Do the simulation
+    sim_timer=timing.Timer()
     self.run_sim()
+    print("Simulation duration: "+sim_timer.stop())
     #Generate output, if any
     self.process_command_sequence(attrpath='dataextraction',singlefunc=None,positional=False)
     return
