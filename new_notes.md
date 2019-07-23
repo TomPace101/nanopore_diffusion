@@ -180,4 +180,24 @@ which just returns the direct data if that's what was provided.
 In fact, the objects themselves don't need a method for this;
 it's all up to the owning object to handle properly.
 But then what about where to "store" the result?
+That's not really a use case for this.
+When you need to store a result, you know you have to tell where to put it.
+The use case is when you get a value,
+you can either provide the value directly,
+or provide the location of the value.
+Terminology:
+"owner": the object needing the value (which may also possess the value as a nested attribute)
+"attribute locator": the object that tells the owner where to find the needed data
+"direct value": not an attribute locator; for use by the owner without alteration
+"argument": something the owner gets passed that could be either a direct value, or an attribute locator
+"characteristic": something that distinguishes attribute locators from direct values.
+How it should work:
+The owner checks if the argument possesses the characteristic.
+If it does, it calls owner.get_nested.
+If not, the value is returned directly.
+This could all happen, for example, in owner.render.
+All we need to do, then, is decide what the characteristic is.
+Maybe it's just "isinstance"?
+The place to put the attribute locator would be in nested.py.
+
 
