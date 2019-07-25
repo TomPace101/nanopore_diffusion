@@ -1,10 +1,14 @@
 """Generate plots"""
 
 #Standard library
+import os
 
 #Site packages
 import numpy as np
 import matplotlib as mpl
+#(check if backend is ok)
+if os.environ.get('DISPLAY','')=='':
+  mpl.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
