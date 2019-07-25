@@ -160,9 +160,10 @@ class CollectionRequest(WithCommandsRequest):
   _self_task=True
   _required_attrs=['name','outpath','definitions','requests']
   _outputfile_attrs=['outpath']
-  _config_attrs=['definitions','requests','calculations']
+  _config_attrs=['definitions','_more_inputfiles','calculations']
   _props_schema=make_schema(_CollectionRequest_props_schema_yaml)
   def __init__(self,**kwargs):
+    ##TODO: should this perhaps just use RawCollectionRequest as its children instead of calling `complete` on them when run?
     #Initialization from base class
     super(CollectionRequest, self).__init__(**kwargs)
     #Compile the raw definitions and input files
