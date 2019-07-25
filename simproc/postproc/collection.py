@@ -91,11 +91,11 @@ class RawCollectionRequest(WithCommandsRequest):
         #Store
         rows[fn].update(flatdict)
     #Create dataframe
-    df=pd.DataFrame(rows)
+    self.df=pd.DataFrame(rows)
     #Do post-collection calculations
     self.process_command_sequence(attrpath='calculations',singlefunc=None,positional=False)
     #Save results
-    pickle_manager.writefile(df,self.renderstr(self.outpath))
+    pickle_manager.writefile(self.df,self.renderstr(self.outpath))
 
 _CollectionRequest_props_schema_yaml="""#CollectionRequest
 outpath:
@@ -180,8 +180,9 @@ class CollectionRequest(WithCommandsRequest):
       self.raw_definitions.append({'mapping':defn['mapping'],'file_list':working_filelist})
   def run(self):
       kwargs={'name':self.name+"_raw",'outpath':self.render(self.outpath),'definitions':self.raw_definitions}
-      if getattr(self,'calculations',None) is not None:
-        kwargs['calculations']=self.calculations
+      for argname in ['calculations','modules','methods']:
+        if getattr(self,argname,None) is not None:
+          kwargs[argname]=getattr(self,argname)
       RawCollectionRequest.complete(**kwargs)
 
 _SimpleCollectionRequest_props_schema_yaml="""#SimpleCollectionRequest
@@ -235,8 +236,9 @@ class SimpleCollectionRequest(WithCommandsRequest):
       'requests':self.requests,
       'definitions':[{'mapping':self.mapping,'locator_list':self.locator_list}]
       }
-    if hasattr(self,'calculations'):
-      kwargs['calculations']=self.calculations
+    for argname in ['calculations','modules','methods']:
+      if hasattr(self,argname):
+        kwargs[argname]=getattr(self,argname)
     self.child=CollectionRequest(**kwargs)
 
 #Register for loading from yaml
