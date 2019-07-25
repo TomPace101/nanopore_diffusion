@@ -176,7 +176,7 @@ class FigureRequest(WithCommandsRequest):
       - arguments = dictionary of arguments to the method: {argname: value,...}    
   """
   _self_task=True
-  _config_attrs=('prepcommands','plotcommands')
+  _config_attrs=('loadfiles','prepcommands','plotcommands','rcparams','figures','axes','series')
   _required_attrs=[]
   _props_schema=make_schema(_FigureRequest_props_schema_yaml)
   def __init__(self,**kwargs):
