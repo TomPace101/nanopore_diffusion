@@ -10,7 +10,18 @@ import itertools
 #This package
 from . import yaml_manager
 from .request import Request
+from . import nested
 from . import customization
+
+def get_request_class(request_type):
+  """Return the request class stipulated"""
+  if isinstance(request_type,str):
+    childclass = yaml_manager.all_registered.get(request_type,None)
+    assert childclass is not None, "Unable to find type %s in registered classes"%request_type
+  else:
+    assert isinstance(request_type,Request), "Invalid entry for request_type: %s of type %s."%(str(request_type),str(type(self.request_type)))
+    childclass=request_type
+  return childclass
 
 _ParametricRequestListRequest_props_schema_yaml="""#ParametricRequestListRequest
 request_type:
@@ -84,12 +95,7 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
     #Initialization from base class
     super(ParametricRequestListRequest, self).__init__(**kwargs)
     #Get a handle to the actual child request class
-    if isinstance(self.request_type,str):
-      childclass = yaml_manager.all_registered.get(self.request_type,None)
-      assert childclass is not None, "Unable to find type %s in registered classes"%self.request_type
-    else:
-      assert isinstance(self.request_type,Request), "Invalid entry for request_type: %s of type %s."%(str(self.request_type),str(type(self.request_type)))
-      childclass=self.request_type
+    childclass=get_request_class(self.request_type)
     #Fields
     const_fields=getattr(self,'constants',{})
     variations=getattr(self,'variations',{})
@@ -122,5 +128,120 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
           index += 1
     return
 
+_GeneratedVariationsRequest_props_schema_yaml="""#GeneratedVariationsRequest
+request_type:
+  anyOf:
+    - {type: string}
+    - {type: request}
+template: {type: object}
+variations:
+  type: array
+  items:
+    type: object
+    properties:
+      attrloc:
+       anyOf:
+        - {type: string}
+        - {type: array}
+      values: {type: array}
+    required: [attrloc, values]
+    additionalProperties: False
+other_parents:
+  type: object
+  additionalProperties: {type: request}
+parents_mapping:
+  type: array
+  items:
+    type: object
+    properties:
+      parent_loc:
+       anyOf:
+        - {type: string}
+        - {type: array}
+      template_loc:
+       anyOf:
+        - {type: string}
+        - {type: array}
+    required: [parent_loc, template_loc]
+    additionalProperties: False
+_children: {type: array}"""
+
+##TODO: this borrows lots of code from the above. Can we consolidate somehow?
+##TODO: it would be nice if this could allow for "sets" of properties that vary together, instead of always taking the product
+class GeneratedVariationsRequest(customization.CustomizableRequest):
+  """Generate requests based on a template with listed variations
+  
+  User-defined attributes:
+
+    - request_type = EITHER
+          a type instance to use for the child requests
+        OR
+          a string containing the name of a request type registered with yaml_manager
+    - template = template for keyword arguments dictionary to the child request type
+    - variations = sequence of changes to make to the template, each item a dictionary:
+        - attrloc: attribute path to the value to vary in the child request keyword arguments dictionary
+        - values: list of values to place in the specified attribute path
+    - other_parents = dictionary of other parent requests:
+       {parent_name: parent_request, ...}
+    - parents_mapping = sequence indicating how to map values from other_parents into template locations, each item a dictionary:
+        - parent_loc: attribute path to location within the parent
+        - template_loc: attribute path to location within the template
+  
+  Note that the template may contain properties overridden by the variations.
+  In that case, the parameters in the template itself are not used.
+  
+  """
+  _props_schema=customization.make_schema(_GeneratedVariationsRequest_props_schema_yaml)
+  _required_attrs=['request_type','template']
+  _child_seq_attrs=['_children']
+  _self_task=False #This request generates doit tasks from its children, not itself
+  def get_child_kwargs(self,index=None,**fields):
+    """Compute a keyword arguments dictionary from the input dictionary"""
+    outkwargs={}
+    outkwargs.update(fields)
+    return outkwargs
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(GeneratedVariationsRequest, self).__init__(**kwargs)
+    #Get a handle to the actual child request class
+    childclass=get_request_class(self.request_type)
+    #Get the listed variations
+    variations=getattr(self,'variations',[])
+    variation_attrlocs=[v['attrloc'] for v in variations]
+    variation_fieldvalues=[v['values'] for v in variations]
+    #Load the other requests
+    other_parents=getattr(self,'other_parents',{})
+    op_fieldnames=tuple(other_parents.keys())
+    op_c_generators=[p.all_children() for p in other_parents.values()] #The generator of all children for each other parent
+    op_c_iterator=itertools.product(*op_c_generators) #Iterator over combinations of the other parents children
+    #Parents mapping
+    parents_mapping=getattr(self,'parents_mapping',[])
+    #Loop through
+    self._children=[]
+    index=0
+    for opc_tup in op_c_iterator:
+      opc_dict=dict(zip(op_fieldnames,opc_tup))
+      variation_iterator=itertools.product(*variation_fieldvalues)
+      for variation_values in variation_iterator:
+        #Put the fields together
+        fields={'index':index}
+        fields.update(self.template)
+        #Information from other parents
+        for pdict in parents_mapping:
+          opvalue=nested.get_nested(opc_dict,pdict['parent_loc'])
+          nested.set_nested(fields,pdict['template_loc'],opvalue)
+        #Information from variations
+        for idx, vvalue in enumerate(variation_values):
+          nested.set_nested(fields,variation_attrlocs[idx],vvalue)
+        #Obtain arguments for child request constructor
+        child_kwargs=self.get_child_kwargs(**fields)
+        #Create child and add to list
+        if child_kwargs is not None:
+          ch_req=childclass(**child_kwargs)
+          self._children.append(ch_req)
+          index += 1
+    return
+
+
 #Register for loading from yaml
-yaml_manager.register_classes([ParametricRequestListRequest])
+yaml_manager.register_classes([ParametricRequestListRequest, GeneratedVariationsRequest])

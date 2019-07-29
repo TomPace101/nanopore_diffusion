@@ -14,7 +14,10 @@ def to_sequence(dpath):
 def drill_down(obj,seq):
   head=seq[:-1]
   tail=seq[-1]
-  parent=obj.get_nested(head)
+  if hasattr(obj,'get_nested'):
+    parent=obj.get_nested(head)
+  else:
+    parent=get_nested(obj,head)
   return parent,tail
 
 def get_nested(obj,dpath):

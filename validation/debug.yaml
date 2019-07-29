@@ -133,6 +133,19 @@
     - [!CompareFile zchild_005.txt, !OutputFile zchild_005.txt]
     - [!CompareFile zchild_006.txt, !OutputFile zchild_006.txt]
     - [!CompareFile zchild_007.txt, !OutputFile zchild_007.txt]
+#Generated requests based on a template request
+- !GeneratedVariationsRequest
+  name: generated.base
+  request_type: DummyShellAppendRequest
+  template:
+    name: generated.not_unique #This is a problem
+    test: this one never appears
+    outfile: !OutputFile generated_variations.txt
+  variations:
+    - attrloc: test
+      values: [alpha, beta, gamma]
+  other_parents:
+    xy_request: *example_parametric
 #Simultaneous requests
 #Note that we can't actually check here to make sure they are simultaneous,
 #just that they do execute.
