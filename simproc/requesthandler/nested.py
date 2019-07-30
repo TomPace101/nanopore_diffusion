@@ -140,7 +140,7 @@ class Stored(object):
     return cls(node.value)
   @classmethod
   def to_yaml(cls, representer, node):
-    return representer.represent_scalar("!"+cls.__name__,str(node.subpath))
+    return representer.represent_scalar("!"+cls.__name__,str(node.attrloc))
 
 #Register for loading from yaml
 yaml_manager.register_classes([Stored])

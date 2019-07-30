@@ -139,10 +139,7 @@ variations:
   items:
     type: object
     properties:
-      attrloc:
-       anyOf:
-        - {type: string}
-        - {type: array}
+      attrloc: {type: attrpath}
       values: {type: array}
     required: [attrloc, values]
     additionalProperties: False
@@ -154,14 +151,8 @@ parents_mapping:
   items:
     type: object
     properties:
-      parent_loc:
-       anyOf:
-        - {type: string}
-        - {type: array}
-      template_loc:
-       anyOf:
-        - {type: string}
-        - {type: array}
+      parent_loc: {type: attrpath}
+      template_loc: {type: attrpath}
     required: [parent_loc, template_loc]
     additionalProperties: False
 _children: {type: array}"""
@@ -199,6 +190,7 @@ class GeneratedVariationsRequest(customization.CustomizableRequest):
     """Compute a keyword arguments dictionary from the input dictionary"""
     outkwargs={}
     outkwargs.update(fields)
+    outkwargs['name']+=".%04d"%index
     return outkwargs
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -224,7 +216,7 @@ class GeneratedVariationsRequest(customization.CustomizableRequest):
       variation_iterator=itertools.product(*variation_fieldvalues)
       for variation_values in variation_iterator:
         #Put the fields together
-        fields={'index':index}
+        fields={}
         fields.update(self.template)
         #Information from other parents
         for pdict in parents_mapping:
@@ -234,7 +226,7 @@ class GeneratedVariationsRequest(customization.CustomizableRequest):
         for idx, vvalue in enumerate(variation_values):
           nested.set_nested(fields,variation_attrlocs[idx],vvalue)
         #Obtain arguments for child request constructor
-        child_kwargs=self.get_child_kwargs(**fields)
+        child_kwargs=self.get_child_kwargs(index=index,**fields)
         #Create child and add to list
         if child_kwargs is not None:
           ch_req=childclass(**child_kwargs)

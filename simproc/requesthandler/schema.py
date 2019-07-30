@@ -19,7 +19,8 @@ extra_types_dict={'path':filepath.Path,
                   'locator':locators.DataFile,
                   'pathlike':(str,filepath.Path,locators.DataFile), #Note that this isn't the same thing as "pathlike" in python.org documentation
                   'array':(list,tuple),
-                  'attrpath':(str,list,tuple)}
+                  'attrpath':(str,list,tuple),
+                  'stored':nested.Stored}
 
 def validation_error_string(err):
   "Return a string explaining the given validation error"

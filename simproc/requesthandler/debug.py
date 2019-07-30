@@ -78,7 +78,8 @@ test:
   anyOf:
     - {type: string}
     - {type: number}
-    - {type: pathlike}"""
+    - {type: pathlike}
+    - {type: stored}"""
 
 class DummyShellRequest(shell.ShellCommandRequestBase):
   """A debugging test for a shell request
@@ -94,12 +95,14 @@ class DummyShellRequest(shell.ShellCommandRequestBase):
   _outputfile_attrs=['outfile']
   @property
   def cmd_str(self):
-    return "echo '%s' >%s"%(str(self.test),self.renderstr(self.outfile))
+    data=self.get_stored(self.test)
+    return "echo '%s' >%s"%(str(data),self.renderstr(self.outfile))
 
 class DummyShellAppendRequest(DummyShellRequest):
   @property
   def cmd_str(self):
-    return "echo '%s' >>%s"%(str(self.test),self.renderstr(self.outfile))
+    data=self.get_stored(self.test)
+    return "echo '%s' >>%s"%(str(data),self.renderstr(self.outfile))
 
 _SleepRequest_props_schema_yaml="""#SleepRequest
 name: {type: string}
