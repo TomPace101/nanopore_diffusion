@@ -1,6 +1,4 @@
 
-_ISSUE_ change postproc.py in redux_electrolyte, and collection doesn't re-run but calc does
-
 _ISSUE_ locators don't have descriptions of their purpose.
 This is important: people won't know how to use them without this.
 There should also be a good way to see all defined locators.
