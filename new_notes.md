@@ -200,4 +200,15 @@ All we need to do, then, is decide what the characteristic is.
 Maybe it's just "isinstance"?
 The place to put the attribute locator would be in nested.py.
 
+So now I made a first pass at an implementation of this.
+But I'm not sure I like how it works.
+I couldn't use "render", because that has to be guaranteed to return a file path,
+not an arbitrary value.
+Also, what would you do if you had a locator stored somewhere?
+You want to retrieve it without rendering it.
+
+Nothing else uses it yet, so it's dead code at the moment.
+
+I still can't help but wonder if this is what the "descriptor" protocol in python was made for.
+https://docs.python.org/3/howto/descriptor.html
 

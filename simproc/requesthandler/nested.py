@@ -4,6 +4,9 @@
 from __future__ import print_function, division #Python 2 compatibility
 from collections import OrderedDict as odict
 
+#This package
+from . import yaml_manager
+
 def to_sequence(dpath):
   if isinstance(dpath,str):
     seq=dpath.split('.')
@@ -122,3 +125,22 @@ class WithNested(object):
     """Set up a new OrderedDict for later use with set_nested"""
     new_odict(self,dpath)
     return
+
+class Stored(object):
+  """Provide the location of a value stored elsewhere in memory
+  
+    Attributes:
+    
+      - attrloc = basicaly a dpath argument for use with get_nested and set_nested
+  """
+  def __init__(self,attrloc):
+    self.attrloc=attrloc
+  @classmethod
+  def from_yaml(cls, constructor, node):
+    return cls(node.value)
+  @classmethod
+  def to_yaml(cls, representer, node):
+    return representer.represent_scalar("!"+cls.__name__,str(node.subpath))
+
+#Register for loading from yaml
+yaml_manager.register_classes([Stored])

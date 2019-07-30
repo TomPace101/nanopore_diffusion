@@ -40,8 +40,7 @@ class DataFile(object):
   """File location relative to ``DATAFOLDER``
   
   The location of ``DATAFOLDER`` is specified by the environment variable ``DATAFOLDER``.
-  If this environment variable does not exist, a default value is provided.
-  See ``folderstructure.py``."""
+  If this environment variable does not exist, a default value is provided."""
   def __init__(self,*args,**kwargs):
     self.subpath=filepath.Path(*args,**kwargs)
   def path(self,reqname):
