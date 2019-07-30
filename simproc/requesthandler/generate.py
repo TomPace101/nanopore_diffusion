@@ -216,8 +216,7 @@ class GeneratedVariationsRequest(customization.CustomizableRequest):
       variation_iterator=itertools.product(*variation_fieldvalues)
       for variation_values in variation_iterator:
         #Put the fields together
-        fields={}
-        fields.update(self.template)
+        fields=deepcopy(self.template)
         #Information from other parents
         for pdict in parents_mapping:
           opvalue=nested.get_nested(opc_dict,pdict['parent_loc'])
