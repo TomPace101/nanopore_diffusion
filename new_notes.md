@@ -1,4 +1,9 @@
 
+_ISSUE_ can't run generated requests simultaneously
+Once you get it working, include an example in the validation.
+
+_FEATURE_ in validation, include an example of generated MPIRun requests.
+
 _ISSUE_ locators don't have descriptions of their purpose.
 This is important: people won't know how to use them without this.
 There should also be a good way to see all defined locators.
@@ -103,6 +108,14 @@ and then can write those items back out to yaml.
   - DONE allow user to specify folders to be added to the python path, so other python files can import their modules without the data files listing them
 
 # New Features/Improvements
+
+_ISSUE_ Templates for request generation may need to contain child requests
+The reason the templates are dictionaries (instead of just request instances themselves)
+is that a template may not define enough information for a request to be valid by itself.
+It may need to be filled in during the generation process for that to work.
+But that logic would apply to children of the template as well.
+Currently, that won't work.
+Children of a template have to be provided as request instances in the yaml file.
 
 _FEATURE_ Run simulations with MPI
 The issue is data extraction: each process only has part of the mesh.
