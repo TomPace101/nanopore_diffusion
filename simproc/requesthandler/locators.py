@@ -53,12 +53,12 @@ class DataFile(object):
     return representer.represent_scalar("!"+cls.__name__,str(node.subpath))
 
 class Delegator(object):
-  """Act like a locator, but delegate rendering to a different request."""
+  """Act like a locator, but with an alternative request name."""
   def __init__(self,req,loc):
     self.req=req
     self.loc=loc
-  def path(self,reqname):
-    return self.req.render(self.loc)
+  def path(self,wrong_reqname):
+    return self.loc.path(self.req)
 
 def locator_factory(ltype):
   """Factory function to return a locator class for a given name
