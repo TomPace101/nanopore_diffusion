@@ -2,7 +2,13 @@
 _ISSUE_ can't run generated requests simultaneously
 Once you get it working, include an example in the validation.
 
-_FEATURE_ in validation, include an example of generated MPIRun requests.
+_ISSUE_ doit got it wrong pretty bad in redux_electrolyte once
+The plot was wrong because things hadn't been rerun.
+How did this happen?
+It was when I was trying to do the second curve.
+I reverted, and somehow it didn't re-run the smoluchowski solutions.
+It did re-run the extration, but it must have missed the change in the configuration
+of the smoluchowski solutions somehow.
 
 _ISSUE_ locators don't have descriptions of their purpose.
 This is important: people won't know how to use them without this.
@@ -22,6 +28,7 @@ _TODO_ missing validation:
 - collection
 - defining a series from a collected data file (doing this will also test CommandSequenceRequest, indirectly)
 - plotting
+- generating MPIRun requests
 
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
@@ -109,14 +116,6 @@ and then can write those items back out to yaml.
 
 # New Features/Improvements
 
-_ISSUE_ Templates for request generation may need to contain child requests
-The reason the templates are dictionaries (instead of just request instances themselves)
-is that a template may not define enough information for a request to be valid by itself.
-It may need to be filled in during the generation process for that to work.
-But that logic would apply to children of the template as well.
-Currently, that won't work.
-Children of a template have to be provided as request instances in the yaml file.
-
 _FEATURE_ Run simulations with MPI
 The issue is data extraction: each process only has part of the mesh.
 (See log 2018-05-29.md)
@@ -131,6 +130,10 @@ So, what will it take to get this working:
 - only rank 0 process should write output file
 
 For now, we're working around this by doing extraction in single-process mode.
+
+That should be working now.
+Except that the last time I tried, the MPI simulation crashed without getting a solution!
+(See log 2019-07-18.md)
 
 _FEATURE_ run with doit without dodo.
 This requires digging into doit and copying out some of its code.
@@ -151,18 +154,16 @@ Instead, the goal is to be able to do those things from within python.
 
 (It would be nice if doit had a better python api by itself.)
 
-_FEATURE_ should attribute paths be moved up to request itself?
-(This is `get_nested` and `set_nested` in simrequest.py)
-It could be useful in collection, too, actually, so maybe it should be its own module.
-This gets back to the idea of "memory locators".
-Maybe we need better names than get_nested and set_nested.
-Maybe we need a better name than "attrpath" ("attribute path").
-For one thing, that makes it sound like its a filesystem path.
-At the very least, we need to explain this somewhere.
-Maybe even have an example in the tutorial.
-
 _FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
 This is to help avoid FFC cache collisions.
+
+_ISSUE_ Templates for request generation may need to contain child requests
+The reason the templates are dictionaries (instead of just request instances themselves)
+is that a template may not define enough information for a request to be valid by itself.
+It may need to be filled in during the generation process for that to work.
+But that logic would apply to children of the template as well.
+Currently, that won't work.
+Children of a template have to be provided as request instances in the yaml file.
 
 _FEATURE_ Why aren't shell requests customizable?
 
@@ -183,45 +184,16 @@ but it seemed like the parent request kept waiting.
 But I can't get that to happen again.
 
 _FEATURE_ attribute/item "locators"
-Needs a better name to distinguish it from file path locators,
-but the basic idea is that anywhere in my code that currently accepts
-a "nested attribute path", should really be able to accept the data directly instead.
-But, we then have a class that works similar to a locator:
-it tells you where to find the data.
-Just like locators, there's a method to "render" objects,
-which just returns the direct data if that's what was provided.
-In fact, the objects themselves don't need a method for this;
-it's all up to the owning object to handle properly.
-But then what about where to "store" the result?
-That's not really a use case for this.
-When you need to store a result, you know you have to tell where to put it.
-The use case is when you get a value,
-you can either provide the value directly,
-or provide the location of the value.
-Terminology:
-"owner": the object needing the value (which may also possess the value as a nested attribute)
-"attribute locator": the object that tells the owner where to find the needed data
-"direct value": not an attribute locator; for use by the owner without alteration
-"argument": something the owner gets passed that could be either a direct value, or an attribute locator
-"characteristic": something that distinguishes attribute locators from direct values.
-How it should work:
-The owner checks if the argument possesses the characteristic.
-If it does, it calls owner.get_nested.
-If not, the value is returned directly.
-This could all happen, for example, in owner.render.
-All we need to do, then, is decide what the characteristic is.
-Maybe it's just "isinstance"?
-The place to put the attribute locator would be in nested.py.
-
-So now I made a first pass at an implementation of this.
-But I'm not sure I like how it works.
-I couldn't use "render", because that has to be guaranteed to return a file path,
-not an arbitrary value.
-Also, what would you do if you had a locator stored somewhere?
-You want to retrieve it without rendering it.
-
-Nothing else uses it yet, so it's dead code at the moment.
-
 I still can't help but wonder if this is what the "descriptor" protocol in python was made for.
 https://docs.python.org/3/howto/descriptor.html
+
+_CONCERN_ in `collection.py`, `CollectionRequest` calls the `complete` method of `RawCollectionRequest`
+Maybe it should actually create a single child instead.
+This is marked as a TODO item in the file.
+
+_FEATURE_ see TODO items in `generate.py`
+
+_FEATURE_ `simrequest.py` had a workaround for the lack of the `schema` module for checking the "conditions" attribute.
+Update this to use the schema module instead if possible.
+And, of course, the other simulator modules follow this same approach.
 
