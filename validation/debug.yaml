@@ -19,11 +19,16 @@
   name: dummy.shell.verify
   expected: !CompareFile hello_world.txt
   received: !OutputFile hello_world.txt
-#Test general shell request
+#Test general shell request with Delegator
 - !GeneralShellCommandRequest
-  name: dummy.generalshell
+  name: delegated.generalshell
   command: date
-  outfile: !OutputFile date_output.txt
+  outfile: !Delegator
+    req: !DummyShellRequest #This sub-request is never actually run. It's just used to specify the output file. Note that date_output.txt appears in the "dummy" folder instead of "delegated".
+      name: dummy.delegated
+      test: This isn't used.
+      outfile: not_used.txt
+    loc: !OutputFile date_output.txt
 #Verify output of previous test
 - !FileSizeComparisonRequest
   name: dummy.generalshell.verify

@@ -16,8 +16,8 @@ from . import nested
 ValidatorClass = jsonschema.Draft4Validator
 #jsonschema 2.6
 extra_types_dict={'path':filepath.Path,
-                  'locator':locators.DataFile,
-                  'pathlike':(str,filepath.Path,locators.DataFile), #Note that this isn't the same thing as "pathlike" in python.org documentation
+                  'locator':(locators.DataFile,locators.Delegator),
+                  'pathlike':(str,filepath.Path,locators.DataFile,locators.Delegator), #Note that this isn't the same thing as "pathlike" in python.org documentation
                   'array':(list,tuple),
                   'attrpath':(str,list,tuple),
                   'stored':nested.Stored}

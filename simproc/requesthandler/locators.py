@@ -51,7 +51,14 @@ class DataFile(object):
   @classmethod
   def to_yaml(cls, representer, node):
     return representer.represent_scalar("!"+cls.__name__,str(node.subpath))
-    
+
+class Delegator(object):
+  """Act like a locator, but delegate rendering to a different request."""
+  def __init__(self,req,loc):
+    self.req=req
+    self.loc=loc
+  def path(self,reqname):
+    return self.req.render(self.loc)
 
 def locator_factory(ltype):
   """Factory function to return a locator class for a given name
@@ -177,4 +184,4 @@ class SetDataFolder(object):
     return {'datafolder':DATAFOLDER}
 
 #Register for loading from yaml
-yaml_manager.register_classes([filepath.Path,DataFile,UpdateFolderStructure,SetDataFolder])
+yaml_manager.register_classes([filepath.Path,DataFile,Delegator,UpdateFolderStructure,SetDataFolder])
