@@ -122,20 +122,6 @@ class FolderStructure(odict):
 
 #Folder structure singleton
 folder_structure=FolderStructure()
-# folder_structure={
-#   'CustomizationFile':['customizations'],
-#   'RequestFile':['requests'],
-#   'MeshGeomdefFile':['mesh','geomdef'],
-#   'MeshTemplateFile':['mesh','templates'],
-#   'MeshGeoFile':[0,'mesh',1],
-#   'MeshMshFile':[0,'mesh',1],
-#   'MeshXmlFile':[0,'mesh',1],
-#   'MeshHdf5File':[0,'mesh',1],
-#   'MeshGmshOutFile':[0,'mesh',1],
-#   'MeshMetadataFile':[0,'mesh',1],
-#   'SolutionFile':[0,1],
-#   'PostprocFile':[0,1]
-# }
 
 class UpdateFolderStructure(object):
   """Apply changes to the folder structure used to locate files
