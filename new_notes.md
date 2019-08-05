@@ -6,6 +6,9 @@ That is, it should iterate over `recursive_children` of everything in the queue 
 Right now, it's unaware of if its queue members have children or not.
 Note that running simultaneous requests through doit will also go down to the task level.
 Once you get it working, include an example in the validation.
+Maybe this is a secondary class,
+which creates the queue for the existing class,
+as the child of the secondary class.
 
 _ISSUE_ doit got it wrong pretty bad in redux_electrolyte once
 The plot was wrong because things hadn't been rerun.
@@ -124,18 +127,14 @@ and then can write those items back out to yaml.
 _FEATURE_ Run simulations with MPI
 The issue is data extraction: each process only has part of the mesh.
 (See log 2018-05-29.md)
-
 fenicstools
 https://github.com/mikaem/fenicstools/wiki
-
 So, what will it take to get this working:
 - rebuild singularity images with fenicstools installed
 - use fenicstools Probes to extract data
 - MPI gather results from different processes (or does Probes do this for you?)
 - only rank 0 process should write output file
-
 For now, we're working around this by doing extraction in single-process mode.
-
 That should be working now.
 Except that the last time I tried, the MPI simulation crashed without getting a solution!
 (See log 2019-07-18.md)
@@ -161,6 +160,7 @@ Instead, the goal is to be able to do those things from within python.
 
 _FEATURE_ a variant of parallel request that does one item first, then does the rest in parallel
 This is to help avoid FFC cache collisions.
+I have now attempted this in simultaneous.py, but have not tested to see if it actually works.
 
 _ISSUE_ Templates for request generation may need to contain child requests
 The reason the templates are dictionaries (instead of just request instances themselves)
@@ -189,6 +189,7 @@ but it seemed like the parent request kept waiting.
 But I can't get that to happen again.
 
 _FEATURE_ attribute/item "locators"
+First attempt now implemented as nested.Stored
 I still can't help but wonder if this is what the "descriptor" protocol in python was made for.
 https://docs.python.org/3/howto/descriptor.html
 
@@ -201,4 +202,24 @@ _FEATURE_ see TODO items in `generate.py`
 _FEATURE_ `simrequest.py` had a workaround for the lack of the `schema` module for checking the "conditions" attribute.
 Update this to use the schema module instead if possible.
 And, of course, the other simulator modules follow this same approach.
+
+_FEATURE_ request generation for a list of requests, instead of just one.
+Allow a list of requests instead of just one.
+Basically like having a for loop.
+For that, you need loop variables that can be used within the loop.
+This could potentially be done with attribute paths (now the Stored class),
+but only if children can find their parent.
+Right now, they can't.
+For that matter, maybe it's not just parents that need to be found.
+It could be any related request from which I might need to copy some attribute.
+So, we want a dictionary of related requests.
+
+Related: why specify a request_type, instead of just making the template itself be of that type?
+The answer is that the template may not have enough information to be a fully valid request on its own.
+It might need the information put into it from these other sources for that.
+
+Related: finding files located by other requests.
+Except that the other request is the one that needs to render the locator.
+
+See log 2019-08-05.md
 
