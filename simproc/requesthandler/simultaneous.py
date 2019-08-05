@@ -25,6 +25,7 @@ num_workers:
   type: integer
   minimum: 1
 queue: {type: array}
+use_primer: {type: boolean}
 delay:
   type: number
   minimum: 0
@@ -39,6 +40,7 @@ class SimultaneousRequestQueue(request.Request):
   
     - num_workers: number of requests to run in parallel
     - queue: sequence of the requests to run
+    - use_primer: optional boolean, True to complete a single request before starting up the full number of workers
     - delay: optional, time (in seconds), to wait between checks for request completion
     - tmploc: optional, path to folder to write temporary input files to
       Note that, at present, cleanup won't remove this folder if it is created. Sorry.
@@ -51,6 +53,7 @@ class SimultaneousRequestQueue(request.Request):
     #Initialization from base class
     super(SimultaneousRequestQueue, self).__init__(**kwargs)
     #Default values
+    self.use_primer = getattr(self,'use_primer',False)
     self.delay = getattr(self,'delay',30)
     self.tmploc = Path(getattr(self,'tmploc','.'),isFile=False).expanduser().resolve()
     self.tmpfmt = getattr(self,'tmpfmt',"req%0{}d.yaml")
@@ -59,13 +62,19 @@ class SimultaneousRequestQueue(request.Request):
     self.tmploc.assure_dir()
     #Get the template for the temporary file names
     tmp_tmpl=self.tmpfmt.format(1+math.floor(math.log10(len(self.queue))))
+    #Number of workers
+    priming = self.use_primer
+    if self.use_primer:
+      num_workers = 1
+    else:
+      num_workers=self.num_workers
     #Initialize
     running=[] #To store pairs (Popen, fpath)
     indx=0
     #Loop until the queue is completed
     while indx<len(self.queue) or len(running)>0:
       #Start new processes to keep the requested number of workers going simultaneously
-      while len(running)<self.num_workers and indx<len(self.queue):
+      while len(running)<num_workers and indx<len(self.queue):
         #Take the next request off the queue
         req=self.queue[indx]
         #Write the input file
@@ -97,6 +106,10 @@ class SimultaneousRequestQueue(request.Request):
             os.remove(str(fpath))
           else:
             print(fpath,retcode)
+      #If the primer is now complete, set the number of workers
+      if priming and len(stillrunning)==0:
+        priming = False
+        num_workers = self.num_workers
       #New running list is the list that is still running
       running=stillrunning
 
