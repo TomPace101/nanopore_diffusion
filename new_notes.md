@@ -1,5 +1,10 @@
 
 _ISSUE_ can't run generated requests simultaneously
+The simultaneous queue should be able to construct its queue of requests
+from the task-defining descendents of whatever it is passed.
+That is, it should iterate over `recursive_children` of everything in the queue it is given.
+Right now, it's unaware of if its queue members have children or not.
+Note that running simultaneous requests through doit will also go down to the task level.
 Once you get it working, include an example in the validation.
 
 _ISSUE_ doit got it wrong pretty bad in redux_electrolyte once
