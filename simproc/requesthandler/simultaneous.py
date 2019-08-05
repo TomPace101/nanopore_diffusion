@@ -29,6 +29,9 @@ use_primer: {type: boolean}
 delay:
   type: number
   minimum: 0
+stagger:
+  type: number
+  minimum: 0
 tmploc: {type: pathlike}
 tmpfmt: {type: string}
 """
@@ -42,6 +45,7 @@ class SimultaneousRequestQueue(request.Request):
     - queue: sequence of the requests to run
     - use_primer: optional boolean, True to complete a single request before starting up the full number of workers
     - delay: optional, time (in seconds), to wait between checks for request completion
+    - stagger: optional, time (in seconds), to wait after starting one request before starting another
     - tmploc: optional, path to folder to write temporary input files to
       Note that, at present, cleanup won't remove this folder if it is created. Sorry.
     - tmpfmt: optional, ugly, and I don't recommend you use it without looking at the source code"""
@@ -55,6 +59,7 @@ class SimultaneousRequestQueue(request.Request):
     #Default values
     self.use_primer = getattr(self,'use_primer',False)
     self.delay = getattr(self,'delay',30)
+    self.stagger = getattr(self,'stagger',0)
     self.tmploc = Path(getattr(self,'tmploc','.'),isFile=False).expanduser().resolve()
     self.tmpfmt = getattr(self,'tmpfmt',"req%0{}d.yaml")
   def run(self):
@@ -73,6 +78,7 @@ class SimultaneousRequestQueue(request.Request):
     indx=0
     #Loop until the queue is completed
     while indx<len(self.queue) or len(running)>0:
+      need_stagger=False
       #Start new processes to keep the requested number of workers going simultaneously
       while len(running)<num_workers and indx<len(self.queue):
         #Take the next request off the queue
@@ -82,9 +88,13 @@ class SimultaneousRequestQueue(request.Request):
         sdf=locators.SetDataFolder()
         ufs=locators.UpdateFolderStructure()
         yaml_manager.writefile([sdf,ufs,req],fpath)
+        #Delay for staggering
+        if need_stagger:
+          time.sleep(self.stagger)
         #Start the subprocess
         args=(sys.executable,'-m',main_mod_name,str(fpath))
         p=subprocess.Popen(args,cwd=work_path,shell=False)
+        need_stagger=True
         #Add to list of running processes
         running.append((p,fpath))
         #Prepare for next item from queue
