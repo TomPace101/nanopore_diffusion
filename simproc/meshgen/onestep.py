@@ -3,7 +3,7 @@
 #This package
 from ..requesthandler import locators
 from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
-from ..requesthandler.request import Request
+from ..requesthandler.request import Request, make_schema
 from . import gmsh_runner
 from . import dconv_runner
 from . import hdf5_conv
@@ -33,7 +33,6 @@ child_request_control=[
 ]
 
 _GeoToHDF5Request_props_schema_yaml="""#GeoToHDF5Request
-name: {type: string}
 mesh_stem: {type: string}
 integer_arg: {type: integer}
 geofile: {type: pathlike}
@@ -82,7 +81,7 @@ class GeoToHDF5Request(Request):
   _inputfile_attrs=['geofile']
   _allfile_attrs=_inputfile_attrs+_outputfile_attrs
   _child_attrs=['gmsh_request','dconv_request','hdf5_request']
-  _props_schema=readyaml(_GeoToHDF5Request_props_schema_yaml)
+  _props_schema=make_schema(_GeoToHDF5Request_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
     super(GeoToHDF5Request, self).__init__(**kwargs)

@@ -1,6 +1,7 @@
 """Run gmsh"""
 
 #This package
+from ..requesthandler.request import make_schema
 from ..requesthandler.shell import ShellCommandRequestBase
 from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler import locators
@@ -13,7 +14,6 @@ locators.folder_structure.update(gmsh_outfile=['mesh','output',0,'gmsh_out'])
 locators.folder_structure.update(meshmetafile=['mesh','output',0,'metadata'])
 
 _GmshRequest_props_schema_yaml="""#GmshRequest
-name: {type: string}
 integer_arg: {type: integer}
 geofile: {type: pathlike}
 mshfile: {type: pathlike}
@@ -36,7 +36,7 @@ class GmshRequest(ShellCommandRequestBase):
   _outputfile_attrs=['mshfile','gmsh_outfile','meshmetafile']
   _inputfile_attrs=['geofile']
   _config_attrs=['geofile','mshfile','gmsh_outfile','meshmetafile','integer_arg']
-  _props_schema=readyaml(_GmshRequest_props_schema_yaml)
+  _props_schema=make_schema(_GmshRequest_props_schema_yaml)
   @property
   def cmd_str(self):
     #Integer argument

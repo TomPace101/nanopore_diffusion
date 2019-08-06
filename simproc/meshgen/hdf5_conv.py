@@ -1,6 +1,7 @@
 """Convert XML mesh and mesh functions to HDF5 format"""
 
 #This package
+from ..requesthandler.request import make_schema
 from ..requesthandler.request import Request
 from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler import locators
@@ -13,7 +14,6 @@ import fenics as fem
 locators.folder_structure.update(mesh_hdf5file=['mesh','output',0,'hdf5'])
 
 _HDF5ConvertRequest_props_schema_yaml="""#HDF5ConvertRequest
-name: {type: string}
 mesh_xml: {type: pathlike}
 facet_xml:
   anyOf:
@@ -45,7 +45,7 @@ class HDF5ConvertRequest(Request):
   _outputfile_attrs=['mesh_hdf5file']
   _inputfile_attrs=['mesh_xml','facet_xml','cell_xml']
   _config_attrs=['mesh_xml','facet_xml','cell_xml','mesh_hdf5file']
-  _props_schema=readyaml(_HDF5ConvertRequest_props_schema_yaml)
+  _props_schema=make_schema(_HDF5ConvertRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
     super(HDF5ConvertRequest, self).__init__(**kwargs)
