@@ -25,6 +25,7 @@ name:
   anyOf:
     - {type: 'null'}
     - {type: string}
+_related: {type: object}
 _self_task: {type: boolean}
 _inputfile_attrs:
   type: array
@@ -86,6 +87,11 @@ class Request(schema.SelfValidating):
       Subclasses may replace the attribute with a property,
       and instances may define their own attribute to override as well.
 
+  Sometimes, a request will need access to related requests.
+  The attribute to support this is:
+  
+    - _related: an instance attribute containing a dictionary of related requests
+
   Subclasses which return their own doit tasks MUST do the following:
   
     - set _self_task to True
@@ -107,7 +113,9 @@ class Request(schema.SelfValidating):
     """Render a locator to a Path instance
     
     If the provided object is not a locator, it is returned unchanged"""
-    if hasattr(loc,'path'):
+    if hasattr(loc,'render'):
+      return loc.render(self)
+    elif hasattr(loc,'path'):
       reqname=getattr(self,'name','')
       fpath=loc.path(reqname)
     else:

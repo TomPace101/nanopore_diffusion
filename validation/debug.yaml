@@ -19,11 +19,11 @@
   name: dummy.shell.verify
   expected: !CompareFile hello_world.txt
   received: !OutputFile hello_world.txt
-#Test general shell request with Delegator
+#Test general shell request with NameDelegator
 - !GeneralShellCommandRequest
   name: delegator.generalshell
   command: date
-  outfile: !Delegator
+  outfile: !NameDelegator
     req: dummy.delegated #Because of this delegator, date_output.txt appears in the "dummy" folder instead of "delegator".
     loc: !OutputFile date_output.txt
 #Verify output of previous test

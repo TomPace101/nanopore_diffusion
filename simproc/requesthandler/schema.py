@@ -14,10 +14,11 @@ from . import nested
 
 #Validation partial setup (some setup must wait for Request class to be defined)
 ValidatorClass = jsonschema.Draft4Validator
+loc_class_tup=(locators.DataFile,locators.NameDelegator,locators.Delegator)
 #jsonschema 2.6
 extra_types_dict={'path':filepath.Path,
-                  'locator':(locators.DataFile,locators.Delegator),
-                  'pathlike':(str,filepath.Path,locators.DataFile,locators.Delegator), #Note that this isn't the same thing as "pathlike" in python.org documentation
+                  'locator':loc_class_tup,
+                  'pathlike':(str,filepath.Path)+loc_class_tup, #This isn't the same thing as "pathlike" in python.org documentation
                   'array':(list,tuple),
                   'attrpath':(str,list,tuple),
                   'stored':nested.Stored}

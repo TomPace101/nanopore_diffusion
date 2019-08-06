@@ -217,6 +217,7 @@ class GeneratedVariationsRequest(customization.CustomizableRequest):
       for variation_values in variation_iterator:
         #Put the fields together
         fields=deepcopy(self.template)
+        fields['_related']=deepcopy(opc_dict)
         #Information from other parents
         for pdict in parents_mapping:
           opvalue=nested.get_nested(opc_dict,pdict['parent_loc'])
@@ -232,7 +233,6 @@ class GeneratedVariationsRequest(customization.CustomizableRequest):
           self._children.append(ch_req)
           index += 1
     return
-
 
 #Register for loading from yaml
 yaml_manager.register_classes([ParametricRequestListRequest, GeneratedVariationsRequest])
