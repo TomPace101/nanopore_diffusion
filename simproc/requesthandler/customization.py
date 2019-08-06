@@ -169,14 +169,14 @@ class CustomizableRequest(request.Request):
       assert isinstance(function_obj,types.FunctionType), "%s in module %s is not a function"%(function_name,themod.__name__)
       self._custom_methods.append(method_name)
       setattr(self,method_name,types.MethodType(function_obj,self)) #Must type cast to MethodType in order to get implicit first argument `self`
-  def validate(self):
-    d=self.to_dict()
-    #Remove attributes added by customization: these aren't validated
+  def to_dict(self):
+    d=super(CustomizableRequest,self).to_dict()
+    #Remove attributes added by customization: these aren't used for validation, configuration, or instantiation
     for attr in getattr(self,'_custom_methods',[]):
       o=d.pop(attr)
     for attr in getattr(self,'extra',{}).keys():
       o=d.pop(attr)
-    self.validate_kwargs(**d)
+    return d
 
 #Convenience function for schema updates
 make_schema=CustomizableRequest.update_props_schema
