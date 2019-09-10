@@ -265,6 +265,23 @@ class Request(schema.SelfValidating):
 make_schema=Request.update_props_schema
 #Similar functions would be needed for other request base classes
 
+#If you uncomment this, remember to add it to the registered classes
+#But I'm not sure it will ever work:
+#Will instances of this show up as instances of Request?
+# class PseudoRequest(object):
+#   """Return a request by specifying its type as a string
+
+#   For times when yaml is unfriendly"""
+#   def __new__(cls,req_type,req_data):
+#     req_cls=yaml_manager.all_registered[req_type]
+#     return req_cls(**req_data)
+#   @classmethod
+#   def from_yaml(cls, constructor, node):
+#     #This doesn't work because neither of the following lines works.
+#     obj=constructor.construct_mapping(node,deep=True) #Can't find constructors for locators from UpdateFolderStructure
+#     obj=constructor.construct_object(node,deep=True) #returns None
+#     return cls(**obj)
+
 #jsonschema validator setup
 # #For jsonschema version 3
 # type_checker = ValidatorClass.TYPE_CHECKER
