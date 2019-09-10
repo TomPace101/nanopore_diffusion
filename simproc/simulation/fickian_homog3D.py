@@ -206,7 +206,7 @@ class HomogFickian3DSimulator(simrequest.SimulationRequest):
         term1=kdelta(ii,jj)*fem.assemble(self.D*self.dx)
         term2=fem.assemble(self.D*gradchi[jj,ii]*self.dx)
         val=(term1-term2)/volume
-        row.append(val)
+        row.append(float(val))
       matr.append(row)
     self.set_nested(respath,matr)
 
