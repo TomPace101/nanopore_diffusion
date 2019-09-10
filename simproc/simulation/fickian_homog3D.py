@@ -54,7 +54,10 @@ BOUNDTOL=1e-6
 
 _HomogFickian3DConditions_props_schema_yaml="""#HomogFickian3DConditions
 elementorder: {type: integer}
-dirichlet: {type: object}
+dirichlet:
+  anyOf:
+    - {type: array}
+    - {type: object}
 boundaries: {type: array}
 """
 HomogFickian3DConditions_props_schema=yaml_manager.readstring(_HomogFickian3DConditions_props_schema_yaml)
