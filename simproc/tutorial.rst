@@ -209,3 +209,8 @@ There is also now a request subclass that can execute child requests in parallel
   >>> p2=yaml_manager.readstring(ys)
   >>> p2==p
   True
+
+Single-argument request types:
+Yes, it is annoying to have to give the name of that single argument.
+But any approach I've thought of to get rid of that just makes things worse.
+
