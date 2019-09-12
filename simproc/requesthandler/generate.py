@@ -9,19 +9,9 @@ import itertools
 
 #This package
 from . import yaml_manager
-from .request import Request
+from .request import Request, get_request_class
 from . import nested
 from . import customization
-
-def get_request_class(request_type):
-  """Return the request class stipulated"""
-  if isinstance(request_type,str):
-    childclass = yaml_manager.all_registered.get(request_type,None)
-    assert childclass is not None, "Unable to find type %s in registered classes"%request_type
-  else:
-    assert isinstance(request_type,Request), "Invalid entry for request_type: %s of type %s."%(str(request_type),str(type(self.request_type)))
-    childclass=request_type
-  return childclass
 
 _ParametricRequestListRequest_props_schema_yaml="""#ParametricRequestListRequest
 request_type:

@@ -265,22 +265,60 @@ class Request(schema.SelfValidating):
 make_schema=Request.update_props_schema
 #Similar functions would be needed for other request base classes
 
-#If you uncomment this, remember to add it to the registered classes
-#But I'm not sure it will ever work:
-#Will instances of this show up as instances of Request?
-# class PseudoRequest(object):
-#   """Return a request by specifying its type as a string
+def get_request_class(request_type):
+  """Return the request class stipulated"""
+  if isinstance(request_type,str):
+    childclass = yaml_manager.all_registered.get(request_type,None)
+    assert childclass is not None, "Unable to find type %s in registered classes"%request_type
+  else:
+    assert isinstance(request_type,Request), "Invalid entry for request_type: %s of type %s."%(str(request_type),str(type(self.request_type)))
+    childclass=request_type
+  return childclass
 
-#   For times when yaml is unfriendly"""
-#   def __new__(cls,req_type,req_data):
-#     req_cls=yaml_manager.all_registered[req_type]
-#     return req_cls(**req_data)
-#   @classmethod
-#   def from_yaml(cls, constructor, node):
-#     #This doesn't work because neither of the following lines works.
-#     obj=constructor.construct_mapping(node,deep=True) #Can't find constructors for locators from UpdateFolderStructure
-#     obj=constructor.construct_object(node,deep=True) #returns None
-#     return cls(**obj)
+_RequestGroup_props_schema_yaml="""#RequestGroup
+children:
+  type: array
+  items:
+    type: object
+    properties:
+      request_type:
+        anyOf:
+          - {type: string}
+          - {type: request}
+      request_data: {type: object}
+    required: [request_type, request_data]  
+    additionalProperties: False
+"""
+
+class RequestGroup(Request):
+  """Create a bunch of requests from each request type and dictionary of keyword arguments
+
+  This is mainly intended to make it more convenient when creating a request in a yaml file,
+  but there could be other uses as well.
+
+  User-defined attributes:
+  
+    - children: sequence defining the children to create, each item a dictionary:
+      - request_type = EITHER
+            a type instance to use for the child requests
+          OR
+            a string containing the name of a request type registered with yaml_manager
+      - request_data = dictionary of keyword arguments for the given request type"""
+  _props_schema=make_schema(_RequestGroup_props_schema_yaml)
+  _self_task=False
+  _required_attrs=['children']
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(RequestGroup, self).__init__(**kwargs)
+    #Create all the children
+    self._children=[]
+    for obj in self.children:
+      #Get a handle to the actual child request class
+      childclass=get_request_class(obj['request_type'])
+      #Instantiate it with the provided keyword arguments
+      child=childclass(**obj['request_data'])
+      #Store result
+      self._children.append(child)
 
 #jsonschema validator setup
 # #For jsonschema version 3
@@ -293,4 +331,4 @@ make_schema=Request.update_props_schema
 schema.extra_types_dict['request']=(Request,)
 
 #Register for loading from yaml
-yaml_manager.register_classes([Request])
+yaml_manager.register_classes([Request, RequestGroup])
