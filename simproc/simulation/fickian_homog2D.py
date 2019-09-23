@@ -130,9 +130,13 @@ class HomogFickian2DSimulator(simrequest.SimulationRequest):
     problem=fem.LinearVariationalProblem(a,L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
 
+    #Get solver parameters
+    #self.solver.parameters['linear_solver']='petsc'
+    self.set_solver_parameters()
+
     #Solve
-    self.solver.parameters['linear_solver']='petsc'
-    self.solver.solve()
+    if not getattr(self,'skipsolve',False):
+      self.solver.solve()
 
   def macroscale_diffusion(self,respath="D_macro",attrpath="soln",volpath="volume"):
     """Perform the integral to obtain the homogenized diffusion constant
