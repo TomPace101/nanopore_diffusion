@@ -14,6 +14,7 @@ from ..requesthandler.commandseq import WithCommandsRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
 from ..requesthandler import timing
+from ..requesthandler import nested
 from .meshinfo import MeshInfo
 from ..postproc.plotseries import PlotSeries
 
@@ -167,7 +168,7 @@ class SimulationRequest(WithCommandsRequest):
   def set_solver_parameters(self):
     """Set the parameters for the FEniCS solver object"""
     for k,v in getattr(self,'solver_parameters',{}).items():
-      self.solver.parameters[k]=v
+      nested.set_nested(self.solver.parameters, k, v)
 
   def loadfield(self,attrpath,infpath,fieldtag,idx=None):
     """Load data into the simulator from an HDF5 input file
