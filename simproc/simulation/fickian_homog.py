@@ -138,6 +138,8 @@ class HomogFickianSimulator(simrequest.SimulationRequest):
       elif spatial_dims==3:
         raise NotImplementedError("Sorry, periodic 3D BCs aren't working yet.")
         #pbc = PeriodicBoundary3D(*pairedlims)
+      else:
+        raise NotImplementedError("You asked for a simulation on a mesh with %d spatial dimensions."%spatial_dims)
 
     #Function Spaces and Functions
     if using_periodic:
