@@ -51,12 +51,6 @@ _TODO_ in writefield_outputfiles, detect MPI and list pvtu files
 There are also vtu files generated that don't match the current naming expectation in this case.
 The workaround is to not write out pvd files in MPI.
 
-_ISSUE_ we really should combine the 2D and 3D homogenization files once we get them working, to reduce duplicated code
-The PeriodicBoundary classes will have to stay separate.
-This requires a way to identify the dimensionality of a mesh.
-We could put it in the mesh metadata.
-Use `mesh.geometry().dim()` to get number of dimensions in a mesh.
-
 _ISSUE_ Simultaneous requests may create a new directory for the temporary request input files.
 But cleanup won't remove this directory if that's the case.
 Maybe requests need to be aware of their own temporary files as well?
