@@ -107,23 +107,9 @@ class HomogFickianSimulator(simrequest.SimulationRequest):
     #For convenience
     conditions=Namespace(**self.conditions)
 
-    #Boundary conditions
-    if hasattr(conditions,'dirichlet'):
-      #Use Dirichlet boundary conditions instead of truly periodic boundary conditions
+    if hasattr(conditions, 'dirichlet'):
+      #The dirichlet conditions are a substitute for periodic boundary conditions
       using_periodic=False
-      if isinstance(conditions.dirichlet,dict):
-        self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
-      else:
-        #This is a workaround for the meshes that don't have meshfunctions
-        val=conditions.dirichlet
-        def boundary(x, on_boundary):
-          ans = False
-          for i in range(spatial_dims):
-            for j in range(2):
-              ans = ans or fem.near(x[i],pairedlims[i][j],BOUNDTOL)
-          ans = ans and on_boundary
-          return ans
-        self.bcs=[fem.DirichletBC(self.V,val,boundary)]
     else:
       #Use periodic boundary conditions
       using_periodic=True
@@ -152,6 +138,22 @@ class HomogFickianSimulator(simrequest.SimulationRequest):
     v=fem.TestFunction(self.V)
     #Solution function
     self.soln=fem.Function(self.V,name='chi')
+
+    if hasattr(conditions,'dirichlet'):
+      #Use Dirichlet boundary conditions instead of truly periodic boundary conditions
+      if isinstance(conditions.dirichlet,dict):
+        self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
+      else:
+        #This is a workaround for the meshes that don't have meshfunctions
+        val=conditions.dirichlet
+        def boundary(x, on_boundary):
+          ans = False
+          for i in range(spatial_dims):
+            for j in range(2):
+              ans = ans or fem.near(x[i],pairedlims[i][j],BOUNDTOL)
+          ans = ans and on_boundary
+          return ans
+        self.bcs=[fem.DirichletBC(self.V,val,boundary)]
 
     #Load diffusion constant as a Function
     if hasattr(self,'loaddata'):
