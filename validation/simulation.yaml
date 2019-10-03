@@ -6,7 +6,7 @@
   OutputFile: ['output',0]
   CompareFile: ['comparison',0]
 #Homogenized fickian diffusion simulation
-- !HomogFickian2DSimulator
+- !HomogFickianSimulator
   name: simulation.homog2D
   mesh: !InputFile testmesh.hdf5
   meshmeta: !InputFile testmesh.yaml
