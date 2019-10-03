@@ -106,7 +106,13 @@ class HomogFickianSimulator(simrequest.SimulationRequest):
 
     #For convenience
     conditions=Namespace(**self.conditions)
+    
+    #Mesh calculations
     spatial_dims=self.meshinfo.mesh.geometry().dim()
+    meshcoords=self.meshinfo.mesh.coordinates()
+    lowerlims=tuple([np.amin(meshcoords[:,i]) for i in range(spatial_dims)])
+    upperlims=tuple([np.amax(meshcoords[:,i]) for i in range(spatial_dims)])
+    pairedlims=list(zip(lowerlims,upperlims))
 
     if hasattr(conditions, 'dirichlet'):
       #The dirichlet conditions are a substitute for periodic boundary conditions
@@ -115,10 +121,6 @@ class HomogFickianSimulator(simrequest.SimulationRequest):
       #Use periodic boundary conditions
       using_periodic=True
       self.bcs=[]
-      meshcoords=self.meshinfo.mesh.coordinates()
-      lowerlims=tuple([np.amin(meshcoords[:,i]) for i in range(spatial_dims)])
-      upperlims=tuple([np.amax(meshcoords[:,i]) for i in range(spatial_dims)])
-      pairedlims=list(zip(lowerlims,upperlims))
       if spatial_dims==2:
         pbc = PeriodicBoundary2D(*pairedlims)
       elif spatial_dims==3:
