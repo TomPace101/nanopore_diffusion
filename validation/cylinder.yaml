@@ -8,35 +8,38 @@
   InputFile: ['input',0]
   OutputFile: ['output',0]
   CompareFile: ['comparison',0]
+
+#Obstructive Inclusion
+
 #Mesh Generation
 - !TemplateFileRequest
-  name: cylinder.2D.geo
-  tmplfile: !InputFile cylinder.geo.jinja2
-  outfile: !OutputFile cylinder.geo
+  name: cylinder.2D.obs.geo
+  tmplfile: !InputFile cylinder-obs.geo.jinja2
+  outfile: !OutputFile cylinder-obs.geo
   data:
     r: 0.25
     mcar1: 0.05
     mcar2: 0.025
 - !GmshRequest
-  name: cylinder.2D.gmsh
-  geofile: !OutputFile cylinder.geo
-  mshfile: !OutputFile cylinder.msh
-  gmsh_outfile: !OutputFile cylinder.gmsh.txt
-  meshmetafile: !OutputFile cylinder.gmsh.yaml
+  name: cylinder.2D.obs.gmsh
+  geofile: !OutputFile cylinder-obs.geo
+  mshfile: !OutputFile cylinder-obs.msh
+  gmsh_outfile: !OutputFile cylinder-obs.gmsh.txt
+  meshmetafile: !OutputFile cylinder-obs.gmsh.yaml
 - !DolfinConvertRequest
-  name: cylinder.2D.dconv
-  mshfile: !OutputFile cylinder.msh
-  mesh_xml: !OutputFile cylinder.xml
-  dconv_outfile: !OutputFile cylinder.dconv.txt
+  name: cylinder.2D.obs.dconv
+  mshfile: !OutputFile cylinder-obs.msh
+  mesh_xml: !OutputFile cylinder-obs.xml
+  dconv_outfile: !OutputFile cylinder-obs.dconv.txt
 - !HDF5ConvertRequest
-  name: cylinder.2D.hdf5conv
-  mesh_xml: !OutputFile cylinder.xml
-  mesh_hdf5file: !OutputFile cylinder.hdf5
+  name: cylinder.2D.obs.hdf5conv
+  mesh_xml: !OutputFile cylinder-obs.xml
+  mesh_hdf5file: !OutputFile cylinder-obs.hdf5
 #Simulation
 - !HomogFickianSimulator
-  name: cylinder.2D.homog
-  mesh: !OutputFile cylinder.hdf5
-  meshmeta: !OutputFile cylinder.gmsh.yaml
+  name: cylinder.2D.obs.homog
+  mesh: !OutputFile cylinder-obs.hdf5
+  meshmeta: !OutputFile cylinder-obs.gmsh.yaml
   metadata:
     cell_volume: 1.0
   conditions:
@@ -46,8 +49,35 @@
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     - - reportvalues
-      - outfpath: !OutputFile cylinder.results.yaml
+      - outfpath: !OutputFile cylinder-obs-results.yaml
         mapping:
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
+
+#Inclusion as Potential
+#Mesh Generation
+- !TemplateFileRequest
+  name: cylinder.2D.pot.geo
+  tmplfile: !InputFile cylinder-pot.geo.jinja2
+  outfile: !OutputFile cylinder-pot.geo
+  data:
+    r: 0.25
+    mcar1: 0.05
+    mcar2: 0.025
+- !GmshRequest
+  name: cylinder.2D.pot.gmsh
+  geofile: !OutputFile cylinder-pot.geo
+  mshfile: !OutputFile cylinder-pot.msh
+  gmsh_outfile: !OutputFile cylinder-pot.gmsh.txt
+  meshmetafile: !OutputFile cylinder-pot.gmsh.yaml
+- !DolfinConvertRequest
+  name: cylinder.2D.pot.dconv
+  mshfile: !OutputFile cylinder-pot.msh
+  mesh_xml: !OutputFile cylinder-pot.xml
+  dconv_outfile: !OutputFile cylinder-pot.dconv.txt
+- !HDF5ConvertRequest
+  name: cylinder.2D.pot.hdf5conv
+  mesh_xml: !OutputFile cylinder-pot.xml
+  mesh_hdf5file: !OutputFile cylinder-pot.hdf5
+
