@@ -27,4 +27,8 @@
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
-  
+#Verify output of previous test
+- !FileComparisonRequest
+  name: simulation.homog2D.verify
+  expected: !CompareFile info.yaml
+  received: !OutputFile info.yaml
