@@ -1,0 +1,53 @@
+%YAML 1.2
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Locator for input and output generated below
+- !UpdateFolderStructure
+  InputFile: ['input',0]
+  OutputFile: ['output',0]
+  CompareFile: ['comparison',0]
+#Mesh Generation
+- !TemplateFileRequest
+  name: cylinder.2D.geo
+  tmplfile: !InputFile cylinder.geo.jinja2
+  outfile: !OutputFile cylinder.geo
+  data:
+    r: 0.25
+    mcar1: 0.05
+    mcar2: 0.025
+- !GmshRequest
+  name: cylinder.2D.gmsh
+  geofile: !OutputFile cylinder.geo
+  mshfile: !OutputFile cylinder.msh
+  gmsh_outfile: !OutputFile cylinder.gmsh.txt
+  meshmetafile: !OutputFile cylinder.gmsh.yaml
+- !DolfinConvertRequest
+  name: cylinder.2D.dconv
+  mshfile: !OutputFile cylinder.msh
+  mesh_xml: !OutputFile cylinder.xml
+  dconv_outfile: !OutputFile cylinder.dconv.txt
+- !HDF5ConvertRequest
+  name: cylinder.2D.hdf5conv
+  mesh_xml: !OutputFile cylinder.xml
+  mesh_hdf5file: !OutputFile cylinder.hdf5
+#Simulation
+- !HomogFickianSimulator
+  name: cylinder.2D.homog
+  mesh: !OutputFile cylinder.hdf5
+  meshmeta: !OutputFile cylinder.gmsh.yaml
+  metadata:
+    cell_volume: 1.0
+  conditions:
+    elementorder: 3
+    boundaries: [1, 2, 3, 4]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+    - - reportvalues
+      - outfpath: !OutputFile cylinder.results.yaml
+        mapping:
+          cell_volume: metadata.cell_volume
+          domain_volume: domain_volume
+          D_macro: D_macro
