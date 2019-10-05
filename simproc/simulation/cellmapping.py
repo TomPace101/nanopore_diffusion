@@ -8,6 +8,7 @@ import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from . import simrequest
 
 class VaryingScalarByCell(fem.UserExpression):
   def __init__(self,meshfunc,prop_map,**kwargs):
@@ -56,7 +57,7 @@ projection_kwargs: {type: string}
 """
 MappingConditions_props_schema=yaml_manager.readstring(_MappingConditions_props_schema_yaml)
 MappingConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
-                                                    MappingConditions_props_schema,['expression'])
+                                                    MappingConditions_props_schema,['mapping'])
 
 class CellMappingSimulator(simrequest.SimulationRequest):
   """Simulator for mapping mesh function cell values to a function in the given function space
@@ -94,13 +95,13 @@ class CellMappingSimulator(simrequest.SimulationRequest):
     #Requested Function space, and the UserExpression subclass instance
     ftype=getattr(conditions,'functiontype','scalar').lower()
     if ftype == 'scalar':
-      self.V = fem.FunctionSpace(self.meshinfo.mesh,'P',self.conditions.elementorder)
+      self.V = fem.FunctionSpace(self.meshinfo.mesh,'P', conditions.elementorder)
       self.expr = VaryingScalarByCell(self.meshinfo.cells,conditions.mapping,degree=0)
     elif ftype == 'vector':
-      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', self.conditions.elementorder)
+      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder)
       self.expr = VaryingVectorByCell(self.meshinfo.cells,conditions.mapping,spatial_dims,degree=0)
     elif ftype == 'matrix':
-      self.V = fem.TensorFunctionSpace(self.meshinfo.mesh, 'P',self.conditions.elementorder, (spatial_dims,spatial_dims))
+      self.V = fem.TensorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder, (spatial_dims,spatial_dims))
       self.expr = VaryingMatrixByCell(self.meshinfo.cells,conditions.mapping,spatial_dims,degree=0)
     else:
       raise Exception("Invalid functiontype: %s"%ftype)

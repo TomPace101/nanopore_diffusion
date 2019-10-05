@@ -8,6 +8,7 @@ import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from . import simrequest
 
 _ProjectorConditions_props_schema_yaml="""#ProjectorConditions
 functionname: {type: string}
@@ -61,11 +62,11 @@ class ProjectionSimulator(simrequest.SimulationRequest):
     #Requested Function space
     ftype=getattr(conditions,'functiontype','scalar').lower()
     if ftype == 'scalar':
-      self.V = fem.FunctionSpace(self.meshinfo.mesh,'P',self.conditions.elementorder)
+      self.V = fem.FunctionSpace(self.meshinfo.mesh,'P', conditions.elementorder)
     elif ftype == 'vector':
-      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', self.conditions.elementorder)
+      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder)
     elif ftype == 'matrix':
-      self.V = fem.TensorFunctionSpace(self.meshinfo.mesh, 'P',self.conditions.elementorder, (spatial_dims,spatial_dims))
+      self.V = fem.TensorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder, (spatial_dims,spatial_dims))
     else:
       raise Exception("Invalid functiontype: %s"%ftype)
 

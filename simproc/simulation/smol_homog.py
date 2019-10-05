@@ -11,7 +11,6 @@ import ufl
 
 #This package
 from ..requesthandler import yaml_manager
-from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
 
