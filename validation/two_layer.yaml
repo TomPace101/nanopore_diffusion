@@ -41,30 +41,32 @@
   conditions:
     elementorder: 3
     functionname: spatial_D
-    functiontype: matrix
+    functiontype: scalar #matrix
     mapping:
-      1:
-        - [1, 0]
-        - [0, 1]
-      2:
-        - [2, 0]
-        - [0, 2]
-# #Simulation
-# - !HomogFickianSimulator
-#   name: two_layer.homog
-#   mesh: !OutputFile two_layer.hdf5
-#   meshmeta: !OutputFile two_layer.gmsh.yaml
-#   metadata:
-#     cell_volume: 1.0
-#   conditions:
-#     elementorder: 3
-#     boundaries: [1, 2, 3, 4]
-#   dataextraction:
-#     - [domain_volume, {attrpath: domain_volume}]
-#     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
-#     - - reportvalues
-#       - outfpath: !OutputFile cylinder-obs-results.yaml
-#         mapping:
-#           cell_volume: metadata.cell_volume
-#           domain_volume: domain_volume
-#           D_macro: D_macro
+      1: 1
+        # - [1, 0]
+        # - [0, 1]
+      2: 2
+        # - [2, 0]
+        # - [0, 2]
+  dataextraction:
+    - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
+    - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
+#Homogenization
+- !HomogFickianSimulator
+  name: two_layer.homog
+  mesh: !OutputFile two_layer.hdf5
+  meshmeta: !OutputFile two_layer.gmsh.yaml
+  loaddata:
+    - [D, !OutputFile spatial_D.hdf5, spatial_D]
+  conditions:
+    elementorder: 3
+    boundaries: [1, 2, 3, 4, 5, 7]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: domain_volume}]
+    - - reportvalues
+      - outfpath: !OutputFile results.yaml
+        mapping:
+          domain_volume: domain_volume
+          D_macro: D_macro
