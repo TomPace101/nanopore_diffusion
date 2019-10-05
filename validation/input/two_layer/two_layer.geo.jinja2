@@ -1,0 +1,73 @@
+//Two-layers
+
+//Mesh density control
+mcar1={{mcar1}};
+mcar2={{mcar2}};
+
+//Geometric inputs
+alpha1={{alpha1}};
+alpha2=1-alpha1;
+
+//Point ordinates
+X1=0;
+X2=1;
+Y1=0;
+Y2=alpha2;
+Y3=1;
+
+//Points
+Point(11)={X1,Y1,0,mcar1};
+Point(12)={X1,Y2,0,mcar2};
+Point(13)={X1,Y3,0,mcar1};
+Point(21)={X2,Y1,0,mcar1};
+Point(22)={X2,Y2,0,mcar2};
+Point(23)={X2,Y3,0,mcar1};
+
+//Lines
+Line(1)={11,12};
+Line(2)={12,13};
+Line(3)={21,22};
+Line(4)={22,23};
+Line(5)={11,21};
+Line(6)={12,22};
+Line(7)={13,23};
+
+//Line Loops
+Line Loop(1)={6, 4, -7, -2};
+Line Loop(2)={5, 3, -6, -1};
+
+//Surfaces and Physical Surfaces
+Plane Surface(1)={1};
+Physical Surface(1)={1};
+Plane Surface(2)={2};
+Physical Surface(2)={2};
+
+//Physical Lines
+Physical Line(1)={1};
+Physical Line(2)={2};
+Physical Line(3)={3};
+Physical Line(4)={4};
+Physical Line(5)={5};
+Physical Line(6)={6};
+Physical Line(7)={7};
+
+//Mesh metadata output
+Printf("# Mesh metadata output") > meshmetafile;
+Printf("mcar1: %f", mcar1) >> meshmetafile;
+Printf("mcar2: %f", mcar2) >> meshmetafile;
+Printf("alpha1: %f", alpha1) >> meshmetafile;
+Printf("alpha2: %f", alpha2) >> meshmetafile;
+Printf("X1: %f", X1) >> meshmetafile;
+Printf("X2: %f", X2) >> meshmetafile;
+Printf("Y1: %f", Y1) >> meshmetafile;
+Printf("Y2: %f", Y2) >> meshmetafile;
+Printf("Y3: %f", Y3) >> meshmetafile;
+
+//Define mesh
+Mesh 2;
+
+//Blank lines
+//because (an older version of) gmsh (once) got confused without them
+
+
+

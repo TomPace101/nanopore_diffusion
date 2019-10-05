@@ -1,0 +1,70 @@
+%YAML 1.2
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Locator for input and output generated below
+- !UpdateFolderStructure
+  InputFile: ['input',0]
+  OutputFile: ['output',0]
+  CompareFile: ['comparison',0]
+
+#Mesh Generation
+- !TemplateFileRequest
+  name: two_layer.geo
+  tmplfile: !InputFile two_layer.geo.jinja2
+  outfile: !OutputFile two_layer.geo
+  data:
+    alpha1: 0.5
+    mcar1: 0.01
+    mcar2: 0.01
+- !GmshRequest
+  name: two_layer.gmsh
+  geofile: !OutputFile two_layer.geo
+  mshfile: !OutputFile two_layer.msh
+  gmsh_outfile: !OutputFile two_layer.gmsh.txt
+  meshmetafile: !OutputFile two_layer.gmsh.yaml
+- !DolfinConvertRequest
+  name: two_layer.dconv
+  mshfile: !OutputFile two_layer.msh
+  mesh_xml: !OutputFile two_layer.xml
+  dconv_outfile: !OutputFile two_layer.dconv.txt
+- !HDF5ConvertRequest
+  name: two_layer.hdf5conv
+  mesh_xml: !OutputFile two_layer.xml
+  mesh_hdf5file: !OutputFile two_layer.hdf5
+#Create spatial function
+- !CellMappingSimulator
+  name: two_layer.spatial_func
+  mesh: !OutputFile two_layer.hdf5
+  meshmeta: !OutputFile two_layer.gmsh.yaml
+  conditions:
+    elementorder: 3
+    functionname: spatial_D
+    functiontype: matrix
+    mapping:
+      1:
+        - [1, 0]
+        - [0, 1]
+      2:
+        - [2, 0]
+        - [0, 2]
+# #Simulation
+# - !HomogFickianSimulator
+#   name: two_layer.homog
+#   mesh: !OutputFile two_layer.hdf5
+#   meshmeta: !OutputFile two_layer.gmsh.yaml
+#   metadata:
+#     cell_volume: 1.0
+#   conditions:
+#     elementorder: 3
+#     boundaries: [1, 2, 3, 4]
+#   dataextraction:
+#     - [domain_volume, {attrpath: domain_volume}]
+#     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+#     - - reportvalues
+#       - outfpath: !OutputFile cylinder-obs-results.yaml
+#         mapping:
+#           cell_volume: metadata.cell_volume
+#           domain_volume: domain_volume
+#           D_macro: D_macro
