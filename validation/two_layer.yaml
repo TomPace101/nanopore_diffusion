@@ -17,7 +17,7 @@
   data:
     alpha1: 0.5
     mcar1: 0.01
-    mcar2: 0.01
+    mcar2: 0.005
 - !GmshRequest
   name: two_layer.gmsh
   geofile: !OutputFile two_layer.geo
@@ -57,6 +57,14 @@
   name: two_layer.homog
   mesh: !OutputFile two_layer.hdf5
   meshmeta: !OutputFile two_layer.gmsh.yaml
+  modules:
+    - !InputFile comparator.py
+  methods:
+    calc_exact: calc_exact
+    compare_answers: compare_answers
+  metadata:
+    D1: 1 #Only needed for comparison to the exact answer
+    D2: 2 # ' '
   loaddata:
     - [D, !OutputFile spatial_D.hdf5, spatial_D]
   conditions:
@@ -65,8 +73,22 @@
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: domain_volume}]
+    - [calc_exact, {attrpath: expected_answer}]
+    - [compare_answers, {summarypath: comparison_ok, diffpath: error_values, expected: !Stored expected_answer, received: !Stored D_macro, difftol: 0.02}]
     - - reportvalues
       - outfpath: !OutputFile results.yaml
         mapping:
           domain_volume: domain_volume
           D_macro: D_macro
+          expected_answer: expected_answer
+          comparison_ok: comparison_ok
+          error_values: error_values
+    - - reportvalues
+      - outfpath: !OutputFile summary.yaml
+        mapping:
+          comparison_ok: comparison_ok
+#Verify output of previous test
+- !FileComparisonRequest
+  name: two_layer.verify
+  expected: !CompareFile summary.yaml
+  received: !OutputFile summary.yaml
