@@ -15,7 +15,6 @@ except ImportError:
 from . import filepath
 from . import yaml_manager
 from . import schema
-from . import nested
 
 #Validation schema for Request
 #Note that validation is not applied to class attributes,
@@ -103,12 +102,6 @@ class Request(schema.SelfValidating):
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
   _props_schema=schema.SelfValidating.update_props_schema(_Request_props_schema_yaml)
   _uptodate=True
-  def get_stored(self,candidate):
-    """Get the value from the specified storage location"""
-    if isinstance(candidate, nested.Stored):
-      return self.get_nested(candidate.attrloc)
-    else:
-      return candidate
   def render(self,loc):
     """Render a locator to a Path instance
     

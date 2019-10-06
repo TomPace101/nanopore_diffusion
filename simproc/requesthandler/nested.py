@@ -125,13 +125,19 @@ class WithNested(object):
     """Set up a new OrderedDict for later use with set_nested"""
     new_odict(self,dpath)
     return
+  def get_stored(self,candidate):
+    """Get the value from the specified storage location"""
+    if isinstance(candidate, Stored):
+      return self.get_nested(candidate.attrloc)
+    else:
+      return candidate
 
 class Stored(object):
   """Provide the location of a value stored elsewhere in memory
   
     Attributes:
     
-      - attrloc = basicaly a dpath argument for use with get_nested and set_nested
+      - attrloc = basically a dpath argument for use with get_nested and set_nested
   """
   def __init__(self,attrloc):
     self.attrloc=attrloc
