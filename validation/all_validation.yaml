@@ -8,7 +8,6 @@
   requestfiles:
     - !DataFile debug.yaml
     - !DataFile meshgen.yaml
-    - !DataFile simulation.yaml
     - !DataFile plotting.yaml
     - !DataFile two_layer.yaml
     - !DataFile cylinder.yaml

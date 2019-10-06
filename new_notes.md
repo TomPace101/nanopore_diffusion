@@ -37,7 +37,6 @@ _TODO_ missing validation:
 - defining a series from a collected data file (doing this will also test CommandSequenceRequest, indirectly)
 - plotting
 - generating MPIRun requests
-- simulation comparison to expected output
 
 _ISSUE_ There are input files for the simulation test that aren't tracked in git.
 We need to have another validation step generate this file first.
