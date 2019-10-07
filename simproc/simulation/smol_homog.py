@@ -168,7 +168,7 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
     
     #Apply Slotboom transformation
     Dbar_expr=self.D*fem.exp(-conditions.beta*self.potential)
-    self.Dbar=fem.project(Dbar_expr,self.V_scalar,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
+    self.Dbar=fem.project(Dbar_expr,self.scalar_V,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
     self.Dbar.rename('Dbar','transformed diffusion coefficient')
     
     #The index objects
