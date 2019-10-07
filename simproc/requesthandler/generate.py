@@ -149,6 +149,14 @@ _children: {type: array}"""
 
 ##TODO: this borrows lots of code from the above. Can we consolidate somehow?
 ##TODO: it would be nice if this could allow for "sets" of properties that vary together, instead of always taking the product
+##Maybe this could be done by adding a new optional attribute: a list of "groups" of parameters.
+##This defaults to an empty list, meaning to take the product of all parameters.
+##Every parameter in each group must have the same number of values.
+##The product of parameters includes this factor only once, not once for each parameter.
+##This should only apply to items in "variations", not to "other_parents".
+##Unless you could figure out a way to list parameters by destination:
+##Then you could combine items from the attrlocs in variations with template_locs in parents_mapping.
+##But that sounds really complicated.
 class GeneratedVariationsRequest(customization.CustomizableRequest):
   """Generate requests based on a template with listed variations
   

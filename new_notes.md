@@ -215,5 +215,6 @@ It might need the information put into it from these other sources for that.
 Related: finding files located by other requests.
 Except that the other request is the one that needs to render the locator.
 
-See log 2019-08-05.md
-
+See logs:
+  - 2019-08-05.md
+  - 2019-10-07.md
