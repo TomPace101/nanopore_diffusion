@@ -80,4 +80,57 @@
   name: cylinder.2D.pot.hdf5conv
   mesh_xml: !OutputFile cylinder-pot.xml
   mesh_hdf5file: !OutputFile cylinder-pot.hdf5
+#Create spatial functions
+- !CellMappingSimulator
+  name: cylinder.2D.pot.spatial_func.D
+  mesh: !OutputFile cylinder-pot.hdf5
+  meshmeta: !OutputFile cylinder-pot.gmsh.yaml
+  conditions:
+    elementorder: 3
+    functionname: potential
+    functiontype: scalar
+    mapping:
+      1: 1.0
+      2: 1.0
+  dataextraction:
+    - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
+    - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
+- !CellMappingSimulator
+  name: cylinder.2D.pot.spatial_func.pot
+  mesh: !OutputFile cylinder-pot.hdf5
+  meshmeta: !OutputFile cylinder-pot.gmsh.yaml
+  conditions:
+    elementorder: 3
+    functionname: potential
+    functiontype: scalar
+    mapping:
+      1: 0.0
+      2: 100.0
+  dataextraction:
+    - [writefield, {outfpath: !OutputFile potential.hdf5, outname: potential}]
+    - [writefield, {outfpath: !OutputFile potential.pvd}]
+#Simulation
+- !HomogSmolSimulator
+  name: cylinder.2D.pot.homog
+  mesh: !OutputFile cylinder-pot.hdf5
+  meshmeta: !OutputFile cylinder-pot.gmsh.yaml
+  metadata:
+    cell_volume: 1.0
+  conditions:
+    elementorder: 3
+    boundaries: [1, 2, 3, 4]
+    beta: 1.0
+  loaddata:
+    - [D, !OutputFile spatial_D.hdf5, spatial_D]
+    - [potential, !OutputFile potential.hdf5, potential]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+    - [writefield, {outfpath: !OutputFile Dbar.pvd, attrpath: Dbar}]
+    - - reportvalues
+      - outfpath: !OutputFile cylinder-pot-results.yaml
+        mapping:
+          cell_volume: metadata.cell_volume
+          domain_volume: domain_volume
+          D_macro: D_macro
 
