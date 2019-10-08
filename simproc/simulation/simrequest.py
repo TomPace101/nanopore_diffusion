@@ -205,6 +205,45 @@ class SimulationRequest(WithCommandsRequest):
   
     No return value."""
     self.set_nested(attrpath,fem.Constant(self.get_stored(constval)))
+    return
+
+  def loadexpression(self,attrpath,spaceattr,expression,parameters=None):
+    """Set up a fenics expression
+
+    This is intended for use as a ``loaddata`` command.
+
+    Arguments:
+
+    - attrpath = path to save the expression to, as string
+
+    - spaceattr = attribute path to the FunctionSpace to use
+
+    - expression = required string (or Stored), the expression to project
+    
+      Note that the python ``format`` method is called on the string, using the mesh metadata (NOT simulator metadata) as the keyword arguments.
+      This allows the expression to reference variables defining the mesh structure, without using FEniCS parameters.
+      
+    - parameters = optional list of parameter names (or Stored) to use in the expression, empty for no parameters.
+      
+      Note that the values of these parameters are taken from the Simulator's ``metadata`` attribute (NOT mesh metadata).
+    
+    No return value."""
+    #Get the functionspace
+    fspace=getattr(self,spaceattr)
+    #Apply mesh metadata to the expression
+    exprstr=self.get_stored(expression).format(**self.meshinfo.metadata)
+    #Create the parameters dictionary
+    if parameters is None:
+      in_params=[]
+    else:
+      in_params=self.get_stored(parameters)
+    params={}
+    for k in in_params:
+      params[k]=self.metadata[k]
+    #Create the expression object
+    self.set_nested(attrpath,fem.Expression(exprstr,element=fspace.ufl_element(),**params))
+    #Done
+    return
 
   def process_load_commands(self):
     """Process a list of load data commands

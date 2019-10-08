@@ -43,7 +43,7 @@ class ProjectionSimulator(simrequest.SimulationRequest):
       Note that the python ``format`` method is called on the string, using the mesh metadata as the keyword arguments.
       This allows the expression to reference variables defining the mesh structure, without using FEniCS parameters.
       
-    - parameters = optional list of parameters names to use in the expression, empty for no parameters.
+    - parameters = optional list of parameter names to use in the expression, empty for no parameters.
       
       Note that the values of these parameters are taken from the Simulator's ``metadata`` attribute.
       
@@ -70,16 +70,8 @@ class ProjectionSimulator(simrequest.SimulationRequest):
     else:
       raise Exception("Invalid functiontype: %s"%ftype)
 
-    #Apply mesh metadata to the expressions
-    exprstr=conditions.expression.format(**self.meshinfo.metadata)
-    
-    #Create the parameters dictionary
-    params={}
-    for k in getattr(conditions,'parameters',[]):
-      params[k]=self.metadata[k]
-    
-    #Create the expression object
-    self.expr=fem.Expression(exprstr,element=self.V.ufl_element(),**params)
+    #Create the expression
+    self.loadexpression('expr','V',conditions.expression,getattr(conditions,'parameters',[]))
 
     #Get the keyword arguments for projection
     projection_kwargs=getattr(conditions,'projection_kwargs',{})
