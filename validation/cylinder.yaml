@@ -18,8 +18,8 @@
   outfile: !OutputFile cylinder-obs.geo
   data:
     r: 0.25
-    mcar1: 0.05
-    mcar2: 0.025
+    mcar1: 0.01
+    mcar2: 0.005
 - !GmshRequest
   name: cylinder.2D.obs.gmsh
   geofile: !OutputFile cylinder-obs.geo
