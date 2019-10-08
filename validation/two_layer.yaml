@@ -66,7 +66,7 @@
     D1: 1 #Only needed for comparison to the exact answer
     D2: 2 # ' '
   loaddata:
-    - [D, !OutputFile spatial_D.hdf5, spatial_D]
+    - [loadfield, {attrpath: D, infpath: !OutputFile spatial_D.hdf5, fieldtag: spatial_D}]
   conditions:
     elementorder: 3
     boundaries: [1, 2, 3, 4, 5, 7]

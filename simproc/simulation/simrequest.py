@@ -132,8 +132,7 @@ class SimulationRequest(WithCommandsRequest):
     super(SimulationRequest, self).__init__(**kwargs)
     #Get input files from load data commands
     self._more_inputfiles=getattr(self,'_more_inputfiles',[]) #Initialize attribute if it doesn't already exist
-    for aname,fpath,ftag in getattr(self,'loaddata',[]):
-      self._more_inputfiles.append(fpath)
+    self._more_inputfiles+=self.list_iofiles(getattr(self,'loaddata',[]),['infpath'],'_inputfiles')
     #Get output files from data extraction commands
     self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
     self._more_outputfiles+=self.list_iofiles(getattr(self,'dataextraction',[]))
@@ -197,7 +196,7 @@ class SimulationRequest(WithCommandsRequest):
     """Process a list of load data commands
 
     No return value."""
-    self.process_command_sequence(attrpath='loaddata',singlefunc='loadfield',positional=True)
+    self.process_command_sequence(attrpath='loaddata',singlefunc=None,positional=False)
     return
 
   def writefield_outputfiles(self,outfpath,attrpath='soln',idx=None,outname=None):

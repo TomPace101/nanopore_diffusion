@@ -121,8 +121,8 @@
     boundaries: [1, 2, 3, 4]
     beta: 1.0
   loaddata:
-    - [D, !OutputFile spatial_D.hdf5, spatial_D]
-    - [potential, !OutputFile potential.hdf5, potential]
+    - [loadfield, {attrpath: D, infpath: !OutputFile spatial_D.hdf5, fieldtag: spatial_D}]
+    - [loadfield, {attrpath: potential, infpath: !OutputFile potential.hdf5, fieldtag: potential}]
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
