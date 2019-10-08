@@ -13,73 +13,9 @@ import ufl
 from ..requesthandler import yaml_manager
 from . import simrequest
 from . import equationbuilder
+from . import periodic_boundaries
 
 BOUNDTOL=1e-6
-
-class PeriodicBoundary2D(fem.SubDomain):
-  """SubDomain subclass for 2D Periodic boundary condition"""
-  def __init__(self,xlims,ylims):
-    """Arguments:
-    
-      - xlims = pair of x-values: (xmin,xmax)
-      - ylims = pair of y-values: (ymin,ymax)"""
-    super(PeriodicBoundary2D, self).__init__()
-    self.left,  self.right = xlims
-    self.bottom,self.top   = ylims
-    self.xspan = self.right-self.left
-    self.yspan = self.top-self.bottom
-  # Left boundary is "target domain" G
-  def inside(self, x, on_boundary):
-    # return True if on left or bottom boundary AND NOT on one of the two corners 
-    #  (self.left, self.top) and (self.right, self.bottom)
-    return bool((fem.near(x[0], self.left) or fem.near(x[1], self.bottom)) and 
-                (not ((fem.near(x[0], self.left) and fem.near(x[1], self.top)) or 
-                      (fem.near(x[0], self.right) and fem.near(x[1], self.bottom)))) and on_boundary)
-  def map(self, x, y):
-    if fem.near(x[0], self.right) and fem.near(x[1], self.top):
-      y[0] = x[0] - self.xspan
-      y[1] = x[1] - self.yspan
-    elif fem.near(x[0], self.right):
-      y[0] = x[0] - self.xspan
-      y[1] = x[1]
-    else:   # fem.near(x[1], self.top)
-      y[0] = x[0]
-      y[1] = x[1] - self.yspan
-
-##TODO
-#Get the class below working
-# class PeriodicBoundary3D(fem.SubDomain):
-#   """SubDomain subclass for 3D Periodic boundary condition"""
-#   def __init__(self,xlims,ylims,zlims):
-#     """Arguments:
-# 
-#       - xlims = pair of x-values: (xmin,xmax)
-#       - ylims = pair of y-values: (ymin,ymax)
-#       - zlims = pair of z-values: (zmin,zmax)"""
-#     super(PeriodicBoundary3D, self).__init__()
-#     self.left,  self.right = xlims
-#     self.bottom,self.top   = ylims
-#     self.back,  self.front = zlims
-#     self.xspan = self.right-self.left
-#     self.yspan = self.top-self.bottom
-#     self.zspan = self.front-self.back
-#   # Left boundary is "target domain"
-#   def inside(self, x, on_boundary):
-#     # return True if on left or bottom boundary AND NOT on one of the two corners 
-#     #  (self.left, self.top) and (self.right, self.bottom)
-#     return bool((fem.near(x[0], self.left) or fem.near(x[1], self.bottom)) and 
-#                 (not ((fem.near(x[0], self.left) and fem.near(x[1], self.top)) or 
-#                       (fem.near(x[0], self.right) and fem.near(x[1], self.bottom)))) and on_boundary)
-#   def map(self, x, y):
-#     if fem.near(x[0], self.right) and fem.near(x[1], self.top):
-#       y[0] = x[0] - self.xspan
-#       y[1] = x[1] - self.yspan
-#     elif fem.near(x[0], self.right):
-#       y[0] = x[0] - self.xspan
-#       y[1] = x[1]
-#     else:   # fem.near(x[1], self.top)
-#       y[0] = x[0]
-#       y[1] = x[1] - self.yspan
 
 _HomogSmolConditions_props_schema_yaml="""#HomogSmolConditions
 elementorder: {type: integer}
@@ -122,10 +58,10 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
       using_periodic=True
       self.bcs=[]
       if spatial_dims==2:
-        pbc = PeriodicBoundary2D(*pairedlims)
+        pbc = periodic_boundaries.PeriodicBoundary2D(*pairedlims)
       elif spatial_dims==3:
         raise NotImplementedError("Sorry, periodic 3D BCs aren't working yet.")
-        #pbc = PeriodicBoundary3D(*pairedlims)
+        #pbc = periodic_boundaries.PeriodicBoundary3D(*pairedlims)
       else:
         raise NotImplementedError("You asked for a simulation on a mesh with %d spatial dimensions."%spatial_dims)
 
