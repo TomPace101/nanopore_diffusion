@@ -107,7 +107,7 @@
     functiontype: scalar
     mapping:
       1: 0.0
-      2: 100.0
+      2: 10.0
   dataextraction:
     - [writefield, {outfpath: !OutputFile potential.hdf5, outname: potential}]
     - [writefield, {outfpath: !OutputFile potential.pvd}]
