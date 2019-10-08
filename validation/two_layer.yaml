@@ -33,25 +33,38 @@
   name: two_layer.hdf5conv
   mesh_xml: !OutputFile two_layer.xml
   mesh_hdf5file: !OutputFile two_layer.hdf5
-#Create spatial function
-- !CellMappingSimulator
+# #Create spatial function
+- !ProjectionSimulator
   name: two_layer.spatial_func
   mesh: !OutputFile two_layer.hdf5
   meshmeta: !OutputFile two_layer.gmsh.yaml
   conditions:
     elementorder: 3
     functionname: spatial_D
-    functiontype: scalar #matrix
-    mapping:
-      1: 1
-        # - [1, 0]
-        # - [0, 1]
-      2: 2
-        # - [2, 0]
-        # - [0, 2]
+    functiontype: scalar
+  loaddata:
+    - [loadcellmapping, {attrpath: expr, mapping: {1: 1, 2: 2}}]
   dataextraction:
     - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
     - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
+# - !CellMappingSimulator
+#   name: two_layer.spatial_func
+#   mesh: !OutputFile two_layer.hdf5
+#   meshmeta: !OutputFile two_layer.gmsh.yaml
+#   conditions:
+#     elementorder: 3
+#     functionname: spatial_D
+#     functiontype: scalar #matrix
+#     mapping:
+#       1: 1
+#         # - [1, 0]
+#         # - [0, 1]
+#       2: 2
+#         # - [2, 0]
+#         # - [0, 2]
+#   dataextraction:
+#     - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
+#     - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
 #Homogenization
 - !HomogFickianSimulator
   name: two_layer.homog
@@ -66,6 +79,7 @@
     D1: 1 #Only needed for comparison to the exact answer
     D2: 2 # ' '
   loaddata:
+    # - [loadcellmapping, {attrpath: D, mapping: {1: 1, 2: 2}}]
     - [loadfield, {attrpath: D, infpath: !OutputFile spatial_D.hdf5, fieldtag: spatial_D}]
   conditions:
     elementorder: 3
