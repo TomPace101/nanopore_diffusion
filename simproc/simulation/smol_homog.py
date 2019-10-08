@@ -98,9 +98,6 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
       self.D=fem.Function(self.scalar_V)
       self.potential=fem.Function(self.scalar_V)
       self.process_load_commands()
-    else:
-      self.D = fem.Constant(1)
-      self.potential = fem.Constant(0)
     
     #Apply Slotboom transformation
     Dbar_expr=self.D*fem.exp(-conditions.beta*self.potential)

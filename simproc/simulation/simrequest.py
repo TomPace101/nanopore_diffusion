@@ -182,7 +182,7 @@ class SimulationRequest(WithCommandsRequest):
       
       - fieldtag = string identifying the HDF5 field name to load
       
-      - idx = index number (as integer) speciying location within the given attribute, None (default) if not the attribute itself is not a sequence
+      - idx = index number (as integer) specifying location within the given attribute, None (default) if not the attribute itself is not a sequence
     
     No return value."""
     inputval = self.get_nested(attrpath)
@@ -191,6 +191,20 @@ class SimulationRequest(WithCommandsRequest):
     hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),str(self.render(infpath)),'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
+
+  def setconstant(self,attrpath,constval):
+    """Set up a fenics constant
+
+    This is intended for use as a ``loaddata`` command.
+
+    Arguments:
+    
+      - attrpath = path to save the constant to, as string
+
+      - constval = value of the constant, as number or Stored
+  
+    No return value."""
+    self.set_nested(attrpath,fem.Constant(self.get_stored(constval)))
 
   def process_load_commands(self):
     """Process a list of load data commands

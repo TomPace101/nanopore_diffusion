@@ -45,6 +45,8 @@
   conditions:
     elementorder: 3
     boundaries: [1, 2, 3, 4]
+  loaddata:
+    - [setconstant, {attrpath: D, constval: 1.0}]
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]

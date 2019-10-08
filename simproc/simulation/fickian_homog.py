@@ -97,8 +97,6 @@ class HomogFickianSimulator(simrequest.SimulationRequest):
     if hasattr(self,'loaddata'):
       self.D=fem.Function(self.scalar_V)
       self.process_load_commands()
-    else:
-      self.D = fem.Constant(1)
     
     #The index objects
     i=ufl.i
