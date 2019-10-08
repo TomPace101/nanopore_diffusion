@@ -17,6 +17,7 @@ from ..requesthandler import timing
 from ..requesthandler import nested
 from .meshinfo import MeshInfo
 from ..postproc.plotseries import PlotSeries
+from . import expressions
 
 #Locators
 locators.folder_structure.update(OwnSolutionFile=['solutions',0,1])
@@ -243,6 +244,39 @@ class SimulationRequest(WithCommandsRequest):
     #Create the expression object
     self.set_nested(attrpath,fem.Expression(exprstr,element=fspace.ufl_element(),**params))
     #Done
+    return
+
+  def loadcellmapping(self,attrpath,mapping,fieldtype='scalar'):
+    """Set up a fenics UserExpression subclass that varies by cell value
+
+    This is intended for use as a ``loaddata`` command.
+
+    Arguments:
+
+    - attrpath = path to save the expression to, as string
+
+    - fieldtype = optional string specifying type of field:
+    
+      - 'scalar' (default) for a scalar field
+      - 'vector' for a vector field
+      - 'matrix' for a rank-2 tensor field
+
+    - mapping = required dictionary, the mapping from cell value to function value
+
+    No return value."""
+    #For convenience
+    spatial_dims=self.meshinfo.mesh.geometry().dim()
+    #Instantiate the appropriate expression subclass
+    if fieldtype == 'scalar':
+      expr = expressions.VaryingScalarByCell(self.meshinfo.cells,mapping,degree=0)
+    elif fieldtype == 'vector':
+      expr = expressions.VaryingVectorByCell(self.meshinfo.cells,mapping,spatial_dims,degree=0)
+    elif fieldtype == 'matrix':
+      expr = expressions.VaryingMatrixByCell(self.meshinfo.cells,mapping,spatial_dims,degree=0)
+    else:
+      raise Exception("Invalid fieldtype: %s"%fieldtype)
+    #Store the result
+    self.set_nested(attrpath,expr)
     return
 
   def process_load_commands(self):

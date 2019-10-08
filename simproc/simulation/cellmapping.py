@@ -39,11 +39,7 @@ class CellMappingSimulator(simrequest.SimulationRequest):
       
     - mapping = required dictionary, the mapping from cell value to function value
     
-    - default = optional value to use for the function for cells whose value is not listed in ``mapping``
-      
-      This defaults to ``None``, which will raise an error instead.
-      
-    - projection_kwargs = optional dictionary of keyworg arguments to the ``project`` function.
+    - projection_kwargs = optional dictionary of keyword arguments to the ``project`` function.
     
       This is used, for example, to set the linear solver and preconditioner."""
 
@@ -59,15 +55,15 @@ class CellMappingSimulator(simrequest.SimulationRequest):
     ftype=getattr(conditions,'functiontype','scalar').lower()
     if ftype == 'scalar':
       self.V = fem.FunctionSpace(self.meshinfo.mesh,'P', conditions.elementorder)
-      self.expr = expressions.VaryingScalarByCell(self.meshinfo.cells,conditions.mapping,degree=0)
     elif ftype == 'vector':
       self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder)
-      self.expr = expressions.VaryingVectorByCell(self.meshinfo.cells,conditions.mapping,spatial_dims,degree=0)
     elif ftype == 'matrix':
       self.V = fem.TensorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder, (spatial_dims,spatial_dims))
-      self.expr = expressions.VaryingMatrixByCell(self.meshinfo.cells,conditions.mapping,spatial_dims,degree=0)
     else:
       raise Exception("Invalid functiontype: %s"%ftype)
+
+    #Create the expression
+    self.loadcellmapping('expr',conditions.mapping,ftype)
 
     #Get the keyword arguments for projection
     projection_kwargs=getattr(conditions,'projection_kwargs',{})
