@@ -93,7 +93,7 @@ class HomogFickianSimulator(simrequest.SimulationRequest):
           return ans
         self.bcs=[fem.DirichletBC(self.V,val,boundary)]
 
-    #Load diffusion constant as a Function
+    #Load diffusion constant
     if hasattr(self,'loaddata'):
       self.D=fem.Function(self.scalar_V)
       self.process_load_commands()
