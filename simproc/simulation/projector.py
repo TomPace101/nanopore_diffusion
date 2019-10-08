@@ -13,20 +13,17 @@ from . import simrequest
 _ProjectorConditions_props_schema_yaml="""#ProjectorConditions
 functionname: {type: string}
 functiontype: {type: string}
-expression: {type: string}
-parameters:
-  type: array
-  items: {type: string}
 projection_kwargs: {type: string}
 """
 ProjectorConditions_props_schema=yaml_manager.readstring(_ProjectorConditions_props_schema_yaml)
 ProjectorConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
-                                                    ProjectorConditions_props_schema,['expression'])
+                                                    ProjectorConditions_props_schema,[])
 
 class ProjectionSimulator(simrequest.SimulationRequest):
   """Simulator for projecting an expression into a function space
 
-  The result is saved in the ``soln`` attribute.
+  The expression must be loaded with a command in ``loaddata``.
+  The result of the projection is saved in the ``soln`` attribute.
   
   Conditions:
 
@@ -38,16 +35,7 @@ class ProjectionSimulator(simrequest.SimulationRequest):
       - 'vector' for a vector function
       - 'matrix' for a rank-2 tensor function
       
-    - expression = required string, the expression to project
-    
-      Note that the python ``format`` method is called on the string, using the mesh metadata as the keyword arguments.
-      This allows the expression to reference variables defining the mesh structure, without using FEniCS parameters.
-      
-    - parameters = optional list of parameter names to use in the expression, empty for no parameters.
-      
-      Note that the values of these parameters are taken from the Simulator's ``metadata`` attribute.
-      
-    - projection_kwargs = optional dictionary of keyworg arguments to the ``project`` function.
+    - projection_kwargs = optional dictionary of keyword arguments to the ``project`` function.
     
       This is used, for example, to set the linear solver and preconditioner."""
 
@@ -70,8 +58,8 @@ class ProjectionSimulator(simrequest.SimulationRequest):
     else:
       raise Exception("Invalid functiontype: %s"%ftype)
 
-    #Create the expression
-    self.loadexpression('expr','V',conditions.expression,getattr(conditions,'parameters',[]))
+    #Load the expression
+    self.process_load_commands()
 
     #Get the keyword arguments for projection
     projection_kwargs=getattr(conditions,'projection_kwargs',{})
