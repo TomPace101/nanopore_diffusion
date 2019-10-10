@@ -1,0 +1,51 @@
+%YAML 1.2
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Locator for input and output generated below
+- !UpdateFolderStructure
+  InputFile: ['input',0]
+  OutputFile: ['output',0]
+  CompareFile: ['comparison',0]
+#Mesh Generation
+- !TemplateFileRequest
+  name: interpolation.geo
+  tmplfile: !InputFile box.geo.jinja2
+  outfile: !OutputFile box.geo
+  data:
+    mcar1: 0.1
+    xmin: 6.8
+    xmax: 7.0
+    ymin: 6.7
+    ymax: 7.1
+    zmin: 6.2
+    zmax: 7.7
+- !GmshRequest
+  name: interpolation.gmsh
+  geofile: !OutputFile box.geo
+  mshfile: !OutputFile box.msh
+  gmsh_outfile: !OutputFile box.gmsh.txt
+  meshmetafile: !OutputFile box.gmsh.yaml
+- !DolfinConvertRequest
+  name: interpolation.dconv
+  mshfile: !OutputFile box.msh
+  mesh_xml: !OutputFile box.xml
+  dconv_outfile: !OutputFile box.dconv.txt
+- !HDF5ConvertRequest
+  name: interpolation.hdf5conv
+  mesh_xml: !OutputFile box.xml
+  mesh_hdf5file: !OutputFile box.hdf5
+#Do the interpolation
+- !InterpolationSimulator
+  name: interpolation.spatial_func
+  mesh: !OutputFile box.hdf5
+  meshmeta: !OutputFile box.gmsh.yaml
+  conditions:
+    elementorder: 1
+    functionname: f
+  loaddata:
+    - [loadcsv, {infptath: !InputFile example_points.csv, attrpath: pointdata}]
+  dataextraction:
+    - [writefield, {outfpath: !OutputFile function.hdf5, outname: function}]
+    - [writefield, {outfpath: !OutputFile function.pvd}]
