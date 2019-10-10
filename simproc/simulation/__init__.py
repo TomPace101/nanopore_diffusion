@@ -10,3 +10,4 @@ from . import lin_pb
 from . import smol_reactive_surf
 from . import projector
 from . import cellmapping
+from . import point_interpolation

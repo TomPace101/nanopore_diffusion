@@ -44,8 +44,15 @@
   conditions:
     elementorder: 1
     functionname: f
+    boundaryvalue: 1.0
   loaddata:
-    - [loadcsv, {infptath: !InputFile example_points.csv, attrpath: pointdata}]
+    - [loadcsv, {infpath: !InputFile example_points.csv, attrpath: pointdata}]
   dataextraction:
     - [writefield, {outfpath: !OutputFile function.hdf5, outname: function}]
     - [writefield, {outfpath: !OutputFile function.pvd}]
+    - - reportvalues
+      - outfpath: !OutputFile timing.yaml
+        mapping:
+          total_sim_time: sim_timer.delta_str
+          setup_time: interp_setup_timer.delta_str
+          run_time: interp_run_timer.delta_str

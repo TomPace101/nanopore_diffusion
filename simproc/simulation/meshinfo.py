@@ -4,6 +4,7 @@
 import os.path as osp
 
 #Site packages
+import numpy as np
 import fenics as fem
 
 #This package
