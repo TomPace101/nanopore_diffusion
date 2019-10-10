@@ -14,12 +14,13 @@
 #Mesh Generation
 - !TemplateFileRequest
   name: cylinder.2D.obs.geo
-  tmplfile: !InputFile cylinder-obs.geo.jinja2
+  tmplfile: !InputFile cylinder.geo.jinja2
   outfile: !OutputFile cylinder-obs.geo
   data:
     r: 0.25
     mcar1: 0.01
     mcar2: 0.005
+    fill_cylinder: False
 - !GmshRequest
   name: cylinder.2D.obs.gmsh
   geofile: !OutputFile cylinder-obs.geo
@@ -61,12 +62,13 @@
 #Mesh Generation
 - !TemplateFileRequest
   name: cylinder.2D.pot.geo
-  tmplfile: !InputFile cylinder-pot.geo.jinja2
+  tmplfile: !InputFile cylinder.geo.jinja2
   outfile: !OutputFile cylinder-pot.geo
   data:
     r: 0.25
     mcar1: 0.05
     mcar2: 0.025
+    fill_cylinder: True
 - !GmshRequest
   name: cylinder.2D.pot.gmsh
   geofile: !OutputFile cylinder-pot.geo
