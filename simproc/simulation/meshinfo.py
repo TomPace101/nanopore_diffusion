@@ -1,4 +1,4 @@
-"""FEniCS mesh support"""
+"""FEniCS mesh support, and DOF support"""
 
 #Standard library
 import os.path as osp
@@ -79,3 +79,70 @@ class MeshInfo:
     #Done
     hdf5.close()
     return self
+
+  def spatial_dims(self):
+    """Number of spatial dimensions in the mesh (not any of the mesh functions)"""
+    return self.mesh.geometry().dim()
+
+  def coordinates(self):
+    """Coordinates of mesh points as an array.
+
+    Note that this is not the same as the coordinates of the degrees of freedom,
+    which requires defining a function space."""
+    return self.mesh.coordinates()
+
+
+class DOFInfo:
+  """Bunch of data related to the degrees of freedom (DOFs)
+
+  Attributes:
+
+    - meshinfo = MeshInfo instance
+    - V = the function space"""
+
+  def __init__(self,meshinfo,V):
+    self.meshinfo=meshinfo
+    self.V=V
+
+  def coordinates(self):
+    """Coordinates of DOF points as an array"""
+    return self.V.tabulate_dof_coordinates().reshape(self.V.dim(),self.meshinfo.spatial_dims())
+
+  def boundary_points(self,markerval=-99.0):
+    """Separate the dof coordinates into boundary and non-boundary points
+
+    Arguments:
+
+      - markerval = optional function value to use for marking boundaries
+
+        This value must be compatible with the function space.
+        For example, if the function space is scalar, this value must be
+        a scalar constant.  
+  
+    Returns:
+    
+      - boundary_pts = array of DOF coordinates on the model boundary
+      - nonbound_pts = array of DOF coordinates not on the model boundary"""
+    #Convenience variables
+    Ndof_pts=self.V.dim()
+    dofcoords=self.coordinates()
+    #Boundary marker function, from a throw-away Dirichlet boundary condition
+    bcf=fem.Function(self.V)
+    bc=fem.DirichletBC(self.V, markerval, fem.DomainBoundary())
+    bc.apply(bcf.vector())
+    #Array from that function
+    bcf_array=bcf.vector().get_local()
+    #Split dof coordinates into boundary and non-boundary
+    boundary_pts=[]
+    nonbound_pts=[]
+    for i in range(Ndof_pts):
+        pt=dofcoords[i]
+        if fem.near(bcf_array[i],markerval):
+            boundary_pts.append(pt)
+        else:
+            nonbound_pts.append(pt)
+    #Convert lists to arrays
+    boundary_pts=np.array(boundary_pts)
+    nonbound_pts=np.array(nonbound_pts)
+    #Done
+    return boundary_pts, nonbound_pts
