@@ -6,50 +6,129 @@ mcar2={{mcar2}};
 
 //Geometric inputs
 r={{r}};
+{% if make_3D %}L={{L}};{% endif %}
 
 //Point ordinates
 X0=-0.5;
 X1=0.5;
 Y0=-0.5;
 Y1=0.5;
+{%if make_3D %}
+Z0=-L/2;
+Z1=L/2;
+{% else %}
+Z0=0;
+{% endif %}
 
 //Points
 //naming convention:
 //- p=point
-p1=newp; Point(p1)={X0,Y0,0,mcar1};
-p2=newp; Point(p2)={X1,Y0,0,mcar1};
-p3=newp; Point(p3)={X1,Y1,0,mcar1};
-p4=newp; Point(p4)={X0,Y1,0,mcar1};
-p5=newp; Point(p5)={r,0,0,mcar2};
-p6=newp; Point(p6)={0,r,0,mcar2};
-p7=newp; Point(p7)={-r,0,0,mcar2};
-p8=newp; Point(p8)={0,-r,0,mcar2};
-p9=newp; Point(p9)={0,0,0,mcar2};
+//- (empty)=back plane
+//- f=front plane
+p1=newp; Point(p1)={X0,Y0,Z0,mcar1};
+p2=newp; Point(p2)={X1,Y0,Z0,mcar1};
+p3=newp; Point(p3)={X1,Y1,Z0,mcar1};
+p4=newp; Point(p4)={X0,Y1,Z0,mcar1};
+p5=newp; Point(p5)={r,0,Z0,mcar2};
+p6=newp; Point(p6)={0,r,Z0,mcar2};
+p7=newp; Point(p7)={-r,0,Z0,mcar2};
+p8=newp; Point(p8)={0,-r,Z0,mcar2};
+p9=newp; Point(p9)={0,0,Z0,mcar2};
+{% if make_3D %}
+pf1=newp; Point(pf1)={X0,Y0,Z1,mcar1};
+pf2=newp; Point(pf2)={X1,Y0,Z1,mcar1};
+pf3=newp; Point(pf3)={X1,Y1,Z1,mcar1};
+pf4=newp; Point(pf4)={X0,Y1,Z1,mcar1};
+pf5=newp; Point(pf5)={r,0,Z1,mcar2};
+pf6=newp; Point(pf6)={0,r,Z1,mcar2};
+pf7=newp; Point(pf7)={-r,0,Z1,mcar2};
+pf8=newp; Point(pf8)={0,-r,Z1,mcar2};
+pf9=newp; Point(pf9)={0,0,Z1,mcar2};
+{% endif %}
 
 //Lines
 //naming convention:
 //- l=line
+//- (empty)=back plane
+//- f=front plane
+//- g=between planes
 l1=newl; Line(l1)={p1, p2};
 l2=newl; Line(l2)={p2, p3};
 l3=newl; Line(l3)={p3, p4};
 l4=newl; Line(l4)={p4, p1};
+{% if make_3D %}
+lf1=newl; Line(lf1)={pf1, pf2};
+lf2=newl; Line(lf2)={pf2, pf3};
+lf3=newl; Line(lf3)={pf3, pf4};
+lf4=newl; Line(lf4)={pf4, pf1};
+lg1=newl; Line(lg1)={p1, pf1};
+lg2=newl; Line(lg2)={p2, pf2};
+lg3=newl; Line(lg3)={p3, pf3};
+lg4=newl; Line(lg4)={p4, pf4};
+lg5=newl; Line(lg5)={p5, pf5};
+lg6=newl; Line(lg6)={p6, pf6};
+lg7=newl; Line(lg7)={p7, pf7};
+lg8=newl; Line(lg8)={p8, pf8};
+{% endif %}
 
 //Circles
 l5=newl; Circle(l5)={p5,p9,p6};
 l6=newl; Circle(l6)={p6,p9,p7};
 l7=newl; Circle(l7)={p7,p9,p8};
 l8=newl; Circle(l8)={p8,p9,p5};
+{% if make_3D %}
+lf5=newl; Circle(lf5)={pf5,pf9,pf6};
+lf6=newl; Circle(lf6)={pf6,pf9,pf7};
+lf7=newl; Circle(lf7)={pf7,pf9,pf8};
+lf8=newl; Circle(lf8)={pf8,pf9,pf5};
+{% endif %}
 
 //Line Loops
-Line Loop(1)={l1,l2,l3,l4};
-Line Loop(2)={l5,l6,l7,l8};
+L1=newll; Line Loop(L1)={l1,l2,l3,l4};
+L2=newll; Line Loop(L2)={l5,l6,l7,l8};
+{% if make_3D %}
+Lf1=newll; Line Loop(Lf1)={lf1,lf2,lf3,lf4};
+Lf2=newll; Line Loop(Lf2)={lf5,lf6,lf7,lf8};
+Lg1=newll; Line Loop(Lg1)={l1,lg2,-lf1,-lg1};
+Lg2=newll; Line Loop(Lg2)={l2,lg3,-lf2,-lg2};
+Lg3=newll; Line Loop(Lg3)={l3,lg4,-lf3,-lg3};
+Lg4=newll; Line Loop(Lg4)={l4,lg1,-lf4,-lg4};
+Lg5=newll; Line Loop(Lg5)={l5,lg6,-lf5,-lg5};
+Lg6=newll; Line Loop(Lg6)={l6,lg7,-lf6,-lg6};
+Lg7=newll; Line Loop(Lg7)={l7,lg8,-lf7,-lg7};
+Lg8=newll; Line Loop(Lg8)={l8,lg5,-lf8,-lg8};
+{% endif %}
 
 //Surfaces and Physical Surfaces
-Plane Surface(1)={1,2};
+Plane Surface(1)={L1,L2};
 Physical Surface(1)={1};
 {% if fill_cylinder -%}
-Plane Surface(2)={2};
+Plane Surface(2)={L2};
 Physical Surface(2)={2};
+{% endif %}
+{% if make_3D %}
+Plane Surface(3)={Lf1,Lf2};
+Physical Surface(3)={3};
+{% if fill_cylinder -%}
+Plane Surface(4)={Lf2};
+Physical Surface(4)={4};
+{% endif %}
+Plane Surface(5)={Lg1};
+Physical Surface(5)={5};
+Plane Surface(6)={Lg2};
+Physical Surface(6)={6};
+Plane Surface(7)={Lg3};
+Physical Surface(7)={7};
+Plane Surface(8)={Lg4};
+Physical Surface(8)={8};
+Surface(9)={Lg5};
+Physical Surface(9)={9};
+Surface(10)={Lg6};
+Physical Surface(10)={10};
+Surface(11)={Lg7};
+Physical Surface(11)={11};
+Surface(12)={Lg8};
+Physical Surface(12)={12};
 {% endif %}
 
 //Physical Lines
@@ -57,6 +136,22 @@ Physical Line(1)={l1};
 Physical Line(2)={l2};
 Physical Line(3)={l3};
 Physical Line(4)={l4};
+
+{% if make_3D %}
+//Surface Loops
+Surface Loop(1)={1,3,5,6,7,8,9,10,11,12};
+{% if fill_cylinder %}
+Surface Loop(2)={2,4,9,10,11,12};
+{% endif %}
+
+//Volumes
+Volume(1)={1};
+Physical Volume(1)={1};
+{% if fill_cylinder %}
+Volume(2)={2};
+Physical Volume(2)={2};
+{% endif %}
+{% endif %}
 
 //Mesh metadata output
 Printf("# Mesh metadata output") > meshmetafile;
@@ -69,9 +164,18 @@ Printf("Y0: %f", Y0) >> meshmetafile;
 Printf("Y1: %f", Y1) >> meshmetafile;
 Printf("Xmid: %f", (X1-X0)/2.0) >> meshmetafile;
 Printf("Ymid: %f", (Y1-Y0)/2.0) >> meshmetafile;
+{% if make_3D %}
+Printf("L: %f", L) >> meshmetafile;
+Printf("Z0: %f", Z0) >> meshmetafile;
+Printf("Z1: %f", Z1) >> meshmetafile;
+{% endif %}
 
 //Define mesh
+{% if make_3D %}
+Mesh 3;
+{% else %}
 Mesh 2;
+{% endif %}
 
 //Blank lines
 //because (an older version of) gmsh (once) got confused without them

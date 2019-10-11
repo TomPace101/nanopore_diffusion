@@ -21,6 +21,7 @@
     mcar1: 0.01
     mcar2: 0.005
     fill_cylinder: False
+    make_3D: False
 - !GmshRequest
   name: cylinder.2D.obs.gmsh
   geofile: !OutputFile cylinder-obs.geo
@@ -69,6 +70,7 @@
     mcar1: 0.05
     mcar2: 0.025
     fill_cylinder: True
+    make_3D: False
 - !GmshRequest
   name: cylinder.2D.pot.gmsh
   geofile: !OutputFile cylinder-pot.geo
@@ -138,3 +140,53 @@
           domain_volume: domain_volume
           D_macro: D_macro
 
+#Obstructive Inclusion in 3D
+
+#Mesh Generation
+- !TemplateFileRequest
+  name: cylinder.3D.obs.geo
+  tmplfile: !InputFile cylinder.geo.jinja2
+  outfile: !OutputFile cylinder-obs-3D.geo
+  data:
+    r: 0.25
+    L: 1.0
+    mcar1: 0.05
+    mcar2: 0.025
+    fill_cylinder: False
+    make_3D: True
+- !GmshRequest
+  name: cylinder.3D.obs.gmsh
+  geofile: !OutputFile cylinder-obs-3D.geo
+  mshfile: !OutputFile cylinder-obs-3D.msh
+  gmsh_outfile: !OutputFile cylinder-obs-3D.gmsh.txt
+  meshmetafile: !OutputFile cylinder-obs-3D.gmsh.yaml
+- !DolfinConvertRequest
+  name: cylinder.3D.obs.dconv
+  mshfile: !OutputFile cylinder-obs-3D.msh
+  mesh_xml: !OutputFile cylinder-obs-3D.xml
+  dconv_outfile: !OutputFile cylinder-obs-3D.dconv.txt
+- !HDF5ConvertRequest
+  name: cylinder.3D.obs.hdf5conv
+  mesh_xml: !OutputFile cylinder-obs-3D.xml
+  mesh_hdf5file: !OutputFile cylinder-obs-3D.hdf5
+#Simulation
+# - !HomogFickianSimulator
+#   name: cylinder.23.obs.homog
+#   mesh: !OutputFile cylinder-obs-3D.hdf5
+#   meshmeta: !OutputFile cylinder-obs-3D.gmsh.yaml
+#   metadata:
+#     cell_volume: !Stored meshinfo.metadata.L
+#   conditions:
+#     elementorder: 3
+#     boundaries: [1, 2, 3, 4]
+#   loaddata:
+#     - [setconstant, {attrpath: D, constval: 1.0}]
+#   dataextraction:
+#     - [domain_volume, {attrpath: domain_volume}]
+#     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+#     - - reportvalues
+#       - outfpath: !OutputFile cylinder-obs-3D-results.yaml
+#         mapping:
+#           cell_volume: metadata.cell_volume
+#           domain_volume: domain_volume
+#           D_macro: D_macro
