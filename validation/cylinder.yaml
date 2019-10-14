@@ -87,21 +87,20 @@
   mesh_xml: !OutputFile cylinder-pot.xml
   mesh_hdf5file: !OutputFile cylinder-pot.hdf5
 #Create spatial functions
-- !CellMappingSimulator
+- !ProjectionSimulator
   name: cylinder.2D.pot.spatial_func.D
   mesh: !OutputFile cylinder-pot.hdf5
   meshmeta: !OutputFile cylinder-pot.gmsh.yaml
   conditions:
     elementorder: 3
-    functionname: potential
+    functionname: spatial_D
     functiontype: scalar
-    mapping:
-      1: 1.0
-      2: 1.0
+  loaddata:
+    - [loadcellmapping, {attrpath: expr, mapping: {1: 1.0, 2: 1.0}}]
   dataextraction:
     - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
     - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
-- !CellMappingSimulator
+- !ProjectionSimulator
   name: cylinder.2D.pot.spatial_func.pot
   mesh: !OutputFile cylinder-pot.hdf5
   meshmeta: !OutputFile cylinder-pot.gmsh.yaml
@@ -109,9 +108,8 @@
     elementorder: 3
     functionname: potential
     functiontype: scalar
-    mapping:
-      1: 0.0
-      2: 10.0
+  loaddata:
+    - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: 10.0}}]
   dataextraction:
     - [writefield, {outfpath: !OutputFile potential.hdf5, outname: potential}]
     - [writefield, {outfpath: !OutputFile potential.pvd}]
