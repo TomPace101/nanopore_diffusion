@@ -88,19 +88,6 @@
   mesh_hdf5file: !OutputFile cylinder-pot.hdf5
 #Create spatial functions
 - !ProjectionSimulator
-  name: cylinder.2D.pot.spatial_func.D
-  mesh: !OutputFile cylinder-pot.hdf5
-  meshmeta: !OutputFile cylinder-pot.gmsh.yaml
-  conditions:
-    elementorder: 3
-    functionname: spatial_D
-    functiontype: scalar
-  loaddata:
-    - [loadcellmapping, {attrpath: expr, mapping: {1: 1.0, 2: 1.0}}]
-  dataextraction:
-    - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
-    - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
-- !ProjectionSimulator
   name: cylinder.2D.pot.spatial_func.pot
   mesh: !OutputFile cylinder-pot.hdf5
   meshmeta: !OutputFile cylinder-pot.gmsh.yaml
@@ -125,7 +112,7 @@
     boundaries: [1, 2, 3, 4]
     beta: 1.0
   loaddata:
-    - [loadfield, {attrpath: D, infpath: !OutputFile spatial_D.hdf5, fieldtag: spatial_D}]
+    - [setconstant, {attrpath: D, constval: 1.0}]
     - [loadfield, {attrpath: potential, infpath: !OutputFile potential.hdf5, fieldtag: potential}]
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
