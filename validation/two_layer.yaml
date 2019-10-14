@@ -44,27 +44,19 @@
     functiontype: scalar
   loaddata:
     - [loadcellmapping, {attrpath: expr, mapping: {1: 1, 2: 2}}]
+    # - - loadcellmapping
+    #   - attrpath: expr
+    #     fieldtype: matrix
+    #     mapping:
+    #       1:
+    #         - [1, 0]
+    #         - [0, 1]
+    #       2:
+    #         - [2, 0]
+    #         - [0, 2]
   dataextraction:
     - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
     - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
-# - !CellMappingSimulator
-#   name: two_layer.spatial_func
-#   mesh: !OutputFile two_layer.hdf5
-#   meshmeta: !OutputFile two_layer.gmsh.yaml
-#   conditions:
-#     elementorder: 3
-#     functionname: spatial_D
-#     functiontype: scalar #matrix
-#     mapping:
-#       1: 1
-#         # - [1, 0]
-#         # - [0, 1]
-#       2: 2
-#         # - [2, 0]
-#         # - [0, 2]
-#   dataextraction:
-#     - [writefield, {outfpath: !OutputFile spatial_D.hdf5, outname: spatial_D}]
-#     - [writefield, {outfpath: !OutputFile spatial_D.pvd}]
 #Homogenization
 - !HomogFickianSimulator
   name: two_layer.homog
