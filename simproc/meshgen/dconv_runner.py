@@ -32,7 +32,7 @@ def get_paths_facet_cell(self):
   mesh_xml=self.render(self.mesh_xml)
   for attrname in DCONV_XML_SUFFIX.keys():
     if not hasattr(self,attrname):
-      filename=mesh_xml.stemname+DCONV_XML_SUFFIX[attrname]+mesh_xml.ext
+      filename=mesh_xml.stem+DCONV_XML_SUFFIX[attrname]+mesh_xml.suffix
       setattr(self,attrname,Path(mesh_xml.folder,filename))
 
 _DolfinConvertRequest_props_schema_yaml="""#DolfinConvertRequest
