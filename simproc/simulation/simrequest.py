@@ -156,7 +156,7 @@ class SimulationRequest(WithCommandsRequest):
     #Do the simulation
     self.sim_timer=timing.Timer()
     self.run_sim()
-    # print("Simulation duration: "+self.sim_timer.stop())
+    self.sim_timer.stop()    # print("Simulation duration: "+self.sim_timer.stop())
     #Generate output, if any
     self.process_command_sequence(attrpath='dataextraction',singlefunc=None,positional=False)
     return
