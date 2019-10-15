@@ -5,7 +5,7 @@ from __future__ import print_function, division #Python 2 compatibility
 from subprocess import call
 
 #Site packages
-from jinja2 import Template
+from jinja2 import Environment
 
 #This package
 from . import yaml_manager
@@ -44,7 +44,9 @@ class TemplateFileRequest(customization.CustomizableRequest):
     #Load the template
     with open(self.renderstr(self.tmplfile),'r') as fh:
       tdata=fh.read()
-    tmpl=Template(tdata,trim_blocks=True,keep_trailing_newline=True)
+    env=Environment(extensions=['jinja2.ext.do'],trim_blocks=True,keep_trailing_newline=True)
+    tmpl=env.from_string(tdata)
+    #tmpl=Template(tdata,trim_blocks=True,keep_trailing_newline=True)
     #Do the calculations for the template values
     input_data=self.get_template_input()
     #Apply the data to the template
