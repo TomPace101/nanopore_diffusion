@@ -85,7 +85,7 @@ class RawCollectionRequest(WithCommandsRequest):
       file_list=defn['file_list']
       for fn,fpath in enumerate(file_list):
         #Load the file
-        obj=yaml_manager.readfile(fpath,self.multidoc)
+        obj=yaml_manager.readfile(self.renderstr(fpath),self.multidoc)
         #Get the dictionary for the row
         flatdict=dict([(col,nested.get_nested(obj,dpath)) for col,dpath in mapping.items()])
         #Store
