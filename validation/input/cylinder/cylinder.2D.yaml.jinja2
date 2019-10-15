@@ -6,6 +6,7 @@
 #Locator for input and output generated below
 - !UpdateFolderStructure
   InputFile: ['input',0]
+  OutputFile: ['output',0]
   OutFile2: ['output',0,1,2]
   CompareFile: ['comparison',0]
 
@@ -55,11 +56,14 @@
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     - - reportvalues
-      - outfpath: !OutFile2 cylinder-obs-results.{{id}}.yaml
+      - outfpath: !OutFile2 results.{{id}}.yaml
         mapping:
+          r: meshinfo.metadata.r
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
+          potential: obs
+{% do collection_files.append('cylinder/2D/obs/results.'+id+'.yaml') %}
 #Inclusion as Potential
 #Mesh Generation
 - !TemplateFileRequest
@@ -88,6 +92,7 @@
   mesh_xml: !OutFile2 cylinder-pot.{{id}}.xml
   mesh_hdf5file: !OutFile2 cylinder-pot.{{id}}.hdf5
 {% for subid,potval in pot_list %}
+#potential={{potval}}
 #Create spatial functions
 - !ProjectionSimulator
   name: cylinder.2D.pot.spatial_func.{{id}}-{{subid}}.pot
@@ -109,6 +114,7 @@
   meshmeta: !OutFile2 cylinder-pot.gmsh.{{id}}.yaml
   metadata:
     cell_volume: 1.0
+    potential: {{potval}}
   conditions:
     elementorder: 3
     boundaries: [1, 2, 3, 4]
@@ -121,10 +127,30 @@
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     # - [writefield, {outfpath: !OutFile2 Dbar.{{id}}.pvd, attrpath: Dbar}]
     - - reportvalues
-      - outfpath: !OutFile2 cylinder-pot-results.{{id}}-{{subid}}.yaml
+      - outfpath: !OutFile2 results.{{id}}-{{subid}}.yaml
         mapping:
+          r: meshinfo.metadata.r
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
+          potential: metadata.potential
+{% do collection_files.append('cylinder/2D/pot/results.'+id+'-'+subid+'.yaml') %}
 {% endfor %}
 {% endfor %}
+
+# Collection
+- !RawCollectionRequest
+  name: collection
+  outpath: !OutputFile results.pkl
+  definitions:
+    - mapping:
+        r: r
+        cell_volume: cell_volume
+        domain_volume: domain_volume
+        D_macro: D_macro
+        potential: potential
+      file_list:
+{% for fpath in collection_files %}
+        - !DataFile {{fpath}}
+{% endfor %}
+
