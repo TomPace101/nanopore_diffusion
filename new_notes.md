@@ -6,6 +6,7 @@ Once you get it working, include an example in the validation.
 Maybe this is a secondary class,
 which creates the queue for the existing class,
 as the child of the secondary class.
+Related issue: some requests really do need to be handled sequentially.
 
 _ISSUE_ doit got it wrong pretty bad in redux_electrolyte once
 The plot was wrong because things hadn't been rerun.
