@@ -6,7 +6,7 @@
 #Locator for input and output generated below
 - !UpdateFolderStructure
   InputFile: ['input',0]
-  OutputFile: ['output',0,1,2]
+  OutFile2: ['output',0,1,2]
   CompareFile: ['comparison',0]
 
 #Obstructive Inclusion
@@ -15,7 +15,7 @@
 - !TemplateFileRequest
   name: cylinder.3D.obs.geo
   tmplfile: !InputFile cylinder.geo.jinja2
-  outfile: !OutputFile cylinder-obs-3D.geo
+  outfile: !OutFile2 cylinder-obs-3D.geo
   data:
     r: 0.25
     L: 1.0
@@ -25,24 +25,24 @@
     make_3D: True
 - !GmshRequest
   name: cylinder.3D.obs.gmsh
-  geofile: !OutputFile cylinder-obs-3D.geo
-  mshfile: !OutputFile cylinder-obs-3D.msh
-  gmsh_outfile: !OutputFile cylinder-obs-3D.gmsh.txt
-  meshmetafile: !OutputFile cylinder-obs-3D.gmsh.yaml
+  geofile: !OutFile2 cylinder-obs-3D.geo
+  mshfile: !OutFile2 cylinder-obs-3D.msh
+  gmsh_outfile: !OutFile2 cylinder-obs-3D.gmsh.txt
+  meshmetafile: !OutFile2 cylinder-obs-3D.gmsh.yaml
 - !DolfinConvertRequest
   name: cylinder.3D.obs.dconv
-  mshfile: !OutputFile cylinder-obs-3D.msh
-  mesh_xml: !OutputFile cylinder-obs-3D.xml
-  dconv_outfile: !OutputFile cylinder-obs-3D.dconv.txt
+  mshfile: !OutFile2 cylinder-obs-3D.msh
+  mesh_xml: !OutFile2 cylinder-obs-3D.xml
+  dconv_outfile: !OutFile2 cylinder-obs-3D.dconv.txt
 - !HDF5ConvertRequest
   name: cylinder.3D.obs.hdf5conv
-  mesh_xml: !OutputFile cylinder-obs-3D.xml
-  mesh_hdf5file: !OutputFile cylinder-obs-3D.hdf5
+  mesh_xml: !OutFile2 cylinder-obs-3D.xml
+  mesh_hdf5file: !OutFile2 cylinder-obs-3D.hdf5
 #Simulation
 - !HomogFickianSimulator
   name: cylinder.3D.obs.homog
-  mesh: !OutputFile cylinder-obs-3D.hdf5
-  meshmeta: !OutputFile cylinder-obs-3D.gmsh.yaml
+  mesh: !OutFile2 cylinder-obs-3D.hdf5
+  meshmeta: !OutFile2 cylinder-obs-3D.gmsh.yaml
   metadata:
     cell_volume: !Stored meshinfo.metadata.L
   conditions:
@@ -65,7 +65,7 @@
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: meshinfo.metadata.L}]
     - - reportvalues
-      - outfpath: !OutputFile cylinder-obs-3D-results.yaml
+      - outfpath: !OutFile2 cylinder-obs-3D-results.yaml
         mapping:
           cell_volume: meshinfo.metadata.L
           domain_volume: domain_volume

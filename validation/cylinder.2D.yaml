@@ -6,7 +6,7 @@
 #Locator for input and output generated below
 - !UpdateFolderStructure
   InputFile: ['input',0]
-  OutputFile: ['output',0,1,2]
+  OutFile2: ['output',0,1,2]
   CompareFile: ['comparison',0]
 
 #Obstructive Inclusion
@@ -15,7 +15,7 @@
 - !TemplateFileRequest
   name: cylinder.2D.obs.geo
   tmplfile: !InputFile cylinder.geo.jinja2
-  outfile: !OutputFile cylinder-obs.geo
+  outfile: !OutFile2 cylinder-obs.geo
   data:
     r: 0.25
     mcar1: 0.01
@@ -24,24 +24,24 @@
     make_3D: False
 - !GmshRequest
   name: cylinder.2D.obs.gmsh
-  geofile: !OutputFile cylinder-obs.geo
-  mshfile: !OutputFile cylinder-obs.msh
-  gmsh_outfile: !OutputFile cylinder-obs.gmsh.txt
-  meshmetafile: !OutputFile cylinder-obs.gmsh.yaml
+  geofile: !OutFile2 cylinder-obs.geo
+  mshfile: !OutFile2 cylinder-obs.msh
+  gmsh_outfile: !OutFile2 cylinder-obs.gmsh.txt
+  meshmetafile: !OutFile2 cylinder-obs.gmsh.yaml
 - !DolfinConvertRequest
   name: cylinder.2D.obs.dconv
-  mshfile: !OutputFile cylinder-obs.msh
-  mesh_xml: !OutputFile cylinder-obs.xml
-  dconv_outfile: !OutputFile cylinder-obs.dconv.txt
+  mshfile: !OutFile2 cylinder-obs.msh
+  mesh_xml: !OutFile2 cylinder-obs.xml
+  dconv_outfile: !OutFile2 cylinder-obs.dconv.txt
 - !HDF5ConvertRequest
   name: cylinder.2D.obs.hdf5conv
-  mesh_xml: !OutputFile cylinder-obs.xml
-  mesh_hdf5file: !OutputFile cylinder-obs.hdf5
+  mesh_xml: !OutFile2 cylinder-obs.xml
+  mesh_hdf5file: !OutFile2 cylinder-obs.hdf5
 #Simulation
 - !HomogFickianSimulator
   name: cylinder.2D.obs.homog
-  mesh: !OutputFile cylinder-obs.hdf5
-  meshmeta: !OutputFile cylinder-obs.gmsh.yaml
+  mesh: !OutFile2 cylinder-obs.hdf5
+  meshmeta: !OutFile2 cylinder-obs.gmsh.yaml
   metadata:
     cell_volume: 1.0
   conditions:
@@ -53,7 +53,7 @@
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     - - reportvalues
-      - outfpath: !OutputFile cylinder-obs-results.yaml
+      - outfpath: !OutFile2 cylinder-obs-results.yaml
         mapping:
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
@@ -64,7 +64,7 @@
 - !TemplateFileRequest
   name: cylinder.2D.pot.geo
   tmplfile: !InputFile cylinder.geo.jinja2
-  outfile: !OutputFile cylinder-pot.geo
+  outfile: !OutFile2 cylinder-pot.geo
   data:
     r: 0.25
     mcar1: 0.05
@@ -73,24 +73,24 @@
     make_3D: False
 - !GmshRequest
   name: cylinder.2D.pot.gmsh
-  geofile: !OutputFile cylinder-pot.geo
-  mshfile: !OutputFile cylinder-pot.msh
-  gmsh_outfile: !OutputFile cylinder-pot.gmsh.txt
-  meshmetafile: !OutputFile cylinder-pot.gmsh.yaml
+  geofile: !OutFile2 cylinder-pot.geo
+  mshfile: !OutFile2 cylinder-pot.msh
+  gmsh_outfile: !OutFile2 cylinder-pot.gmsh.txt
+  meshmetafile: !OutFile2 cylinder-pot.gmsh.yaml
 - !DolfinConvertRequest
   name: cylinder.2D.pot.dconv
-  mshfile: !OutputFile cylinder-pot.msh
-  mesh_xml: !OutputFile cylinder-pot.xml
-  dconv_outfile: !OutputFile cylinder-pot.dconv.txt
+  mshfile: !OutFile2 cylinder-pot.msh
+  mesh_xml: !OutFile2 cylinder-pot.xml
+  dconv_outfile: !OutFile2 cylinder-pot.dconv.txt
 - !HDF5ConvertRequest
   name: cylinder.2D.pot.hdf5conv
-  mesh_xml: !OutputFile cylinder-pot.xml
-  mesh_hdf5file: !OutputFile cylinder-pot.hdf5
+  mesh_xml: !OutFile2 cylinder-pot.xml
+  mesh_hdf5file: !OutFile2 cylinder-pot.hdf5
 #Create spatial functions
 - !ProjectionSimulator
   name: cylinder.2D.pot.spatial_func.pot
-  mesh: !OutputFile cylinder-pot.hdf5
-  meshmeta: !OutputFile cylinder-pot.gmsh.yaml
+  mesh: !OutFile2 cylinder-pot.hdf5
+  meshmeta: !OutFile2 cylinder-pot.gmsh.yaml
   conditions:
     elementorder: 3
     functionname: potential
@@ -98,13 +98,13 @@
   loaddata:
     - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: 10.0}}]
   dataextraction:
-    - [writefield, {outfpath: !OutputFile potential.hdf5, outname: potential}]
-    - [writefield, {outfpath: !OutputFile potential.pvd}]
+    - [writefield, {outfpath: !OutFile2 potential.hdf5, outname: potential}]
+    - [writefield, {outfpath: !OutFile2 potential.pvd}]
 #Simulation
 - !HomogSmolSimulator
   name: cylinder.2D.pot.homog
-  mesh: !OutputFile cylinder-pot.hdf5
-  meshmeta: !OutputFile cylinder-pot.gmsh.yaml
+  mesh: !OutFile2 cylinder-pot.hdf5
+  meshmeta: !OutFile2 cylinder-pot.gmsh.yaml
   metadata:
     cell_volume: 1.0
   conditions:
@@ -113,13 +113,13 @@
     beta: 1.0
   loaddata:
     - [setconstant, {attrpath: D, constval: 1.0}]
-    - [loadfield, {attrpath: potential, infpath: !OutputFile potential.hdf5, fieldtag: potential}]
+    - [loadfield, {attrpath: potential, infpath: !OutFile2 potential.hdf5, fieldtag: potential}]
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
-    - [writefield, {outfpath: !OutputFile Dbar.pvd, attrpath: Dbar}]
+    - [writefield, {outfpath: !OutFile2 Dbar.pvd, attrpath: Dbar}]
     - - reportvalues
-      - outfpath: !OutputFile cylinder-pot-results.yaml
+      - outfpath: !OutFile2 cylinder-pot-results.yaml
         mapping:
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
