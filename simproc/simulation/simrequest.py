@@ -293,7 +293,7 @@ class SimulationRequest(WithCommandsRequest):
     if ofp.suffix.lower()=='.pvd':
       #There will also be .vtu or .pvtu files
       ##TODO: detect if MPI, and compute pvtu files
-      vtufname=ofp.stemname + "%06d"%0 + ".vtu"
+      vtufname=ofp.stem + "%06d"%0 + ".vtu"
       vtupath=ofp.folder_path / vtufname
       outlist.append(vtupath)
     return outlist
