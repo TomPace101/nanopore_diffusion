@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: . #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Locator for input and output generated below
+- !UpdateFolderStructure
+  InputFile: ['input',0]
+  OutFile1: ['output',0,1]
+  CompareFile: ['comparison',0]
+#Create the request file from the template.
+- !TemplateFileRequest
+  name: cylinder.2D.templatefile
+  modules:
+    - !InputFile paramgen.py
+  methods:
+    - get_template_input
+  tmplfile: !InputFile cylinder.2D.yaml.jinja2
+  outfile: !OutFile1 cylinder.2D.yaml
+  data:
+    r_values: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45]

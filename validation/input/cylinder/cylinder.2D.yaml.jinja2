@@ -1,0 +1,128 @@
+%YAML 1.2
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: ../../../ #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Locator for input and output generated below
+- !UpdateFolderStructure
+  InputFile: ['input',0]
+  OutFile2: ['output',0,1,2]
+  CompareFile: ['comparison',0]
+
+{% for id,r in paramslist %}
+#-------------------------------------------------------------------------------
+#id={{id}}, r={{r}}
+#Obstructive Inclusion
+#Mesh Generation
+- !TemplateFileRequest
+  name: cylinder.2D.obs.{{id}}.geo
+  tmplfile: !InputFile cylinder.geo.jinja2
+  outfile: !OutFile2 cylinder-obs.{{id}}.geo
+  data:
+    r: {{r}}
+    mcar1: 0.01
+    mcar2: 0.005
+    fill_cylinder: False
+    make_3D: False
+- !GmshRequest
+  name: cylinder.2D.obs.{{id}}.gmsh
+  geofile: !OutFile2 cylinder-obs.{{id}}.geo
+  mshfile: !OutFile2 cylinder-obs.{{id}}.msh
+  gmsh_outfile: !OutFile2 cylinder-obs.gmsh.{{id}}.txt
+  meshmetafile: !OutFile2 cylinder-obs.gmsh.{{id}}.yaml
+- !DolfinConvertRequest
+  name: cylinder.2D.obs.{{id}}.dconv
+  mshfile: !OutFile2 cylinder-obs.{{id}}.msh
+  mesh_xml: !OutFile2 cylinder-obs.{{id}}.xml
+  dconv_outfile: !OutFile2 cylinder-obs.dconv.{{id}}.txt
+- !HDF5ConvertRequest
+  name: cylinder.2D.obs.{{id}}.hdf5conv
+  mesh_xml: !OutFile2 cylinder-obs.{{id}}.xml
+  mesh_hdf5file: !OutFile2 cylinder-obs.{{id}}.hdf5
+#Simulation
+- !HomogFickianSimulator
+  name: cylinder.2D.obs.{{id}}.homog
+  mesh: !OutFile2 cylinder-obs.{{id}}.hdf5
+  meshmeta: !OutFile2 cylinder-obs.gmsh.{{id}}.yaml
+  metadata:
+    cell_volume: 1.0
+  conditions:
+    elementorder: 3
+    boundaries: [1, 2, 3, 4]
+  loaddata:
+    - [setconstant, {attrpath: D, constval: 1.0}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+    - - reportvalues
+      - outfpath: !OutFile2 cylinder-obs-results.{{id}}.yaml
+        mapping:
+          cell_volume: metadata.cell_volume
+          domain_volume: domain_volume
+          D_macro: D_macro
+#Inclusion as Potential
+#Mesh Generation
+- !TemplateFileRequest
+  name: cylinder.2D.pot.{{id}}.geo
+  tmplfile: !InputFile cylinder.geo.jinja2
+  outfile: !OutFile2 cylinder-pot.{{id}}.geo
+  data:
+    r: {{r}}
+    mcar1: 0.05
+    mcar2: 0.025
+    fill_cylinder: True
+    make_3D: False
+- !GmshRequest
+  name: cylinder.2D.pot.{{id}}.gmsh
+  geofile: !OutFile2 cylinder-pot.{{id}}.geo
+  mshfile: !OutFile2 cylinder-pot.{{id}}.msh
+  gmsh_outfile: !OutFile2 cylinder-pot.gmsh.{{id}}.txt
+  meshmetafile: !OutFile2 cylinder-pot.gmsh.{{id}}.yaml
+- !DolfinConvertRequest
+  name: cylinder.2D.pot.{{id}}.dconv
+  mshfile: !OutFile2 cylinder-pot.{{id}}.msh
+  mesh_xml: !OutFile2 cylinder-pot.{{id}}.xml
+  dconv_outfile: !OutFile2 cylinder-pot.dconv.{{id}}.txt
+- !HDF5ConvertRequest
+  name: cylinder.2D.pot.{{id}}.hdf5conv
+  mesh_xml: !OutFile2 cylinder-pot.{{id}}.xml
+  mesh_hdf5file: !OutFile2 cylinder-pot.{{id}}.hdf5
+#Create spatial functions
+- !ProjectionSimulator
+  name: cylinder.2D.pot.spatial_func.{{id}}.pot
+  mesh: !OutFile2 cylinder-pot.{{id}}.hdf5
+  meshmeta: !OutFile2 cylinder-pot.gmsh.{{id}}.yaml
+  conditions:
+    elementorder: 3
+    functionname: potential
+    functiontype: scalar
+  loaddata:
+    - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: 10.0}}]
+  dataextraction:
+    - [writefield, {outfpath: !OutFile2 potential.{{id}}.hdf5, outname: potential}]
+    - [writefield, {outfpath: !OutFile2 potential.{{id}}.pvd}]
+#Simulation
+- !HomogSmolSimulator
+  name: cylinder.2D.pot.{{id}}.homog
+  mesh: !OutFile2 cylinder-pot.{{id}}.hdf5
+  meshmeta: !OutFile2 cylinder-pot.gmsh.{{id}}.yaml
+  metadata:
+    cell_volume: 1.0
+  conditions:
+    elementorder: 3
+    boundaries: [1, 2, 3, 4]
+    beta: 1.0
+  loaddata:
+    - [setconstant, {attrpath: D, constval: 1.0}]
+    - [loadfield, {attrpath: potential, infpath: !OutFile2 potential.{{id}}.hdf5, fieldtag: potential}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+    # - [writefield, {outfpath: !OutFile2 Dbar.{{id}}.pvd, attrpath: Dbar}]
+    - - reportvalues
+      - outfpath: !OutFile2 cylinder-pot-results.{{id}}.yaml
+        mapping:
+          cell_volume: metadata.cell_volume
+          domain_volume: domain_volume
+          D_macro: D_macro
+{% endfor %}
