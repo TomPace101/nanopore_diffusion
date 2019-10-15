@@ -64,7 +64,7 @@ class RawCollectionRequest(WithCommandsRequest):
     #Compile the input files
     self._more_inputfiles=[]
     for mapping,file_list in self.definitions:
-      self._more_inputfiles += file_list
+      self._more_inputfiles += [self.renderstr(fp) for fp in file_list]
     #Default multidoc
     if not hasattr(self,'multidoc'):
       self.multidoc=False
