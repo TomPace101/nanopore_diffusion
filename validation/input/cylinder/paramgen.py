@@ -2,8 +2,8 @@
 
 def get_template_input(self):
   output={}
-  paramslist=[('%03d'%idx,r) for idx,r in enumerate(self.data['r_values'])]
-  output['paramslist']=paramslist
+  output['r_list']=[('%02d'%idx,r) for idx,r in enumerate(self.data['r_values'])]
+  output['pot_list']=[('%01d'%idx,p) for idx,p in enumerate(self.data['pot_values'])]
   return output
 
 #List of functions to be bound as methods

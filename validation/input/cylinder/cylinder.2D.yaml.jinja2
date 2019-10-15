@@ -9,7 +9,7 @@
   OutFile2: ['output',0,1,2]
   CompareFile: ['comparison',0]
 
-{% for id,r in paramslist %}
+{% for id,r in r_list %}
 #-------------------------------------------------------------------------------
 #id={{id}}, r={{r}}
 #Obstructive Inclusion
@@ -87,9 +87,10 @@
   name: cylinder.2D.pot.{{id}}.hdf5conv
   mesh_xml: !OutFile2 cylinder-pot.{{id}}.xml
   mesh_hdf5file: !OutFile2 cylinder-pot.{{id}}.hdf5
+{% for subid,potval in pot_list %}
 #Create spatial functions
 - !ProjectionSimulator
-  name: cylinder.2D.pot.spatial_func.{{id}}.pot
+  name: cylinder.2D.pot.spatial_func.{{id}}-{{subid}}.pot
   mesh: !OutFile2 cylinder-pot.{{id}}.hdf5
   meshmeta: !OutFile2 cylinder-pot.gmsh.{{id}}.yaml
   conditions:
@@ -97,13 +98,13 @@
     functionname: potential
     functiontype: scalar
   loaddata:
-    - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: 10.0}}]
+    - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: {{ potval -}} }}]
   dataextraction:
-    - [writefield, {outfpath: !OutFile2 potential.{{id}}.hdf5, outname: potential}]
-    - [writefield, {outfpath: !OutFile2 potential.{{id}}.pvd}]
+    - [writefield, {outfpath: !OutFile2 potential.{{id}}-{{subid}}.hdf5, outname: potential}]
+    - [writefield, {outfpath: !OutFile2 potential.{{id}}-{{subid}}.pvd}]
 #Simulation
 - !HomogSmolSimulator
-  name: cylinder.2D.pot.{{id}}.homog
+  name: cylinder.2D.pot.{{id}}-{{subid}}.homog
   mesh: !OutFile2 cylinder-pot.{{id}}.hdf5
   meshmeta: !OutFile2 cylinder-pot.gmsh.{{id}}.yaml
   metadata:
@@ -114,15 +115,16 @@
     beta: 1.0
   loaddata:
     - [setconstant, {attrpath: D, constval: 1.0}]
-    - [loadfield, {attrpath: potential, infpath: !OutFile2 potential.{{id}}.hdf5, fieldtag: potential}]
+    - [loadfield, {attrpath: potential, infpath: !OutFile2 potential.{{id}}-{{subid}}.hdf5, fieldtag: potential}]
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     # - [writefield, {outfpath: !OutFile2 Dbar.{{id}}.pvd, attrpath: Dbar}]
     - - reportvalues
-      - outfpath: !OutFile2 cylinder-pot-results.{{id}}.yaml
+      - outfpath: !OutFile2 cylinder-pot-results.{{id}}-{{subid}}.yaml
         mapping:
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
+{% endfor %}
 {% endfor %}
