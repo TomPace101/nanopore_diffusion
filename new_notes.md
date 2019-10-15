@@ -1,10 +1,7 @@
 
-_ISSUE_ can't run generated requests simultaneously
-The simultaneous queue should be able to construct its queue of requests
-from the task-defining descendents of whatever it is passed.
-That is, it should iterate over `recursive_children` of everything in the queue it is given.
-Right now, it's unaware of if its queue members have children or not.
-Note that running simultaneous requests through doit will also go down to the task level.
+_ISSUE_ run generated requests simultaneously
+Does this work now?
+(Potentially no longer relevant, based on changes to request generation.)
 Once you get it working, include an example in the validation.
 Maybe this is a secondary class,
 which creates the queue for the existing class,

@@ -34,6 +34,7 @@ stagger:
   minimum: 0
 tmploc: {type: pathlike}
 tmpfmt: {type: string}
+_task_queue: {type: array}
 """
 
 class SimultaneousRequestQueue(request.Request):
@@ -62,6 +63,14 @@ class SimultaneousRequestQueue(request.Request):
     self.stagger = getattr(self,'stagger',0)
     self.tmploc = Path(getattr(self,'tmploc','.'),isFile=False).expanduser().resolve()
     self.tmpfmt = getattr(self,'tmpfmt',"req%0{}d.yaml")
+    #Create the queue of task-level requests
+    self._task_queue=[]
+    for req in self.queue:
+      #Add the request if it is itself a task
+      if req._self_task:
+        self._task_queue.append(req)
+      #Add its children that are tasks
+      self._task_queue += [ch for ch in req.recursive_children() if ch._self_task]
   def run(self):
     #Make sure the temporary files directory exists
     self.tmploc.assure_dir()
@@ -82,7 +91,7 @@ class SimultaneousRequestQueue(request.Request):
       #Start new processes to keep the requested number of workers going simultaneously
       while len(running)<num_workers and indx<len(self.queue):
         #Take the next request off the queue
-        req=self.queue[indx]
+        req=self._task_queue[indx]
         #Write the input file
         fpath=self.tmploc / (tmp_tmpl%indx)
         sdf=locators.SetDataFolder()
