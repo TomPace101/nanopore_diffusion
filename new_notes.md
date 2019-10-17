@@ -1,7 +1,7 @@
 
 _ISSUE_ run generated requests simultaneously
 Does this work now?
-(Potentially no longer relevant, based on changes to request generation.)
+(Potentially no longer relevant, based on changes to request generation: see below)
 Once you get it working, include an example in the validation.
 Maybe this is a secondary class,
 which creates the queue for the existing class,
@@ -10,7 +10,14 @@ Related issue: some requests really do need to be handled sequentially.
 Or, more generally, you need to be aware of dependencies when you try to run in parallel:
 Some things have to finish before others can start.
 
-_ISSUE_ doit got it wrong pretty bad in redux_electrolyte once
+_ISSUE_ with new request generation approach
+The new approach is based on using templates of yaml files,
+like the way `paramgen` used to work.
+But it actually still doesn't work as well as that did.
+It's still a two-step process: generate the file, then run it.
+
+_ISSUE_ task dependencies
+doit got it wrong pretty bad in redux_electrolyte once
 The plot was wrong because things hadn't been rerun.
 How did this happen?
 It was when I was trying to do the second curve.
@@ -18,6 +25,7 @@ I reverted, and somehow it didn't re-run the smoluchowski solutions.
 It did re-run the extration, but it must have missed the change in the configuration
 of the smoluchowski solutions somehow.'
 More generally, most of the validation doesn't test the accuracy of the input and output files lists.
+Or the configuration information.
 How can we check that this is correct for all the different request types we have?
 
 _ISSUE_ locators don't have descriptions of their purpose.
