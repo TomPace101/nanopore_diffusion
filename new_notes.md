@@ -20,6 +20,7 @@ The new approach is based on using templates of yaml files,
 like the way `paramgen` used to work.
 But it actually still doesn't work as well as that did.
 It's still a two-step process: generate the file, then run it.
+Another, minor issue: no way to generate sequential ID for the sub-requests.
 
 _ISSUE_ task dependencies
 doit got it wrong pretty bad in redux_electrolyte once
