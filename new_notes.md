@@ -16,7 +16,9 @@ How did this happen?
 It was when I was trying to do the second curve.
 I reverted, and somehow it didn't re-run the smoluchowski solutions.
 It did re-run the extration, but it must have missed the change in the configuration
-of the smoluchowski solutions somehow.
+of the smoluchowski solutions somehow.'
+More generally, most of the validation doesn't test the accuracy of the input and output files lists.
+How can we check that this is correct for all the different request types we have?
 
 _ISSUE_ locators don't have descriptions of their purpose.
 This is important: people won't know how to use them without this.

@@ -63,11 +63,14 @@ class RawCollectionRequest(WithCommandsRequest):
     super(RawCollectionRequest, self).__init__(**kwargs)
     #Compile the input files
     self._more_inputfiles=[]
-    for mapping,file_list in self.definitions:
+    for mapping,file_list in self.iter_defs():
       self._more_inputfiles += [self.renderstr(fp) for fp in file_list]
     #Default multidoc
     if not hasattr(self,'multidoc'):
       self.multidoc=False
+  def iter_defs(self):
+    for defn in self.definitions:
+      yield (defn['mapping'],defn['file_list'])
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
@@ -80,9 +83,7 @@ class RawCollectionRequest(WithCommandsRequest):
     #Initialize dictionaries to store data
     rows=[dict() for i in range(nrows)]
     #Populate dictionaries
-    for defn in self.definitions:
-      mapping=defn['mapping']
-      file_list=defn['file_list']
+    for maping,file_list in self.iter_defs():
       for fn,fpath in enumerate(file_list):
         #Load the file
         obj=yaml_manager.readfile(self.renderstr(fpath),self.multidoc)
