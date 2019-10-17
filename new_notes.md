@@ -7,6 +7,8 @@ Maybe this is a secondary class,
 which creates the queue for the existing class,
 as the child of the secondary class.
 Related issue: some requests really do need to be handled sequentially.
+Or, more generally, you need to be aware of dependencies when you try to run in parallel:
+Some things have to finish before others can start.
 
 _ISSUE_ doit got it wrong pretty bad in redux_electrolyte once
 The plot was wrong because things hadn't been rerun.
