@@ -83,7 +83,7 @@ class RawCollectionRequest(WithCommandsRequest):
     #Initialize dictionaries to store data
     rows=[dict() for i in range(nrows)]
     #Populate dictionaries
-    for maping,file_list in self.iter_defs():
+    for mapping,file_list in self.iter_defs():
       for fn,fpath in enumerate(file_list):
         #Load the file
         obj=yaml_manager.readfile(self.renderstr(fpath),self.multidoc)
