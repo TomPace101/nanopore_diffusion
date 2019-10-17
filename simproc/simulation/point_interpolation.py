@@ -72,8 +72,8 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     functionname=getattr(conditions,'functionname','projected')
 
     #Get the column names for the input data
-    coordcolumns=getattr(self,'coordcolumns',['x','y','z'])
-    valuecolumn=getattr(self,'valuecolumn','f')
+    coordcolumns=getattr(conditions,'coordcolumns',['x','y','z'])
+    valuecolumn=getattr(conditions,'valuecolumn','f')
 
     #Get boundary and non-boundary DOF coordinates
     boundary_pts, nonbound_pts = dofinfo.boundary_points()
