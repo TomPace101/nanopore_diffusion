@@ -64,7 +64,7 @@
           domain_volume: domain_volume
           D_macro: D_macro
           potential: metadata.potential
-{% do collection_files.append('cylinder/2D/obs/results.'+id+'.yaml') %}
+{% do collection_files.append('output/cylinder/2D/obs/results.'+id+'.yaml') %}
 #Inclusion as Potential
 #Mesh Generation
 - !TemplateFileRequest
@@ -135,7 +135,7 @@
           domain_volume: domain_volume
           D_macro: D_macro
           potential: metadata.potential
-{% do collection_files.append('cylinder/2D/pot/results.'+id+'-'+subid+'.yaml') %}
+{% do collection_files.append('output/cylinder/2D/pot/results.'+id+'-'+subid+'.yaml') %}
 {% endfor %}
 {% endfor %}
 
