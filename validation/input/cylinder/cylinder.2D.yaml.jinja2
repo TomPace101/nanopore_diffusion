@@ -143,12 +143,21 @@
 - !RawCollectionRequest
   name: cylinder.collection
   outpath: !OutputFile results.pkl
+  modules:
+    - !InputFile calculations.py
+  methods:
+    - calc_porosity_column_byradius
+  calculations:
+    - [calc_porosity_column_byradius, {}]
   definitions:
     - mapping:
         r: r
         cell_volume: cell_volume
         domain_volume: domain_volume
-        D_macro: D_macro
+        D_xx: [D_macro,0,0]
+        D_yy: [D_macro,1,1]
+        D_xy: [D_macro,0,1]
+        D_yx: [D_macro,1,0]
         potential: potential
       file_list:
 {% for fpath in collection_files %}
