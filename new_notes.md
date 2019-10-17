@@ -1,4 +1,9 @@
 
+_ISSUE_ validation: debug.yaml
+The GeneratedVariationsRequest prevents the validation from being run with doit.
+Appending to the same file means two different requests have the same output file.
+We need to revise this test so the generated variations have different output filenames.
+
 _ISSUE_ run generated requests simultaneously
 Does this work now?
 (Potentially no longer relevant, based on changes to request generation: see below)

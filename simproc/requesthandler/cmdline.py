@@ -36,6 +36,7 @@ def run():
   parser = argparse.ArgumentParser(description=globals()['__doc__'])
   parser.add_argument('requestfile',nargs="*",help="Path to file containing the request(s) to run. Multiple request files may be listed.")
   parser.add_argument('--verbose',action='store_true',help="Provide verbose output where appropriate.")
+  parser.add_argument('--tasks_only',action='store_true',help="Run only requests that define tasks.")
   parser.add_argument('--modules',nargs="+",metavar="MODULE",help="Additional python modules defining classes loadable from yaml input")
   parser.add_argument('--validate',action='store_true',help="Perform validation. If requestfiles are also listed, validation is run first.")
   #TODO: allow selecting a subset of the requests?
@@ -54,9 +55,17 @@ def run():
   if cmdline.modules is not None:
     customization.load_modules(cmdline.modules)
 
-  #Initialize a RequestFileListRequest and run it
+  #Initialize a RequestFileListRequest
   req=requestfile.RequestFileListRequest(requestfiles=file_list)
-  req.run()
+
+  #Run
+  if cmdline.tasks_only:
+    for treq in req.all_task_requests():
+      if cmdline.verbose:
+        print(treq.name)
+      treq.run()
+  else:
+    req.run()
 
 def yield_doit_tasks():
   """Create task definitions for doit

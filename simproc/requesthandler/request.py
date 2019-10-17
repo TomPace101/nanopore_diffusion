@@ -243,16 +243,19 @@ class Request(schema.SelfValidating):
      'uptodate': [config_changed(self.config),self._uptodate],
      'targets': [self.render(p) for p in self.outputfiles],
      'actions': [(self.run,)]}
+  def all_task_requests(self):
+    """Generator yielding task-defining Requests from this Request and all child Requests"""
+    if getattr(self,'_self_task',False):
+      #This request defines a task, so return self
+      yield self
+    else:
+      for ch in self.all_children():
+        for treq in ch.all_task_requests():
+          yield treq
   def all_tasks(self):
     """Generator yielding task definitions from this Request or all child Requests"""
-    if getattr(self,'_self_task',False):
-      #This request defines a task, so return that
-      yield self.task_definition
-    else:
-      #Yield the tasks of the children
-      for req in self.all_children():
-        for td in req.all_tasks():
-          yield td
+    for treq in self.all_task_requests():
+      yield treq.task_definition
 
 #Convenience function for schema updates
 make_schema=Request.update_props_schema
