@@ -56,13 +56,13 @@ class RawCollectionRequest(WithCommandsRequest):
   _self_task=True
   _required_attrs=['name','outpath','definitions']
   _outputfile_attrs=['outpath']
-  _config_attrs=['definitions','multidoc']
+  _config_attrs=['definitions','multidoc','calculations']
   _props_schema=make_schema(_RawCollectionRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RawCollectionRequest, self).__init__(**kwargs)
     #Compile the input files
-    self._more_inputfiles=[]
+    self._more_inputfiles=getattr(self,'_more_inputfiles',[])
     for mapping,file_list in self.iter_defs():
       self._more_inputfiles += [self.renderstr(fp) for fp in file_list]
     #Default multidoc
