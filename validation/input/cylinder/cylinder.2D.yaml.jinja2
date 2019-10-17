@@ -47,6 +47,7 @@
   meshmeta: !OutFile2 cylinder-obs.gmsh.{{id}}.yaml
   metadata:
     cell_volume: 1.0
+    potential: full obstruction
   conditions:
     elementorder: 3
     boundaries: [1, 2, 3, 4]
@@ -62,7 +63,7 @@
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
-          potential: obs
+          potential: metadata.potential
 {% do collection_files.append('cylinder/2D/obs/results.'+id+'.yaml') %}
 #Inclusion as Potential
 #Mesh Generation
