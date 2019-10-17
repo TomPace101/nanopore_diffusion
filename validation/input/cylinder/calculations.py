@@ -26,7 +26,7 @@ def calc_porosity_column_byradius(self, radcol="r", newcol="porosity", dfpath="d
 
   Arguments:
   
-    - freevol = optional, column name for the radius
+    - freevol = optional, column name for the radius, as string
     - newcol = optional, name of new column storing results, as string
     - dfpath = optional, attribute path to the dataframe
 
@@ -40,6 +40,24 @@ def calc_porosity_column_byradius(self, radcol="r", newcol="porosity", dfpath="d
   df[newcol]=df.apply(calcphi,axis=1)
   return
 
+def calc_cylinder_hashin_shtrikman(self, phicol="porosity", newcol="upper_bound", dfpath="df"):
+  """Compute the Hashin-Shtrikman upper bound for the cylinder problem
+
+  Arguments:
+
+    - phicol = optional, column name for the porosity, as string
+    - newcol = optional, column name for storing results, as string
+    - dfpath = optional, attribute path to the dataframe
+
+  New column added to the dataframe.
+  No return value.
+  No output files."""
+  df=self.get_nested(dfpath)
+  def calcval(row):
+    phi=row[phicol]
+    return 2*phi/(3-phi)
+  df[newcol]=df.apply(calcval,axis=1)
+  return
 
 #List of functions to be bound as methods
-request_methods=[calc_porosity_column_byradius]
+request_methods=[calc_porosity_column_byradius, calc_cylinder_hashin_shtrikman]
