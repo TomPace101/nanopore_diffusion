@@ -166,3 +166,48 @@
         - !DataFile {{fpath}}
 {% endfor %}
 
+#Plot
+- !FigureRequest
+  name: cylinder.plot
+  loadfiles:
+    dframe: !OutputFile results.pkl
+  prepcommands:
+    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_obs, label: "Fickian diffusion; full obstruction", query: "potential=='full obstruction'"}]
+{% for subid,potval in pot_list %}
+    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_{{"%d"|format(potval)}}, label: "$\\beta\\psi={{"%d"|format(potval)}}$", query: "potential=={{potval}}"}]
+{% endfor %}
+    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: upper_bound, outattr: hs_ub, label: "Hashin-Shtrikman upper bound", query: "potential=='full obstruction'"}]
+  rcparams:
+    figure.dpi: 300
+    figure.autolayout: True
+  figures:
+    - !FigureProperties
+      figsize: [5.5,4.5]
+      outfpath: !OutputFile plot.png
+  axes:
+    - !AxesProperties
+      xlabel:
+        xlabel: '$\phi$'
+        fontsize: 20
+      ylabel:
+        ylabel: '$D_{eff}/D_{bulk}$'
+        fontsize: 20
+      title:
+        label: 'Diffusion Around a Regular Lattice of Cylinders'
+        fontsize: 14
+      xlim: [0,1]
+      ylim: [0,1]
+  series:
+    - !SeriesProperties
+      seriesattr: dx_obs
+      fmt: "k."
+{% for subid,potval in pot_list %}
+    - !SeriesProperties
+      seriesattr: dx_{{"%d"|format(potval)}}
+      fmt: "c+"
+{% endfor %}
+    - !SeriesProperties
+      seriesattr: hs_ub
+      fmt: "r-"
+  plotcommands:
+    - [axmethod, {method: legend, loc: "upper left", numpoints: 1}]
