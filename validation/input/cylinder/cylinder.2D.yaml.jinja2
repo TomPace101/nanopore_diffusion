@@ -169,14 +169,20 @@
 #Plot
 - !FigureRequest
   name: cylinder.plot
+  modules:
+    - !InputFile calculations.py
+  methods:
+    - series_hashin_shtrikman
   loadfiles:
     dframe: !OutputFile results.pkl
   prepcommands:
     - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_obs, label: "Fickian diffusion; full obstruction", query: "potential=='full obstruction'"}]
 {% for subid,potval in pot_list %}
-    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_{{"%d"|format(potval)}}, label: "$\\beta\\psi={{"%d"|format(potval)}}$", query: "potential=={{potval}}"}]
+    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_{{"%d"|format(potval)}}, label: "Smoluchowski, $\\beta\\psi={{"%d"|format(potval)}}$", query: "potential=={{potval}}"}]
 {% endfor %}
-    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: upper_bound, outattr: hs_ub, label: "Hashin-Shtrikman upper bound", query: "potential=='full obstruction'"}]
+#    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: upper_bound, outattr: hs_ub, label: "Hashin-Shtrikman upper bound", query: "potential=='full obstruction'"}]
+    - [series_hashin_shtrikman, {label: "Hashin-Shtrikman upper bound", start: 0.2, stop: 1.0, numpts: 100, attrpath: hs_ub}]
+    - [series_equalityline, {outattr: equality, span: [0.2,1], label: "Zero-tortuosity upper bound"}]
   rcparams:
     figure.dpi: 300
     figure.autolayout: True
@@ -195,19 +201,25 @@
       title:
         label: 'Diffusion Around a Regular Lattice of Cylinders'
         fontsize: 14
-      xlim: [0,1]
-      ylim: [0,1]
+      xlim: [0.2,1]
+      ylim: [0.2,1]
   series:
     - !SeriesProperties
-      seriesattr: dx_obs
-      fmt: "k."
-{% for subid,potval in pot_list %}
-    - !SeriesProperties
-      seriesattr: dx_{{"%d"|format(potval)}}
-      fmt: "c+"
-{% endfor %}
+      seriesattr: equality
+      fmt: "--"
+      kwargs:
+        color: '0.5'
     - !SeriesProperties
       seriesattr: hs_ub
       fmt: "r-"
+{% set format_dict={'0':'c+','1':'cx','2':'c_'} %}
+{% for subid,potval in pot_list %}
+    - !SeriesProperties
+      seriesattr: dx_{{"%d"|format(potval)}}
+      fmt: {{format_dict[subid]}}
+{% endfor %}
+    - !SeriesProperties
+      seriesattr: dx_obs
+      fmt: "k."
   plotcommands:
     - [axmethod, {method: legend, loc: "upper left", numpoints: 1}]
