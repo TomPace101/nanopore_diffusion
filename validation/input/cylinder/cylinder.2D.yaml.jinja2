@@ -176,6 +176,7 @@
     - !InputFile calculations.py
   methods:
     - series_hashin_shtrikman
+    - workaround_matplotlib
   loadfiles:
     dframe: !OutputFile results.pkl
   prepcommands:
@@ -191,7 +192,7 @@
     figure.autolayout: True
   figures:
     - !FigureProperties
-      figsize: [5.5,4.5]
+      figsize: [8,4.5]
       outfpath: !OutputFile plot.png
   axes:
     - !AxesProperties
@@ -225,4 +226,6 @@
       seriesattr: dx_obs
       fmt: "k."
   plotcommands:
-    - [axmethod, {method: legend, loc: "upper left", numpoints: 1}]
+    - [axmethod, {method: legend, loc: "center left", numpoints: 1, bbox_to_anchor: [1, 0.5]}]
+    - [figmethod, {method: subplots_adjust, right: 0.2}]
+    - [workaround_matplotlib, {width: 0.1, rightshift: 2.0}]

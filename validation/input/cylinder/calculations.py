@@ -84,6 +84,16 @@ def series_hashin_shtrikman(self,start=0.2,stop=1.0,numpts=100,attrpath="hs_ub",
   self.set_nested(attrpath,series)
   return
 
+def workaround_matplotlib(self,width=1,height=1,rightshift=0,upshift=0,axlist=None):
+  """Get matplotlib to do something that shouldn't be this hard"""
+  for ax in self.iteraxes(axlist):
+    box=ax.get_position()
+    newbox=[box.x0+box.width*rightshift,
+            box.y0+box.height*upshift,
+            box.width*width,
+            box.height*height]
+    ax.set_position(newbox)
+  return
 
 #List of functions to be bound as methods
-request_methods=[calc_porosity_column_byradius, calc_cylinder_hashin_shtrikman, series_hashin_shtrikman]
+request_methods=[calc_porosity_column_byradius, calc_cylinder_hashin_shtrikman, series_hashin_shtrikman, workaround_matplotlib]

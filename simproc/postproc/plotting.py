@@ -340,6 +340,20 @@ class FigureRequest(WithCommandsRequest):
     savekwargs=getattr(figprops,'savekwargs',{})
     fig.savefig(self.renderstr(figprops.outfpath),**savekwargs)
     plt.close(fig)
+  def figmethod(self,method,figattr="fig",outattr=None,**kwargs):
+    """Call the given matplotlib Figure method
+
+    Arguments:
+
+      - method = method name
+      - figattr = nested path to store generated figure, defaults to "fig"
+      - \**kwargs = keyword arguments to the method"""
+    fig=self.get_nested(figattr)
+    f=getattr(fig,method)
+    out=f(**kwargs)
+    if outattr is not None:
+      self.set_nested(outattr,out)
+    return
   def axes(self,nrows=1,ncols=1,index=1,figattr="fig",axattr="ax",**kwargs):
     """To create a new matplotlib Axes instance
 
@@ -414,21 +428,24 @@ class FigureRequest(WithCommandsRequest):
           yield ax
       else:
         yield axobj
-  def axmethod(self,method,axlist=None,**kwargs):
+  def axmethod(self,method,axlist=None,outattrs=None,**kwargs):
     """Call the given matplotlib Axes method on the list of axes, with the provided arguments
 
     Arguments:
 
       - method = name of Axes method to call, as string
       - axlist = list of nested attribute paths to the axes on which to apply this command, defaults to ["ax"]
+      - outattrs = list of attribute paths to store the results, defaults to None, to not store output
       - \**kwargs = keyword arguments to the method"""
-    for ax in self.iteraxes(axlist):
+    for idx,ax in enumerate(self.iteraxes(axlist)):
       f=getattr(ax,method)
       if kwargs is None:
         kwd={}
       else:
         kwd=kwargs
-      f(**kwargs)
+      out=f(**kwargs)
+      if outattrs is not None:
+        self.set_nested(outattrs[idx],out)
     return
   def add_series(self,seriespath,axlist=None,fmt=None,newlabel=None,**kwargs):
     """Add a single series to the listed axes
