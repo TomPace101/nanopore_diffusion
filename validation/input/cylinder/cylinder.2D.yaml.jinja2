@@ -10,8 +10,10 @@
   OutFile2: ['output',0,1,2]
   CompareFile: ['comparison',0]
 
-{% for id,r in r_list %}
+{% set collection_files=[] %}
+{% for r in r_values %}
 #-------------------------------------------------------------------------------
+{%set id="%02d"|format(loop.index0)%}
 #id={{id}}, r={{r}}
 #Obstructive Inclusion
 #Mesh Generation
@@ -42,7 +44,7 @@
   mesh_hdf5file: !OutFile2 cylinder-obs.{{id}}.hdf5
 #Simulation
 - !HomogFickianSimulator
-  name: cylinder.2D.obs.{{id}}.homog
+  name: cylinder.2D.obs.{{id}}-0.homog
   mesh: !OutFile2 cylinder-obs.{{id}}.hdf5
   meshmeta: !OutFile2 cylinder-obs.gmsh.{{id}}.yaml
   metadata:
@@ -92,8 +94,9 @@
   name: cylinder.2D.pot.{{id}}.hdf5conv
   mesh_xml: !OutFile2 cylinder-pot.{{id}}.xml
   mesh_hdf5file: !OutFile2 cylinder-pot.{{id}}.hdf5
-{% for subid,potval in pot_list %}
-#potential={{potval}}
+{% for potval in pot_values %}
+{% set subid="%01d"|format(loop.index) %}
+#subid={{subid}}, potential={{potval}}
 #Create spatial functions
 - !ProjectionSimulator
   name: cylinder.2D.pot.spatial_func.{{id}}-{{subid}}.pot
@@ -177,8 +180,8 @@
     dframe: !OutputFile results.pkl
   prepcommands:
     - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_obs, label: "Fickian diffusion; full obstruction", query: "potential=='full obstruction'"}]
-{% for subid,potval in pot_list %}
-    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_{{"%d"|format(potval)}}, label: "Smoluchowski, $\\beta\\psi={{"%d"|format(potval)}}$", query: "potential=={{potval}}"}]
+{% for potval in pot_values %}
+    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_{{"%d"|format(potval)}}, label: "Smoluchowski, $\\beta\\psi={{"%0.1f"|format(potval)}}$", query: "potential=={{potval}}"}]
 {% endfor %}
 #    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: upper_bound, outattr: hs_ub, label: "Hashin-Shtrikman upper bound", query: "potential=='full obstruction'"}]
     - [series_hashin_shtrikman, {label: "Hashin-Shtrikman upper bound", start: 0.2, stop: 1.0, numpts: 100, attrpath: hs_ub}]
@@ -212,11 +215,11 @@
     - !SeriesProperties
       seriesattr: hs_ub
       fmt: "r-"
-{% set format_dict={'0':'c+','1':'cx','2':'c_'} %}
-{% for subid,potval in pot_list %}
+{% set format_dict={1:'c_',2:'c+',3:'cx'} %}
+{% for potval in pot_values %}
     - !SeriesProperties
       seriesattr: dx_{{"%d"|format(potval)}}
-      fmt: {{format_dict[subid]}}
+      fmt: {{format_dict[loop.index]}}
 {% endfor %}
     - !SeriesProperties
       seriesattr: dx_obs
