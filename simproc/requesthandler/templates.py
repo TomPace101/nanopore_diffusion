@@ -5,7 +5,7 @@ from __future__ import print_function, division #Python 2 compatibility
 from subprocess import call
 
 #Site packages
-from jinja2 import Environment
+from jinja2 import Environment, FileSystemLoader
 
 #This package
 from . import yaml_manager
@@ -13,6 +13,9 @@ from . import customization
 
 _TemplateFileRequest_props_schema_yaml="""#GeneralShellCommandRequest
 name: {type: string}
+searchpaths:
+  type: array
+  items: {type: pathlike}
 tmplfile: {type: pathlike}
 outfile: {type: pathlike}
 data: {type: object}"""
@@ -27,6 +30,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
   
   User-defined attributes:
   
+    - searchpaths: optional list of folders to add to the jinja2 search path for template inheritance
     - tmplfile: path to the input template file, as Path or string
     - outfile: path to the output file, as Path or string
     - data: dictionary of data used to compute the template input values"""
@@ -41,10 +45,12 @@ class TemplateFileRequest(customization.CustomizableRequest):
   def run(self):
     #Final checks and preparatory steps
     self.pre_run()
+    #Default search paths
+    searchpaths=getattr(self,'searchpaths',[])
     #Load the template
     with open(self.renderstr(self.tmplfile),'r') as fh:
       tdata=fh.read()
-    env=Environment(extensions=['jinja2.ext.do'],trim_blocks=True,keep_trailing_newline=True)
+    env=Environment(loader=FileSystemLoader(searchpaths),extensions=['jinja2.ext.do'],trim_blocks=True,keep_trailing_newline=True)
     tmpl=env.from_string(tdata)
     #tmpl=Template(tdata,trim_blocks=True,keep_trailing_newline=True)
     #Do the calculations for the template values
