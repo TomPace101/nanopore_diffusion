@@ -5,6 +5,7 @@ from __future__ import print_function, division #Python 2 compatibility
 import sys
 
 #Site packages
+import pandas as pd
 
 #This package
 from . import yaml_manager
@@ -104,6 +105,20 @@ class WithCommandsRequest(customization.CustomizableRequest):
     obj=pickle_manager.readfile(self.render(infpath))
     self.set_nested(attrpath,obj)
 
+  def load_csv(self,infpath,attrpath):
+    """Load a CSV file into a dataframe
+
+    Arguments:
+
+      - infpath = path to the input CSV file
+      - attrpath = attribute path to load the data into
+    
+    No return value."""
+    fpt=self.renderstr(self.get_stored(infpath))
+    df=pd.read_csv(fpt)
+    self.set_nested(attrpath,df)
+    return
+
   def save_yaml(self,attrpath,outfpath):
     """Save data from the specified nested path to a yaml file
 
@@ -123,6 +138,17 @@ class WithCommandsRequest(customization.CustomizableRequest):
       - outfpath = path to the output pickle file"""
     obj=self.get_nested(attrpath)
     pickle_manager.writefile(obj,self.render(outfpath))
+
+  def save_csv(self,attrpath,outfpath):
+    """Save dataframe to a CSV file
+
+    Arguments:
+
+      - attrpath = nested path to attribute with the dataframe to store
+      - outfpath = path to the output CSV file"""
+    df = self.get_nested(attrpath)
+    fpt = self.renderstr(self.get_stored(outfpath))
+    df.to_csv(fpt)
 
   def reportvalues(self,outfpath,mapping):
     """Write the selected output results to a yaml file

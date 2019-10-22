@@ -6,7 +6,6 @@ from argparse import Namespace
 #Site packages
 import numpy as np
 import fenics as fem
-import pandas as pd
 from scipy.interpolate import LinearNDInterpolator
 
 #This package
@@ -104,20 +103,6 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     del junk
 
     #Done
-    return
-
-  def loadcsv(self,infpath,attrpath="pointdata"):
-    """Load a CSV file containing scalar function values at different points
-
-    Arguments:
-
-      - infpath = path to the input CSV file
-      - attrpath = attribute path to load the data into
-    
-    No return value."""
-    fpt=self.renderstr(self.get_stored(infpath))
-    df=pd.read_csv(fpt)
-    self.set_nested(attrpath,df)
     return
 
 #Register for loading from yaml
