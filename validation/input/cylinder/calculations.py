@@ -84,6 +84,7 @@ def series_hashin_shtrikman(self,start=0.2,stop=1.0,numpts=100,attrpath="hs_ub",
   self.set_nested(attrpath,series)
   return
 
+##This is no longer used: I just needed to set the figure autolayout to False
 def workaround_matplotlib(self,width=1,height=1,rightshift=0,upshift=0,axlist=None):
   """Get matplotlib to do something that shouldn't be this hard"""
   for ax in self.iteraxes(axlist):
