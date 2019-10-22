@@ -6,6 +6,7 @@ from argparse import Namespace
 #Site packages
 import numpy as np
 import fenics as fem
+import pandas as pd
 from scipy.interpolate import LinearNDInterpolator
 
 #This package
@@ -103,6 +104,27 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     del junk
 
     #Done
+    return
+
+  def compute_residual_errors(self,dfpath="pointdata",funcattr="soln",outattr="residuals"):
+    df=self.get_nested(dfpath)
+    func=self.get_nested(funcattr)
+    #Get the column names for the input data
+    coordcolumns=self.get_nested_default('conditions.coordcolumns',['x','y','z'])
+    valuecolumn=self.get_nested_default('conditions.valuecolumn','f')
+    #Set up the output dataframe
+    resid=df.copy()
+    #Compute the function value at each input point
+    def calcvalue(row):
+      pt=[row[c] for c in coordcolumns]
+      return func(*pt)
+    resid['interpolated']=df.apply(calcvalue,axis=1)
+    #Compute the residuals
+    def calcresidual(row):
+      return row['interpolated']-row[valuecolumn]
+    resid['error']=resid.apply(calcresidual,axis=1)
+    #Store result
+    self.set_nested(outattr,resid)
     return
 
 #Register for loading from yaml
