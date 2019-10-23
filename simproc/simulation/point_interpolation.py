@@ -21,7 +21,10 @@ coordcolumns:
   type: array
   items: {type: string}
 valuecolumn: {type: string}
-boundaryvalue: {type: number}
+boundaryvalue:
+  anyOf:
+    - {type: number}
+    - {type: "null"}
 """
 InterpolationConditions_props_schema=yaml_manager.readstring(_InterpolationConditions_props_schema_yaml)
 InterpolationConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
@@ -39,6 +42,11 @@ class InterpolationSimulator(simrequest.SimulationRequest):
 
     - functionname = optional string specifying name for projected function (not the attribute)
     - boundaryvalue = required function value to be used at mesh boundaries
+
+      Use the value ``None`` to not define a boundary value.
+      Note that this will result in NaN values unless the convex hull of the input points
+      contains the entire mesh.
+
     - coordcolumns = optional list of names (as strings) for the columns containing X,Y,and Z, respectively.
     
       If there are only two dimensions, just leave off the column for Z.
@@ -75,23 +83,34 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     coordcolumns=getattr(conditions,'coordcolumns',['x','y','z'])
     valuecolumn=getattr(conditions,'valuecolumn','f')
 
-    #Get boundary and non-boundary DOF coordinates
-    boundary_pts, nonbound_pts = dofinfo.boundary_points()
-
-    #Array of boundary values
-    boundary_vals=np.array([conditions.boundaryvalue]*boundary_pts.shape[0])
-
     #Input coordinates and function values, as separate arrays
     inpts=df.loc[:,coordcolumns].values
     invals=df.loc[:,[valuecolumn]].values.flatten()
 
-    #Combine boundary and input points
-    data_pts=np.vstack([inpts,boundary_pts])
-    data_vals=np.hstack([invals,boundary_vals])
+    #Handle boundary value, if provided
+    if conditions.boundaryvalue is None:
+
+      data_pts=inpts
+      data_vals=invals
+      fillvalue=np.nan
+
+    else:
+
+      fillvalue = conditions.boundaryvalue
+
+      #Get boundary and non-boundary DOF coordinates
+      boundary_pts, nonbound_pts = dofinfo.boundary_points()
+
+      #Array of boundary values
+      boundary_vals=np.array([conditions.boundaryvalue]*boundary_pts.shape[0])
+
+      #Combine boundary and input points
+      data_pts=np.vstack([inpts,boundary_pts])
+      data_vals=np.hstack([invals,boundary_vals])
 
     #Set up the interpolator
     self.interp_setup_timer=timing.Timer()
-    ilator=LinearNDInterpolator(data_pts,data_vals,fill_value=conditions.boundaryvalue,rescale=False)
+    ilator=LinearNDInterpolator(data_pts,data_vals,fill_value=fillvalue,rescale=False)
     self.interp_setup_timer.stop()
     #Interpolate at all dof points
     self.interp_run_timer=timing.Timer()
@@ -117,7 +136,11 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     #Compute the function value at each input point
     def calcvalue(row):
       pt=[row[c] for c in coordcolumns]
-      return func(*pt)
+      try:
+        res=func(*pt)
+      except RuntimeError:
+        res=np.nan #point is not inside mesh; use nan
+      return res
     resid['interpolated']=df.apply(calcvalue,axis=1)
     #Compute the residuals
     def calcresidual(row):

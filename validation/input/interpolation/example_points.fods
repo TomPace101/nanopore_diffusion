@@ -1,0 +1,1031 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:drawooo="http://openoffice.org/2010/draw" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.spreadsheet">
+ <office:meta><meta:generator>LibreOffice/6.1.6.3$Linux_X86_64 LibreOffice_project/10$Build-3</meta:generator><dc:date>2019-10-23T15:59:50.316324301</dc:date><meta:editing-duration>PT7M45S</meta:editing-duration><meta:editing-cycles>2</meta:editing-cycles><meta:document-statistic meta:table-count="1" meta:cell-count="217" meta:object-count="0"/></office:meta>
+ <office:settings>
+  <config:config-item-set config:name="ooo:view-settings">
+   <config:config-item config:name="VisibleAreaTop" config:type="int">0</config:config-item>
+   <config:config-item config:name="VisibleAreaLeft" config:type="int">0</config:config-item>
+   <config:config-item config:name="VisibleAreaWidth" config:type="int">15947</config:config-item>
+   <config:config-item config:name="VisibleAreaHeight" config:type="int">23029</config:config-item>
+   <config:config-item-map-indexed config:name="Views">
+    <config:config-item-map-entry>
+     <config:config-item config:name="ViewId" config:type="string">view1</config:config-item>
+     <config:config-item-map-named config:name="Tables">
+      <config:config-item-map-entry config:name="example_points">
+       <config:config-item config:name="CursorPositionX" config:type="int">0</config:config-item>
+       <config:config-item config:name="CursorPositionY" config:type="int">0</config:config-item>
+       <config:config-item config:name="HorizontalSplitMode" config:type="short">0</config:config-item>
+       <config:config-item config:name="VerticalSplitMode" config:type="short">0</config:config-item>
+       <config:config-item config:name="HorizontalSplitPosition" config:type="int">0</config:config-item>
+       <config:config-item config:name="VerticalSplitPosition" config:type="int">0</config:config-item>
+       <config:config-item config:name="ActiveSplitRange" config:type="short">2</config:config-item>
+       <config:config-item config:name="PositionLeft" config:type="int">0</config:config-item>
+       <config:config-item config:name="PositionRight" config:type="int">0</config:config-item>
+       <config:config-item config:name="PositionTop" config:type="int">0</config:config-item>
+       <config:config-item config:name="PositionBottom" config:type="int">0</config:config-item>
+       <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
+       <config:config-item config:name="ZoomValue" config:type="int">100</config:config-item>
+       <config:config-item config:name="PageViewZoomValue" config:type="int">60</config:config-item>
+       <config:config-item config:name="ShowGrid" config:type="boolean">true</config:config-item>
+       <config:config-item config:name="AnchoredTextOverflowLegacy" config:type="boolean">false</config:config-item>
+      </config:config-item-map-entry>
+     </config:config-item-map-named>
+     <config:config-item config:name="ActiveTable" config:type="string">example_points</config:config-item>
+     <config:config-item config:name="HorizontalScrollbarWidth" config:type="int">1299</config:config-item>
+     <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
+     <config:config-item config:name="ZoomValue" config:type="int">100</config:config-item>
+     <config:config-item config:name="PageViewZoomValue" config:type="int">60</config:config-item>
+     <config:config-item config:name="ShowPageBreakPreview" config:type="boolean">false</config:config-item>
+     <config:config-item config:name="ShowZeroValues" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="ShowNotes" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="ShowGrid" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="GridColor" config:type="int">12632256</config:config-item>
+     <config:config-item config:name="ShowPageBreaks" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="HasColumnRowHeaders" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="HasSheetTabs" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="IsOutlineSymbolsSet" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="IsValueHighlightingEnabled" config:type="boolean">false</config:config-item>
+     <config:config-item config:name="IsSnapToRaster" config:type="boolean">false</config:config-item>
+     <config:config-item config:name="RasterIsVisible" config:type="boolean">false</config:config-item>
+     <config:config-item config:name="RasterResolutionX" config:type="int">1270</config:config-item>
+     <config:config-item config:name="RasterResolutionY" config:type="int">1270</config:config-item>
+     <config:config-item config:name="RasterSubdivisionX" config:type="int">1</config:config-item>
+     <config:config-item config:name="RasterSubdivisionY" config:type="int">1</config:config-item>
+     <config:config-item config:name="IsRasterAxisSynchronized" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="AnchoredTextOverflowLegacy" config:type="boolean">false</config:config-item>
+    </config:config-item-map-entry>
+   </config:config-item-map-indexed>
+  </config:config-item-set>
+  <config:config-item-set config:name="ooo:configuration-settings">
+   <config:config-item config:name="SyntaxStringRef" config:type="short">7</config:config-item>
+   <config:config-item config:name="IsDocumentShared" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="LoadReadonly" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="AllowPrintJobCancel" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="UpdateFromTemplate" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="IsKernAsianPunctuation" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="RasterIsVisible" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="SaveVersionOnClose" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="GridColor" config:type="int">12632256</config:config-item>
+   <config:config-item config:name="PrinterName" config:type="string">Brother_HL-2070N_series</config:config-item>
+   <config:config-item config:name="EmbedFonts" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="IsSnapToRaster" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="RasterResolutionX" config:type="int">1270</config:config-item>
+   <config:config-item config:name="RasterResolutionY" config:type="int">1270</config:config-item>
+   <config:config-item config:name="ShowZeroValues" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="ShowNotes" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="ShowGrid" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="ShowPageBreaks" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="HasSheetTabs" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="IsRasterAxisSynchronized" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="LinkUpdateMode" config:type="short">3</config:config-item>
+   <config:config-item config:name="RasterSubdivisionX" config:type="int">1</config:config-item>
+   <config:config-item config:name="HasColumnRowHeaders" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="RasterSubdivisionY" config:type="int">1</config:config-item>
+   <config:config-item config:name="AutoCalculate" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PrinterSetup" config:type="base64Binary">sgH+/0Jyb3RoZXJfSEwtMjA3ME5fc2VyaWVzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ1VQUzpCcm90aGVyX0hMLTIwNzBOX3NlcmllcwAAAAAWAAMAzwAAAAAAAgAIAFZUAAAkbQAASm9iRGF0YSAxCnByaW50ZXI9QnJvdGhlcl9ITC0yMDcwTl9zZXJpZXMKb3JpZW50YXRpb249UG9ydHJhaXQKY29waWVzPTEKY29sbGF0ZT1mYWxzZQptYXJnaW5kYWp1c3RtZW50PTAsMCwwLDAKY29sb3JkZXB0aD0yNApwc2xldmVsPTAKcGRmZGV2aWNlPTEKY29sb3JkZXZpY2U9MApQUERDb250ZXhEYXRhCklucHV0U2xvdDphdXRvAFBhZ2VTaXplOkxldHRlcgAAEgBDT01QQVRfRFVQTEVYX01PREUTAER1cGxleE1vZGU6OlVua25vd24=</config:config-item>
+   <config:config-item config:name="IsOutlineSymbolsSet" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PrinterPaperFromSetup" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="ApplyUserData" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="CharacterCompressionType" config:type="short">0</config:config-item>
+  </config:config-item-set>
+ </office:settings>
+ <office:scripts>
+  <office:script script:language="ooo:Basic">
+   <ooo:libraries xmlns:ooo="http://openoffice.org/2004/office" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+  </office:script>
+ </office:scripts>
+ <office:font-face-decls>
+  <style:font-face style:name="DejaVu Sans" svg:font-family="&apos;DejaVu Sans&apos;" style:font-family-generic="swiss" style:font-pitch="variable"/>
+  <style:font-face style:name="DejaVu Sans1" svg:font-family="&apos;DejaVu Sans&apos;" style:font-family-generic="system" style:font-pitch="variable"/>
+ </office:font-face-decls>
+ <office:styles>
+  <style:default-style style:family="table-cell">
+   <style:paragraph-properties style:tab-stop-distance="36pt"/>
+   <style:text-properties style:font-name="DejaVu Sans" fo:language="en" fo:country="US" style:font-name-asian="DejaVu Sans1" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="DejaVu Sans1" style:language-complex="hi" style:country-complex="IN"/>
+  </style:default-style>
+  <number:number-style style:name="N0">
+   <number:number number:min-integer-digits="1"/>
+  </number:number-style>
+  <number:number-style style:name="N121">
+   <number:number number:decimal-places="1" loext:min-decimal-places="1" number:min-integer-digits="1"/>
+  </number:number-style>
+  <style:style style:name="Default" style:family="table-cell"/>
+  <style:style style:name="Heading" style:family="table-cell" style:parent-style-name="Default">
+   <style:text-properties fo:color="#000000" fo:font-size="24pt" fo:font-style="normal" fo:font-weight="bold"/>
+  </style:style>
+  <style:style style:name="Heading_20_1" style:display-name="Heading 1" style:family="table-cell" style:parent-style-name="Heading">
+   <style:text-properties fo:color="#000000" fo:font-size="18pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Heading_20_2" style:display-name="Heading 2" style:family="table-cell" style:parent-style-name="Heading">
+   <style:text-properties fo:color="#000000" fo:font-size="12pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Text" style:family="table-cell" style:parent-style-name="Default"/>
+  <style:style style:name="Note" style:family="table-cell" style:parent-style-name="Text">
+   <style:table-cell-properties fo:background-color="#ffffcc" style:diagonal-bl-tr="none" style:diagonal-tl-br="none" fo:border="0.74pt solid #808080"/>
+   <style:text-properties fo:color="#333333" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Footnote" style:family="table-cell" style:parent-style-name="Text">
+   <style:text-properties fo:color="#808080" fo:font-size="10pt" fo:font-style="italic" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Hyperlink" style:family="table-cell" style:parent-style-name="Text">
+   <style:text-properties fo:color="#0000ee" fo:font-size="10pt" fo:font-style="normal" style:text-underline-style="solid" style:text-underline-width="auto" style:text-underline-color="#0000ee" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Status" style:family="table-cell" style:parent-style-name="Default"/>
+  <style:style style:name="Good" style:family="table-cell" style:parent-style-name="Status">
+   <style:table-cell-properties fo:background-color="#ccffcc"/>
+   <style:text-properties fo:color="#006600" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Neutral" style:family="table-cell" style:parent-style-name="Status">
+   <style:table-cell-properties fo:background-color="#ffffcc"/>
+   <style:text-properties fo:color="#996600" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Bad" style:family="table-cell" style:parent-style-name="Status">
+   <style:table-cell-properties fo:background-color="#ffcccc"/>
+   <style:text-properties fo:color="#cc0000" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Warning" style:family="table-cell" style:parent-style-name="Status">
+   <style:text-properties fo:color="#cc0000" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Error" style:family="table-cell" style:parent-style-name="Status">
+   <style:table-cell-properties fo:background-color="#cc0000"/>
+   <style:text-properties fo:color="#ffffff" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="bold"/>
+  </style:style>
+  <style:style style:name="Accent" style:family="table-cell" style:parent-style-name="Default">
+   <style:text-properties fo:color="#000000" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="bold"/>
+  </style:style>
+  <style:style style:name="Accent_20_1" style:display-name="Accent 1" style:family="table-cell" style:parent-style-name="Accent">
+   <style:table-cell-properties fo:background-color="#000000"/>
+   <style:text-properties fo:color="#ffffff" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Accent_20_2" style:display-name="Accent 2" style:family="table-cell" style:parent-style-name="Accent">
+   <style:table-cell-properties fo:background-color="#808080"/>
+   <style:text-properties fo:color="#ffffff" fo:font-size="10pt" fo:font-style="normal" fo:font-weight="normal"/>
+  </style:style>
+  <style:style style:name="Accent_20_3" style:display-name="Accent 3" style:family="table-cell" style:parent-style-name="Accent">
+   <style:table-cell-properties fo:background-color="#dddddd"/>
+  </style:style>
+ </office:styles>
+ <office:automatic-styles>
+  <style:style style:name="co1" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="30.36pt"/>
+  </style:style>
+  <style:style style:name="co2" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="36.54pt"/>
+  </style:style>
+  <style:style style:name="co3" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="28.6pt"/>
+  </style:style>
+  <style:style style:name="co4" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="64.01pt"/>
+  </style:style>
+  <style:style style:name="ro1" style:family="table-row">
+   <style:table-row-properties style:row-height="12.81pt" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ta1" style:family="table" style:master-page-name="Default">
+   <style:table-properties table:display="true" style:writing-mode="lr-tb"/>
+  </style:style>
+  <number:number-style style:name="N2">
+   <number:number number:decimal-places="2" loext:min-decimal-places="2" number:min-integer-digits="1"/>
+  </number:number-style>
+  <style:style style:name="ce2" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties fo:border-bottom="0.06pt solid #000000" fo:border-left="none" fo:border-right="none" fo:border-top="none"/>
+  </style:style>
+  <style:style style:name="ce1" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N2"/>
+  <style:page-layout style:name="pm1">
+   <style:page-layout-properties style:writing-mode="lr-tb"/>
+   <style:header-style>
+    <style:header-footer-properties fo:min-height="21.26pt" fo:margin-left="0pt" fo:margin-right="0pt" fo:margin-bottom="7.09pt"/>
+   </style:header-style>
+   <style:footer-style>
+    <style:header-footer-properties fo:min-height="21.26pt" fo:margin-left="0pt" fo:margin-right="0pt" fo:margin-top="7.09pt"/>
+   </style:footer-style>
+  </style:page-layout>
+  <style:page-layout style:name="pm2">
+   <style:page-layout-properties style:writing-mode="lr-tb"/>
+   <style:header-style>
+    <style:header-footer-properties fo:min-height="21.26pt" fo:margin-left="0pt" fo:margin-right="0pt" fo:margin-bottom="7.09pt" fo:border="2.49pt solid #000000" fo:padding="0.51pt" fo:background-color="#c0c0c0">
+     <style:background-image/>
+    </style:header-footer-properties>
+   </style:header-style>
+   <style:footer-style>
+    <style:header-footer-properties fo:min-height="21.26pt" fo:margin-left="0pt" fo:margin-right="0pt" fo:margin-top="7.09pt" fo:border="2.49pt solid #000000" fo:padding="0.51pt" fo:background-color="#c0c0c0">
+     <style:background-image/>
+    </style:header-footer-properties>
+   </style:footer-style>
+  </style:page-layout>
+ </office:automatic-styles>
+ <office:master-styles>
+  <style:master-page style:name="Default" style:page-layout-name="pm1">
+   <style:header>
+    <text:p><text:sheet-name>???</text:sheet-name></text:p>
+   </style:header>
+   <style:header-left style:display="false"/>
+   <style:footer>
+    <text:p>Page <text:page-number>1</text:page-number></text:p>
+   </style:footer>
+   <style:footer-left style:display="false"/>
+  </style:master-page>
+  <style:master-page style:name="Report" style:page-layout-name="pm2">
+   <style:header>
+    <style:region-left>
+     <text:p><text:sheet-name>???</text:sheet-name><text:s/>(<text:title>???</text:title>)</text:p>
+    </style:region-left>
+    <style:region-right>
+     <text:p><text:date style:data-style-name="N2" text:date-value="2019-10-23">00/00/0000</text:date>, <text:time style:data-style-name="N2" text:time-value="15:55:04.675722104">00:00:00</text:time></text:p>
+    </style:region-right>
+   </style:header>
+   <style:header-left style:display="false"/>
+   <style:footer>
+    <text:p>Page <text:page-number>1</text:page-number><text:s/>/ <text:page-count>99</text:page-count></text:p>
+   </style:footer>
+   <style:footer-left style:display="false"/>
+  </style:master-page>
+ </office:master-styles>
+ <office:body>
+  <office:spreadsheet>
+   <table:calculation-settings table:automatic-find-labels="false" table:use-regular-expressions="false" table:use-wildcards="true"/>
+   <table:table table:name="example_points" table:style-name="ta1">
+    <table:table-column table:style-name="co1" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co2" table:number-columns-repeated="2" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co3" table:default-cell-style-name="Default"/>
+    <table:table-column table:style-name="co4" table:number-columns-repeated="5" table:default-cell-style-name="Default"/>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:style-name="ce2" office:value-type="string" calcext:value-type="string">
+      <text:p>x</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="ce2" office:value-type="string" calcext:value-type="string">
+      <text:p>y</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="ce2" office:value-type="string" calcext:value-type="string">
+      <text:p>z</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="ce2" office:value-type="string" calcext:value-type="string">
+      <text:p>f</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:number-columns-repeated="3" table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A2:.C2];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1" calcext:value-type="float">
+      <text:p>1</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>a</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>b</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>c</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>d</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:number-columns-repeated="2" table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A3:.C3];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.5" calcext:value-type="float">
+      <text:p>2.5</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell table:number-columns-repeated="4" office:value-type="float" office:value="1" calcext:value-type="float">
+      <text:p>1</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A4:.C4];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.5" calcext:value-type="float">
+      <text:p>2.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2" table:style-name="Default" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A5:.C5];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="4" calcext:value-type="float">
+      <text:p>4</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>Extrema in the unit cube (origin to 1,1,1)</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="3"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2" table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A6:.C6];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.5" calcext:value-type="float">
+      <text:p>2.5</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>min:</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=[.I3]" office:value-type="float" office:value="1" calcext:value-type="float">
+      <text:p>1</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A7:.C7];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="4" calcext:value-type="float">
+      <text:p>4</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>max:</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUM([.F3:.I3])" office:value-type="float" office:value="4" calcext:value-type="float">
+      <text:p>4</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:number-columns-repeated="2" table:style-name="Default" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Default" office:value-type="float" office:value="0" calcext:value-type="float">
+      <text:p>0</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A8:.C8];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="4" calcext:value-type="float">
+      <text:p>4</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:number-columns-repeated="3" table:style-name="ce2" office:value-type="float" office:value="1.5" calcext:value-type="float">
+      <text:p>1.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="ce2" table:formula="of:=SUMPRODUCT([.A9:.C9];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="5.5" calcext:value-type="float">
+      <text:p>5.5</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.237811756141199" calcext:value-type="float">
+      <text:p>0.24</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.621603273233892" calcext:value-type="float">
+      <text:p>0.62</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.982803733034737" calcext:value-type="float">
+      <text:p>0.98</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A10:.C10];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.84221876240983" calcext:value-type="float">
+      <text:p>2.84221876240983</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.118486433205112" calcext:value-type="float">
+      <text:p>0.12</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0490887271946309" calcext:value-type="float">
+      <text:p>0.05</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.113739085064599" calcext:value-type="float">
+      <text:p>0.11</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A11:.C11];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.28131424546434" calcext:value-type="float">
+      <text:p>1.28131424546434</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.370312404978077" calcext:value-type="float">
+      <text:p>0.37</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.904910714335808" calcext:value-type="float">
+      <text:p>0.90</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.788223759739657" calcext:value-type="float">
+      <text:p>0.79</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A12:.C12];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.06344687905354" calcext:value-type="float">
+      <text:p>3.06344687905354</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.542685511461783" calcext:value-type="float">
+      <text:p>0.54</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.371201595852017" calcext:value-type="float">
+      <text:p>0.37</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0880884760566155" calcext:value-type="float">
+      <text:p>0.09</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A13:.C13];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.00197558337041" calcext:value-type="float">
+      <text:p>2.00197558337041</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.277341520258931" calcext:value-type="float">
+      <text:p>0.28</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.395742785157554" calcext:value-type="float">
+      <text:p>0.40</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.675715922638215" calcext:value-type="float">
+      <text:p>0.68</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A14:.C14];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.3488002280547" calcext:value-type="float">
+      <text:p>2.3488002280547</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.088448199901271" calcext:value-type="float">
+      <text:p>0.09</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.212291162332932" calcext:value-type="float">
+      <text:p>0.21</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0587903821834605" calcext:value-type="float">
+      <text:p>0.06</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A15:.C15];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.35952974441766" calcext:value-type="float">
+      <text:p>1.35952974441766</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0912554146326843" calcext:value-type="float">
+      <text:p>0.09</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.949095931696733" calcext:value-type="float">
+      <text:p>0.95</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.582742795816642" calcext:value-type="float">
+      <text:p>0.58</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A16:.C16];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.62309414214606" calcext:value-type="float">
+      <text:p>2.62309414214606</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.56801044469733" calcext:value-type="float">
+      <text:p>0.57</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.666490378356081" calcext:value-type="float">
+      <text:p>0.67</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.93516776975969" calcext:value-type="float">
+      <text:p>0.94</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A17:.C17];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.1696685928131" calcext:value-type="float">
+      <text:p>3.1696685928131</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.141953349169247" calcext:value-type="float">
+      <text:p>0.14</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.810559488570271" calcext:value-type="float">
+      <text:p>0.81</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.637891507418497" calcext:value-type="float">
+      <text:p>0.64</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A18:.C18];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.59040434515801" calcext:value-type="float">
+      <text:p>2.59040434515801</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.3486293749592" calcext:value-type="float">
+      <text:p>0.35</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.230537520225173" calcext:value-type="float">
+      <text:p>0.23</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.477921546578228" calcext:value-type="float">
+      <text:p>0.48</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A19:.C19];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.0570884417626" calcext:value-type="float">
+      <text:p>2.0570884417626</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.21844180491367" calcext:value-type="float">
+      <text:p>0.22</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.636773686661007" calcext:value-type="float">
+      <text:p>0.64</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.529291553192539" calcext:value-type="float">
+      <text:p>0.53</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A20:.C20];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.38450704476722" calcext:value-type="float">
+      <text:p>2.38450704476722</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.205266902847463" calcext:value-type="float">
+      <text:p>0.21</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.442859048011451" calcext:value-type="float">
+      <text:p>0.44</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.831607487000572" calcext:value-type="float">
+      <text:p>0.83</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A21:.C21];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.47973343785949" calcext:value-type="float">
+      <text:p>2.47973343785949</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.451515930445066" calcext:value-type="float">
+      <text:p>0.45</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.016537720263678" calcext:value-type="float">
+      <text:p>0.02</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.818113701524925" calcext:value-type="float">
+      <text:p>0.82</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A22:.C22];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.28616735223367" calcext:value-type="float">
+      <text:p>2.28616735223367</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.580076777002149" calcext:value-type="float">
+      <text:p>0.58</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.204690592117963" calcext:value-type="float">
+      <text:p>0.20</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.1368347854094" calcext:value-type="float">
+      <text:p>0.14</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A23:.C23];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.92160215452951" calcext:value-type="float">
+      <text:p>1.92160215452951</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.574802611297219" calcext:value-type="float">
+      <text:p>0.57</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.222808812300087" calcext:value-type="float">
+      <text:p>0.22</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.862020351079989" calcext:value-type="float">
+      <text:p>0.86</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A24:.C24];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.6596317746773" calcext:value-type="float">
+      <text:p>2.6596317746773</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0968462570075378" calcext:value-type="float">
+      <text:p>0.10</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.977466827864356" calcext:value-type="float">
+      <text:p>0.98</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.922974079570278" calcext:value-type="float">
+      <text:p>0.92</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A25:.C25];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.99728716444217" calcext:value-type="float">
+      <text:p>2.99728716444217</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.438453223410952" calcext:value-type="float">
+      <text:p>0.44</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.297090872493322" calcext:value-type="float">
+      <text:p>0.30</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.113123190209443" calcext:value-type="float">
+      <text:p>0.11</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A26:.C26];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.84866728611372" calcext:value-type="float">
+      <text:p>1.84866728611372</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0747108246841005" calcext:value-type="float">
+      <text:p>0.07</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.292767047662125" calcext:value-type="float">
+      <text:p>0.29</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.433181720096968" calcext:value-type="float">
+      <text:p>0.43</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A27:.C27];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.80065959244319" calcext:value-type="float">
+      <text:p>1.80065959244319</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.443391477729778" calcext:value-type="float">
+      <text:p>0.44</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.765568061890181" calcext:value-type="float">
+      <text:p>0.77</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.491119563915362" calcext:value-type="float">
+      <text:p>0.49</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A28:.C28];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.70007910353532" calcext:value-type="float">
+      <text:p>2.70007910353532</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.672111087634454" calcext:value-type="float">
+      <text:p>0.67</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.534963306852096" calcext:value-type="float">
+      <text:p>0.53</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.111057177242372" calcext:value-type="float">
+      <text:p>0.11</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A29:.C29];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.31813157172892" calcext:value-type="float">
+      <text:p>2.31813157172892</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0146987219368438" calcext:value-type="float">
+      <text:p>0.01</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.79364428937686" calcext:value-type="float">
+      <text:p>0.79</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0299629826419623" calcext:value-type="float">
+      <text:p>0.03</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A30:.C30];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.83830599395567" calcext:value-type="float">
+      <text:p>1.83830599395567</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.578141373235723" calcext:value-type="float">
+      <text:p>0.58</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.856500915118321" calcext:value-type="float">
+      <text:p>0.86</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.881554722466326" calcext:value-type="float">
+      <text:p>0.88</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A31:.C31];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.31619701082037" calcext:value-type="float">
+      <text:p>3.31619701082037</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.954448588903106" calcext:value-type="float">
+      <text:p>0.95</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.2631797748204" calcext:value-type="float">
+      <text:p>0.26</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.257462637171836" calcext:value-type="float">
+      <text:p>0.26</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A32:.C32];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.47509100089534" calcext:value-type="float">
+      <text:p>2.47509100089534</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.182223586493248" calcext:value-type="float">
+      <text:p>0.18</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.660347394426151" calcext:value-type="float">
+      <text:p>0.66</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0756093128190771" calcext:value-type="float">
+      <text:p>0.08</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A33:.C33];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.91818029373848" calcext:value-type="float">
+      <text:p>1.91818029373848</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.380466211023763" calcext:value-type="float">
+      <text:p>0.38</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.971983503379105" calcext:value-type="float">
+      <text:p>0.97</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.714858637051765" calcext:value-type="float">
+      <text:p>0.71</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A34:.C34];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.06730835145463" calcext:value-type="float">
+      <text:p>3.06730835145463</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.368633158470225" calcext:value-type="float">
+      <text:p>0.37</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.828216498999621" calcext:value-type="float">
+      <text:p>0.83</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.137937456970119" calcext:value-type="float">
+      <text:p>0.14</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A35:.C35];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.33478711443996" calcext:value-type="float">
+      <text:p>2.33478711443996</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.745283035800837" calcext:value-type="float">
+      <text:p>0.75</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.291058766319123" calcext:value-type="float">
+      <text:p>0.29</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.121348255747756" calcext:value-type="float">
+      <text:p>0.12</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A36:.C36];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.15769005786772" calcext:value-type="float">
+      <text:p>2.15769005786772</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.717566110014206" calcext:value-type="float">
+      <text:p>0.72</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.74085819637518" calcext:value-type="float">
+      <text:p>0.74</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.939185743329286" calcext:value-type="float">
+      <text:p>0.94</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A37:.C37];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.39761004971867" calcext:value-type="float">
+      <text:p>3.39761004971867</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.873088583435536" calcext:value-type="float">
+      <text:p>0.87</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.657162683427557" calcext:value-type="float">
+      <text:p>0.66</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.84685406061328" calcext:value-type="float">
+      <text:p>0.85</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A38:.C38];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.37710532747637" calcext:value-type="float">
+      <text:p>3.37710532747637</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.712802721819453" calcext:value-type="float">
+      <text:p>0.71</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.869218143073752" calcext:value-type="float">
+      <text:p>0.87</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.627765683006049" calcext:value-type="float">
+      <text:p>0.63</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A39:.C39];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.20978654789925" calcext:value-type="float">
+      <text:p>3.20978654789925</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.190425032406118" calcext:value-type="float">
+      <text:p>0.19</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.808127221658737" calcext:value-type="float">
+      <text:p>0.81</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.050833691875719" calcext:value-type="float">
+      <text:p>0.05</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A40:.C40];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.04938594594057" calcext:value-type="float">
+      <text:p>2.04938594594057</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.48981218673998" calcext:value-type="float">
+      <text:p>0.49</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.46927694054096" calcext:value-type="float">
+      <text:p>0.47</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.233799559374323" calcext:value-type="float">
+      <text:p>0.23</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A41:.C41];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.19288868665526" calcext:value-type="float">
+      <text:p>2.19288868665526</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.154693195774401" calcext:value-type="float">
+      <text:p>0.15</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.888240185678222" calcext:value-type="float">
+      <text:p>0.89</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.560543313708687" calcext:value-type="float">
+      <text:p>0.56</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A42:.C42];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.60347669516131" calcext:value-type="float">
+      <text:p>2.60347669516131</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.226547381241806" calcext:value-type="float">
+      <text:p>0.23</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0885612974180728" calcext:value-type="float">
+      <text:p>0.09</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.237494995151474" calcext:value-type="float">
+      <text:p>0.24</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A43:.C43];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="1.55260367381135" calcext:value-type="float">
+      <text:p>1.55260367381135</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.885961848386557" calcext:value-type="float">
+      <text:p>0.89</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.879715307236109" calcext:value-type="float">
+      <text:p>0.88</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.387735634762933" calcext:value-type="float">
+      <text:p>0.39</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A44:.C44];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.1534127903856" calcext:value-type="float">
+      <text:p>3.1534127903856</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.466424103960529" calcext:value-type="float">
+      <text:p>0.47</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.969997725545207" calcext:value-type="float">
+      <text:p>0.97</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.831630930489682" calcext:value-type="float">
+      <text:p>0.83</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A45:.C45];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.26805275999542" calcext:value-type="float">
+      <text:p>3.26805275999542</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.0395828745445724" calcext:value-type="float">
+      <text:p>0.04</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.387230102940974" calcext:value-type="float">
+      <text:p>0.39</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.638503728367873" calcext:value-type="float">
+      <text:p>0.64</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A46:.C46];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.06531670585342" calcext:value-type="float">
+      <text:p>2.06531670585342</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.207238922336623" calcext:value-type="float">
+      <text:p>0.21</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.385063455619505" calcext:value-type="float">
+      <text:p>0.39</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.578110743686252" calcext:value-type="float">
+      <text:p>0.58</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A47:.C47];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.17041312164238" calcext:value-type="float">
+      <text:p>2.17041312164238</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.920440201627655" calcext:value-type="float">
+      <text:p>0.92</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.201027838073396" calcext:value-type="float">
+      <text:p>0.20</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.683001061409959" calcext:value-type="float">
+      <text:p>0.68</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A48:.C48];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.80446910111101" calcext:value-type="float">
+      <text:p>2.80446910111101</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.630870101768022" calcext:value-type="float">
+      <text:p>0.63</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.57583187658882" calcext:value-type="float">
+      <text:p>0.58</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.994454123628927" calcext:value-type="float">
+      <text:p>0.99</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A49:.C49];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="3.20115610198577" calcext:value-type="float">
+      <text:p>3.20115610198577</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.452937801812349" calcext:value-type="float">
+      <text:p>0.45</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.32392503196852" calcext:value-type="float">
+      <text:p>0.32</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.810868758109697" calcext:value-type="float">
+      <text:p>0.81</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A50:.C50];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.58773159189057" calcext:value-type="float">
+      <text:p>2.58773159189057</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.906455384426574" calcext:value-type="float">
+      <text:p>0.91</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.858585978795664" calcext:value-type="float">
+      <text:p>0.86</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=RAND()" office:value-type="float" office:value="0.182055515191005" calcext:value-type="float">
+      <text:p>0.18</text:p>
+     </table:table-cell>
+     <table:table-cell table:formula="of:=SUMPRODUCT([.A51:.C51];[.$F$3:.$H$3])+[.$I$3]" office:value-type="float" office:value="2.94709687841324" calcext:value-type="float">
+      <text:p>2.94709687841324</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="5"/>
+    </table:table-row>
+   </table:table>
+   <table:named-expressions/>
+  </office:spreadsheet>
+ </office:body>
+</office:document>
