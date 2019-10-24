@@ -434,7 +434,7 @@ class SimulationRequest(WithCommandsRequest):
       coords+=(v,)
     return coords
 
-  def line_profile(self,startloc,endloc,num,plotpath,label,attrpath='soln',indep=None,idx=None):
+  def line_profile(self,startloc,endloc,num,plotpath,label,attrpath='soln',indep=None,idx=None,metadata=None):
     """Get data to plot a result along the specified line at a single point in time
   
     Arguments:
@@ -450,6 +450,7 @@ class SimulationRequest(WithCommandsRequest):
           integer 0-d to use that coordinate of the point, or
           None (default) to use distance from the start point
       - idx = index of the solution field to write out, None (default) if not a sequence
+      - metadata = other parameters needed to identify the data series
   
     No return value."""
     #Get the object with the data
@@ -480,7 +481,7 @@ class SimulationRequest(WithCommandsRequest):
     #Create PlotSeries
     larr=np.array(llist)
     varr=np.array(vlist)
-    series=PlotSeries(xvals=larr,yvals=varr,label=label)
+    series=PlotSeries(xvals=larr,yvals=varr,label=label,metadata=metadata)
     #Store data
     self.set_nested(plotpath,series)
     return

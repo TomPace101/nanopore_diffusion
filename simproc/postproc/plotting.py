@@ -159,7 +159,7 @@ class FigureRequest(WithCommandsRequest):
   
   User-defined attributes:
   
-    - loadfiles = dictionary of pickle files to load (yaml files may be loaded using a prepcommand), usually to load series for ploting
+    - loadfiles = dictionary of pickle files to load (yaml files may be loaded using a prepcommand), usually to load series for plotting
         The dictionary is formatted as {attribute: file path or locator},
         where the attribute to store the loaded data could also be an attribute path.
     - prepcommands = sequence of commands to execute prior to plotting, such as for defining series (see below)
