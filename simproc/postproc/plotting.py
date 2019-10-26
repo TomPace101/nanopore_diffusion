@@ -6,6 +6,8 @@ import os
 #Site packages
 import numpy as np
 import matplotlib as mpl
+#Set matplotlib backend that won't require Tk
+mpl.use("Agg") #this line must appear before the following, and you can't change it later
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -15,8 +17,6 @@ from ..requesthandler import schema
 from ..requesthandler import yaml_manager
 from .plotseries import PlotSeries
 
-#Set matplotlib backend that won't require Tk
-mpl.use("Agg")
 
 _FigureProperties_props_schema_yaml="""#FigureProperties
 figattr: {type: attrpath}
@@ -306,9 +306,6 @@ class FigureRequest(WithCommandsRequest):
     for k,v in kwargs.items():
       mpl.rcParams[k]=v
     return
-  def set_backend(self,backend):
-    """Set matplotlib backend"""
-    mpl.use(backend)
   def figure(self,figattr="fig",**kwargs):
     """To create a new matplotlib.figure instance
 
