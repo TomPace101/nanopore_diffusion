@@ -58,8 +58,9 @@ def command_line_run():
   parser.add_argument('outputfile',help="Path to output doit database file")
   parser.add_argument('oldroot',help="Root path within the input database file")
   parser.add_argument('newroot',help="Root path within the output database file")
+  cmdline=parser.parse_args()
   #Run
-  do_alteration(parser.inputfile,parser.outputfile,parser.oldroot,parser.newroot)
+  do_alteration(cmdline.inputfile,cmdline.outputfile,cmdline.oldroot,cmdline.newroot)
   #Done
   return
 
