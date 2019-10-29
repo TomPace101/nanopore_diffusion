@@ -486,6 +486,46 @@ class SimulationRequest(WithCommandsRequest):
     self.set_nested(plotpath,series)
     return
 
+  def get_solver_matrices(self,attr_A,attr_b):
+    """Compute the matrix and vector for the linear algebra problem
+
+    The linear algebra problem must be of the form:
+
+    .. math::
+    
+      A x = b
+    
+    Arguments:
+    
+      - attr_A = attribute path for storing the matrix A
+      - attr_b = attribute path for storing the vector b
+      
+    Required attributes:
+    
+      - a = bilinear form
+      - L = linear form
+      - bcs = boundary conditions"""
+    matA, matb = fem.assemble_system(self.a, self.L, self.bcs)
+    A=matA.array()
+    b=matb.get_local()
+    self.set_nested(attr_A,A)
+    self.set_nested(attr_b,b)
+    return
+
+  def compute_determinant(self,attr_A,attr_det):
+    """Compute the matrix determinant
+    
+    Arguments:
+    
+      - attr_A = attribute path to the matrix
+      - attr_det = attribute path for storing the determinant"""
+    a=self.get_nested(attr_A)
+    self.det_timer=timing.Timer()
+    det = np.linalg.det(A)
+    self.det_timer.stop()
+    self.set_nested(attr_det,det)
+    return
+
 #Register for loading from yaml
 yaml_manager.register_classes([SimulationRequest])
 
