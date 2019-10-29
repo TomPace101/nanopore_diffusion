@@ -44,8 +44,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
         else:
           getattr(self,funcname)(**arguments)
       except Exception as einst:
-        print("Exception occured in %s for command: %s"%(attrpath,str(cmd)), file=sys.stderr)
-        raise einst
+        raise Exception("Exception occured in %s for command: %s"%(attrpath,str(cmd))) from einst
     return
 
   def list_iofiles(self,cmdlist,filearg_list=None,helper_tag=None):
