@@ -479,7 +479,7 @@ class FigureRequest(WithCommandsRequest):
         kwargs[k]=getattr(seriesprops,k)
     kwargs['seriespath']=seriesprops.seriesattr
     #Add the series
-    self.add_series(**kwargs)
+    self.add_series(axlist=axlist,**kwargs)
   def add_multi_series(self,serieslist,axlist=None,fmtlist=None,labellist=None):
     """Add multiple series to the listed axes
 
