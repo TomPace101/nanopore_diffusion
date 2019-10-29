@@ -139,9 +139,9 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
     eqnterms.add(termname,form,bilinear=False)
 
     #FEniCS Problem and Solver
-    a=eqnterms.sumterms(bilinear=True)
-    L=eqnterms.sumterms(bilinear=False)
-    problem=fem.LinearVariationalProblem(a,L,self.soln,bcs=self.bcs)
+    self.a=eqnterms.sumterms(bilinear=True)
+    self.L=eqnterms.sumterms(bilinear=False)
+    problem=fem.LinearVariationalProblem(self.a,self.L,self.soln,bcs=self.bcs)
     self.solver=fem.LinearVariationalSolver(problem)
 
     #Get solver parameters
