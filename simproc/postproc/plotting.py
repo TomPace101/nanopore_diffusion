@@ -151,7 +151,8 @@ axes:
 series:
   type: array
   items: {type: SeriesProperties}
-plotcommands: {type: array}"""
+plotcommands: {type: array}
+_all_axattr: {type: array}"""
 
 
 class FigureRequest(WithCommandsRequest):
@@ -173,7 +174,11 @@ class FigureRequest(WithCommandsRequest):
     Each command in the list is a pair (cmdname, arguments), where:
 
       - cmdname = name of the object's method to call, as a string
-      - arguments = dictionary of arguments to the method: {argname: value,...}    
+      - arguments = dictionary of arguments to the method: {argname: value,...}
+  
+  Calculated attributes:
+
+    - _all_axattr = list of all attributes containing matplotlib Axes objects added to the figure
   """
   _self_task=True
   _config_attrs=('loadfiles','prepcommands','plotcommands','rcparams','figures','axes','series')
@@ -211,6 +216,7 @@ class FigureRequest(WithCommandsRequest):
     for figprops in getattr(self,'figures',[]):
       self.figure_figprops(figprops)
     #Set up axes
+    self._all_axattr=[]
     for axprops in getattr(self,'axes',[]):
       self.axes_axprops(axprops)
     #Add series to axes
@@ -367,11 +373,13 @@ class FigureRequest(WithCommandsRequest):
       - \**kwargs = keyword arguments to pass to plt.figure.subplots"""
     ax=self.get_nested(figattr).add_subplot(nrows,ncols,index,**kwargs)
     self.set_nested(axattr,ax)
+    self._all_axattr.append(axattr)
     return
   def axes_axprops(self,axprops):
     """Create new axes from an AxesProperties instance"""
     #Axes attribute path
     axattr=getattr(axprops,'axattr',"ax")
+    self._all_axattr.append(axattr)
     #Figure attribute paths
     if hasattr(axprops,'figattr'):
       assert not hasattr(axprops,'figlist'), "AxesProperties instance has both figattr (%s) and figlist (%s)"%(str(axprops.figattr),str(axprops.figlist))
@@ -419,7 +427,7 @@ class FigureRequest(WithCommandsRequest):
   def iteraxes(self,axlist):
     """Return an iterator over the axes"""
     if axlist is None:
-      axlist = ["ax"]
+      axlist = [ax for ax in self._all_axattr]
     for axpath in axlist:
       axobj=self.get_nested(axpath)
       #If we got a list of axes, return each of them individually
@@ -434,7 +442,7 @@ class FigureRequest(WithCommandsRequest):
     Arguments:
 
       - method = name of Axes method to call, as string
-      - axlist = list of nested attribute paths to the axes on which to apply this command, defaults to ["ax"]
+      - axlist = list of nested attribute paths to the axes on which to apply this command, defaults to apply it over all axes
       - outattrs = list of attribute paths to store the results, defaults to None, to not store output
       - \**kwargs = keyword arguments to the method"""
     for idx,ax in enumerate(self.iteraxes(axlist)):
@@ -453,7 +461,7 @@ class FigureRequest(WithCommandsRequest):
     Arguments:
 
       - seriespath = nested path to the series instance to add to the axes
-      - axlist = list of nested paths to the Axes instances, defaults to ["ax"]
+      - axlist = list of nested paths to the Axes instances, defaults to apply it to all axes
       - fmt = matplotlib format string
       - newlabel = label to use for the legend instead of the series-provided one
       - \**kwargs = other keyword arguments for Axes.plot"""
@@ -471,7 +479,7 @@ class FigureRequest(WithCommandsRequest):
       if hasattr(seriesprops,'axlist'):
         axlist=seriesprops.axlist
       else:
-        axlist=["ax"]
+        axlist=None
     #Arguments dictionary
     kwargs=getattr(seriesprops,'kwargs',{})
     for k in seriesprops._direct_attrs:
