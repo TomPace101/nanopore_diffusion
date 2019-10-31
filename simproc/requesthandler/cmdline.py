@@ -39,7 +39,7 @@ def run():
   parser.add_argument('--tasks_only',action='store_true',help="Run only requests that define tasks.")
   parser.add_argument('--modules',nargs="+",metavar="MODULE",help="Additional python modules defining classes loadable from yaml input")
   parser.add_argument('--validate',action='store_true',help="Perform validation. If requestfiles are also listed, validation is run first.")
-  #TODO: allow selecting a subset of the requests?
+  parser.add_argument('--select',nargs="+",metavar="TASKNAME",help="Specify which tasks to run, by name")
   cmdline=parser.parse_args()
   
   #run validation if requested
@@ -59,11 +59,12 @@ def run():
   req=requestfile.RequestFileListRequest(requestfiles=file_list)
 
   #Run
-  if cmdline.tasks_only:
+  if cmdline.tasks_only or cmdline.select is not None:
     for treq in req.all_task_requests():
-      if cmdline.verbose:
-        print(treq.name)
-      treq.run()
+      if cmdline.select is None or getattr(treq,'name','') in cmdline.select:
+        if cmdline.verbose:
+          print(treq.name)
+        treq.run()
   else:
     req.run()
 
