@@ -7,7 +7,8 @@ import os
 import numpy as np
 import matplotlib as mpl
 #Set matplotlib backend that won't require Tk
-mpl.use("Agg") #this line must appear before the following, and you can't change it later
+if mpl.get_backend() == 'TkAgg':
+  mpl.use("Agg") #this line must appear before the following, and you can't change it later
 import matplotlib.pyplot as plt
 import pandas as pd
 
