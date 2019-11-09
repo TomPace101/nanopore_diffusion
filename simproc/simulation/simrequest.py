@@ -487,6 +487,19 @@ class SimulationRequest(WithCommandsRequest):
     self.set_nested(plotpath,series)
     return
 
+  def calc_norm(self,attrpath="soln",outattr="soln_norm",normtype="L2"):
+    """Have fenics compute the norm of a function (or fenics vector)
+
+    Arguments:
+
+      - attrpath = optional, attribute path to the function, defaults to "soln"
+      - outattr = optional, attribute path to the output norm, defaults to "soln_norm"
+      - normtype = optional, norm type as string, defaults to "L2" """
+    targ=self.get_nested(attrpath)
+    res=fem.norm(targ,normtype)
+    self.set_nested(outattr,res)
+    return
+
   def get_solver_matrices(self,attr_A,attr_b):
     """Compute the matrix and vector for the linear algebra problem
 

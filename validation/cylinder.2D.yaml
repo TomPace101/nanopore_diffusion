@@ -52,12 +52,14 @@
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+    - [calc_norm, {attrpath: "soln", outattr: "soln_norm", normtype: "L2"}]
     - - reportvalues
       - outfpath: !OutFile2 cylinder-obs-results.yaml
         mapping:
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
+          soln_norm: soln_norm
 
 #Inclusion as Potential
 #Mesh Generation
@@ -118,9 +120,11 @@
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     - [writefield, {outfpath: !OutFile2 Dbar.pvd, attrpath: Dbar}]
+    - [calc_norm, {attrpath: "soln", outattr: "soln_norm", normtype: "L2"}]
     - - reportvalues
       - outfpath: !OutFile2 cylinder-pot-results.yaml
         mapping:
           cell_volume: metadata.cell_volume
           domain_volume: domain_volume
           D_macro: D_macro
+          soln_norm: soln_norm
