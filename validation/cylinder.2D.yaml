@@ -52,7 +52,7 @@
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
-    - [calc_norm, {attrpath: "soln", outattr: "soln_norm", normtype: "L2"}]
+    - [calc_norm, {factor: !Stored domain_volume, attrpath: "soln", outattr: "soln_norm", normtype: "L2"}]
     - - reportvalues
       - outfpath: !OutFile2 cylinder-obs-results.yaml
         mapping:
@@ -120,7 +120,7 @@
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: metadata.cell_volume}]
     - [writefield, {outfpath: !OutFile2 Dbar.pvd, attrpath: Dbar}]
-    - [calc_norm, {attrpath: "soln", outattr: "soln_norm", normtype: "L2"}]
+    - [calc_norm, {factor: !Stored domain_volume, attrpath: "soln", outattr: "soln_norm", normtype: "L2"}]
     - - reportvalues
       - outfpath: !OutFile2 cylinder-pot-results.yaml
         mapping:

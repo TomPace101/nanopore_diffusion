@@ -487,16 +487,18 @@ class SimulationRequest(WithCommandsRequest):
     self.set_nested(plotpath,series)
     return
 
-  def calc_norm(self,attrpath="soln",outattr="soln_norm",normtype="L2"):
+  def calc_norm(self,factor=1,attrpath="soln",outattr="soln_norm",normtype="L2"):
     """Have fenics compute the norm of a function (or fenics vector)
 
     Arguments:
 
+      - factor = optional, normalization constant, defaults to 1 (useful if set to the Stored domain volume)
       - attrpath = optional, attribute path to the function, defaults to "soln"
       - outattr = optional, attribute path to the output norm, defaults to "soln_norm"
       - normtype = optional, norm type as string, defaults to "L2" """
+    divisor=self.get_stored(factor)
     targ=self.get_nested(attrpath)
-    res=fem.norm(targ,normtype)
+    res=fem.norm(targ,normtype)/divisor
     self.set_nested(outattr,res)
     return
 
