@@ -8,6 +8,7 @@ from copy import deepcopy
 #Site packages
 import numpy as np
 import fenics as fem
+from scipy.sparse import csr_matrix
 
 #This package
 from ..requesthandler.commandseq import WithCommandsRequest, make_schema
@@ -497,8 +498,8 @@ class SimulationRequest(WithCommandsRequest):
     
     Arguments:
     
-      - attr_A = attribute path for storing the matrix A
-      - attr_b = attribute path for storing the vector b
+      - attr_A = attribute path for storing the matrix A, in scipy sparse format
+      - attr_b = attribute path for storing the vector b, as a numpy 1D array
       
     Required attributes:
     
@@ -506,25 +507,28 @@ class SimulationRequest(WithCommandsRequest):
       - L = linear form
       - bcs = boundary conditions"""
     matA, matb = fem.assemble_system(self.a, self.L, self.bcs)
-    A=matA.array()
-    b=matb.get_local()
+    backmatA=fem.as_backend_type(matA).mat()
+    backmatb=fem.as_backend_type(matb).vec()
+    assert fem.parameters['linear_algebra_backend'] == 'PETSc', "PETSc backend required."
+    A=csr_matrix(A.getValuesCSR()[::-1],shape=backmatA.size)
+    b=backmatb.getArray()
     self.set_nested(attr_A,A)
     self.set_nested(attr_b,b)
     return
 
-  def compute_determinant(self,attr_A,attr_det):
-    """Compute the matrix determinant
+  # def compute_determinant(self,attr_A,attr_det):
+  #   """Compute the matrix determinant
     
-    Arguments:
+  #   Arguments:
     
-      - attr_A = attribute path to the matrix
-      - attr_det = attribute path for storing the determinant"""
-    a=self.get_nested(attr_A)
-    self.det_timer=timing.Timer()
-    det = np.linalg.det(A)
-    self.det_timer.stop()
-    self.set_nested(attr_det,det)
-    return
+  #     - attr_A = attribute path to the matrix
+  #     - attr_det = attribute path for storing the determinant"""
+  #   a=self.get_nested(attr_A)
+  #   self.det_timer=timing.Timer()
+  #   det = np.linalg.det(A)
+  #   self.det_timer.stop()
+  #   self.set_nested(attr_det,det)
+  #   return
 
 #Register for loading from yaml
 yaml_manager.register_classes([SimulationRequest])
