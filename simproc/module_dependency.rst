@@ -41,7 +41,8 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``equationbuilder``: None
   - ``plotseries``: None
   - ``simrequest``: ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``plotseries``
-  - ``fickian_homog``: ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``simrequest``
+  - ``fickian_homog``: ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``simrequest``, ``common_methods``
+  - ``ficks_law``:  ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``simrequest``, ``common_methods``
 
 - package ``postproc``
   - ``collection``: ``requesthandler``
