@@ -4,12 +4,10 @@ A single species is assumed, as there is no interaction or potential.
 Isotropy is assumed, but the diffusion constant may vary spatially."""
 
 #Standard library
-# from argparse import Namespace
-# from collections import OrderedDict as odict
-# import math
+from argparse import Namespace
 
 #Site packages
-# import numpy as np
+import numpy as np
 import fenics as fem
 
 #This package
@@ -32,8 +30,8 @@ class FLSimulator(simrequest.SimulationRequest):
     conditions=Namespace(**self.conditions)
 
     #Function space for scalars and vectors
-    self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',self.conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
-    self.V_vec = fem.VectorFunctionSpace(self.meshinfo.mesh, "CG", self.conditions.elementorder)
+    self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
+    self.V_vec = fem.VectorFunctionSpace(self.meshinfo.mesh, "CG", conditions.elementorder)
 
     #Trial Function
     self.c = fem.TrialFunction(self.V)
@@ -50,11 +48,11 @@ class FLSimulator(simrequest.SimulationRequest):
     self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
 
     #Load diffusion coefficient Function
-    self.Dlocal=fem.Function(self.V_scalar,name="Dlocal")
+    self.Dlocal=fem.Function(self.V,name="Dlocal")
     self.process_load_commands()
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in self.conditions.dirichlet.items()]
+    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
 
     #Neumann boundary conditions
     self.nbcs = {}
@@ -75,7 +73,7 @@ class FLSimulator(simrequest.SimulationRequest):
     allterms.add(termname,-self.Dlocal*fem.dot(fem.grad(self.c),fem.grad(v))*self.dx,bilinear=True)
     #If no boundary terms will be added, go ahead and apply zero
     if len(self.nbcs)==0:
-      termname='boundary_zero_%d'%s
+      termname='boundary_zero'
       allterms.add(termname,fem.Constant(0)*v*self.dx,bilinear=False)
     #Boundary terms for Neumann conditions
     for psurf,expr in self.nbcs.items():

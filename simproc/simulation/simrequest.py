@@ -405,7 +405,7 @@ class SimulationRequest(WithCommandsRequest):
       integral_type='exterior_facet'
     this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
     calcarea=fem.assemble(fem.Constant(1)*this_ds(pfacet))
-    setattr(self,name,calcarea)
+    setattr(self,attrpath,calcarea)
     return
 
   def get_pointcoords(self,location):

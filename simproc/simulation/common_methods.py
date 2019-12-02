@@ -1,13 +1,17 @@
 """Module holding methods that are used by more than one simulator subclass, but not enough to be in simrequest itself."""
 
-def calcflux(self, solnattr='soln', idx=None, attrpath='flux'):
+import fenics as fem
+
+def calcflux(self, solnattr='soln', idx=None, attrpath='flux', Dattr='Dbar_proj'):
   """Flux as vector field (new attribute)"""
-  soln=getattr(self,solnattr)
+  soln=self.get_nested(solnattr)
+  Dvalue=self.get_nested(Dattr)
   funcname="flux_"+solnattr
   if idx is not None:
     soln=soln[idx]
+    Dvalue=Dvalue[idx]
     funcname += "_%d"%idx
-  expr=-self.Dbar_proj[idx]*fem.grad(soln)
+  expr=-Dvalue*fem.grad(soln)
   fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
   fluxres.rename(funcname,"calculated flux")
   self.set_nested(attrpath,fluxres)
