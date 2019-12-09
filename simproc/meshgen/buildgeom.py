@@ -6,10 +6,27 @@ from __future__ import print_function, division #Python 2 compatibility
 #This package
 from ..requesthandler import yaml_manager
 from ..requesthandler.request import make_schema, Request
+from ..requesthandler import schema
 from ..requesthandler import locators
 
 #Locators
-locators.folder_structure.update(geotemplate=['mesh','templates'])
+locators.folder_structure.update(geotemplate=['mesh','templates']) ##TODO
+
+_GeometryDefinition_props_schema_yaml="""#GeometryDefinition
+"""
+
+class GeometryDefinition(schema.SelfValidating):
+  """Geometry definition parameters
+  
+   User-defined attributes:
+  
+    - 
+  """
+  _required_attrs=[] ##TODO
+  _props_schema=schema.SelfValidating.update_props_schema(_GeometryDefinition_props_schema_yaml)
+
+schema.extra_types_dict['GeometryDefinition']=(GeometryDefinition,)
+
 
 _BuildGeomRequest_props_schema_yaml="""#BuildGeomRequest
 """
@@ -39,4 +56,4 @@ class BuildGeomRequest(Request):
     return
 
 #Register for loading from yaml
-yaml_manager.register_classes([BuildGeomRequest])
+yaml_manager.register_classes([GeometryDefinition, BuildGeomRequest])
