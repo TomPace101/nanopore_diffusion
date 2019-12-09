@@ -30,6 +30,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``__main__``: ``cmdline``
 
 - package ``meshgen``
+  - ``buildgeom``: ``requesthandler``
   - ``gmsh_runner``: ``requesthandler``
   - ``dconv_runner``: ``requesthandler``
   - ``hdf5_conv``: ``requesthandler``, ``dconv_runner``
