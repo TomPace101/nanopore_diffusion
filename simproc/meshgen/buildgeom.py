@@ -39,7 +39,7 @@ class GeometryDefinition(schema.SelfValidating):
     - geomtable = mapping of surfaces to sequence points
     - surfloops = mapping of surface loops to sequence of surfaces
     - nonplanar = list of surfaces that are not planar surfaces"""
-  _required_attrs=[dimensions, tmplfile, tmplvars, outvars, ptdict, geomtable, surfloops, nonplanar]
+  _required_attrs=['dimensions', 'tmplfile', 'tmplvars', 'outvars', 'ptdict', 'geomtable', 'surfloops', 'nonplanar']
   _props_schema=schema.SelfValidating.update_props_schema(_GeometryDefinition_props_schema_yaml)
 
 schema.extra_types_dict['GeometryDefinition']=(GeometryDefinition,)
