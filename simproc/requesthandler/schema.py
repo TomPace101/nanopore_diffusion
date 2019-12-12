@@ -36,6 +36,11 @@ def validation_error_string(err):
 #Note that validation is not applied to class attributes,
 #but some of these could be instance attributes in a subclass
 _SelfValidating_props_schema_yaml="""#SelfValidating
+name:
+  anyOf:
+    - {type: 'null'}
+    - {type: string}
+store_globally: {type: boolean}
 _required_attrs:
   type: array
   items: {type: string}
@@ -98,6 +103,6 @@ class SelfValidating(nested.WithNested):
         errstr+='\n'.join(errlist)
         raise Exception(errstr)
   def validate(self):
-    d=self.to_dict()
+    d=self.to_dict(False)
     self.validate_kwargs(**d)
   

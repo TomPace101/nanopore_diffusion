@@ -91,7 +91,10 @@ def add_entity(tup, tdict, looplist, nameprefix):
   return
 
 _BuildGeomRequest_props_schema_yaml="""#BuildGeomRequest
-geomdef: {type: GeometryDefinition}
+geomdef:
+  anyOf:
+    - {type: GeometryDefinition}
+    - {type: stored}
 parameters: {type: object}
 geofile: {type: pathlike}
 searchpaths: {type: array}
@@ -115,6 +118,8 @@ class BuildGeomRequest(Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(BuildGeomRequest, self).__init__(**kwargs)
+    #Load geometry definition if Stored
+    self.geomdef=self.get_stored(self.geomdef)
     #List the geometry definition template file as an input file
     self._more_inputfiles=[geotemplate,self.geomdef.tmplfile]
   def prepare_template_input(self):
@@ -182,7 +187,7 @@ class BuildGeomRequest(Request):
 
     #Apply surface types
     # surftypes=dict([(x,'Ruled Surface' if x in self.geomdef.nonplanar else 'Plane Surface') for x in self.geomdef.geomtable.keys()]) #for older version of gmsh
-    surftypes=dict([(x,'Surface' if x in self.geomdef.nonplanar else 'Plane Surface') for x in self.geom.defgeomtable.keys()])
+    surftypes=dict([(x,'Surface' if x in self.geomdef.nonplanar else 'Plane Surface') for x in self.geomdef.geomtable.keys()])
     t_input['surftypes']=surftypes
 
     #Dictionary of surface loops (and volumes)
@@ -203,7 +208,7 @@ class BuildGeomRequest(Request):
 
     #Load template
     env=Environment(loader=FileSystemLoader(searchpaths),extensions=['jinja2.ext.do'],trim_blocks=True,keep_trailing_newline=True)
-    tmpl=env.get_template(str(tmplfile))
+    tmpl=env.get_template(tmplfile.filename)
 
     #Render template
     outdat = tmpl.render(t_input)

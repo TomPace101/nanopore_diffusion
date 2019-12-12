@@ -20,10 +20,6 @@ from . import schema
 #Note that validation is not applied to class attributes,
 #but some of these could be instance attributes in a subclass
 _Request_props_schema_yaml="""#Request
-name:
-  anyOf:
-    - {type: 'null'}
-    - {type: string}
 _related: {type: object}
 _self_task: {type: boolean}
 _inputfile_attrs:
@@ -67,8 +63,11 @@ class Request(schema.SelfValidating):
     - name: a globally unique string identifying the request
     
         Some subclasses may require this to be defined, others may not.
-        If defined, the request will be added to an ordered dictionary of requests by name: {request.name: request, ...}
-    
+
+    - store_globally: optional boolean
+
+        If True, the request will be added to an ordered dictionary of requests by name: {request.name: request, ...}
+
   Frequently, derived classes will add member or class attributes for some of the following attributes, which this class supports:
 
     - _self_task: boolean, True if request itself defines a task, False if only tasks come from children. If False, children may still define tasks. Defaults to False if not defined.
@@ -174,7 +173,7 @@ class Request(schema.SelfValidating):
         yield gch
   @property
   def config_dict(self):
-    d=self.to_dict()
+    d=self.to_dict(True)
     cd=dict([(k,v) for k,v in d.items() if k in self._config_attrs])
     #Don't add configuration of children: look at the output files they generate instead
     #(otherwise changes will cascade even if output files are unaltered)

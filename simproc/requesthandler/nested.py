@@ -7,6 +7,8 @@ from collections import OrderedDict as odict
 #This package
 from . import yaml_manager
 
+#Helper functions
+
 def to_sequence(dpath):
   if isinstance(dpath,str):
     seq=dpath.split('.')
@@ -84,13 +86,21 @@ def new_odict(obj,dpath):
   setattr(parent,tail,odict())
   return
 
+#Classes
+
 class WithNested(object):
   """A very basic class that loads and sets nested attributes, and supports reading and writing itself to/from yaml"""
+  __allnames__=odict()
   def __init__(self,**kwargs):
     #Load the attributes specified
     for k,v in kwargs.items():
       setattr(self,k,v)
-  def to_dict(self):
+    #If requested, add this object to the global dictionary
+    if getattr(self,'store_globally',False):
+      assert getattr(self,'name',None) is not None, "Cannot add unnamed object to global names dictionary"
+      assert self.name not in self.__allnames__.keys(), "Attempted to overwite existing global name: %s"%self.name
+      self.__allnames__[self.name]=self
+  def to_dict(self,recursive=True):
     """Return a dictionary with all the object's attributes.
 
     Note that changes to this dictionary will not affect the object.
@@ -100,7 +110,7 @@ class WithNested(object):
     Returns the dictionary."""
     d={}
     for attr,itm in self.__dict__.items():
-      if hasattr(itm,'to_dict') and callable(itm.to_dict):
+      if recursive and hasattr(itm,'to_dict') and callable(itm.to_dict):
         d[attr]=itm.to_dict()
       else:
         d[attr]=itm
