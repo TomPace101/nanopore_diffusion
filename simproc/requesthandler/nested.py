@@ -4,6 +4,9 @@
 from __future__ import print_function, division #Python 2 compatibility
 from collections import OrderedDict as odict
 
+#Site packages
+import ruamel.yaml
+
 #This package
 from . import yaml_manager
 
@@ -153,7 +156,11 @@ class Stored(object):
     self.attrloc=attrloc
   @classmethod
   def from_yaml(cls, constructor, node):
-    return cls(node.value)
+    if type(node)==ruamel.yaml.nodes.SequenceNode:
+      return cls([constructor.construct_scalar(itm) for itm in node.value])
+    else:
+      #type(node)==ruamel.yaml.nodes.ScalarNode
+      return cls(node.value)
   @classmethod
   def to_yaml(cls, representer, node):
     return representer.represent_scalar("!"+cls.__name__,str(node.attrloc))
