@@ -48,6 +48,19 @@ class DummyRequest(request.Request):
     - 'test' is a required property
     - Additional properties are not allowed ('not_allowed' was unexpected)
   
+  The method ``additional_validation`` can be defined by classes to do other validation
+  beyond just checking the schema of the data.
+
+  >>> also_invalid=DummyRequest(name="debugging",test="evil_data")
+  Traceback (most recent call last):
+    ...
+  Exception: Errors found in DummyRequest.
+  Received arguments:
+    - name: debugging
+    - test: evil_data
+  Errors:
+    - The value "evil_data" is explicitly not allowed.
+
   Be aware that Requests are not immutable,
   so it is possible to create an initially valid request,
   then modify it into an invalid one.
@@ -67,6 +80,15 @@ class DummyRequest(request.Request):
   _config_attrs=['test']
   _required_attrs=['name','test']
   _props_schema=request.make_schema(_DummyRequest_props_schema_yaml)
+  __values_not_allowed__=['evil_data'] #This parameter is specific to this class
+  @classmethod
+  def additional_validation(cls,**kwargs):
+    testvalue=kwargs.get('test',None)
+    if testvalue in cls.__values_not_allowed__:
+      errlist=['  - The value "%s" is explicitly not allowed.'%str(testvalue)]
+    else:
+      errlist=[]
+    return errlist
   def run(self):
     self.validate()
     print(self.test)
