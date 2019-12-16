@@ -122,6 +122,27 @@ class BuildGeomRequest(Request):
     self.geomdef=self.get_stored(self.geomdef)
     #List the geometry definition template file as an input file
     self._more_inputfiles=[geotemplate,self.geomdef.tmplfile]
+  # @classmethod
+  # def additional_validation(cls,**kwargs):
+  #   """Perform additional validation of the object data, beyond just the schema check
+    
+  #   Check that the provided parameters are appropriate for the template."""
+  #   expected=kwargs['geomdef']['tmplvars'] #Doesn't work!!!
+  #   provided=kwargs['parameters'].keys()
+  #   missing=[var for var in expected if not var in provided]
+  #   extra=[var for var in provided if not var in expected]
+  #   errlist=[]
+  #   if len(missing)>0:
+  #     errstr="  - Missing required parameters for the template:\n"
+  #     for var in missing:
+  #       errstr += "    - %s\n"%str(var)
+  #     errlist.append(errstr)
+  #   if len(extra)>0:
+  #     errstr="  - Extra parameters provided not known by the template:\n"
+  #     for var in extra:
+  #       errstr += "    - %s\n"%str(var)
+  #     errlist.append(errstr)
+  #   return errlist
   def prepare_template_input(self):
     """Prepare the input dictionary for a template.
 
