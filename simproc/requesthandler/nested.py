@@ -92,7 +92,9 @@ def new_odict(obj,dpath):
 #Classes
 
 class WithNested(object):
-  """A very basic class that loads and sets nested attributes, and supports reading and writing itself to/from yaml"""
+  """A very basic class that loads and sets nested attributes, and supports reading and writing itself to/from yaml.
+  
+  It also has the ability to track all members of its class and subclasses with a name in a global dictionary."""
   __allnames__=odict()
   def __init__(self,**kwargs):
     #Load the attributes specified
@@ -120,7 +122,7 @@ class WithNested(object):
     return d
   def __getstate__(self):
     """Used for pickling, and converting to yaml"""
-    return self.to_dict()
+    return self.to_dict(recursive=True)
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
