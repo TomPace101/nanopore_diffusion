@@ -81,6 +81,10 @@ You could have the customization module track this.
 When its relevant classes are used, it keeps track of the additions in a module variable,
 and then can write those items back out to yaml.
 
+_FEATURE_ collection requires all rows in the table to have data in each column
+We could remove this requirement if we identified a key column, which then had to appear in each mapping.
+Of course, your simulations have to use the same values for this key, and output them to the results files.
+
 # Refactoring
 
 - DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
