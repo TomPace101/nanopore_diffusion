@@ -81,10 +81,6 @@ You could have the customization module track this.
 When its relevant classes are used, it keeps track of the additions in a module variable,
 and then can write those items back out to yaml.
 
-_FEATURE_ collection requires all rows in the table to have data in each column
-We could remove this requirement if we identified a key column, which then had to appear in each mapping.
-Of course, your simulations have to use the same values for this key, and output them to the results files.
-
 # Refactoring
 
 - DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
@@ -211,6 +207,10 @@ _CONCERN_ in `collection.py`, `CollectionRequest` calls the `complete` method of
 Maybe it should actually create a single child instead.
 This is marked as a TODO item in the file.
 
+_FEATURE_ collection requires all rows in the table to have data in each column
+We could remove this requirement if we identified a key column, which then had to appear in each mapping.
+Of course, your simulations have to use the same values for this key, and output them to the results files.
+
 _FEATURE_ see TODO items in `generate.py`
 
 _FEATURE_ `simrequest.py` had a workaround for the lack of the `schema` module for checking the "conditions" attribute.
@@ -238,3 +238,30 @@ Except that the other request is the one that needs to render the locator.
 See logs:
   - 2019-08-05.md
   - 2019-10-07.md
+
+_FEATURE_ logging
+
+Log references:
+- 2018-12-20.md
+- 2019-12-19.md
+
+Create a module in `requesthandler`, which  uses python's `logging` module.
+It's a module, which can make use of python's module.
+
+That way all the log entries go to the same place.
+
+How do you set parameters like the log location and log level?
+Those can probably be command line parameters, rather than anything in yaml.
+
+
+# Dependency tracking
+Here are some limitations of doit that I'd like to resolve:
+- If I should get something to run without doit, I have to rerun it to get its status updated.
+  There should be a way to manually use the current state of a task and tell it "this is up to date as of now".
+- If a task crashes so hard it takes doit with it, none of the task status updates are written to disk.
+  I have had this happen with tasks that produce memory allocation errors.
+
+Maybe the way to do this is to implement some things in my own fork,
+then submit pull requests.
+But to make that work, I'd need to switch to using my fork inside
+the singularity images.
