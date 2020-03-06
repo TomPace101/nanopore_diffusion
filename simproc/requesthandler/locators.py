@@ -11,7 +11,9 @@ All locators return paths that start at this folder.
 From within python, you can simply set ``DATAFOLDER`` as a variable,
 and all locators will return paths based on the new location.
 
-For scripts, use the environment variable ``DATAFOLDER`` to tell the program where this folder is."""
+For scripts, use the environment variable ``DATAFOLDER`` to tell the program where this folder is.
+
+If you want to see the current list of locators, just look at ``folder_structure``."""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
@@ -143,14 +145,15 @@ class UpdateFolderStructure(object):
   """Apply changes to the folder structure used to locate files
   
   This isn't really a class. It's a function.
-  But when loading from yaml, there isn't a way to call a funtion directly.
+  But when loading from yaml, there isn't a way to call a function directly.
   You can only load classes.
   Hence, this is an object that simply calls another function when initialized,
   and then does nothing else ever.
   
   This is also not a request: its action needs to be taken at initialization,
   not when requests are run, so that the locators in the input can make use of
-  the newly defined folder structure."""
+  the newly defined folder structure.
+  Note that this means its attributes are not validated like a request's are."""
   def __init__(self,**kwargs):
     folder_structure.update(**kwargs)
   def __setstate__(self,state):
@@ -159,6 +162,32 @@ class UpdateFolderStructure(object):
   def __getstate__(self):
     """Used for pickling, and writing to yaml"""
     return folder_structure
+
+class DumpFolderStructure(object):
+  """Write the current folder structure to a yaml output file
+
+  This isn't really a class. It's a function.
+  But when loading from yaml, there isn't a way to call a function directly.
+  You can only load classes.
+  Hence, this is an object that simply calls another function when initialized,
+  and then does nothing else ever.
+  
+  This is also not a request: its action is taken at initialization,
+  not when requests are run.
+  That's a questionable decision, but the way I decided to do it for now.
+  Note this means its attributes are not validated like a request's are.
+  
+  The only input argument is `outfile` which must be a string or Path, NOT a locator,
+  because this isn't a request.
+  The path will be assumed to be relative to DATAFOLDER, as it exists at the time of calling."""
+  def __init__(self,outfile):
+    out_relpath=filepath.Path(outfile)
+    out_abspath=DATAFOLDER / out_relpath
+    d=dict(folder_structure.items())
+    yaml_manager.writefile(d,str(out_abspath))
+  def __setstate__(self,state):
+    """Used for unpickling, and loading from yaml"""
+    self.__init__(**state)
 
 class SetDataFolder(object):
   """Set the DATAFOLDER
@@ -193,4 +222,4 @@ class SetDataFolder(object):
     return {'datafolder':DATAFOLDER}
 
 #Register for loading from yaml
-yaml_manager.register_classes([filepath.Path,DataFile,NameDelegator,Delegator,UpdateFolderStructure,SetDataFolder])
+yaml_manager.register_classes([filepath.Path,DataFile,NameDelegator,Delegator,UpdateFolderStructure,DumpFolderStructure,SetDataFolder])
