@@ -7,6 +7,7 @@ from . import debug
 from . import filepath
 from . import generate
 from . import locators
+from . import logging
 from . import mpi_run
 from . import nested
 from . import pickle_manager

@@ -181,6 +181,7 @@ class DumpFolderStructure(object):
   because this isn't a request.
   The path will be assumed to be relative to DATAFOLDER, as it exists at the time of calling."""
   def __init__(self,outfile):
+    self.outfile=outfile
     out_relpath=filepath.Path(outfile)
     out_abspath=DATAFOLDER / out_relpath
     d=dict(folder_structure.items())
@@ -188,6 +189,9 @@ class DumpFolderStructure(object):
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
+  def __getstate__(self):
+    """Used for pickling, and writing to yaml"""
+    return {'outfile':self.outfile}
 
 class SetDataFolder(object):
   """Set the DATAFOLDER

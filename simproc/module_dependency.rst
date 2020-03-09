@@ -14,6 +14,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``nested``: ``yaml_manager``
   - ``locators``: ``filepath``, ``yaml_manager``
   - ``schema``: ``filepath``, ``yaml_manager``, ``locators``, ``nested``
+  - ``logging``: ``yaml_manager``, ``schema``
   - ``request``: ``filepath``, ``yaml_manager``, ``schema``, ``nested``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
   - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``

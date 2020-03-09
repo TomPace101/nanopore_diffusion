@@ -81,6 +81,14 @@ You could have the customization module track this.
 When its relevant classes are used, it keeps track of the additions in a module variable,
 and then can write those items back out to yaml.
 
+_ISSUE_ should the stuff in locators that allows control from yaml be moved to another module?
+Those should probably have schemas, right?
+Then they need to load that module, but schema needs the locator classes for validation.
+Actually, maybe UpdateFolderStructure doesn't need one.
+But the others do, it seems.
+Still, it just seems like configuring/setting locators from yaml
+is separate from the base functionality of locators themselves.
+
 # Refactoring
 
 - DONE Top handler: a new module that serves to dispatch requests to the handlers defined in other modules
@@ -244,6 +252,8 @@ _FEATURE_ logging
 Log references:
 - 2018-12-20.md
 - 2019-12-19.md
+- 2020-03-06.md
+- 2020-03-09.md
 
 Create a module in `requesthandler`, which  uses python's `logging` module.
 It's a module, which can make use of python's module.
@@ -252,7 +262,19 @@ That way all the log entries go to the same place.
 
 How do you set parameters like the log location and log level?
 Those can probably be command line parameters, rather than anything in yaml.
+Or, should they be set in the files as well?
+If it's in the files, then how do I set up those parameters,
+both from within python and from loading a yaml file.
+Loading from a yaml file would require a class to be registered with yaml_manager.
 
+It should definitely be set up so that no log is produced by default.
+It has to be specifically requested.
+
+The idea here is to make the logs yaml files themsleves, so that values can be written out.
+Or is that too much here?
+
+Do we want to automatically overwrite old logs,
+or implement an automatic unique-name finding approach?
 
 # Dependency tracking
 Here are some limitations of doit that I'd like to resolve:
