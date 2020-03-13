@@ -22,6 +22,7 @@ from . import schema
 
 #Validation schema for ConfigLogging
 _ConfigLogging_props_schema_yaml="""#ConfigLogging
+level: {type: string}
 destination: {type: pathlike}
 """
 
@@ -38,7 +39,8 @@ class ConfigLogging(schema.SelfValidating):
   not when requests are run.
 
   Initialization arguments:
-    -   
+    - level: minimum level for events to log
+    - destination: path to the log output file
   """
   _props_schema=schema.SelfValidating.update_props_schema(_ConfigLogging_props_schema_yaml)
   def __init__(self,**kwargs):
