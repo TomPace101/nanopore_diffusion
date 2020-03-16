@@ -4,6 +4,8 @@ Each log entry has the following:
 - timestamp: a timestamp string
 - level: a logging level as defined by the python logging module
 - message: a text string
+
+Not implemented:
 - entries: a list of sub-entries
 """
 
@@ -13,12 +15,33 @@ import logging
 
 #Site packages
 #(implement a separate yaml instance from the one in yaml_manager, to avoid conflicts)
-from ruamel.yaml import YAML
-yaml=YAML(typ="safe", pure=True)
+# from ruamel.yaml import YAML
+# yaml=YAML(typ="safe", pure=True)
 
 #This package
+from . import filepath
 from . import yaml_manager
 from . import schema
+
+##TODO: we want the logdir to be relative to the data folder, which means we have to wait until it is defined, right?
+##TODO: at what point do we create the log directory if it doesn't exist?
+
+def find_unique_id(stem,logdir,ext,num_digits,sepchar):
+  logdir_path=filepath.Path(logdir) #Is that path relative, or absolute?
+  assert logdir_path.is_dir(), "logdir must be a directory"
+  existing_files=[c.name for c in logdir_path.iterdir()]
+  fname_tmpl=stem+sepchar+"{0:0%dd}"%num_digits
+  unid=1
+  trial_fname=fname_tmpl.format(unid)
+  while trial_fname in existing_files:
+    unid+=1
+    trial_fname=fname_tmpl.format(unid)
+  return trial_fname
+
+def configure_logging(stem="simproc",logdir="logs",ext=".log.yaml",num_digits=3,sepchar="."):
+  logfile=find_unique_id(stem,logdir,ext,num_digits,sepchar)
+  ##TODO
+  return None
 
 #Validation schema for ConfigLogging
 _ConfigLogging_props_schema_yaml="""#ConfigLogging
