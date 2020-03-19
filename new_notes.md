@@ -254,27 +254,9 @@ Log references:
 - 2019-12-19.md
 - 2020-03-06.md
 - 2020-03-09.md
-
-Create a module in `requesthandler`, which  uses python's `logging` module.
-It's a module, which can make use of python's module.
-
-That way all the log entries go to the same place.
-
-How do you set parameters like the log location and log level?
-Those can probably be command line parameters, rather than anything in yaml.
-Or, should they be set in the files as well?
-If it's in the files, then how do I set up those parameters,
-both from within python and from loading a yaml file.
-Loading from a yaml file would require a class to be registered with yaml_manager.
-
-It should definitely be set up so that no log is produced by default.
-It has to be specifically requested.
-
-The idea here is to make the logs yaml files themsleves, so that values can be written out.
-Or is that too much here?
-
-Do we want to automatically overwrite old logs,
-or implement an automatic unique-name finding approach?
+- 2020-03-13.md
+- 2020-03-16.md
+- 2020-03-19.md (lots of vision here)
 
 # Dependency tracking
 Here are some limitations of doit that I'd like to resolve:

@@ -4,6 +4,9 @@ Each log entry has the following:
 - timestamp: a timestamp string
 - level: a logging level as defined by the python logging module
 - message: a text string
+- parameters: a dictionary of values to report
+
+Log entries can also request initializing timers and reporting their current elapsed value.
 
 Not implemented:
 - entries: a list of sub-entries
@@ -20,6 +23,7 @@ import logging
 
 #This package
 from . import filepath
+from . import timing
 from . import yaml_manager
 from . import schema
 

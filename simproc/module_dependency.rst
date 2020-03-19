@@ -9,12 +9,13 @@ Keeping track of this is important in order to help prevent circular dependencie
 
 - package ``requesthandler``
   - ``filepath``: None
+  - ``timing``: None
   - ``yaml_manager``: None
   - ``pickle_manager``: None
   - ``nested``: ``yaml_manager``
   - ``locators``: ``filepath``, ``yaml_manager``
   - ``schema``: ``filepath``, ``yaml_manager``, ``locators``, ``nested``
-  - ``logging``: ``filepath``, ``yaml_manager``, ``schema``
+  - ``logging``: ``filepath``, ``timing``, ``yaml_manager``, ``schema``
   - ``request``: ``filepath``, ``yaml_manager``, ``schema``, ``nested``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
   - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``
