@@ -257,6 +257,7 @@ Log references:
 - 2020-03-13.md
 - 2020-03-16.md
 - 2020-03-19.md (lots of vision here)
+- 2020-03-20.md
 
 # Dependency tracking
 Here are some limitations of doit that I'd like to resolve:

@@ -53,10 +53,10 @@ def readstring(s):
   """Syntactic sugar for yaml.load()"""
   return yaml.load(s)
 
-def writestring(obj):
+def writestring(obj,yy=yaml):
   """like json.dumps but for yaml"""
   with io.StringIO() as strm:
-    yaml.dump(obj,strm)
+    yy.dump(obj,strm)
     dat=strm.getvalue()
   return dat
 

@@ -18,8 +18,8 @@ import logging
 
 #Site packages
 #(implement a separate yaml instance from the one in yaml_manager, to avoid conflicts)
-# from ruamel.yaml import YAML
-# yaml=YAML(typ="safe", pure=True)
+from ruamel.yaml import YAML
+yaml=YAML(typ="safe", pure=True)
 
 #This package
 from . import filepath
