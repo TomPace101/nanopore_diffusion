@@ -15,11 +15,14 @@ Not implemented:
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 import logging
+from datetime import datetime
 
 #Site packages
 #(implement a separate yaml instance from the one in yaml_manager, to avoid conflicts)
 from ruamel.yaml import YAML
-yaml=YAML(typ="safe", pure=True)
+from ruamel.yaml.comments import CommentedMap
+yaml=YAML(typ="rt",pure=True)
+yaml.default_flow_style = False
 
 #This package
 from . import filepath
@@ -29,6 +32,29 @@ from . import schema
 
 ##TODO: we want the logdir to be relative to the data folder, which means we have to wait until it is defined, right?
 ##TODO: at what point do we create the log directory if it doesn't exist?
+
+class YAMLStreamHandler(logging.StreamHandler):
+  """For output of logs to a YAML stream"""
+  def emit(self,record):
+    try:
+      msg=self.format(record)
+      stream=self.stream
+      yaml.dump(msg,stream)
+      self.flush()
+    except RecursionError:
+      raise
+    except Exception:
+      self.handleError(record)
+
+class YAMLFormatter(object):
+  """Intended only for use with the YAMLStreamHandler"""
+  def format(self,record):
+    od=CommentedMap()
+    od['timestamp']=datetime.fromtimestamp(record.created)
+    od['area']=record.name
+    od['level']=record.levelname
+    od['message']=record.getMessage()
+    return [od]
 
 def find_unique_id(stem,logdir,ext,num_digits,sepchar):
   logdir_path=filepath.Path(logdir) #Is that path relative, or absolute?
