@@ -14,6 +14,7 @@ Not implemented:
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
+import collections
 import logging
 from datetime import datetime
 
@@ -32,6 +33,11 @@ from . import schema
 
 ##TODO: we want the logdir to be relative to the data folder, which means we have to wait until it is defined, right?
 ##TODO: at what point do we create the log directory if it doesn't exist?
+
+#Constants
+MAX_BUFFER_MESSAGES=100
+
+#Classes for logging
 
 class YAMLStreamHandler(logging.StreamHandler):
   """For output of logs to a YAML stream"""
@@ -56,6 +62,22 @@ class YAMLFormatter(object):
     od['message']=record.getMessage()
     return [od]
 
+class BufferHandler(logging.Handler):
+  """A handler that just keeps a limited buffer of log records"""
+  def __init__(self,level=logging.NOTSET):
+    #Initialization from base class
+    super(BufferHandler, self).__init__(level)
+    #Initalize the buffer
+    self.buffer=collections.deque(maxlen=MAX_BUFFER_MESSAGES)
+  def emit(self,record):
+    self.buffer.append(record)
+  def dump_to(self,other):
+    """Ask another handler to handle all the buffered records"""
+    for record in self.buffer:
+      other.handle(record)
+
+#Functions for configuring
+
 def find_unique_id(stem,logdir,ext,num_digits,sepchar):
   logdir_path=filepath.Path(logdir) #Is that path relative, or absolute?
   assert logdir_path.is_dir(), "logdir must be a directory"
@@ -72,6 +94,8 @@ def configure_logging(stem="simproc",logdir="logs",ext=".log.yaml",num_digits=3,
   logfile=find_unique_id(stem,logdir,ext,num_digits,sepchar)
   ##TODO
   return None
+
+#Class for configuring logging from a yaml file
 
 #Validation schema for ConfigLogging
 _ConfigLogging_props_schema_yaml="""#ConfigLogging
