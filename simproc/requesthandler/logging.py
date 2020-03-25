@@ -69,8 +69,14 @@ class BufferHandler(logging.Handler):
     super(BufferHandler, self).__init__(level)
     #Initalize the buffer
     self.buffer=collections.deque(maxlen=MAX_BUFFER_MESSAGES)
+    #Initialize record count
+    self.total_records=0
   def emit(self,record):
     self.buffer.append(record)
+    self.total_records+=1
+  @property
+  def deleted_records(self):
+    return self.total_records-len(self.buffer)
   def dump_to(self,other):
     """Ask another handler to handle all the buffered records"""
     for record in self.buffer:
