@@ -39,6 +39,71 @@ MAX_BUFFER_MESSAGES=100
 
 #Classes for logging
 
+class LogRecord(object):
+  def __init__(self,name,level,msg,args=None,**kwargs):
+    #Get creation time
+    self.created = datetime.now()
+    #Usual parameters, like the stdlib version
+    self.name = name
+    self.msg = msg
+    self.args = args
+    self.levelname = logging.getLevelName(level)
+    self.levelno = level
+    #Store the additional parameters
+    self.parameters=kwargs
+  @property
+  def message(self):
+    msg = str(self.msg)
+    if self.args is not None:
+      msg = msg % self.args
+    return msg
+
+class Logger(logging.Logger):
+#   def wrapFindCaller(self,stack_info=False,stacklevel=1,exc_info=None):
+#     #Copied from the python standard library source, in _log
+#     #Won't work yet
+#     sinfo = None
+#     if _srcfile: #TODO: this is set in the stdlib logging module, and used by findCaller, so it probably needs modification somehow
+#       #IronPython doesn't track Python frames, so findCaller raises an
+#       #exception on some versions of IronPython. We trap it here so that
+#       #IronPython can use logging.
+#       try:
+#         fn, lno, func, sinfo = self.findCaller(stack_info, stacklevel)
+#       except ValueError: # pragma: no cover
+#         fn, lno, func = "(unknown file)", 0, "(unknown function)"
+#     else: # pragma: no cover
+#       fn, lno, func = "(unknown file)", 0, "(unknown function)"
+#     if exc_info:
+#       if isinstance(exc_info, BaseException):
+#         exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
+#       elif not isinstance(exc_info, tuple):
+#         exc_info = sys.exc_info()
+#     return fn,lno,exc_info,func,extra,sinfo
+  def _log(self, level, msg, args=None, **kwargs): #TODO: arguments would need to be modified to let wrapFindCaller work
+    record = logging._logRecordFactory(self.name, level, msg, args, **kwargs)
+    self.handle(record)
+
+class RootLogger(Logger):
+  def __init__(self,level):
+    #Create a logger named "root"
+    Logger.__init__(self,"root",level)
+    #Set up a BufferHandler for messages while other handlers are being set up
+    self.bufferhandler=BufferHandler()
+    self.bufferhandler.name="Root Buffer Handler"
+    self.addHandler(self.bufferhandler,skipbuffer=True)
+  def addHandler(self, hdlr, skipbuffer=False):
+    #Use method from base class
+    super(Logger, self).addHandler(hdlr)
+    if not skipbuffer:
+      #Send the buffered messages to the new handler
+      self.bufferhandler.dump_to(hdlr)
+      #Note how many messsages were sent to the new handler
+      self.info("Adding new handler, and sending it previous messages.",
+                handler_type=type(hdlr).__name__,
+                handler_name=hdlr.name,
+                num_messages_output=self.bufferhandler.num_records,
+                missing_messages=self.bufferhandler.num_deleted)
+
 class YAMLStreamHandler(logging.StreamHandler):
   """For output of logs to a YAML stream"""
   def emit(self,record):
@@ -56,14 +121,18 @@ class YAMLFormatter(object):
   """Intended only for use with the YAMLStreamHandler"""
   def format(self,record):
     od=CommentedMap()
-    od['timestamp']=datetime.fromtimestamp(record.created)
+    od['timestamp']=timing.timestamp(record.created)
     od['area']=record.name
     od['level']=record.levelname
-    od['message']=record.getMessage()
+    od['message']=record.message
+    if getattr(record,'parameters',None):
+      od['parameters']=record.parameters
     return [od]
 
 class BufferHandler(logging.Handler):
-  """A handler that just keeps a limited buffer of log records"""
+  """A handler that just keeps a limited buffer of log records
+  
+  Note that no formatter is needed, because the records are stored directly."""
   def __init__(self,level=logging.NOTSET):
     #Initialization from base class
     super(BufferHandler, self).__init__(level)
@@ -75,12 +144,33 @@ class BufferHandler(logging.Handler):
     self.buffer.append(record)
     self.total_records+=1
   @property
-  def deleted_records(self):
+  def num_records(self):
+    return len(self.buffer)
+  @property
+  def num_deleted(self):
     return self.total_records-len(self.buffer)
   def dump_to(self,other):
     """Ask another handler to handle all the buffered records"""
     for record in self.buffer:
       other.handle(record)
+
+#Tell the stdlib logging module about these new classes
+logging.setLogRecordFactory(LogRecord)
+logging.setLoggerClass(Logger)
+#Set up the root logger
+root=RootLogger(logging.WARNING)
+logging.root=root
+Logger.root=root
+#Set up the Manager
+Logger.manager = logging.Manager(Logger.root)
+Logger.manager.setLoggerClass(Logger)
+
+def getLogger(name=None):
+  #Redo the module-level function from stdlib
+  if name:
+    return Logger.manager.getLogger(name)
+  else:
+    return root
 
 #Functions for configuring
 
