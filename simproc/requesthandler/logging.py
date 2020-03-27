@@ -31,12 +31,9 @@ from . import timing
 from . import yaml_manager
 from . import schema
 
-##TODO: we want the logdir to be relative to the data folder, which means we have to wait until it is defined, right?
-##TODO: at what point do we create the log directory if it doesn't exist?
-
 #Constants
 MAX_BUFFER_MESSAGES = 100
-logging.TIMING = 25
+logging.TIMING = 25 #This puts it between INFO and WARNING
 
 #Classes for logging
 
@@ -140,6 +137,17 @@ class YAMLStreamHandler(logging.StreamHandler):
     except Exception:
       self.handleError(record)
 
+class YAMLFileHandler(logging.FileHandler):
+  #We don't need to override init, even though the base class calls StreamHandler instead of YAMLStreamHandler, because YAMLStreamHandler doesn't override the method called in init.
+  #The same goes for close
+  #We do need to override emit.
+  def emit(self,record):
+    #Check if opening the stream was delayed
+    if self.stream is None:
+      self.stream = self._open()
+    #Call the appropriate stream handler emit
+    YAMLStreamHandler.emit(self, record)
+
 class YAMLFormatter(object):
   """Intended only for use with the YAMLStreamHandler"""
   def format(self,record):
@@ -199,7 +207,18 @@ def getLogger(name=None):
 #Functions for configuring
 
 def find_unique_id(stem,logdir,ext,num_digits,sepchar):
-  logdir_path=filepath.Path(logdir) #Is that path relative, or absolute?
+  """Create a file name that does not already exist.
+
+  Arguments:
+
+    - stem = log filename stem (the part before the unique ID and extension), as string
+    - logdir = path to the directory to contain the log file. Absolute path. String form acceptable.
+    - ext = extension to use for teh filename
+    - num_digits = number of digits to use in the unique ID
+    - sepchar = character to place between the stem and the unique ID
+
+  Return: the filename calculated"""
+  logdir_path=filepath.Path(logdir, isFile=False)
   assert logdir_path.is_dir(), "logdir must be a directory"
   existing_files=[c.name for c in logdir_path.iterdir()]
   fname_tmpl=stem+sepchar+"{0:0%dd}"%num_digits
@@ -210,17 +229,48 @@ def find_unique_id(stem,logdir,ext,num_digits,sepchar):
     trial_fname=fname_tmpl.format(unid)
   return trial_fname
 
-def configure_logging(stem="simproc",logdir="logs",ext=".log.yaml",num_digits=3,sepchar="."):
+def configure_logging(level="TIMING",stem="simproc",logdir_rel="logs",ext=".log.yaml",num_digits=3,sepchar="."):
+  """Apply settings to the root logger, which will flow down to all children by default
+
+  Arguments:
+
+    - level = level below which to suppress messages, as a string
+    - stem = log filename stem, as string
+    - logdir_rel = path to the directory to contain the log file, taken relative to locators.DATAFOLDER **at the time of the call**. String form acceptable.
+    - ext, num_digits, sepchar = additional arguments to ``find_unique_id``
+
+  No return value."""
+  #Set the log level for the root logger
+  global root
+  levelno=logging._nameToLevel[level]
+  root.setLevel(levelno)
+  #Get the absolute path to the log directory
+  logdir = locators.DATAFOLDER / filepath.Path(logdir_rel, isFile = False)
+  #Make sure the directory exists
+  logdir.assure_dir()
+  #Get the filename and path for the log file
   logfile=find_unique_id(stem,logdir,ext,num_digits,sepchar)
-  ##TODO
-  return None
+  logfpath = str(logdir / logfile)
+  #Create a handler to output to this file
+  handler=YAMLFileHandler(logfpath,mode='w')
+  handler.name=logfile
+  #Set the formatter for the handler
+  formatter=YAMLFormatter()
+  handler.setFormatter(formatter)
+  #Add the handler to the root logger
+  root.addHandler(handler)
+  return
 
 #Class for configuring logging from a yaml file
 
 #Validation schema for ConfigLogging
 _ConfigLogging_props_schema_yaml="""#ConfigLogging
 level: {type: string}
-destination: {type: pathlike}
+stem: {type: string}
+logdir_rel: {type: string}
+ext: {type: string}
+num_digits: {type: integer}
+sepchar: {type: string}
 """
 
 class ConfigLogging(schema.SelfValidating):
@@ -236,14 +286,17 @@ class ConfigLogging(schema.SelfValidating):
   not when requests are run.
 
   Initialization arguments:
-    - level: minimum level for events to log
-    - destination: path to the log output file
+    - level: minimum level for events to log, as a string
+    - stem = log filename stem, as string
+    - logdir_rel = path to the directory to contain the log file, taken relative to locators.DATAFOLDER **at the time of the call**. String form acceptable.
+    - ext, num_digits, sepchar = additional arguments to ``find_unique_id``
   """
   _props_schema=schema.SelfValidating.update_props_schema(_ConfigLogging_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileRequest, self).__init__(**kwargs)
-    ##TODO
+    #Call the configuration function
+    configure_logging(**kwargs)
  
 #Register for loading from yaml
 yaml_manager.register_classes([ConfigLogging])
