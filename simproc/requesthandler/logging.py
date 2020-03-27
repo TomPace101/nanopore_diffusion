@@ -35,7 +35,8 @@ from . import schema
 ##TODO: at what point do we create the log directory if it doesn't exist?
 
 #Constants
-MAX_BUFFER_MESSAGES=100
+MAX_BUFFER_MESSAGES = 100
+logging.TIMING = 25
 
 #Classes for logging
 
@@ -59,29 +60,51 @@ class LogRecord(object):
     return msg
 
 class Logger(logging.Logger):
-#   def wrapFindCaller(self,stack_info=False,stacklevel=1,exc_info=None):
-#     #Copied from the python standard library source, in _log
-#     #Won't work yet
-#     sinfo = None
-#     if _srcfile: #TODO: this is set in the stdlib logging module, and used by findCaller, so it probably needs modification somehow
-#       #IronPython doesn't track Python frames, so findCaller raises an
-#       #exception on some versions of IronPython. We trap it here so that
-#       #IronPython can use logging.
-#       try:
-#         fn, lno, func, sinfo = self.findCaller(stack_info, stacklevel)
-#       except ValueError: # pragma: no cover
-#         fn, lno, func = "(unknown file)", 0, "(unknown function)"
-#     else: # pragma: no cover
-#       fn, lno, func = "(unknown file)", 0, "(unknown function)"
-#     if exc_info:
-#       if isinstance(exc_info, BaseException):
-#         exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
-#       elif not isinstance(exc_info, tuple):
-#         exc_info = sys.exc_info()
-#     return fn,lno,exc_info,func,extra,sinfo
+  def __init__(self, name, level=logging.NOTSET):
+    #Initialization from base class
+    super(Logger, self).__init__(name,level)
+    #Initialize dictionary of timers
+    self.timers={}
+  # def wrapFindCaller(self,stack_info=False,stacklevel=1,exc_info=None):
+  #   #Copied from the python standard library source, in _log
+  #   #Won't work yet
+  #   sinfo = None
+  #   if _srcfile: #TODO: this is set in the stdlib logging module, and used by findCaller, so it probably needs modification somehow
+  #     #IronPython doesn't track Python frames, so findCaller raises an
+  #     #exception on some versions of IronPython. We trap it here so that
+  #     #IronPython can use logging.
+  #     try:
+  #       fn, lno, func, sinfo = self.findCaller(stack_info, stacklevel)
+  #     except ValueError: # pragma: no cover
+  #       fn, lno, func = "(unknown file)", 0, "(unknown function)"
+  #   else: # pragma: no cover
+  #     fn, lno, func = "(unknown file)", 0, "(unknown function)"
+  #   if exc_info:
+  #     if isinstance(exc_info, BaseException):
+  #       exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
+  #     elif not isinstance(exc_info, tuple):
+  #       exc_info = sys.exc_info()
+  #   return fn,lno,exc_info,func,extra,sinfo
   def _log(self, level, msg, args=None, **kwargs): #TODO: arguments would need to be modified to let wrapFindCaller work
     record = logging._logRecordFactory(self.name, level, msg, args, **kwargs)
     self.handle(record)
+  def startTimer(self,timername):
+    self.timers[timername]=timing.Timer()
+    self.log(logging.TIMING,"Starting new timer.",timername=timername)
+  def splitTimer(self,timername):
+    delta_str=self.timers[timername].split()
+    delta_totalsec=self.timers[timername].lap.total_seconds()
+    self.log(logging.TIMING,"Reporting elapsed time on timer.",
+            timer_name=timername,
+            elapsed_sec=delta_totalsec,
+            elapsed=delta_str)
+  def stopTimer(self,timername):
+    delta_str=self.timers[timername].stop()
+    delta_totalsec=self.timers[timername].delta.total_seconds()
+    self.log(logging.TIMING,"Stopping timer.",
+            timer_name=timername,
+            elapsed_sec=delta_totalsec,
+            elapsed=delta_str)
 
 class RootLogger(Logger):
   def __init__(self,level):
@@ -154,12 +177,13 @@ class BufferHandler(logging.Handler):
     for record in self.buffer:
       other.handle(record)
 
+#Introduce the "timing" log level
+logging.addLevelName(logging.TIMING,"TIMING")
 #Tell the stdlib logging module about these new classes
 logging.setLogRecordFactory(LogRecord)
 logging.setLoggerClass(Logger)
 #Set up the root logger
 root=RootLogger(logging.WARNING)
-logging.root=root
 Logger.root=root
 #Set up the Manager
 Logger.manager = logging.Manager(Logger.root)
