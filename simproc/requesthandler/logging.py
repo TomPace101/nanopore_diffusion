@@ -28,6 +28,7 @@ yaml.default_flow_style = False
 #This package
 from . import filepath
 from . import timing
+from . import locators
 from . import yaml_manager
 from . import schema
 
@@ -221,7 +222,8 @@ def find_unique_id(stem,logdir,ext,num_digits,sepchar):
   logdir_path=filepath.Path(logdir, isFile=False)
   assert logdir_path.is_dir(), "logdir must be a directory"
   existing_files=[c.name for c in logdir_path.iterdir()]
-  fname_tmpl=stem+sepchar+"{0:0%dd}"%num_digits
+  id_tmpl="{0:0%dd}"%num_digits
+  fname_tmpl=stem+sepchar+id_tmpl+ext
   unid=1
   trial_fname=fname_tmpl.format(unid)
   while trial_fname in existing_files:
