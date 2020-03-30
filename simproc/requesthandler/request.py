@@ -15,6 +15,9 @@ except ImportError:
 from . import filepath
 from . import yaml_manager
 from . import schema
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 #Validation schema for Request
 #Note that validation is not applied to class attributes,
@@ -101,6 +104,10 @@ class Request(schema.SelfValidating):
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
   _props_schema=schema.SelfValidating.update_props_schema(_Request_props_schema_yaml)
   _uptodate=True
+  def __init__(self,**kwargs):
+    logger.debug("Initializing Request.",request_class=type(self).__name__,request_name=kwargs.get("name",None))
+    #Initialization from base class
+    super(Request, self).__init__(**kwargs)
   def render(self,loc):
     """Render a locator to a Path instance
     
@@ -135,6 +142,7 @@ class Request(schema.SelfValidating):
     """Run all child requests
     
     Base classes that implement their own tasks should generally override this method."""
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #We only need to call run() on the immediate children.

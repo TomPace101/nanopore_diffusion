@@ -231,7 +231,7 @@ def find_unique_id(stem,logdir,ext,num_digits,sepchar):
     trial_fname=fname_tmpl.format(unid)
   return trial_fname
 
-def configure_logging(level="TIMING",stem="simproc",logdir_rel="logs",ext=".log.yaml",num_digits=3,sepchar="."):
+def configure_logging(level="TIMING",stem="simproc",logdir_rel="logs",logdir_abs=None,ext=".log.yaml",num_digits=3,sepchar="."):
   """Apply settings to the root logger, which will flow down to all children by default
 
   Arguments:
@@ -247,7 +247,10 @@ def configure_logging(level="TIMING",stem="simproc",logdir_rel="logs",ext=".log.
   levelno=logging._nameToLevel[level]
   root.setLevel(levelno)
   #Get the absolute path to the log directory
-  logdir = locators.DATAFOLDER / filepath.Path(logdir_rel, isFile = False)
+  if logdir_abs is None:
+    logdir = locators.DATAFOLDER / filepath.Path(logdir_rel, isFile = False)
+  else:
+    logdir = filepath.Path(logdir_abs, isFile=False)
   #Make sure the directory exists
   logdir.assure_dir()
   #Get the filename and path for the log file

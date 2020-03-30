@@ -16,7 +16,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``locators``: ``filepath``, ``yaml_manager``
   - ``schema``: ``filepath``, ``yaml_manager``, ``locators``, ``nested``
   - ``logging``: ``filepath``, ``timing``, ``yaml_manager``, ``locators``, ``schema``
-  - ``request``: ``filepath``, ``yaml_manager``, ``schema``, ``nested``
+  - ``request``: ``filepath``, ``yaml_manager``, ``schema``, ``nested``, ``logging``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
   - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``
   - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``, ``locators``
@@ -24,7 +24,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``debug``: ``request``, ``yaml_manager``, ``shell``
   - ``cleanup``: ``locators``, ``request``, ``yaml_manager``
   - ``customization``: ``filepath``, ``locators``, ``request``, ``yaml_manager``
-  - ``commandseq``: ``yaml_manager``, ``pickle_manager``, ``customization``
+  - ``commandseq``: ``yaml_manager``, ``pickle_manager``, ``customization``, ``logging``
   - ``templates``: ``yaml_manager``, ``customization``
   - ``generate``: ``yaml_manager``, ``request``, ``nested``, ``customization``
   - ``__init__``: ``filepath``, ``locators``, ``requestfile``, ``customization``, ``shell``, ``templates``, ``cleanup``, ``comparison, ``debug``

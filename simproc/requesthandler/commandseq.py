@@ -11,6 +11,9 @@ import pandas as pd
 from . import yaml_manager
 from . import pickle_manager
 from . import customization
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 class WithCommandsRequest(customization.CustomizableRequest):
   """A customizeable request that supports command sequences"""
@@ -29,6 +32,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
         If True, the arguments are provided as a sequence.
 
     No return value."""
+    logger.debug("Processing command sequence.",request_class=type(self).__name__,request_name=getattr(self,"name",None),attrpath=attrpath)
     if singlefunc is not None:
       funcname = singlefunc
     for cmd in self.get_nested_default(attrpath,[]):
