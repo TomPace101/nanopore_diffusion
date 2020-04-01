@@ -6,6 +6,9 @@ from ..requesthandler.request import Request
 from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler import locators
 from .dconv_runner import get_paths_facet_cell
+from ..requesthandler import logging
+
+logger=logging.getLogger(__name__)
 
 #Site packages
 import fenics as fem
@@ -52,6 +55,7 @@ class HDF5ConvertRequest(Request):
     #Compute paths for facet and cell xml file
     get_paths_facet_cell(self)
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Read in the xml files (Mesh and MeshFunctions)

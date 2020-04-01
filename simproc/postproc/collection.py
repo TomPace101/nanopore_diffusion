@@ -11,6 +11,9 @@ from ..requesthandler import yaml_manager
 from ..requesthandler import pickle_manager
 from ..requesthandler import locators
 from ..requesthandler import nested
+from ..requesthandler import logging
+
+logger=logging.getLogger(__name__)
 
 #Locators
 locators.folder_structure.update(CollectedFrame=['postproc',0])
@@ -72,6 +75,7 @@ class RawCollectionRequest(WithCommandsRequest):
     for defn in self.definitions:
       yield (defn['mapping'],defn['file_list'])
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Get the number of rows
@@ -180,11 +184,12 @@ class CollectionRequest(WithCommandsRequest):
             working_filelist += this_filelist
       self.raw_definitions.append({'mapping':defn['mapping'],'file_list':working_filelist})
   def run(self):
-      kwargs={'name':self.name+"_raw",'outpath':self.render(self.outpath),'definitions':self.raw_definitions}
-      for argname in ['calculations','modules','methods']:
-        if getattr(self,argname,None) is not None:
-          kwargs[argname]=getattr(self,argname)
-      RawCollectionRequest.complete(**kwargs)
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
+    kwargs={'name':self.name+"_raw",'outpath':self.render(self.outpath),'definitions':self.raw_definitions}
+    for argname in ['calculations','modules','methods']:
+      if getattr(self,argname,None) is not None:
+        kwargs[argname]=getattr(self,argname)
+    RawCollectionRequest.complete(**kwargs)
 
 _SimpleCollectionRequest_props_schema_yaml="""#SimpleCollectionRequest
 outpath:

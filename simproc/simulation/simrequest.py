@@ -19,6 +19,9 @@ from ..requesthandler import nested
 from .meshinfo import MeshInfo
 from ..postproc.plotseries import PlotSeries
 from . import expressions
+from ..requesthandler import logging
+
+logger=logging.getLogger(__name__)
 
 #Locators
 locators.folder_structure.update(OwnSolutionFile=['solutions',0,1])
@@ -140,6 +143,7 @@ class SimulationRequest(WithCommandsRequest):
     self._more_outputfiles+=self.list_iofiles(getattr(self,'dataextraction',[]))
 
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Load the mesh, unless provided some other way

@@ -17,7 +17,9 @@ from ..requesthandler.commandseq import WithCommandsRequest, make_schema
 from ..requesthandler import schema
 from ..requesthandler import yaml_manager
 from .plotseries import PlotSeries
+from ..requesthandler import logging
 
+logger=logging.getLogger(__name__)
 
 _FigureProperties_props_schema_yaml="""#FigureProperties
 figattr: {type: attrpath}
@@ -204,6 +206,7 @@ class FigureRequest(WithCommandsRequest):
     self._more_outputfiles+=self.list_iofiles(self.prepcommands,['filename','outfpath'],'_outputfiles')
     self._more_outputfiles+=self.list_iofiles(self.plotcommands,['filename','outfpath'],'_outputfiles')
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Load data files

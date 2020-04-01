@@ -9,6 +9,9 @@ from ..requesthandler import yaml_manager
 from ..requesthandler.request import make_schema, Request
 from ..requesthandler import schema
 from ..requesthandler import locators
+from ..requesthandler import logging
+
+logger=logging.getLogger(__name__)
 
 #Site packages
 from jinja2 import Environment, FileSystemLoader
@@ -217,6 +220,7 @@ class BuildGeomRequest(Request):
     return t_input
 
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
 
