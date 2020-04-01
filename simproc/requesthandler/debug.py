@@ -7,6 +7,9 @@ import time
 from . import request
 from . import yaml_manager
 from . import shell
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 _DummyRequest_props_schema_yaml="""#DummyRequest
 name: {type: string}
@@ -90,6 +93,7 @@ class DummyRequest(request.Request):
       errlist=[]
     return errlist
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     self.validate()
     print(self.test)
 
@@ -143,6 +147,7 @@ class SleepRequest(request.Request):
   _required_attrs=['name','delay']
   _props_schema=request.make_schema(_SleepRequest_props_schema_yaml)
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     time.sleep(self.delay)
 
 #Register for loading from yaml

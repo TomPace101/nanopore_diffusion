@@ -55,6 +55,9 @@ import filecmp
 #This package
 from . import request
 from . import yaml_manager
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 _FileComparisonRequest_props_schema_yaml="""#FileComparisonRequest
 expected: {type: pathlike}
@@ -76,6 +79,7 @@ class FileComparisonRequest(request.Request):
   _config_attrs=['expected','received']
   _self_task=True
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     args=(self.renderstr(self.expected),self.renderstr(self.received))
     ans=filecmp.cmp(*args,shallow=False)
     assert ans, "Found unexpected difference in files %s and %s"%args
@@ -116,6 +120,7 @@ class FileComparisonListRequest(request.Request):
     self._children=[FileComparisonRequest(name=nametmpl%idx,expected=p[0],received=p[1]) for idx,p in enumerate(self.pairs)]
   def run(self):
     """Run all child requests and capture their results"""
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Storage for reports and errors
@@ -168,6 +173,7 @@ class FileSizeComparisonRequest(request.Request):
   _self_task=True
   err_tmpl="Found unexpected difference in file sizes: %s has size %d, %s has size %d, range (%d,%d) gives limits (%d,%d)"
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Get the range
     rg=getattr(self,'range',0)
     if hasattr(rg,'__len__'):
@@ -222,6 +228,7 @@ class FileSizeComparisonListRequest(request.Request):
     self._children=[FileSizeComparisonRequest(name=nametmpl%idx,expected=p[0],received=p[1], range=p[2]) for idx,p in enumerate(self.pairs)]
   def run(self):
     """Run all child requests and capture their results"""
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Storage for reports and errors

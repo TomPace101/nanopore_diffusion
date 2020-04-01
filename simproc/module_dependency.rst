@@ -18,14 +18,15 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``logging``: ``filepath``, ``timing``, ``yaml_manager``, ``locators``, ``schema``
   - ``request``: ``filepath``, ``yaml_manager``, ``schema``, ``nested``, ``logging``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
-  - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``
-  - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``, ``locators``
-  - ``shell``: ``request``, ``yaml_manager``
-  - ``debug``: ``request``, ``yaml_manager``, ``shell``
-  - ``cleanup``: ``locators``, ``request``, ``yaml_manager``
+  - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``, ``logging``
+  - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``, ``locators``, ``logging``
+  - ``shell``: ``request``, ``yaml_manager``, ``logging``
+  - ``debug``: ``request``, ``yaml_manager``, ``shell``, ``logging``
+  - ``comparison``: ``request``, ``yaml_manager``, ``logging``
+  - ``cleanup``: ``locators``, ``request``, ``yaml_manager``, ``logging``
   - ``customization``: ``filepath``, ``locators``, ``request``, ``yaml_manager``
   - ``commandseq``: ``yaml_manager``, ``pickle_manager``, ``customization``, ``logging``
-  - ``templates``: ``yaml_manager``, ``customization``
+  - ``templates``: ``yaml_manager``, ``customization``, ``logging``
   - ``generate``: ``yaml_manager``, ``request``, ``nested``, ``customization``
   - ``__init__``: ``filepath``, ``locators``, ``requestfile``, ``customization``, ``shell``, ``templates``, ``cleanup``, ``comparison, ``debug``
   - ``cmdline``: ``*`` (meaning everything listed in ``__init__``)

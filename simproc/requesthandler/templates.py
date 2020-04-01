@@ -10,6 +10,9 @@ from jinja2 import Environment, FileSystemLoader
 #This package
 from . import yaml_manager
 from . import customization
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 _TemplateFileRequest_props_schema_yaml="""#GeneralShellCommandRequest
 name: {type: string}
@@ -43,6 +46,7 @@ class TemplateFileRequest(customization.CustomizableRequest):
   def get_template_input(self):
     return self.data
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Default search paths

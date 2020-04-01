@@ -7,6 +7,9 @@ from subprocess import call
 #This package
 from . import request
 from . import yaml_manager
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 class ShellCommandRequestBase(request.Request):
   """Base class for requests that execute shell commands
@@ -17,6 +20,7 @@ class ShellCommandRequestBase(request.Request):
   - define a property attribute cmd_str that provides the shell command to be executed, as a string"""
 
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Run the shell command

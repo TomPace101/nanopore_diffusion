@@ -10,6 +10,9 @@ import os
 from . import locators
 from . import request
 from . import yaml_manager
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 def cleanpath(target):
   """Remove the requested file or directory, and its parent if empty, recursively"""
@@ -67,6 +70,7 @@ class OutputCleanupRequest(request.Request):
     #We don't need to assure output directories, as they might be deleted anyway
   def run(self):
     """Delete all the output files that exist, and remove empty directories"""
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Delete the listed paths
@@ -95,6 +99,7 @@ class FileDeletionRequest(request.Request):
     #We don't need to assure output directories, as they might be deleted anyway
   def run(self):
     """Delete all the output files that exist, and remove empty directories"""
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Delete the listed paths

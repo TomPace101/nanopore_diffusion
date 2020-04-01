@@ -13,6 +13,9 @@ from . import request
 from . import yaml_manager
 from . import locators
 from .filepath import Path
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 main_mod_name=request.__package__.split('.')[0]
 modpath_parts=Path(__file__).parts
@@ -72,6 +75,7 @@ class SimultaneousRequestQueue(request.Request):
       #Add its children that are tasks
       self._task_queue += [ch for ch in req.recursive_children() if ch._self_task]
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Make sure the temporary files directory exists
     self.tmploc.assure_dir()
     #Get the template for the temporary file names

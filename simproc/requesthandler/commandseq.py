@@ -203,6 +203,7 @@ class CommandSequenceRequest(WithCommandsRequest):
     self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
     self._more_outputfiles+=self.list_iofiles(self.commands,['filename','outfpath'],'_outputfiles')
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
     #Run the comamnd sequence

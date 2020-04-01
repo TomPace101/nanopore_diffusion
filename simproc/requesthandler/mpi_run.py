@@ -12,6 +12,9 @@ from . import request
 from . import yaml_manager
 from . import simultaneous
 from . import locators
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 #Default tmpfile
 DEFAULT_TMPFILE = filepath.Path('.').expanduser().resolve() / 'tmp.yaml'
@@ -54,6 +57,7 @@ class MPIRunRequest(request.Request):
     self._more_inputfiles=self.child.inputfiles
     self._more_outputfiles=self.child.outputfiles
   def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Create the output directories for the request, one time, to avoid conflicts
     self.child.assure_output_dirs()
     #Write the input file
