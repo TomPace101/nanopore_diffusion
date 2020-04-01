@@ -289,6 +289,9 @@ def configure_stdout(level="TIMING"):
   #Create the handler
   handler=YAMLStreamHandler(use_stdout=True)
   handler.setLevel(level)
+  #Set the formatter for the handler
+  formatter=YAMLFormatter()
+  handler.setFormatter(formatter)
   #Add the handler to the root logger
   root.addHandler(handler)
   return
@@ -302,6 +305,9 @@ def configure_stderr(level="TIMING"):
   #Create the handler
   handler=YAMLStreamHandler()
   handler.setLevel(level)
+  #Set the formatter for the handler
+  formatter=YAMLFormatter()
+  handler.setFormatter(formatter)
   #Add the handler to the root logger
   root.addHandler(handler)
   return
