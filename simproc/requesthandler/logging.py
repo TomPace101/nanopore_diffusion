@@ -17,6 +17,7 @@ from __future__ import print_function, division #Python 2 compatibility
 import collections
 import logging
 from datetime import datetime
+import sys
 
 #Site packages
 #(implement a separate yaml instance from the one in yaml_manager, to avoid conflicts)
@@ -67,7 +68,7 @@ class Logger(logging.Logger):
   #   #Copied from the python standard library source, in _log
   #   #Won't work yet
   #   sinfo = None
-  #   if _srcfile: #TODO: this is set in the stdlib logging module, and used by findCaller, so it probably needs modification somehow
+  #   if _srcfile:
   #     #IronPython doesn't track Python frames, so findCaller raises an
   #     #exception on some versions of IronPython. We trap it here so that
   #     #IronPython can use logging.
@@ -124,9 +125,18 @@ class RootLogger(Logger):
                 handler_name=hdlr.name,
                 num_messages_output=self.bufferhandler.num_records,
                 missing_messages=self.bufferhandler.num_deleted)
+  def bumpLevel(self,level):
+    """Make sure the logger is enabled for this level"""
+    if self.level > logging._checkLevel(level):
+      self.setLevel(level)
 
 class YAMLStreamHandler(logging.StreamHandler):
   """For output of logs to a YAML stream"""
+  def __init__(self,stream=None,use_stdout=False):
+    if stream is None and use_stdout:
+      stream=sys.stdout
+    #Initialization from base class
+    super(YAMLStreamHandler, self).__init__(stream)
   def emit(self,record):
     try:
       msg=self.format(record)
@@ -231,21 +241,23 @@ def find_unique_id(stem,logdir,ext,num_digits,sepchar):
     trial_fname=fname_tmpl.format(unid)
   return trial_fname
 
-def configure_logging(level="TIMING",stem="simproc",logdir_rel="logs",logdir_abs=None,ext=".log.yaml",num_digits=3,sepchar="."):
-  """Apply settings to the root logger, which will flow down to all children by default
+_srcfile = find_unique_id.__code__.co_filename #So that findCaller will work, if needed
+
+def configure_logfile(level="TIMING",stem="simproc",logdir_rel="logs",logdir_abs=None,ext=".log.yaml",num_digits=3,sepchar="."):
+  """Set up a log file for the root logger, which will flow down to all children by default
 
   Arguments:
 
-    - level = level below which to suppress messages, as a string
+    - level = level below which to suppress messages to this file, as a string or integer
     - stem = log filename stem, as string
     - logdir_rel = path to the directory to contain the log file, taken relative to locators.DATAFOLDER **at the time of the call**. String form acceptable.
     - ext, num_digits, sepchar = additional arguments to ``find_unique_id``
 
   No return value."""
-  #Set the log level for the root logger
+  #Get the root logger
   global root
-  levelno=logging._nameToLevel[level]
-  root.setLevel(levelno)
+  #Lower the level of the root logger if necessary
+  root.bumpLevel(level)
   #Get the absolute path to the log directory
   if logdir_abs is None:
     logdir = locators.DATAFOLDER / filepath.Path(logdir_rel, isFile = False)
@@ -259,9 +271,37 @@ def configure_logging(level="TIMING",stem="simproc",logdir_rel="logs",logdir_abs
   #Create a handler to output to this file
   handler=YAMLFileHandler(logfpath,mode='w')
   handler.name=logfile
+  #Set the level for the handler
+  handler.setLevel(level)
   #Set the formatter for the handler
   formatter=YAMLFormatter()
   handler.setFormatter(formatter)
+  #Add the handler to the root logger
+  root.addHandler(handler)
+  return
+
+def configure_stdout(level="TIMING"):
+  """Set up logs to sys.stdout"""
+  #Get the root logger
+  global root
+  #Lower the level of the root logger if necessary
+  root.bumpLevel(level)
+  #Create the handler
+  handler=YAMLStreamHandler(use_stdout=True)
+  handler.setLevel(level)
+  #Add the handler to the root logger
+  root.addHandler(handler)
+  return
+
+def configure_stderr(level="TIMING"):
+  """Set up logs to sys.stderr"""
+  #Get the root logger
+  global root
+  #Lower the level of the root logger if necessary
+  root.bumpLevel(level)
+  #Create the handler
+  handler=YAMLStreamHandler()
+  handler.setLevel(level)
   #Add the handler to the root logger
   root.addHandler(handler)
   return
