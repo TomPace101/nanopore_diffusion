@@ -14,7 +14,6 @@ from scipy.sparse import csr_matrix
 from ..requesthandler.commandseq import WithCommandsRequest, make_schema
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
-from ..requesthandler import timing
 from ..requesthandler import nested
 from .meshinfo import MeshInfo
 from ..postproc.plotseries import PlotSeries
@@ -159,9 +158,10 @@ class SimulationRequest(WithCommandsRequest):
       #Load
       self.meshinfo=MeshInfo.load(self.render(self.mesh),meshmeta,hasmeshfuncs)
     #Do the simulation
-    self.sim_timer=timing.Timer()
+    logger.startTimer("simulation",request_name=getattr(self,"name",None))
     self.run_sim()
-    self.sim_timer.stop()    # print("Simulation duration: "+self.sim_timer.stop())
+    logger.stopTimer("simulation",request_name=getattr(self,"name",None))
+    self.sim_timer=logger.timers["simulation"]
     #Generate output, if any
     self.process_command_sequence(attrpath='dataextraction',singlefunc=None,positional=False)
     return
@@ -543,9 +543,9 @@ class SimulationRequest(WithCommandsRequest):
   #     - attr_A = attribute path to the matrix
   #     - attr_det = attribute path for storing the determinant"""
   #   a=self.get_nested(attr_A)
-  #   self.det_timer=timing.Timer()
+  #   logger.startTimer("determinant")
   #   det = np.linalg.det(A)
-  #   self.det_timer.stop()
+  #   logger.stopTimer("determinant")
   #   self.set_nested(attr_det,det)
   #   return
 

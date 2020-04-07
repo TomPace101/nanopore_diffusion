@@ -11,9 +11,11 @@ from scipy.interpolate import LinearNDInterpolator
 
 #This package
 from ..requesthandler import yaml_manager
-from ..requesthandler import timing
 from . import simrequest
 from . import meshinfo
+from ..requesthandler import logging
+
+logger=logging.getLogger(__name__)
 
 _InterpolationConditions_props_schema_yaml="""#InterpolationConditions
 functionname: {type: string}
@@ -109,14 +111,15 @@ class InterpolationSimulator(simrequest.SimulationRequest):
       data_vals=np.hstack([invals,boundary_vals])
 
     #Set up the interpolator
-    self.interp_setup_timer=timing.Timer()
+    logger.startTimer("interp_setup",request_name=getattr(self,"name",None))
     ilator=LinearNDInterpolator(data_pts,data_vals,fill_value=fillvalue,rescale=False)
-    self.interp_setup_timer.stop()
+    logger.stopTimer("interp_setup",request_name=getattr(self,"name",None))
+    self.interp_setup_timer=logger.timers["interp_setup"]
     #Interpolate at all dof points
-    self.interp_run_timer=timing.Timer()
+    logger.startTimer("interp_run",request_name=getattr(self,"name",None))
     dofvals=ilator(dofcoords)
-    self.interp_run_timer.stop()
-
+    logger.stopTimer("interp_run",request_name=getattr(self,"name",None))
+    self.interp_run_timer=logger.timers["interp_run"]
     #Define function from the interpolated dof values
     self.soln=fem.Function(self.V,name=functionname)
     junk=self.soln.vector().set_local(dofvals)

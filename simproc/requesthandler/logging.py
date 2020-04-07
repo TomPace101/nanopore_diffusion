@@ -87,23 +87,23 @@ class Logger(logging.Logger):
   def _log(self, level, msg, args=None, **kwargs): #TODO: arguments would need to be modified to let wrapFindCaller work
     record = logging._logRecordFactory(self.name, level, msg, args, **kwargs)
     self.handle(record)
-  def startTimer(self,timername):
+  def startTimer(self,timername,**kwargs):
     self.timers[timername]=timing.Timer()
-    self.log(logging.TIMING,"Starting new timer.",timername=timername)
-  def splitTimer(self,timername):
+    self.log(logging.TIMING,"Starting new timer.",timername=timername,**kwargs)
+  def splitTimer(self,timername,**kwargs):
     delta_str=self.timers[timername].split()
     delta_totalsec=self.timers[timername].lap.total_seconds()
     self.log(logging.TIMING,"Reporting elapsed time on timer.",
             timer_name=timername,
             elapsed_sec=delta_totalsec,
-            elapsed=delta_str)
-  def stopTimer(self,timername):
+            elapsed=delta_str, **kwargs)
+  def stopTimer(self,timername,**kwargs):
     delta_str=self.timers[timername].stop()
     delta_totalsec=self.timers[timername].delta.total_seconds()
     self.log(logging.TIMING,"Stopping timer.",
             timer_name=timername,
             elapsed_sec=delta_totalsec,
-            elapsed=delta_str)
+            elapsed=delta_str,**kwargs)
 
 class RootLogger(Logger):
   def __init__(self,level):
