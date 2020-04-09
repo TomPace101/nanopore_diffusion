@@ -85,7 +85,7 @@ class Logger(logging.Logger):
   #       exc_info = sys.exc_info()
   #   return fn,lno,exc_info,func,extra,sinfo
   def _log(self, level, msg, args=None, **kwargs): #TODO: arguments would need to be modified to let wrapFindCaller work
-    record = logging._logRecordFactory(self.name, level, msg, args, **kwargs)
+    record = LogRecord(self.name, level, msg, args, **kwargs)
     self.handle(record)
   def startTimer(self,timername,**kwargs):
     self.timers[timername]=timing.Timer()
@@ -199,8 +199,8 @@ class BufferHandler(logging.Handler):
 #Introduce the "timing" log level
 logging.addLevelName(logging.TIMING,"TIMING")
 #Tell the stdlib logging module about these new classes
-logging.setLogRecordFactory(LogRecord)
-logging.setLoggerClass(Logger)
+# logging.setLogRecordFactory(LogRecord)
+# logging.setLoggerClass(Logger)
 #Set up the root logger
 root=RootLogger(logging.WARNING)
 Logger.root=root
