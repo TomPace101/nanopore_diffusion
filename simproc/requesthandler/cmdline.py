@@ -42,8 +42,8 @@ def run():
   parser.add_argument('--select',nargs="+",metavar="TASKNAME",help="Specify which tasks to run, by name.")
   parser.add_argument('--stdout_level',nargs="?",help="Minimum level for events to be logged to stdout. If not provided, no events logged to stdout.",default=None)
   parser.add_argument('--stderr_level',nargs="?",help="Minimum level for events to be logged to stderr. If not provided, no events logged to stderr.",default=None)
-  parser.add_argument('--loglevel',nargs="?",help="Minimum level for events to be sent to the log file.",default="TIMING")
-  parser.add_argument('--logstem',nargs="?",help="Stem name of the log file. If not provided, no log file will be created.",default=None)
+  parser.add_argument('--loglevel',nargs="?",help="Minimum level for events to be sent to the log file. If not provided, no log file will be created.",default=None)
+  parser.add_argument('--logstem',nargs="?",help="Stem name of the log file.",default="simproc")
   parser.add_argument('--logdir',nargs="?",help="Path to the folder containing the log file. Overrides logdir_rel if given.",default=None)
   parser.add_argument('--logdir_rel',nargs="?",help="Path to the folder containing the log file, relative to the DATAFOLDER.",default="logs")
   parser.add_argument('--logext',nargs="?",help="Extension for the log file.",default=".log.yaml")
@@ -56,7 +56,7 @@ def run():
     run_validation(verbose=cmdline.verbose)
 
   #Set up logging
-  if cmdline.logstem is not None:
+  if cmdline.loglevel is not None:
     logging.configure_logfile(level=cmdline.loglevel,stem=cmdline.logstem,logdir_rel=cmdline.logdir_rel,
                               logdir_abs=cmdline.logdir,ext=cmdline.logext,
                               num_digits=cmdline.log_num_digits,sepchar=cmdline.log_sepchar)
