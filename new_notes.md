@@ -247,17 +247,9 @@ See logs:
   - 2019-08-05.md
   - 2019-10-07.md
 
-_FEATURE_ logging
-
-Log references:
-- 2018-12-20.md
-- 2019-12-19.md
-- 2020-03-06.md
-- 2020-03-09.md
-- 2020-03-13.md
-- 2020-03-16.md
-- 2020-03-19.md (lots of vision here)
-- 2020-03-20.md
+The checkerboard problem is now a pretty good example of how to do this manually.
+It runs a bunch of requests, with a parent request to define them.
+Maybe some things from that could be generalized?
 
 # Dependency tracking
 Here are some limitations of doit that I'd like to resolve:
