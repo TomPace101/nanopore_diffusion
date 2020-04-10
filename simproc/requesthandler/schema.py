@@ -34,7 +34,8 @@ def validation_error_string(err):
 
 #Basic schema for self-validation
 #Note that validation is not applied to class attributes,
-#but some of these could be instance attributes in a subclass
+#but some of these could be instance attributes in some cases.
+#Note also that properties inherited from nested.WithNested must also be included in the schema.
 _SelfValidating_props_schema_yaml="""#SelfValidating
 name:
   anyOf:
@@ -45,6 +46,7 @@ _required_attrs:
   type: array
   items: {type: string}
 _props_schema: {type: object}
+_additional_properties_ok: {type: boolean}
 """
 
 class SelfValidating(nested.WithNested):
@@ -54,8 +56,10 @@ class SelfValidating(nested.WithNested):
   
     - _required_attrs: list of attribute names that must be defined for the request to be valid
     - _props_schema: jsonschema used to validate request configuration, as a dictionary
-        The schema is for the 'properties' element only. The rest is provided internally."""
+        The schema is for the 'properties' element only. The rest is provided internally.
+    - _additional_properties_ok: boolean, True if the schema should allow additional properties"""
   _props_schema=yaml_manager.readstring(_SelfValidating_props_schema_yaml)
+  _additional_properties_ok=False
   def __init__(self,**kwargs):
     #Validate kwargs
     if hasattr(self,'_props_schema'):
@@ -78,15 +82,13 @@ class SelfValidating(nested.WithNested):
     schema.update(cls._props_schema)
     schema.update(sub_schema)
     return schema
-  @classmethod
-  def _class_schema(cls):
+  def _validation_schema(self):
     """Return the jsonschema validation schema for instances of this class"""
     return {'type':'object',
-            'properties':cls._props_schema,
-            'required':getattr(cls,'_required_attrs',[]),
-            'additionalProperties':False}
-  @classmethod
-  def additional_validation(cls,**kwargs):
+            'properties':self._props_schema,
+            'required':getattr(self,'_required_attrs',[]),
+            'additionalProperties':self._additional_properties_ok}
+  def additional_validation(self,**kwargs):
     """Perform additional validation of the object data, beyond just the schema check
 
     The method provided in this base class is meant to be overridden by subclasses that need it.
@@ -99,17 +101,16 @@ class SelfValidating(nested.WithNested):
 
       - list of error strings (including their indentation)"""
     return []
-  @classmethod
-  def validate_kwargs(cls,**kwargs):
-    if hasattr(cls,'_props_schema'):
-      schema=cls._class_schema()
+  def validate_kwargs(self,**kwargs):
+    if hasattr(self,'_props_schema'):
+      schema=self._validation_schema()
       validator=ValidatorClass(schema,types=extra_types_dict)
       errlist=["  - %s"%validation_error_string(err) for err in validator.iter_errors(kwargs)]
-      errlist+=cls.additional_validation(**kwargs)
+      errlist+=self.additional_validation(**kwargs)
       if len(errlist)>0:
         #Found errors: raise exception listing them all
         errlist.sort()
-        errstr="Errors found in %s.\n"%cls.__name__
+        errstr="Errors found in %s.\n"%type(self).__name__
         keylist=list(kwargs.keys())
         keylist.sort()
         errstr+='Received arguments:\n'

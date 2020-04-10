@@ -125,8 +125,7 @@ class BuildGeomRequest(Request):
     self.geomdef=self.get_stored(self.geomdef)
     #List the geometry definition template file as an input file
     self._more_inputfiles=[geotemplate,self.geomdef.tmplfile]
-  # @classmethod
-  # def additional_validation(cls,**kwargs):
+  # def additional_validation(self,**kwargs):
   #   """Perform additional validation of the object data, beyond just the schema check
     
   #   Check that the provided parameters are appropriate for the template."""

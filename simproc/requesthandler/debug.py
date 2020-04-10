@@ -84,10 +84,9 @@ class DummyRequest(request.Request):
   _required_attrs=['name','test']
   _props_schema=request.make_schema(_DummyRequest_props_schema_yaml)
   __values_not_allowed__=['evil_data'] #This parameter is specific to this class
-  @classmethod
-  def additional_validation(cls,**kwargs):
+  def additional_validation(self,**kwargs):
     testvalue=kwargs.get('test',None)
-    if testvalue in cls.__values_not_allowed__:
+    if testvalue in self.__values_not_allowed__:
       errlist=['  - The value "%s" is explicitly not allowed.'%str(testvalue)]
     else:
       errlist=[]
