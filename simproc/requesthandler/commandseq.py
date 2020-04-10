@@ -43,6 +43,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
         else:
           arguments = cmd
         #Call it
+        logger.debug("Processing command.",request_name=getattr(self,"name",None),funcname=funcname)
         if positional:
           getattr(self,funcname)(*arguments)
         else:
