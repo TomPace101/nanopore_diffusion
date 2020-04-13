@@ -219,6 +219,18 @@ _FEATURE_ collection requires all rows in the table to have data in each column
 We could remove this requirement if we identified a key column, which then had to appear in each mapping.
 Of course, your simulations have to use the same values for this key, and output them to the results files.
 
+_ISSUE_ `CollectionRequest` and `SimpleCollectionRequest` don't seem useful in practice.
+I don't always know how to get handles to all the requests they would need.
+As of now, I've been explicitly listing all the files, which is a pain.
+Maybe if I could list the request names, and let them be retrieved from the named object store,
+that would be different.
+
+_ISSUE_ in collection, there needs to be some way to simplify the mapping specification
+Right now, if all my entries in the file are suitable column names,
+it doesn't matter.
+I have to list them all anyway, as themselves!
+(e.g. `column_1: column_1`)
+
 _FEATURE_ see TODO items in `generate.py`
 
 _FEATURE_ `simrequest.py` had a workaround for the lack of the `schema` module for checking the "conditions" attribute.
