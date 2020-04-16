@@ -3,7 +3,7 @@
 #This package
 from ..requesthandler import locators
 from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
-from ..requesthandler.request import Request, make_schema
+from ..requesthandler.request import Request
 from . import gmsh_runner
 from . import dconv_runner
 from . import hdf5_conv
@@ -76,12 +76,12 @@ class GeoToHDF5Request(Request):
     - dconv_request: Request that will run dolfin-convert
     - hdf5_request: Request that will convert to hdf5"""
   _self_task = False
-  _required_attrs=['name','mesh_stem']
   _outputfile_attrs=['mshfile','gmsh_outfile','meshmetafile','dconv_outfile','mesh_xml','facet_xml','cell_xml','mesh_hdf5file']
   _inputfile_attrs=['geofile']
   _allfile_attrs=_inputfile_attrs+_outputfile_attrs
   _child_attrs=['gmsh_request','dconv_request','hdf5_request']
-  _props_schema=make_schema(_GeoToHDF5Request_props_schema_yaml)
+  _validation_schema=Request.update_schema(_GeoToHDF5Request_props_schema_yaml)
+  _validation_schema.required=['name','mesh_stem']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(GeoToHDF5Request, self).__init__(**kwargs)

@@ -1,7 +1,7 @@
 """Run dolfin-convert"""
 
 #This package
-from ..requesthandler.request import make_schema
+from ..requesthandler.request import Request
 from ..requesthandler.shell import ShellCommandRequestBase
 from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler.filepath import Path
@@ -60,11 +60,11 @@ class DolfinConvertRequest(ShellCommandRequestBase):
     - cell_xml = Path to .xml file containing cell meshfunction data
   """
   _self_task=True
-  _required_attrs=['name','mshfile','mesh_xml','dconv_outfile']
   _inputfile_attrs=['mshfile']
   _outputfile_attrs=['mesh_xml','dconv_outfile','facet_xml','cell_xml']
   _config_attrs=['mshfile','mesh_xml','dconv_outfile']
-  _props_schema=make_schema(_DolfinConvertRequest_props_schema_yaml)
+  _validation_schema=Request.update_schema(_DolfinConvertRequest_props_schema_yaml)
+  _validation_schema.required=['name','mshfile','mesh_xml','dconv_outfile']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(DolfinConvertRequest, self).__init__(**kwargs)

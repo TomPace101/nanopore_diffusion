@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 #This package
-from ..requesthandler.commandseq import WithCommandsRequest, make_schema
+from ..requesthandler.commandseq import WithCommandsRequest
 from ..requesthandler import schema
 from ..requesthandler import yaml_manager
 from .plotseries import PlotSeries
@@ -50,8 +50,8 @@ class FigureProperties(schema.SelfValidating):
     - figattr = attribute path for storing result, defaults to "fig"
     - outfpath = file path to save to once complete
     - savekwargs = keyword arguments dictionary to pass to ``fig.savefig``"""
-  _required_attrs=['outfpath']
-  _props_schema=schema.SelfValidating.update_props_schema(_FigureProperties_props_schema_yaml)
+  _validation_schema=schema.SelfValidating.update_schema(_FigureProperties_props_schema_yaml)
+  _validation_schema.required=['outfpath']
   _matplotlib_props=['figsize','dpi','facecolor','edgecolor','linewidth','frameon','subplotpars','tight_layout','constrained_layout']
 
 schema.extra_types_dict['FigureProperties']=(FigureProperties,)
@@ -105,8 +105,8 @@ class AxesProperties(schema.SelfValidating):
     - xlim = pair of numbers to set as x-axis limits
     - ylim = pair of numbers to set as y-axis limits
     - kwargs = keyword arguments to pass to plt.figure.subplots"""
-  _required_attrs=[]
-  _props_schema=schema.SelfValidating.update_props_schema(_AxesProperties_props_schema_yaml)
+  _validation_schema=schema.SelfValidating.update_schema(_AxesProperties_props_schema_yaml)
+  _validation_schema.required=[]
 
 schema.extra_types_dict['AxesProperties']=(AxesProperties,)
 
@@ -132,9 +132,9 @@ class SeriesProperties(schema.SelfValidating):
     - fmt = matplotlib format string
     - newlabel = label to use for the legend instead of the series-provided one
     - kwargs = other keyword arguments for Axes.plot"""
-  _required_attrs=['seriesattr']
   _direct_attrs=['fmt','newlabel']
-  _props_schema=schema.SelfValidating.update_props_schema(_SeriesProperties_props_schema_yaml)
+  _validation_schema=schema.SelfValidating.update_schema(_SeriesProperties_props_schema_yaml)
+  _validation_schema.required=['seriesattr']
 
 schema.extra_types_dict['SeriesProperties']=(SeriesProperties,)
 
@@ -185,8 +185,8 @@ class FigureRequest(WithCommandsRequest):
   """
   _self_task=True
   _config_attrs=('loadfiles','prepcommands','plotcommands','rcparams','figures','axes','series')
-  _required_attrs=[]
-  _props_schema=make_schema(_FigureRequest_props_schema_yaml)
+  _validation_schema=WithCommandsRequest.update_schema(_FigureRequest_props_schema_yaml)
+  _validation_schema.required=[]
   def __init__(self,**kwargs):
     #Initialization from base class
     super(FigureRequest, self).__init__(**kwargs)

@@ -6,7 +6,7 @@ from __future__ import print_function, division #Python 2 compatibility
 #This package
 from ..requesthandler import filepath
 from ..requesthandler import yaml_manager
-from ..requesthandler.request import make_schema, Request
+from ..requesthandler.request import Request
 from ..requesthandler import schema
 from ..requesthandler import locators
 from ..requesthandler import logging
@@ -49,8 +49,8 @@ class GeometryDefinition(schema.SelfValidating):
     - geomtable = mapping of surfaces to sequence points
     - surfloops = mapping of surface loops to sequence of surfaces
     - nonplanar = list of surfaces that are not planar surfaces"""
-  _required_attrs=['dimensions', 'tmplfile', 'tmplvars', 'outvars', 'ptdict', 'geomtable', 'surfloops', 'nonplanar']
-  _props_schema=schema.SelfValidating.update_props_schema(_GeometryDefinition_props_schema_yaml)
+  _validation_schema=schema.SelfValidating.update_schema(_GeometryDefinition_props_schema_yaml)
+  _validation_schema.required=['dimensions', 'tmplfile', 'tmplvars', 'outvars', 'ptdict', 'geomtable', 'surfloops', 'nonplanar']
 
 schema.extra_types_dict['GeometryDefinition']=(GeometryDefinition,)
 
@@ -114,10 +114,10 @@ class BuildGeomRequest(Request):
     - searchpaths = optional list of other paths to search for supporting template files (i.e. jinja template extension files)
   """
   _self_task=True
-  _required_attrs=['name','geomdef','parameters','geofile']
   _outputfile_attrs=['geofile']
   _config_attrs=['geomdef','parameters']
-  _props_schema=make_schema(_BuildGeomRequest_props_schema_yaml)
+  _validation_schema=Request.update_schema(_BuildGeomRequest_props_schema_yaml)
+  _validation_schema.required=['name','geomdef','parameters','geofile']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(BuildGeomRequest, self).__init__(**kwargs)

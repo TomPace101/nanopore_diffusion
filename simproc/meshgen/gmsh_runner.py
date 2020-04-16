@@ -1,7 +1,7 @@
 """Run gmsh"""
 
 #This package
-from ..requesthandler.request import make_schema
+from ..requesthandler.request import Request
 from ..requesthandler.shell import ShellCommandRequestBase
 from ..requesthandler.yaml_manager import register_classes, readstring as readyaml
 from ..requesthandler import locators
@@ -32,11 +32,11 @@ class GmshRequest(ShellCommandRequestBase):
     - integer_arg: optional, integer to pass to gmsh on the command line, to specify meshing dimension
         defaults to 0, which indicates that the .geo file contains the appropriate `Mesh` command."""
   _self_task=True
-  _required_attrs=['name','geofile','mshfile','gmsh_outfile']
   _outputfile_attrs=['mshfile','gmsh_outfile','meshmetafile']
   _inputfile_attrs=['geofile']
   _config_attrs=['geofile','mshfile','gmsh_outfile','meshmetafile','integer_arg']
-  _props_schema=make_schema(_GmshRequest_props_schema_yaml)
+  _validation_schema=Request.update_schema(_GmshRequest_props_schema_yaml)
+  _required_attrs=['name','geofile','mshfile','gmsh_outfile']
   @property
   def cmd_str(self):
     #Integer argument

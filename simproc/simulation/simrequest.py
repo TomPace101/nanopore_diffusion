@@ -11,7 +11,7 @@ import fenics as fem
 from scipy.sparse import csr_matrix
 
 #This package
-from ..requesthandler.commandseq import WithCommandsRequest, make_schema
+from ..requesthandler.commandseq import WithCommandsRequest
 from ..requesthandler import yaml_manager
 from ..requesthandler import locators
 from ..requesthandler import nested
@@ -26,30 +26,6 @@ logger=logging.getLogger(__name__)
 locators.folder_structure.update(OwnSolutionFile=['solutions',0,1])
 locators.folder_structure.update(OtherSolutionFile=['solutions'])
 
-#To help with Conditions schemas
-
-def update_schema_props(origschema,newprops,newreq=None):
-  """Returns a new schema dictionary by adding to an existing one.
-  
-  Arguments:
-  
-    - origschema = the original schema (not just the properties), as a dictionary
-    - newprops = the dictionary to be added to the properties key of the original schema
-    - newreq = optional, sequence of properties to be added as required in the new schema
-    
-  Note that the original schema dictionary is not modified: a deep copy is created, modified, then returned."""
-  newschema=deepcopy(origschema)
-  newschema['properties'].update(newprops)
-  if newreq is not None:
-    newschema['required']+=newreq
-  return newschema
-
-def update_conditions(origschema,newconditions):
-  """Update the conditions portion of a SimulationRequest schema"""
-  newschema=deepcopy(origschema)
-  newschema['conditions'].update(newconditions)
-  return newschema
-
 EmptyConditions_schema_yaml="""#EmptyConditions
 type: object
 properties: {}
@@ -57,6 +33,7 @@ required: []
 additionalProperties: False
 """
 EmptyConditions_schema=yaml_manager.readstring(EmptyConditions_schema_yaml)
+EmptyConditions=nested.WithNested(**EmptyConditions_schema)
 
 GenericConditions_props_schema_yaml="""#GenericConditions
 elementorder: {type: integer}
@@ -64,7 +41,8 @@ dirichlet: {type: object}
 neumann: {type: object}
 """
 GenericConditions_props_schema=yaml_manager.readstring(GenericConditions_props_schema_yaml)
-GenericConditions_schema=update_schema_props(EmptyConditions_schema,GenericConditions_props_schema,['elementorder'])
+GenericConditions_schema=EmptyConditions.update_schema(GenericConditions_props_schema_yaml)
+GenericConditions.required=['elementorder']
 
 _SimulationRequest_props_schema_yaml="""#SimulationRequest
 mesh:
@@ -126,10 +104,10 @@ class SimulationRequest(WithCommandsRequest):
     
     - metadata = dictionary of metadata about the model, for use in post-processing"""
   _self_task=True
-  _required_attrs=['name','mesh','conditions']
   _inputfile_attrs=['mesh','meshmeta']
   _config_attrs=['mesh','meshmeta','hasmeshfuncs','conditions','dataextraction','loaddata','metadata']
-  _props_schema=make_schema(_SimulationRequest_props_schema_yaml)
+  _validation_schema=WithCommandsRequest.update_schema(_SimulationRequest_props_schema_yaml)
+  _validation_schema.required=['name','mesh','conditions']
 
   def __init__(self,**kwargs):
     #Initialization from base class

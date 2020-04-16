@@ -57,10 +57,10 @@ class RawCollectionRequest(WithCommandsRequest):
     - calculations = command sequence defining calculations to be done after the dataframe is constructed from the input files"""
     
   _self_task=True
-  _required_attrs=['name','outpath','definitions']
   _outputfile_attrs=['outpath']
   _config_attrs=['definitions','multidoc','calculations']
-  _props_schema=make_schema(_RawCollectionRequest_props_schema_yaml)
+  _validation_schema=Request.update_schema(_RawCollectionRequest_props_schema_yaml)
+  _validation_schema.required=['name','outpath','definitions']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RawCollectionRequest, self).__init__(**kwargs)
@@ -163,10 +163,10 @@ class CollectionRequest(WithCommandsRequest):
     - raw_definitions = list of definition pairs suitable for RawCollectionRequest"""
     
   _self_task=True
-  _required_attrs=['name','outpath','definitions','requests']
   _outputfile_attrs=['outpath']
   _config_attrs=['definitions','_more_inputfiles','calculations']
-  _props_schema=make_schema(_CollectionRequest_props_schema_yaml)
+  _validation_schema=Request.update_schema(_CollectionRequest_props_schema_yaml)
+  _validation_schema.required=['name','outpath','definitions','requests']
   def __init__(self,**kwargs):
     ##TODO: should this perhaps just use RawCollectionRequest as its children instead of calling `complete` on them when run?
     #Initialization from base class
@@ -229,9 +229,9 @@ class SimpleCollectionRequest(WithCommandsRequest):
   
     - child = the CollectionRequest created from this request"""
   _self_task=False
-  _required_attrs=['name','outpath','requests','mapping','locator_list']
   _child_attrs=['child']
-  _props_schema=make_schema(_SimpleCollectionRequest_props_schema_yaml)
+  _validation_schema=make_schema(_SimpleCollectionRequest_props_schema_yaml)
+  _validation_schema.required=['name','outpath','requests','mapping','locator_list']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(SimpleCollectionRequest, self).__init__(**kwargs)
