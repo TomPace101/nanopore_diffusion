@@ -99,7 +99,7 @@ class Request(schema.SelfValidating):
     - provide all their input and output files, which may come from locators
         - input files are specified by _inputfiles_attrs and _more_inputfiles
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
-  _props_schema=schema.SelfValidating.update_schema(_Request_props_schema_yaml)
+  _validation_schema=schema.SelfValidating.update_schema(_Request_props_schema_yaml)
   _uptodate=True
   def __init__(self,**kwargs):
     logger.debug("Initializing Request.",request_class=type(self).__name__,request_name=kwargs.get("name",None))

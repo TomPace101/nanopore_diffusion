@@ -91,7 +91,7 @@ class SelfValidating(nested.WithNested):
     sub_schema=yaml_manager.readstring(yaml_str)
     orig_schema=cls._validation_schema
     new_schema=deepcopy(orig_schema)
-    new_schema.set_nested(dpath,sub_schema)
+    new_schema.update_nested(dpath,sub_schema)
     return new_schema
   def additional_validation(self,**kwargs):
     """Perform additional validation of the object data, beyond just the schema check

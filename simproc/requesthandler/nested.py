@@ -76,6 +76,22 @@ def set_nested(obj,dpath,val):
     setattr(parent,tail,val)
   return
 
+def update_nested(obj,dpath,val):
+  """Call the ``update`` method of the object at the specified attribute/key/index path
+
+  Arguments:
+  
+    - dpath = string describing path to the data, using dot separators, or a sequence
+    - val = value to be used as the argument to ``update``
+
+  No return value."""
+  seq=to_sequence(dpath)
+  if hasattr(obj,'get_nested'):
+    target=obj.get_nested(seq)
+  else:
+    target=get_nested(obj,seq)
+  target.update(val)
+
 def new_odict(obj,dpath):
   """Create a new OrderedDict instance suitable for later use with set_nested
   
@@ -142,6 +158,10 @@ class WithNested(object):
   def set_nested(self,dpath,val):
     """Set the value at the specified attribute/key/index path"""
     set_nested(self,dpath,val)
+    return
+  def update_nested(self,dpath,val):
+    """Call ``update`` on the object at the specified attribute/key/index path"""
+    update_nested(self,dpath,val)
     return
   def new_odict(self,dpath):
     """Set up a new OrderedDict for later use with set_nested"""
