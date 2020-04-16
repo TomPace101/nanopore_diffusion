@@ -54,8 +54,8 @@ class SimultaneousRequestQueue(request.Request):
       Note that, at present, cleanup won't remove this folder if it is created. Sorry.
     - tmpfmt: optional, ugly, and I don't recommend you use it without looking at the source code"""
   _self_task=False
-  _required_attrs=['num_workers','queue']
-  _props_schema=request.make_schema(_SimultaneousRequestQueue_props_schema_yaml)
+  _validation_schema=request.Request.update_schema(_SimultaneousRequestQueue_props_schema_yaml)
+  _validation_schema.required=['num_workers','queue']
   _child_seq_attrs=['queue']
   def __init__(self,**kwargs):
     #Initialization from base class

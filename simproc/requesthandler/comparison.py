@@ -73,8 +73,8 @@ class FileComparisonRequest(request.Request):
     
   When run, returns a comparison report as a string if files match.
   Raises AssertionError if they do not."""
-  _props_schema=request.make_schema(_FileComparisonRequest_props_schema_yaml)
-  _required_attrs=['name','expected','received']
+  _validation_schema=request.Request.update_schema(_FileComparisonRequest_props_schema_yaml)
+  _validation_schema.required=['name','expected','received']
   _inputfile_attrs=['expected','received']
   _config_attrs=['expected','received']
   _self_task=True
@@ -109,8 +109,8 @@ class FileComparisonListRequest(request.Request):
   Collects the reports or errors of the child requests,
   and raises the errors of all children, if any.
   If no errors, returns the reports of all the child requests."""
-  _props_schema=request.make_schema(_FileComparisonListRequest_props_schema_yaml)
-  _required_attrs=['pairs']
+  _validation_schema=request.Request.update_schema(_FileComparisonListRequest_props_schema_yaml)
+  _validation_schema.required=['pairs']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):
@@ -166,8 +166,8 @@ class FileSizeComparisonRequest(request.Request):
 
   When run, returns a comparison report as a string if the check passes.
   Raises AssertionError if not."""
-  _props_schema=request.make_schema(_FileSizeComparisonRequest_props_schema_yaml)
-  _required_attrs=['name','expected','received']
+  _validation_schema=request.Request.update_schema(_FileSizeComparisonRequest_props_schema_yaml)
+  _validation_schema.required=['name','expected','received']
   _inputfile_attrs=['expected','received']
   _config_attrs=['expected','received','range']
   _self_task=True
@@ -217,8 +217,8 @@ class FileSizeComparisonListRequest(request.Request):
   Collects the reports or errors of the child requests,
   and raises the errors of all children, if any.
   If no errors, returns the reports of all the child requests."""
-  _props_schema=request.make_schema(_FileSizeComparisonListRequest_props_schema_yaml)
-  _required_attrs=['triples']
+  _validation_schema=request.Request.update_schema(_FileSizeComparisonListRequest_props_schema_yaml)
+  _validation_schema.required=['triples']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):

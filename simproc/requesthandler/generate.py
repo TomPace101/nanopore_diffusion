@@ -72,8 +72,8 @@ class ParametricRequestListRequest(customization.CustomizableRequest):
   Calculated Attributes:
   
     - _children = sequence of child requests"""
-  _props_schema=customization.make_schema(_ParametricRequestListRequest_props_schema_yaml)
-  _required_attrs=['request_type']
+  _validation_schema=customization.CustomizableRequest.update_schema(_ParametricRequestListRequest_props_schema_yaml)
+  _validation_schema.required=['request_type']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def get_child_kwargs(self,index=None,**fields):
@@ -180,8 +180,8 @@ class GeneratedVariationsRequest(customization.CustomizableRequest):
   In that case, the parameters in the template itself are not used.
   
   """
-  _props_schema=customization.make_schema(_GeneratedVariationsRequest_props_schema_yaml)
-  _required_attrs=['request_type','template']
+  _validation_schema=customization.CustomizableRequest.update_schema(_GeneratedVariationsRequest_props_schema_yaml)
+  _validation_schema.required=['request_type','template']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def get_child_kwargs(self,index=None,**fields):

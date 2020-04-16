@@ -48,8 +48,8 @@ class OutputCleanupRequest(request.Request):
   Calculated Attributes:
   
     - pathlist: list of files to be deleted"""
-  _props_schema=request.make_schema(_OutputCleanupRequest_props_schema_yaml)
-  _required_attrs=['name','clean']
+  _validation_schema=request.Request.update_schema(_OutputCleanupRequest_props_schema_yaml)
+  _validation_schema.required=['name','clean']
   _config_attrs=['clean']
   _self_task=True
   def __init__(self,**kwargs):
@@ -88,8 +88,8 @@ class FileDeletionRequest(request.Request):
   User-Provided Attributes:
   
     - files: a sequence of file paths (or locators) to be deleted"""
-  _props_schema=request.make_schema(_FileDeletionRequest_props_schema_yaml)
-  _required_attrs=['name','files']
+  _validation_schema=request.Request.update_schema(_FileDeletionRequest_props_schema_yaml)
+  _validation_schema.required=['name','files']
   _config_attrs=['files']
   _self_task=True
   def pre_run(self):

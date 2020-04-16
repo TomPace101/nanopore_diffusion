@@ -34,8 +34,8 @@ class RequestFileRequest(request.Request):
   Calculated Attributes:
   
     - _children: A list storing all child requests"""
-  _props_schema=request.make_schema(_RequestFileRequest_props_schema_yaml)
-  _required_attrs=['requestfile']
+  _validation_schema=request.Request.update_schema(_RequestFileRequest_props_schema_yaml)
+  _validation_schema.required=['requestfile']
   _child_seq_attrs=['_children']
   _inputfile_attrs=['requestfile']
   _self_task=False #This request generates doit tasks from its children, not itself
@@ -66,8 +66,8 @@ class RequestFileListRequest(request.Request):
   
     - _children: A list storing all child requests
     """
-  _props_schema=request.make_schema(_RequestFileListRequest_props_schema_yaml)
-  _required_attrs=['requestfiles']
+  _validation_schema=request.Request.update_schema(_RequestFileListRequest_props_schema_yaml)
+  _validation_schema.required=['requestfiles']
   _child_seq_attrs=['_children']
   _self_task=False #This request generates doit tasks from its children, not itself
   def __init__(self,**kwargs):

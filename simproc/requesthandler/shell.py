@@ -44,9 +44,9 @@ class GeneralShellCommandRequest(ShellCommandRequestBase):
     - outfile: Path to output file
     - errfile: Path to error output file, or None to redirect to `outfile`"""
   _self_task=True
-  _required_attrs=['name','outfile','command']
   _config_attrs=['outfile','errfile','command']
-  _props_schema=request.make_schema(_GeneralShellCommandRequest_props_schema_yaml)
+  _validation_schema=request.Request.update_schema(_GeneralShellCommandRequest_props_schema_yaml)
+  _validation_schema.required=['name','outfile','command']
   _outputfile_attrs=['outfile']
   @property
   def cmd_str(self):

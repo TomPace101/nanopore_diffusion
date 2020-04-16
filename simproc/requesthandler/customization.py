@@ -128,7 +128,7 @@ class CustomizableRequest(request.Request):
   
     - _more_inputfiles: the list of module files is added here
     - _custom_methods: list of the names of the custom methods added to the instance"""
-  _props_schema=request.make_schema(_CustomizableRequest_props_schema_yaml)
+  _validation_schema=request.Request.update_schema(_CustomizableRequest_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
     super(CustomizableRequest, self).__init__(**kwargs)
@@ -178,9 +178,6 @@ class CustomizableRequest(request.Request):
       o=d.pop(attr)
     return d
 
-#Convenience function for schema updates
-make_schema=CustomizableRequest.update_props_schema
-
 _PythonPathRequest_props_schema_yaml="""#PythonPathRequest
 folders:
   type: array
@@ -197,8 +194,8 @@ class PythonPathRequest(request.Request):
     - folders: a list of folder paths
       Each path is assumed to be relative to the DATAFOLDER, unless it is an absolute path.
   """
-  _props_schema=request.make_schema(_PythonPathRequest_props_schema_yaml)
-  _required_attrs=['folders']
+  _validation_schema=request.Request.update_schema(_PythonPathRequest_props_schema_yaml)
+  _validation_schema.required=['folders']
   _self_task=False #This task actually doesn't do anything when run
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -230,8 +227,8 @@ class ModuleLoadRequest(request.Request):
   User-defined attributes:
   
     - modules: a list of module names"""
-  _props_schema=request.make_schema(_ModuleLoadRequest_props_schema_yaml)
-  _required_attrs=['modules']
+  _validation_schema=request.Request.update_schema(_ModuleLoadRequest_props_schema_yaml)
+  _validation_schema.required=['modules']
   _self_task=False #This task actually doesn't do anything when run
   def __init__(self,**kwargs):
     #Initialization from base class

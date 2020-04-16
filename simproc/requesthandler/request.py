@@ -78,12 +78,9 @@ class Request(schema.SelfValidating):
     - _more_inputfiles: list of additional input file paths not contained in other attributes
     - _outputfile_attrs: list of attributes containing output file paths
     - _more_outputfiles: list of additional output file paths not contained in other attributes
-    - _required_attrs: list of attribute names that must be defined for the request to be valid
     - _config_attrs: list of attribute names that contain the "configuration" of the object, to be included when doing a check for changes to configuration
     - _child_attrs: list of attributes that contain other Requests
     - _child_seq_attrs: list of attributes that contain sequences of other Requests
-    - _props_schema: jsonschema used to validate request configuration, as a dictionary
-        The schema is for the 'properties' element only. The rest is provided internally.
     - _uptodate: boolean, True if up-to-date, False otherwise
       Subclasses may replace the attribute with a property,
       and instances may define their own attribute to override as well.
@@ -102,7 +99,7 @@ class Request(schema.SelfValidating):
     - provide all their input and output files, which may come from locators
         - input files are specified by _inputfiles_attrs and _more_inputfiles
         - output files are specified by _outputfiles_attrs and _more_outputfiles"""
-  _props_schema=schema.SelfValidating.update_props_schema(_Request_props_schema_yaml)
+  _props_schema=schema.SelfValidating.update_schema(_Request_props_schema_yaml)
   _uptodate=True
   def __init__(self,**kwargs):
     logger.debug("Initializing Request.",request_class=type(self).__name__,request_name=kwargs.get("name",None))
@@ -264,10 +261,6 @@ class Request(schema.SelfValidating):
     for treq in self.all_task_requests():
       yield treq.task_definition
 
-#Convenience function for schema updates
-make_schema=Request.update_props_schema
-#Similar functions would be needed for other request base classes
-
 def get_request_class(request_type):
   """Return the request class stipulated"""
   if isinstance(request_type,str):
@@ -307,9 +300,9 @@ class RequestGroup(Request):
           OR
             a string containing the name of a request type registered with yaml_manager
       - request_data = dictionary of keyword arguments for the given request type"""
-  _props_schema=make_schema(_RequestGroup_props_schema_yaml)
+  _validation_schema=Request.update_schema(_RequestGroup_props_schema_yaml)
+  _validation_schema.required=['children']
   _self_task=False
-  _required_attrs=['children']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestGroup, self).__init__(**kwargs)

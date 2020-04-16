@@ -41,9 +41,9 @@ class MPIRunRequest(request.Request):
     - child: a request to run
     - tmpfile: optional, Path to temporary file to contain the request"""
   _self_task=True #Otherwise, the child won't be run with MPI
-  _required_attrs=['name','numproc','child']
   _config_attrs=['numproc','child','tmpfile']
-  _props_schema=request.make_schema(_MPIRunRequest_props_schema_yaml)
+  _validation_schema=request.Request.update_schema(_MPIRunRequest_props_schema_yaml)
+  _validation_schema.required=['name','numproc','child']
   _child_attrs=['child']
   def __init__(self,**kwargs):
     #Initialization from base class

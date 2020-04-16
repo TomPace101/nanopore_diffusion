@@ -342,7 +342,7 @@ class ConfigLogging(schema.SelfValidating):
     - logdir_rel = path to the directory to contain the log file, taken relative to locators.DATAFOLDER **at the time of the call**. String form acceptable.
     - ext, num_digits, sepchar = additional arguments to ``find_unique_id``
   """
-  _props_schema=schema.SelfValidating.update_props_schema(_ConfigLogging_props_schema_yaml)
+  _validation_schema=schema.SelfValidating.update_schema(_ConfigLogging_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileRequest, self).__init__(**kwargs)

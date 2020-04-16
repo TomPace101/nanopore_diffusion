@@ -172,9 +172,6 @@ class WithCommandsRequest(customization.CustomizableRequest):
     return
 
 
-#Convenience function for schema updates
-make_schema=WithCommandsRequest.update_props_schema
-
 _CommandSequenceRequest_props_schema_yaml="""#CommandSequenceRequest
 commands:
   type: array"""
@@ -192,8 +189,8 @@ class CommandSequenceRequest(WithCommandsRequest):
         - arguments = dictionary of arguments to the method: {argname: value,...}"""
   _self_task=True
   _config_attrs=('commands',)
-  _required_attrs=['commands']
-  _props_schema=make_schema(_CommandSequenceRequest_props_schema_yaml)
+  _validation_schema=WithCommandsRequest.update_schema(_CommandSequenceRequest_props_schema_yaml)
+  _validation_schema.required=['commands']
   def __init__(self,**kwargs):
     #Initialization from base class
     super(CommandSequenceRequest, self).__init__(**kwargs)
