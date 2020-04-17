@@ -56,7 +56,7 @@ class InterpolationSimulator(simrequest.SimulationRequest):
 
   _validation_schema=simrequest.SimulationRequest.update_schema(
       _InterpolationConditions_props_schema_yaml,'properties.conditions.properties')
-  _validation_schema.get_nested('properties.conditions.required').append('boundaryalue')
+  _validation_schema.get_nested('properties.conditions.required').append('boundaryvalue')
     
   def run_sim(self):
 
