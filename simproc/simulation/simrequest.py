@@ -3,7 +3,6 @@
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 import sys
-from copy import deepcopy
 
 #Site packages
 import numpy as np
@@ -34,6 +33,7 @@ additionalProperties: False
 """
 EmptyConditions_schema=yaml_manager.readstring(EmptyConditions_schema_yaml)
 EmptyConditions=nested.WithNested(**EmptyConditions_schema)
+EmptyConditions.properties=nested.WithNested(**EmptyConditions.properties)
 
 GenericConditions_props_schema_yaml="""#GenericConditions
 elementorder: {type: integer}
@@ -41,7 +41,8 @@ dirichlet: {type: object}
 neumann: {type: object}
 """
 GenericConditions_props_schema=yaml_manager.readstring(GenericConditions_props_schema_yaml)
-GenericConditions_schema=EmptyConditions.update_schema(GenericConditions_props_schema_yaml)
+GenericConditions=EmptyConditions.get_copy()
+GenericConditions.properties=nested.WithNested(**GenericConditions_props_schema)
 GenericConditions.required=['elementorder']
 
 _SimulationRequest_props_schema_yaml="""#SimulationRequest
@@ -108,6 +109,7 @@ class SimulationRequest(WithCommandsRequest):
   _config_attrs=['mesh','meshmeta','hasmeshfuncs','conditions','dataextraction','loaddata','metadata']
   _validation_schema=WithCommandsRequest.update_schema(_SimulationRequest_props_schema_yaml)
   _validation_schema.required=['name','mesh','conditions']
+  _validation_schema.set_nested('properties.conditions',GenericConditions)
 
   def __init__(self,**kwargs):
     #Initialization from base class

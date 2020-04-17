@@ -3,6 +3,7 @@
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 from collections import OrderedDict as odict
+from copy import deepcopy
 
 #Site packages
 import ruamel.yaml
@@ -107,7 +108,7 @@ def new_odict(obj,dpath):
 
 #Classes
 
-class WithNested(object):
+class WithNested(dict):
   """A very basic class that loads and sets nested attributes, and supports reading and writing itself to/from yaml.
   
   It also has the ability to track all members of its class and subclasses with a name in a global dictionary.
@@ -149,6 +150,14 @@ class WithNested(object):
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)
+  # def get(self,loc,default=None):
+  #   if default is None:
+  #     return self.__dict__.get(loc)
+  #   else:
+  #     return self.__dict__.get(loc,default)
+  def get_copy(self):
+    """Return a deep copy of this instance"""
+    return deepcopy(self)
   def get_nested(self,dpath):
     """Return the value from the specified attribute/key/index path"""
     return get_nested(self,dpath)

@@ -2,7 +2,6 @@
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
-from copy import deepcopy
 
 #Site packages
 import jsonschema
@@ -74,7 +73,7 @@ class SelfValidating(nested.WithNested):
     #Load the attributes specified
     super(SelfValidating, self).__init__(**kwargs)
   @classmethod
-  def update_schema(cls,yaml_str,dpath="properties"):
+  def update_schema(cls,yaml_str,dpath="properties",update=True):
     """Create a property schema for a class
 
     The intention is for subclasses to call this from their parent class.
@@ -86,12 +85,17 @@ class SelfValidating(nested.WithNested):
       - dpath = optional nested attribute path to the portion of the parent schema to be updated
 
           Defaults to ``properties``, as that is most frequently what is changed
+
+      - update = optional boolean, True (default) to update, False to overwrite
     
     Returns an instance of nested.WithNested containing the updated schema, ready for validation."""
     sub_schema=yaml_manager.readstring(yaml_str)
     orig_schema=cls._validation_schema
-    new_schema=deepcopy(orig_schema)
-    new_schema.update_nested(dpath,sub_schema)
+    new_schema=orig_schema.get_copy()
+    if update:
+      new_schema.update_nested(dpath,sub_schema)
+    else:
+      new_schema.set_nested(dpath,sub_schema)
     return new_schema
   def additional_validation(self,**kwargs):
     """Perform additional validation of the object data, beyond just the schema check

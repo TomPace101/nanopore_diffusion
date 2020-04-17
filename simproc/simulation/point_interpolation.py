@@ -28,10 +28,6 @@ boundaryvalue:
     - {type: number}
     - {type: "null"}
 """
-InterpolationConditions_props_schema=yaml_manager.readstring(_InterpolationConditions_props_schema_yaml)
-InterpolationConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
-                                                    InterpolationConditions_props_schema,
-                                                    ['boundaryvalue'])
 
 class InterpolationSimulator(simrequest.SimulationRequest):
   """Simulator for projecting an expression into a function space
@@ -58,7 +54,9 @@ class InterpolationSimulator(simrequest.SimulationRequest):
 
       Note that column names are all case-sensitive."""
 
-  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,InterpolationConditions_schema)
+  _validation_schema=simrequest.SimulationRequest.update_schema(
+      _InterpolationConditions_props_schema_yaml,'properties.conditions.properties')
+  _validation_schema.get_nested('properties.conditions.required').append('boundaryalue')
     
   def run_sim(self):
 

@@ -26,17 +26,15 @@ dirichlet:
 beta: {type: number}
 boundaries: {type: array}
 """
-HomogSmolConditions_props_schema=yaml_manager.readstring(_HomogSmolConditions_props_schema_yaml)
-HomogSmolConditions_schema=simrequest.update_schema_props(simrequest.EmptyConditions_schema,
-                                                    HomogSmolConditions_props_schema,
-                                                    ['elementorder','boundaries','beta'])
 
 class HomogSmolSimulator(simrequest.SimulationRequest):
   """Simulator for Homogenized Smoluchowski Diffusion
   
   Isotropy of the input diffusion constant is assumed."""
   
-  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,HomogSmolConditions_schema)
+  _validation_schema=simrequest.SimulationRequest.update_schema(
+          _HomogSmolConditions_props_schema_yaml,'properties.conditions.properties',False)
+  _validation_schema.set_nested('properties.conditions.required',['elementorder','boundaries','beta'])
   
   def run_sim(self):
 

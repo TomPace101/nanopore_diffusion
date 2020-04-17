@@ -26,17 +26,15 @@ dirichlet:
     - {type: object}
 boundaries: {type: array}
 """
-HomogFickianConditions_props_schema=yaml_manager.readstring(_HomogFickianConditions_props_schema_yaml)
-HomogFickianConditions_schema=simrequest.update_schema_props(simrequest.EmptyConditions_schema,
-                                                    HomogFickianConditions_props_schema,
-                                                    ['elementorder','boundaries'])
 
 class HomogFickianSimulator(simrequest.SimulationRequest):
   """Simulator for Homogenized Fickian Diffusion
   
   Isotropy of the input diffusion constant is assumed."""
   
-  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,HomogFickianConditions_schema)
+  _validation_schema=simrequest.SimulationRequest.update_schema(
+          _HomogFickianConditions_props_schema_yaml,'properties.conditions.properties',False)
+  _validation_schema.set_nested('properties.conditions.required',['elementorder','boundaries'])
   
   def run_sim(self):
 

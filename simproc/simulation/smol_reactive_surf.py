@@ -34,14 +34,13 @@ reactive:
 beta: {type: number}
 potential_dirichlet: {type: object}
 """
-SUConditions_props_schema=yaml_manager.readstring(_SUConditions_props_schema_yaml)
-SUConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
-                                                    SUConditions_props_schema,['species'])
 
 class SUSimulator(simrequest.SimulationRequest):
   """Simulator for for Unhomogenized Smoluchowski Diffusion"""
   
-  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,SUConditions_schema)
+  _validation_schema=simrequest.SimulationRequest.update_schema(
+            _SUConditions_props_schema_yaml,'properties.conditions.properties')
+  _validation_schema.get_nested('properties.conditions.required').append(['species','beta'])
 
   #Common methods
   calcflux = common_methods.calcflux

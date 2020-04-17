@@ -15,9 +15,6 @@ functionname: {type: string}
 functiontype: {type: string}
 projection_kwargs: {type: string}
 """
-ProjectorConditions_props_schema=yaml_manager.readstring(_ProjectorConditions_props_schema_yaml)
-ProjectorConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
-                                                    ProjectorConditions_props_schema,[])
 
 class ProjectionSimulator(simrequest.SimulationRequest):
   """Simulator for projecting an expression into a function space
@@ -39,7 +36,8 @@ class ProjectionSimulator(simrequest.SimulationRequest):
     
       This is used, for example, to set the linear solver and preconditioner."""
 
-  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,ProjectorConditions_schema)
+  _validation_schema=simrequest.SimulationRequest.update_schema(_ProjectorConditions_props_schema_yaml,'properties.conditions.properties')
+  _validation_schema.set_nested('properties.conditions.required',[])
     
   def run_sim(self):
 

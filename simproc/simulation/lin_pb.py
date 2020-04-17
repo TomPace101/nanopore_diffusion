@@ -16,9 +16,6 @@ from . import equationbuilder
 _LPBConditions_props_schema_yaml="""#LPBConditions
 kappa: {type: number}
 """
-LPBConditions_props_schema=yaml_manager.readstring(_LPBConditions_props_schema_yaml)
-LPBConditions_schema=simrequest.update_schema_props(simrequest.GenericConditions_schema,
-                                                    LPBConditions_props_schema,['kappa'])
 
 class LPBSimulator(simrequest.SimulationRequest):
   """Simulator for linearized Poisson-Boltzmann equation
@@ -27,7 +24,8 @@ class LPBSimulator(simrequest.SimulationRequest):
   
     - """
   
-  _props_schema=simrequest.update_conditions(simrequest.SimulationRequest._props_schema,LPBConditions_schema)    
+  _validation_schema=simrequest.SimulationRequest.update_schema(_LPBConditions_props_schema_yaml,'properties.conditions.properties')
+  _validation_schema.get_nested('properties.conditions.required').append('kappa')
   
   def run_sim(self):
 

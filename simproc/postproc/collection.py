@@ -6,7 +6,7 @@
 import pandas as pd
 
 #This package
-from ..requesthandler.commandseq import WithCommandsRequest, make_schema
+from ..requesthandler.commandseq import WithCommandsRequest
 from ..requesthandler import yaml_manager
 from ..requesthandler import pickle_manager
 from ..requesthandler import locators
@@ -59,7 +59,7 @@ class RawCollectionRequest(WithCommandsRequest):
   _self_task=True
   _outputfile_attrs=['outpath']
   _config_attrs=['definitions','multidoc','calculations']
-  _validation_schema=Request.update_schema(_RawCollectionRequest_props_schema_yaml)
+  _validation_schema=WithCommandsRequest.update_schema(_RawCollectionRequest_props_schema_yaml)
   _validation_schema.required=['name','outpath','definitions']
   def __init__(self,**kwargs):
     #Initialization from base class
@@ -165,7 +165,7 @@ class CollectionRequest(WithCommandsRequest):
   _self_task=True
   _outputfile_attrs=['outpath']
   _config_attrs=['definitions','_more_inputfiles','calculations']
-  _validation_schema=Request.update_schema(_CollectionRequest_props_schema_yaml)
+  _validation_schema=WithCommandsRequest.update_schema(_CollectionRequest_props_schema_yaml)
   _validation_schema.required=['name','outpath','definitions','requests']
   def __init__(self,**kwargs):
     ##TODO: should this perhaps just use RawCollectionRequest as its children instead of calling `complete` on them when run?
@@ -230,7 +230,7 @@ class SimpleCollectionRequest(WithCommandsRequest):
     - child = the CollectionRequest created from this request"""
   _self_task=False
   _child_attrs=['child']
-  _validation_schema=make_schema(_SimpleCollectionRequest_props_schema_yaml)
+  _validation_schema=WithCommandsRequest.update_schema(_SimpleCollectionRequest_props_schema_yaml)
   _validation_schema.required=['name','outpath','requests','mapping','locator_list']
   def __init__(self,**kwargs):
     #Initialization from base class
