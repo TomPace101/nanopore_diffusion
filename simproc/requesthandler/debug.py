@@ -35,7 +35,7 @@ class DummyRequest(request.Request):
   >>> keylist.sort()
   >>> vlist=[dr.task_definition[k] for k in keylist]
   >>> list(zip(keylist,vlist)) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
-  [('actions', [(<bound method DummyRequest.run of <...DummyRequest object at 0x...>>,)]),
+  [('actions', [(<bound method DummyRequest.run of ...>,)]),
    ('file_dep', []),
    ('name', 'example'),
    ('targets', []),

@@ -68,7 +68,7 @@ class SelfValidating(nested.WithNested):
   _validation_schema=nested.WithNested(**_SelfValidating_schema)
   def __init__(self,**kwargs):
     #Validate kwargs
-    if hasattr(self,'_props_schema'):
+    if hasattr(self,'_validation_schema'):
       self.validate_kwargs(**kwargs)
     #Load the attributes specified
     super(SelfValidating, self).__init__(**kwargs)
