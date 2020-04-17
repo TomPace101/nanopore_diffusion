@@ -110,7 +110,10 @@ def new_odict(obj,dpath):
 
 class WithNested(dict):
   """A very basic class that loads and sets nested attributes, and supports reading and writing itself to/from yaml.
-  
+
+  This class is derived from ``dict``, and unifies access to data through dictionary and object methods.
+  That is, its attributes and keys are identical.
+
   It also has the ability to track all members of its class and subclasses with a name in a global dictionary.
   
   Supported attributes:
@@ -118,7 +121,18 @@ class WithNested(dict):
     - name: name for the object, as a string
     - store_globally: boolean, True to add to the global dictionary of named objects
   
-  Note that if no name is provided, the object cannot be stored globally."""
+  Note that if no name is provided, the object cannot be stored globally.
+  
+  Example uses:
+  
+  >>> bunch=WithNested(a=1,b=2,c=3)
+  >>> bunch
+  {'a': 1, 'b': 2, 'c': 3}
+  >>> bunch.a
+  1
+  >>> bunch.b=-99
+  >>> bunch['b']
+  -99"""
   __allnames__=odict()
   def __init__(self,**kwargs):
     #Unify access through attributes and keys

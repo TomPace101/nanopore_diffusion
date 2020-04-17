@@ -21,6 +21,6 @@ from . import timing
 from . import yaml_manager
 
 #Modules for doctests
-doctest_modules=[filepath, debug, comparison]
+doctest_modules=[filepath, nested, debug, comparison]
 #Files for doctests
 doctest_files=[]
