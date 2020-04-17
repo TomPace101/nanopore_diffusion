@@ -108,7 +108,7 @@ def new_odict(obj,dpath):
 
 #Classes
 
-class WithNested(dict):
+class WithNested(object):
   """A very basic class that loads and sets nested attributes, and supports reading and writing itself to/from yaml.
   
   It also has the ability to track all members of its class and subclasses with a name in a global dictionary.
