@@ -43,16 +43,17 @@ class ProjectionSimulator(simrequest.SimulationRequest):
 
     #For convenience
     conditions=Namespace(**self.conditions)
+    conditions.family=getattr(conditions,"family","P")
     spatial_dims=self.meshinfo.mesh.geometry().dim()
 
     #Requested Function space
     ftype=getattr(conditions,'functiontype','scalar').lower()
     if ftype == 'scalar':
-      self.V = fem.FunctionSpace(self.meshinfo.mesh,'P', conditions.elementorder)
+      self.V = fem.FunctionSpace(self.meshinfo.mesh, conditions.family, conditions.elementorder)
     elif ftype == 'vector':
-      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder)
+      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, conditions.family, conditions.elementorder)
     elif ftype == 'matrix':
-      self.V = fem.TensorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder, (spatial_dims,spatial_dims))
+      self.V = fem.TensorFunctionSpace(self.meshinfo.mesh, conditins.family, conditions.elementorder, (spatial_dims,spatial_dims))
     else:
       raise Exception("Invalid functiontype: %s"%ftype)
 

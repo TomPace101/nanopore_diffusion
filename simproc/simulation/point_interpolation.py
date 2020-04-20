@@ -62,12 +62,13 @@ class InterpolationSimulator(simrequest.SimulationRequest):
 
     #For convenience
     conditions=Namespace(**self.conditions)
+    conditions.family=getattr(conditions,"family","P")
     d=self.meshinfo.spatial_dims()
     meshcoords=self.meshinfo.coordinates()
     Nmesh=meshcoords.shape[0]
 
     #Function space, and its coordinates
-    self.V = fem.FunctionSpace(self.meshinfo.mesh,'P', conditions.elementorder)
+    self.V = fem.FunctionSpace(self.meshinfo.mesh,conditions.family, conditions.elementorder)
     Ndof_pts=self.V.dim()
     dofinfo=meshinfo.DOFInfo(self.meshinfo,self.V)
     dofcoords=dofinfo.coordinates()

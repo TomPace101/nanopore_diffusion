@@ -31,13 +31,14 @@ class LPBSimulator(simrequest.SimulationRequest):
 
     #For convenience
     conditions=Namespace(**self.conditions)
+    conditions.family=getattr(conditions,"family","CG")
 
     #Properties of problem domain
     self.kappa = conditions.kappa
     
     #Function Spaces and Functions
     #Function spaces
-    self.V=fem.FunctionSpace(self.meshinfo.mesh,'CG',conditions.elementorder)
+    self.V=fem.FunctionSpace(self.meshinfo.mesh,conditions.family,conditions.elementorder)
     #Trial and Test Functions
     self.phi=fem.TrialFunction(self.V)
     self.v=fem.TestFunction(self.V)

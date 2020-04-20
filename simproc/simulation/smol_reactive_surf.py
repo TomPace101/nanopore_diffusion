@@ -50,6 +50,7 @@ class SUSimulator(simrequest.SimulationRequest):
 
     #For convenience
     conditions=Namespace(**self.conditions)
+    conditions.family=getattr(conditions,"family","CG")
 
     #Species
     self.species=[]
@@ -63,11 +64,11 @@ class SUSimulator(simrequest.SimulationRequest):
     self.Nspecies=len(self.species)
     
     #Elements and Function space(s)
-    ele = fem.FiniteElement('CG',self.meshinfo.mesh.ufl_cell(),conditions.elementorder)
+    ele = fem.FiniteElement(conditions.family,self.meshinfo.mesh.ufl_cell(),conditions.elementorder)
     mele = fem.MixedElement([ele]*self.Nspecies)
     self.V = fem.FunctionSpace(self.meshinfo.mesh,mele)
-    self.V_scalar=fem.FunctionSpace(self.meshinfo.mesh,'CG',conditions.elementorder)
-    self.V_vec=fem.VectorFunctionSpace(self.meshinfo.mesh,'CG',conditions.elementorder)
+    self.V_scalar=fem.FunctionSpace(self.meshinfo.mesh,conditions.family,conditions.elementorder)
+    self.V_vec=fem.VectorFunctionSpace(self.meshinfo.mesh,conditions.family,conditions.elementorder)
 
     #Trial Functions
     self.u = fem.TrialFunction(self.V)

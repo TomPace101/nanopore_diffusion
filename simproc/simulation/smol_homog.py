@@ -19,6 +19,7 @@ BOUNDTOL=1e-6
 
 _HomogSmolConditions_props_schema_yaml="""#HomogSmolConditions
 elementorder: {type: integer}
+family: {type: string}
 dirichlet:
   anyOf:
     - {type: array}
@@ -40,6 +41,7 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
 
     #For convenience
     conditions=Namespace(**self.conditions)
+    conditions.family=getattr(conditions,"family","P")
     
     #Mesh calculations
     spatial_dims=self.meshinfo.mesh.geometry().dim()
@@ -65,10 +67,10 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
 
     #Function Spaces and Functions
     if using_periodic:
-      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder, constrained_domain=pbc)
+      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, conditions.family, conditions.elementorder, constrained_domain=pbc)
     else:
-      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder)
-    self.scalar_V = fem.FunctionSpace(self.meshinfo.mesh, 'P', conditions.elementorder)
+      self.V = fem.VectorFunctionSpace(self.meshinfo.mesh, conditions.family, conditions.elementorder)
+    self.scalar_V = fem.FunctionSpace(self.meshinfo.mesh, conditions.family, conditions.elementorder)
     #Trial and Test Functions
     chi=fem.TrialFunction(self.V)
     v=fem.TestFunction(self.V)

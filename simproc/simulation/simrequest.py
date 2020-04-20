@@ -37,6 +37,7 @@ EmptyConditions.properties=nested.WithNested(**EmptyConditions.properties)
 
 GenericConditions_props_schema_yaml="""#GenericConditions
 elementorder: {type: integer}
+family: {type: string}
 dirichlet: {type: object}
 neumann: {type: object}
 """
