@@ -244,7 +244,7 @@ class FigureRequest(WithCommandsRequest):
       - metadata = optional series metadata"""
     series=PlotSeries(xvals=span,yvals=span,label=label,metadata=metadata)
     self.set_nested(outattr,series)
-  def series_from_dataframe(self,dfpath,xcol,ycol,outattr,query=None,label=None,metadata=None):
+  def series_from_dataframe(self,dfpath,xcol,ycol,outattr,query=None,label=None,metadata=None,errcol=None):
     """Generate a series based on previously-loaded pandas dataframe
 
     Arguments:
@@ -256,6 +256,7 @@ class FigureRequest(WithCommandsRequest):
       - query = optional, DataFrame query to use to select only certain rows of the dataframe, as an argument to pd.DataFrame.query
       - label = optional series label
       - metadata = optional series metadata
+      - errcol = optional name of DataFrame column to use for the y-error values of the series (symmetric)
     
     If you want to save the result to a pickle file, use a subsequent call to ``save_pickle``."""
     #Get the dataframe
@@ -268,8 +269,12 @@ class FigureRequest(WithCommandsRequest):
     #Get the data for the series from the dataframe
     xvals=qdf[xcol]
     yvals=qdf[ycol]
+    if errcol is not None:
+      errvals=qdf[errcol]
+    else:
+      errvals = None
     #Instantiate the series
-    series=PlotSeries(xvals=xvals,yvals=yvals,label=label,metadata=metadata)
+    series=PlotSeries(xvals=xvals,yvals=yvals,label=label,metadata=metadata,errors=errvals)
     #Store result
     self.set_nested(outattr,series)
   def series_from_normalization(self,inpath,outattr,normpath,label=None,metadata=None):

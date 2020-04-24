@@ -16,13 +16,14 @@ class PlotSeries(object):
 
   Attributes:
 
-    - xvals = array of x-values
-    - yvals = array of y-values
-    - label = legend label
-    - metadata = other parameters needed to identify the data series
+    - xvals = array of x-values, required
+    - yvals = array of y-values, required
+    - label = legend label, optional
+    - metadata = other parameters needed to identify the data series, optional
+    - errors = error values in y, optional
   """
-  _expected_attrs=['xvals','yvals','label','metadata']
-  def __init__(self,xvals,yvals,label=None,metadata=None):
+  _expected_attrs=['xvals','yvals','label','metadata','errors']
+  def __init__(self,xvals,yvals,label=None,metadata=None,errors=None):
     for attrname in self._expected_attrs:
       setattr(self,attrname,locals()[attrname])
   def add_to_axes(self,ax,fmt,newlabel=None,**kwd):
@@ -40,13 +41,19 @@ class PlotSeries(object):
     Returns:
 
       - The result of call to ax.plot"""
+    #Handle label
     if newlabel is None:
       label=getattr(self,'label',None)
       if label is None:
         label=''
     else:
       label=newlabel
-    return ax.plot(self.xvals,self.yvals,fmt,label=label,**kwd)
+    #Use the right plot method
+    if getattr(self,'errors',None) is not None:
+      res = ax.errorbar(self.xvals,self.yvals,self.errors,fmt=fmt,label=label,**kwd)
+    else:
+      res = ax.plot(self.xvals,self.yvals,fmt,label=label,**kwd) 
+    return res
   def __getstate__(self):
     """Used for pickling, and converting to yaml"""
     state={}
