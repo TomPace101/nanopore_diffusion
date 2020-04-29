@@ -79,6 +79,7 @@
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: domain_volume}]
+    - [writefield, {outfpath: !OutputFile chi.pvd, attrpath: soln}]
     - [calc_exact, {attrpath: expected_answer}]
     - [compare_answers, {summarypath: comparison_ok, diffpath: error_values, expected: !Stored expected_answer, received: !Stored D_macro, difftol: 0.02}]
     - - reportvalues
