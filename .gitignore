@@ -49,3 +49,6 @@ data\postproc\manual_gen\*
 #Validation output
 validation/output/*
 !validation/output/.keep
+
+#Builds
+simproc.egg-info
