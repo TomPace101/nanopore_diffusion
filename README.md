@@ -35,6 +35,7 @@ __TODO__ what other software does sphinx require?
   
 The sphinx documentation is built by running the command `make latexpdf` from within the `sphinx` directory.
 
+__TODO: OLD__
 The problem description document requires the following software:
 
 - `inkscape` (https://inkscape.org/en/)
@@ -46,6 +47,8 @@ The code is hosted in a `git` repository (https://git-scm.com/).
 __TODO__ explain the singularity recipe, and provide shub link to the image, if possible.
 
 # Files and Folders
+
+__TODO: OLD__
 
 Otherwise empty directories (eg directories containing only untracked files or subdirectories)
 will have a '.keep' file to force `git` to include the directory itself.
