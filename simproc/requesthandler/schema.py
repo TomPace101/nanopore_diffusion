@@ -113,7 +113,8 @@ class SelfValidating(nested.WithNested):
   def validate_kwargs(self,**kwargs):
     if hasattr(self,'_validation_schema'):
       validator=ValidatorClass(self._validation_schema,types=extra_types_dict)
-      errlist=["  - %s"%validation_error_string(err) for err in validator.iter_errors(kwargs)]
+      err_iter=validator.iter_errors(kwargs)
+      errlist=["  - %s"%validation_error_string(err) for err in err_iter]
       errlist+=self.additional_validation(**kwargs)
       if len(errlist)>0:
         #Found errors: raise exception listing them all

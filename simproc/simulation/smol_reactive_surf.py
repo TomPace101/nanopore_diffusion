@@ -40,7 +40,7 @@ class SUSimulator(simrequest.SimulationRequest):
   
   _validation_schema=simrequest.SimulationRequest.update_schema(
             _SUConditions_props_schema_yaml,'properties.conditions.properties')
-  _validation_schema.get_nested('properties.conditions.required').append(['species','beta'])
+  _validation_schema.get_nested('properties.conditions.required').extend(['species','beta'])
 
   #Common methods
   calcflux = common_methods.calcflux
