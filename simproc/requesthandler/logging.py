@@ -259,6 +259,7 @@ def configure_logfile(level="TIMING",stem="simproc",logdir_rel="logs",logdir_abs
   #Lower the level of the root logger if necessary
   root.bumpLevel(level)
   #Get the absolute path to the log directory
+  global logdir
   if logdir_abs is None:
     logdir = locators.DATAFOLDER / filepath.Path(logdir_rel, isFile = False)
   else:

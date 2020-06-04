@@ -106,6 +106,29 @@ class FileDeletionRequest(request.Request):
     for fpath in self.files:
       cleanpath(self.render(fpath))
 
+class CleanLogFilesRequest(request.Request):
+  """Remove all log files"""
+  _self_task=True
+  def run(self):
+    """Delete all the files in the log file directory."""
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Get the log directory, if it exists
+    if 'logdir' not in logging.__dict__:
+      logging.info("No logging directory found.",request_class=type(self).__name__,request_name=getattr(self,"name",None))
+    else:
+      logdir = logging.logdir
+      #Walk the directory and delete all the files, but leave the directories
+      for root,dirs,files in os.walk(logdir):
+        for name in files:
+          os.remove(os.path.join(root,name))
+  @classmethod
+  def from_yaml(cls, constructor, node):
+    return cls()
+  @classmethod
+  def to_yaml(cls, representer, node):
+    return representer.represent_scalar("!"+cls.__name__)
 
 #Register for loading from yaml
-yaml_manager.register_classes([OutputCleanupRequest, FileDeletionRequest])
+yaml_manager.register_classes([OutputCleanupRequest, FileDeletionRequest, CleanLogFilesRequest])
