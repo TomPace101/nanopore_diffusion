@@ -345,9 +345,9 @@ class ConfigLogging(schema.SelfValidating):
   _validation_schema=schema.SelfValidating.update_schema(_ConfigLogging_props_schema_yaml)
   def __init__(self,**kwargs):
     #Initialization from base class
-    super(RequestFileRequest, self).__init__(**kwargs)
+    super(ConfigLogging, self).__init__(**kwargs)
     #Call the configuration function
-    configure_logging(**kwargs)
+    configure_logfile(**kwargs)
  
 #Register for loading from yaml
 yaml_manager.register_classes([ConfigLogging])
