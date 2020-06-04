@@ -24,3 +24,4 @@ from . import yaml_manager
 doctest_modules=[filepath, nested, debug, comparison]
 #Files for doctests
 doctest_files=[]
+#Note that packages containing requesthandler may modify these variables to test other components of the overall package.
