@@ -16,3 +16,9 @@
   data:
     r_values: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45]
     pot_values: [0.2, 1.0, 5.0]
+# #Run the generated request file
+# #(Load of the file must be delayed: this won't work with doit)
+# - !RequestFileRequest
+#   name: cylinder.2D.sweep
+#   delay_load: True
+#   requestfile: !OutFile1 cylinder.2D.yaml

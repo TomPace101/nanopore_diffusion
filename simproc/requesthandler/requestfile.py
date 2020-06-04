@@ -19,6 +19,7 @@ locators.folder_structure.update(RequestFile=['requests'])
 _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
 requestfile: {type: pathlike}
 multidoc: {type: boolean}
+delay_load: {type: boolean}
 _children: {type: array}"""
 
 class RequestFileRequest(request.Request):
@@ -30,6 +31,12 @@ class RequestFileRequest(request.Request):
     - multidoc: optional boolean, defaults to True
         If True, the file is a multi-document yaml file, with each document providing a request.
         If False, the file should be a single document, which contains a single list of requests.
+    - delay_load: optional boolean, NOT RECOMMENDED, defaults to False
+        If False, the child requests are loaded at initialization of this request.
+        If True, the child requests are not loaded until this request is run.
+        CAUTION: this option is not supported for doit.
+        The requests defined in the request file will not be run doit if the loading is delayed.
+        This also breaks cleanup requests as well.
     
   Calculated Attributes:
   
@@ -42,16 +49,31 @@ class RequestFileRequest(request.Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(RequestFileRequest, self).__init__(**kwargs)
+    #Default attributes
+    self.multidoc=getattr(self,'multidoc',MULTIDOC_DEFAULT)
+    self.delay_load=getattr(self,'delay_load',False)
+    if self.delay_load:
+      self._children=[]
+    else:
+      self.load_children()
+  def load_children(self):
+    "Load the requests defined in the file"
     #Load all objects from the yaml file
-    allobj = yaml_manager.readfile(self.render(self.requestfile),getattr(self,'multidoc',MULTIDOC_DEFAULT))
+    allobj = yaml_manager.readfile(self.render(self.requestfile),self.multidoc)
     #Store child objects that are Request subclasses
     self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
+  def run(self):
+    if self.delay_load:
+      self.load_children()
+    #Run as defined by parent class
+    super(RequestFileRequest,self).run()
 
 _RequestFileListRequest_props_schema_yaml="""#RequestFileListRequest
 requestfiles:
   type: array
   items: {type: pathlike}
 multidoc: {type: boolean}
+delay_load: {type: boolean}
 _children: {type: array}"""
 
 class RequestFileListRequest(request.Request):
@@ -75,8 +97,9 @@ class RequestFileListRequest(request.Request):
     super(RequestFileListRequest, self).__init__(**kwargs)
     self._more_inputfiles=self.requestfiles
     #Each listed file is a RequestFileRequest
-    multidoc=getattr(self,'multidoc',MULTIDOC_DEFAULT)
-    self._children=[RequestFileRequest(requestfile=ch,multidoc=multidoc) for ch in self.requestfiles]
+    self.multidoc=getattr(self,'multidoc',MULTIDOC_DEFAULT)
+    self.delay_load=getattr(self,'delay_load',False)
+    self._children=[RequestFileRequest(requestfile=ch,multidoc=self.multidoc,delay_load=self.delay_load) for ch in self.requestfiles]
 
 #Register locators and default folder structure
 locators.folder_structure.update(RequestFile=['requests',0,1,2,3])
