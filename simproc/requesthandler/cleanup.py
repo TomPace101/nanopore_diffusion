@@ -98,7 +98,7 @@ class FileDeletionRequest(request.Request):
     self.validate()
     #We don't need to assure output directories, as they might be deleted anyway
   def run(self):
-    """Delete all the output files that exist, and remove empty directories"""
+    """Delete all the files that exist, and remove empty directories"""
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
