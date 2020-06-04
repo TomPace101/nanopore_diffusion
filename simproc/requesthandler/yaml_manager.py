@@ -6,10 +6,24 @@ from collections import OrderedDict as odict
 import io
 
 #Site packages
-from ruamel.yaml import YAML
-yaml=YAML(typ="safe", pure=True)
+import ruamel.yaml
 
 #This package
+
+#YAML setup
+
+#to avoid the bug identified in
+#https://stackoverflow.com/questions/53396845/with-python-ruamel-yaml-lost-anchor-when-loading-in-round-trip-mode
+# #Unfortunately, this didn't fix that bug.
+# class MyConstructor(ruamel.yaml.constructor.RoundTripConstructor):
+#   def construct_yaml_map(self, node):
+#     data = ruamel.yaml.comments.CommentedMap()
+#     data._yaml_set_line_col(node.start_mark.line, node.start_mark.column)
+#     yield data
+#     self.construct_mapping(node, data, deep=True)
+#     self.set_collection_style(data, node)
+
+# MyConstructor.add_constructor(u'tag:yaml.org,2002:map', MyConstructor.construct_yaml_map)
 
 #Dictionary of all registered classes, by their names
 all_registered=odict()
@@ -39,10 +53,15 @@ def newloader(yfile=None):
   if yfile is not None:
     global now_loading
     now_loading.append(yfile)
-  yy=YAML(typ="safe", pure=True)
+  yy=ruamel.yaml.YAML(typ="safe", pure=True)
+  # yy=ruamel.yaml.YAML(typ="rt", pure=True)
+  yy.default_flow_style = False
+  # yy.Constructor = MyConstructor
   for yclass in all_registered.values():
     yy.register_class(yclass)
   return yy
+
+yaml=newloader()
 
 def filedone():
   """Call to indicate that loading of a file is complete"""
