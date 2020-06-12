@@ -11,7 +11,7 @@ User Manual
    validation
    tutorial
    module_dependency
-   code
+   simproc
 
 Indices and tables
 ==================
