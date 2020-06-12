@@ -7,6 +7,8 @@ User Manual
    :maxdepth: 3
    :caption: Contents:
 
+   installation
+   validation
    tutorial
    module_dependency
 
