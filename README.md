@@ -54,6 +54,7 @@ Otherwise empty directories (eg directories containing only untracked files or s
 will have a '.keep' file to force `git` to include the directory itself.
 
 - README.md: this document
+- setup.py: file to facilitate installation using setuptools
 - pseudocode: pseudocode for exploring new features
 - simproc: code for FEM analysis, see its own documentation
 - singularity: recipes for singularity images containing the software dependencies
