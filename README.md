@@ -62,6 +62,7 @@ will have a '.keep' file to force `git` to include the directory itself.
 - old_notes.md and new_notes.md: random notes, thoughts, todo lists, and development plans
 
 The following directories are mostly no longer used
+- old-sphinx: sphinx documentation for older code
 - description: problem description document
     - fig_svg: `inkscape` drawings for figures
     - fig_pdf: figures converted to pdf format

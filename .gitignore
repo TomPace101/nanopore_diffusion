@@ -9,6 +9,8 @@ spreadsheets
 #Sphinx build subdirectories
 sphinx/build/doctrees
 sphinx/build/latex
+old-sphinx/build/doctrees
+old-sphinx/build/latex
 
 #Don't track control.yaml itself: only an example of it
 data/control.yaml
