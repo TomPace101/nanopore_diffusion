@@ -11,10 +11,12 @@ User Manual
    validation
    tutorial
    module_dependency
+   code
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
+
 .. * :ref:`search`
