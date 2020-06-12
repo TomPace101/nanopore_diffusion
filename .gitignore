@@ -13,18 +13,18 @@ old-sphinx/build/doctrees
 old-sphinx/build/latex
 
 #Don't track control.yaml itself: only an example of it
-data/control.yaml
+old-data/control.yaml
 
 #Generated mesh files/subdirs
-data/mesh/geo/*/
-data/mesh/msh/*/
-data/mesh/xml/*/
-data/mesh/gmsh_out/*/
-data/mesh/metadata/*/
-data/mesh/hdf5/*/
+old-data/mesh/geo/*/
+old-data/mesh/msh/*/
+old-data/mesh/xml/*/
+old-data/mesh/gmsh_out/*/
+old-data/mesh/metadata/*/
+old-data/mesh/hdf5/*/
 
 #FEM output
-data/solutions/*/
+old-data/solutions/*/
 *.pvd
 *.vtu
 *.pkl
@@ -43,7 +43,7 @@ data/solutions/*/
 *.run.xml
 
 #Post-processing
-data\postproc\manual_gen\*
+old-data\postproc\manual_gen\*
 *.png
 *.avi
 *.ogv
