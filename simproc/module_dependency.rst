@@ -8,6 +8,7 @@ not on the standard library or external libraries.
 Keeping track of this is important in order to help prevent circular dependencies.
 
 - package ``requesthandler``
+
   - ``filepath``: None
   - ``timing``: None
   - ``yaml_manager``: None
@@ -33,6 +34,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``__main__``: ``cmdline``
 
 - package ``meshgen``
+
   - ``buildgeom``: ``requesthandler``
   - ``gmsh_runner``: ``requesthandler``
   - ``dconv_runner``: ``requesthandler``
@@ -40,6 +42,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``onestep``: ``requesthandler``, ``gmsh_runner``, ``dconv_runner``, ``hdf5_conv``
 
 - package ``simulation``
+
   - ``unitsystem``: None
   - ``meshinfo``: ``requesthandler``
   - ``equationbuilder``: None
@@ -49,5 +52,6 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``ficks_law``:  ``requesthandler``, ``meshinfo``, ``equationbuilder``, ``simrequest``, ``common_methods``
 
 - package ``postproc``
+
   - ``collection``: ``requesthandler``
   - ``plotting``: ``requesthandler``, ``plotseries``
