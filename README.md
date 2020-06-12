@@ -3,6 +3,8 @@
 
 Source code and problem description document for FEM solution of diffusion problems at the nanoscale.
 
+The principal code in this repository is now contained in the `simproc` python module.
+
 # Required Software
 
 The FEM analysis is conducted using `FEniCS` (https://fenicsproject.org/),
@@ -48,17 +50,22 @@ __TODO__ explain the singularity recipe, and provide shub link to the image, if 
 
 # Files and Folders
 
-__TODO: OLD__
-
 Otherwise empty directories (eg directories containing only untracked files or subdirectories)
 will have a '.keep' file to force `git` to include the directory itself.
 
 - README.md: this document
-- notes.md: random notes, thoughts, todo lists, and development plans
+- pseudocode: pseudocode for exploring new features
+- simproc: code for FEM analysis, see its own documentation
+- singularity: recipes for singularity images containing the software dependencies
+- sphinx: sphinx documentation folder
+- validation: validation data for the simproc module
+- old_notes.md and new_notes.md: random notes, thoughts, todo lists, and development plans
+
+The following directories are mostly no longer used
 - description: problem description document
     - fig_svg: `inkscape` drawings for figures
     - fig_pdf: figures converted to pdf format
-- src: code for FEM analysis
+- src: OLD code for FEM analysis
     - dependencies_test.py: file to test that all required software dependencies are satisfied
     - folderstructure.py: provides information on the folder structure described here to the other modules
     - unitsystem.py: convenience module for converting values to and from model units
@@ -77,7 +84,7 @@ will have a '.keep' file to force `git` to include the directory itself.
     - dodo.py: `doit` input file for the FEM analysis
     - paramgen.py: code for generating parameter sets from templates and input data
     - customizations: modules used to customize the equation simulators for specific problems
-- data: input and output data from FEM analysis
+- data: OLD input and output data from FEM analysis
     - control.yaml: list of analyses to be run with `doit` (see description below)
     - mesh: data for mesh generation using `gmsh`
         - geomdef: geometry defintion files as inputs to mesh generation
@@ -98,7 +105,7 @@ will have a '.keep' file to force `git` to include the directory itself.
 If defined, the environment variable `SRCLOC` will be used to locate the `src` folder.
 Similarly, if the environment variable `DATALOC` is defined, it will be used to locate the `data` folder.
 
-The various sets of analyses that have been conducted using the code are organized
+The various sets of analyses in the old `data` folder are organized
 by short, human-readable hashes of longer analysis descriptions.
 The human readable hashes used here consist of an adjective followed by a noun.
 Some readers may be familiar with the code names used for releases of the Ubuntu distribution of linux,
