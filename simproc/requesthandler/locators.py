@@ -185,7 +185,7 @@ class DumpFolderStructure(object):
     out_relpath=filepath.Path(outfile)
     out_abspath=DATAFOLDER / out_relpath
     d=dict(folder_structure.items())
-    yaml_manager.writefile(d,str(out_abspath))
+    yaml_manager.writefile_flow(d,str(out_abspath))
   def __setstate__(self,state):
     """Used for unpickling, and loading from yaml"""
     self.__init__(**state)

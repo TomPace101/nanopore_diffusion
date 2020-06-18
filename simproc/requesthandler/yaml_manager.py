@@ -41,12 +41,13 @@ def register_classes(class_list):
     yaml.register_class(yclass)
     all_registered[yclass.__name__]=yclass
 
-def newloader(yfile=None):
+def newloader(yfile=None,flowstyle=False):
   """For when you need to load more than one yaml file at a time.
   
   Arguments:
   
     - yfile = optional name of file the loader will be used for.
+    - flowstyle = optional boolean, to be used for ``default_flow_style``
   
   The returned object is an instance of YAML,
   which is not actually called a loader, but I can't figure out the actual name."""
@@ -55,13 +56,14 @@ def newloader(yfile=None):
     now_loading.append(yfile)
   yy=ruamel.yaml.YAML(typ="safe", pure=True)
   # yy=ruamel.yaml.YAML(typ="rt", pure=True)
-  yy.default_flow_style = False
+  yy.default_flow_style = flowstyle
   # yy.Constructor = MyConstructor
   for yclass in all_registered.values():
     yy.register_class(yclass)
   return yy
 
 yaml=newloader()
+yamlflow=newloader(flowstyle=True)
 
 def filedone():
   """Call to indicate that loading of a file is complete"""
@@ -96,4 +98,9 @@ def writefile(obj,fpath):
   with open(str(fpath),'w') as fp:
     yaml.dump(obj,fp)
   return
-  
+
+def writefile_flow(obj,fpath):
+  """Write object to yaml file, overwriting, in flow style"""
+  with open(str(fpath),'w') as fp:
+    yamlflow.dump(obj,fp)
+  return
