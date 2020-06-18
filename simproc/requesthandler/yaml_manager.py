@@ -47,7 +47,7 @@ def newloader(yfile=None,flowstyle=False):
   Arguments:
   
     - yfile = optional name of file the loader will be used for.
-    - flowstyle = optional boolean, to be used for ``default_flow_style``
+    - flowstyle = optional boolean, to be used for ``default_flow_style``, (use None for ruamel.yaml default)
   
   The returned object is an instance of YAML,
   which is not actually called a loader, but I can't figure out the actual name."""
@@ -63,7 +63,7 @@ def newloader(yfile=None,flowstyle=False):
   return yy
 
 yaml=newloader()
-yamlflow=newloader(flowstyle=True)
+yamlflow=newloader(flowstyle=None)
 
 def filedone():
   """Call to indicate that loading of a file is complete"""
