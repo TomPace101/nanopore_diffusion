@@ -15,7 +15,7 @@ MULTIDOC_DEFAULT=False
 
 #Locators
 locators.folder_structure.update(RequestFile=['requests'])
-locators.folder_structure.update(RequestTemplate=['request','templates'])
+locators.folder_structure.update(RequestTemplate=['requests','templates'])
 locators.folder_structure.update(GeneratedRequest=['requests','generated'])
 
 _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
