@@ -116,7 +116,7 @@ class CleanLogFilesRequest(request.Request):
     self.pre_run()
     #Get the log directory, if it exists
     if 'logdir' not in logging.__dict__:
-      logging.info("No logging directory found.",request_class=type(self).__name__,request_name=getattr(self,"name",None))
+      logger.info("No logging directory found.",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     else:
       logdir = logging.logdir
       #Walk the directory and delete all the files, but leave the directories
