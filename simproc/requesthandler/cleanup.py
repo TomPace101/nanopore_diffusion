@@ -107,7 +107,10 @@ class FileDeletionRequest(request.Request):
       cleanpath(self.render(fpath))
 
 class CleanLogFilesRequest(request.Request):
-  """Remove all log files"""
+  """Remove all log files
+  
+  Note: you should generally give this request a name if working from a yaml file.
+  If you really don't want to use any arguments at all, you'll need to use an empty dictionary to achieve that."""
   _self_task=True
   def run(self):
     """Delete all the files in the log file directory."""
