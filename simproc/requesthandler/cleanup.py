@@ -123,12 +123,13 @@ class CleanLogFilesRequest(request.Request):
       for root,dirs,files in os.walk(logdir):
         for name in files:
           os.remove(os.path.join(root,name))
-  @classmethod
-  def from_yaml(cls, constructor, node):
-    return cls()
-  @classmethod
-  def to_yaml(cls, representer, node):
-    return representer.represent_scalar("!"+cls.__name__)
+  # @classmethod
+  # def from_yaml(cls, constructor, node):
+  #   pdb.set_trace()
+  # @classmethod
+  # def to_yaml(cls, representer, node):
+  #   pdb.set_trace()
+  #   return representer.represent_scalar("!"+cls.__name__)
 
 #Register for loading from yaml
 yaml_manager.register_classes([OutputCleanupRequest, FileDeletionRequest, CleanLogFilesRequest])
