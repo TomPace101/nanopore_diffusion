@@ -267,6 +267,14 @@ Maybe some things from that could be generalized?
 Here are some limitations of doit that I'd like to resolve:
 - If I should get something to run without doit, I have to rerun it to get its status updated.
   There should be a way to manually use the current state of a task and tell it "this is up to date as of now".
+- Sometimes I have different sets of "old" files for meshes, solutions, and post-processing.
+  I can't tell which one went with what. 
+  It would be nice if the file hashes were stored in a human-readable format for inspection.
+  (Both input and output file hashes for each task, updated on task completion.)
+  And not just the current versions; a history of them might be helpful as well.
+  Then I could identify old stuff.
+  Some of this could also be potentially worked around by using git-LFS to "track" the output files.
+  Then I could see their versioning.
 - If a task crashes so hard it takes doit with it, none of the task status updates are written to disk.
   I have had this happen with tasks that produce memory allocation errors.
 
