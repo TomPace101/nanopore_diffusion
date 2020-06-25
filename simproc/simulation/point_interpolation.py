@@ -27,6 +27,10 @@ boundaryvalue:
   anyOf:
     - {type: number}
     - {type: "null"}
+nonboundary_fillvalue:
+  anyOf:
+    - {type: number}
+    - {type: "null"}
 """
 
 class InterpolationSimulator(simrequest.SimulationRequest):
@@ -51,6 +55,11 @@ class InterpolationSimulator(simrequest.SimulationRequest):
       The default value is [x,y,z].
 
     - valuecolumn = optional name, as string, of the column containing the function value. (Defaults to 'f')
+
+    - nonboundary_fillvalue = optional "fill value" to specify for the interpolator even in the case when no boundary value is used
+
+      If ``boundaryvalue`` is not ``None``, then this parameter is ignored.
+      Defaults to ``nan``.
 
       Note that column names are all case-sensitive."""
 
@@ -93,7 +102,8 @@ class InterpolationSimulator(simrequest.SimulationRequest):
 
       data_pts=inpts
       data_vals=invals
-      fillvalue=np.nan
+
+      fillvalue=getattr(conditions,'nonboundary_fillvalue',np.nan)
 
     else:
 
