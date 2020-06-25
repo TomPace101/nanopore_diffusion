@@ -10,6 +10,9 @@ from . import filepath
 from . import yaml_manager
 from . import locators
 from . import request
+from . import logging
+
+logger=logging.getLogger(__name__)
 
 MULTIDOC_DEFAULT=False
 
@@ -65,6 +68,7 @@ class RequestFileRequest(request.Request):
     #Store child objects that are Request subclasses
     self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
   def run(self):
+    logger.info("Running requests from file",request_class=type(self).__name__,request_name=getattr(self,"name",None),source_file=self.renderstr(self.requestfile))
     if self.delay_load:
       self.load_children()
     #Run as defined by parent class
