@@ -75,7 +75,7 @@ def run():
     customization.load_modules(cmdline.modules)
 
   #Initialize a RequestFileListRequest
-  req=requestfile.RequestFileListRequest(requestfiles=file_list)
+  req=requestfile.RequestFileListRequest(name="(from command line)",requestfiles=file_list)
 
   #Run
   if cmdline.tasks_only or cmdline.select is not None:
