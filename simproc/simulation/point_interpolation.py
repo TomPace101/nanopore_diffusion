@@ -119,6 +119,9 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     dofvals=ilator(dofcoords)
     logger.stopTimer("interp_run",request_name=getattr(self,"name",None))
     self.interp_run_timer=logger.timers["interp_run"]
+    #Store results for separate output if desired
+    results_arr=np.hstack([dofcoords,np.reshape(dofvals,(dofvals.shape[0],1))])
+    self.results=pd.DataFrame(results_arr,columns=['dof_x','dof_y','dof_z','value'])
     #Define function from the interpolated dof values
     self.soln=fem.Function(self.V,name=functionname)
     junk=self.soln.vector().set_local(dofvals)
