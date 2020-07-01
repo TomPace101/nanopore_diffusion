@@ -14,6 +14,9 @@ from ..requesthandler import yaml_manager
 from . import simrequest
 from . import equationbuilder
 from . import periodic_boundaries
+from ..requesthandler import logging
+
+logger=logging.getLogger(__name__)
 
 BOUNDTOL=1e-6
 
@@ -138,6 +141,9 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
     form=-self.Dbar*v[i].dx(i)*self.dx
     eqnterms.add(termname,form,bilinear=False)
 
+    #Log the complete set of terms for the weak form, if requested
+    # logger.debug("Weak form completed.",request_class=type(self).__name__,request_name=getattr(self,"name",None),eqnterms=eqnterms)
+
     #FEniCS Problem and Solver
     self.a=eqnterms.sumterms(bilinear=True)
     self.L=eqnterms.sumterms(bilinear=False)
@@ -149,7 +155,9 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
 
     #Solve
     if not getattr(self,'skipsolve',False):
+      logger.debug("Running solver step.",request_class=type(self).__name__,request_name=getattr(self,"name",None))
       self.solver.solve()
+      logger.debug("Solution step complete.",request_class=type(self).__name__,request_name=getattr(self,"name",None))
 
   def macroscale_diffusion(self,respath="D_macro",attrpath="soln",volpath="volume"):
     """Perform the integral to obtain the homogenized diffusion constant

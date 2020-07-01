@@ -3,6 +3,9 @@
 #Standard library
 from collections import OrderedDict
 
+#This package
+from ..requesthandler import yaml_manager
+
 class EquationTerm(object):
   """To keep track of additional information about each UFL form added up into the equation to solve.
   
@@ -16,6 +19,19 @@ class EquationTerm(object):
     self.form=form
     for k,v in kwargs.items():
       setattr(self,k,v)
+  
+  def asdict(self):
+    d={}
+    for k,v in self.__dict__.items():
+      if k == 'form':
+        d[k]=repr(v)
+      else:
+        d[k]=v
+    return d
+
+  # @classmethod
+  # def to_yaml(cls, representer, node):
+  #   return representer.represent_mapping("!"+cls.__name__,node.asdict())
 
 class EquationTermDict(OrderedDict):
   """An ordered dictionary of equation terms.
@@ -29,6 +45,12 @@ class EquationTermDict(OrderedDict):
     super(EquationTermDict, self).__init__(*args,**kwargs)
     #Store the term class
     self.termclass=termclass
+
+  def __getstate__(self):
+    """Used for pickling, and converting to yaml"""
+    #This method is only needed because I can't get the EquationTerm class to do this itself.
+    #That would be a better approach, if it worked.
+    return {k:v.asdict() for k,v in self.items()}
 
   def add(self,*args,**kwargs):
     """Create a new term and add it to this dictionary.
@@ -65,3 +87,7 @@ class EquationTermDict(OrderedDict):
     else:
       #zeroval was not provided
       raise RuntimeError("Unable to return a proper sum of zero terms; Provide keyword argument zeroval to resolve.")
+
+#Register for dumping to yaml
+# yaml_manager.register_classes([EquationTerm, EquationTermDict])
+yaml_manager.register_classes([EquationTermDict])

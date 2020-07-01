@@ -48,8 +48,10 @@ class WithCommandsRequest(customization.CustomizableRequest):
           getattr(self,funcname)(*arguments)
         else:
           getattr(self,funcname)(**arguments)
+        logger.debug("Completed command.",request_name=getattr(self,"name",None),funcname=funcname)
       except Exception as einst:
         raise Exception("Exception occured in %s for command: %s"%(attrpath,str(cmd))) from einst
+    logger.debug("Completed command sequence.",request_class=type(self).__name__,request_name=getattr(self,"name",None),attrpath=attrpath)
     return
 
   def list_iofiles(self,cmdlist,filearg_list=None,helper_tag=None):
