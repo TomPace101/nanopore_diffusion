@@ -184,6 +184,7 @@ class DumpFolderStructure(object):
     self.outfile=outfile
     out_relpath=filepath.Path(outfile)
     out_abspath=DATAFOLDER / out_relpath
+    out_relpath.assure_dir()
     d=dict(folder_structure.items())
     yaml_manager.writefile_flow(d,str(out_abspath))
   def __setstate__(self,state):
