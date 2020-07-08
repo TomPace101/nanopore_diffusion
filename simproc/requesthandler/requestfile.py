@@ -25,6 +25,7 @@ _RequestFileRequest_props_schema_yaml="""#RequestFileRequest
 requestfile: {type: pathlike}
 multidoc: {type: boolean}
 delay_load: {type: boolean}
+skip_nonexist: {type: boolean}
 _children: {type: array}"""
 
 class RequestFileRequest(request.Request):
@@ -33,9 +34,12 @@ class RequestFileRequest(request.Request):
   User-Provided Attributes:
   
     - requestfile: path to the file containing the requests, as instance of filepath.Path or Locator
-    - multidoc: optional boolean, defaults to True
+    - multidoc: optional boolean, defaults to value of module variable ``MULTIDOC_DEFAULT``, which is initially False
         If True, the file is a multi-document yaml file, with each document providing a request.
         If False, the file should be a single document, which contains a single list of requests.
+    - skip_nonexist: optional boolean, defaults to False
+        If True, no error is raised if the request file does not exist.
+        If False, an error is raised if the request file does not exist.
     - delay_load: optional boolean, NOT RECOMMENDED, defaults to False
         If False, the child requests are loaded at initialization of this request.
         If True, the child requests are not loaded until this request is run.
@@ -57,16 +61,25 @@ class RequestFileRequest(request.Request):
     #Default attributes
     self.multidoc=getattr(self,'multidoc',MULTIDOC_DEFAULT)
     self.delay_load=getattr(self,'delay_load',False)
+    self.skip_nonexist=getattr(self,'skip_nonexist',False)
     if self.delay_load:
       self._children=[]
     else:
       self.load_children()
   def load_children(self):
     "Load the requests defined in the file"
-    #Load all objects from the yaml file
-    allobj = yaml_manager.readfile(self.render(self.requestfile),self.multidoc)
-    #Store child objects that are Request subclasses
-    self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
+    #Confirm that the file exists
+    reqfpath=self.render(self.requestfile)
+    if reqfpath.exists():
+      #Load all objects from the yaml file
+      allobj = yaml_manager.readfile(reqfpath,self.multidoc)
+      #Store child objects that are Request subclasses
+      self._children=[ch for ch in allobj if isinstance(ch,request.Request)]
+    else:
+      if self.skip_nonexist:
+        self._children=[]
+      else:
+        raise AssertionError("Request file does not exist: %s"%str(reqfpath))
   def run(self):
     logger.info("Running requests from file",request_class=type(self).__name__,request_name=getattr(self,"name",None),source_file=self.renderstr(self.requestfile))
     if self.delay_load:
