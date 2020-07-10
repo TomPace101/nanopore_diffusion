@@ -32,6 +32,21 @@
   expected: !CompareFile date_output.txt
   received: !OutputFile date_output.txt
   range: 5
+#Another type of shell request
+- !CommonShellCommandRequest
+  name: dummy.commonshell
+  commandargs:
+    - cat
+    - !InputFile hello_world.txt.jinja2
+    - '>'
+    - !OutputFile duplicate.txt
+  input_args: [1]
+  output_args: [3]
+#Verify output of previous test
+- !FileComparisonRequest
+  name: dummy.commonshell.verify
+  expected: !InputFile hello_world.txt.jinja2
+  received: !OutputFile duplicate.txt
 #Test template request
 - !TemplateFileRequest
   name: dummy.templatefile

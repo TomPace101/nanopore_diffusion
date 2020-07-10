@@ -56,6 +56,41 @@ class GeneralShellCommandRequest(ShellCommandRequestBase):
     else:
       cmd += "2>'%s'"%self.errfile
     return cmd
-  
+
+_CommonShellCommandRequest_props_schema_yaml="""#CommonShellCommandRequest
+name: {type: string}
+commandargs: {type: array}
+input_args:
+  type: array
+  items: {type: integer}
+output_args:
+  type: array
+  items: {type: integer}
+"""
+
+class CommonShellCommandRequest(ShellCommandRequestBase):
+  """Request for shell commands of the form <command name> <argument list>
+
+  User-defined attributes:
+
+    - commandargs: list of strings containing the command and all arguments
+    - input_args: list of indices in the argument list that contain input files
+    - output_args: list of indices in the argument list that contain output files"""
+  _self_task=True
+  _config_attrs=['commandargs','input_args','output_args']
+  _validation_schema=request.Request.update_schema(_CommonShellCommandRequest_props_schema_yaml)
+  _validation_schema.required=['name','commandargs']
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(CommonShellCommandRequest, self).__init__(**kwargs)
+    #Store list of input and output files
+    self._more_inputfiles=[self.commandargs[idx] for idx in getattr(self,'input_args',[])]
+    self._more_outputfiles=[self.commandargs[idx] for idx in getattr(self,'output_args',[])]
+  @property
+  def cmd_str(self):
+    arglist = [self.renderstr(itm) for itm in self.commandargs]
+    return ' '.join(arglist)
+
+
 #Register for loading from yaml
-yaml_manager.register_classes([GeneralShellCommandRequest])
+yaml_manager.register_classes([GeneralShellCommandRequest, CommonShellCommandRequest])
