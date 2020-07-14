@@ -68,6 +68,14 @@ simproc.requesthandler.generate module
    :undoc-members:
    :show-inheritance:
 
+simproc.requesthandler.locator_requests module
+--------------------------------------
+
+.. automodule:: simproc.requesthandler.locator_requests
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 simproc.requesthandler.locators module
 --------------------------------------
 

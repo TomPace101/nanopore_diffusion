@@ -163,36 +163,36 @@ class UpdateFolderStructure(object):
     """Used for pickling, and writing to yaml"""
     return folder_structure
 
-class DumpFolderStructure(object):
-  """Write the current folder structure to a yaml output file
+# class DumpFolderStructure(object):
+#   """Write the current folder structure to a yaml output file
 
-  This isn't really a class. It's a function.
-  But when loading from yaml, there isn't a way to call a function directly.
-  You can only load classes.
-  Hence, this is an object that simply calls another function when initialized,
-  and then does nothing else ever.
+#   This isn't really a class. It's a function.
+#   But when loading from yaml, there isn't a way to call a function directly.
+#   You can only load classes.
+#   Hence, this is an object that simply calls another function when initialized,
+#   and then does nothing else ever.
   
-  This is also not a request: its action is taken at initialization,
-  not when requests are run.
-  That's a questionable decision, but the way I decided to do it for now.
-  Note this means its attributes are not validated like a request's are.
+#   This is also not a request: its action is taken at initialization,
+#   not when requests are run.
+#   That's a questionable decision, but the way I decided to do it for now.
+#   Note this means its attributes are not validated like a request's are.
   
-  The only input argument is `outfile` which must be a string or Path, NOT a locator,
-  because this isn't a request.
-  The path will be assumed to be relative to DATAFOLDER, as it exists at the time of calling."""
-  def __init__(self,outfile):
-    self.outfile=outfile
-    out_relpath=filepath.Path(outfile)
-    out_abspath=DATAFOLDER / out_relpath
-    out_relpath.assure_dir()
-    d=dict(folder_structure.items())
-    yaml_manager.writefile_flow(d,str(out_abspath))
-  def __setstate__(self,state):
-    """Used for unpickling, and loading from yaml"""
-    self.__init__(**state)
-  def __getstate__(self):
-    """Used for pickling, and writing to yaml"""
-    return {'outfile':self.outfile}
+#   The only input argument is `outfile` which must be a string or Path, NOT a locator,
+#   because this isn't a request.
+#   The path will be assumed to be relative to DATAFOLDER, as it exists at the time of calling."""
+#   def __init__(self,outfile):
+#     self.outfile=outfile
+#     out_relpath=filepath.Path(outfile)
+#     out_abspath=DATAFOLDER / out_relpath
+#     out_relpath.assure_dir()
+#     d=dict(folder_structure.items())
+#     yaml_manager.writefile_flow(d,str(out_abspath))
+#   def __setstate__(self,state):
+#     """Used for unpickling, and loading from yaml"""
+#     self.__init__(**state)
+#   def __getstate__(self):
+#     """Used for pickling, and writing to yaml"""
+#     return {'outfile':self.outfile}
 
 class SetDataFolder(object):
   """Set the DATAFOLDER
@@ -227,4 +227,5 @@ class SetDataFolder(object):
     return {'datafolder':DATAFOLDER}
 
 #Register for loading from yaml
-yaml_manager.register_classes([filepath.Path,DataFile,NameDelegator,Delegator,UpdateFolderStructure,DumpFolderStructure,SetDataFolder])
+# yaml_manager.register_classes([filepath.Path,DataFile,NameDelegator,Delegator,UpdateFolderStructure,DumpFolderStructure,SetDataFolder])
+yaml_manager.register_classes([filepath.Path,DataFile,NameDelegator,Delegator,UpdateFolderStructure,SetDataFolder])

@@ -18,6 +18,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``schema``: ``filepath``, ``yaml_manager``, ``locators``, ``nested``
   - ``logging``: ``filepath``, ``timing``, ``yaml_manager``, ``locators``, ``schema``
   - ``request``: ``filepath``, ``yaml_manager``, ``schema``, ``nested``, ``logging``
+  - ``locator_requests``: ``yaml_manager``, ``locators``, ``request``, ``logging``
   - ``requestfile``: ``filepath``, ``yaml_manager``, ``locators``, ``request``
   - ``simultaneous``: ``filepath``, ``yaml_manager``, ``request``, ``locators``, ``logging``
   - ``mpi_run``: ``filepath``, ``request``, ``yaml_manager``, ``simultaneous``, ``locators``, ``logging``
