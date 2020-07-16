@@ -353,7 +353,7 @@ class SimulationRequest(WithCommandsRequest):
     setattr(self,namesplit,getattr(self,namewhole).split())
 
   def domain_volume(self,attrpath='volume',dxname='dx'):
-    """Get the domain volume from integration
+    """Get the entire problem domain volume from integration
     
     Arguments:
     
@@ -367,6 +367,25 @@ class SimulationRequest(WithCommandsRequest):
     volume=fem.assemble(fem.Constant(1)*dx)
     self.set_nested(attrpath,volume)
 
+  def cell_volume(self,pcell,attrpath):
+    """Compute the volume of the specified cell
+
+    Arguments:
+
+      - pcell = physical cell number for the cell to calculate area of
+      - attrpath = attribute path for storage of result
+    
+    Required attributes:
+
+      - meshinfo.mesh = FEniCS Mesh object
+      - meshinfo.cells = FEniCS MeshFunction object for cell numbers
+    
+    No return value."""
+    this_dx=fem.Measure('cell',domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.cells)
+    calcvol=fem.assemble(fem.Constant(1)*this_dx(pcell))
+    self.set_nested(attrpath,calcvol)
+    return
+
   def facet_area(self,pfacet,attrpath,internal=False):
     """Compute the area of the specified facet.
 
@@ -378,10 +397,8 @@ class SimulationRequest(WithCommandsRequest):
 
     Required attributes:
 
-      - mesh = FEniCS Mesh object
-      - facet = FEniCS MeshFunction object for facet numbers
-
-    New attribute added/overwritten.
+      - meshinfo.mesh = FEniCS Mesh object
+      - meshinfo.facets = FEniCS MeshFunction object for facet numbers
 
     No return value."""
     if internal:
@@ -390,7 +407,7 @@ class SimulationRequest(WithCommandsRequest):
       integral_type='exterior_facet'
     this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
     calcarea=fem.assemble(fem.Constant(1)*this_ds(pfacet))
-    setattr(self,attrpath,calcarea)
+    self.set_nested(attrpath,calcarea)
     return
 
   def get_pointcoords(self,location):
