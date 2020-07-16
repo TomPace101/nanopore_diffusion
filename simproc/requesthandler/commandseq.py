@@ -8,6 +8,7 @@ import sys
 import pandas as pd
 
 #This package
+from . import nested
 from . import yaml_manager
 from . import pickle_manager
 from . import customization
@@ -167,8 +168,10 @@ class WithCommandsRequest(customization.CustomizableRequest):
     No attributes modified.
     Output file is created/overwritten.
     No return value."""
+    # outdict=nested.WithNested() #Doesn't work yet: WithNested apparently can't write itself to yaml, even though it should be able to
     outdict={}
     for key,dpath in mapping.items():
+      # outdict.set_nested(key,self.get_nested(dpath)) #If using WithNested as above
       outdict[key]=self.get_nested(dpath)
     yaml_manager.writefile(outdict,self.render(outfpath))
     return
