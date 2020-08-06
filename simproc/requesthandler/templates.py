@@ -60,7 +60,9 @@ class TemplateFileRequest(commandseq.WithCommandsRequest):
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
-    #Default search paths
+    #Run prepcommands
+    self.process_command_sequence(attrpath='prepcommands',singlefunc=None,positional=False)
+   #Default search paths
     searchpaths=getattr(self,'searchpaths',[])
     #Load the template
     with open(self.renderstr(self.tmplfile),'r') as fh:
@@ -75,6 +77,8 @@ class TemplateFileRequest(commandseq.WithCommandsRequest):
     #Write the output file
     with open(self.renderstr(self.outfile),'w') as fh:
       fh.write(out_data)
+    #Run postcommands
+    self.process_command_sequence(attrpath='postcommands',singlefunc=None,positional=False)
 
 #Register for loading from yaml
 yaml_manager.register_classes([TemplateFileRequest])
