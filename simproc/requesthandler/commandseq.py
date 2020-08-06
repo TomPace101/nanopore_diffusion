@@ -19,6 +19,27 @@ logger=logging.getLogger(__name__)
 class WithCommandsRequest(customization.CustomizableRequest):
   """A customizeable request that supports command sequences"""
 
+  def init_command_sequence(self,attrpath):
+    """Initializations needed for a general command sequence
+
+    Arguments:
+
+      - attrpath = attribute path to the command list
+    
+    No return value."""
+    #Set up empty command list if not already present
+    if self.get_nested_default(attrpath,None) is None:
+      self.set_nested(attrpath,[])
+    commandseq=self.get_nested(attrpath)
+    #Get input files
+    self._more_inputfiles=getattr(self,'_more_inputfiles',[]) #Initialize attribute if it doesn't already exist
+    self._more_inputfiles+=self.list_iofiles(commandseq,['filename','infpath'],'_inputfiles')
+    #Get output files
+    self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
+    self._more_outputfiles+=self.list_iofiles(commandseq,['filename','outfpath'],'_outputfiles')
+    #Done
+    return
+
   def process_command_sequence(self,attrpath,singlefunc=None,positional=False):
     """Process a list of commands
 
@@ -199,17 +220,13 @@ class CommandSequenceRequest(WithCommandsRequest):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(CommandSequenceRequest, self).__init__(**kwargs)
-    #Get input files from commands
-    self._more_inputfiles=getattr(self,'_more_inputfiles',[]) #Initialize attribute if it doesn't already exist
-    self._more_inputfiles+=self.list_iofiles(self.commands,['filename','infpath'],'_inputfiles')
-    #Get output files from commands
-    self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
-    self._more_outputfiles+=self.list_iofiles(self.commands,['filename','outfpath'],'_outputfiles')
+    #Initialize command sequence
+    self.init_command_sequence('commands')
   def run(self):
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
     self.pre_run()
-    #Run the comamnd sequence
+    #Run the command sequence
     self.process_command_sequence(attrpath='commands',singlefunc=None,positional=False)
 
 

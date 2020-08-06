@@ -68,6 +68,8 @@ class RawCollectionRequest(WithCommandsRequest):
     self._more_inputfiles=getattr(self,'_more_inputfiles',[])
     for mapping,file_list in self.iter_defs():
       self._more_inputfiles += [self.renderstr(fp) for fp in file_list]
+    #Get input and output files from the command sequences
+    self.init_command_sequence('calculations')
     #Default multidoc
     if not hasattr(self,'multidoc'):
       self.multidoc=False
@@ -183,6 +185,8 @@ class CollectionRequest(WithCommandsRequest):
             self._more_inputfiles += this_filelist
             working_filelist += this_filelist
       self.raw_definitions.append({'mapping':defn['mapping'],'file_list':working_filelist})
+    #Get input and output files from the command sequences
+    self.init_command_sequence('calculations')
   def run(self):
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     kwargs={'name':self.name+"_raw",'outpath':self.render(self.outpath),'definitions':self.raw_definitions}

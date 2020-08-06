@@ -115,12 +115,9 @@ class SimulationRequest(WithCommandsRequest):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(SimulationRequest, self).__init__(**kwargs)
-    #Get input files from load data commands
-    self._more_inputfiles=getattr(self,'_more_inputfiles',[]) #Initialize attribute if it doesn't already exist
-    self._more_inputfiles+=self.list_iofiles(getattr(self,'loaddata',[]),['infpath'],'_inputfiles')
-    #Get output files from data extraction commands
-    self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
-    self._more_outputfiles+=self.list_iofiles(getattr(self,'dataextraction',[]))
+    #Get input and output files from the command sequences
+    self.init_command_sequence('loaddata')
+    self.init_command_sequence('dataextraction')
 
   def run(self):
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))

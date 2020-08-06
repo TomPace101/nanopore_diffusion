@@ -190,21 +190,13 @@ class FigureRequest(WithCommandsRequest):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(FigureRequest, self).__init__(**kwargs)
-    #Default command attributes
-    if not hasattr(self,'prepcommands'):
-      self.prepcommands=[]
-    if not hasattr(self,'plotcommands'):
-      self.plotcommands=[]
-    #Get input files
-    self._more_inputfiles=getattr(self,'_more_inputfiles',[]) #Initialize attribute if it doesn't already exist
+    #Get input and output files from the command sequences
+    self.init_command_sequence('prepcommands')
+    self.init_command_sequence('plotcommands')
+    #Get input files from the loadfiles attribute
     self._more_inputfiles+=[fp for k,fp in getattr(self,'loadfiles',{}).items()]
-    self._more_inputfiles+=self.list_iofiles(self.prepcommands,['filename','infpath'],'_inputfiles')
-    self._more_inputfiles+=self.list_iofiles(self.plotcommands,['filename','infpath'],'_inputfiles')
-    #Get output files
-    self._more_outputfiles=getattr(self,'_more_outputfiles',[]) #Initialize attribute if it doesn't already exist
+    #Get output files from the figures attribute
     self._more_outputfiles+=[figprops.outfpath for figprops in getattr(self,'figures',[])]
-    self._more_outputfiles+=self.list_iofiles(self.prepcommands,['filename','outfpath'],'_outputfiles')
-    self._more_outputfiles+=self.list_iofiles(self.plotcommands,['filename','outfpath'],'_outputfiles')
   def run(self):
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
