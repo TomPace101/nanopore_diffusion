@@ -4,7 +4,7 @@
 from datetime import datetime
 
 #Standard time format
-TIMEFORMAT="%a %d-%b-%Y %H:%M:%S.%f"
+TIMEFORMAT="%a %d-%b-%Y %H:%M:%S.%f %Z"
 
 def format_delta(tdelta):
   "Return a string in standard format for a time delta"
