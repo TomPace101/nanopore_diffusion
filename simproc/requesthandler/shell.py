@@ -3,6 +3,7 @@
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
 from subprocess import call
+from shutil import copy2
 
 #This package
 from . import request
@@ -91,6 +92,31 @@ class CommonShellCommandRequest(ShellCommandRequestBase):
     arglist = [self.renderstr(itm) for itm in self.commandargs]
     return ' '.join(arglist)
 
+_CopyFileRequest_props_schema_yaml="""#CopyFileRequest
+name: {type: string}
+source: {type: pathlike}
+destination: {type: pathlike}
+"""
+
+class CopyFileRequest(request.Request):
+  """Request to copy a single file from one location to another
+
+  User-defined attributes:
+
+    - source = path to the source file
+    - destination = path to the destination file"""
+  _self_task=True
+  _config_attrs=['source','destination']
+  _inputfile_attrs=['source']
+  _outputfile_attrs=['destination']
+  _validation_schema=request.Request.update_schema(_CopyFileRequest_props_schema_yaml)
+  _validation_schema.required=['source','destination']
+  def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Do the copy operation
+    copy2(self.renderstr(self.source),self.renderstr(self.destination))
 
 #Register for loading from yaml
-yaml_manager.register_classes([GeneralShellCommandRequest, CommonShellCommandRequest])
+yaml_manager.register_classes([GeneralShellCommandRequest, CommonShellCommandRequest, CopyFileRequest])

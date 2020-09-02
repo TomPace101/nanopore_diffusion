@@ -47,6 +47,16 @@
   name: dummy.commonshell.verify
   expected: !InputFile hello_world.txt.jinja2
   received: !OutputFile duplicate.txt
+#File copying request
+- !CopyFileRequest
+  name: dummy.copyfile
+  source: !InputFile hello_world.txt.jinja2
+  destination: !OutputFile hello_world.txt.jinja2
+#Verify output of previous test
+- !FileComparisonRequest
+  name: dummy.copyfile.verify
+  expected: !InputFile hello_world.txt.jinja2
+  received: !OutputFile hello_world.txt.jinja2
 #Test template request
 - !TemplateFileRequest
   name: dummy.templatefile
