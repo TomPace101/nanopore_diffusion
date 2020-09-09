@@ -69,6 +69,20 @@
   name: dummy.templatefile.verify
   expected: !CompareFile hello_from_template.txt
   received: !OutputFile hello_from_template.txt
+#Test locator rendering template request
+- !LocatorRenderingTemplateFileRequest
+  name: dummy.renderingtemplatefile
+  tmplfile: !InputFile hello_world.txt.jinja2
+  outfile: !OutputFile hello_path.txt
+  data:
+    noun: !InputFile hello_world.txt.jinja2
+  renderlocs: [noun]
+#Verify output of previous test
+- !FileSizeComparisonRequest
+  name: dummy.renderingtemplatefile.verify
+  expected: !CompareFile hello_path.txt
+  received: !OutputFile hello_path.txt
+  range: [0,5000] #Theoretically, someone may have a path longer than this, but good grief
 #Test recursion depth
 - !RequestFileRequest
   name: recursion.root

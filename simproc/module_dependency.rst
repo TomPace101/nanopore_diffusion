@@ -28,7 +28,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``cleanup``: ``locators``, ``request``, ``yaml_manager``, ``logging``
   - ``customization``: ``filepath``, ``locators``, ``request``, ``yaml_manager``
   - ``commandseq``: ``yaml_manager``, ``pickle_manager``, ``customization``, ``logging``
-  - ``templates``: ``yaml_manager``, ``customization``, ``logging``
+  - ``templates``: ``yaml_manager``, ``customization``, ``logging``, ``nested``
   - ``generate``: ``yaml_manager``, ``request``, ``nested``, ``customization``
   - ``__init__``: ``filepath``, ``locators``, ``requestfile``, ``customization``, ``shell``, ``templates``, ``cleanup``, ``comparison, ``debug``
   - ``cmdline``: ``*`` (meaning everything listed in ``__init__``)

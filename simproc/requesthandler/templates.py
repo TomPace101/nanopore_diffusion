@@ -10,6 +10,7 @@ from jinja2 import Environment, FileSystemLoader
 #This package
 from . import yaml_manager
 from . import commandseq
+from . import nested
 from . import logging
 
 logger=logging.getLogger(__name__)
@@ -80,5 +81,30 @@ class TemplateFileRequest(commandseq.WithCommandsRequest):
     #Run postcommands
     self.process_command_sequence(attrpath='postcommands',singlefunc=None,positional=False)
 
+_LocatorRenderingTemplateFileRequest_props_schema_yaml="""#LocatorRenderingTemplateFileRequest
+renderlocs:
+  type: array
+  items: {type: string}
+"""
+
+class LocatorRenderingTemplateFileRequest(TemplateFileRequest):
+  """Subclass of TemplateFileRequest that renders locators within the provided data before sending to the template.
+  
+  User-defined attributes (in addition to those of TemplateFileRequest):
+  
+    - renderlocs: list of attribute paths (relative to ``data``, not the request) containing locators to render
+  """
+  _validation_schema=TemplateFileRequest.update_schema(_LocatorRenderingTemplateFileRequest_props_schema_yaml)
+  _validation_schema.required=TemplateFileRequest._validation_schema.required + ['renderlocs']
+  def get_template_input(self):
+    #Go through the list of attribute locations
+    for addr in self.renderlocs:
+      #Get the rendering of the locator at that location
+      newval=self.renderstr(nested.get_nested(self.data,addr))
+      #Set the data attribute at that location to the rendered string
+      nested.set_nested(self.data,addr,newval)
+    #Done
+    return self.data
+
 #Register for loading from yaml
-yaml_manager.register_classes([TemplateFileRequest])
+yaml_manager.register_classes([TemplateFileRequest,LocatorRenderingTemplateFileRequest])
