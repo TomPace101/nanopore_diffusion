@@ -44,7 +44,7 @@ class TemplateFileRequest(commandseq.WithCommandsRequest):
     - prepcommands = sequence of commands to execute before template generation (e.g. to load additional data)
     - postcommands = sequence of commands to execute after template generation (e.g. to output additional data)"""
   _self_task=True
-  _config_attrs=('tmplfile','outfile','data','modules','initializations','extra')
+  _config_attrs=('searchpaths','tmplfile','outfile','data','modules','initializations','extra')
   _inputfile_attrs=['tmplfile']
   _outputfile_attrs=['outfile']
   _validation_schema=commandseq.WithCommandsRequest.update_schema(_TemplateFileRequest_props_schema_yaml)
@@ -63,13 +63,15 @@ class TemplateFileRequest(commandseq.WithCommandsRequest):
     self.pre_run()
     #Run prepcommands
     self.process_command_sequence(attrpath='prepcommands',singlefunc=None,positional=False)
-   #Default search paths
-    searchpaths=getattr(self,'searchpaths',[])
+    #Add the folder containing the requested template file to the search paths
+    tmpl_fpath=self.render(self.tmplfile)
+    searchpaths=[tmpl_fpath.parent]
+    #Template search paths requested
+    raw_searchpaths=getattr(self,'searchpaths',[])
+    searchpaths+=[self.renderstr(itm) for itm in raw_searchpaths]
     #Load the template
-    with open(self.renderstr(self.tmplfile),'r') as fh:
-      tdata=fh.read()
     env=Environment(loader=FileSystemLoader(searchpaths),extensions=['jinja2.ext.do'],trim_blocks=True,keep_trailing_newline=True)
-    tmpl=env.from_string(tdata)
+    tmpl=env.get_template(tmpl_fpath.name)
     #tmpl=Template(tdata,trim_blocks=True,keep_trailing_newline=True)
     #Do the calculations for the template values
     input_data=self.get_template_input()
