@@ -124,6 +124,18 @@ class SimulationRequest(WithCommandsRequest):
     #Final checks and preparatory steps
     self.pre_run()
     #Load the mesh, unless provided some other way
+    self.load_mesh()
+    #Do the simulation
+    logger.startTimer("simulation",request_name=getattr(self,"name",None))
+    self.run_sim()
+    logger.stopTimer("simulation",request_name=getattr(self,"name",None))
+    self.sim_timer=logger.timers["simulation"]
+    #Generate output, if any
+    self.process_command_sequence(attrpath='dataextraction',singlefunc=None,positional=False)
+    return
+
+  def load_mesh(self):
+    "Load the mesh specified by attributes"
     if self.mesh is None:
       assert getattr(self,'meshinfo',None) is not None, "Must provide either MeshInfo or a mesh file to load."
       ##TODO: dependency checking on the mesh won't work for this, of course
@@ -135,13 +147,6 @@ class SimulationRequest(WithCommandsRequest):
       hasmeshfuncs=getattr(self,'hasmeshfuncs',True)
       #Load
       self.meshinfo=MeshInfo.load(self.render(self.mesh),meshmeta,hasmeshfuncs)
-    #Do the simulation
-    logger.startTimer("simulation",request_name=getattr(self,"name",None))
-    self.run_sim()
-    logger.stopTimer("simulation",request_name=getattr(self,"name",None))
-    self.sim_timer=logger.timers["simulation"]
-    #Generate output, if any
-    self.process_command_sequence(attrpath='dataextraction',singlefunc=None,positional=False)
     return
 
   def run_sim(self):
