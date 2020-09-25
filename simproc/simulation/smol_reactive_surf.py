@@ -175,16 +175,20 @@ class SUSimulator(simrequest.SimulationRequest):
       self.solver.solve()
 
     #transform back
+    ##self.transform_back() #Let the post-processing commands do this instead
+
+  def transform_back(self,c_solver="cg",c_precond="amg",cbar_solver="cg",cbar_precond="amg"):
+    "Transform cbar back into c, and related calculations"
     self.solnlist=fem.split(self.soln)
     self.clist=[]
     self.cbarlist=[]
     for s,cbar in enumerate(self.solnlist):
       symb=self.species[s].symbol
       expr=cbar*fem.exp(-conditions.beta*self.species[s].z*self.potential)
-      c=fem.project(expr,self.V_scalar,solver_type="cg",preconditioner_type="amg")
+      c=fem.project(expr,self.V_scalar,solver_type=c_solver,preconditioner_type=c_precond)
       c.rename('c_'+symb,'concentration of species '+symb)
       self.clist.append(c)
-      cbar_single=fem.project(cbar,self.V_scalar,solver_type="cg",preconditioner_type="amg")
+      cbar_single=fem.project(cbar,self.V_scalar,solver_type=cbar_solver,preconditioner_type=cbar_precond)
       cbar_single.rename('cbar_'+symb,'transformed concentration of species '+symb)
       self.cbarlist.append(cbar_single)
 
