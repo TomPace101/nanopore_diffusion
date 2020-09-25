@@ -179,12 +179,13 @@ class SUSimulator(simrequest.SimulationRequest):
 
   def transform_back(self,c_solver="cg",c_precond="amg",cbar_solver="cg",cbar_precond="amg"):
     "Transform cbar back into c, and related calculations"
+    beta=self.conditions['beta']
     self.solnlist=fem.split(self.soln)
     self.clist=[]
     self.cbarlist=[]
     for s,cbar in enumerate(self.solnlist):
       symb=self.species[s].symbol
-      expr=cbar*fem.exp(-conditions.beta*self.species[s].z*self.potential)
+      expr=cbar*fem.exp(-beta*self.species[s].z*self.potential)
       c=fem.project(expr,self.V_scalar,solver_type=c_solver,preconditioner_type=c_precond)
       c.rename('c_'+symb,'concentration of species '+symb)
       self.clist.append(c)
