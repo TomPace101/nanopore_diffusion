@@ -166,6 +166,7 @@ class SimulationRequest(WithCommandsRequest):
       - attrpath = attribute path to load the data into, as string
       
         Note that this attribute must already exist, and be of the proper type to receive the requested data.
+        (Call ``newfunction`` first if needed.)
       
       - infpath = path to input file
       
@@ -180,6 +181,22 @@ class SimulationRequest(WithCommandsRequest):
     hdf5=fem.HDF5File(self.meshinfo.mesh.mpi_comm(),str(self.render(infpath)),'r')
     hdf5.read(inputval,fieldtag)
     hdf5.close()
+
+  def newfunction(self,attrpath,spaceattr,funcname):
+    """Set up a new fenics function
+
+    Arguments:
+
+      - attrpath = attribute path for the new function
+
+      - spaceattr = attribute path for the fenics function space
+
+      - funcname = name to use for the new function, as a string
+
+    No return value."""
+    fspace = self.get_nested(spaceattr)
+    newf=fem.Function(fspace,name=funcname)
+    self.set_nested(attrpath,newf)
 
   def setconstant(self,attrpath,constval):
     """Set up a fenics constant
