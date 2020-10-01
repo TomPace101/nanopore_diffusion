@@ -167,16 +167,17 @@ class WithCommandsRequest(customization.CustomizableRequest):
     obj=self.get_nested(attrpath)
     pickle_manager.writefile(obj,self.render(outfpath))
 
-  def save_csv(self,attrpath,outfpath):
+  def save_csv(self,attrpath,outfpath,index=True):
     """Save dataframe to a CSV file
 
     Arguments:
 
       - attrpath = nested path to attribute with the dataframe to store
-      - outfpath = path to the output CSV file"""
+      - outfpath = path to the output CSV file
+      - index = optional boolean, default True, to include the index as a column in the file"""
     df = self.get_nested(attrpath)
     fpt = self.renderstr(self.get_stored(outfpath))
-    df.to_csv(fpt)
+    df.to_csv(fpt,index=index)
 
   def reportvalues(self,outfpath,mapping):
     """Write the selected output results to a yaml file
