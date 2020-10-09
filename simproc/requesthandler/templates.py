@@ -65,7 +65,7 @@ class TemplateFileRequest(commandseq.WithCommandsRequest):
     self.process_command_sequence(attrpath='prepcommands',singlefunc=None,positional=False)
     #Add the folder containing the requested template file to the search paths
     tmpl_fpath=self.render(self.tmplfile)
-    searchpaths=[tmpl_fpath.parent]
+    searchpaths=[str(tmpl_fpath.parent)]
     #Template search paths requested
     raw_searchpaths=getattr(self,'searchpaths',[])
     searchpaths+=[self.renderstr(itm) for itm in raw_searchpaths]
