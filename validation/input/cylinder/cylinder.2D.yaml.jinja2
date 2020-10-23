@@ -186,7 +186,7 @@
 {% endfor %}
 #    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: upper_bound, outattr: hs_ub, label: "Hashin-Shtrikman upper bound", query: "potential=='full obstruction'"}]
     - [series_hashin_shtrikman, {label: "Hashin-Shtrikman upper bound", start: 0.2, stop: 1.0, numpts: 100, attrpath: hs_ub}]
-    - [series_equalityline, {outattr: equality, span: [0.2,1], label: "Zero-tortuosity upper bound"}]
+    - [series_equalityline, {outattr: equality, span: [0.2,1], label: "Upper bound from porosity"}]
   rcparams:
     figure.dpi: 300
     figure.autolayout: False
