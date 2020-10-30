@@ -147,6 +147,24 @@ class WithCommandsRequest(customization.CustomizableRequest):
     self.set_nested(attrpath,df)
     return
 
+  def select_by_column(self,dfpath,outpath,col,val,tol=None):
+    """Select a subset of a dataframe by the values of one column.
+
+    Arguments:
+
+      - dfpath = attribute path to dataframe
+      - outpath = attribute path to store result
+      - col = name of column, as string
+      - val = value of column to select, as string
+      - tol = optional tolerance for floating point comparison"""
+    inframe=self.get_nested(dfpath)
+    if tol is None:
+      cond = (inframe[col]==val)
+    else:
+      cond = (inframe[col]<(val+tol)) & (inframe[col]>(val-tol))
+    sel=inframe[cond]
+    self.set_nested(outpath,sel)
+
   def save_yaml(self,attrpath,outfpath):
     """Save data from the specified nested path to a yaml file
 
