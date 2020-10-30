@@ -308,6 +308,22 @@ class FigureRequest(WithCommandsRequest):
     series=PlotSeries(xvals=span,yvals=yvals,label=label,metadata=metadata)
     self.set_nested(outattr,series)
     return
+  def series_closedbox(self,xvals,yvals,outattr,label=None,metadata=None):
+    """Generate a PlotSeries making a closed box aligned with the axes
+
+    Arguments:
+
+      - xvals = min and max x values (or ``Stored`` pointing to them)
+      - yvals = min and max y values (or ``Stored`` pointing to them)
+      - outattr = nested path to the output data series
+      - label = optional series label
+      - metadata = optional series metadata"""
+    xvals=self.get_stored(xvals)
+    yvals=self.get_stored(yvals)
+    xdata=[xvals[idx] for idx in [0,1,1,0,0]]
+    ydata=[yvals[idx] for idx in [0,0,1,1,0]]
+    series=PlotSeries(xvals=xdata,yvals=ydata,label=label,metadata=metadata)
+    self.set_nested(outattr,series)
   def set_rcparams(self,**kwargs):
     """To set matplotlib rcParams"""
     for k,v in kwargs.items():
