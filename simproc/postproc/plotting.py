@@ -569,6 +569,73 @@ class FigureRequest(WithCommandsRequest):
       ser=PlotSeries(xvals=vals,yvals=vals,label=label,metadata=metadata)
       self.set_nested(serpath,ser)
     return
+  def create_linspace(self,outattr,*args,**kwargs):
+    """Call numpy linspace
+
+    This can be useful for defining contour levels.
+
+    Arguments:
+
+      - outattr = nested path to the output data series
+      - *args and **kwargs passed to numpy.linspace"""
+    ls=np.linspace(*args,**kwargs)
+    self.set_nested(outattr,ls)
+    return
+  def draw_contours(self,axpath,dfpath,xcol,ycol,zcol,levels,
+                    vmin=None,vmax=None,cmap="viridis",extend="neither",outattr=None,**kwargs):
+    """Create a contour plot.
+
+    Note that for data series to be shown on top of this contour,
+    the ``draw_contours`` entry should be in ``basecommands`` instead of ``plotcommands``.
+
+    Arguments:
+
+      - axpath = attribute path to the axes to use for the contour plot 
+      - dfpath = attribue path to dataframe containing the data for contouring
+      - xcol = name of dataframe column containing x-values (or Stored)
+      - ycol = name of dataframe column containing y-values (or Stored)
+      - zcol = name of dataframe column containing z-values (or Stored)
+      - levels = contour levels (or Stored, for example to result from create_linspace)
+      - vmin, vmax = optional (separately) values controling the color scales
+      - cmap = color map name, as string
+      - extend = which end of the color bar to extend, if either
+      - outattr = attribute path for storing the contour data (useful for creating a bar scale later)
+      - **kwargs = additional keyword arguments for tricontourf
+    """
+    #Get the data
+    ax=self.get_nested(axpath)
+    df=self.get_nested(dfpath)
+    xcol=self.get_stored(xcol)
+    ycol=self.get_stored(ycol)
+    zcol=self.get_stored(zcol)
+    levels=self.get_stored(levels)
+    #Generate the plot
+    cntr = ax.tricontourf(df[xcol], df[ycol], df[zcol], levels, cmap=cmap, vmin=vmin, vmax=vmax,extend=extend,**kwargs)
+    ax.axis('equal')
+    #Store contour data, if requested
+    if outattr is not None:
+      self.set_nested(outattr,cntr)
+    #Done
+    return
+  def draw_colorbar(self,axpath,cntrpath,label=None,**kwargs):
+    """Draw the color scale bar for a previous contour plot
+
+    Arguments:
+
+      - axpath = attribute path for the axes on which to draw the color bar
+      - cntrpath = attribute path for the contour data (from draw_contours, for example)
+      - label = color bar label text, as string
+      - **kwargs = additional arguments for fig.colorbar"""
+    ax=self.get_nested(axpath)
+    cntr=self.get_nested(cntrpath)
+    label=self.get_stored(label)
+    #Draw the color bar
+    cbar=fig.colorbar(cntr, ax=ax, **kwargs)
+    #Set the label
+    if label is not None:
+      cbar.set_label(label)
+    #Done
+    return
 
 #Register for loading from yaml
 yaml_manager.register_classes([FigureProperties, AxesProperties, SeriesProperties, FigureRequest])
