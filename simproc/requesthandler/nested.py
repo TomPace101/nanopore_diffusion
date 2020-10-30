@@ -193,7 +193,12 @@ class WithNested(dict):
     new_odict(self,dpath)
     return
   def get_stored(self,candidate):
-    """Get the value from the specified storage location"""
+    """Get the value from the specified storage location
+
+    This is used to process instances of the ``Stored`` class.
+    
+    If the candidate is an instance of ``Stored``, get what it points to.
+    Otherwise, return the candidate unaltered."""
     if isinstance(candidate, Stored):
       return self.get_nested(candidate.attrloc)
     else:
@@ -201,6 +206,8 @@ class WithNested(dict):
 
 class Stored(object):
   """Provide the location of a value stored elsewhere in memory
+
+    (See ``WithNested.get_stored`` for internal usage.)
   
     Attributes:
     
