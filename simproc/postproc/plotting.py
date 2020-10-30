@@ -154,6 +154,7 @@ axes:
 series:
   type: array
   items: {type: SeriesProperties}
+basecommands: {type: array}
 plotcommands: {type: array}
 _all_axattr: {type: array}"""
 
@@ -171,9 +172,10 @@ class FigureRequest(WithCommandsRequest):
     - figures = dictionary of figure definitions {attribute path: FigureProperties instance}
     - axes = dictionary of axes definitions, {attribute path: AxesProperties instance}
     - series = list of series definitions, each a SeriesProperties instance
+    - basecommands = sequence of commands to execute before series have been added to the axes (useful for contour plots)
     - plotcommands = sequence of commands to execute after series have been added to the axes
 
-    prepcommands and plotcommands are both command lists.
+    prepcommands, basecommands, and plotcommands are all command lists.
     Each command in the list is a pair (cmdname, arguments), where:
 
       - cmdname = name of the object's method to call, as a string
@@ -184,7 +186,7 @@ class FigureRequest(WithCommandsRequest):
     - _all_axattr = list of all attributes containing matplotlib Axes objects added to the figure
   """
   _self_task=True
-  _config_attrs=('loadfiles','prepcommands','plotcommands','rcparams','figures','axes','series')
+  _config_attrs=('loadfiles','prepcommands','basecommands','plotcommands','rcparams','figures','axes','series')
   _validation_schema=WithCommandsRequest.update_schema(_FigureRequest_props_schema_yaml)
   _validation_schema.required=[]
   def __init__(self,**kwargs):
@@ -215,6 +217,8 @@ class FigureRequest(WithCommandsRequest):
     self._all_axattr=[]
     for axprops in getattr(self,'axes',[]):
       self.axes_axprops(axprops)
+    #Run basecommands
+    self.process_command_sequence(attrpath='basecommands',singlefunc=None,positional=False)
     #Add series to axes
     for serprops in getattr(self,'series',[]):
       self.add_seriesprops(serprops)
