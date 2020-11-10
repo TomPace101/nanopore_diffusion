@@ -5,7 +5,7 @@ import pkg_resources #part of setuptools
 #Packge modules
 from . import requesthandler
 from . import meshgen
-from . import simulation
+##from . import simulation #Requires fenics
 from . import postproc
 
 #Paths to files containing doctests
