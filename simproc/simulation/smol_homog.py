@@ -198,5 +198,41 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
       matr.append(row)
     self.set_nested(respath,matr)
 
+  # def macroscale_diffusion_alt(self,respath="D_macro",attrpath="soln",volpath="volume"):
+  #   """Perform the integral to obtain the homogenized diffusion constant
+    
+  #   Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
+
+  #   Arguments:
+
+  #     - respath = optional, attribute path for storing the result
+  #     - attrpath = optional, attribute path storing the solution (the result for chi)
+  #     - volpath = optional, attribute path storing the unit cell volume.
+          
+  #   Required attributes (other than those from simulator_general):
+    
+  #     - the attribute given by attrpath
+  #     - dx = FEniCS Measure for cells
+  #     - D = FEniCS Function with the resulting diffusion constant
+    
+  #   New attribute created/overwitten.
+  #   No return value.
+  #   No output files."""
+  #   d=self.meshinfo.mesh.geometry().dim()
+  #   volume=self.get_nested(volpath)
+  #   kdelta = lambda i,j: 1 if i==j else 0 #Kronecker delta
+  #   soln=self.get_nested(attrpath)
+  #   gradchi=fem.grad(soln)
+  #   matr=[]
+  #   for ii in range(d):
+  #     row=[]
+  #     for jj in range(d):
+  #       term1=kdelta(ii,jj)*fem.assemble(self.D*self.dx)
+  #       term2=fem.assemble(self.D*gradchi[jj,ii]*self.dx)
+  #       val=(term1-term2)/volume
+  #       row.append(float(val))
+  #     matr.append(row)
+  #   self.set_nested(respath,matr)
+
 #Register for loading from yaml
 yaml_manager.register_classes([HomogSmolSimulator])
