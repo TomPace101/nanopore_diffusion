@@ -89,6 +89,7 @@ class SimulationRequest(WithCommandsRequest):
     - meshmeta: optional, path to mesh metadata yaml file
     - hasmeshfuncs: optional, False to avoid loading mesh functions
     - conditions: dictionary specifying model conditions such as element order, boundary conditions, etc.
+        Many simulation request types will process this dictionary into a ``nested.WithNested`` instance called ``conditions_processed``.
     - dataextraction = a sequence of data extraction commands to execute after solving the model
 
       Each command is a pair (cmdname, arguments), where:

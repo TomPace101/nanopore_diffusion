@@ -5,7 +5,6 @@ and extract the data needed for post-processing efforts.
 Species may vary within each subdomain."""
 
 #Standard library
-from argparse import Namespace
 from collections import OrderedDict as odict
 import math
 
@@ -15,6 +14,7 @@ import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
@@ -49,15 +49,16 @@ class SUSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","CG")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","CG")
 
     #Species
     self.species=[]
     self.species_dict=odict()
     self.species_indices=odict()
     for s,d in enumerate(conditions.species):
-      spec=Namespace(**d)
+      spec=WithNested(**d)
       self.species.append(spec)
       self.species_dict[spec.symbol]=spec
       self.species_indices[spec.symbol]=s

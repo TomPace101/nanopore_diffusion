@@ -4,7 +4,6 @@ A single species is assumed, as there is no interaction or potential.
 Isotropy is assumed, but the diffusion constant may vary spatially."""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
 import numpy as np
@@ -12,6 +11,7 @@ import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
@@ -27,7 +27,8 @@ class FLSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
 
     #Function space for scalars and vectors
     self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"

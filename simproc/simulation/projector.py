@@ -1,13 +1,13 @@
 """Project an expression into a function space and save the result."""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
 import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from . import simrequest
 
 _ProjectorConditions_props_schema_yaml="""#ProjectorConditions
@@ -42,8 +42,9 @@ class ProjectionSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","P")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","P")
     spatial_dims=self.meshinfo.mesh.geometry().dim()
 
     #Requested Function space

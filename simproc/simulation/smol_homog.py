@@ -2,7 +2,6 @@
 and extract the data needed for post-processing efforts"""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
 import numpy as np
@@ -11,6 +10,7 @@ import ufl
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from . import simrequest
 from . import equationbuilder
 from . import periodic_boundaries
@@ -43,8 +43,9 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","P")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","P")
     
     #Mesh calculations
     spatial_dims=self.meshinfo.mesh.geometry().dim()

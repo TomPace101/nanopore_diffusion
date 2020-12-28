@@ -1,7 +1,6 @@
 """Create a function by interpolating from point data in a CSV file"""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
 import numpy as np
@@ -11,6 +10,7 @@ from scipy.interpolate import LinearNDInterpolator
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from . import simrequest
 from . import meshinfo
 from ..requesthandler import logging
@@ -70,8 +70,9 @@ class InterpolationSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","P")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","P")
     d=self.meshinfo.spatial_dims()
     meshcoords=self.meshinfo.coordinates()
     Nmesh=meshcoords.shape[0]
