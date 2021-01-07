@@ -25,6 +25,7 @@ old-data/mesh/hdf5/*/
 
 #FEM output
 old-data/solutions/*/
+old-data/postproc/*/
 *.pvd
 *.vtu
 *.pkl
