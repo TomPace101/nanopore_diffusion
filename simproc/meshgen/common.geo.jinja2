@@ -11,11 +11,15 @@ Printf("{{ varname }}: %f", {{ varname }}) >> meshmetafile;
 
 //Points
 {% for ptnum,meshvar in ptstrs.items()|sort %}
+{# The commented out code made sense at the time, but it restricts a 2D model to the x-y plane #}
+{#
 {% if dimensions==2 %}
 p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},0,{{ meshvar }}};
 {% elif dimensions==3 %}
 p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},{{ meshvar }}};
 {% endif %}
+#}
+p{{ ptnum }}=newp; Point(p{{ ptnum }})={X{{ ptnum[0] }},Y{{ ptnum[1] }},Z{{ ptnum[2] }},{{ meshvar }}};
 {% endfor %}
 
 //Lines
