@@ -23,6 +23,9 @@ coordcolumns:
   type: array
   items: {type: string}
 valuecolumn: {type: string}
+outcolumns:
+  type: array
+  items: {type: string}
 boundaryvalue:
   anyOf:
     - {type: number}
@@ -55,6 +58,8 @@ class InterpolationSimulator(simrequest.SimulationRequest):
       The default value is [x,y,z].
 
     - valuecolumn = optional name, as string, of the column containing the function value. (Defaults to 'f')
+
+    - outcolumns = optional list of names (as strings) for the columns of the output dataframe.
 
     - nonboundary_fillvalue = optional "fill value" to specify for the interpolator even in the case when no boundary value is used
 
@@ -93,6 +98,7 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     #Get the column names for the input data
     coordcolumns=getattr(conditions,'coordcolumns',['x','y','z'])
     valuecolumn=getattr(conditions,'valuecolumn','f')
+    outcolumns=getattr(conditions,'outcolumns',['dof_x','dof_y','dof_z','value'])
 
     #Input coordinates and function values, as separate arrays
     inpts=df.loc[:,coordcolumns].values
@@ -132,7 +138,7 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     self.interp_run_timer=logger.timers["interp_run"]
     #Store results for separate output if desired
     results_arr=np.hstack([dofcoords,np.reshape(dofvals,(dofvals.shape[0],1))])
-    self.results=pd.DataFrame(results_arr,columns=['dof_x','dof_y','dof_z','value'])
+    self.results=pd.DataFrame(results_arr,columns=outcolumns)
     #Define function from the interpolated dof values
     self.soln=fem.Function(self.V,name=functionname)
     junk=self.soln.vector().set_local(dofvals)
