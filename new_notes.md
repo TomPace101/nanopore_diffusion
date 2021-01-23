@@ -1,4 +1,21 @@
 
+_FEATURE_ A job list request.
+The notes below show that there are lots of issues with the approaches I've tried for
+generating sequences of requests.
+The old way (in src) worked well,
+but I haven't been able to bring it into the Request paradigm.
+Maybe what it needs is just a way to generate a job list.
+The job list is the abstraction we need.
+Then your templates only need a for loop that goes through that job list.
+That's actually the way it was back then too: the templates had a for loop!
+This means each job needs to be a dictionary,
+so you've got to have the yaml format, even if you also do CSV for convenience.
+I have some job-list code in the `silicate_md` repo,
+but for the most part, this needs to borrow from `src/paramgen.py`,
+with changes and updates as appropriate for the request paradigm.
+
+**note that some items below have already been resolved**
+
 _ISSUE_ validation: debug.yaml
 The GeneratedVariationsRequest prevents the validation from being run with doit.
 Appending to the same file means two different requests have the same output file.
@@ -28,8 +45,8 @@ The plot was wrong because things hadn't been rerun.
 How did this happen?
 It was when I was trying to do the second curve.
 I reverted, and somehow it didn't re-run the smoluchowski solutions.
-It did re-run the extration, but it must have missed the change in the configuration
-of the smoluchowski solutions somehow.'
+It did re-run the extraction, but it must have missed the change in the configuration
+of the smoluchowski solutions somehow.
 More generally, most of the validation doesn't test the accuracy of the input and output files lists.
 Or the configuration information.
 How can we check that this is correct for all the different request types we have?
