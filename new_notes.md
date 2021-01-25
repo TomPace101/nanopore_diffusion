@@ -13,6 +13,8 @@ so you've got to have the yaml format, even if you also do CSV for convenience.
 I have some job-list code in the `silicate_md` repo,
 but for the most part, this needs to borrow from `src/paramgen.py`,
 with changes and updates as appropriate for the request paradigm.
+The collection request types could then also be made to read a job list.
+That would resolve a lot of the issues there.
 
 **note that some items below have already been resolved**
 
