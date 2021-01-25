@@ -9,7 +9,6 @@ from collections import OrderedDict as odict
 import math
 
 #Site packages
-import numpy as np
 import fenics as fem
 
 #This package
@@ -45,6 +44,7 @@ class SUSimulator(simrequest.SimulationRequest):
   #Common methods
   calcflux = common_methods.calcflux
   fluxintegral = common_methods.fluxintegral
+  effective_D = common_methods.effective_D
 
   def run_sim(self):
 
