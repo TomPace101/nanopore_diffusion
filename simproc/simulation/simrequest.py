@@ -412,7 +412,7 @@ class SimulationRequest(WithCommandsRequest):
     Arguments:
 
       - attrpath = attribute path for storage of result
-      - pcell = optional, physical cell number for the cell to calculate area of,
+      - pcell = optional, physical cell number for the cell to calculate integral over,
           empty or None to use entire model
       - funcpath = optional, path to function to integrate,
           empty or None to use a constant value of 1.0
@@ -457,6 +457,36 @@ class SimulationRequest(WithCommandsRequest):
     this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
     calcarea=fem.assemble(fem.Constant(1)*this_ds(pfacet))
     self.set_nested(attrpath,calcarea)
+    return
+
+  def facet_integral(self,attrpath,pfacet,funcpath=None,internal=False):
+    """Compute the specified integral over the given facet.
+
+    Arguments:
+
+      - attrpath = attribute path for storage of result
+      - pfacet = physical facet number of facet to calculate integral over
+      - funcpath = optional, path to function to integrate,
+          empty or None to use a constant value of 1.0
+      - internal = boolean, default False, True for internal boundary, False for external
+
+    Required attributes:
+
+      - meshinfo.mesh = FEniCS Mesh object
+      - meshinfo.facets = FEniCS MeshFunction object for facet numbers
+
+    No return value."""
+    if funcpath is None:
+      this_func=fem.Constant(1.0)
+    else:
+      this_func=self.get_nested(funcpath)
+    if internal:
+      integral_type='interior_facet'
+    else:
+      integral_type='exterior_facet'
+    this_ds=fem.Measure(integral_type,domain=self.meshinfo.mesh,subdomain_data=self.meshinfo.facets)
+    result=fem.assemble(this_func*this_ds(pfacet))
+    self.set_nested(attrpath,result)
     return
 
   def get_pointcoords(self,location):
