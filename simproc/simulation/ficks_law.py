@@ -53,7 +53,8 @@ class FLSimulator(simrequest.SimulationRequest):
     self.process_load_commands()
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
+    dirichlet=conditions.get_nested_default("dirichlet",{})
+    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in dirichlet.items()]
 
     #Neumann boundary conditions
     self.nbcs = {}
