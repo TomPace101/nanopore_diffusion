@@ -2,15 +2,13 @@
 
 import fenics as fem
 
-def calcflux(self, solnattr='soln', idx=None, attrpath='flux', Dattr='Dbar_proj'):
+def calcflux(self, solnattr='soln', idx=None, attrpath='flux', Dattr='Dbar_proj', funcname="flux"):
   """Flux as vector field (new attribute)"""
   soln=self.get_nested(solnattr)
   Dvalue=self.get_nested(Dattr)
-  funcname="flux_"+solnattr
   if idx is not None:
     soln=soln[idx]
     Dvalue=Dvalue[idx]
-    funcname += "_%d"%idx
   expr=-Dvalue*fem.grad(soln)
   fluxres=fem.project(expr,self.V_vec,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
   fluxres.rename(funcname,"calculated flux")
