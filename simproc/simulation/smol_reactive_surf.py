@@ -94,7 +94,7 @@ class SUSimulator(simrequest.SimulationRequest):
     #Load electric potential as a Function
     #and spatial variation of D, if any
     self.potential=fem.Function(self.V_scalar,name="Phi")
-    if conditions.var_Dlocal:
+    if getattr(conditions,'var_Dlocal',False):
       self.Dlocal=fem.Function(self.V_scalar,name="Dlocal")
     else:
       self.Dlocal=fem.Constant(1.0)
