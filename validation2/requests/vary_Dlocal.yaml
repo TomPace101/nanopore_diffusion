@@ -1,0 +1,40 @@
+%YAML 1.2
+#Simulation of Fickian diffusion with spatially varying diffusion coefficient
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: .. #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Folder Structure
+# - !UpdateFolderStructure
+- !DumpFolderStructure
+  name: varyD.dump_folder_structure
+  outfile: !OtherSolutionFile folder_structure.yaml
+#Mesh Generation
+- !GeometryDefinition
+  name: geomdef
+  store_globally: True
+  dimensions: 2
+  tmplfile: !geotemplate box_aL.geo.jinja2
+  tmplvars: [mcar1, a,L]
+  outvars: [mcar1, a, L, Xmid]
+  ptdict:
+    11: mcar1
+    21: mcar1
+    31: mcar1
+    12: mcar1
+    22: mcar1
+    32: mcar1
+  geomtable:
+    1: [11, 21, 22, 12, 11]
+    2: [21, 31, 32, 22, 21]
+  surfloops: {}
+  nonplanar: []
+- !BuildGeomRequest
+  name: varyD.geo
+  geomdef: !Stored [__allnames__, geomdef]
+  geofile: !geofile box_aL.geo
+  parameters:
+    a: 1.0
+    L: 1.0
+    mcar1: 0.05
+
