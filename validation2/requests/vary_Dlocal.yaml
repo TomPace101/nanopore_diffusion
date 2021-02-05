@@ -16,7 +16,7 @@
   dimensions: 2
   tmplfile: !geotemplate box_aL.geo.jinja2
   tmplvars: [mcar1, a,L]
-  outvars: [mcar1, a, L, Xmid]
+  outvars: [mcar1, val_a, val_L, Xmid]
   ptdict:
     11: mcar1
     21: mcar1
@@ -37,4 +37,49 @@
     a: 1.0
     L: 1.0
     mcar1: 0.05
+- !GeoToHDF5Request
+  name: varyD.mesh
+  mesh_stem: box_aL
+#Expression for D local
+- !ProjectionSimulator
+  name: varyD.yvar.projection
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    alpha: 3.4641016 #sqrt(12)
+    D_zero: 1.0
+  conditions:
+    elementorder: 2
+    functionname: Dlocal
+    functiontype: scalar
+  loaddata:
+    - [loadexpression, {attrpath: expr, spaceattr: V, expression: "D_zero*(1+alpha*alpha*x[1]*x[1])", parameters: [alpha, D_zero]}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_yvar.hdf5, outname: Dlocal}]
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_yvar.pvd}]
+#Simulation
+- !HomogFickianSimulator
+  name: varyD.yvar.homog
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  conditions:
+    elementorder: 2
+    boundaries:
+      - 1112
+      - 1121
+      - 1222
+      - 2131
+      - 2232
+      - 3132
+  loaddata:
+    # - [setconstant, {attrpath: D, constval: 1.0}]
+    - [loadfield, {attrpath: D, infpath: !OwnSolutionFile Dlocal_yvar.hdf5, fieldtag: Dlocal}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: domain_volume}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.yaml
+        mapping:
+          domain_volume: domain_volume
+          D_macro: D_macro
 
