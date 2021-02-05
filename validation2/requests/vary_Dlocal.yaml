@@ -57,14 +57,32 @@
   dataextraction:
     - [writefield, {outfpath: !OwnSolutionFile Dlocal_yvar.hdf5, outname: Dlocal}]
     - [writefield, {outfpath: !OwnSolutionFile Dlocal_yvar.pvd}]
+- !ProjectionSimulator
+  name: varyD.xvar.projection
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    alpha: 1.0
+    D_zero: 3.141592654 #pi
+  conditions:
+    elementorder: 2
+    functionname: Dlocal
+    functiontype: scalar
+  loaddata:
+    - [loadexpression, {attrpath: expr, spaceattr: V, expression: "D_zero*(1+alpha*alpha*x[0]*x[0])", parameters: [alpha, D_zero]}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_xvar.hdf5, outname: Dlocal}]
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_xvar.pvd}]
 #Simulation
 - !HomogFickianSimulator
   name: varyD.yvar.homog
   mesh: !mesh_hdf5file box_aL.hdf5
   meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    expected_result: 2.0
   conditions:
     elementorder: 2
-    boundaries:
+    boundaries: &boundary_list
       - 1112
       - 1121
       - 1222
@@ -77,9 +95,40 @@
   dataextraction:
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {volpath: domain_volume}]
+    - [cell_integral, {attrpath: integrated_Dlocal, funcpath: D}]
     - - reportvalues
       - outfpath: !OwnSolutionFile results.yaml
         mapping:
           domain_volume: domain_volume
           D_macro: D_macro
+          homogenization_result: [D_macro,0,0]
+          expected_result: metadata.expected_result
+          integrated_Dlocal: integrated_Dlocal
+- !HomogFickianSimulator
+  name: varyD.xvar.homog
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    expected_result: 4.0
+  modules:
+    - !modulefile simulation.py
+  methods:
+    - cell_inverse_integral
+  conditions:
+    elementorder: 2
+    boundaries: *boundary_list
+  loaddata:
+    - [loadfield, {attrpath: D, infpath: !OwnSolutionFile Dlocal_xvar.hdf5, fieldtag: Dlocal}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [cell_inverse_integral, {funcpath: D, attrpath: inverse_integral}]
+    - [macroscale_diffusion, {volpath: domain_volume}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.yaml
+        mapping:
+          domain_volume: domain_volume
+          D_macro: D_macro
+          homogenization_result: [D_macro,0,0]
+          inverse_integral: inverse_integral
+          expected_result: metadata.expected_result
 
