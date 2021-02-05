@@ -1,0 +1,27 @@
+{% extends "common.geo.jinja2" %}
+{# parameter definitions section for 2D box in the y-z plane, with internal line #}
+
+{# Required input variables:
+    - mcar1 = mesh density parameter
+    - a, L = box dimensions
+  No optional input variables.
+  Use trim_blocks=True.
+  #}
+
+{% block paramdefs %}
+//Mesh density control
+mcar1={{ mcar1 }};
+
+//Geometric inputs
+val_a={{a}};
+val_L={{L}};
+half_a=val_a/2.0;
+half_L=val_L/2.0;
+
+//Point ordinates
+X1=-half_L;
+X2=0.0;
+X3=half_L;
+Y1=-half_a;
+Y2=half_a;
+{% endblock %}
