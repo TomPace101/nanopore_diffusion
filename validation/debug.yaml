@@ -261,3 +261,17 @@
 - !RequestFileRequest
   name: customization.another.top
   requestfile: !InputFile newclass.yaml
+#Job list request
+- !JobListRequest
+  name: joblist.basic
+  constfields:
+    a: 1
+  rangefields:
+    b: [1,2]
+    c: [1,2]
+  outfile: !OutputFile basic.yaml
+#Verify output of previous test
+- !FileComparisonRequest
+  name: joblist.basic.verify
+  expected: !CompareFile basic.yaml
+  received: !OutputFile basic.yaml

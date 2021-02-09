@@ -6,6 +6,7 @@ from . import customization
 from . import debug
 from . import filepath
 from . import generate
+from . import joblist
 from . import locator_requests
 from . import locators
 from . import logging
