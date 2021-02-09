@@ -133,17 +133,24 @@ class WithCommandsRequest(customization.CustomizableRequest):
     obj=pickle_manager.readfile(self.render(infpath))
     self.set_nested(attrpath,obj)
 
-  def load_csv(self,infpath,attrpath):
+  def load_csv(self,infpath,attrpath,dtype_csv_fpath=None):
     """Load a CSV file into a dataframe
 
     Arguments:
 
       - infpath = path to the input CSV file
       - attrpath = attribute path to load the data into
+      - dtype_csv = optional (but highly recommended), path to the CSV file containing data type definitions for the columns
     
     No return value."""
     fpt=self.renderstr(self.get_stored(infpath))
-    df=pd.read_csv(fpt)
+    if dtype_csv_fpath is None:
+      df=pd.read_csv(fpt)
+    else:
+      dtype_fpath=self.renderstr(self.get_stored(dtype_csv_fpath))
+      dtype_ser=pd.read_csv(dtype_fpath,index_col=0,squeeze=True)
+      dtypes_dict=dtype_ser.to_dict()
+      df=pd.read_csv(fpt,dtype=dtypes_dict)
     self.set_nested(attrpath,df)
     return
 
@@ -185,17 +192,21 @@ class WithCommandsRequest(customization.CustomizableRequest):
     obj=self.get_nested(attrpath)
     pickle_manager.writefile(obj,self.render(outfpath))
 
-  def save_csv(self,attrpath,outfpath,index=True):
+  def save_csv(self,attrpath,outfpath,index=True,dtype_csv_fpath=None):
     """Save dataframe to a CSV file
 
     Arguments:
 
       - attrpath = nested path to attribute with the dataframe to store
       - outfpath = path to the output CSV file
-      - index = optional boolean, default True, to include the index as a column in the file"""
+      - index = optional boolean, default True, to include the index as a column in the file
+      - dtype_csv_fpath = optional (but highly recommended) path to output CSV file listing data types for the columns"""
     df = self.get_nested(attrpath)
     fpt = self.renderstr(self.get_stored(outfpath))
     df.to_csv(fpt,index=index)
+    if dtype_csv_fpath is not None:
+      dtype_fpath=self.renderstr(self.get_stored(dtype_csv_fpath))
+      df.dtypes.to_csv(dtype_fpath)
 
   def reportvalues(self,outfpath,mapping):
     """Write the selected output results to a yaml file
