@@ -74,8 +74,9 @@ class JobListRequest(commandseq.WithCommandsRequest):
     - joblist_df: job list as a pandas DataFrame, constructed from self.joblist and self.job_columns
   """
   _self_task=True
-  _config_attrs=('constfields','rangefields','prepcommands','postcommands','outfile','id_format','start_id')
-  _outputfile_attrs=['outfile']
+  _config_attrs=('constfields','rangefields','otherlists','outfile','dtype_outfile'
+                  'id_field','id_format','start_id','prepcommands','postcommands')
+  _outputfile_attrs=['outfile','dtype_outfile']
   _validation_schema=commandseq.WithCommandsRequest.update_schema(_JobListRequest_props_schema_yaml)
   _validation_schema.required=[]
   def __init__(self,**kwargs):
