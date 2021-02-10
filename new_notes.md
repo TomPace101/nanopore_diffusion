@@ -1,22 +1,22 @@
 
-_FEATURE_ A job list request.
-The notes below show that there are lots of issues with the approaches I've tried for
-generating sequences of requests.
-The old way (in src) worked well,
-but I haven't been able to bring it into the Request paradigm.
-Maybe what it needs is just a way to generate a job list.
-The job list is the abstraction we need.
-Then your templates only need a for loop that goes through that job list.
-That's actually the way it was back then too: the templates had a for loop!
-This means each job needs to be a dictionary,
-so you've got to have the yaml format, even if you also do CSV for convenience.
-I have some job-list code in the `silicate_md` repo,
-but for the most part, this needs to borrow from `src/paramgen.py`,
-with changes and updates as appropriate for the request paradigm.
-The collection request types could then also be made to read a job list.
-That would resolve a lot of the issues there.
+_FEATURE_ template iteration over job list data
+I haven't actually done this yet.
+Could it use DataFrame.itertuples somehow?
+Or do we somehow have to generate a list of dictionaries?
+
+_FEATURE_ `calcfields` for job lists
+The old way in `src/paramgen.py` had support for `calcfields`,
+which had two purposes:
+1) It could add additional calculated fields to the generated data
+2) It could run a pass/fail test for the row that was generated
+Rows that failed the test simply weren't added.
+Both of those are good ideas, so could we do them here?
+
+_FEATURE_ the collection request types should be made compatible with reading jobs from a job list.
 
 **note that some items below have already been resolved**
+
+**note that items related to generated requests are probably made obsolete by the job list module**
 
 _ISSUE_ validation: debug.yaml
 The GeneratedVariationsRequest prevents the validation from being run with doit.
