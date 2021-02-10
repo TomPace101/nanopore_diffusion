@@ -1,4 +1,8 @@
-"""Support for requests that create their own children."""
+"""Support for requests that create their own children.
+
+NOTE: this module has generally been made obsolete by the joblist module,
+which works very differently but achieves the same purpose
+in a much more understandable way."""
 
 #Standard library
 from __future__ import print_function, division #Python 2 compatibility
