@@ -291,8 +291,8 @@
   otherlists:
     - [basic_list, {job_id: basic_job_id}]
     - [repeated_list, {job_id: repeated_job_id}]
-  outfile: !OutputFile complex.csv
-  dtype_outfile: !OutputFile dtypes_complex.csv
+  postcommands:
+    - [save_csv, {attrpath: joblist_df, outfpath: !OutputFile complex.csv, index: False, dtype_csv_fpath: !OutputFile dtypes_complex.csv}]
 #Verify output of previous test
 - !FileComparisonRequest
   name: joblist.complex.verify
