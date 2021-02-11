@@ -110,6 +110,12 @@ class JobListRequest(commandseq.WithCommandsRequest):
       and kwargs_dict is the dictionary specified above.
       Of course, the entries of kwargs_dict may be explicit keyword arguments
       for the function definition as well.
+      Because the calculations are done in the order listed,
+      later calculations may make use of earlier ones.
+
+      Also, the calculation function may raise the ExcludeRow exception
+      (defined in this module) to prevent the row in question from being added to the job table.
+      This can be useful when some combinations of input parameters are not valid.
 
     - outfile = optional, path to the output file for the DataFrame, as Path or string
     - dtype_outfile = optional, path to the output file for the data types for the DataFrame, as Path or string
