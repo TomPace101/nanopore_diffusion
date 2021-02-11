@@ -18,6 +18,10 @@ logger=logging.getLogger(__name__)
 #Locators
 locators.folder_structure.update(JobFile=['jobs'])
 
+#Custom exception
+class ExcludeRow(Exception):
+  pass
+
 _JobListRequest_props_schema_yaml="""#JobListRequest
 name: {type: string}
 id_field: {type: string}
@@ -40,6 +44,16 @@ otherlists:
           - {type: string}
           - {type: array}
       - {type: object}
+calcfields:
+  type: array
+  items:
+    type: array
+    minItems: 3
+    maxItems: 3
+    items:
+      - {type: string}
+      - {type: string}
+      - {type: object}
 prepcommands: {type: array}
 postcommands: {type: array}
 """
@@ -56,8 +70,47 @@ class JobListRequest(commandseq.WithCommandsRequest):
       {fieldname: value, ...}
     - rangefields = optional, dictionary of fields that will step through a sequence of values:
       {fieldname: [value, value, ...], ...}
+
+      The number of jobs generated is the product of the number of values for each variable.
+      For example, if two fields are provided, each with 4 possible values,
+      then 16 jobs would be generated.
+      (See below if this option is combined with otherlists.)
+
+      The field name is the heading for the column for this parameter in the job list table.
+
     - otherlists = list of other job lists to be used for creating variations:
-      [(joblist_attrpath, {old_fieldname: new_fieldname}), ...}
+      [(joblist_attrpath, {old_fieldname: new_fieldname}), ...]
+
+      That is, a series of job list dataframes are used to generate parametric variations.
+      The number of jobs generated is the product of the number of rows in each dataframe.
+
+      If both ``otherlists`` and ``rangefields`` are provided,
+      the total number of jobs is the product of the number from each of them.
+      For example, if there were two range fields with 4 and 5 values,
+      and two job lists with 10 and 20 values,
+      then the total number of jobs generated would be 4,000.
+
+      The joblist_attrpath is the attribute path to a job list dataframe.
+      The old field name refers to column headings in the job list dataframe at joblist_attrpath,
+      and the new field name refers to the column headings in the new job list.
+
+    - calcfields = list of calculations for creating additional fields:
+      [[fieldname, function_name, kwargs_dict], ...]
+
+      Each calculation specified is applied to each row of the new job table.
+      The fieldname specifies the column name to be added to the job table.
+      The function name specifies the method of the JobListRequest instance
+      that will return the value for the new field.
+      The kwargs_dict specifies additional arguments for the function,
+      which do not come from the other job table columns.
+      The call signature for the function must be as follows:
+      (self, rowdict, **kwargs_dict)
+      where self is the JobListRequest instance,
+      rowdict is a dictionary of the job table entry (including any previous calcfields),
+      and kwargs_dict is the dictionary specified above.
+      Of course, the entries of kwargs_dict may be explicit keyword arguments
+      for the function definition as well.
+
     - outfile = optional, path to the output file for the DataFrame, as Path or string
     - dtype_outfile = optional, path to the output file for the data types for the DataFrame, as Path or string
       (if you do use ``outfile``, this is strongly recommended as well)
@@ -90,6 +143,7 @@ class JobListRequest(commandseq.WithCommandsRequest):
     self.id_format=getattr(self,"id_format","%04d")
     self.start_id=getattr(self,"start_id",1)
     self.constfields=getattr(self,"constfields",{})
+    self.calcfields=getattr(self,"calcfields",[])
   def run(self):
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
     #Final checks and preparatory steps
@@ -125,7 +179,9 @@ class JobListRequest(commandseq.WithCommandsRequest):
     else:
       iterators_otherlists=[tuple()]
     #Construct the list of all field names (column headings) in order
-    self.job_columns=[self.id_field]+fieldnames_const+fieldnames_range+fieldnames_otherlists
+    noncalc_columns=[self.id_field]+fieldnames_const+fieldnames_range+fieldnames_otherlists
+    allcalc_columns=[fieldname for fieldname,funcpath,kwdict in self.calcfields]
+    self.job_columns=noncalc_columns+allcalc_columns
     #Initialize
     id_val=self.start_id
     self.joblist=[]
@@ -144,21 +200,23 @@ class JobListRequest(commandseq.WithCommandsRequest):
         #Initialize row
         job_id=self.id_format%id_val
         row=[job_id]+values_const+list(values_range)+otherlist_row_portion
-        # range_fields=dict(zip(fieldnames_range,values_range))
-
         #Do calcfields
-        # calclist=[tuple(*cf.items()) for cf in getattr(self,'calcfields',[])]
         result = True #needed for case of no calculations to be done
-        # for funcname,kwargs in calclist:
-        #   result = calcfuncs[funcname](fields,files_docs_dict,**kwargs)
-        #   if not result:
-        #     break
-        #Check that document passes
+        completed_calcfields=[]
+        for fieldname, funcpath, kwdict in self.calcfields:
+          rowdict=dict(zip(noncalc_columns+completed_calcfields,row))
+          cfunc=self.get_nested(funcpath)
+          try:
+            res=cfunc(rowdict,**kwdict)
+          except ExcludeRow:
+            result = False
+            break
+          row.append(res)
+          completed_calcfields.append(fieldname)
+        #Check that the row passed all tests
         if result:
           self.joblist.append(row)
           id_val +=1
-
-
     #Convert job list to dataframe
     self.joblist_df=pd.DataFrame(self.joblist,columns=self.job_columns)
     #Output to csv file if requested
