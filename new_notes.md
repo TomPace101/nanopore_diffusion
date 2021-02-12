@@ -1,19 +1,4 @@
 
-_FEATURE_ template iteration over job list data
-I haven't actually done this yet.
-Could it use DataFrame.itertuples somehow?
-Or do we somehow have to generate a list of dictionaries?
-
-_FEATURE_ `calcfields` for job lists
-The old way in `src/paramgen.py` had support for `calcfields`,
-which had two purposes:
-1) It could add additional calculated fields to the generated data
-2) It could run a pass/fail test for the row that was generated
-Rows that failed the test simply weren't added.
-Both of those are good ideas, so could we do them here?
-
-_FEATURE_ the collection request types should be made compatible with reading jobs from a job list.
-
 **note that some items below have already been resolved**
 
 **note that items related to generated requests are probably made obsolete by the job list module**
