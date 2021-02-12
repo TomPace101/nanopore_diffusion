@@ -28,7 +28,7 @@ id_field: {type: string}
 id_format: {type: string}
 start_id: {type: integer}
 outfile: {type: pathlike}
-dtype_outfile: {}
+dtype_outfile: {type: pathlike}
 constfields: {type: object}
 rangefields:
   type: object
@@ -120,6 +120,7 @@ class JobListRequest(commandseq.WithCommandsRequest):
     - outfile = optional, path to the output file for the DataFrame, as Path or string
     - dtype_outfile = optional, path to the output file for the data types for the DataFrame, as Path or string
       (if you do use ``outfile``, this is strongly recommended as well)
+      (this has no effect if ``outfile`` is not provided as well)
     - prepcommands = optional, sequence of commands to execute before template generation (e.g. to load additional data)
     - postcommands = optional, sequence of commands to execute after template generation (e.g. to output additional data)
     - id_field = optional, string for the job ID field name, defaults to "job_id"
