@@ -1,0 +1,199 @@
+%YAML 1.2
+#Simulation of Fickian diffusion with spatially varying diffusion coefficient
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: .. #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Folder Structure
+# - !UpdateFolderStructure
+- !DumpFolderStructure
+  name: varyD.dump_folder_structure
+  outfile: !OtherSolutionFile folder_structure.yaml
+#Mesh Generation
+- !GeometryDefinition
+  name: geomdef
+  store_globally: True
+  dimensions: 2
+  tmplfile: !geotemplate box_aL.geo.jinja2
+  tmplvars: [mcar1, a,L]
+  outvars: [mcar1, val_a, val_L, Xmid]
+  ptdict: &ptdict
+    11: mcar1
+    21: mcar1
+    31: mcar1
+    12: mcar1
+    22: mcar1
+    32: mcar1
+  geomtable: &geomtable
+    1: [11, 21, 22, 12, 11]
+    2: [21, 31, 32, 22, 21]
+  surfloops: {}
+  nonplanar: []
+- !BuildGeomRequest
+  name: varyD.geo
+  geomdef: !Stored [__allnames__, geomdef]
+  geofile: !geofile box_aL.geo
+  parameters:
+    a: 1.0
+    L: 1.0
+    mcar1: 0.05
+- !GeoToHDF5Request
+  name: varyD.mesh
+  mesh_stem: box_aL
+- !GeometryDefinition
+  name: geomdef_cen
+  store_globally: True
+  dimensions: 2
+  tmplfile: !geotemplate box_aL_cen.geo.jinja2
+  tmplvars: [mcar1, a,L]
+  outvars: [mcar1, val_a, val_L]
+  ptdict: *ptdict
+  geomtable: *geomtable
+  surfloops: {}
+  nonplanar: []
+- !BuildGeomRequest
+  name: varyD.geo.cen
+  geomdef: !Stored [__allnames__, geomdef_cen]
+  geofile: !geofile box_aL_cen.geo
+  parameters:
+    a: 1.0
+    L: 1.0
+    mcar1: 0.05
+- !GeoToHDF5Request
+  name: varyD.mesh.cen
+  mesh_stem: box_aL_cen
+#Expression for D local
+- !ProjectionSimulator
+  name: varyD.yvar.projection
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    alpha: 3.4641016 #sqrt(12)
+    D_zero: 1.0
+  conditions:
+    elementorder: 2
+    functionname: Dlocal
+    functiontype: scalar
+  loaddata:
+    - [loadexpression, {attrpath: expr, spaceattr: V, expression: "D_zero*(1+alpha*alpha*x[1]*x[1])", parameters: [alpha, D_zero]}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_yvar.hdf5, outname: Dlocal}]
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_yvar.pvd}]
+- !ProjectionSimulator
+  name: varyD.xvar.projection
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    alpha: 1.0
+    D_zero: 3.141592654 #pi
+  conditions:
+    elementorder: 2
+    functionname: Dlocal
+    functiontype: scalar
+  loaddata:
+    - [loadexpression, {attrpath: expr, spaceattr: V, expression: "D_zero*(1+alpha*alpha*x[0]*x[0])", parameters: [alpha, D_zero]}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_xvar.hdf5, outname: Dlocal}]
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_xvar.pvd}]
+- !ProjectionSimulator
+  name: varyD.xvar.projection.cen
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    alpha: 1.0
+    D_zero: 1.854590436 #4*atan(0.5)
+  conditions:
+    elementorder: 2
+    functionname: Dlocal
+    functiontype: scalar
+  loaddata:
+    - [loadexpression, {attrpath: expr, spaceattr: V, expression: "D_zero*(1+alpha*alpha*x[0]*x[0])", parameters: [alpha, D_zero]}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_xvar_cen.hdf5, outname: Dlocal}]
+    - [writefield, {outfpath: !OwnSolutionFile Dlocal_xvar_cen.pvd}]
+#Simulation
+- !HomogFickianSimulator
+  name: varyD.yvar.homog
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    expected_result: 2.0
+  conditions:
+    elementorder: 2
+    boundaries: &boundary_list
+      - 1112
+      - 1121
+      - 1222
+      - 2131
+      - 2232
+      - 3132
+  loaddata:
+    # - [setconstant, {attrpath: D, constval: 1.0}]
+    - [loadfield, {attrpath: D, infpath: !OwnSolutionFile Dlocal_yvar.hdf5, fieldtag: Dlocal}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: domain_volume}]
+    - [cell_integral, {attrpath: integrated_Dlocal, funcpath: D}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.yaml
+        mapping:
+          domain_volume: domain_volume
+          D_macro: D_macro
+          homogenization_result: [D_macro,0,0]
+          expected_result: metadata.expected_result
+          integrated_Dlocal: integrated_Dlocal
+- !HomogFickianSimulator
+  name: varyD.xvar.homog
+  mesh: !mesh_hdf5file box_aL.hdf5
+  meshmeta: !meshmetafile box_aL.yaml
+  metadata:
+    expected_result: 4.0
+  modules:
+    - !modulefile simulation.py
+  methods:
+    - cell_inverse_integral
+  conditions:
+    elementorder: 2
+    boundaries: *boundary_list
+  loaddata:
+    - [loadfield, {attrpath: D, infpath: !OwnSolutionFile Dlocal_xvar.hdf5, fieldtag: Dlocal}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [cell_inverse_integral, {funcpath: D, attrpath: inverse_integral}]
+    - [macroscale_diffusion, {volpath: domain_volume}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.yaml
+        mapping:
+          domain_volume: domain_volume
+          D_macro: D_macro
+          homogenization_result: [D_macro,0,0]
+          inverse_integral: inverse_integral
+          expected_result: metadata.expected_result
+- !HomogFickianSimulator
+  name: varyD.xvar.homog.cen
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    expected_result: 2.0
+  modules:
+    - !modulefile simulation.py
+  methods:
+    - cell_inverse_integral
+  conditions:
+    elementorder: 2
+    boundaries: *boundary_list
+  loaddata:
+    - [loadfield, {attrpath: D, infpath: !OwnSolutionFile Dlocal_xvar_cen.hdf5, fieldtag: Dlocal}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [cell_inverse_integral, {funcpath: D, attrpath: inverse_integral}]
+    - [macroscale_diffusion, {volpath: domain_volume}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results_cen.yaml
+        mapping:
+          domain_volume: domain_volume
+          D_macro: D_macro
+          homogenization_result: [D_macro,0,0]
+          inverse_integral: inverse_integral
+          expected_result: metadata.expected_result
+

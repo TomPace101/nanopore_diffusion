@@ -25,6 +25,7 @@ old-data/mesh/hdf5/*/
 
 #FEM output
 old-data/solutions/*/
+old-data/postproc/*/
 *.pvd
 *.vtu
 *.pkl
@@ -51,6 +52,9 @@ old-data\postproc\manual_gen\*
 #Validation output
 validation/output/*
 !validation/output/.keep
+validation2/mesh/output
+validation2/solutions
+validation2/postproc
 
 #Builds
 simproc.egg-info

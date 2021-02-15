@@ -2,7 +2,6 @@
 and extract the data needed for post-processing efforts"""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
 import numpy as np
@@ -11,6 +10,7 @@ import ufl
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from . import simrequest
 from . import equationbuilder
 from . import periodic_boundaries
@@ -43,8 +43,9 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","P")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","P")
     
     #Mesh calculations
     spatial_dims=self.meshinfo.mesh.geometry().dim()
@@ -197,6 +198,42 @@ class HomogSmolSimulator(simrequest.SimulationRequest):
         row.append(float(val))
       matr.append(row)
     self.set_nested(respath,matr)
+
+  # def macroscale_diffusion_alt(self,respath="D_macro",attrpath="soln",volpath="volume"):
+  #   """Perform the integral to obtain the homogenized diffusion constant
+    
+  #   Isotropy of the input D is assumed, but the output D may be anisotropic or even non-diagonal.
+
+  #   Arguments:
+
+  #     - respath = optional, attribute path for storing the result
+  #     - attrpath = optional, attribute path storing the solution (the result for chi)
+  #     - volpath = optional, attribute path storing the unit cell volume.
+          
+  #   Required attributes (other than those from simulator_general):
+    
+  #     - the attribute given by attrpath
+  #     - dx = FEniCS Measure for cells
+  #     - D = FEniCS Function with the resulting diffusion constant
+    
+  #   New attribute created/overwitten.
+  #   No return value.
+  #   No output files."""
+  #   d=self.meshinfo.mesh.geometry().dim()
+  #   volume=self.get_nested(volpath)
+  #   kdelta = lambda i,j: 1 if i==j else 0 #Kronecker delta
+  #   soln=self.get_nested(attrpath)
+  #   gradchi=fem.grad(soln)
+  #   matr=[]
+  #   for ii in range(d):
+  #     row=[]
+  #     for jj in range(d):
+  #       term1=kdelta(ii,jj)*fem.assemble(self.D*self.dx)
+  #       term2=fem.assemble(self.D*gradchi[jj,ii]*self.dx)
+  #       val=(term1-term2)/volume
+  #       row.append(float(val))
+  #     matr.append(row)
+  #   self.set_nested(respath,matr)
 
 #Register for loading from yaml
 yaml_manager.register_classes([HomogSmolSimulator])

@@ -261,3 +261,50 @@
 - !RequestFileRequest
   name: customization.another.top
   requestfile: !InputFile newclass.yaml
+#Job list request
+- !JobListRequest
+  name: joblist.basic
+  constfields:
+    a: 1
+  rangefields:
+    b: [1,2]
+    c: [1,2]
+  outfile: !OutputFile basic.csv
+  dtype_outfile: !OutputFile dtypes.csv
+#Verify output of previous test
+- !FileComparisonRequest
+  name: joblist.basic.verify
+  expected: !CompareFile basic.csv
+  received: !OutputFile basic.csv
+- !FileComparisonRequest
+  name: joblist.basic.dtypes.verify
+  expected: !CompareFile dtypes.csv
+  received: !OutputFile dtypes.csv
+#More complicated job list request
+- !JobListRequest
+  name: joblist.complex
+  modules:
+    - !InputFile calcfuncs.py
+  methods:
+    - calc_alpha
+  prepcommands:
+    - [load_csv, {infpath: !OutputFile basic.csv, attrpath: basic_list, dtype_csv_fpath: !OutputFile dtypes.csv}]
+    - [load_csv, {infpath: !OutputFile basic.csv, attrpath: repeated_list, dtype_csv_fpath: !OutputFile dtypes.csv}]
+  rangefields:
+    d: [1,2]
+  otherlists:
+    - [basic_list, {job_id: basic_job_id, b: b}]
+    - [repeated_list, {job_id: repeated_job_id, c: c}]
+  calcfields:
+    - [alpha, calc_alpha, {f: 5}]
+  postcommands:
+    - [save_csv, {attrpath: joblist_df, outfpath: !OutputFile complex.csv, index: False, dtype_csv_fpath: !OutputFile dtypes_complex.csv}]
+#Verify output of previous test
+- !FileComparisonRequest
+  name: joblist.complex.verify
+  expected: !CompareFile complex.csv
+  received: !OutputFile complex.csv
+- !FileComparisonRequest
+  name: joblist.complex.dtypes.verify
+  expected: !CompareFile dtypes_complex.csv
+  received: !OutputFile dtypes_complex.csv

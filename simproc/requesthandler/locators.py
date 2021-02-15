@@ -53,6 +53,8 @@ class DataFile(object):
   @classmethod
   def to_yaml(cls, representer, node):
     return representer.represent_scalar("!"+cls.__name__,str(node.subpath))
+  def __repr__(self):
+    return self.__class__.__name__+"("+repr(self.subpath)+")"
 
 class NameDelegator(object):
   """Act like a locator, but with an alternative request name."""

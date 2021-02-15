@@ -1,4 +1,8 @@
 
+**note that some items below have already been resolved**
+
+**note that items related to generated requests are probably made obsolete by the job list module**
+
 _ISSUE_ validation: debug.yaml
 The GeneratedVariationsRequest prevents the validation from being run with doit.
 Appending to the same file means two different requests have the same output file.
@@ -28,8 +32,8 @@ The plot was wrong because things hadn't been rerun.
 How did this happen?
 It was when I was trying to do the second curve.
 I reverted, and somehow it didn't re-run the smoluchowski solutions.
-It did re-run the extration, but it must have missed the change in the configuration
-of the smoluchowski solutions somehow.'
+It did re-run the extraction, but it must have missed the change in the configuration
+of the smoluchowski solutions somehow.
 More generally, most of the validation doesn't test the accuracy of the input and output files lists.
 Or the configuration information.
 How can we check that this is correct for all the different request types we have?

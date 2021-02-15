@@ -1,7 +1,6 @@
 """Create a function by interpolating from point data in a CSV file"""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
 import numpy as np
@@ -11,6 +10,7 @@ from scipy.interpolate import LinearNDInterpolator
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from . import simrequest
 from . import meshinfo
 from ..requesthandler import logging
@@ -23,6 +23,9 @@ coordcolumns:
   type: array
   items: {type: string}
 valuecolumn: {type: string}
+outcolumns:
+  type: array
+  items: {type: string}
 boundaryvalue:
   anyOf:
     - {type: number}
@@ -56,6 +59,8 @@ class InterpolationSimulator(simrequest.SimulationRequest):
 
     - valuecolumn = optional name, as string, of the column containing the function value. (Defaults to 'f')
 
+    - outcolumns = optional list of names (as strings) for the columns of the output dataframe.
+
     - nonboundary_fillvalue = optional "fill value" to specify for the interpolator even in the case when no boundary value is used
 
       If ``boundaryvalue`` is not ``None``, then this parameter is ignored.
@@ -70,8 +75,9 @@ class InterpolationSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","P")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","P")
     d=self.meshinfo.spatial_dims()
     meshcoords=self.meshinfo.coordinates()
     Nmesh=meshcoords.shape[0]
@@ -92,6 +98,7 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     #Get the column names for the input data
     coordcolumns=getattr(conditions,'coordcolumns',['x','y','z'])
     valuecolumn=getattr(conditions,'valuecolumn','f')
+    outcolumns=getattr(conditions,'outcolumns',['dof_x','dof_y','dof_z','value'])
 
     #Input coordinates and function values, as separate arrays
     inpts=df.loc[:,coordcolumns].values
@@ -131,7 +138,7 @@ class InterpolationSimulator(simrequest.SimulationRequest):
     self.interp_run_timer=logger.timers["interp_run"]
     #Store results for separate output if desired
     results_arr=np.hstack([dofcoords,np.reshape(dofvals,(dofvals.shape[0],1))])
-    self.results=pd.DataFrame(results_arr,columns=['dof_x','dof_y','dof_z','value'])
+    self.results=pd.DataFrame(results_arr,columns=outcolumns)
     #Define function from the interpolated dof values
     self.soln=fem.Function(self.V,name=functionname)
     junk=self.soln.vector().set_local(dofvals)

@@ -251,5 +251,115 @@ class SimpleCollectionRequest(WithCommandsRequest):
         kwargs[argname]=getattr(self,argname)
     self.child=CollectionRequest(**kwargs)
 
+_FromListCollectionRequest_props_schema_yaml="""#FromListCollectionRequest
+listfile:
+  type: pathlike
+dtype_listfile:
+  type: pathlike
+outfile:
+  type: pathlike
+dtype_outfile:
+  type: pathlike
+multidoc:
+  type: boolean
+id_field:
+  type: string
+structure:
+  type: array
+  items:
+    type: array
+    minItems: 2
+    maxItems: 2
+    items:
+      - {type: string}
+      - {type: object}
+calculations:
+  type: array
+  items:
+    type: array
+    minItems: 2
+    maxItems: 2
+    items:
+      - {type: string}
+      - {type: object}
+joblist: {}
+"""
+
+class FromListCollectionRequest(WithCommandsRequest):
+  """Collect data from all the jobs in a job list
+  
+  User-defined attributes:
+  
+    - listfile = path to the job list csv file
+    - dtype_listfile = path to the input file for the data types for the job list
+    - outfile = path to store the output file containing the dataframe
+    - dtype_outfile = optional, path to the output file for the data types for the DataFrame, as Path or string
+      (if you do use ``outfile``, this is strongly recommended as well)
+      (this has no effect if ``outfile`` is not provided as well)
+    - structure = definition of the data to collect: a list of pairs, each pair of the form
+      (filepath_field, {column_name: yaml_field, ...})
+      where filepath_field indicates the column of the job list table indicating the path to the job file to read
+      (these paths are taken relative to the DataFolder, and the file must be in yaml format),
+      column_name is the name of a column in the output DataFrame,
+      yaml_field is the name of the field the yaml file to get the data from.
+    - id_field = optional, string for the job ID field name, defaults to "job_id"
+    - multidoc = boolean, True if yaml files contain multiple documents, False if just one document each
+    - calculations = command sequence defining calculations to be done after the dataframe is constructed from the input files"""
+  _self_task=True
+  _inputfile_attrs=['listfile','dtype_listfile']
+  _outputfile_attrs=['outpath','dtype_outfile']
+  _config_attrs=['structure','multidoc','calculations']
+  _validation_schema=WithCommandsRequest.update_schema(_FromListCollectionRequest_props_schema_yaml)
+  _validation_schema.required=['listfile','structure']
+  def __init__(self,**kwargs):
+    #Initialization from base class
+    super(FromListCollectionRequest, self).__init__(**kwargs)
+    #Read the job list file (it tells us where the input files come from)
+    self.load_csv(self.listfile,"joblist",self.dtype_listfile)
+    #Compile the input files
+    self._more_inputfiles=getattr(self,'_more_inputfiles',[])
+    for row in self.joblist.itertuples():
+      for srcfield,mappings in self.structure:
+        loc=locators.DataFile(getattr(row,srcfield))
+        self._more_inputfiles.append(loc.path(""))
+    #Get input and output files from the command sequences
+    self.init_command_sequence('calculations')
+    #Default attributes
+    self.multidoc=getattr(self,'multidoc',False)
+    self.dtype_listfile=getattr(self,'dtype_listfile',None)
+    self.id_field=getattr(self,"id_field","job_id")
+  def run(self):
+    logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
+    #Final checks and preparatory steps
+    self.pre_run()
+    #Get column headings for output table
+    out_columns=[self.id_field]
+    for srcfield,mappings in self.structure:
+      out_columns+=list(mappings.keys())
+    #Initialize output
+    out_frame=[]
+    #Loop over job rows
+    for jobrow in self.joblist.itertuples():
+      #Initialize output row
+      outrow=[getattr(jobrow,self.id_field)]
+      #Loop over list of structure pairs
+      for srcfield,mappings in self.structure:
+        #Read the yaml file
+        loc=locators.DataFile(getattr(jobrow,srcfield))
+        obj=yaml_manager.readfile(self.renderstr(loc),self.multidoc)
+        outrow+=[obj[key] for key in mappings.values()]
+      #Add row to table
+      out_frame.append(outrow)
+    #Create dataframe
+    self.df=pd.DataFrame(out_frame,columns=out_columns)
+    #Do post-collection calculations
+    self.process_command_sequence(attrpath='calculations',singlefunc=None,positional=False)
+    #Output to csv file if requested
+    if getattr(self,'outfile',None) is not None:
+      self.save_csv('df',self.outfile,index=False,dtype_csv_fpath=getattr(self,'dtype_outfile',None))
+    #Done
+    return
+
 #Register for loading from yaml
-yaml_manager.register_classes([RawCollectionRequest, CollectionRequest, SimpleCollectionRequest])
+yaml_manager.register_classes([RawCollectionRequest, CollectionRequest, SimpleCollectionRequest,
+                               FromListCollectionRequest])

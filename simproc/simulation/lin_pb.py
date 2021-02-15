@@ -1,7 +1,6 @@
 """Solve the linearized Poisson-Boltzmann equation"""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
 import numpy as np
@@ -9,6 +8,7 @@ import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
@@ -30,8 +30,9 @@ class LPBSimulator(simrequest.SimulationRequest):
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","CG")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","CG")
 
     #Properties of problem domain
     self.kappa = conditions.kappa

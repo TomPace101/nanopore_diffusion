@@ -30,6 +30,7 @@ Keeping track of this is important in order to help prevent circular dependencie
   - ``commandseq``: ``yaml_manager``, ``pickle_manager``, ``customization``, ``logging``
   - ``templates``: ``yaml_manager``, ``customization``, ``logging``, ``nested``
   - ``generate``: ``yaml_manager``, ``request``, ``nested``, ``customization``
+  - ``joblist``: ``yaml_manager``, ``locators``, ``commandseq``, ``logging``
   - ``__init__``: ``filepath``, ``locators``, ``requestfile``, ``customization``, ``shell``, ``templates``, ``cleanup``, ``comparison, ``debug``
   - ``cmdline``: ``*`` (meaning everything listed in ``__init__``)
   - ``__main__``: ``cmdline``

@@ -5,16 +5,15 @@ and extract the data needed for post-processing efforts.
 Species may vary within each subdomain."""
 
 #Standard library
-from argparse import Namespace
 from collections import OrderedDict as odict
 import math
 
 #Site packages
-import numpy as np
 import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
@@ -24,6 +23,7 @@ _SUConditions_props_schema_yaml="""#SUConditions
 species:
   type: array
   items: {type: object}
+var_Dlocal: {type: boolean}
 reactive:
   type: object
   items:
@@ -36,7 +36,11 @@ potential_dirichlet: {type: object}
 """
 
 class SUSimulator(simrequest.SimulationRequest):
-  """Simulator for for Unhomogenized Smoluchowski Diffusion"""
+  """Simulator for for Unhomogenized Smoluchowski Diffusion
+  
+  Note that each species is allowed to have its own D value,
+  which scales the value of the Dlocal function.
+  That is, entirely different functions for D for each species are not supported."""
   
   _validation_schema=simrequest.SimulationRequest.update_schema(
             _SUConditions_props_schema_yaml,'properties.conditions.properties')
@@ -45,19 +49,21 @@ class SUSimulator(simrequest.SimulationRequest):
   #Common methods
   calcflux = common_methods.calcflux
   fluxintegral = common_methods.fluxintegral
+  effective_D = common_methods.effective_D
 
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
-    conditions.family=getattr(conditions,"family","CG")
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
+    conditions.family=conditions.get_nested_default("family","CG")
 
     #Species
     self.species=[]
     self.species_dict=odict()
     self.species_indices=odict()
     for s,d in enumerate(conditions.species):
-      spec=Namespace(**d)
+      spec=WithNested(**d)
       self.species.append(spec)
       self.species_dict[spec.symbol]=spec
       self.species_indices[spec.symbol]=s
@@ -86,7 +92,12 @@ class SUSimulator(simrequest.SimulationRequest):
     self.dx = fem.Measure('cell',domain=self.meshinfo.mesh)
 
     #Load electric potential as a Function
+    #and spatial variation of D, if any
     self.potential=fem.Function(self.V_scalar,name="Phi")
+    if getattr(conditions,'var_Dlocal',False):
+      self.Dlocal=fem.Function(self.V_scalar,name="Dlocal")
+    else:
+      self.Dlocal=fem.Constant(1.0)
     self.process_load_commands()
 
     #Slootboom transformation for dirichlet condition
@@ -132,7 +143,7 @@ class SUSimulator(simrequest.SimulationRequest):
     self.Dbar_dict={}
     self.Dbar_proj=[]
     for s,spec in enumerate(self.species):
-      Dbar=spec.D*fem.exp(-conditions.beta*spec.z*self.potential)
+      Dbar=spec.D*self.Dlocal*fem.exp(-conditions.beta*spec.z*self.potential)
       self.Dbar_dict[s]=Dbar
       thisproj=fem.project(Dbar,self.V_scalar,solver_type="cg",preconditioner_type="amg") #Solver and preconditioner selected to avoid UMFPACK "out of memory" error (even when there's plenty of memory)
       thisproj.rename('Dbar','transformed diffusion coefficient')

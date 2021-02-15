@@ -4,14 +4,13 @@ A single species is assumed, as there is no interaction or potential.
 Isotropy is assumed, but the diffusion constant may vary spatially."""
 
 #Standard library
-from argparse import Namespace
 
 #Site packages
-import numpy as np
 import fenics as fem
 
 #This package
 from ..requesthandler import yaml_manager
+from ..requesthandler.nested import WithNested
 from .meshinfo import MeshInfo
 from . import simrequest
 from . import equationbuilder
@@ -23,11 +22,13 @@ class FLSimulator(simrequest.SimulationRequest):
   #Common methods
   calcflux = common_methods.calcflux
   fluxintegral = common_methods.fluxintegral
+  effective_D = common_methods.effective_D
 
   def run_sim(self):
 
     #For convenience
-    conditions=Namespace(**self.conditions)
+    self.conditions_processed=WithNested(**self.conditions)
+    conditions=self.conditions_processed
 
     #Function space for scalars and vectors
     self.V = fem.FunctionSpace(self.meshinfo.mesh,'CG',conditions.elementorder) #CG="continuous galerkin", ie "Lagrange"
@@ -52,7 +53,8 @@ class FLSimulator(simrequest.SimulationRequest):
     self.process_load_commands()
 
     #Dirichlet boundary conditions
-    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in conditions.dirichlet.items()]
+    dirichlet=conditions.get_nested_default("dirichlet",{})
+    self.bcs=[fem.DirichletBC(self.V,val,self.meshinfo.facets,psurf) for psurf,val in dirichlet.items()]
 
     #Neumann boundary conditions
     self.nbcs = {}
@@ -93,49 +95,6 @@ class FLSimulator(simrequest.SimulationRequest):
     #solve
     if not getattr(self,'skipsolve',False):
       self.solver.solve()
-
-  def effective_D(self,outattr,fluxattr,areaattr,startloc,endloc,solnattr='soln',idx=None):
-    """Calculate effective diffusion constant
-
-    Arguments:
-
-      - outattr = attribute path for storage of result
-      - fluxattr = attribute path to previously calculated total
-
-          This requires a previous call to fluxintegral.
-
-      - areaattr = attribute path to previously calculated area in results dictionary
-
-          This requires a previous call to facet_area.
-
-      - startloc = argument to get_pointcoords for start of line
-      - endloc = argument to get_pointcoords for end of line
-      - solnattr = optional, attribute path to the concentration solution
-      - idx = index of the solution field to write out, None (default) if not a sequence
-
-    No return value.
-    No output files."""
-    #Get the flux and area values
-    totflux=self.get_nested(fluxattr)
-    area=self.get_nested(areaattr)
-    #Get the object with the solution data
-    vals=self.get_nested(solnattr)
-    if idx is not None:
-      vals = vals[idx]
-    #Get the points for data extraction
-    assert len(startloc)==len(endloc), "Start and end locations have different dimensionality"
-    startcoords=self.get_pointcoords(startloc)
-    endcoords=self.get_pointcoords(endloc)
-    #Calculate distance between the two points
-    deltas=[p[1]-p[0] for p in zip(startcoords,endcoords)]
-    delta_s=np.sqrt(sum([d**2 for d in deltas]))
-    #Calculate the change in concentration between the two points
-    delta_c=vals(*endcoords)-vals(*startcoords)
-    #Calculate diffusion constant
-    Deff=float(totflux/area*delta_s/delta_c)
-    #Store result
-    self.set_nested(outattr,Deff)
-    return
 
 #Register for loading from yaml
 yaml_manager.register_classes([FLSimulator])

@@ -1,0 +1,8 @@
+,0
+job_id,object
+d,int64
+basic_job_id,object
+b,int64
+repeated_job_id,object
+c,int64
+alpha,int64
