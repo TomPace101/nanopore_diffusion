@@ -1,5 +1,7 @@
 """Pre/Post-processing calculations for the simulations"""
 
+import numpy as np
+from scipy.integrate import trapz
 import fenics as fem
 
 def cell_inverse_integral(self,attrpath,pcell=None,funcpath=None):
@@ -77,5 +79,13 @@ def project_exp_pot(self,outattr="exp_pot",funcname="exp_pot",solver="cg",precon
   res.rename(funcname,funcname)
   self.set_nested(outattr,res)
 
+def calc_expected_result(self,outattr):
+  """This is only for the PMF x-variation case"""
+  xvals=np.linspace(0.0,0.5,1000,endpoint=True)
+  yvals=np.exp(xvals**2)
+  intg=2*trapz(yvals,xvals)
+  res=float(np.exp(0.25)/intg)
+  self.set_nested(outattr,res)
+
 #List of functions to be bound as methods
-request_methods=[cell_inverse_integral, calc_ratio, calc_product, calc_delta, project_exp_pot]
+request_methods=[cell_inverse_integral, calc_ratio, calc_product, calc_delta, project_exp_pot, calc_expected_result]

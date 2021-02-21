@@ -79,7 +79,7 @@
   mesh: !mesh_hdf5file box_aL_cen.hdf5
   meshmeta: !meshmetafile box_aL_cen.yaml
   metadata:
-    expected_result: TODO
+    expected_result: 1.0 #It's simple in this case
   modules:
     - !modulefile simulation.py
   methods:
@@ -123,8 +123,6 @@
   name: varypmf.xvar.homog
   mesh: !mesh_hdf5file box_aL_cen.hdf5
   meshmeta: !meshmetafile box_aL_cen.yaml
-  metadata:
-    expected_result: TODO
   modules:
     - !modulefile simulation.py
   methods:
@@ -132,6 +130,7 @@
     - calc_product
     - calc_delta
     - project_exp_pot
+    - calc_expected_result
   solver_parameters:
     linear_solver: gmres
     preconditioner: petsc_amg
@@ -143,6 +142,7 @@
     - [setconstant, {attrpath: D, constval: 1.0}]
     - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile PMF_xvar.hdf5, fieldtag: PMF}]
   dataextraction:
+    - [calc_expected_result, {outattr: expected_result}]
     - [domain_volume, {attrpath: domain_volume}]
     - [macroscale_diffusion, {respath: Dbar_matrix, attrpath: soln, volpath: domain_volume}]
     - [project_exp_pot, {outattr: exp_pot, funcname: exp_pot}]
@@ -157,5 +157,5 @@
           Dbar: [Dbar_matrix, 0, 0]
           Xi: Xi
           homogenization_result: Deff_homog
-          expected_result: metadata.expected_result
+          expected_result: expected_result
 
