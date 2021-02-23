@@ -158,4 +158,86 @@
           Xi: Xi
           homogenization_result: Deff_homog
           expected_result: expected_result
-
+#Direct Smoluchowski simulations
+- !SUSimulator
+  name: varypmf.yvar.direct
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    expected_result: 1.0 #It's simple in this case
+  modules:
+    - !modulefile simulation.py
+    - !modulefile fluxsims.py
+  methods:
+    - calc_ratio
+    - calc_product
+    - calc_delta
+    - effective_D
+  solver_parameters:
+    linear_solver: gmres
+    preconditioner: petsc_amg
+  conditions: &direct_conditions
+    elementorder: 2
+    beta: 1.0
+    dirichlet:
+      1112: [100.0]
+      3132: [10.0]
+    potential_dirichlet:
+      1112: 0.0
+      3132: 0.0
+    species:
+      - {symbol: A, z: 1, D: 1.0}
+  loaddata:
+    - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile PMF_yvar.hdf5, fieldtag: PMF}]
+  dataextraction: &direct_data_extraction
+    - [facet_area, {pfacet: 1112, attrpath: area_start, internal: False}]
+    - [facet_area, {pfacet: 3132, attrpath: area_end, internal: False}]
+    - [facet_area, {pfacet: 2122, attrpath: area_mid, internal: True}]
+    - [transform_back, {}]
+    - [writefield, {outfpath: !OwnSolutionFile Dbar.pvd, attrpath: [Dbar_proj, 0]}]
+    - [writefield, {outfpath: !OwnSolutionFile conc.pvd, attrpath: [clist, 0]}]
+    - [writefield, {outfpath: !OwnSolutionFile cbar.pvd, attrpath: [cbarlist, 0]}]
+    - [calcflux, {solnattr: [cbarlist, 0], attrpath: flux, Dattr: [Dbar_proj, 0]}]
+    - [writefield, {outfpath: !OwnSolutionFile flux.pvd, attrpath: flux}]
+    - [fluxintegral, {pfacet: 1112, attrpath: flux_start, internal: False, fluxattr: flux}]
+    - [fluxintegral, {pfacet: 3132, attrpath: flux_end, internal: False, fluxattr: flux}]
+    - [fluxintegral, {pfacet: 2122, attrpath: flux_mid, internal: True, fluxsign: '-', fluxattr: flux}]
+    - [facet_integral, {attrpath: leftconc_total, pfacet: 1112, funcpath: [clist, 0], internal: False}]
+    - [facet_integral, {attrpath: rightconc_total, pfacet: 3132, funcpath: [clist, 0], internal: False}]
+    - [calc_ratio, {numerator: !Stored leftconc_total, denominator: !Stored meshinfo.metadata.val_a, outattr: leftconc} ]
+    - [calc_ratio, {numerator: !Stored rightconc_total, denominator: !Stored meshinfo.metadata.val_a, outattr: rightconc} ]
+    - [effective_D, {outattr: Deff, fluxattr: flux_mid, areaattr: meshinfo.metadata.val_a, start_conc_attr: leftconc, end_conc_attr: rightconc, delta_s_attr: meshinfo.metadata.val_L}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results_direct.yaml
+        mapping:
+          area_start: area_start
+          area_end: area_end
+          area_mid: area_mid
+          flux_start: flux_start
+          flux_end: flux_end
+          flux_mid: flux_mid
+          leftconc: leftconc
+          rightconc: rightconc
+          Deff: Deff
+          run_time: sim_timer.delta_str
+- !SUSimulator
+  name: varypmf.xvar.direct
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    expected_result: 1.0 #It's simple in this case
+  modules:
+    - !modulefile simulation.py
+    - !modulefile fluxsims.py
+  methods:
+    - calc_ratio
+    - calc_product
+    - calc_delta
+    - effective_D
+  solver_parameters:
+    linear_solver: gmres
+    preconditioner: petsc_amg
+  conditions: *direct_conditions
+  loaddata:
+    - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile PMF_xvar.hdf5, fieldtag: PMF}]
+  dataextraction: *direct_data_extraction
