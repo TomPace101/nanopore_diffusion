@@ -20,6 +20,9 @@ class MeshInfo:
     - cells = FEniCS MeshFunction of gmsh Physical Volume number (3D) or Physical Surface number (2D)
     - metadata = dictionary of metadata about the mesh, such as parametric locations
 
+  If a mesh is not provided, its dimensions won't be known,
+  so the resulting MeshFunctions might not be very useful.
+
   A note on the terminology used in FEniCS and gmsh:
 
   |  The FEniCS information below is from page 185-186 of the FEniCS book.
