@@ -39,11 +39,11 @@ class MeshInfo:
     else:
       self.mesh=mesh
     if facets is None:
-      self.facets=fem.MeshFunction("size_t", self.mesh, mesh.geometry().dim()-1) #Facets are of dimension d-1
+      self.facets=fem.MeshFunction("size_t", self.mesh, max(0,self.mesh.geometry().dim()-1)) #Facets are of dimension d-1
     else:
       self.facets=facets
     if cells is None:
-      self.cells=fem.MeshFunction("size_t", self.mesh, mesh.geometry().dim()) #Cells are of dimension d
+      self.cells=fem.MeshFunction("size_t", self.mesh, self.mesh.geometry().dim()) #Cells are of dimension d
     else:
       self.cells=cells
     if metadata is None:
