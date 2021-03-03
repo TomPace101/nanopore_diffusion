@@ -125,6 +125,26 @@ class WithCommandsRequest(customization.CustomizableRequest):
         iofiles += [arguments[n] for n in present_args]
     return iofiles
 
+  def store_module_contents(self,outattr,modpath,getname):
+    """Load a function/class/etc from a module and store it as an attribute.
+
+    Note that if the target is a function, this is NOT the same as making the function a method.
+    When it is called, it is NOT passed ``self`` as the first argument.
+
+    Arguments:
+
+      - outattr = nested path to attribute to store data
+      - modpath = path to the module containing the function
+      - getname = name of the target within the module"""
+    #Get path to module
+    modpath=self.render(modpath)
+    #Load module
+    the_mod=customization.load_module_from_path(modpath)
+    #Get function from module
+    the_target = getattr(the_mod,getname)
+    #Store
+    self.set_nested(attrpath,the_target)
+
   def load_yaml(self,infpath,attrpath):
     """Read in data from a yaml file, and store it at the specified nested path
 
