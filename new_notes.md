@@ -6,6 +6,9 @@
 - check the module dependency file: in particular, I'm not sure logging is listed everywhere it should be
 - MPI request children don't get logged: logging parameters not passed? (2020-09-28)
 
+singularity recipes:
+- add sphinx to make a "complete" recipe, and take testing out of the "minimal" one (`fenics_2019`).
+- add git
 
 **note that some items below have already been resolved**
 
