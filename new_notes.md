@@ -1,4 +1,12 @@
 
+- contour plotting: see notes 2020-10-29, 2020-10-30
+- clean up rst formatting in module docstrings (see warnings from the sphinx build)
+- example of what the yaml looks like for a request with no needed arguments. Clean logs is a good example. But do mention that a name is usually a good idea.
+- Log file cleanup requests require their own log file to be set up in order to find the logging directory. (a file which, of course, will be auto-erased).
+- check the module dependency file: in particular, I'm not sure logging is listed everywhere it should be
+- MPI request children don't get logged: logging parameters not passed? (2020-09-28)
+
+
 **note that some items below have already been resolved**
 
 **note that items related to generated requests are probably made obsolete by the job list module**
