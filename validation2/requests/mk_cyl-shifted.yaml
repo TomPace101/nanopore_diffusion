@@ -1,0 +1,19 @@
+%YAML 1.2
+#The cylinder validation problem, with the cylinder shifted to the corner of the unit cell
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: .. #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Folder Structure
+# - !UpdateFolderStructure
+- !DumpFolderStructure
+  name: cyl-shifted.dump_folder_structure
+  outfile: !OtherSolutionFile folder_structure.yaml
+#Create the request file from the template.
+- !TemplateFileRequest
+  name: cyl-shifted.templatefile
+  tmplfile: !RequestTemplate cyl-shifted.yaml.jinja2
+  outfile: !GeneratedRequest cyl-shifted.yaml
+  data:
+    r_values: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45]
+    pot_values: [0.2, 1.0, 5.0]

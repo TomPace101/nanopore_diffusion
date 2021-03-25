@@ -1,0 +1,85 @@
+//Regular lattice of cylinders
+
+//Mesh density control
+mcar1={{mcar1}};
+mcar2={{mcar2}};
+
+//Geometric inputs
+r={{r}};
+
+//Point ordinates
+X0=-0.5;
+X1=0.5;
+Y0=-0.5;
+Y1=0.5;
+
+//Points
+//naming convention:
+//- p=point
+//- (empty)=back plane
+//- f=front plane
+p1=newp; Point(p1)={X0,Y0,Z0,mcar1};
+p2=newp; Point(p2)={X1,Y0,Z0,mcar1};
+p3=newp; Point(p3)={X1,Y1,Z0,mcar1};
+p4=newp; Point(p4)={X0,Y1,Z0,mcar1};
+p5=newp; Point(p5)={r,0,Z0,mcar2};
+p6=newp; Point(p6)={0,r,Z0,mcar2};
+p7=newp; Point(p7)={-r,0,Z0,mcar2};
+p8=newp; Point(p8)={0,-r,Z0,mcar2};
+p9=newp; Point(p9)={0,0,Z0,mcar2};
+
+//Lines
+//naming convention:
+//- l=line
+//- (empty)=back plane
+//- f=front plane
+//- g=between planes
+l1=newl; Line(l1)={p1, p2};
+l2=newl; Line(l2)={p2, p3};
+l3=newl; Line(l3)={p3, p4};
+l4=newl; Line(l4)={p4, p1};
+
+//Circles
+l5=newl; Circle(l5)={p5,p9,p6};
+l6=newl; Circle(l6)={p6,p9,p7};
+l7=newl; Circle(l7)={p7,p9,p8};
+l8=newl; Circle(l8)={p8,p9,p5};
+
+//Line Loops
+L1=newll; Line Loop(L1)={l1,l2,l3,l4};
+L2=newll; Line Loop(L2)={l5,l6,l7,l8};
+
+//Surfaces and Physical Surfaces
+Plane Surface(1)={L1,L2};
+Physical Surface(1)={1};
+{% if fill_cylinder -%}
+Plane Surface(2)={L2};
+Physical Surface(2)={2};
+{% endif %}
+
+//Physical Lines
+Physical Line(1)={l1};
+Physical Line(2)={l2};
+Physical Line(3)={l3};
+Physical Line(4)={l4};
+
+//Mesh metadata output
+Printf("# Mesh metadata output") > meshmetafile;
+Printf("mcar1: %f", mcar1) >> meshmetafile;
+Printf("mcar2: %f", mcar2) >> meshmetafile;
+Printf("r: %f", r) >> meshmetafile;
+Printf("X0: %f", X0) >> meshmetafile;
+Printf("X1: %f", X1) >> meshmetafile;
+Printf("Y0: %f", Y0) >> meshmetafile;
+Printf("Y1: %f", Y1) >> meshmetafile;
+Printf("Xmid: %f", (X1-X0)/2.0) >> meshmetafile;
+Printf("Ymid: %f", (Y1-Y0)/2.0) >> meshmetafile;
+
+//Define mesh
+Mesh 2;
+
+//Blank lines
+//because (an older version of) gmsh (once) got confused without them
+
+
+
