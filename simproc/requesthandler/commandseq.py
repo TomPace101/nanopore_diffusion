@@ -143,7 +143,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
     #Get function from module
     the_target = getattr(the_mod,getname)
     #Store
-    self.set_nested(attrpath,the_target)
+    self.set_nested(outattr,the_target)
 
   def load_yaml(self,infpath,attrpath):
     """Read in data from a yaml file, and store it at the specified nested path
