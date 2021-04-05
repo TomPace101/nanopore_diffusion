@@ -180,7 +180,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
       df=pd.read_csv(fpt)
     else:
       dtype_fpath=self.renderstr(self.get_stored(dtype_csv_fpath))
-      dtype_ser=pd.read_csv(dtype_fpath,index_col=0,squeeze=True)
+      dtype_ser=pd.read_csv(dtype_fpath,index_col=0,squeeze=True,header=0)
       dtypes_dict=dtype_ser.to_dict()
       df=pd.read_csv(fpt,dtype=dtypes_dict)
     self.set_nested(attrpath,df)
@@ -238,7 +238,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
     df.to_csv(fpt,index=index)
     if dtype_csv_fpath is not None:
       dtype_fpath=self.renderstr(self.get_stored(dtype_csv_fpath))
-      df.dtypes.to_csv(dtype_fpath)
+      df.dtypes.to_csv(dtype_fpath,header=True)
   save_csv._outfile_args = ['outfpath','dtype_csv_fpath']
 
   def reportvalues(self,outfpath,mapping):
