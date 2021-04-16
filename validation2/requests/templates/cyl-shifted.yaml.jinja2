@@ -103,7 +103,7 @@
     functionname: potential
     functiontype: scalar
   loaddata:
-    - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: {{ potval -}} }}]
+    - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: {{potval}}, 3: {{potval}}, 4: {{potval}}, 5: {{potval -}} }}]
   dataextraction:
     - [writefield, {outfpath: !OwnSolutionFile potential.{{id}}-{{subid}}.hdf5, outname: potential}]
     - [writefield, {outfpath: !OwnSolutionFile potential.{{id}}-{{subid}}.pvd}]
