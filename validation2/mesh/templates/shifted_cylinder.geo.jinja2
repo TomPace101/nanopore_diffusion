@@ -9,24 +9,38 @@ r={{r}};
 
 //Point ordinates
 X0=-0.5;
-X1=0.5;
+X1=r-0.5;
+X2=0;
+X3=0.5-r;
+X4=0.5;
 Y0=-0.5;
-Y1=0.5;
+Y1=r-0.5;
+Y2=0;
+Y3=0.5-r;
+Y4=0.5;
+Z0=0;
 
 //Points
 //naming convention:
 //- p=point
 //- (empty)=back plane
 //- f=front plane
-p1=newp; Point(p1)={X0,Y0,Z0,mcar1};
-p2=newp; Point(p2)={X1,Y0,Z0,mcar1};
-p3=newp; Point(p3)={X1,Y1,Z0,mcar1};
-p4=newp; Point(p4)={X0,Y1,Z0,mcar1};
-p5=newp; Point(p5)={r,0,Z0,mcar2};
-p6=newp; Point(p6)={0,r,Z0,mcar2};
-p7=newp; Point(p7)={-r,0,Z0,mcar2};
-p8=newp; Point(p8)={0,-r,Z0,mcar2};
-p9=newp; Point(p9)={0,0,Z0,mcar2};
+p01=newp; Point(p01)={X0,Y0,Z0,mcar1};
+p02=newp; Point(p02)={X4,Y0,Z0,mcar1};
+p03=newp; Point(p03)={X4,Y4,Z0,mcar1};
+p04=newp; Point(p04)={X0,Y4,Z0,mcar1};
+p05=newp; Point(p05)={X2,Y0,Z0,mcar1};
+p06=newp; Point(p06)={X4,Y2,Z0,mcar1};
+p07=newp; Point(p07)={X2,Y4,Z0,mcar1};
+p08=newp; Point(p08)={X0,Y2,Z0,mcar1};
+p18=newp; Point(p18)={X0,Y1,Z0,mcar2};
+p15=newp; Point(p15)={X1,Y0,Z0,mcar2};
+p25=newp; Point(p25)={X3,Y0,Z0,mcar2};
+p26=newp; Point(p26)={X4,Y1,Z0,mcar2};
+p36=newp; Point(p36)={X4,Y3,Z0,mcar2};
+p37=newp; Point(p37)={X3,Y4,Z0,mcar2};
+p47=newp; Point(p47)={X1,Y4,Z0,mcar2};
+p48=newp; Point(p48)={X0,Y3,Z0,mcar2};
 
 //Lines
 //naming convention:
@@ -34,34 +48,59 @@ p9=newp; Point(p9)={0,0,Z0,mcar2};
 //- (empty)=back plane
 //- f=front plane
 //- g=between planes
-l1=newl; Line(l1)={p1, p2};
-l2=newl; Line(l2)={p2, p3};
-l3=newl; Line(l3)={p3, p4};
-l4=newl; Line(l4)={p4, p1};
+l01=newl; Line(l01)={p15, p05};
+l02=newl; Line(l02)={p05, p25};
+l03=newl; Line(l03)={p26, p06};
+l04=newl; Line(l04)={p06, p36};
+l05=newl; Line(l05)={p37, p07};
+l06=newl; Line(l06)={p07, p47};
+l07=newl; Line(l07)={p48, p08};
+l08=newl; Line(l08)={p08, p18};
+l13=newl; Line(l13)={p01, p15};
+l14=newl; Line(l14)={p18, p01};
+l15=newl; Line(l15)={p25, p02};
+l16=newl; Line(l16)={p02, p26};
+l17=newl; Line(l17)={p36, p03};
+l18=newl; Line(l18)={p03, p37};
+l19=newl; Line(l19)={p47, p04};
+l20=newl; Line(l20)={p04, p48};
 
 //Circles
-l5=newl; Circle(l5)={p5,p9,p6};
-l6=newl; Circle(l6)={p6,p9,p7};
-l7=newl; Circle(l7)={p7,p9,p8};
-l8=newl; Circle(l8)={p8,p9,p5};
+l09=newl; Circle(l09)={p25,p02,p26};
+l10=newl; Circle(l10)={p36,p03,p37};
+l11=newl; Circle(l11)={p47,p04,p48};
+l12=newl; Circle(l12)={p18,p01,p15};
 
 //Line Loops
-L1=newll; Line Loop(L1)={l1,l2,l3,l4};
-L2=newll; Line Loop(L2)={l5,l6,l7,l8};
+L1=newll; Line Loop(L1)={l01,l02,l09,l03,l04,l10,l05,l06,l11,l07,l08,l12};
+L2=newll; Line Loop(L2)={l13,-l12,l14};
+L3=newll; Line Loop(L3)={l15,-l09,l16};
+L4=newll; Line Loop(L4)={l17,-l10,l18};
+L5=newll; Line Loop(L5)={l19,-l11,l20};
 
 //Surfaces and Physical Surfaces
-Plane Surface(1)={L1,L2};
+Plane Surface(1)={L1};
 Physical Surface(1)={1};
 {% if fill_cylinder -%}
 Plane Surface(2)={L2};
 Physical Surface(2)={2};
+Plane Surface(3)={L3};
+Physical Surface(3)={3};
+Plane Surface(4)={L4};
+Physical Surface(4)={4};
+Plane Surface(5)={L5};
+Physical Surface(5)={5};
 {% endif %}
 
 //Physical Lines
-Physical Line(1)={l1};
-Physical Line(2)={l2};
-Physical Line(3)={l3};
-Physical Line(4)={l4};
+Physical Line(1)={l01,l02};
+Physical Line(2)={l03,l04};
+Physical Line(3)={l05,l06};
+Physical Line(4)={l07,l08};
+Physical Line(5)={l09};
+Physical Line(6)={l10};
+Physical Line(7)={l11};
+Physical Line(8)={l12};
 
 //Mesh metadata output
 Printf("# Mesh metadata output") > meshmetafile;
@@ -70,10 +109,14 @@ Printf("mcar2: %f", mcar2) >> meshmetafile;
 Printf("r: %f", r) >> meshmetafile;
 Printf("X0: %f", X0) >> meshmetafile;
 Printf("X1: %f", X1) >> meshmetafile;
+Printf("X2: %f", X2) >> meshmetafile;
+Printf("X3: %f", X3) >> meshmetafile;
+Printf("X4: %f", X4) >> meshmetafile;
 Printf("Y0: %f", Y0) >> meshmetafile;
 Printf("Y1: %f", Y1) >> meshmetafile;
-Printf("Xmid: %f", (X1-X0)/2.0) >> meshmetafile;
-Printf("Ymid: %f", (Y1-Y0)/2.0) >> meshmetafile;
+Printf("Y2: %f", Y2) >> meshmetafile;
+Printf("Y3: %f", Y3) >> meshmetafile;
+Printf("Y4: %f", Y4) >> meshmetafile;
 
 //Define mesh
 Mesh 2;
