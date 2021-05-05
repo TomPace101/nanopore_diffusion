@@ -10,6 +10,14 @@ singularity recipes:
 - add sphinx to make a "complete" recipe, and take testing out of the "minimal" one (`fenics_2019`).
 - add git
 
+_FEATURE_ replace/improve doit
+(This is a new summary of `Dependency tracking` far below.)
+As much as a I like doit, it does have some issues:
+- the signatures are stored in a file that isn't human readable
+- there is no way to manually force a signature update
+- signatures aren't updated on a task-by-task basis, so if doit crashes before all tasks finish, all the intermediate progress is lost
+- tasks can't modify the task list, complicating auto-generation of the task list in nontrivial circumstances
+
 **note that some items below have already been resolved**
 
 **note that items related to generated requests are probably made obsolete by the job list module**
