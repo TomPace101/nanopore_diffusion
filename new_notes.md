@@ -22,6 +22,7 @@ As much as a I like doit, it does have some issues:
 - there is no way to manually force a signature update
 - signatures aren't updated on a task-by-task basis, so if doit crashes before all tasks finish, all the intermediate progress is lost
 - tasks can't modify the task list, complicating auto-generation of the task list in nontrivial circumstances
+- there's not an easy solution to this one, but: when my task names change, the database loses any previous state and assumes the task is new, because the task names are the database keys. It would take pattern matching to fix this, I guess?
 
 **note that some items below have already been resolved**
 
