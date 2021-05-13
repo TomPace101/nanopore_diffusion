@@ -10,6 +10,11 @@ singularity recipes:
 - add sphinx to make a "complete" recipe, and take testing out of the "minimal" one (`fenics_2019`).
 - add git
 
+_FEATURE_ collection: a way to add data from the job list columns into the new table
+For example, add an attribute: job_columns,
+which is a mapping from column names in the job table to the column name in the new table.
+This would have made things easier for me several times already.
+
 _FEATURE_ replace/improve doit
 (This is a new summary of `Dependency tracking` far below.)
 As much as a I like doit, it does have some issues:
