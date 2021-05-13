@@ -15,6 +15,22 @@ For example, add an attribute: job_columns,
 which is a mapping from column names in the job table to the column name in the new table.
 This would have made things easier for me several times already.
 
+_FEATURE_ better python api
+This is really the biggest problem with simproc.
+It's set up assuming you'll be accessing it from yaml.
+There are lots of useful functions that should return values and accept arguments.
+But instead of being able to do it that way,
+I have to store data into attributes and get the results from some other attribute.
+The python api should make these available as functions.
+The yaml api should then make use of that python api.
+I think that perhaps one particularly bad consequence of this
+is when things like parallel task execution
+require writing out separate yaml files.
+Ultimately, a request is a function call.
+It's just a call where the arguments and return are stored,
+so I can check to see if I need to actually call it again or not.
+It's a big memoization, basically.
+
 _FEATURE_ replace/improve doit
 (This is a new summary of `Dependency tracking` far below.)
 As much as a I like doit, it does have some issues:
