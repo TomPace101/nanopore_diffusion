@@ -9,6 +9,7 @@ spreadsheets
 #Sphinx build subdirectories
 sphinx/build/doctrees
 sphinx/build/latex
+sphinx/build/html
 old-sphinx/build/doctrees
 old-sphinx/build/latex
 

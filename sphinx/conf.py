@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Nanopore Diffusion'
-copyright = '2020, Tom Pace, PKH Lab'
+copyright = '2021, Tom Pace, PKH Lab'
 author = 'Tom Pace, PKH Lab'
 
 
@@ -29,7 +29,8 @@ author = 'Tom Pace, PKH Lab'
 # ones.
 extensions = [
   'sphinx.ext.autodoc',
-  'sphinx.ext.doctest'
+  'sphinx.ext.doctest',
+  'sphinx.ext.mathjax'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
