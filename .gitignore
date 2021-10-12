@@ -9,6 +9,7 @@ spreadsheets
 #Sphinx build subdirectories
 sphinx/build/doctrees
 sphinx/build/latex
+sphinx/build/html
 old-sphinx/build/doctrees
 old-sphinx/build/latex
 
@@ -52,6 +53,7 @@ old-data\postproc\manual_gen\*
 #Validation output
 validation/output/*
 !validation/output/.keep
+validation2/requests/generated
 validation2/mesh/output
 validation2/solutions
 validation2/postproc

@@ -1,0 +1,242 @@
+%YAML 1.2
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: ../../ #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Locator for input and output generated below
+- !UpdateFolderStructure
+  PlotFile: [postproc, 0]
+
+{% set collection_files=[] %}
+{% for r in r_values %}
+#-------------------------------------------------------------------------------
+{%set id="%02d"|format(loop.index0)%}
+#id={{id}}, r={{r}}
+#Obstructive Inclusion
+#Mesh Generation
+- !TemplateFileRequest
+  name: cylsweep.obs.{{id}}.geo
+  tmplfile: !geotemplate cylinder.geo.jinja2
+  outfile: !geofile cylinder-obs.{{id}}.geo
+  data:
+    r: {{r}}
+    mcar1: 0.01
+    mcar2: 0.005
+    fill_cylinder: False
+    make_3D: False
+- !GmshRequest
+  name: cylsweep.obs.{{id}}.gmsh
+  geofile: !geofile cylinder-obs.{{id}}.geo
+  mshfile: !mshfile cylinder-obs.{{id}}.msh
+  gmsh_outfile: !gmsh_outfile cylinder-obs.gmsh.{{id}}.txt
+  meshmetafile: !meshmetafile cylinder-obs.gmsh.{{id}}.yaml
+- !DolfinConvertRequest
+  name: cylsweep.obs.{{id}}.dconv
+  mshfile: !mshfile cylinder-obs.{{id}}.msh
+  mesh_xml: !mesh_xml cylinder-obs.{{id}}.xml
+  dconv_outfile: !dconv_outfile cylinder-obs.dconv.{{id}}.txt
+- !HDF5ConvertRequest
+  name: cylsweep.obs.{{id}}.hdf5conv
+  mesh_xml: !mesh_xml cylinder-obs.{{id}}.xml
+  mesh_hdf5file: !mesh_hdf5file cylinder-obs.{{id}}.hdf5
+#Simulation
+- !HomogFickianSimulator
+  name: cylsweep.obs.{{id}}-0.homog
+  mesh: !mesh_hdf5file cylinder-obs.{{id}}.hdf5
+  meshmeta: !meshmetafile cylinder-obs.gmsh.{{id}}.yaml
+  metadata:
+    cell_volume: 1.0
+    potential: full obstruction
+  conditions:
+    elementorder: 3
+    boundaries: [1, 2, 3, 4]
+  loaddata:
+    - [setconstant, {attrpath: D, constval: 1.0}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.{{id}}.yaml
+        mapping:
+          r: meshinfo.metadata.r
+          cell_volume: metadata.cell_volume
+          domain_volume: domain_volume
+          D_macro: D_macro
+#          D_macro_alt: D_macro
+          potential: metadata.potential
+{% do collection_files.append('solutions/cylsweep/obs/results.'+id+'.yaml') %}
+#Inclusion as Potential
+#Mesh Generation
+- !TemplateFileRequest
+  name: cylsweep.pot.{{id}}.geo
+  tmplfile: !geotemplate cylinder.geo.jinja2
+  outfile: !geofile cylinder-pot.{{id}}.geo
+  data:
+    r: {{r}}
+    mcar1: 0.05
+    mcar2: 0.025
+    fill_cylinder: True
+    make_3D: False
+- !GmshRequest
+  name: cylsweep.pot.{{id}}.gmsh
+  geofile: !geofile cylinder-pot.{{id}}.geo
+  mshfile: !mshfile cylinder-pot.{{id}}.msh
+  gmsh_outfile: !gmsh_outfile cylinder-pot.gmsh.{{id}}.txt
+  meshmetafile: !meshmetafile cylinder-pot.gmsh.{{id}}.yaml
+- !DolfinConvertRequest
+  name: cylsweep.pot.{{id}}.dconv
+  mshfile: !mshfile cylinder-pot.{{id}}.msh
+  mesh_xml: !mesh_xml cylinder-pot.{{id}}.xml
+  dconv_outfile: !dconv_outfile cylinder-pot.dconv.{{id}}.txt
+- !HDF5ConvertRequest
+  name: cylsweep.pot.{{id}}.hdf5conv
+  mesh_xml: !mesh_xml cylinder-pot.{{id}}.xml
+  mesh_hdf5file: !mesh_hdf5file cylinder-pot.{{id}}.hdf5
+{% for potval in pot_values %}
+{% set subid="%01d"|format(loop.index) %}
+#subid={{subid}}, potential={{potval}}
+#Create spatial functions
+- !ProjectionSimulator
+  name: cylsweep.pot.spatial_func.{{id}}-{{subid}}.pot
+  mesh: !mesh_hdf5file cylinder-pot.{{id}}.hdf5
+  meshmeta: !meshmetafile cylinder-pot.gmsh.{{id}}.yaml
+  conditions:
+    elementorder: 3
+    functionname: potential
+    functiontype: scalar
+  loaddata:
+    - [loadcellmapping, {attrpath: expr, mapping: {1: 0.0, 2: {{ potval -}} }}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile potential.{{id}}-{{subid}}.hdf5, outname: potential}]
+    - [writefield, {outfpath: !OwnSolutionFile potential.{{id}}-{{subid}}.pvd}]
+#Simulation
+- !HomogSmolSimulator
+  name: cylsweep.pot.{{id}}-{{subid}}.homog
+  mesh: !mesh_hdf5file cylinder-pot.{{id}}.hdf5
+  meshmeta: !meshmetafile cylinder-pot.gmsh.{{id}}.yaml
+  metadata:
+    cell_volume: 1.0
+    potential: {{potval}}
+  conditions:
+    elementorder: 3
+    boundaries: [1, 2, 3, 4]
+    beta: 1.0
+  loaddata:
+    - [setconstant, {attrpath: D, constval: 1.0}]
+    - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile potential.{{id}}-{{subid}}.hdf5, fieldtag: potential}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {volpath: metadata.cell_volume}]
+#    - [macroscale_diffusion_alt, {volpath: metadata.cell_volume, respath: D_macro_alt}]
+    # - [writefield, {outfpath: !OwnSolutionFile Dbar.{{id}}.pvd, attrpath: Dbar}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.{{id}}-{{subid}}.yaml
+        mapping:
+          r: meshinfo.metadata.r
+          cell_volume: metadata.cell_volume
+          domain_volume: domain_volume
+          D_macro: D_macro
+#          D_macro_alt: D_macro_alt
+          potential: metadata.potential
+{% do collection_files.append('solutions/cylsweep/pot/results.'+id+'-'+subid+'.yaml') %}
+{% endfor %}
+{% endfor %}
+
+# Collection
+- !RawCollectionRequest
+  name: cylsweep.collection
+  outpath: !CollectedFrame results.pkl
+  modules:
+    - !modulefile cylinder_calcs.py
+  methods:
+    - calc_porosity_column_byradius
+    - calc_cylinder_hashin_shtrikman
+  calculations:
+    - [calc_porosity_column_byradius, {}]
+    - [calc_cylinder_hashin_shtrikman, {}]
+    - [save_csv, {attrpath: df, outfpath: !CollectedFrame results.csv}]
+  definitions:
+    - mapping:
+        r: r
+        cell_volume: cell_volume
+        domain_volume: domain_volume
+        D_xx: [D_macro,0,0]
+        D_yy: [D_macro,1,1]
+        D_xy: [D_macro,0,1]
+        D_yx: [D_macro,1,0]
+#        D_xx_alt: [D_macro_alt,0,0]
+#        D_yy_alt: [D_macro_alt,1,1]
+#        D_xy_alt: [D_macro_alt,0,1]
+#        D_yx_alt: [D_macro_alt,1,0]
+        potential: potential
+      file_list:
+{% for fpath in collection_files %}
+        - !DataFile {{fpath}}
+{% endfor %}
+
+#Plot
+- !FigureRequest
+  name: cylsweep.plot
+  modules:
+    - !modulefile cylinder_calcs.py
+  methods:
+    - series_hashin_shtrikman
+    - workaround_matplotlib
+  loadfiles:
+    dframe: !CollectedFrame results.pkl
+  prepcommands:
+    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_obs, label: "Fickian diffusion; full obstruction", query: "potential=='full obstruction'"}]
+{% for potval in pot_values %}
+    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx, outattr: dx_{{"%d"|format(potval)}}, label: "Smoluchowski, $\\beta\\psi={{"%0.1f"|format(potval)}}$", query: "potential=={{potval}}"}]
+#    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: D_xx_alt, outattr: dx_alt_{{"%d"|format(potval)}}, label: "Smoluchowski alt, $\\beta\\psi={{"%0.1f"|format(potval)}}$", query: "potential=={{potval}}"}]
+{% endfor %}
+#    - [series_from_dataframe, {dfpath: dframe, xcol: porosity, ycol: upper_bound, outattr: hs_ub, label: "Hashin-Shtrikman upper bound", query: "potential=='full obstruction'"}]
+    - [series_hashin_shtrikman, {label: "Hashin-Shtrikman upper bound", start: 0.2, stop: 1.0, numpts: 100, attrpath: hs_ub}]
+    - [series_equalityline, {outattr: equality, span: [0.2,1], label: "Upper bound from porosity"}]
+  rcparams:
+    figure.dpi: 300
+    figure.autolayout: False
+  figures:
+    - !FigureProperties
+      figsize: [8,4.5]
+      outfpath: !PlotFile plot.png
+  axes:
+    - !AxesProperties
+      xlabel:
+        xlabel: '$\phi$'
+        fontsize: 20
+      ylabel:
+        ylabel: '$D_{eff}/D_{bulk}$'
+        fontsize: 20
+      title:
+        label: 'Diffusion Around a Regular Lattice of Cylinders'
+        fontsize: 14
+      xlim: [0.2,1]
+      ylim: [0.2,1]
+  series:
+    - !SeriesProperties
+      seriesattr: equality
+      fmt: "--"
+      kwargs:
+        color: '0.5'
+    - !SeriesProperties
+      seriesattr: hs_ub
+      fmt: "r-"
+{% set format_dict={1:'c_',2:'c+',3:'cx'} %}
+{% for potval in pot_values %}
+    - !SeriesProperties
+      seriesattr: dx_{{"%d"|format(potval)}}
+      fmt: {{format_dict[loop.index]}}
+{% endfor %}
+{# {% set format_dict={1:'m_',2:'m+',3:'mx'} %}
+{% for potval in pot_values %}
+    - !SeriesProperties
+      seriesattr: dx_alt_{{"%d"|format(potval)}}
+      fmt: {{format_dict[loop.index]}}
+{% endfor %} #}
+    - !SeriesProperties
+      seriesattr: dx_obs
+      fmt: "k."
+  plotcommands:
+    - [axmethod, {method: legend, loc: "center left", numpoints: 1, bbox_to_anchor: [1, 0.5]}]
+    - [figmethod, {method: subplots_adjust, bottom: 0.15, left: 0.1, right: 0.6}]

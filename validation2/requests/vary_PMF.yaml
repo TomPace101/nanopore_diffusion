@@ -1,0 +1,243 @@
+%YAML 1.2
+#Simulation of Smoluchowski diffusion with spatially varying diffusion coefficient
+---
+#First, set the data folder so we know where to find input and output files
+- !SetDataFolder
+  datafolder: .. #Data folder path relative to the location of this yaml file, unless absolute path provided
+#Folder Structure
+# - !UpdateFolderStructure
+- !DumpFolderStructure
+  name: varypmf.dump_folder_structure
+  outfile: !OtherSolutionFile folder_structure.yaml
+#Mesh Generation
+- !GeometryDefinition
+  name: geomdef
+  store_globally: True
+  dimensions: 2
+  tmplfile: !geotemplate box_aL_cen.geo.jinja2
+  tmplvars: [mcar1, a,L]
+  outvars: [mcar1, val_a, val_L]
+  ptdict: &ptdict
+    11: mcar1
+    21: mcar1
+    31: mcar1
+    12: mcar1
+    22: mcar1
+    32: mcar1
+  geomtable: &geomtable
+    1: [11, 21, 22, 12, 11]
+    2: [21, 31, 32, 22, 21]
+  surfloops: {}
+  nonplanar: []
+- !BuildGeomRequest
+  name: varypmf.geo
+  geomdef: !Stored [__allnames__, geomdef]
+  geofile: !geofile box_aL_cen.geo
+  parameters:
+    a: 1.0
+    L: 1.0
+    mcar1: 0.05
+- !GeoToHDF5Request
+  name: varypmf.mesh.cen
+  mesh_stem: box_aL_cen
+#Expression for PMF
+- !ProjectionSimulator
+  name: varypmf.yvar.projection
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    A: 1.0
+    B: 1.0
+  conditions:
+    elementorder: 2
+    functionname: PMF
+    functiontype: scalar
+  loaddata:
+    - [loadexpression, {attrpath: expr, spaceattr: V, expression: "A*x[1]*x[1]+B", parameters: [A, B]}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile PMF_yvar.hdf5, outname: PMF}]
+    - [writefield, {outfpath: !OwnSolutionFile PMF_yvar.pvd}]
+- !ProjectionSimulator
+  name: varypmf.xvar.projection
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    A: 1.0
+    B: 1.0
+  conditions:
+    elementorder: 2
+    functionname: PMF
+    functiontype: scalar
+  loaddata:
+    - [loadexpression, {attrpath: expr, spaceattr: V, expression: "A*x[0]*x[0]+B", parameters: [A, B]}]
+  dataextraction:
+    - [writefield, {outfpath: !OwnSolutionFile PMF_xvar.hdf5, outname: PMF}]
+    - [writefield, {outfpath: !OwnSolutionFile PMF_xvar.pvd}]
+#Simulation
+- !HomogSmolSimulator
+  name: varypmf.yvar.homog
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    expected_result: 1.0 #It's simple in this case
+  modules:
+    - !modulefile simulation.py
+  methods:
+    - calc_ratio
+    - calc_product
+    - calc_delta
+    - project_exp_pot
+  solver_parameters:
+    linear_solver: gmres
+    preconditioner: petsc_amg
+  conditions:
+    elementorder: 2
+    beta: 1.0
+    boundaries: &boundary_list
+      - 1112
+      - 1121
+      - 1222
+      - 2131
+      - 2232
+      - 3132
+  loaddata:
+    - [setconstant, {attrpath: D, constval: 1.0}]
+    - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile PMF_yvar.hdf5, fieldtag: PMF}]
+  dataextraction:
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {respath: Dbar_matrix, attrpath: soln, volpath: domain_volume}]
+    - [project_exp_pot, {outattr: exp_pot, funcname: exp_pot}]
+    - [facet_integral, {attrpath: potential_bound_int, pfacet: 1112, funcpath: exp_pot}]
+    - [calc_ratio, {numerator: !Stored potential_bound_int, denominator: !Stored meshinfo.metadata.val_a, outattr: Xi}]
+    - [calc_ratio, {numerator: [Dbar_matrix, 0, 0], denominator: Xi, outattr: Deff_homog, use_stored: False}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.yaml
+        mapping:
+          domain_volume: domain_volume
+          Dbar_matrix: Dbar_matrix
+          Dbar: [Dbar_matrix, 0, 0]
+          Xi: Xi
+          homogenization_result: Deff_homog
+          expected_result: metadata.expected_result
+- !HomogSmolSimulator
+  name: varypmf.xvar.homog
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  modules:
+    - !modulefile simulation.py
+  methods:
+    - calc_ratio
+    - calc_product
+    - calc_delta
+    - project_exp_pot
+    - calc_expected_result
+  solver_parameters:
+    linear_solver: gmres
+    preconditioner: petsc_amg
+  conditions:
+    elementorder: 2
+    beta: 1.0
+    boundaries: *boundary_list
+  loaddata:
+    - [setconstant, {attrpath: D, constval: 1.0}]
+    - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile PMF_xvar.hdf5, fieldtag: PMF}]
+  dataextraction:
+    - [calc_expected_result, {outattr: expected_result}]
+    - [domain_volume, {attrpath: domain_volume}]
+    - [macroscale_diffusion, {respath: Dbar_matrix, attrpath: soln, volpath: domain_volume}]
+    - [project_exp_pot, {outattr: exp_pot, funcname: exp_pot}]
+    - [facet_integral, {attrpath: potential_bound_int, pfacet: 1112, funcpath: exp_pot}]
+    - [calc_ratio, {numerator: !Stored potential_bound_int, denominator: !Stored meshinfo.metadata.val_a, outattr: Xi}]
+    - [calc_ratio, {numerator: [Dbar_matrix, 0, 0], denominator: Xi, outattr: Deff_homog, use_stored: False}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results.yaml
+        mapping:
+          domain_volume: domain_volume
+          Dbar_matrix: Dbar_matrix
+          Dbar: [Dbar_matrix, 0, 0]
+          Xi: Xi
+          homogenization_result: Deff_homog
+          expected_result: expected_result
+#Direct Smoluchowski simulations
+- !SUSimulator
+  name: varypmf.yvar.direct
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    expected_result: 1.0 #It's simple in this case
+  modules:
+    - !modulefile simulation.py
+    - !modulefile fluxsims.py
+  methods:
+    - calc_ratio
+    - calc_product
+    - calc_delta
+    - effective_D
+  solver_parameters:
+    linear_solver: gmres
+    preconditioner: petsc_amg
+  conditions: &direct_conditions
+    elementorder: 2
+    beta: 1.0
+    dirichlet:
+      1112: [100.0]
+      3132: [10.0]
+    potential_dirichlet:
+      1112: 0.0
+      3132: 0.0
+    species:
+      - {symbol: A, z: 1, D: 1.0}
+  loaddata:
+    - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile PMF_yvar.hdf5, fieldtag: PMF}]
+  dataextraction: &direct_data_extraction
+    - [facet_area, {pfacet: 1112, attrpath: area_start, internal: False}]
+    - [facet_area, {pfacet: 3132, attrpath: area_end, internal: False}]
+    - [facet_area, {pfacet: 2122, attrpath: area_mid, internal: True}]
+    - [transform_back, {}]
+    - [writefield, {outfpath: !OwnSolutionFile Dbar.pvd, attrpath: [Dbar_proj, 0]}]
+    - [writefield, {outfpath: !OwnSolutionFile conc.pvd, attrpath: [clist, 0]}]
+    - [writefield, {outfpath: !OwnSolutionFile cbar.pvd, attrpath: [cbarlist, 0]}]
+    - [calcflux, {solnattr: [cbarlist, 0], attrpath: flux, Dattr: [Dbar_proj, 0]}]
+    - [writefield, {outfpath: !OwnSolutionFile flux.pvd, attrpath: flux}]
+    - [fluxintegral, {pfacet: 1112, attrpath: flux_start, internal: False, fluxattr: flux}]
+    - [fluxintegral, {pfacet: 3132, attrpath: flux_end, internal: False, fluxattr: flux}]
+    - [fluxintegral, {pfacet: 2122, attrpath: flux_mid, internal: True, fluxsign: '-', fluxattr: flux}]
+    - [facet_integral, {attrpath: leftconc_total, pfacet: 1112, funcpath: [clist, 0], internal: False}]
+    - [facet_integral, {attrpath: rightconc_total, pfacet: 3132, funcpath: [clist, 0], internal: False}]
+    - [calc_ratio, {numerator: !Stored leftconc_total, denominator: !Stored meshinfo.metadata.val_a, outattr: leftconc} ]
+    - [calc_ratio, {numerator: !Stored rightconc_total, denominator: !Stored meshinfo.metadata.val_a, outattr: rightconc} ]
+    - [effective_D, {outattr: Deff, fluxattr: flux_mid, areaattr: meshinfo.metadata.val_a, start_conc_attr: leftconc, end_conc_attr: rightconc, delta_s_attr: meshinfo.metadata.val_L}]
+    - - reportvalues
+      - outfpath: !OwnSolutionFile results_direct.yaml
+        mapping:
+          area_start: area_start
+          area_end: area_end
+          area_mid: area_mid
+          flux_start: flux_start
+          flux_end: flux_end
+          flux_mid: flux_mid
+          leftconc: leftconc
+          rightconc: rightconc
+          Deff: Deff
+          run_time: sim_timer.delta_str
+- !SUSimulator
+  name: varypmf.xvar.direct
+  mesh: !mesh_hdf5file box_aL_cen.hdf5
+  meshmeta: !meshmetafile box_aL_cen.yaml
+  metadata:
+    expected_result: 1.0 #It's simple in this case
+  modules:
+    - !modulefile simulation.py
+    - !modulefile fluxsims.py
+  methods:
+    - calc_ratio
+    - calc_product
+    - calc_delta
+    - effective_D
+  solver_parameters:
+    linear_solver: gmres
+    preconditioner: petsc_amg
+  conditions: *direct_conditions
+  loaddata:
+    - [loadfield, {attrpath: potential, infpath: !OwnSolutionFile PMF_xvar.hdf5, fieldtag: PMF}]
+  dataextraction: *direct_data_extraction

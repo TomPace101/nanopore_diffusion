@@ -1,4 +1,45 @@
 
+- contour plotting: see notes 2020-10-29, 2020-10-30
+- clean up rst formatting in module docstrings (see warnings from the sphinx build)
+- example of what the yaml looks like for a request with no needed arguments. Clean logs is a good example. But do mention that a name is usually a good idea.
+- Log file cleanup requests require their own log file to be set up in order to find the logging directory. (a file which, of course, will be auto-erased).
+- check the module dependency file: in particular, I'm not sure logging is listed everywhere it should be
+- MPI request children don't get logged: logging parameters not passed? (2020-09-28)
+
+singularity recipes:
+- add sphinx to make a "complete" recipe, and take testing out of the "minimal" one (`fenics_2019`).
+- add git
+
+_FEATURE_ collection: a way to add data from the job list columns into the new table
+For example, add an attribute: job_columns,
+which is a mapping from column names in the job table to the column name in the new table.
+This would have made things easier for me several times already.
+
+_FEATURE_ better python api
+This is really the biggest problem with simproc.
+It's set up assuming you'll be accessing it from yaml.
+There are lots of useful functions that should return values and accept arguments.
+But instead of being able to do it that way,
+I have to store data into attributes and get the results from some other attribute.
+The python api should make these available as functions.
+The yaml api should then make use of that python api.
+I think that perhaps one particularly bad consequence of this
+is when things like parallel task execution
+require writing out separate yaml files.
+Ultimately, a request is a function call.
+It's just a call where the arguments and return are stored,
+so I can check to see if I need to actually call it again or not.
+It's a big memoization, basically.
+
+_FEATURE_ replace/improve doit
+(This is a new summary of `Dependency tracking` far below.)
+As much as a I like doit, it does have some issues:
+- the signatures are stored in a file that isn't human readable
+- there is no way to manually force a signature update
+- signatures aren't updated on a task-by-task basis, so if doit crashes before all tasks finish, all the intermediate progress is lost
+- tasks can't modify the task list, complicating auto-generation of the task list in nontrivial circumstances
+- there's not an easy solution to this one, but: when my task names change, the database loses any previous state and assumes the task is new, because the task names are the database keys. It would take pattern matching to fix this, I guess?
+
 **note that some items below have already been resolved**
 
 **note that items related to generated requests are probably made obsolete by the job list module**

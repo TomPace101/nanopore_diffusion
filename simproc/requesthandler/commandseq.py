@@ -125,6 +125,26 @@ class WithCommandsRequest(customization.CustomizableRequest):
         iofiles += [arguments[n] for n in present_args]
     return iofiles
 
+  def store_module_contents(self,outattr,modpath,getname):
+    """Load a function/class/etc from a module and store it as an attribute.
+
+    Note that if the target is a function, this is NOT the same as making the function a method.
+    When it is called, it is NOT passed ``self`` as the first argument.
+
+    Arguments:
+
+      - outattr = nested path to attribute to store data
+      - modpath = path to the module containing the function
+      - getname = name of the target within the module"""
+    #Get path to module
+    modpath=self.render(modpath)
+    #Load module
+    the_mod=customization.load_module_from_path(modpath)
+    #Get function from module
+    the_target = getattr(the_mod,getname)
+    #Store
+    self.set_nested(outattr,the_target)
+
   def load_yaml(self,infpath,attrpath):
     """Read in data from a yaml file, and store it at the specified nested path
 
@@ -160,7 +180,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
       df=pd.read_csv(fpt)
     else:
       dtype_fpath=self.renderstr(self.get_stored(dtype_csv_fpath))
-      dtype_ser=pd.read_csv(dtype_fpath,index_col=0,squeeze=True)
+      dtype_ser=pd.read_csv(dtype_fpath,index_col=0,squeeze=True,header=0)
       dtypes_dict=dtype_ser.to_dict()
       df=pd.read_csv(fpt,dtype=dtypes_dict)
     self.set_nested(attrpath,df)
@@ -218,7 +238,7 @@ class WithCommandsRequest(customization.CustomizableRequest):
     df.to_csv(fpt,index=index)
     if dtype_csv_fpath is not None:
       dtype_fpath=self.renderstr(self.get_stored(dtype_csv_fpath))
-      df.dtypes.to_csv(dtype_fpath)
+      df.dtypes.to_csv(dtype_fpath,header=True)
   save_csv._outfile_args = ['outfpath','dtype_csv_fpath']
 
   def reportvalues(self,outfpath,mapping):

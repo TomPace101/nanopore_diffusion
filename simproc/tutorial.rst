@@ -8,7 +8,7 @@ Testing
 =======
 
 Here are the commands that I use right now to test everything.
-From within ``pore``:
+From within the directory above ``simproc``:
 
 - ``python -m simproc --validate``
 - ``python -m simproc validation/all_validation.yaml``

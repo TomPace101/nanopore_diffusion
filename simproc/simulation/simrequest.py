@@ -626,6 +626,31 @@ class SimulationRequest(WithCommandsRequest):
   #   self.set_nested(attr_det,det)
   #   return
 
+  def subdomain_to_meshfunction(self,meshfunc_value,attr_class,attr_meshfunc="meshinfo.facets",init_kwargs=None):
+    """Apply the specified SubDomain-derived class to a MeshFunction
+
+    Arguments:
+
+      - meshfunc_value = value to use for the MeshFunction on this SubDomain
+      - attr_class = attribute path to the subclass of SubDomain
+      - attr_meshfunc = optional, attribute path to the MeshFunction
+          (defaults to ``meshinfo.facets``, for specifying boundary surfaces)
+      - init_kwargs = optional, keyword arguments to be passed to the constructor
+
+    """
+    #Process default arguments
+    if init_kwargs is None:
+      init_kwargs={}
+    #Get the SubDomain subclass
+    the_class=self.get_nested(attr_class)
+    #Get the MeshFunction
+    the_meshfunc=self.get_nested(attr_meshfunc)
+    #Instantiate the SubDomain subclass
+    the_subdomain=the_class(**init_kwargs)
+    #Mark the SubDomain
+    the_subdomain.mark(the_meshfunc,meshfunc_value)
+    return
+
 #Register for loading from yaml
 yaml_manager.register_classes([SimulationRequest])
 
