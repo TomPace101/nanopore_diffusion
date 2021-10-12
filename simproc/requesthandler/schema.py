@@ -23,6 +23,53 @@ extra_types_dict={'path':filepath.Path,
                   'attrpath':(str,list,tuple),
                   'stored':nested.Stored}
 
+def create_checker_func(typtup):
+  """Create a function needed by jsonschema>3.0 to check types, from the entries of the extra_types_dict
+  
+  Arguments:
+  
+    - typtup = a type, or tuple of types"""
+  if isinstance(typtup,tuple):
+    #Create a function to check each member of the tuple
+    #Don't ask me what "checker" is used for: it's required by jsonschema
+    def retfunc(checker,instance):
+      res = False
+      for typ in typtup:
+        #print("checking:",str(typ))
+        res = res or isinstance(instance,typ)
+        if res:
+          break
+      return res
+    return retfunc
+  else:
+    #Just a single type to check against, so use isinstance directly
+    return lambda checker,instance: isinstance(instance,typtup)
+
+def init_validator(schema,etd):
+  """Create a validator with the extra types.
+
+  The way this is done depends on the jsonschema version
+  
+  Arguments:
+  
+    - schema = the json schema that the validator will check input against
+    - etd = extra types dictionary for the validator"""
+  #Major version
+  major_version=int(jsonschema.__version__.split('.')[0])
+  if major_version < 4:
+    #The easy way
+    return ValidatorClass(schema,types=etd)
+  else:
+    #The hard way
+    #Create the extra types functions dictionary
+    etd_funcs={name:create_checker_func(typs) for name,typs in etd.items()}
+    #Create the type checker
+    type_checker = ValidatorClass.TYPE_CHECKER.redefine_many(etd_funcs)
+    #Create the validator class
+    CustomValidator = jsonschema.validators.extend(ValidatorClass, type_checker=type_checker)
+    #Return the validator
+    return CustomValidator(schema=schema)
+
 def validation_error_string(err):
   "Return a string explaining the given validation error"
   #Get the basic message
@@ -112,7 +159,7 @@ class SelfValidating(nested.WithNested):
     return []
   def validate_kwargs(self,**kwargs):
     if hasattr(self,'_validation_schema'):
-      validator=ValidatorClass(self._validation_schema,types=extra_types_dict)
+      validator=init_validator(self._validation_schema,extra_types_dict)
       err_iter=validator.iter_errors(kwargs)
       errlist=["  - %s"%validation_error_string(err) for err in err_iter]
       errlist+=self.additional_validation(**kwargs)
