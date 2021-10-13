@@ -51,13 +51,16 @@
   mesh_xml: !OutputFile simple_mesh.xml
   dconv_outfile: !OutputFile simple_mesh.dconv.txt
 #Verify output of previous test
-- !FileComparisonListRequest
-  name: mesh.dconv.verify
-  pairs:
-    - [!InputFile simple_mesh.xml, !OutputFile simple_mesh.xml]
-    - [!InputFile simple_mesh_facet_region.xml, !OutputFile simple_mesh_facet_region.xml]
-    - [!InputFile simple_mesh_physical_region.xml, !OutputFile simple_mesh_physical_region.xml]
-    - [!CompareFile simple_mesh.dconv.txt, !OutputFile simple_mesh.dconv.txt]
+- !FileSizeComparisonListRequest
+  name: mesh.dconv.verify.size
+  triples:
+    - [!InputFile simple_mesh.xml, !OutputFile simple_mesh.xml, [-5,5]]
+    - [!InputFile simple_mesh_facet_region.xml, !OutputFile simple_mesh_facet_region.xml, [-5,5]]
+    - [!InputFile simple_mesh_physical_region.xml, !OutputFile simple_mesh_physical_region.xml, [-5,5]]
+    - [!CompareFile simple_mesh.dconv.txt, !OutputFile simple_mesh.dconv.txt, [-10,10]]
+# - !FileComparisonListRequest
+#   name: mesh.dconv.verify.exact
+#   pairs:
 #Test hdf5 conversion
 - !HDF5ConvertRequest
   name: mesh.hdf5conv
@@ -87,16 +90,15 @@
   name: mesh.onestep
   mesh_stem: simple_mesh
 #Verify output of previous test
-- !FileSizeComparisonRequest
-  name: mesh.onestep.verify.msh
-  expected: !InputFile simple_mesh.msh
-  received: !mshfile simple_mesh.msh
-  range: [-5,5]
+- !FileSizeComparisonListRequest
+  name: mesh.onestep.verify.size
+  triples:
+    - [!InputFile simple_mesh.msh, !mshfile simple_mesh.msh, [-5,5]]
+    - [!InputFile simple_mesh.xml, !mesh_xml simple_mesh.xml, [-5,5]]
+    - [!InputFile simple_mesh_facet_region.xml, !facet_xml simple_mesh_facet_region.xml, [-5,5]]
+    - [!InputFile simple_mesh_physical_region.xml, !cell_xml simple_mesh_physical_region.xml, [-5,5]]
+    - [!CompareFile simple_mesh.dconv.txt, !dconv_outfile simple_mesh.txt, [-10,10]]
 - !FileComparisonListRequest
-  name: mesh.onestep.verify
+  name: mesh.onestep.verify.exact
   pairs:
     - [!CompareFile simple_mesh.yaml, !meshmetafile simple_mesh.yaml]
-    - [!InputFile simple_mesh.xml, !mesh_xml simple_mesh.xml]
-    - [!InputFile simple_mesh_facet_region.xml, !facet_xml simple_mesh_facet_region.xml]
-    - [!InputFile simple_mesh_physical_region.xml, !cell_xml simple_mesh_physical_region.xml]
-    - [!CompareFile simple_mesh.dconv.txt, !dconv_outfile simple_mesh.txt]

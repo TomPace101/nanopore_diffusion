@@ -224,8 +224,8 @@ class FileSizeComparisonListRequest(request.Request):
   def __init__(self,**kwargs):
     #Initialization from base class
     super(FileSizeComparisonListRequest, self).__init__(**kwargs)
-    nametmpl=getattr(self,'name','')+'_%%0%dd'%len(str(len(self.pairs)))
-    self._children=[FileSizeComparisonRequest(name=nametmpl%idx,expected=p[0],received=p[1], range=p[2]) for idx,p in enumerate(self.pairs)]
+    nametmpl=getattr(self,'name','')+'_%%0%dd'%len(str(len(self.triples)))
+    self._children=[FileSizeComparisonRequest(name=nametmpl%idx,expected=p[0],received=p[1], range=p[2]) for idx,p in enumerate(self.triples)]
   def run(self):
     """Run all child requests and capture their results"""
     logger.debug("Running Request",request_class=type(self).__name__,request_name=getattr(self,"name",None))
